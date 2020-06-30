@@ -7,12 +7,15 @@ namespace WorldZero.Domain.Model
     [Table("Character")]
     public class CharacterModel
     {
-        [Key, Column(Order=0)]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int CharacterId { get; set; }
+
+        [Required]
         public string Displayname { get; set; }
 
-        [Key, Column(Order=1)]
-        public virtual string Username { get; set; }
-        [ForeignKey("Username")]
+        [Required]
+        public virtual int PlayerId { get; set; }
+        [ForeignKey("PlayerId")]
         public virtual PlayerModel Player { get; set; }
 
         [Required]

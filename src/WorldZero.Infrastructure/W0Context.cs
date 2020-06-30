@@ -24,6 +24,12 @@ namespace WorldZero.Infrastructure
                 .HasMany(u => u.Foes)
                 .WithMany()
                 .Map(u => u.ToTable("Foes"));
+
+
+            // Make the usernames unique.
+            modelBuilder.Entity<PlayerModel>()
+                .HasIndex(u => u.Username)
+                .IsUnique();
         }
 
 
