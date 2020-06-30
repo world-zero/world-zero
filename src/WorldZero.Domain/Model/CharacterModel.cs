@@ -27,11 +27,17 @@ namespace WorldZero.Domain.Model
         [Required]
         public int TotalLevel { get; set; }
 
-        public virtual int LocationId { get; set; }
+        // This needs to be nullable so that EF Core will allow this to be
+        // a not non-null field.
+        public virtual int? LocationId { get; set; }
         [ForeignKey("LocationId")]
-        public LocationModel Location { get; set; }
+        public virtual LocationModel Location { get; set; }
 
-        // These relations are handled via Flutent API.
+        public virtual string FactionName { get; set; }
+        [ForeignKey("FactionName")]
+        public virtual FactionModel Faction { get; set; }
+
+        // These relations are handled via Fluent API.
         public virtual ICollection<CharacterModel> Friends { get; set; }
         public virtual ICollection<CharacterModel> Foes { get; set; }
     }

@@ -36,5 +36,6 @@ namespace WorldZero.Infrastructure
         public DbSet<PlayerModel> Players { get; set; }
         public DbSet<CharacterModel> Characters { get; set; }
         public DbSet<LocationModel> Locations { get; set; }
+        public DbSet<FactionModel> Factions { get; set; }
     }
 }
