@@ -1,6 +1,5 @@
 ﻿using WorldZero.Domain.Model;
 using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace WorldZero.Infrastructure
 {
@@ -41,5 +40,8 @@ namespace WorldZero.Infrastructure
         public DbSet<LocationModel> Locations { get; set; }
         public DbSet<FactionModel> Factions { get; set; }
         public DbSet<EraModel> Eras { get; set; }
+        public DbSet<StatusModel> Statuses { get; set; }
+        public DbSet<FlagModel> Flags { get; set; }
+        public DbSet<TagModel> Tags { get; set; }
     }
 }
