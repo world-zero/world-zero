@@ -30,6 +30,9 @@ namespace WorldZero.Infrastructure
             modelBuilder.Entity<PlayerModel>()
                 .HasIndex(u => u.Username)
                 .IsUnique();
+
+            // TODO: vv
+            // Make sure EndDate is after StartDate.
         }
 
 
@@ -37,5 +40,6 @@ namespace WorldZero.Infrastructure
         public DbSet<CharacterModel> Characters { get; set; }
         public DbSet<LocationModel> Locations { get; set; }
         public DbSet<FactionModel> Factions { get; set; }
+        public DbSet<EraModel> Eras { get; set; }
     }
 }
