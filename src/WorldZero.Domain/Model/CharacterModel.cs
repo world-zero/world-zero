@@ -26,6 +26,8 @@ namespace WorldZero.Domain.Model
         public int EraLevel { get; set; }
         [Required]
         public int TotalLevel { get; set; }
+        [Required]
+        public int VotePointsLeft { get; set; }
 
         // This needs to be nullable so that EF Core will allow this to be
         // a not non-null field.
