@@ -42,5 +42,7 @@ namespace WorldZero.Domain.Model
         // These relations are handled via Fluent API.
         public virtual ICollection<CharacterModel> Friends { get; set; }
         public virtual ICollection<CharacterModel> Foes { get; set; }
+
+        public virtual ICollection<PraxisModel> Praxises { get; set; }
     }
 }

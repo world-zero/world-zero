@@ -12,5 +12,6 @@ namespace WorldZero.Domain.Model
         public string description { get; set; }
 
         public virtual ICollection<TaskModel> Tasks { get; set; }
+        public virtual ICollection<PraxisModel> Praxises { get; set; }
     }
 }

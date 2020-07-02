@@ -4,25 +4,21 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WorldZero.Domain.Model
 {
-    [Table("Task")]
-    public class TaskModel
+    [Table("Praxis")]
+    public class PraxisModel
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int TaskId { get; set; }
+        public int PraxisId { get; set; }
+
+        public virtual int? TaskId { get; set; }
+        [ForeignKey("TaskId")]
+        public virtual TaskModel Task { get; set; }
 
         [Required]
-        public string Summary { get; set; }
-        public string DescFileRef { get; set; }
-        [Required]
-        public int Points { get; set; }
-        [Required]
-        public int Level { get; set; }
-        public int? MinLevel { get; set; }
+        public string SubmissionFileRef { get; set; }
 
         [Required]
-        public virtual string FactionName { get; set; }
-        [ForeignKey("FactionName")]
-        public virtual FactionModel Faction { get; set; }
+        public virtual bool IsDueling { get; set; }
 
         [Required]
         public virtual string StatusName { get; set; }
@@ -31,6 +27,6 @@ namespace WorldZero.Domain.Model
 
         public virtual ICollection<TagModel> Tags { get; set; }
         public virtual ICollection<FlagModel> Flags { get; set; }
-        public virtual ICollection<PraxisModel> Praxises { get; set; }
+        public virtual ICollection<CharacterModel> collaborators { get; set; }
     }
 }
