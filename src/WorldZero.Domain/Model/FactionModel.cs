@@ -17,5 +17,6 @@ namespace WorldZero.Domain.Model
         public string AbilityDesc { get; set; }
 
         public virtual ICollection<CharacterModel> Members { get; set; }
+        public virtual ICollection<TaskModel> SponsoredTasks { get; set; }
     }
 }

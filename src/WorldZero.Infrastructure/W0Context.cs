@@ -13,6 +13,9 @@ namespace WorldZero.Infrastructure
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            // The validation for the fields is done by the entity classes that
+            // correspond to their model.
+
             // Have CharacterModel.Friends and .Foes be self-referencial
             // relations.
             modelBuilder.Entity<CharacterModel>()
@@ -29,9 +32,6 @@ namespace WorldZero.Infrastructure
             modelBuilder.Entity<PlayerModel>()
                 .HasIndex(u => u.Username)
                 .IsUnique();
-
-            // TODO: vv
-            // Make sure EndDate is after StartDate.
         }
 
 
@@ -43,5 +43,6 @@ namespace WorldZero.Infrastructure
         public DbSet<StatusModel> Statuses { get; set; }
         public DbSet<FlagModel> Flags { get; set; }
         public DbSet<TagModel> Tags { get; set; }
+        public DbSet<TaskModel> Tasks { get; set; }
     }
 }

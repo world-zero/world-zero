@@ -10,7 +10,7 @@ namespace WorldZero.Domain.Model
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int PlayerId { get; set; }
         [Required, StringLength(25)]
-        // Also is Unique.
+        // Also is Unique - enforced via Fluent API.
         public string Username { get; set; }
         [Required]
         public bool IsBlocked { get; set; }
