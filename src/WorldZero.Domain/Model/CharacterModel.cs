@@ -13,6 +13,9 @@ namespace WorldZero.Domain.Model
         [Required]
         public string Displayname { get; set; }
 
+        public bool HasBio { get; set; } = false;
+        public bool HasProfilePic { get; set; } = false;
+
         [Required]
         public virtual int PlayerId { get; set; }
         [ForeignKey("PlayerId")]
