@@ -15,9 +15,6 @@ namespace WorldZero.Domain.Model
         public virtual TaskModel Task { get; set; }
 
         [Required]
-        public string SubmissionFileRef { get; set; }
-
-        [Required]
         public virtual bool IsDueling { get; set; }
 
         [Required]

@@ -12,7 +12,6 @@ namespace WorldZero.Domain.Model
 
         [Required]
         public string Summary { get; set; }
-        public string DescFileRef { get; set; }
         [Required]
         public int Points { get; set; }
         [Required]
