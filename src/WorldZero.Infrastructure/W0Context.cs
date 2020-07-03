@@ -47,5 +47,6 @@ namespace WorldZero.Infrastructure
         public DbSet<PraxisModel> Praxises { get; set; }
         public DbSet<VoteModel> Votes { get; set; }
         public DbSet<CommentModel> Comments { get; set; }
+        public DbSet<MetaTaskModel> MetaTasks { get; set; }
     }
 }
