@@ -45,5 +45,7 @@ namespace WorldZero.Infrastructure
         public DbSet<TagModel> Tags { get; set; }
         public DbSet<TaskModel> Tasks { get; set; }
         public DbSet<PraxisModel> Praxises { get; set; }
+        public DbSet<VoteModel> Votes { get; set; }
+        public DbSet<CommentModel> Comments { get; set; }
     }
 }

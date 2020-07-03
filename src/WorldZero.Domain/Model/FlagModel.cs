@@ -13,5 +13,6 @@ namespace WorldZero.Domain.Model
 
         public virtual ICollection<TaskModel> Tasks { get; set; }
         public virtual ICollection<PraxisModel> Praxises { get; set; }
+        public virtual ICollection<CommentModel> Comments { get; set; }
     }
 }
