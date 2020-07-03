@@ -13,7 +13,7 @@ namespace WorldZero.Domain.Model
         // Also is Unique - enforced via Fluent API.
         public string Username { get; set; }
         [Required]
-        public bool IsBlocked { get; set; }
+        public bool IsBlocked { get; set; } = false;
 
         public virtual ICollection<CharacterModel> Characters { get; set; }
     }

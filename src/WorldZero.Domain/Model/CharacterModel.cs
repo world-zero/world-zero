@@ -19,15 +19,15 @@ namespace WorldZero.Domain.Model
         public virtual PlayerModel Player { get; set; }
 
         [Required]
-        public int EraPoints { get; set; }
+        public int EraPoints { get; set; } = 0;
         [Required]
-        public int TotalPoints { get; set; }
+        public int TotalPoints { get; set; } = 0;
         [Required]
-        public int EraLevel { get; set; }
+        public int EraLevel { get; set; } = 0;
         [Required]
-        public int TotalLevel { get; set; }
+        public int TotalLevel { get; set; } = 0;
         [Required]
-        public int VotePointsLeft { get; set; }
+        public int VotePointsLeft { get; set; } = 100;
 
         // This needs to be nullable so that EF Core will allow this to be
         // a not non-null field.
