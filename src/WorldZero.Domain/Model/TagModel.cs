@@ -9,7 +9,7 @@ namespace WorldZero.Domain.Model
     {
         [Key]
         public string TagName { get; set; }
-        public string description { get; set; }
+        public string Description { get; set; }
 
         public virtual ICollection<TaskModel> Tasks { get; set; }
         public virtual ICollection<PraxisModel> Praxises { get; set; }

@@ -15,7 +15,7 @@ namespace WorldZero.Domain.Model
         public virtual TaskModel Task { get; set; }
 
         [Required]
-        public virtual bool IsDueling { get; set; }
+        public virtual bool IsDueling { get; set; } = false;
 
         [Required]
         public virtual string StatusName { get; set; }
