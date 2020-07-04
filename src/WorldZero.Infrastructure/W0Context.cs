@@ -5,8 +5,9 @@ namespace WorldZero.Infrastructure
 {
     public class W0Context : DbContext
     {
-        public W0Context() : base("name=WorldZeroDBConnectionString")
+        public W0Context(string connectionString="name=DefaultConnection") : base(connectionString)
         {
+            // TODO: reconsider this after finishing development.
             //Database.SetInitializer<W0Context>(new DropCreateDatabaseIfModelChanges<W0Context>());
             Database.SetInitializer<W0Context>(new DropCreateDatabaseAlways<W0Context>());
         }
