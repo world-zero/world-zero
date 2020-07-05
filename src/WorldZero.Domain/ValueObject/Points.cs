@@ -5,11 +5,11 @@ using WorldZero.Domain.Interface;
 namespace WorldZero.Domain.ValueObject
 {
     /// <summary>
-    /// A PastDate is a GetObject that contains a valid date. A date is valid iff
-    /// it is not in the future.
+    /// A PastDate is a GetObject that contains a valid point total. A point
+    /// total is valid iff it is below zero.
     /// </summary>
     /// <exception cref="ArgumentException">
-    /// This is thrown on name set iff the name is invalid.</exception>
+    /// This is thrown on set iff the point total is invalid.</exception>
     public class Points : IValueObject
     {
         private int _points;
