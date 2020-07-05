@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace WorldZero.Test.Unit.Domain.Inferface
 {
     [TestFixture]
-    public class TestIValueObjectModel
+    public class TestIValueObject
     {
         private ValObj _vo;
         private int _defaultVal = 13;
