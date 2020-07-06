@@ -1,3 +1,4 @@
+using WorldZero.Domain.Interface;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -5,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace WorldZero.Domain.Model
 {
     [Table("Tag")]
-    public class TagModel
+    public class TagModel : IModel
     {
         [Key]
         public string TagName { get; set; }

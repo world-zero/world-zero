@@ -1,3 +1,4 @@
+using WorldZero.Domain.Interface;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -5,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace WorldZero.Domain.Model
 {
     [Table("Era")]
-    public class EraModel
+    public class EraModel : IModel
     {
         [Key]
         public string EraName { get; set; }

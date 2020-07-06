@@ -1,3 +1,4 @@
+using WorldZero.Domain.Interface;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace WorldZero.Domain.Model
 {
     [Table("Comment")]
-    public class CommentModel
+    public class CommentModel : IModel
     {
         [Key, Column(Order=1)]
         public virtual int PraxisId { get; set; }

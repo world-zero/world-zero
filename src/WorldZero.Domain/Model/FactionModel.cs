@@ -1,3 +1,4 @@
+using WorldZero.Domain.Interface;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace WorldZero.Domain.Model
 {
     [Table("Faction")]
-    public class FactionModel
+    public class FactionModel : IModel
     {
         [Key]
         public string FactionName { get; set; }
