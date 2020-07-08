@@ -8,5 +8,8 @@ namespace WorldZero.Domain.Interface
     /// abstracting them away could easily get dicey. That and EF Core is not a
     /// fan of Code First.
     /// </remarks>
-    public interface IModel {}
+    public interface IModel
+    {
+        //IModel ShallowCopy();
+    }
 }
