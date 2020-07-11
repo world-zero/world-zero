@@ -30,13 +30,13 @@ namespace WorldZero.Data
 
 
             // Make the usernames unique.
-            modelBuilder.Entity<PlayerModel>()
+            modelBuilder.Entity<Player>()
                 .HasIndex(u => u.Username)
                 .IsUnique();
         }
 
 
-        public DbSet<PlayerModel> Players { get; set; }
+        public DbSet<Player> Players { get; set; }
         public DbSet<Character> Characters { get; set; }
         public DbSet<LocationModel> Locations { get; set; }
         public DbSet<FactionModel> Factions { get; set; }

@@ -54,7 +54,7 @@ namespace WorldZero.Data.Model
             set { this._playerId = new Id(value); }
         }
         [ForeignKey("PlayerId")]
-        public virtual PlayerModel Player { get; set; }
+        public virtual Player Player { get; set; }
 
         [NotMapped]
         private PointTotal _eraPoints;
