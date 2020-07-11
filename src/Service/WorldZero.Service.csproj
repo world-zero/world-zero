@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\Common\WorldZero.Common.csproj" />
+    <ProjectReference Include="..\Data\WorldZero.Data.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+      <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+</Project>
