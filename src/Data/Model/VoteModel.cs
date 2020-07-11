@@ -15,7 +15,7 @@ namespace WorldZero.Data.Model
         [Key, Column(Order=2)]
         public virtual int CharacterId { get; set; }
         [ForeignKey("CharacterId")]
-        public virtual CharacterModel Character { get; set; }
+        public virtual Character Character { get; set; }
 
         [Required]
         public int Points { get; set; }

@@ -17,13 +17,13 @@ namespace WorldZero.Data
             // The validation for the fields is done by the entity classes that
             // correspond to their model.
 
-            // Have CharacterModel.Friends and .Foes be self-referencial
+            // Have Character.Friends and .Foes be self-referencial
             // relations.
-            modelBuilder.Entity<CharacterModel>()
+            modelBuilder.Entity<Character>()
                 .HasMany(u => u.Friends)
                 .WithMany()
                 .Map(u => u.ToTable("Friends"));
-            modelBuilder.Entity<CharacterModel>()
+            modelBuilder.Entity<Character>()
                 .HasMany(u => u.Foes)
                 .WithMany()
                 .Map(u => u.ToTable("Foes"));
@@ -37,7 +37,7 @@ namespace WorldZero.Data
 
 
         public DbSet<PlayerModel> Players { get; set; }
-        public DbSet<CharacterModel> Characters { get; set; }
+        public DbSet<Character> Characters { get; set; }
         public DbSet<LocationModel> Locations { get; set; }
         public DbSet<FactionModel> Factions { get; set; }
         public DbSet<EraModel> Eras { get; set; }

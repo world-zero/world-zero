@@ -19,6 +19,6 @@ namespace WorldZero.Data.Model
         [Required]
         public string Zip { get; set; }
 
-        public virtual ICollection<CharacterModel> Characters { get; set; }
+        public virtual ICollection<Character> Characters { get; set; }
     }
 }

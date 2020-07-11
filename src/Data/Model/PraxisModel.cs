@@ -25,7 +25,7 @@ namespace WorldZero.Data.Model
 
         public virtual ICollection<TagModel> Tags { get; set; }
         public virtual ICollection<FlagModel> Flags { get; set; }
-        public virtual ICollection<CharacterModel> Collaborators { get; set; }
+        public virtual ICollection<Character> Collaborators { get; set; }
         public virtual ICollection<MetaTaskModel> MetaTasks { get; set; }
     }
 }

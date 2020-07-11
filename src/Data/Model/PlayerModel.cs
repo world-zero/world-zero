@@ -16,6 +16,6 @@ namespace WorldZero.Data.Model
         [Required]
         public bool IsBlocked { get; set; } = false;
 
-        public virtual ICollection<CharacterModel> Characters { get; set; }
+        public virtual ICollection<Character> Characters { get; set; }
     }
 }
