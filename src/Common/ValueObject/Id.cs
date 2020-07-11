@@ -1,6 +1,5 @@
 using WorldZero.Common.Interface;
 using System;
-using System.Collections.Generic;
 
 namespace WorldZero.Common.ValueObject
 {
@@ -16,13 +15,12 @@ namespace WorldZero.Common.ValueObject
     /// ID that is 0 is unregistered with a repo, an ID greater than 0 is
     /// registered, and an ID less than 0 is invalid.
     /// </remarks>
-    public class Id : IValueObject
+    public class Id : ISingleValueObject<int>
     {
-        private int _val;
-        public int Get
+        public override int Get
         {
             get { return this._val; }
-            private set
+            protected set
             {
                 if (value < 0)
                     throw new ArgumentException("An ID cannot be negative.");
@@ -31,13 +29,8 @@ namespace WorldZero.Common.ValueObject
         }
 
         public Id(int id)
+            : base(id)
         {
-            this.Get = id;
-        }
-
-        protected override IEnumerable<object> GetAtomicValues()
-        {
-            yield return this.Get;
         }
     }
 }

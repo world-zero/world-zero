@@ -1,6 +1,5 @@
 using WorldZero.Common.Interface;
 using System;
-using System.Collections.Generic;
 
 namespace WorldZero.Common.ValueObject
 {
@@ -10,13 +9,12 @@ namespace WorldZero.Common.ValueObject
     /// </summary>
     /// <exception cref="ArgumentException">
     /// This is thrown on name set iff the name is invalid.</exception>
-    public class Name : IValueObject
+    public class Name : ISingleValueObject<string>
     {
-        private string _val;
-        public string Get
+        public override string Get
         {
             get { return this._val; }
-            private set
+            protected set
             {
                 if (string.IsNullOrWhiteSpace(value))
                     throw new ArgumentException("A name cannot be null, empty, or just whitespace.");
@@ -25,13 +23,8 @@ namespace WorldZero.Common.ValueObject
         }
 
         public Name(string name)
+            : base(name)
         {
-            this.Get = name;
-        }
-
-        protected override IEnumerable<object> GetAtomicValues()
-        {
-            yield return this.Get;
         }
     }
 }

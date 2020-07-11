@@ -1,6 +1,5 @@
 using WorldZero.Common.Interface;
 using System;
-using System.Collections.Generic;
 
 namespace WorldZero.Common.ValueObject
 {
@@ -10,28 +9,22 @@ namespace WorldZero.Common.ValueObject
     /// </summary>
     /// <exception cref="ArgumentException">
     /// This is thrown on set iff the level is invalid.</exception>
-    public class Level : IValueObject
+    public class Level : ISingleValueObject<int>
     {
-        private int _points;
-        public int Get 
+        public override int Get 
         {
-            get { return this._points; }
-            private set
+            get { return this._val; }
+            protected set
             {
                 if (value < 0)
                     throw new ArgumentException("Level cannot contain a negative value.");
-                this._points = value;
+                this._val = value;
             }
         }
 
         public Level(int value)
+            : base(value)
         {
-            this.Get = value;
-        }
-
-        protected override IEnumerable<object> GetAtomicValues()
-        {
-            yield return this.Get;
         }
     }
 }

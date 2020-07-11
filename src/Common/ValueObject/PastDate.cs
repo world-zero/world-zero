@@ -10,13 +10,12 @@ namespace WorldZero.Common.ValueObject
     /// </summary>
     /// <exception cref="ArgumentException">
     /// This is thrown on name set iff the name is invalid.</exception>
-    public class PastDate : IValueObject
+    public class PastDate : ISingleValueObject<DateTime>
     {
-        private DateTime _val;
-        public DateTime Get
+        public override DateTime Get
         {
             get { return this._val; }
-            private set
+            protected set
             {
                 if (DateTime.UtcNow < value)
                     throw new ArgumentException("A PastDate cannot have a datetime that is in the future.");
@@ -25,13 +24,8 @@ namespace WorldZero.Common.ValueObject
         }
 
         public PastDate(DateTime date)
+            : base(date)
         {
-            this.Get = date;
-        }
-
-        protected override IEnumerable<object> GetAtomicValues()
-        {
-            yield return this.Get;
         }
     }
 }
