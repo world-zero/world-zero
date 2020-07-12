@@ -9,10 +9,26 @@ namespace WorldZero.Data.Model
     [Table("Character")]
     public class Character : IModel
     {
+        private Level _calculateLevel(PointTotal points)
+        {
+            int r = -1; // Just to make sure it's getting set.
+            int p = points.Get;
+            if      (p < 10)   r = 0;
+            else if (p < 70)   r = 1;
+            else if (p < 170)  r = 2;
+            else if (p < 330)  r = 3;
+            else if (p < 610)  r = 4;
+            else if (p < 1090) r = 5;
+            else if (p < 1840) r = 6;
+            else if (p < 3040) r = 7;
+            else               r = 8;
+            return new Level(r);
+        }
+
         [NotMapped]
         private Id _characterId;
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int CharacterId
+        public virtual int CharacterId
         {
             get
             {
@@ -26,7 +42,7 @@ namespace WorldZero.Data.Model
         [NotMapped]
         private Name _displayname;
         [Required]
-        public string Displayname
+        public virtual string Displayname
         {
             get
             {
@@ -171,22 +187,5 @@ namespace WorldZero.Data.Model
         public virtual ICollection<Character> Foes { get; set; }
 
         public virtual ICollection<Praxis> Praxises { get; set; }
-
-
-        private Level _calculateLevel(PointTotal points)
-        {
-            int r = -1; // Just to make sure it's getting set.
-            int p = points.Get;
-            if      (p < 10)   r = 0;
-            else if (p < 70)   r = 1;
-            else if (p < 170)  r = 2;
-            else if (p < 330)  r = 3;
-            else if (p < 610)  r = 4;
-            else if (p < 1090) r = 5;
-            else if (p < 1840) r = 6;
-            else if (p < 3040) r = 7;
-            else               r = 8;
-            return new Level(r);
-        }
     }
 }

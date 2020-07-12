@@ -12,7 +12,7 @@ namespace WorldZero.Data.Model
         [NotMapped]
         private Id _praxisId;
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int PraxisId
+        public virtual int PraxisId
         {
             get
             {
