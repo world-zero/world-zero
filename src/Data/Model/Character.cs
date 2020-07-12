@@ -34,7 +34,11 @@ namespace WorldZero.Data.Model
                     (ISingleValueObject<string>) this._displayname,
                     null);
             }
-            set { this._displayname = new Name(value); }
+            set
+            {
+                if (value == null) this._displayname = null;
+                else               this._displayname = new Name(value);
+            }
         }
 
         public bool HasBio { get; set; } = false;
