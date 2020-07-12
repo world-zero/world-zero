@@ -145,7 +145,7 @@ namespace WorldZero.Data.Model
             }
         }
         [ForeignKey("LocationId")]
-        public virtual LocationModel Location { get; set; }
+        public virtual Location Location { get; set; }
 
         [NotMapped]
         private Name _factionName;
