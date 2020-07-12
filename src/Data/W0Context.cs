@@ -43,7 +43,7 @@ namespace WorldZero.Data
         public DbSet<EraModel> Eras { get; set; }
         public DbSet<Status> Statuses { get; set; }
         public DbSet<Flag> Flags { get; set; }
-        public DbSet<TagModel> Tags { get; set; }
+        public DbSet<Tag> Tags { get; set; }
         public DbSet<TaskModel> Tasks { get; set; }
         public DbSet<Praxis> Praxises { get; set; }
         public DbSet<VoteModel> Votes { get; set; }
