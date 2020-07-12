@@ -56,6 +56,8 @@ namespace WorldZero.Test.Unit.Data.Model
         {
             var c = new Character();
             Assert.AreEqual(c.CharacterId, 0);
+            Assert.AreEqual(c.PlayerId, 0);
+            Assert.IsNull(c.Player);
             Assert.IsNull(c.Displayname);
             Assert.IsFalse(c.HasBio);
             Assert.IsFalse(c.HasProfilePic);
@@ -65,7 +67,9 @@ namespace WorldZero.Test.Unit.Data.Model
             Assert.AreEqual(c.TotalLevel, 0);
             Assert.AreEqual(c.VotePointsLeft, 100);
             Assert.IsNull(c.Faction);
+            Assert.IsNull(c.FactionName);
             Assert.IsNull(c.Location);
+            Assert.IsNull(c.LocationId);
         }
 
         [Test]
