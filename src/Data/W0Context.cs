@@ -41,7 +41,7 @@ namespace WorldZero.Data
         public DbSet<Location> Locations { get; set; }
         public DbSet<Faction> Factions { get; set; }
         public DbSet<EraModel> Eras { get; set; }
-        public DbSet<StatusModel> Statuses { get; set; }
+        public DbSet<Status> Statuses { get; set; }
         public DbSet<Flag> Flags { get; set; }
         public DbSet<TagModel> Tags { get; set; }
         public DbSet<TaskModel> Tasks { get; set; }

@@ -27,7 +27,7 @@ namespace WorldZero.Data.Model
         [Required]
         public virtual string StatusName { get; set; }
         [ForeignKey("StatusName")]
-        public virtual StatusModel Status { get; set; }
+        public virtual Status Status { get; set; }
 
         public virtual ICollection<TagModel> Tags { get; set; }
         public virtual ICollection<Flag> Flags { get; set; }
