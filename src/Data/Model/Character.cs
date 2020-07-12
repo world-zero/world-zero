@@ -128,7 +128,8 @@ namespace WorldZero.Data.Model
             {
                 // An ID cannot be negative, and since I am lazy and I don't
                 // want to write a nullable ID value object, this will return
-                // an invalid result on failure instead of the usual zero.
+                // an invalid result on failure instead of the usual zero to
+                // signify that the get accessor should return null.
                 int r = this.Eval<int>(
                     (ISingleValueObject<int>) this._locationId,
                     -1);
@@ -163,7 +164,7 @@ namespace WorldZero.Data.Model
             }
         }
         [ForeignKey("FactionName")]
-        public virtual FactionModel Faction { get; set; }
+        public virtual Faction Faction { get; set; }
 
         // These relations are handled via Fluent API.
         public virtual ICollection<Character> Friends { get; set; }

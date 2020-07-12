@@ -23,7 +23,7 @@ namespace WorldZero.Data.Model
         [Required]
         public virtual string FactionName { get; set; }
         [ForeignKey("FactionName")]
-        public virtual FactionModel Faction { get; set; }
+        public virtual Faction Faction { get; set; }
 
         // Pretend this is required.
         public virtual string StatusName { get; set; }
