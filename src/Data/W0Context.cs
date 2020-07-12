@@ -48,6 +48,6 @@ namespace WorldZero.Data
         public DbSet<PraxisModel> Praxises { get; set; }
         public DbSet<VoteModel> Votes { get; set; }
         public DbSet<Comment> Comments { get; set; }
-        public DbSet<MetaTaskModel> MetaTasks { get; set; }
+        public DbSet<MetaTask> MetaTasks { get; set; }
     }
 }
