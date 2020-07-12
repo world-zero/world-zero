@@ -14,7 +14,7 @@ namespace WorldZero.Data.Model
 
         public virtual ICollection<TaskModel> Tasks { get; set; }
         public virtual ICollection<PraxisModel> Praxises { get; set; }
-        public virtual ICollection<CommentModel> Comments { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<MetaTaskModel> MetaTasks { get; set; }
     }
 }
