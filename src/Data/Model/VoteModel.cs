@@ -10,7 +10,7 @@ namespace WorldZero.Data.Model
         [Key, Column(Order=1)]
         public virtual int PraxisId { get; set; }
         [ForeignKey("PraxisId")]
-        public virtual PraxisModel Praxis { get; set; }
+        public virtual Praxis Praxis { get; set; }
 
         [Key, Column(Order=2)]
         public virtual int CharacterId { get; set; }

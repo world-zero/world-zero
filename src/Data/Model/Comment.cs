@@ -24,7 +24,7 @@ namespace WorldZero.Data.Model
             set { this._praxisId = new Id(value); }
         }
         [ForeignKey("PraxisId")]
-        public virtual PraxisModel Praxis { get; set; }
+        public virtual Praxis Praxis { get; set; }
 
         [NotMapped]
         private Id _characterId;

@@ -170,7 +170,7 @@ namespace WorldZero.Data.Model
         public virtual ICollection<Character> Friends { get; set; }
         public virtual ICollection<Character> Foes { get; set; }
 
-        public virtual ICollection<PraxisModel> Praxises { get; set; }
+        public virtual ICollection<Praxis> Praxises { get; set; }
 
 
         private Level _calculateLevel(PointTotal points)

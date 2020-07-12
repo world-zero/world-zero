@@ -92,6 +92,6 @@ namespace WorldZero.Data.Model
 
         public virtual ICollection<TagModel> Tags { get; set; }
         public virtual ICollection<Flag> Flags { get; set; }
-        public virtual ICollection<PraxisModel> Praxises { get; set; }
+        public virtual ICollection<Praxis> Praxises { get; set; }
     }
 }
