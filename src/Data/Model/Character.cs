@@ -28,7 +28,7 @@ namespace WorldZero.Data.Model
         [NotMapped]
         private Id _characterId;
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public virtual int CharacterId
+        public int CharacterId
         {
             get
             {
@@ -42,7 +42,7 @@ namespace WorldZero.Data.Model
         [NotMapped]
         private Name _displayname;
         [Required]
-        public virtual string Displayname
+        public string Displayname
         {
             get
             {

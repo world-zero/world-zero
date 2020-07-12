@@ -43,7 +43,7 @@ namespace WorldZero.Data.Model
             }
         }
         [ForeignKey("TaskId")]
-        public virtual TaskModel Task { get; set; }
+        public virtual Task Task { get; set; }
 
         [NotMapped]
         private bool _AreDueling = false;

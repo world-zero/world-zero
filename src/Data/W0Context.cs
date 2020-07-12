@@ -44,7 +44,7 @@ namespace WorldZero.Data
         public DbSet<Status> Statuses { get; set; }
         public DbSet<Flag> Flags { get; set; }
         public DbSet<Tag> Tags { get; set; }
-        public DbSet<TaskModel> Tasks { get; set; }
+        public DbSet<Task> Tasks { get; set; }
         public DbSet<Praxis> Praxises { get; set; }
         public DbSet<Vote> Votes { get; set; }
         public DbSet<Comment> Comments { get; set; }

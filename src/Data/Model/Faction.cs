@@ -54,6 +54,6 @@ namespace WorldZero.Data.Model
         public string AbilityDesc { get; set; }
 
         public virtual ICollection<Character> Members { get; set; }
-        public virtual ICollection<TaskModel> SponsoredTasks { get; set; }
+        public virtual ICollection<Task> SponsoredTasks { get; set; }
     }
 }
