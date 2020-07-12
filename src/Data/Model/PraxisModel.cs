@@ -24,7 +24,7 @@ namespace WorldZero.Data.Model
         public virtual StatusModel Status { get; set; }
 
         public virtual ICollection<TagModel> Tags { get; set; }
-        public virtual ICollection<FlagModel> Flags { get; set; }
+        public virtual ICollection<Flag> Flags { get; set; }
         public virtual ICollection<Character> Collaborators { get; set; }
         public virtual ICollection<MetaTaskModel> MetaTasks { get; set; }
     }

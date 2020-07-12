@@ -59,6 +59,6 @@ namespace WorldZero.Data.Model
             set { this._dateCreated = new PastDate(value); }
         }
 
-        public virtual ICollection<FlagModel> Flags { get; set; }
+        public virtual ICollection<Flag> Flags { get; set; }
     }
 }
