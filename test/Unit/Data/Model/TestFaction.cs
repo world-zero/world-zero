@@ -29,8 +29,8 @@ namespace WorldZero.Test.Unit.Data.Model
         public void TestDefaultValues()
         {
             var f = new Faction();
-            // Ignore the milliseconds/seconds so this test doesn't fail.
-            Assert.AreEqual(f.DateFounded.ToString("MM:dd:yyyy HH:mm"), DateTime.UtcNow.ToString("MM:dd:yyyy HH:mm"));
+            // Ignore the minutes/milliseconds/seconds so this test doesn't fail.
+            Assert.AreEqual(f.DateFounded.ToString("MM:dd:yyyy HH"), DateTime.UtcNow.ToString("MM:dd:yyyy HH"));
             Assert.IsNull(f.FactionName);
             Assert.IsNull(f.Description);
             Assert.IsNull(f.AbilityName);
