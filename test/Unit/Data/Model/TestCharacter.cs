@@ -84,10 +84,10 @@ namespace WorldZero.Test.Unit.Data.Model
             Assert.AreEqual(this._displayname, this._c.Displayname);
             this._c.Displayname = "Test";
             Assert.AreEqual("Test", this._c.Displayname);
+            Assert.Throws<ArgumentException>(()=>this._c.Displayname = null);
             Assert.Throws<ArgumentException>(()=>this._c.Displayname = "");
-            this._c.Displayname = null;
             Assert.Throws<ArgumentException>(()=>this._c.Displayname = "     ");
-            Assert.IsNull(this._c.Displayname);
+            Assert.AreEqual("Test", this._c.Displayname);
         }
 
         [Test]

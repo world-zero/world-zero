@@ -44,9 +44,7 @@ namespace WorldZero.Data.Model
             }
             set
             {
-                if (value == null)
-                    this._username = null;
-                else if (value.Length > 25)
+                if (value != null && value.Length > 25)
                     throw new ArgumentException("A username cannot be longer than 25 characters.");
                 else
                     this._username = new Name(value);

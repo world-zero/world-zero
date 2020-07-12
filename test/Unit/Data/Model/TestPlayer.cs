@@ -48,8 +48,7 @@ namespace WorldZero.Test.Unit.Data.Model
         public void TestUsername()
         {
             Assert.AreEqual(this._p.Username, this._username);
-            this._p.Username = null;
-            Assert.AreEqual(this._p.Username, null);
+            Assert.Throws<ArgumentException>(()=>this._p.Username = null);
 
             // 25 and 26 character strings, respectively.
             this._p.Username =         "asdfjkl;qweryuiopertygndk";
