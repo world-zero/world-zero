@@ -7,8 +7,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace WorldZero.Data.Model
 {
     [Table("Character")]
+    /// <summary>
+    /// Character is a model for a tuple of the Character table, with
+    /// collections for it's various *-to-many relations.
+    /// </summary>
     public class Character : IModel
     {
+        /// <summary>
+        /// Determine the level based off the number of points supplied.
+        /// </summary>
+        /// <param name="points">The points to calculate the level of.</param>
+        /// <returns><c>Level</c> corresponding to the <c>points</c>.</returns>
         private Level _calculateLevel(PointTotal points)
         {
             int r = -1; // Just to make sure it's getting set.
@@ -25,9 +34,11 @@ namespace WorldZero.Data.Model
             return new Level(r);
         }
 
-        [NotMapped]
-        private Id _characterId;
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        /// <summary>
+        /// CharacterId is a wrapper for an <c>Id</c> - no exceptions are
+        /// caught.
+        /// </summary>
         public int CharacterId
         {
             get
@@ -38,10 +49,14 @@ namespace WorldZero.Data.Model
             }
             set { this._characterId = new Id(value); }
         }
-
         [NotMapped]
-        private Name _displayname;
+        private Id _characterId;
+
         [Required]
+        /// <summary>
+        /// Displayname is a wrapper for a <c>Name</c> - no exceptions are
+        /// caught.
+        /// </summary>
         public string Displayname
         {
             get
@@ -52,13 +67,25 @@ namespace WorldZero.Data.Model
             }
             set { this._displayname = new Name(value); }
         }
+        [NotMapped]
+        private Name _displayname;
 
+        /// <summary>
+        /// HasBio is used to record if a character has a bio or not.
+        /// </summary>
         public bool HasBio { get; set; } = false;
+
+        /// <summary>
+        /// HasProfilePic is used to record if a character has a profile
+        /// picture or not.
+        /// </summary>
         public bool HasProfilePic { get; set; } = false;
 
-        [NotMapped]
-        private Id _playerId;
         [Required]
+        /// <summary>
+        /// PlayerId is a wrapper for an <c>Id</c> - no exceptions are
+        /// caught.
+        /// </summary>
         public virtual int PlayerId
         {
             get
@@ -69,12 +96,20 @@ namespace WorldZero.Data.Model
             }
             set { this._playerId = new Id(value); }
         }
+        [NotMapped]
+        private Id _playerId;
+
         [ForeignKey("PlayerId")]
+        /// <summary>
+        /// The <c>Player</c> that owns this <c>Character</c>.
+        /// </summary>
         public virtual Player Player { get; set; }
 
-        [NotMapped]
-        private PointTotal _eraPoints;
         [Required]
+        /// <summary>
+        /// EraPoints is a wrapper for a <c>PointTotal</c> - no exceptions are
+        /// caught.
+        /// </summary>
         public int EraPoints
         {
             get
@@ -85,10 +120,14 @@ namespace WorldZero.Data.Model
             }
             set { this._eraPoints = new PointTotal(value); }
         }
-
         [NotMapped]
-        private PointTotal _totalPoints;
+        private PointTotal _eraPoints;
+
         [Required]
+        /// <summary>
+        /// TotalPoints is a wrapper for a <c>PointTotal</c> - no exceptions are
+        /// caught.
+        /// </summary>
         public int TotalPoints
         {
             get
@@ -99,8 +138,14 @@ namespace WorldZero.Data.Model
             }
             set { this._totalPoints = new PointTotal(value); }
         }
+        [NotMapped]
+        private PointTotal _totalPoints;
 
         [Required]
+        /// <summary>
+        /// EraLevel is a wrapper for a <c>Level</c>, which is dynamically
+        /// determined on call by checking EraPoints. The setter does nothing.
+        /// </summary>
         public int EraLevel
         {
             get
@@ -112,6 +157,11 @@ namespace WorldZero.Data.Model
         }
 
         [Required]
+        /// <summary>
+        /// TotalLevel is a wrapper for a <c>Level</c>, which is dynamically
+        /// determined on call by checking TotalPoints. The setter does
+        /// nothing.
+        /// </summary>
         public int TotalLevel
         {
             get
@@ -122,9 +172,11 @@ namespace WorldZero.Data.Model
             set { }
         }
 
-        [NotMapped]
-        private PointTotal _votePointsLeft;
         [Required]
+        /// <summary>
+        /// VotePointsLeft is a wrapper for a <c>PointTotal</c> - no exceptions are
+        /// caught.
+        /// </summary>
         public int VotePointsLeft
         {
             get
@@ -135,9 +187,13 @@ namespace WorldZero.Data.Model
             }
             set { this._votePointsLeft = new PointTotal(value); }
         }
-
         [NotMapped]
-        private Id _locationId;
+        private PointTotal _votePointsLeft;
+
+        /// <summary>
+        /// LocationId is a wrapper for an <c>Id</c> - no exceptions are
+        /// caught.
+        /// </summary>
         public virtual int? LocationId
         {
             get
@@ -160,11 +216,21 @@ namespace WorldZero.Data.Model
                     this._locationId = null;
             }
         }
+        [NotMapped]
+        private Id _locationId;
+
         [ForeignKey("LocationId")]
+        /// <summary>
+        /// The <c>Location</c> that this <c>Character</c> lives in.
+        /// </summary>
         public virtual Location Location { get; set; }
 
         [NotMapped]
         private Name _factionName;
+        /// <summary>
+        /// FactionName is a wrapper for a <c>Name</c> - no exceptions are
+        /// caught.
+        /// </summary>
         public virtual string FactionName
         {
             get
@@ -179,7 +245,11 @@ namespace WorldZero.Data.Model
                 else               this._factionName = new Name(value);
             }
         }
+
         [ForeignKey("FactionName")]
+        /// <summary>
+        /// The <c>Faction</c> that this <c>Character</c> belongs to.
+        /// </summary>
         public virtual Faction Faction { get; set; }
 
         // These relations are handled via Fluent API.

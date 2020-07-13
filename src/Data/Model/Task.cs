@@ -8,11 +8,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace WorldZero.Data.Model
 {
     [Table("Task")]
+    /// <summary>
+    /// Task is a model for a tuple of the Task table, with
+    /// collections for it's various *-to-many relations.
+    /// </summary>
     public class Task : IModel
     {
-        [NotMapped]
-        private Id _taskId;
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        /// <summary>
+        /// TaskId is a wrapper for an <c>Id</c> - no exceptions are
+        /// caught.
+        /// </summary>
         public int TaskId
         {
             get
@@ -23,12 +29,20 @@ namespace WorldZero.Data.Model
             }
             set { this._taskId = new Id(value); }
         }
+        [NotMapped]
+        private Id _taskId;
 
         [Required]
+        /// <summary>
+        /// Summary is a string summary of a task.
+        /// </summary>
         public string Summary { get; set; }
-        [NotMapped]
-        private PointTotal _points;
+
         [Required]
+        /// <summary>
+        /// Points is a wrapper for a <c>PointTotal</c> - no exceptions are
+        /// caught.
+        /// </summary>
         public int Points
         {
             get
@@ -39,10 +53,17 @@ namespace WorldZero.Data.Model
             }
             set { this._points = new PointTotal(value); }
         }
-
         [NotMapped]
-        private Level _level;
+        private PointTotal _points;
+
         [Required]
+        /// <summary>
+        /// Level is a wrapper for a <c>Level</c> - no exceptions are
+        /// caught.
+        /// </summary>
+        /// <exception cref="ArgumentException">
+        /// This is thrown when Level is set to be lower than MinLevel.
+        /// </exception>
         public int Level
         {
             get
@@ -58,10 +79,17 @@ namespace WorldZero.Data.Model
                 this._level = l;
             }
         }
-
         [NotMapped]
-        private Level _minLevel;
+        private Level _level;
+
         [Required]
+        /// <summary>
+        /// MinLevel is a wrapper for a <c>Level</c> - no exceptions are
+        /// caught.
+        /// </summary>
+        /// <exception cref="ArgumentException">
+        /// This is thrown when MinLevel is set to be higher than Level.
+        /// </exception>
         public int MinLevel
         {
             get
@@ -77,6 +105,8 @@ namespace WorldZero.Data.Model
                 this._minLevel = l;
             }
         }
+        [NotMapped]
+        private Level _minLevel;
 
         private void _checkLevels(Level high, Level low)
         {
@@ -88,9 +118,11 @@ namespace WorldZero.Data.Model
             }
         }
 
-        [NotMapped]
-        private Name _factionName;
         [Required]
+        /// <summary>
+        /// FactionName is a wrapper for a <c>Name</c> - no exceptions are
+        /// caught.
+        /// </summary>
         public virtual string FactionName
         {
             get
@@ -101,12 +133,20 @@ namespace WorldZero.Data.Model
             }
             set { this._factionName = new Name(value); }
         }
+        [NotMapped]
+        private Name _factionName;
+
         [ForeignKey("FactionName")]
+        /// <summary>
+        /// The <c>Faction</c> that this <c>Task</c> belongs to.
+        /// </summary>
         public virtual Faction Faction { get; set; }
 
-        [NotMapped]
-        private Name _statusName;
         [Required]
+        /// <summary>
+        /// StatusName is a wrapper for a <c>Name</c> - no exceptions are
+        /// caught.
+        /// </summary>
         public virtual string StatusName
         {
             get
@@ -117,7 +157,13 @@ namespace WorldZero.Data.Model
             }
             set { this._statusName = new Name(value); }
         }
+        [NotMapped]
+        private Name _statusName;
+
         [ForeignKey("StatusName")]
+        /// <summary>
+        /// The <c>Status</c> that this <c>Task</c> has.
+        /// </summary>
         public virtual Status Status { get; set; }
 
         public virtual ICollection<Tag> Tags { get; set; }

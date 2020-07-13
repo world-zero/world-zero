@@ -8,11 +8,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace WorldZero.Data.Model
 {
     [Table("Player")]
+    /// <summary>
+    /// Player is a model for a tuple of the Player table, with
+    /// collections for it's various *-to-many relations.
+    /// </summary>
     public class Player : IModel
     {
-        [NotMapped]
-        private Id _playerId;
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        /// <summary>
+        /// PlayerId is a wrapper for an <c>Id</c> - no exceptions are
+        /// caught.
+        /// </summary>
         public int PlayerId
         {
             get
@@ -23,14 +29,20 @@ namespace WorldZero.Data.Model
             }
             set { this._playerId = new Id(value); }
         }
-
         [NotMapped]
-        private Name _username;
+        private Id _playerId;
+
         [Required, StringLength(25)]
-        // Why, you may ask, is this limited to 25 characters? Because EF Core
-        // was having a fit without a predefined length.
-        // Also this field is Unique - enforced via Fluent API. Any future
-        // repos must enforce this themselves.
+        /// <summary>
+        /// Username is a wrapper for a <c>Name</c> - no exceptions are
+        /// caught.
+        /// </summary>
+        /// <remarks>
+        /// Why, you may ask, is this limited to 25 characters? Because EF Core
+        /// was having a fit without a predefined length.
+        /// Also this field is Unique - enforced via Fluent API. Any future
+        /// repos must enforce this themselves.
+        /// </remarks>
         public string Username
         {
             get
@@ -50,8 +62,14 @@ namespace WorldZero.Data.Model
                     this._username = new Name(value);
             }
         }
+        [NotMapped]
+        private Name _username;
 
         [Required]
+        /// <summary>
+        /// IsBlocked controls whether or not a Player can sign into any of
+        /// their characters.
+        /// </summary>
         public bool IsBlocked { get; set; } = false;
 
         public virtual ICollection<Character> Characters { get; set; }

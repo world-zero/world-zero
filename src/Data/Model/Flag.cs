@@ -7,11 +7,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace WorldZero.Data.Model
 {
     [Table("Flag")]
+    /// <summary>
+    /// Flag is a model for a tuple of the Flag table, with
+    /// collections for it's various *-to-many relations.
+    /// </summary>
     public class Flag : IModel
     {
-        [NotMapped]
-        private Name _flagName;
         [Key]
+        /// <summary>
+        /// FlagName is a wrapper for a <c>Name</c> - no exceptions are
+        /// caught.
+        /// </summary>
         public string FlagName
         {
             get
@@ -22,6 +28,12 @@ namespace WorldZero.Data.Model
             }
             set { this._flagName = new Name(value); }
         }
+        [NotMapped]
+        private Name _flagName;
+
+        /// <summary>
+        /// Description is a description of the flag.
+        /// </summary>
         public string Description { get; set; }
 
         public virtual ICollection<Task> Tasks { get; set; }

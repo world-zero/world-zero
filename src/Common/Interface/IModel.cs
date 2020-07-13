@@ -1,5 +1,11 @@
 namespace WorldZero.Common.Interface
 {
+    /// <summary>
+    /// IModel is the parent that the different data models implement.
+    /// </summary>
+    /// <remarks>
+    /// This is really more of a marker than a parent for polymorphism.
+    /// </remarks>
     public abstract class IModel
     {
         /// <summary>

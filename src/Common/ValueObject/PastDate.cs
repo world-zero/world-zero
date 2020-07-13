@@ -9,7 +9,7 @@ namespace WorldZero.Common.ValueObject
     /// it is not in the future.
     /// </summary>
     /// <exception cref="ArgumentException">
-    /// This is thrown on name set iff the name is invalid.</exception>
+    /// This is thrown on date set iff the date is invalid.</exception>
     public class PastDate : ISingleValueObject<DateTime>
     {
         public override DateTime Get

@@ -8,11 +8,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace WorldZero.Data.Model
 {
     [Table("MetaTask")]
+    /// <summary>
+    /// MetaTask is a model for a tuple of the MetaTask table, with
+    /// collections for it's various *-to-many relations.
+    /// </summary>
     public class MetaTask : IModel
     {
-        [NotMapped]
-        private Id _metaTaskId;
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        /// <summary>
+        /// MetaTaskId is a wrapper for an <c>Id</c> - no exceptions are
+        /// caught.
+        /// </summary>
         public int MetaTaskId
         {
             get
@@ -23,10 +29,14 @@ namespace WorldZero.Data.Model
             }
             set { this._metaTaskId = new Id(value); }
         }
-
         [NotMapped]
-        private Name _metaTaskName;
+        private Id _metaTaskId;
+
         [Required]
+        /// <summary>
+        /// MetaTaskName is a wrapper for a <c>Name</c> - no exceptions are
+        /// caught.
+        /// </summary>
         public string MetaTaskName
         {
             get
@@ -37,13 +47,21 @@ namespace WorldZero.Data.Model
             }
             set { this._metaTaskName = new Name(value); }
         }
+        [NotMapped]
+        private Name _metaTaskName;
 
         [Required]
+        /// <summary>
+        /// Description is a description of the MetaTask.
+        /// </summary>
         public string Description { get; set; }
 
-        [NotMapped]
-        private double _bonus;
         [Required]
+        /// <summary>
+        /// Bonus is a non-negative double that can be either a flag point
+        /// bonus or a point percentage modifier. For more, see
+        /// <see cref="MetaTask.IsFlatBonus"/>.
+        /// </summary>
         public double Bonus
         {
             get { return this._bonus; }
@@ -54,13 +72,21 @@ namespace WorldZero.Data.Model
                 this._bonus = value;
             }
         }
+        [NotMapped]
+        private double _bonus;
 
         [Required]
+        /// <summary>
+        /// IsFlatBonus determines whether <c>Bonus</c> is a flat bonus point
+        /// addition or if it is a point percentage modifier.
+        /// </summary>
         public bool IsFlatBonus { get; set; } = true;
 
-        [NotMapped]
-        private Name _factionName;
         [Required]
+        /// <summary>
+        /// FactionName is a wrapper for a <c>Name</c> - no exceptions are
+        /// caught.
+        /// </summary>
         public virtual string FactionName
         {
             get
@@ -71,12 +97,20 @@ namespace WorldZero.Data.Model
             }
             set { this._factionName = new Name(value); }
         }
+        [NotMapped]
+        private Name _factionName;
+
         [ForeignKey("FactionName")]
+        /// <summary>
+        /// The <c>Faction</c> that this <c>MetaTask</c> belongs to.
+        /// </summary>
         public virtual Faction Faction { get; set; }
 
-        [NotMapped]
-        private Name _statusName;
         // Pretend this is required.
+        /// <summary>
+        /// StatusName is a wrapper for a <c>Name</c> - no exceptions are
+        /// caught.
+        /// </summary>
         public virtual string StatusName
         {
             get
@@ -87,7 +121,13 @@ namespace WorldZero.Data.Model
             }
             set { this._statusName = new Name(value); }
         }
+        [NotMapped]
+        private Name _statusName;
+
         [ForeignKey("StatusName")]
+        /// <summary>
+        /// The <c>Status</c> that this <c>MetaTask</c> has.
+        /// </summary>
         public virtual Status Status { get; set; }
 
         public virtual ICollection<Tag> Tags { get; set; }

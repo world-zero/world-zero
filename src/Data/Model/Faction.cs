@@ -8,11 +8,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace WorldZero.Data.Model
 {
     [Table("Faction")]
+    /// <summary>
+    /// Faction is a model for a tuple of the Faction table, with
+    /// collections for it's various *-to-many relations.
+    /// </summary>
     public class Faction : IModel
     {
-        [NotMapped]
-        private Name _factionName;
         [Key]
+        /// <summary>
+        /// FactionName is a wrapper for a <c>Name</c> - no exceptions are
+        /// caught.
+        /// </summary>
         public string FactionName
         {
             get
@@ -23,9 +29,13 @@ namespace WorldZero.Data.Model
             }
             set { this._factionName = new Name(value); }
         }
-
         [NotMapped]
-        private PastDate _dateFounded;
+        private Name _factionName;
+
+        /// <summary>
+        /// DateFounded is a wrapper for a <c>PastDate</c> - no exceptions are
+        /// caught.
+        /// </summary>
         public DateTime DateFounded
         {
             get
@@ -36,11 +46,18 @@ namespace WorldZero.Data.Model
             }
             set { this._dateFounded = new PastDate(value); }
         }
+        [NotMapped]
+        private PastDate _dateFounded;
 
+        /// <summary>
+        /// Description is a description of the faction.
+        /// </summary>
         public string Description { get; set; }
 
-        [NotMapped]
-        private Name _abilityName;
+        /// <summary>
+        /// AbilityName is a wrapper for a <c>Name</c> - no exceptions are
+        /// caught.
+        /// </summary>
         public string AbilityName
         {
             get
@@ -51,6 +68,12 @@ namespace WorldZero.Data.Model
             }
             set { this._abilityName = new Name(value); }
         }
+        [NotMapped]
+        private Name _abilityName;
+
+        /// <summary>
+        /// AbilityDesc is a description of the AbilityName.
+        /// </summary>
         public string AbilityDesc { get; set; }
 
         public virtual ICollection<Character> Members { get; set; }

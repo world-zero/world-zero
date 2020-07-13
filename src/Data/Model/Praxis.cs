@@ -7,10 +7,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace WorldZero.Data.Model
 {
     [Table("Praxis")]
+    /// <summary>
+    /// Praxis is a model for a tuple of the Praxis table, with
+    /// collections for it's various *-to-many relations.
+    /// </summary>
     public class Praxis : IModel
     {
-        [NotMapped]
-        private Id _praxisId;
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public virtual int PraxisId
         {
@@ -22,10 +24,14 @@ namespace WorldZero.Data.Model
             }
             set { this._praxisId = new Id(value); }
         }
-
         [NotMapped]
-        private Id _taskId;
+        private Id _praxisId;
+
         // Pretend this is required.
+        /// <summary>
+        /// TaskId is a wrapper for an <c>Id</c> - no exceptions are
+        /// caught.
+        /// </summary>
         public virtual int? TaskId
         {
             get
@@ -42,12 +48,20 @@ namespace WorldZero.Data.Model
                 else               this._taskId = new Id((int) value);
             }
         }
+        [NotMapped]
+        private Id _taskId;
+
         [ForeignKey("TaskId")]
+        /// <summary>
+        /// The <c>Task</c> that this <c>Praxis</c> completes.
+        /// </summary>
         public virtual Task Task { get; set; }
 
-        [NotMapped]
-        private bool _AreDueling = false;
         [Required]
+        /// <summary>
+        /// AreDueling controls whether or not the collaborator(s) are dueling.
+        /// If there is not two collaborators, this will default to false.
+        /// </summary>
         public virtual bool AreDueling
         {
             get { return this._AreDueling; }
@@ -60,10 +74,14 @@ namespace WorldZero.Data.Model
                     this._AreDueling = value;
             }
         }
-
         [NotMapped]
-        private Name _statusName;
+        private bool _AreDueling = false;
+
         [Required]
+        /// <summary>
+        /// StatusName is a wrapper for a <c>Name</c> - no exceptions are
+        /// caught.
+        /// </summary>
         public virtual string StatusName
         {
             get
@@ -74,7 +92,13 @@ namespace WorldZero.Data.Model
             }
             set { this._statusName = new Name(value); }
         }
+        [NotMapped]
+        private Name _statusName;
+
         [ForeignKey("StatusName")]
+        /// <summary>
+        /// The <c>Status</c> that this <c>Praxis</c> has.
+        /// </summary>
         public virtual Status Status { get; set; }
 
         public virtual ICollection<Tag> Tags { get; set; }

@@ -7,11 +7,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace WorldZero.Data.Model
 {
     [Table("Status")]
+    /// <summary>
+    /// Status is a model for a tuple of the Status table, with
+    /// collections for it's various *-to-many relations.
+    /// </summary>
     public class Status : IModel
     {
-        [NotMapped]
-        private Name _statusName;
         [Key]
+        /// <summary>
+        /// StatusName is a wrapper for a <c>Name</c> - no exceptions are
+        /// caught.
+        /// </summary>
         public string StatusName
         {
             get
@@ -22,7 +28,12 @@ namespace WorldZero.Data.Model
             }
             set { this._statusName = new Name(value); }
         }
+        [NotMapped]
+        private Name _statusName;
 
+        /// <summary>
+        /// Description is a description of the status.
+        /// </summary>
         public string Description { get; set; }
 
         public virtual ICollection<Task> Tasks { get; set; }
