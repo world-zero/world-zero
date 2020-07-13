@@ -40,7 +40,7 @@ namespace WorldZero.Data
         public DbSet<Character> Characters { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Faction> Factions { get; set; }
-        public DbSet<EraModel> Eras { get; set; }
+        public DbSet<Era> Eras { get; set; }
         public DbSet<Status> Statuses { get; set; }
         public DbSet<Flag> Flags { get; set; }
         public DbSet<Tag> Tags { get; set; }

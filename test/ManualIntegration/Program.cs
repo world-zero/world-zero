@@ -55,7 +55,7 @@ namespace WorldZero.Test.ManualIntegration
                 AbilityDesc = "Stop time"
             };
 
-            var newEra = new EraModel() { EraName = "The Beginning" };
+            var newEra = new Era() { EraName = "The Beginning" };
             var newStatus = new Status() { StatusName = "Incomplete" };
             var newFlag = new Flag() { FlagName = "Gross" };
             var newTag = new Tag() { TagName = "#pizza" };
