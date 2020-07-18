@@ -1,4 +1,4 @@
-using WorldZero.Data.Model;
+using WorldZero.Common.Model;
 using System;
 using NUnit.Framework;
 

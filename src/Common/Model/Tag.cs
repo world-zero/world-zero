@@ -4,41 +4,36 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WorldZero.Data.Model
+namespace WorldZero.Common.Model
 {
-    [Table("Flag")]
-    /// <summary>
-    /// Flag is a model for a tuple of the Flag table, with
-    /// collections for it's various *-to-many relations.
-    /// </summary>
-    public class Flag : IModel
+    [Table("Tag")]
+    public class Tag : IModel
     {
         [Key]
         /// <summary>
-        /// FlagName is a wrapper for a <c>Name</c> - no exceptions are
+        /// TagName is a wrapper for a <c>Name</c> - no exceptions are
         /// caught.
         /// </summary>
-        public string FlagName
+        public string TagName
         {
             get
             {
                 return this.Eval<string>(
-                    (ISingleValueObject<string>) this._flagName,
+                    (ISingleValueObject<string>) this._tagName,
                     null);
             }
-            set { this._flagName = new Name(value); }
+            set { this._tagName = new Name(value); }
         }
         [NotMapped]
-        private Name _flagName;
+        private Name _tagName;
 
         /// <summary>
-        /// Description is a description of the flag.
+        /// Description is a description of the tag.
         /// </summary>
         public string Description { get; set; }
 
         public virtual ICollection<Task> Tasks { get; set; }
         public virtual ICollection<Praxis> Praxises { get; set; }
-        public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<MetaTask> MetaTasks { get; set; }
     }
 }

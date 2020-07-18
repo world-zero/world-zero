@@ -1,4 +1,4 @@
-﻿using WorldZero.Data.Model;
+﻿using WorldZero.Common.Model;
 using System.Data.Entity;
 
 namespace WorldZero.Data

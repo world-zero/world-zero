@@ -1,5 +1,5 @@
 using System;
-using WorldZero.Data.Model;
+using WorldZero.Common.Model;
 using NUnit.Framework;
 
 namespace WorldZero.Test.Unit.Data.Model

@@ -1,16 +1,18 @@
 using WorldZero.Common.Interface;
 using WorldZero.Common.ValueObject;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WorldZero.Data.Model
+namespace WorldZero.Common.Model
 {
-    [Table("Vote")]
+    [Table("Comment")]
     /// <summary>
-    /// Vote is a model for a tuple of the Vote table, with
+    /// Comment is a model for a tuple of the Comment table, with
     /// collections for it's various *-to-many relations.
     /// </summary>
-    public class Vote : IModel
+    public class Comment : IModel
     {
         [Key, Column(Order=1)]
         /// <summary>
@@ -32,13 +34,13 @@ namespace WorldZero.Data.Model
 
         [ForeignKey("PraxisId")]
         /// <summary>
-        /// The <c>Praxis</c> that this <c>Vote</c> is on.
+        /// The <c>Praxis</c> that this <c>Comment</c> is attached to.
         /// </summary>
         public virtual Praxis Praxis { get; set; }
 
         [Key, Column(Order=2)]
         /// <summary>
-        /// CharacterId is a wrapper for an <c>Id</c> - no exceptions are
+        /// PraxisId is a wrapper for an <c>Id</c> - no exceptions are
         /// caught.
         /// </summary>
         public virtual int CharacterId
@@ -56,26 +58,31 @@ namespace WorldZero.Data.Model
 
         [ForeignKey("CharacterId")]
         /// <summary>
-        /// The <c>Character</c> that submitted this <c>Vote</c>.
+        /// The <c>Character</c> that this <c>Comment</c> is made by.
         /// </summary>
         public virtual Character Character { get; set; }
 
         [Required]
+        public string Value { get; set; }
+
+        [Required]
         /// <summary>
-        /// Points is a wrapper for a <c>PointTotal</c> - no exceptions are
+        /// DateCreated is a wrapper for a <c>PastDate</c> - no exceptions are
         /// caught.
         /// </summary>
-        public int Points
+        public DateTime DateCreated
         {
             get
             {
-                return this.Eval<int>(
-                    (ISingleValueObject<int>) this._points,
-                    0);
+                return this.Eval<DateTime>(
+                    (ISingleValueObject<DateTime>) this._dateCreated,
+                    DateTime.UtcNow);
             }
-            set { this._points = new PointTotal(value); }
+            set { this._dateCreated = new PastDate(value); }
         }
         [NotMapped]
-        private PointTotal _points;
+        private PastDate _dateCreated;
+
+        public virtual ICollection<Flag> Flags { get; set; }
     }
 }

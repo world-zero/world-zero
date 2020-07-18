@@ -4,7 +4,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WorldZero.Data.Model
+namespace WorldZero.Common.Model
 {
     [Table("Era")]
     /// <summary>

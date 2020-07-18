@@ -1,7 +1,7 @@
 using System.Linq;
 using System.Collections.ObjectModel;
 using WorldZero.Common.Interface;
-using WorldZero.Data.Model;
+using WorldZero.Common.Model;
 using WorldZero.Data;
 using WorldZero.Data.Repository;
 using NUnit.Framework;

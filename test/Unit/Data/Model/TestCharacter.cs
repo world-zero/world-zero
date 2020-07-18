@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
-using WorldZero.Data.Model;
+using WorldZero.Common.Model;
 using WorldZero.Common.ValueObject;
 using NUnit.Framework;
 using System;

@@ -4,31 +4,35 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WorldZero.Data.Model
+namespace WorldZero.Common.Model
 {
-    [Table("Tag")]
-    public class Tag : IModel
+    [Table("Status")]
+    /// <summary>
+    /// Status is a model for a tuple of the Status table, with
+    /// collections for it's various *-to-many relations.
+    /// </summary>
+    public class Status : IModel
     {
         [Key]
         /// <summary>
-        /// TagName is a wrapper for a <c>Name</c> - no exceptions are
+        /// StatusName is a wrapper for a <c>Name</c> - no exceptions are
         /// caught.
         /// </summary>
-        public string TagName
+        public string StatusName
         {
             get
             {
                 return this.Eval<string>(
-                    (ISingleValueObject<string>) this._tagName,
+                    (ISingleValueObject<string>) this._statusName,
                     null);
             }
-            set { this._tagName = new Name(value); }
+            set { this._statusName = new Name(value); }
         }
         [NotMapped]
-        private Name _tagName;
+        private Name _statusName;
 
         /// <summary>
-        /// Description is a description of the tag.
+        /// Description is a description of the status.
         /// </summary>
         public string Description { get; set; }
 
