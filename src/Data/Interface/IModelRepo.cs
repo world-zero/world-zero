@@ -8,5 +8,8 @@ namespace WorldZero.Data.Interface
     /// </summary>
     /// <typeparam name="T">The IModel implementation that this repo abstracts.
     /// </typeparam>
+    /// <remarks>
+    /// On Save(), models with an int ID will have that value be set.
+    /// </remarks>
     public interface IModelRepo<T> : IGenericRepo<T> where T : IModel { }
 }
