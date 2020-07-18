@@ -46,6 +46,9 @@ This application uses Layered architecture with Hexagonal architecture.
 - `Service/` references `Common/` and `Data/` and is referenced by nothing.
 
 Additionally, the test projects reference things as relevant, obviously.
+Similarly, `Tools/` references all of the source projects, and the needed test
+projects reference this as well, as it contains testing injections for things
+like in memory repo implementations.
 
 ## Responsibilities
 
