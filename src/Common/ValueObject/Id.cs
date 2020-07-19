@@ -10,7 +10,7 @@ namespace WorldZero.Common.ValueObject
     /// <exception cref="ArgumentException">
     /// This is thrown on ID set iff the ID is invalid.</exception>
     /// <remarks>
-    /// The cutoff at 0 instead of 1 is because the models will default to not
+    /// The cutoff at 0 instead of 1 is because the entities will default to not
     /// defining an ID, and EF Core starts counting IDs at 1, meaning that an
     /// ID that is 0 is unregistered with a repo, an ID greater than 0 is
     /// registered, and an ID less than 0 is invalid.

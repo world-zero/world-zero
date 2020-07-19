@@ -1,5 +1,5 @@
 using WorldZero.Data;
-using WorldZero.Common.Model;
+using WorldZero.Common.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Data.Entity;
@@ -42,29 +42,29 @@ namespace WorldZero.Test.Integration
                 Country = "USA",
                 Zip = "69420"
             };
-            var newPlayer = new Player() { Username="Sawyer" };
+            var newPlayer = new Player() { Name="Sawyer" };
             // The PlayerId is set to 0 by default by compiler, so EFC
             // starts counting IDs at 1.
-            var otherPlayer = new Player() { Username="Zel" };
+            var otherPlayer = new Player() { Name="Zel" };
             var newFaction = new Faction()
             {
-                FactionName = "DIO",
+                Name = "DIO",
                 Description = "The vampire from Jojo's bizarre adventure",
                 AbilityName = "The World",
                 AbilityDesc = "Stop time"
             };
 
-            var newEra = new Era() { EraName = "The Beginning" };
-            var newStatus = new Status() { StatusName = "Incomplete" };
-            var newFlag = new Flag() { FlagName = "Gross" };
-            var newTag = new Tag() { TagName = "#pizza" };
+            var newEra = new Era() { Name = "The Beginning" };
+            var newStatus = new Status() { Name = "Incomplete" };
+            var newFlag = new Flag() { Name = "Gross" };
+            var newTag = new Tag() { Name = "#pizza" };
             var newTask = new Task()
             {
                 Summary = "test task",
                 Points = 3,
                 Level = 1,
-                FactionName = newFaction.FactionName,
-                StatusName = newStatus.StatusName
+                FactionId = newFaction.Id,
+                StatusId = newStatus.Id
             };
 
             this._context.Locations.Add(newLocal);
@@ -86,27 +86,27 @@ namespace WorldZero.Test.Integration
 
             var newChar = new Character()
             {
-                Displayname = "Sawyer's Character",
-                PlayerId = newPlayer.PlayerId,
+                Name = "Sawyer's Character",
+                PlayerId = newPlayer.Id,
                 Location = newLocal,
-                FactionName = newFaction.FactionName
+                FactionId = newFaction.Id
             };
             this._context.Characters.Add(newChar);
             this._context.SaveChanges();
             //Console.WriteLine(newChar.FactionName);
             // We can just grab the first since that's the key.
-            foreach (Character c in this._context.Factions.Where(f => f.FactionName == "DIO").First().Members)
+            foreach (Character c in this._context.Factions.Where(f => f.Name == "DIO").First().Members)
             {
                 // These both work, but do slightly different things.
-                //Console.WriteLine($"DIO minion: {c.PlayerId}@{c.Displayname}");
-                //Console.WriteLine($"DIO minion: {c.Player.Username}@{c.Displayname}");
+                //Console.WriteLine($"DIO minion: {c.PlayerId}@{c.Name}");
+                //Console.WriteLine($"DIO minion: {c.Player.Name}@{c.Name}");
 
 
                 //Console.WriteLine(c.Player); // Player
             }
 
             // Get a Location on some criteria.
-            var location = this._context.Locations.Where(l => l.LocationId == 1).Single();
+            var location = this._context.Locations.Where(l => l.Id == 1).Single();
             //Console.WriteLine($"{location.LocationId} {location.City} {location.State}");
 
             // How do I access/update the manys?
@@ -114,8 +114,8 @@ namespace WorldZero.Test.Integration
             // Since these are all shallow copies to the things in the this._context, changes are recorded.
             // NOTE: classes that load these mementos should be sure to not break this
             Player player = this._context.Players.First();
-            foreach (Character c in player.Characters)
-                c.EraPoints = 10;
+            //foreach (Character c in player.Characters)
+            //    c.EraPoints = 10;
             //Console.WriteLine(player.Characters);
 
             // since it auto-tracks changes by default, it will store this change.
@@ -129,7 +129,7 @@ namespace WorldZero.Test.Integration
             newFaction.Members.Remove(newChar);
             this._context.SaveChanges();
 
-            // To load a collection that is a many-to-many (w/o a m-t-m model) you need to do some shit.
+            // To load a collection that is a many-to-many (w/o a m-t-m entity) you need to do some shit.
             // You need to eagerly load the collection - this is really janky.
             var xTask = this._context.Tasks
                                     .Include(t => t.Flags) // or:  => t.Flags == somethi
@@ -141,11 +141,11 @@ namespace WorldZero.Test.Integration
             // You can set a releation w/ either the foriegn key or the object.
             var newMetaTask = new MetaTask()
             {
-                FactionName = newFaction.FactionName,
-                MetaTaskName = "Pizza",
+                FactionId = newFaction.Id,
+                Name = "Pizza",
                 Description = "Eat a pizza too.",
                 Bonus = 100000,
-                StatusName = newStatus.StatusName
+                StatusId = newStatus.Id
             };
             this._context.MetaTasks.Add(newMetaTask);
             this._context.SaveChanges();
@@ -164,8 +164,8 @@ namespace WorldZero.Test.Integration
 
             var newVote = new Vote()
             {
-                PraxisId = newPraxis.PraxisId,
-                CharacterId = newChar.CharacterId,
+                PraxisId = newPraxis.Id,
+                CharacterId = newChar.Id,
                 Points = 3
             };
             this._context.Votes.Add(newVote);
@@ -173,8 +173,8 @@ namespace WorldZero.Test.Integration
 
             var newComment = new Comment()
             {
-                PraxisId = newPraxis.PraxisId,
-                CharacterId = newChar.CharacterId,
+                PraxisId = newPraxis.Id,
+                CharacterId = newChar.Id,
                 Value = "This looks great!"
             };
             this._context.Comments.Add(newComment);

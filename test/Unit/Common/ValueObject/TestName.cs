@@ -29,5 +29,13 @@ namespace WorldZero.Test.Unit.Common.ValueObject
             Assert.Throws<ArgumentException>(()=>new Name(""));
             Assert.Throws<ArgumentException>(()=>new Name("             "));
         }
+
+        [Test]
+        public void TestMaxLength()
+        {
+            Assert.IsTrue(Name.MaxLength == 25, "Name's MaxLength has been changed, these tests are going to fail - update these tests.");
+            new Name("1234567890123456789012345");
+            Assert.Throws<ArgumentException>(()=>new Name("12345678901234567890123456"));
+        }
     }
 }

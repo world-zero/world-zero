@@ -7,8 +7,8 @@ using System;
 
 namespace WorldZero.Data.Repository
 {
-    ///<inheritdoc cref="IModelRepo"/>
-    public class EFCoreRepo<T> : IModelRepo<T> where T : IModel
+    /// <inheritdoc cref="IEntityRepo"/>
+    public class EFCoreRepo<T> : IEntityRepo<T> where T : IEntity
     {
         private W0Context _context;
         private DbSet<T> _table;
@@ -23,7 +23,7 @@ namespace WorldZero.Data.Repository
             try { this._table.ToString(); }
             catch (InvalidOperationException)
             {
-                throw new ArgumentException("An IModel that is not in the database was supplied.");
+                throw new ArgumentException("An IEntity that is not in the database was supplied.");
             }
         }
 

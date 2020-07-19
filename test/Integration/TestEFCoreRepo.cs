@@ -1,7 +1,7 @@
 using System.Linq;
 using System.Collections.ObjectModel;
 using WorldZero.Common.Interface;
-using WorldZero.Common.Model;
+using WorldZero.Common.Entity;
 using WorldZero.Data;
 using WorldZero.Data.Repository;
 using NUnit.Framework;
@@ -54,19 +54,19 @@ namespace WorldZero.Test.Integration
         {
             var p0 = new Player()
             {
-                Username = "Jack"
+                Name = "Jack"
             };
             this._repo.Insert(p0);
             Assert.IsTrue(this._local.Contains(p0));
-            Assert.AreEqual(p0.PlayerId, 0);
+            Assert.AreEqual(p0.Id, 0);
 
             this._repo.Save();
-            Assert.AreEqual(1, p0.PlayerId);
+            Assert.AreEqual(1, p0.Id);
 
             var _otherRepoConnection = this._newRepoConnection();
             var p1 = _otherRepoConnection.GetById(1);
-            Assert.AreEqual(p0.PlayerId, p1.PlayerId);
-            Assert.AreEqual(p0.Username, p1.Username);
+            Assert.AreEqual(p0.Id, p1.Id);
+            Assert.AreEqual(p0.Name, p1.Name);
             Assert.AreEqual(p0.IsBlocked, p1.IsBlocked);
         }
 
@@ -76,12 +76,12 @@ namespace WorldZero.Test.Integration
         public void c_TestUpdateSave()
         {
             var p0 = this._repo.GetById(1);
-            p0.Username = "Hal";
+            p0.Name = "Hal";
             this._repo.Update(p0);
             this._repo.Save();
             var _otherRepoConnection = this._newRepoConnection();
             var p1 = _otherRepoConnection.GetById(1);
-            Assert.AreEqual(p0.Username, p1.Username);
+            Assert.AreEqual(p0.Name, p1.Name);
         }
 
         [Test]
@@ -97,7 +97,7 @@ namespace WorldZero.Test.Integration
         {
             var p0 = new Player()
             {
-                Username = "Chair",
+                Name = "Chair",
                 IsBlocked = true
             };
             this._repo.Insert(p0);
@@ -116,5 +116,5 @@ namespace WorldZero.Test.Integration
         }
     }
 
-    public class BadModel : IModel { }
+    public class BadModel : IEntity { }
 }
