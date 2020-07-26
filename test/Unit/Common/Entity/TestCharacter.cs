@@ -1,7 +1,4 @@
-using System.Collections.Generic;
-using System.ComponentModel;
 using WorldZero.Common.Entity;
-using WorldZero.Common.ValueObject;
 using NUnit.Framework;
 using System;
 
@@ -20,7 +17,7 @@ namespace WorldZero.Test.Unit.Common.Entity
         private int _totalPoints;
         private int _votePointsLeft;
         private int _locationId;
-        private int _factionId;
+        private string _factionId;
 
         [SetUp]
         public void SetUp()
@@ -36,7 +33,7 @@ namespace WorldZero.Test.Unit.Common.Entity
             // calculated on request.
             this._votePointsLeft = 100;
             this._locationId = 30;
-            this._factionId = 4322;
+            this._factionId = "Hal's Angels";
 
             this._c = new Character();
             this._c.PlayerId = this._playerId;
@@ -239,10 +236,11 @@ namespace WorldZero.Test.Unit.Common.Entity
         public void TestFactionId()
         {
             Assert.AreEqual(this._factionId, this._c.FactionId);
-            this._c.FactionId = 0;
-            Assert.AreEqual(0, this._c.FactionId);
-            Assert.Throws<ArgumentException>(()=>this._c.FactionId = -1);
-            Assert.AreEqual(0, this._c.FactionId);
+            this._c.FactionId = "Jack's Jackles";
+            Assert.AreEqual("Jack's Jackles", this._c.FactionId);
+            Assert.Throws<ArgumentException>(()=>this._c.FactionId = "");
+            Assert.Throws<ArgumentException>(()=>this._c.FactionId = "   ");
+            Assert.AreEqual("Jack's Jackles", this._c.FactionId);
 
             this._c.FactionId = null;
             Assert.IsNull(this._c.FactionId);

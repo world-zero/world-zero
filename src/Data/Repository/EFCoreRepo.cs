@@ -7,6 +7,7 @@ using System;
 
 namespace WorldZero.Data.Repository
 {
+    /*
     /// <inheritdoc cref="IEntityRepo"/>
     public class EFCoreRepo<T> : IEntityRepo<T> where T : IEntity
     {
@@ -59,4 +60,5 @@ namespace WorldZero.Data.Repository
             this._context.SaveChanges();
         }
     }
+    */
 }

@@ -1,31 +1,27 @@
 using WorldZero.Common.ValueObject;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WorldZero.Common.Interface
 {
+    /// <inheritdoc cref="IEntity">
     /// <summary>
-    /// This class is an entity with a name as well as an ID. This name is a
-    /// wrapper around a Name value object.
+    /// This class is used for entities that have a `Name` primary key.
     /// </summary>
-    public abstract class INamedEntity : IEntity
+    public abstract class INamedEntity : IEntity<string>
     {
-        [Required, MaxLength(ValueObject.Name.MaxLength)]
+        // TODO: will the annodations stack like they do normally?
+        [MaxLength(ValueObject.Name.MaxLength)]
         /// <summary>
-        /// Name is a wrapper for a <c>Name</c> - no exceptions are
-        /// caught. Enforcing the uniqueness of a name is left to the repo.
         /// </summary>
-        public string Name
+        public override string Id
         {
             get
             {
                 return this.Eval<string>(
-                    (ISingleValueObject<string>) this._name,
+                    (ISingleValueObject<string>) this._id,
                     null);
             }
-            set { this._name = new Name(value); }
+            set { this._id = new Name(value); }
         }
-        [NotMapped]
-        private Name _name;
     }
 }

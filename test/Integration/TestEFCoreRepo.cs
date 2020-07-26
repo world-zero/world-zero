@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using WorldZero.Common.Interface;
 using WorldZero.Common.Entity;
 using WorldZero.Data;
-using WorldZero.Data.Repository;
+//using WorldZero.Data.Repository;
 using NUnit.Framework;
 using System;
 
@@ -14,6 +14,7 @@ using System;
 namespace WorldZero.Test.Integration
 {
     // TODO: be sure not to push your credentials
+    /*
     [TestFixture]
     public class TestEFCoreRepo
     {
@@ -117,4 +118,5 @@ namespace WorldZero.Test.Integration
     }
 
     public class BadModel : IEntity { }
+    */
 }

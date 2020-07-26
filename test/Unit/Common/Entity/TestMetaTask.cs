@@ -9,27 +9,24 @@ namespace WorldZero.Test.Unit.Common.Entity
     {
         private MetaTask _mt;
         private int _metaTaskId;
-        private string _name;
         private string _desc;
         private double _bonus;
         private bool _isFlat;
-        private int _factionId;
-        private int _statusId;
+        private string _factionId;
+        private string _statusId;
 
         [SetUp]
         public void Setup()
         {
             this._metaTaskId = 19;
-            this._name = "< 30 minute speedrun";
             this._desc = "Complete this task in under 30 minutes.";
             this._bonus = 50;
             this._isFlat = true;
-            this._factionId = 9;
-            this._statusId = 10;
+            this._factionId = "a faction";
+            this._statusId = "valid";
 
             this._mt = new MetaTask();
             this._mt.Id = this._metaTaskId;
-            this._mt.Name = this._name;
             this._mt.Description = this._desc;
             this._mt.Bonus = this._bonus;
             this._mt.IsFlatBonus = this._isFlat;
@@ -42,12 +39,11 @@ namespace WorldZero.Test.Unit.Common.Entity
         {
             var mt = new MetaTask();
             Assert.AreEqual(mt.Id, 0);
-            Assert.IsNull(mt.Name);
             Assert.IsNull(mt.Description);
             Assert.AreEqual(mt.Bonus, 0);
             Assert.AreEqual(mt.IsFlatBonus, true);
             Assert.IsNull(mt.Faction);
-            Assert.AreEqual(mt.FactionId, 0);
+            Assert.IsNull(mt.FactionId);
             Assert.IsNull(mt.Status);
             Assert.IsNull(mt.StatusId);
         }
@@ -60,18 +56,6 @@ namespace WorldZero.Test.Unit.Common.Entity
             Assert.AreEqual(0, this._mt.Id);
             Assert.Throws<ArgumentException>(()=>this._mt.Id = -1);
             Assert.AreEqual(0, this._mt.Id);
-        }
-
-        [Test]
-        public void TestName()
-        {
-            Assert.AreEqual(this._name, this._mt.Name);
-            this._mt.Name = "Test";
-            Assert.AreEqual("Test", this._mt.Name);
-            Assert.Throws<ArgumentException>(()=>this._mt.Name = null);
-            Assert.Throws<ArgumentException>(()=>this._mt.Name = "");
-            Assert.Throws<ArgumentException>(()=>this._mt.Name = "     ");
-            Assert.AreEqual("Test", this._mt.Name);
         }
 
         [Test]
@@ -91,20 +75,23 @@ namespace WorldZero.Test.Unit.Common.Entity
         public void TestFactionId()
         {
             Assert.AreEqual(this._factionId, this._mt.FactionId);
-            this._mt.FactionId = 0;
-            Assert.AreEqual(0, this._mt.FactionId);
-            Assert.Throws<ArgumentException>(()=>this._mt.FactionId = -1);
-            Assert.AreEqual(0, this._mt.FactionId);
+            this._mt.FactionId = "asdf";
+            Assert.AreEqual("asdf", this._mt.FactionId);
+            Assert.Throws<ArgumentException>(()=>this._mt.FactionId = null);
+            Assert.Throws<ArgumentException>(()=>this._mt.FactionId = "");
+            Assert.Throws<ArgumentException>(()=>this._mt.FactionId = "    ");
+            Assert.AreEqual("asdf", this._mt.FactionId);
         }
 
         [Test]
         public void TestStatusId()
         {
             Assert.AreEqual(this._statusId, this._mt.StatusId);
-            this._mt.StatusId = 0;
-            Assert.AreEqual(0, this._mt.StatusId);
-            Assert.Throws<ArgumentException>(()=>this._mt.StatusId = -1);
-            Assert.AreEqual(0, this._mt.StatusId);
+            this._mt.StatusId = "asdffdsa";
+            Assert.AreEqual("asdffdsa", this._mt.StatusId);
+            Assert.Throws<ArgumentException>(()=>this._mt.StatusId = "");
+            Assert.Throws<ArgumentException>(()=>this._mt.StatusId = "    ");
+            Assert.AreEqual("asdffdsa", this._mt.StatusId);
 
             this._mt.StatusId = null;
             Assert.IsNull(this._mt.StatusId);

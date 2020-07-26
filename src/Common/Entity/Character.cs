@@ -11,7 +11,7 @@ namespace WorldZero.Common.Entity
     /// Character is a entity for a tuple of the Character table, with
     /// collections for it's various *-to-many relations.
     /// </summary>
-    public class Character : INamedEntity
+    public class Character : IIdNamedEntity
     {
         /// <summary>
         /// Determine the level based off the number of points supplied.
@@ -180,29 +180,25 @@ namespace WorldZero.Common.Entity
         internal virtual Location Location { get; set; }
 
         /// <summary>
-        /// FactionId is a wrapper for an <c>Id</c> - no exceptions are
+        /// FactionId is a wrapper for a <c>Name</c> - no exceptions are
         /// caught.
         /// </summary>
-        public virtual int? FactionId
+        public virtual string FactionId
         {
             get
             {
-                int r = this.Eval<int>(
-                    (ISingleValueObject<int>) this._factionId,
-                    -1);
-                if (r == -1) return null;
-                else         return r;
+                return this.Eval<string>(
+                    (ISingleValueObject<string>) this._factionId,
+                    null);
             }
             set
             {
-                if (value != null)
-                    this._factionId = new Id((int) value);
-                else
-                    this._factionId = null;
+                if (value == null) this._factionId = null;
+                else               this._factionId = new Name(value);
             }
         }
         [NotMapped]
-        private Id _factionId;
+        private Name _factionId;
 
         [ForeignKey("FactionId")]
         internal virtual Faction Faction { get; set; }

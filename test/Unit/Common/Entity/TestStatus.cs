@@ -16,27 +16,27 @@ namespace WorldZero.Test.Unit.Common.Entity
             this._name = "boop";
 
             this._s = new Status();
-            this._s.Name = this._name;
+            this._s.Id = this._name;
         }
 
         [Test]
         public void TestDefaultValues()
         {
             var s = new Status();
-            Assert.IsNull(s.Name);
+            Assert.IsNull(s.Id);
             Assert.IsNull(s.Description);
         }
 
         [Test]
-        public void TestName()
+        public void TestId()
         {
-            Assert.AreEqual(this._name, this._s.Name);
-            this._s.Name = "Test";
-            Assert.AreEqual("Test", this._s.Name);
-            Assert.Throws<ArgumentException>(()=>this._s.Name = null);
-            Assert.Throws<ArgumentException>(()=>this._s.Name = "");
-            Assert.Throws<ArgumentException>(()=>this._s.Name = "     ");
-            Assert.AreEqual("Test", this._s.Name);
+            Assert.AreEqual(this._name, this._s.Id);
+            this._s.Id = "Test";
+            Assert.AreEqual("Test", this._s.Id);
+            Assert.Throws<ArgumentException>(()=>this._s.Id = null);
+            Assert.Throws<ArgumentException>(()=>this._s.Id = "");
+            Assert.Throws<ArgumentException>(()=>this._s.Id = "     ");
+            Assert.AreEqual("Test", this._s.Id);
         }
     }
 }

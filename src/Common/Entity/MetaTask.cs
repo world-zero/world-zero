@@ -12,7 +12,7 @@ namespace WorldZero.Common.Entity
     /// MetaTask is a entity for a tuple of the MetaTask table, with
     /// collections for it's various *-to-many relations.
     /// </summary>
-    public class MetaTask : INamedEntity
+    public class MetaTask : IIdEntity
     {
         [Required]
         /// <summary>
@@ -48,50 +48,46 @@ namespace WorldZero.Common.Entity
 
         [Required]
         /// <summary>
-        /// FactionId is a wrapper for an <c>Id</c> - no exceptions are
+        /// FactionId is a wrapper for a <c>Name</c> - no exceptions are
         /// caught.
         /// </summary>
-        public virtual int FactionId
+        public virtual string FactionId
         {
             get
             {
-                return this.Eval<int>(
-                    (ISingleValueObject<int>) this._factionId,
-                    0);
+                return this.Eval<string>(
+                    (ISingleValueObject<string>) this._factionId,
+                    null);
             }
-            set { this._factionId = new Id(value); }
+            set { this._factionId = new Name(value); }
         }
         [NotMapped]
-        private Id _factionId;
+        private Name _factionId;
 
         [ForeignKey("FactionId")]
         internal virtual Faction Faction { get; set; }
 
         // Pretend this is required.
         /// <summary>
-        /// StatusId is a wrapper for an <c>Id</c> - no exceptions are
+        /// StatusId is a wrapper for a <c>Name</c> - no exceptions are
         /// caught.
         /// </summary>
-        public virtual int? StatusId
+        public virtual string StatusId
         {
             get
             {
-                int r = this.Eval<int>(
-                    (ISingleValueObject<int>) this._statusId,
-                    -1);
-                if (r == -1) return null;
-                else         return r;
+                return this.Eval<string>(
+                    (ISingleValueObject<string>) this._statusId,
+                    null);
             }
             set
             {
-                if (value != null)
-                    this._statusId = new Id((int) value);
-                else
-                    this._statusId = null;
+                if (value == null) this._statusId = null;
+                else               this._statusId = new Name((string) value);
             }
         }
         [NotMapped]
-        private Id _statusId;
+        private Name _statusId;
 
         [ForeignKey("StatusId")]
         internal virtual Status Status { get; set; }

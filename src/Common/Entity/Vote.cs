@@ -10,7 +10,7 @@ namespace WorldZero.Common.Entity
     /// Vote is a entity for a tuple of the Vote table, with
     /// collections for it's various *-to-many relations.
     /// </summary>
-    public class Vote : IEntity
+    public class Vote : IIdEntity
     {
         [Required]
         /// <summary>

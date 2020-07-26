@@ -12,7 +12,7 @@ namespace WorldZero.Common.Entity
     /// Comment is a entity for a tuple of the Comment table, with
     /// collections for it's various *-to-many relations.
     /// </summary>
-    public class Comment : IEntity
+    public class Comment : IIdEntity
     {
         [Required]
         /// <summary>
@@ -68,9 +68,14 @@ namespace WorldZero.Common.Entity
         {
             get
             {
-                return this.Eval<DateTime>(
+                // This is done because if a creation date isn't set, it can't
+                // be later than the first time it is being accessed, so it is
+                // set.
+                DateTime val = this.Eval<DateTime>(
                     (ISingleValueObject<DateTime>) this._dateCreated,
                     DateTime.UtcNow);
+                this._dateCreated = new PastDate(val);
+                return val;
             }
             set { this._dateCreated = new PastDate(value); }
         }

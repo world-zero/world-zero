@@ -1,5 +1,4 @@
 using WorldZero.Common.Interface;
-using WorldZero.Common.ValueObject;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -11,7 +10,7 @@ namespace WorldZero.Common.Entity
     /// Player is a entity for a tuple of the Player table, with
     /// collections for it's various *-to-many relations.
     /// </summary>
-    public class Player : INamedEntity
+    public class Player : IIdNamedEntity
     {
         [Required]
         /// <summary>

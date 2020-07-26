@@ -11,7 +11,7 @@ namespace WorldZero.Common.Entity
     /// Location is a entity for a tuple of the Location table, with
     /// collections for it's various *-to-many relations.
     /// </summary>
-    public class Location : IEntity
+    public class Location : IIdEntity
     {
         [Required]
         /// <summary>

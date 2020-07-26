@@ -1,4 +1,3 @@
-using WorldZero.Common.ValueObject;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -10,33 +9,22 @@ using System.Runtime.CompilerServices;
 namespace WorldZero.Common.Interface
 {
     /// <summary>
-    /// IEntity is the parent that the different entity implementations. This
-    /// does no special work to compare two entities.
+    /// This is the interface for an Entity with an Id.
     /// </summary>
     /// <remarks>
     /// Again, because of not wanting to fight EF Core even more than I already
     /// have, this will use a value object ID field with a primative property.
     /// </remarks>
-    public abstract class IEntity
+    public abstract class IEntity<T>
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
         /// <summary>
-        /// Id is a wrapper for an <c>Id</c> - no exceptions are caught.
-        /// Enforcing the uniqueness of an ID of a particular entity is left to
-        /// the repository of that entity.
         /// </summary>
-        public int Id
-        {
-            get
-            {
-                return this.Eval<int>(
-                    (ISingleValueObject<int>) this._id,
-                    0);
-            }
-            set { this._id = new Id(value); }
-        }
+        /// <value>The result of the underlying ISingleValueObject.</value>
+        public abstract T Id { get; set; }
         [NotMapped]
-        private Id _id;
+        protected ISingleValueObject<T> _id;
+
 
         /// <summary>
         /// This method will concisely return the value stored in the passed
@@ -61,7 +49,7 @@ namespace WorldZero.Common.Interface
         /// Assert.AreEqual("Pie", result);
         /// </code>
         /// </example>
-        protected T Eval<T>(ISingleValueObject<T> svo, T other)
+        protected T0 Eval<T0>(ISingleValueObject<T0> svo, T0 other)
         {
             if (svo != null)
                 return svo.Get;

@@ -48,16 +48,16 @@ namespace WorldZero.Test.Integration
             var otherPlayer = new Player() { Name="Zel" };
             var newFaction = new Faction()
             {
-                Name = "DIO",
+                Id = "DIO",
                 Description = "The vampire from Jojo's bizarre adventure",
                 AbilityName = "The World",
                 AbilityDesc = "Stop time"
             };
 
-            var newEra = new Era() { Name = "The Beginning" };
-            var newStatus = new Status() { Name = "Incomplete" };
-            var newFlag = new Flag() { Name = "Gross" };
-            var newTag = new Tag() { Name = "#pizza" };
+            var newEra = new Era() { Id = "The Beginning" };
+            var newStatus = new Status() { Id = "Incomplete" };
+            var newFlag = new Flag() { Id = "Gross" };
+            var newTag = new Tag() { Id = "#pizza" };
             var newTask = new Task()
             {
                 Summary = "test task",
@@ -95,7 +95,7 @@ namespace WorldZero.Test.Integration
             this._context.SaveChanges();
             //Console.WriteLine(newChar.FactionName);
             // We can just grab the first since that's the key.
-            foreach (Character c in this._context.Factions.Where(f => f.Name == "DIO").First().Members)
+            foreach (Character c in this._context.Factions.Where(f => f.Id == "DIO").First().Members)
             {
                 // These both work, but do slightly different things.
                 //Console.WriteLine($"DIO minion: {c.PlayerId}@{c.Name}");
@@ -142,7 +142,6 @@ namespace WorldZero.Test.Integration
             var newMetaTask = new MetaTask()
             {
                 FactionId = newFaction.Id,
-                Name = "Pizza",
                 Description = "Eat a pizza too.",
                 Bonus = 100000,
                 StatusId = newStatus.Id

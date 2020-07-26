@@ -11,7 +11,7 @@ namespace WorldZero.Test.Unit.Common.Entity
         private Praxis _p;
         private int _praxisId;
         private int _taskId;
-        private int _statusId;
+        private string _statusId;
 
         [SetUp]
         public void Setup()
@@ -19,7 +19,7 @@ namespace WorldZero.Test.Unit.Common.Entity
             this._praxisId = 19999;
             this._taskId = 939;
             // AreDueling is weird so it is not set here.
-            this._statusId = 4323;
+            this._statusId = "valid";
 
             this._p = new Praxis();
             this._p.Id = this._praxisId;
@@ -90,10 +90,12 @@ namespace WorldZero.Test.Unit.Common.Entity
         public void TestStatusId()
         {
             Assert.AreEqual(this._statusId, this._p.StatusId);
-            this._p.StatusId = 0;
-            Assert.AreEqual(0, this._p.StatusId);
-            Assert.Throws<ArgumentException>(()=>this._p.StatusId = -1);
-            Assert.AreEqual(0, this._p.StatusId);
+            this._p.StatusId = "invalid";
+            Assert.AreEqual("invalid", this._p.StatusId);
+            Assert.Throws<ArgumentException>(()=>this._p.StatusId = null);
+            Assert.Throws<ArgumentException>(()=>this._p.StatusId = "");
+            Assert.Throws<ArgumentException>(()=>this._p.StatusId = "     ");
+            Assert.AreEqual("invalid", this._p.StatusId);
         }
     }
 }

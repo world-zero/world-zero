@@ -20,7 +20,7 @@ namespace WorldZero.Test.Unit.Common.Entity
             this._endDate = DateTime.UtcNow;
 
             this._e = new Era();
-            this._e.Name = this._name;
+            this._e.Id = this._name;
             this._e.StartDate = this._startDate;
             this._e.EndDate = this._endDate;
         }
@@ -31,20 +31,20 @@ namespace WorldZero.Test.Unit.Common.Entity
             var e = new Era();
             // Ignore the minutes/milliseconds/seconds so this test doesn't fail.
             Assert.AreEqual(e.StartDate.ToString("MM:dd:yyyy HH"), DateTime.UtcNow.ToString("MM:dd:yyyy HH"));
-            Assert.IsNull(e.Name);
+            Assert.IsNull(e.Id);
             Assert.IsNull(e.EndDate);
         }
 
         [Test]
-        public void TEstName()
+        public void TEstId()
         {
-            Assert.AreEqual(this._name, this._e.Name);
-            this._e.Name = "Test";
-            Assert.AreEqual("Test", this._e.Name);
-            Assert.Throws<ArgumentException>(()=>this._e.Name = null);
-            Assert.Throws<ArgumentException>(()=>this._e.Name = "");
-            Assert.Throws<ArgumentException>(()=>this._e.Name = "     ");
-            Assert.AreEqual("Test", this._e.Name);
+            Assert.AreEqual(this._name, this._e.Id);
+            this._e.Id = "Test";
+            Assert.AreEqual("Test", this._e.Id);
+            Assert.Throws<ArgumentException>(()=>this._e.Id = null);
+            Assert.Throws<ArgumentException>(()=>this._e.Id = "");
+            Assert.Throws<ArgumentException>(()=>this._e.Id = "     ");
+            Assert.AreEqual("Test", this._e.Id);
         }
 
         [Test]

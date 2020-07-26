@@ -12,7 +12,7 @@ namespace WorldZero.Common.Entity
     /// Task is a entity for a tuple of the Task table, with
     /// collections for it's various *-to-many relations.
     /// </summary>
-    public class Task : IEntity
+    public class Task : IIdEntity
     {
         [Required]
         /// <summary>
@@ -102,42 +102,42 @@ namespace WorldZero.Common.Entity
 
         [Required]
         /// <summary>
-        /// FactionId is a wrapper for an <c>Id</c> - no exceptions are
+        /// FactionId is a wrapper for a <c>Name</c> - no exceptions are
         /// caught.
         /// </summary>
-        public virtual int FactionId
+        public virtual string FactionId
         {
             get
             {
-                return this.Eval<int>(
-                    (ISingleValueObject<int>) this._factionId,
-                    0);
+                return this.Eval<string>(
+                    (ISingleValueObject<string>) this._factionId,
+                    null);
             }
-            set { this._factionId = new Id(value); }
+            set { this._factionId = new Name(value); }
         }
         [NotMapped]
-        private Id _factionId;
+        private Name _factionId;
 
         [ForeignKey("FactionId")]
         internal virtual Faction Faction { get; set; }
 
         [Required]
         /// <summary>
-        /// StatusId is a wrapper for an <c>Id</c> - no exceptions are
+        /// StatusId is a wrapper for a <c>Name</c> - no exceptions are
         /// caught.
         /// </summary>
-        public virtual int StatusId
+        public virtual string StatusId
         {
             get
             {
-                return this.Eval<int>(
-                    (ISingleValueObject<int>) this._statusId,
-                    0);
+                return this.Eval<string>(
+                    (ISingleValueObject<string>) this._statusId,
+                    null);
             }
-            set { this._statusId = new Id(value); }
+            set { this._statusId = new Name(value); }
         }
         [NotMapped]
-        private Id _statusId;
+        private Name _statusId;
 
         [ForeignKey("StatusId")]
         internal virtual Status Status { get; set; }

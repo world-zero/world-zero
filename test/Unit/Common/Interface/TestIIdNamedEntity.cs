@@ -1,14 +1,14 @@
-using System;
-using WorldZero.Common.ValueObject;
 using WorldZero.Common.Interface;
+using WorldZero.Common.ValueObject;
+using System;
 using NUnit.Framework;
 
 namespace WorldZero.Test.Unit.Common.Interface
 {
     [TestFixture]
-    public class TestINamedEntity
+    public class TestIIdNamedEntity
     {
-        private TestNamedEntity _e;
+        private TestIdNamedEntity _e;
         private int _id;
         private Name _name;
 
@@ -17,7 +17,7 @@ namespace WorldZero.Test.Unit.Common.Interface
         {
             this._id = 1;
             this._name = new Name("Pizza");
-            this._e = new TestNamedEntity()
+            this._e = new TestIdNamedEntity()
             {
                 Id = this._id,
                 Name = this._name.Get
@@ -37,5 +37,5 @@ namespace WorldZero.Test.Unit.Common.Interface
         }
     }
 
-    public class TestNamedEntity : INamedEntity { }
+    public class TestIdNamedEntity : IIdNamedEntity { }
 }

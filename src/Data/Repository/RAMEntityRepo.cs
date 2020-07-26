@@ -6,6 +6,7 @@ using System;
 
 namespace WorldZero.Data.Repository
 {
+    /*
     /// <inheritdoc cref="IEntityRepo"/>
     /// <summary>
     /// As the name suggests, this repo holds the entities in memory, with
@@ -117,4 +118,5 @@ namespace WorldZero.Data.Repository
             this._saved[id] = entity;
         }
     }
+    */
 }

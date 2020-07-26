@@ -2,13 +2,14 @@ using System.Collections.Generic;
 
 namespace WorldZero.Common.Interface
 {
-    public interface IGenericRepo<T> where T : class
+    public interface IGenericRepo<ClassType, IdType>
+        where ClassType : class
     {
-        IEnumerable<T> GetAll();
-        T GetById(object id);
-        void Delete(object id);
-        void Insert(T obj);
-        void Update(T obj);
+        IEnumerable<ClassType> GetAll();
+        ClassType GetById(IdType id);
+        void Delete(IdType id);
+        void Insert(ClassType obj);
+        void Update(ClassType obj);
         void Save();
     }
 }

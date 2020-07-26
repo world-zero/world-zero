@@ -95,17 +95,10 @@ namespace WorldZero.Data
 
         private void _setupEra(DbModelBuilder entityBuilder)
         {
-            entityBuilder.Entity<Era>()
-                .HasIndex(u => u.Name)
-                .IsUnique();
         }
 
         private void _setupFaction(DbModelBuilder entityBuilder)
         {
-            entityBuilder.Entity<Faction>()
-                .HasIndex(u => u.Name)
-                .IsUnique();
-
             entityBuilder.Entity<Faction>()
                 .HasMany(u => u.Members);
             entityBuilder.Entity<Faction>()
@@ -116,10 +109,6 @@ namespace WorldZero.Data
 
         private void _setupFlag(DbModelBuilder entityBuilder)
         {
-            entityBuilder.Entity<Flag>()
-                .HasIndex(u => u.Name)
-                .IsUnique();
-
             entityBuilder.Entity<Flag>()
                 .HasMany(u => u.Tasks);
             entityBuilder.Entity<Flag>()
@@ -155,10 +144,6 @@ namespace WorldZero.Data
 
         private void _setupMetaTask(DbModelBuilder entityBuilder)
         {
-            entityBuilder.Entity<MetaTask>()
-                .HasIndex(u => u.Name)
-                .IsUnique();
-
             entityBuilder.Entity<MetaTask>()
                 .HasRequired(u => u.Faction);
             entityBuilder.Entity<MetaTask>()
@@ -203,10 +188,6 @@ namespace WorldZero.Data
         private void _setupStatus(DbModelBuilder entityBuilder)
         {
             entityBuilder.Entity<Status>()
-                .HasIndex(u => u.Name)
-                .IsUnique();
-
-            entityBuilder.Entity<Status>()
                 .HasMany(u => u.Tasks);
             entityBuilder.Entity<Status>()
                 .HasMany(u => u.Praxises);
@@ -216,10 +197,6 @@ namespace WorldZero.Data
 
         private void _setupTag(DbModelBuilder entityBuilder)
         {
-            entityBuilder.Entity<Tag>()
-                .HasIndex(u => u.Name)
-                .IsUnique();
-
             entityBuilder.Entity<Tag>()
                 .HasMany(u => u.Tasks);
             entityBuilder.Entity<Tag>()

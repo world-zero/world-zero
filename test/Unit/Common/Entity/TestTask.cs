@@ -13,8 +13,8 @@ namespace WorldZero.Test.Unit.Common.Entity
         private int _points;
         private int _level;
         private int _minLevel;
-        private int _factionId;
-        private int _statusId;
+        private string _factionId;
+        private string _statusId;
 
         [SetUp]
         public void Setup()
@@ -24,8 +24,8 @@ namespace WorldZero.Test.Unit.Common.Entity
             this._points = 1000;
             this._level = 5;
             this._minLevel = 3;
-            this._factionId = 9;
-            this._statusId = 20;
+            this._factionId = "foo";
+            this._statusId = "bar";
 
             this._t = new Task();
             this._t.Id = this._taskId;
@@ -105,20 +105,24 @@ namespace WorldZero.Test.Unit.Common.Entity
         public void TestFactionId()
         {
             Assert.AreEqual(this._factionId, this._t.FactionId);
-            this._t.FactionId = 0;
-            Assert.AreEqual(0, this._t.FactionId);
-            Assert.Throws<ArgumentException>(()=>this._t.FactionId = -1);
-            Assert.AreEqual(0, this._t.FactionId);
+            this._t.FactionId = "kennel";
+            Assert.AreEqual("kennel", this._t.FactionId);
+            Assert.Throws<ArgumentException>(()=>this._t.FactionId = null);
+            Assert.Throws<ArgumentException>(()=>this._t.FactionId = "");
+            Assert.Throws<ArgumentException>(()=>this._t.FactionId = "   ");
+            Assert.AreEqual("kennel", this._t.FactionId);
         }
 
         [Test]
         public void TestStatusId()
         {
             Assert.AreEqual(this._statusId, this._t.StatusId);
-            this._t.StatusId = 0;
-            Assert.AreEqual(0, this._t.StatusId);
-            Assert.Throws<ArgumentException>(()=>this._t.StatusId = -1);
-            Assert.AreEqual(0, this._t.StatusId);
+            this._t.StatusId = "crate";
+            Assert.AreEqual("crate", this._t.StatusId);
+            Assert.Throws<ArgumentException>(()=>this._t.StatusId = null);
+            Assert.Throws<ArgumentException>(()=>this._t.StatusId = "");
+            Assert.Throws<ArgumentException>(()=>this._t.StatusId = "   ");
+            Assert.AreEqual("crate", this._t.StatusId);
         }
     }
 }

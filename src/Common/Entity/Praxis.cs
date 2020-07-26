@@ -11,7 +11,7 @@ namespace WorldZero.Common.Entity
     /// Praxis is a entity for a tuple of the Praxis table, with
     /// collections for it's various *-to-many relations.
     /// </summary>
-    public class Praxis : IEntity
+    public class Praxis : IIdEntity
     {
         // Pretend this is required.
         /// <summary>
@@ -62,21 +62,21 @@ namespace WorldZero.Common.Entity
 
         [Required]
         /// <summary>
-        /// StatusId is a wrapper for an <c>Id</c> - no exceptions are
+        /// StatusId is a wrapper for a <c>Name</c> - no exceptions are
         /// caught.
         /// </summary>
-        public virtual int StatusId
+        public virtual string StatusId
         {
             get
             {
-                return this.Eval<int>(
-                    (ISingleValueObject<int>) this._statusId,
-                    0);
+                return this.Eval<string>(
+                    (ISingleValueObject<string>) this._statusId,
+                    null);
             }
-            set { this._statusId = new Id(value); }
+            set { this._statusId = new Name(value); }
         }
         [NotMapped]
-        private Id _statusId;
+        private Name _statusId;
 
         [ForeignKey("StatusId")]
         internal virtual Status Status { get; set; }

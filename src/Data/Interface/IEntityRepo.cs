@@ -10,5 +10,7 @@ namespace WorldZero.Data.Interface
     /// <remarks>
     /// On Save(), entities with an int ID will have that value be set.
     /// </remarks>
-    public interface IEntityRepo<T> : IGenericRepo<T> where T : IEntity { }
+    public interface IEntityRepo<Entity, IdType> : IGenericRepo<Entity, IdType>
+        where Entity : IEntity<IdType>
+    { }
 }

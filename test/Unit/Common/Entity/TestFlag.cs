@@ -11,23 +11,23 @@ namespace WorldZero.Test.Unit.Common.Entity
         public void TestDefaultValues()
         {
             var f = new Flag();
-            Assert.IsNull(f.Name);
+            Assert.IsNull(f.Id);
             Assert.IsNull(f.Description);
         }
 
         [Test]
-        public void TestName()
+        public void TestId()
         {
             var f = new Flag();
             var expected = "Invalid.";
-            f.Name = expected;
-            Assert.AreEqual(expected, f.Name);
-            f.Name = "New";
-            Assert.AreEqual("New", f.Name);
-            Assert.Throws<ArgumentException>(()=>f.Name = null);
-            Assert.Throws<ArgumentException>(()=>f.Name = "");
-            Assert.Throws<ArgumentException>(()=>f.Name = "   ");
-            Assert.AreEqual("New", f.Name);
+            f.Id = expected;
+            Assert.AreEqual(expected, f.Id);
+            f.Id = "New";
+            Assert.AreEqual("New", f.Id);
+            Assert.Throws<ArgumentException>(()=>f.Id = null);
+            Assert.Throws<ArgumentException>(()=>f.Id = "");
+            Assert.Throws<ArgumentException>(()=>f.Id = "   ");
+            Assert.AreEqual("New", f.Id);
         }
     }
 }

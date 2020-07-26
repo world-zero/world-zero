@@ -20,7 +20,7 @@ namespace WorldZero.Test.Unit.Common.Entity
             this._dateFounded = DateTime.UtcNow;
 
             this._f = new Faction();
-            this._f.Name = this._name;
+            this._f.Id = this._name;
             this._f.AbilityName = this._abilityName;
             this._f.DateFounded = this._dateFounded;
         }
@@ -31,7 +31,7 @@ namespace WorldZero.Test.Unit.Common.Entity
             var f = new Faction();
             // Ignore the minutes/milliseconds/seconds so this test doesn't fail.
             Assert.AreEqual(f.DateFounded.ToString("MM:dd:yyyy HH"), DateTime.UtcNow.ToString("MM:dd:yyyy HH"));
-            Assert.IsNull(f.Name);
+            Assert.IsNull(f.Id);
             Assert.IsNull(f.Description);
             Assert.IsNull(f.AbilityName);
             Assert.IsNull(f.AbilityDesc);
@@ -40,13 +40,13 @@ namespace WorldZero.Test.Unit.Common.Entity
         [Test]
         public void TestName()
         {
-            Assert.AreEqual(this._name, this._f.Name);
-            this._f.Name = "DIO";
-            Assert.AreEqual("DIO", this._f.Name);
-            Assert.Throws<ArgumentException>(()=>this._f.Name = null);
-            Assert.Throws<ArgumentException>(()=>this._f.Name = "");
-            Assert.Throws<ArgumentException>(()=>this._f.Name = "   ");
-            Assert.AreEqual("DIO", this._f.Name);
+            Assert.AreEqual(this._name, this._f.Id);
+            this._f.Id = "DIO";
+            Assert.AreEqual("DIO", this._f.Id);
+            Assert.Throws<ArgumentException>(()=>this._f.Id = null);
+            Assert.Throws<ArgumentException>(()=>this._f.Id = "");
+            Assert.Throws<ArgumentException>(()=>this._f.Id = "   ");
+            Assert.AreEqual("DIO", this._f.Id);
         }
 
         [Test]

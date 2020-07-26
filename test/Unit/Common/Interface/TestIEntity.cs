@@ -9,26 +9,28 @@ namespace WorldZero.Test.Unit.Common.Interface
     public class TestIEntity
     {
         private TestEntity _e;
-        private int _id;
         private Name _name;
 
         [SetUp]
         public void CreateInstance()
         {
-            this._id = 1;
             this._name = new Name("Pizza");
             this._e = new TestEntity()
             {
-                Id = this._id
+                Id = this._name.Get
             };
         }
 
         [Test]
         public void TestId()
         {
-            Assert.IsTrue(this._e.Id == this._id);
-            this._e.Id = 0;
-            Assert.Throws<ArgumentException>(()=>this._e.Id = -1);
+            Assert.AreEqual(this._name.Get, this._e.Id);
+            this._e.Id = "Test";
+            Assert.AreEqual("Test", this._e.Id);
+            Assert.Throws<ArgumentException>(()=>this._e.Id = null);
+            Assert.Throws<ArgumentException>(()=>this._e.Id = "");
+            Assert.Throws<ArgumentException>(()=>this._e.Id = "     ");
+            Assert.AreEqual("Test", this._e.Id);
         }
 
         [Test]
@@ -42,8 +44,19 @@ namespace WorldZero.Test.Unit.Common.Interface
         }
     }
 
-    public class TestEntity : IEntity
+    public class TestEntity : IEntity<string>
     {
+        public override string Id
+        {
+            get
+            {
+                return this.Eval<string>(
+                    (ISingleValueObject<string>) this._id,
+                    null);
+            }
+            set { this._id = new Name(value); }
+        }
+
         public new T Eval<T>(ISingleValueObject<T> svo, T other)
         {
             return base.Eval(svo, other);
