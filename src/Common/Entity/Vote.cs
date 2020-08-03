@@ -1,4 +1,5 @@
 using WorldZero.Common.Interface;
+using WorldZero.Common.Interface.Entity;
 using WorldZero.Common.ValueObject;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;

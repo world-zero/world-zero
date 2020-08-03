@@ -1,4 +1,4 @@
-using WorldZero.Common.Interface;
+using WorldZero.Common.Interface.Entity;
 using WorldZero.Common.ValueObject;
 using WorldZero.Data.Interface;
 using System.Collections.Generic;

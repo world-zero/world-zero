@@ -1,4 +1,5 @@
 using WorldZero.Common.Interface;
+using WorldZero.Common.Interface.Entity;
 
 namespace WorldZero.Data.Interface
 {

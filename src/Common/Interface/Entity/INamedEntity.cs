@@ -1,7 +1,7 @@
 using WorldZero.Common.ValueObject;
 using System.ComponentModel.DataAnnotations;
 
-namespace WorldZero.Common.Interface
+namespace WorldZero.Common.Interface.Entity
 {
     /// <inheritdoc cref="IEntity">
     /// <summary>
@@ -9,9 +9,10 @@ namespace WorldZero.Common.Interface
     /// </summary>
     public abstract class INamedEntity : IEntity<string>
     {
-        // TODO: will the annodations stack like they do normally?
         [MaxLength(ValueObject.Name.MaxLength)]
         /// <summary>
+        /// The ID of this entity is a `Name`, and it is accessed via this
+        /// property.
         /// </summary>
         public override string Id
         {

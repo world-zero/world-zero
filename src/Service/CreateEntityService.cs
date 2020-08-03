@@ -1,4 +1,4 @@
-using WorldZero.Common.Interface;
+using WorldZero.Common.Interface.Entity;
 
 // TODO: when done with this class, learn DI to make sure I don't fuck up the others
 // also make ICreateEntityService

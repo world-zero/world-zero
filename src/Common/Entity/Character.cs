@@ -1,4 +1,6 @@
 using WorldZero.Common.Interface;
+using WorldZero.Common.Interface.Entity;
+using WorldZero.Common.Entity.Mappings;
 using WorldZero.Common.ValueObject;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -204,7 +206,8 @@ namespace WorldZero.Common.Entity
         internal virtual Faction Faction { get; set; }
 
         // These relations are handled via Fluent API.
-        internal virtual ICollection<Character> Friends { get; set; }
+        //internal virtual ICollection<Character> Friends { get; set; }
+        internal virtual ICollection<FriendMap> Friends { get; set; }
         internal virtual ICollection<Character> Foes { get; set; }
 
         internal virtual ICollection<Praxis> Praxises { get; set; }

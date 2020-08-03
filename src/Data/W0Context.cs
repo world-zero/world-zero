@@ -1,4 +1,5 @@
 ﻿using WorldZero.Common.Entity;
+using WorldZero.Common.Entity.Mappings;
 using WorldZero.Common.ValueObject;
 using System.Data.Entity;
 
@@ -14,6 +15,7 @@ namespace WorldZero.Data
         }
 
         public DbSet<Player> Players { get; set; }
+        public DbSet<FriendMap> Friends { get; set; }
         public DbSet<Character> Characters { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Faction> Factions { get; set; }
@@ -34,6 +36,7 @@ namespace WorldZero.Data
             // responsible for enforcing rules that are inter-entity, such as
             // Names and names needing to be unique.
             this._setupCharacter(entityBuilder);
+            this._setupFriends(entityBuilder);
             this._setupComment(entityBuilder);
             this._setupEra(entityBuilder);
             this._setupFaction(entityBuilder);
@@ -60,7 +63,6 @@ namespace WorldZero.Data
 
         private void _setupCharacter(DbModelBuilder entityBuilder)
         {
-
             entityBuilder.Entity<Character>()
                 .HasIndex(u => u.Name)
                 .IsUnique();
@@ -73,13 +75,29 @@ namespace WorldZero.Data
                 .HasOptional(u => u.Faction);
 
             entityBuilder.Entity<Character>()
-                .HasMany(u => u.Friends)
-                .WithMany()
-                .Map(u => u.ToTable("Friends"));
+                .HasMany(u => u.Friends);
+            // entityBuilder.Entity<Character>()
+            //     .HasMany(u => u.Friends)
+            //     .WithMany()
+            //     .Map(u => u.ToTable("Friends"));
             entityBuilder.Entity<Character>()
                 .HasMany(u => u.Foes)
                 .WithMany()
                 .Map(u => u.ToTable("Foes"));
+        }
+
+        private void _setupFriends(DbModelBuilder entityBuilder)
+        {
+            // TODO: make this a helper
+            entityBuilder.Entity<FriendMap>()
+                .HasIndex(u => new {u.LeftId, u.RightId})
+                .IsUnique();
+
+            // TODO: this needs to not cascade delete
+            entityBuilder.Entity<FriendMap>()
+                .HasRequired(u => u.LeftFriend);
+            entityBuilder.Entity<FriendMap>()
+                .HasRequired(u => u.RightFriend);
         }
 
         private void _setupComment(DbModelBuilder entityBuilder)

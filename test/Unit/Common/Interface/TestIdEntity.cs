@@ -1,5 +1,5 @@
 using System;
-using WorldZero.Common.Interface;
+using WorldZero.Common.Interface.Entity;
 using NUnit.Framework;
 
 namespace WorldZero.Test.Unit.Common.Interface
@@ -25,7 +25,9 @@ namespace WorldZero.Test.Unit.Common.Interface
         {
             Assert.IsTrue(this._e.Id == this._id);
             this._e.Id = 0;
+            Assert.IsTrue(this._e.Id == 0);
             Assert.Throws<ArgumentException>(()=>this._e.Id = -1);
+            Assert.IsTrue(this._e.Id == 0);
         }
     }
 

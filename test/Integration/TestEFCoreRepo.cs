@@ -1,6 +1,6 @@
 using System.Linq;
 using System.Collections.ObjectModel;
-using WorldZero.Common.Interface;
+using WorldZero.Common.Interface.Entity;
 using WorldZero.Common.Entity;
 using WorldZero.Data;
 //using WorldZero.Data.Repository;

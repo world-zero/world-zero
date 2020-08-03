@@ -11,6 +11,9 @@ value. As a result, `IEntity<T>` is extended to `IIdEntity`, which uses an int
 property wrapper around the `ISingleValueObject`, and `INamedEntity`, which
 uses a string property.
 
+For a similar reason, `IEntityMap` does not use the keys of the two entities as
+its ID.
+
 ## Navigation Properties on `IEntity` Implementations
 
 These are just so EF Core can more easily cooperate. They aren't a smell so

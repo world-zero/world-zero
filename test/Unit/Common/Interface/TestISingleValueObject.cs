@@ -1,5 +1,6 @@
 using System;
 using WorldZero.Common.Interface;
+using WorldZero.Common.Interface.Entity;
 using NUnit.Framework;
 
 namespace WorldZero.Test.Unit.Common.ValueObject

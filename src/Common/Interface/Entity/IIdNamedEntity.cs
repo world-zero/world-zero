@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using WorldZero.Common.ValueObject;
 using System.ComponentModel.DataAnnotations;
 
-namespace WorldZero.Common.Interface
+namespace WorldZero.Common.Interface.Entity
 {
     /// <inheritdoc cref="IIdEntity">
     /// <summary>
@@ -19,6 +19,8 @@ namespace WorldZero.Common.Interface
         [Required]
         [MaxLength(ValueObject.Name.MaxLength)]
         /// <summary>
+        /// This is a `Name` that is not an ID of an entity, but rather is a
+        /// `Name` that a repo must enforce to be unique.
         /// </summary>
         public string Name
         {

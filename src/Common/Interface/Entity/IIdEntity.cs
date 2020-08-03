@@ -1,8 +1,7 @@
 using WorldZero.Common.ValueObject;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WorldZero.Common.Interface
+namespace WorldZero.Common.Interface.Entity
 {
     /// <inheritdoc cref="IEntity">
     /// <summary>
@@ -10,9 +9,10 @@ namespace WorldZero.Common.Interface
     /// </summary>
     public abstract class IIdEntity : IEntity<int>
     {
-        // TODO: will the annodations stack like they do normally?
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         /// <summary>
+        /// The ID of this entity is an `Id`, and it is accessed via this
+        /// property.
         /// </summary>
         public override int Id
         {

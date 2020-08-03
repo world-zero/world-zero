@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("Test.Unit")]
 [assembly: InternalsVisibleTo("WorldZero.Test.Integration")]
 
-namespace WorldZero.Common.Interface
+namespace WorldZero.Common.Interface.Entity
 {
     /// <summary>
     /// This is the interface for an Entity with an Id.
@@ -19,8 +19,12 @@ namespace WorldZero.Common.Interface
     {
         [Key]
         /// <summary>
+        /// This is the abstract property for the underlying
+        /// `ISingleValueObject` that children must implement.
         /// </summary>
-        /// <value>The result of the underlying ISingleValueObject.</value>
+        /// <value>
+        /// The built-in type of the underlying ISingleValueObject.
+        /// </value>
         public abstract T Id { get; set; }
         [NotMapped]
         protected ISingleValueObject<T> _id;
