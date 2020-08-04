@@ -1,24 +1,12 @@
 # Entities
 
-TODO: rewrite this file
-    also discuss how the internal constructor is just to be used by dapper, and that it assumes appropriate data is being sent in
+Entities in this project serve as tuples of a table. As a result, they will not
+contain references to other members, but rather foreign keys of references. The
+`internal` constructor of these entities is to only be used by Dapper in
+`Data/`, as it cannot convert built-in types to value objects, but it allows
+for using a constructor of built-in types. As a result, these entities have a
+constructor of built-in types that is used by Dapper to construct value objects
+to then build the instances.  
 
-Currently, these exist to be data entities that use EF Core's data annotations to
-handle almost all of the DB set up. Similarly, to not have to spend even more
-time bludgeoning EF Core, these entities' properties will frequently be accessors
-to value objects instead of automatic properties of value objects.
-
-Future work could certainly stand to make this cleaner and not use EF Core.
-
-Additionally, while I would like to not have members like `Character.Faction`
-and the various ICollections, I also don't have the heart to fight EF Core even
-more to get any version of that to work. Two possible ideas are using Fluent
-API for the relation definitions, or extending basic entities to have those
-members.
-
-The internal members of these entities is done in order to allow EF Core to
-still function while requiring assemblies outside of Data (and tests) to
-utilize the service classes to get a faction from it's ID, and to get a list
-of IDs related to something. This could be replaced by handling relations with
-the Fluent API instead. This would also allow the entities to not have data
-annotations as well.
+Be aware that these Dapper-intended constructors will do absolutely no
+validation, so they have unknown effects when used not by Dapper.
