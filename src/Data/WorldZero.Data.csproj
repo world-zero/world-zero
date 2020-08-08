@@ -1,15 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\WorldZero.Common.csproj" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="dapper" Version="2.0.35" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Common\WorldZero.Common.csproj" />
-  </ItemGroup>
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
 
 </Project>
