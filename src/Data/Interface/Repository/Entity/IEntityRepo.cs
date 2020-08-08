@@ -1,7 +1,7 @@
 using WorldZero.Common.Interface;
 using WorldZero.Common.Interface.Entity;
 
-namespace WorldZero.Data.Interface.Entity
+namespace WorldZero.Data.Interface.Repository.Entity
 {
     /// <summary>
     /// This is a generic repository for entities that includes CRUD methods.

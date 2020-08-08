@@ -6,13 +6,12 @@ using WorldZero.Common.ValueObject;
 using WorldZero.Data.Repository;
 using NUnit.Framework;
 
-namespace WorldZero.Test.Unit.Data.Repository
+namespace WorldZero.Test.Unit.Data.Repository.Entity
 {
 
     [TestFixture]
     public class TestIRAMEntityRepo
     {
-        // TODO: get the various exceptions to be thrown.
         private Name _eraName;
         private Era _era;
         private Era[] _eras;

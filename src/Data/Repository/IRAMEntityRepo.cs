@@ -1,6 +1,6 @@
 using WorldZero.Common.Interface;
 using WorldZero.Common.Interface.Entity;
-using WorldZero.Data.Interface.Entity;
+using WorldZero.Data.Interface.Repository.Entity;
 using System.Collections.Generic;
 using System;
 
