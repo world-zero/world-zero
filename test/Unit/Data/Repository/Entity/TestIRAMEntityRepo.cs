@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using WorldZero.Common.Entity;
 using WorldZero.Common.ValueObject;
-using WorldZero.Data.Repository;
+using WorldZero.Data.Repository.Entity;
 using NUnit.Framework;
 
 namespace WorldZero.Test.Unit.Data.Repository.Entity

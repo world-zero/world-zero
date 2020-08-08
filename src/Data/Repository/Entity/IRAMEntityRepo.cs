@@ -9,7 +9,7 @@ using System;
     then move onto IdNamedEntity
 */
 
-namespace WorldZero.Data.Repository
+namespace WorldZero.Data.Repository.Entity
 {
     /// <inheritdoc cref="IEntityRepo"/>
     /// <summary>
