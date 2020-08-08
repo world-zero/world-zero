@@ -16,7 +16,10 @@ namespace WorldZero.Data.Repository.Entity
     /// As the name suggests, this repo holds the entities in memory, with
     /// absolutely no persistence. The supplied and returned enties are SHALLOW
     /// COPIES to those that are saved and staged. This is acceptable because
-    /// this is more of a dev tool than an actual product tool.
+    /// this is more of a dev tool than an actual product tool. For the same
+    /// reasoning, this is not going to enforce that foreign keys are set
+    /// (outside of relational entities), or perform any other special database
+    /// features or functionality.
     /// </summary>
     public abstract class IRAMEntityRepo<Entity, IdType, SVOType>
         : IEntityRepo<Entity, IdType, SVOType>

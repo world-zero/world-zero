@@ -5,9 +5,6 @@
 `Common/`, `Data/`, and `Service/` are written in .NET Standard - these layers
 do not build any executables, those will be left for the ports and adapters.  
 
-Most, if not all, properties will throw `ArgumentException`s on a sad or bad
-path. Most, if not all, other classes will follow suit.  
-
 Value Objects are tightly coupled. Entities are tightly coupled between one
 another as well.
 
@@ -81,6 +78,9 @@ grounds of a service class.
     null).
 
 ## Exceptions
+
+Most, if not all, properties will throw `ArgumentException`s on a sad or bad
+path. Most, if not all, other classes will follow suit.  
 
 `ArgumentException` is thrown when the user of some code does something bad.
 `InvalidOperationException` is thrown when an unreachable case is reached,

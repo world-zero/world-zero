@@ -8,7 +8,8 @@ using NUnit.Framework;
 
 namespace WorldZero.Test.Unit.Data.Repository.Entity
 {
-
+    // NOTE: These tests do not test functional member `GenerateId`, and that
+    // is done in TestIRAMIdEntityRepo.cs .
     [TestFixture]
     public class TestIRAMEntityRepo
     {
@@ -175,8 +176,6 @@ namespace WorldZero.Test.Unit.Data.Repository.Entity
         [Test]
         public void TestBadUpdate()
         {
-            // udate: trying to update smoething not stored;
-            // also entity w/o id, but not possible here; have TestRAMIdEntity test that, or rewrite these tests
             Assert.Throws<ArgumentException>(()=>this._repo.Update(this._eras[0]));
             Assert.AreEqual(0, this._repo.Saved.Count);
             Assert.AreEqual(0, this._repo.Staged.Count);

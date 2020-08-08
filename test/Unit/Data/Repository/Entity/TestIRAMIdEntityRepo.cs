@@ -1,0 +1,58 @@
+using WorldZero.Common.Entity;
+using WorldZero.Common.ValueObject;
+using WorldZero.Data.Repository.Entity;
+using NUnit.Framework;
+
+namespace WorldZero.Test.Unit.Data.Repository.Entity
+{
+    // NOTE: TestIRAMEntityRepo.cs does not test the functional member
+    // `GenerateId`, and that is done here instead.
+    [TestFixture]
+    public class TestIRAMIdEntityRepo
+    {
+        private Name _factionId;
+        private Name _statusId;
+        private string _summary;
+        private PointTotal _points;
+        private Level _level;
+        private Level _minLevel;
+        private Task _task;
+        private TestRAMIdEntityRepo _repo;
+
+        [SetUp]
+        public void Setup()
+        {
+            this._factionId = new Name("Hal's Halberds");
+            this._statusId = new Name("VALID");
+            this._summary = "something";
+            this._points = new PointTotal(100000);
+            this._level = new Level(5);
+            this._minLevel = new Level(3);
+
+            this._task = new Task(
+                this._factionId,
+                this._statusId,
+                this._summary,
+                this._points,
+                this._level,
+                this._minLevel
+            );
+            this._repo = new TestRAMIdEntityRepo();
+        }
+
+        [Test]
+        public void TestThatIdIsSetOnSave()
+        {
+            Assert.IsFalse(this._task.IsIdSet());
+            this._repo.Insert(this._task);
+            Assert.IsFalse(this._task.IsIdSet());
+            this._repo.Save();
+            Assert.IsTrue(this._task.IsIdSet());
+            Assert.AreEqual(new Id(1), this._task.Id);
+        }
+    }
+
+    public class TestRAMIdEntityRepo
+        : IRAMIdEntityRepo<Task>
+    { }
+}
