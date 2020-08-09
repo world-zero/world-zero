@@ -8,14 +8,14 @@ namespace WorldZero.Common.Entity
     /// </summary>
     public class Player : IIdNamedEntity
     {
-        public Player(Id id, Name name, bool isBlocked=false)
-            : base (id, name)
+        public Player(Name name, bool isBlocked=false)
+            : base (name)
         {
             this.IsBlocked = isBlocked;
         }
 
-        public Player(Name name, bool isBlocked=false)
-            : base (name)
+        public Player(Id id, Name name, bool isBlocked=false)
+            : base (id, name)
         {
             this.IsBlocked = isBlocked;
         }
