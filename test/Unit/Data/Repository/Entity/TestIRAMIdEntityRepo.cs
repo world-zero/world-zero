@@ -49,6 +49,32 @@ namespace WorldZero.Test.Unit.Data.Repository.Entity
             this._repo.Save();
             Assert.IsTrue(this._task.IsIdSet());
             Assert.AreEqual(new Id(1), this._task.Id);
+
+            // It doesn't matter that these tasks are basically the same, they
+            // will have different IDs.
+            var task1 = new Task(
+                this._factionId,
+                this._statusId,
+                this._summary,
+                this._points,
+                this._level,
+                this._minLevel
+            );
+            var task2 = new Task(
+                this._factionId,
+                this._statusId,
+                this._summary,
+                this._points,
+                this._level,
+                this._minLevel
+            );
+            this._repo.Insert(task1);
+            this._repo.Insert(task2);
+            this._repo.Save();
+            Assert.IsTrue(task1.IsIdSet());
+            Assert.AreEqual(new Id(2), task1.Id);
+            Assert.IsTrue(task2.IsIdSet());
+            Assert.AreEqual(new Id(3), task2.Id);
         }
     }
 
