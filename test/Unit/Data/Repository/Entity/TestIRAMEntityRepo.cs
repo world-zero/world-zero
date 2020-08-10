@@ -101,6 +101,16 @@ namespace WorldZero.Test.Unit.Data.Repository.Entity
             this._repo.Save();
             Assert.AreEqual(0, this._repo.Saved.Count);
             Assert.AreEqual(0, this._repo.Staged.Count);
+
+            var newEra = new Era(new Name("new"), new PastDate(DateTime.UtcNow));
+            this._repo.Insert(newEra);
+            Assert.AreEqual(0, this._repo.Saved.Count);
+            Assert.AreEqual(1, this._repo.Staged.Count);
+            Assert.AreEqual(this._repo.Staged[newEra.Id], newEra);
+            this._repo.Delete(newEra.Id);
+            this._repo.Save();
+            Assert.AreEqual(0, this._repo.Saved.Count);
+            Assert.AreEqual(0, this._repo.Staged.Count);
         }
 
         [Test]
@@ -111,6 +121,8 @@ namespace WorldZero.Test.Unit.Data.Repository.Entity
 
             var era = this._repo.GetById(this._era.Id);
             this._assertErasEqual(this._era, era);
+
+            Assert.Throws<ArgumentException>(()=>this._repo.GetById(new Name("FAKKKKEEE")));
         }
 
         [Test]
@@ -152,16 +164,16 @@ namespace WorldZero.Test.Unit.Data.Repository.Entity
             Assert.AreEqual(3, this._repo.Saved.Count);
             Assert.AreEqual(0, this._repo.Staged.Count);
 
-            Assert.Throws<ArgumentException>(()=>this._repo.Delete(this._eras[4].Id));
+            this._repo.Delete(this._eras[4].Id);
             Assert.AreEqual(3, this._repo.Saved.Count);
-            Assert.AreEqual(0, this._repo.Staged.Count);
+            Assert.AreEqual(1, this._repo.Staged.Count);
 
             this._eras[0].EndDate = new PastDate(DateTime.UtcNow);
             this._repo.Update(this._eras[0]);
             this._repo.Delete(this._eras[1].Id);
             this._repo.Insert(this._eras[3]);
             Assert.AreEqual(3, this._repo.Saved.Count);
-            Assert.AreEqual(3, this._repo.Staged.Count);
+            Assert.AreEqual(4, this._repo.Staged.Count);
 
             this._repo.Save();
             this._storedEras.Remove(this._eras[1]);
@@ -174,19 +186,11 @@ namespace WorldZero.Test.Unit.Data.Repository.Entity
         }
 
         [Test]
-        public void TestBadUpdate()
+        public void TestSadDelete()
         {
-            Assert.Throws<ArgumentException>(()=>this._repo.Update(this._eras[0]));
+            this._repo.Delete(this._eras[0].Id);
             Assert.AreEqual(0, this._repo.Saved.Count);
-            Assert.AreEqual(0, this._repo.Staged.Count);
-        }
-
-        [Test]
-        public void TestBadDelete()
-        {
-            Assert.Throws<ArgumentException>(()=>this._repo.Delete(this._eras[0].Id));
-            Assert.AreEqual(0, this._repo.Saved.Count);
-            Assert.AreEqual(0, this._repo.Staged.Count);
+            Assert.AreEqual(1, this._repo.Staged.Count);
         }
     }
 
