@@ -62,6 +62,19 @@ namespace WorldZero.Common.Entity
             this.StatusId = statusId;
         }
 
+        public override IEntity<Id, int> DeepCopy()
+        {
+            return new Task(
+                this.Id,
+                this.FactionId,
+                this.StatusId,
+                this.Summary,
+                this.Points,
+                this.Level,
+                this.MinLevel
+            );
+        }
+
         public string Summary
         {
             get { return this._summary; }

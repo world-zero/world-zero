@@ -17,3 +17,7 @@ validation, so they have unknown effects when used not by Dapper.
 
 As you would expect, the various repo interfaces mirror the entity interface
 chains and branches, adding and adjusting as they go.
+
+In the interest of time, the entity repos don't have many entity-specific
+function members. As these are just going to be variations of a `SELECT` query,
+this decision seems reasonable at the time of writing.

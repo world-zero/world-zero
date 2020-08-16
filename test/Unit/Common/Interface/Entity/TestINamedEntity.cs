@@ -49,5 +49,10 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity
             : base(new Name(name))
         {
         }
+
+        public override IEntity<Name, string> DeepCopy()
+        {
+            return null;
+        }
     }
 }

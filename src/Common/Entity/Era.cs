@@ -24,6 +24,15 @@ namespace WorldZero.Common.Entity
                 this.StartDate = new PastDate(endDate);
         }
 
+        public override IEntity<Name, string> DeepCopy()
+        {
+            return new Era(
+                this.Id,
+                this.StartDate,
+                this.EndDate
+            );
+        }
+
         public PastDate StartDate
         {
             get { return this._startDate; }

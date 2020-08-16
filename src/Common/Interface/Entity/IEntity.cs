@@ -19,6 +19,8 @@ namespace WorldZero.Common.Interface.Entity
             return !this._id.Equals(this.UnsetIdValue);
         }
 
+        abstract public IEntity<SingleValObj, VOType> DeepCopy();
+
         /// <summary>
         /// This is the Id for an entity - it is a value object with a single
         /// (or primary) value. This cannot be changed after being set.

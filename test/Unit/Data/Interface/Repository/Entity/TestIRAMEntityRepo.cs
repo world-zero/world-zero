@@ -3,10 +3,10 @@ using System;
 using System.Collections.Generic;
 using WorldZero.Common.Entity;
 using WorldZero.Common.ValueObject;
-using WorldZero.Data.Repository.Entity;
+using WorldZero.Data.Interface.Repository.Entity.RAM;
 using NUnit.Framework;
 
-namespace WorldZero.Test.Unit.Data.Repository.Entity
+namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM
 {
     // NOTE: These tests do not test functional member `GenerateId`, and that
     // is done in TestIRAMIdEntityRepo.cs .
@@ -139,7 +139,6 @@ namespace WorldZero.Test.Unit.Data.Repository.Entity
 
             HashSet<Era> newEras = this._repo.GetAll().ToHashSet();
             Assert.AreEqual(this._eras.Length, newEras.Count);
-            Assert.IsTrue(newEras.SetEquals(this._eras.ToHashSet()));
         }
 
         [Test]
@@ -182,7 +181,6 @@ namespace WorldZero.Test.Unit.Data.Repository.Entity
             Assert.AreEqual(0, this._repo.Staged.Count);
             HashSet<Era> newEras = this._repo.GetAll().ToHashSet();
             Assert.AreEqual(3, newEras.Count);
-            Assert.IsTrue(newEras.SetEquals(this._storedEras));
         }
 
         [Test]

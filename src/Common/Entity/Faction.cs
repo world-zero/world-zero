@@ -9,9 +9,9 @@ namespace WorldZero.Common.Entity
     /// </summary>
     public class Faction : INamedEntity
     {
-        public Faction(Name id, PastDate dateFounded,
+        public Faction(Name name, PastDate dateFounded,
             string desc=null, Name abilityName=null, string abilityDesc=null)
-            : base(id)
+            : base(name)
         {
             this._setup(
                 dateFounded,
@@ -21,8 +21,8 @@ namespace WorldZero.Common.Entity
             );
         }
 
-        internal Faction(string id, DateTime dateFounded, string desc, string abilityName, string abilityDesc)
-            : base(new Name(id))
+        internal Faction(string name, DateTime dateFounded, string desc, string abilityName, string abilityDesc)
+            : base(new Name(name))
         {
             this._setup(
                 new PastDate(dateFounded),
@@ -39,6 +39,17 @@ namespace WorldZero.Common.Entity
             this.Description = desc;
             this.AbilityName = abilityName;
             this.AbilityDesc = abilityDesc;
+        }
+
+        public override IEntity<Name, string> DeepCopy()
+        {
+            return new Faction(
+                this.Id,
+                this.DateFounded,
+                this.Description,
+                this.AbilityName,
+                this.AbilityDesc
+            );
         }
 
         public PastDate DateFounded

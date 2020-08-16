@@ -1,8 +1,7 @@
 using WorldZero.Common.ValueObject;
 using WorldZero.Common.Interface.Entity;
-using WorldZero.Data.Interface.Repository.Entity;
 
-namespace WorldZero.Data.Repository.Entity
+namespace WorldZero.Data.Interface.Repository.Entity.RAM
 {
     /// <inheritdoc cref="IRAMEntityRepo"/>
     public abstract class IRAMNamedEntityRepo<Entity>

@@ -1,4 +1,5 @@
 using WorldZero.Common.Interface.Entity;
+using WorldZero.Common.ValueObject;
 
 namespace WorldZero.Data.Interface.Repository.Entity
 {
@@ -9,5 +10,7 @@ namespace WorldZero.Data.Interface.Repository.Entity
     public interface IIdNamedEntityRepo<IdNamedEntity>
         : IIdEntityRepo<IdNamedEntity>
         where IdNamedEntity : IIdEntity
-    { }
+    {
+        IdNamedEntity GetByName(Name name);
+    }
 }

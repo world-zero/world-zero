@@ -20,6 +20,13 @@ namespace WorldZero.Common.Entity
             this.Description = description;
         }
 
+        public override IEntity<Name, string> DeepCopy()
+        {
+            var t = new Tag(this.Id);
+            t.Description = this.Description;
+            return t;
+        }
+
         /// <summary>
         /// Description is a description of the tag. This is optional.
         /// </summary>

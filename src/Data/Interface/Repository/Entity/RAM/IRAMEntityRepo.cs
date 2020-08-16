@@ -1,20 +1,17 @@
 using WorldZero.Common.Interface;
 using WorldZero.Common.Interface.Entity;
-using WorldZero.Data.Interface.Repository.Entity;
 using System.Collections.Generic;
 using System;
 
-namespace WorldZero.Data.Repository.Entity
+namespace WorldZero.Data.Interface.Repository.Entity.RAM
 {
     /// <inheritdoc cref="IEntityRepo"/>
     /// <summary>
     /// As the name suggests, this repo holds the entities in memory, with
-    /// absolutely no persistence. The supplied and returned enties are SHALLOW
-    /// COPIES to those that are saved and staged. This is acceptable because
-    /// this is more of a dev tool than an actual product tool. For the same
-    /// reasoning, this is not going to enforce that foreign keys are set
-    /// (outside of relational entities), or perform any other special database
-    /// features or functionality.
+    /// absolutely no persistence. The supplied and returned enties are deep
+    /// copies to those that are saved and staged. This is not going to enforce
+    /// that foreign keys are set (outside of relational entities), or perform
+    /// any other special database features or functionality.
     /// In an effort to be similar to a database-connecting repo, this is only
     /// going to throw exceptions about conflicts between staged and saved
     /// entities on Save.
@@ -56,7 +53,7 @@ namespace WorldZero.Data.Repository.Entity
                 Entity entity = pair.Value;
                 if ( (entity.Id != id) || (!entity.IsIdSet()) )
                     throw new InvalidOperationException("A saved entity without an ID has been discovered.");
-                yield return entity;
+                yield return (Entity) entity.DeepCopy();
             }
         }
 
@@ -67,9 +64,13 @@ namespace WorldZero.Data.Repository.Entity
         {
             if (!this._saved.ContainsKey(id))
                 throw new ArgumentException("You cannot get an entity with an ID does not exist.");
-            return this._saved[id];
+            return (Entity) this._saved[id].DeepCopy();
         }
 
+        /// <remarks>
+        /// This does NOT do anything to verify that the entity is new and not
+        /// already stored. GenerateId would be a perfect place to do this.
+        /// </remarks>
         public virtual void Insert(Entity entity)
         {
             this._staged[this.GenerateId(entity)] = entity;
@@ -121,15 +122,18 @@ namespace WorldZero.Data.Repository.Entity
                 this._staged.Remove(id);
             }
 
-            var i = this._staged.Count;
-            if (i != 0)
-                throw new InvalidOperationException($"After a Save, there should be no staged entities, but there are {i} staged entities remaining.");
+            var c = this._staged.Count;
+            if (c != 0)
+                throw new InvalidOperationException($"After a Save, there should be no staged entities, but there are {c} staged entities remaining.");
         }
 
+        /// <summary>
+        /// Delete the entity with the matching ID. If there is no entity to
+        /// delete, then it must be an erroneous deletion (trying to delete
+        /// something unsaved), so this will return null.
+        /// </summary>
         protected virtual Entity CommitDelete(IdType id)
         {
-            // If something was attempted to be deleted but it wasn't saved,
-            // then it's not saved, so it's deleted.
             if (this._saved.ContainsKey(id))
             {
                 var old = this._saved[id];
@@ -146,7 +150,7 @@ namespace WorldZero.Data.Repository.Entity
                 old = this._saved[id];
             else
                 old = null;
-            this._saved[id] = entity;
+            this._saved[id] = (Entity) entity.DeepCopy();
             return old;
         }
     }

@@ -39,6 +39,16 @@ namespace WorldZero.Common.Entity
             );
         }
 
+        public override IEntity<Id, int> DeepCopy()
+        {
+            return new Praxis(
+                this.Id,
+                this.TaskId,
+                this.StatusId,
+                this.AreDueling
+            );
+        }
+
         private void _setup(Id taskId, Name statusId, bool areDueling)
         {
             this.TaskId = taskId;

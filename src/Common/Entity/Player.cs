@@ -26,6 +26,15 @@ namespace WorldZero.Common.Entity
             this.IsBlocked = isBlocked;
         }
 
+        public override IEntity<Id, int> DeepCopy()
+        {
+            return new Player(
+                this.Id,
+                this.Name,
+                this.IsBlocked
+            );
+        }
+
         /// <summary>
         /// IsBlocked controls whether or not a Player can sign into any of
         /// their characters.

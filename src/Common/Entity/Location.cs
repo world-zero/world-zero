@@ -54,6 +54,17 @@ namespace WorldZero.Common.Entity
             this.Zip = zip;
         }
 
+        public override IEntity<Id, int> DeepCopy()
+        {
+            return new Location(
+                this.Id,
+                this.City,
+                this.State,
+                this.Country,
+                this.Zip
+            );
+        }
+
         public Name City
         {
             get { return this._city; }

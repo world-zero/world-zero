@@ -45,6 +45,18 @@ namespace WorldZero.Common.Entity
             this.IsFlatBonus = isFlatBonus;
         }
 
+        public override IEntity<Id, int> DeepCopy()
+        {
+            return new MetaTask(
+                this.Id,
+                this.FactionId,
+                this.StatusId,
+                this.Description,
+                this.Bonus,
+                this.IsFlatBonus
+            );
+        }
+
         public string Description
         {
             get { return this._description; }

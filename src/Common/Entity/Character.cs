@@ -126,6 +126,22 @@ namespace WorldZero.Common.Entity
             this.HasProfilePic = hasProfilePic;
         }
 
+        public override IEntity<Id, int> DeepCopy()
+        {
+            return new Character(
+                this.Id,
+                this.Name,
+                this.PlayerId,
+                this.FactionId,
+                this.LocationId,
+                this.EraPoints,
+                this.TotalPoints,
+                this.VotePointsLeft,
+                this.HasBio,
+                this.HasProfilePic
+            );
+        }
+
         /// <summary>
         /// Determine the level based off the number of points supplied.
         /// </summary>

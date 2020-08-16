@@ -1,9 +1,9 @@
 using WorldZero.Common.Entity;
 using WorldZero.Common.ValueObject;
-using WorldZero.Data.Repository.Entity;
+using WorldZero.Data.Interface.Repository.Entity.RAM;
 using NUnit.Framework;
 
-namespace WorldZero.Test.Unit.Data.Repository.Entity
+namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM
 {
     // NOTE: TestIRAMEntityRepo.cs does not test the functional member
     // `GenerateId`, and that is done here instead.
@@ -75,6 +75,27 @@ namespace WorldZero.Test.Unit.Data.Repository.Entity
             Assert.AreEqual(new Id(2), task1.Id);
             Assert.IsTrue(task2.IsIdSet());
             Assert.AreEqual(new Id(3), task2.Id);
+        }
+
+        [Test]
+        public void TestIdIsntReSetOnSave()
+        {
+            var task2 = new Task(
+                this._factionId,
+                this._statusId,
+                this._summary,
+                this._points,
+                this._level,
+                this._minLevel
+            );
+            this._repo.Insert(task2);
+            this._repo.Save();
+            Assert.AreEqual(new Id(1), task2.Id);
+
+            task2.StatusId = new Name("INVALID");
+            this._repo.Update(task2);
+            this._repo.Save();
+            Assert.AreEqual(new Id(1), task2.Id);
         }
     }
 

@@ -40,7 +40,11 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity
     {
         public TestIdNamedEntity(string name)
             : base(new Name(name))
+        { }
+
+        public override IEntity<Id, int> DeepCopy()
         {
+            return null;
         }
     }
 }

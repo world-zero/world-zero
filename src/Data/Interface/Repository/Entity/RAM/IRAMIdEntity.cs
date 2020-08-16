@@ -1,10 +1,13 @@
 using WorldZero.Common.ValueObject;
 using WorldZero.Common.Interface.Entity;
-using WorldZero.Data.Interface.Repository.Entity;
 
-namespace WorldZero.Data.Repository.Entity
+namespace WorldZero.Data.Interface.Repository.Entity.RAM
 {
     /// <inheritdoc cref="IRAMEntityRepo"/>
+    /// <remarks>
+    /// If an entity with a non-repo set ID is supplied, then there will be
+    /// undefined behavior.
+    /// </remarks>
     public abstract class IRAMIdEntityRepo<Entity>
         : IRAMEntityRepo<Entity, Id, int>,
           IIdEntityRepo<Entity>
