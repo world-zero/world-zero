@@ -85,3 +85,18 @@ path. Most, if not all, other classes will follow suit.
 `ArgumentException` is thrown when the user of some code does something bad.
 `InvalidOperationException` is thrown when an unreachable case is reached,
 meaning a bug has been found.
+
+## Style Conventions
+
+When in doubt, default to the suggested conventions by Microsoft. That said,
+this codebase does deviate from a few of these guidelines, and I want to lay
+out some explicit rules here.
+
+- Non-public fields are _camelCase, and only private function members are
+_camelCase.
+- Do not exceed 79 characters on a single line, unless the exceeding line
+throws an exception and the message breaks this rule.
+- When breaking &&-ed or ||-ed conditions, please follow the Microsoft
+guideline of wrapping each sub-condition in parentheses. Additionally, assuming
+that these conditions are going to need to be broken between lines, please
+start the next line with the condition operator to increase readability.
