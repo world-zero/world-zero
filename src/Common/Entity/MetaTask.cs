@@ -9,6 +9,19 @@ namespace WorldZero.Common.Entity
     /// </summary>
     public class MetaTask : IIdEntity
     {
+        public MetaTask(Name factionId, Name statusId,
+            string description, double bonus, bool isFlatBonus=false)
+            : base()
+        {
+            this._setup(
+                factionId,
+                statusId,
+                description,
+                bonus,
+                isFlatBonus
+            );
+        }
+
         public MetaTask(Id id, Name factionId, Name statusId,
             string description, double bonus, bool isFlatBonus=false)
             : base(id)

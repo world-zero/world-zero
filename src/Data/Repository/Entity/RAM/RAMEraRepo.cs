@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using WorldZero.Common.Entity;
 using WorldZero.Data.Interface.Repository.Entity;
 using WorldZero.Data.Interface.Repository.Entity.RAM;
@@ -9,5 +11,21 @@ namespace WorldZero.Data.Repository.Entity.RAM
         : IRAMNamedEntityRepo<Era>,
         IEraRepo
     {
+
+        public Era GetActiveEra()
+        {
+            var active = from pair in this._saved
+                         where pair.Value.EndDate == null
+                         select pair.Value;
+
+            if (active.Count() == 0)
+                return null;
+
+            else if (active.Count() == 1)
+                return active.First();
+
+            else
+                throw new InvalidOperationException("There should not be more than one active era at a time, the repo as been populated incorrectly.");
+        }
     }
 }
