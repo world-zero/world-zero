@@ -56,7 +56,7 @@ namespace WorldZero.Common.Entity
                 this._endDate = value;
             }
         }
-        public PastDate _endDate;
+        private PastDate _endDate;
 
         private void _checkDates(PastDate start, PastDate end)
         {
