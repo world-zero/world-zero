@@ -39,7 +39,8 @@ This application uses Layered architecture with Hexagonal architecture.
 
 - `Common/` references nothing and is referenced by everything.
 - `Data/` references nothing except `Common/` and is referenced by `Service/`.
-- `Service/` references `Common/` and `Data/` and is referenced by nothing.
+- `Service/` references `Common/` and `Data/` and is referenced by `Port`.
+- `Port/` references `Common` and `Service/`.
 
 Additionally, the test projects reference things as relevant, obviously.
 

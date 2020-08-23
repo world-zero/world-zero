@@ -16,6 +16,7 @@
     <ProjectReference Include="..\..\src\Common\WorldZero.Common.csproj" />
     <ProjectReference Include="..\..\src\Data\WorldZero.Data.csproj" />
     <ProjectReference Include="..\..\src\Service\WorldZero.Service.csproj" />
+    <ProjectReference Include="..\..\src\Port\WorldZero.Port.csproj" />
   </ItemGroup>
 
 </Project>

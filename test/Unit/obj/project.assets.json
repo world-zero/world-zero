@@ -1256,6 +1256,20 @@
           "bin/placeholder/WorldZero.Data.dll": {}
         }
       },
+      "WorldZero.Port/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "dependencies": {
+          "WorldZero.Common": "1.0.0",
+          "WorldZero.Service": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/WorldZero.Port.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/WorldZero.Port.dll": {}
+        }
+      },
       "WorldZero.Service/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
@@ -4713,6 +4727,11 @@
       "path": "../../src/Data/WorldZero.Data.csproj",
       "msbuildProject": "../../src/Data/WorldZero.Data.csproj"
     },
+    "WorldZero.Port/1.0.0": {
+      "type": "project",
+      "path": "../../src/Port/WorldZero.Port.csproj",
+      "msbuildProject": "../../src/Port/WorldZero.Port.csproj"
+    },
     "WorldZero.Service/1.0.0": {
       "type": "project",
       "path": "../../src/Service/WorldZero.Service.csproj",
@@ -4725,6 +4744,7 @@
       "NUnit3TestAdapter >= 3.15.1",
       "WorldZero.Common >= 1.0.0",
       "WorldZero.Data >= 1.0.0",
+      "WorldZero.Port >= 1.0.0",
       "WorldZero.Service >= 1.0.0",
       "nunit >= 3.12.0"
     ]
@@ -4758,6 +4778,9 @@
             },
             "/home/swatts/code/world-zero/src/Data/WorldZero.Data.csproj": {
               "projectPath": "/home/swatts/code/world-zero/src/Data/WorldZero.Data.csproj"
+            },
+            "/home/swatts/code/world-zero/src/Port/WorldZero.Port.csproj": {
+              "projectPath": "/home/swatts/code/world-zero/src/Port/WorldZero.Port.csproj"
             },
             "/home/swatts/code/world-zero/src/Service/WorldZero.Service.csproj": {
               "projectPath": "/home/swatts/code/world-zero/src/Service/WorldZero.Service.csproj"
