@@ -9,8 +9,14 @@ namespace WorldZero.Common.Entity
     /// </summary>
     public class Task : IIdEntity
     {
-        public Task(Name factionId, Name statusId, string summary,
-                    PointTotal points, Level level, Level minLevel=null)
+        public Task(
+            Name factionId,
+            Name statusId,
+            string summary,
+            PointTotal points,
+            Level level,
+            Level minLevel=null
+        )
             : base()
         {
             this._setup(
@@ -23,8 +29,15 @@ namespace WorldZero.Common.Entity
             );
         }
 
-        public Task(Id id, Name factionId, Name statusId, string summary,
-                    PointTotal points, Level level, Level minLevel=null)
+        public Task(
+            Id id,
+            Name factionId,
+            Name statusId,
+            string summary,
+            PointTotal points,
+            Level level,
+            Level minLevel=null
+        )
             : base(id)
         {
             this._setup(
@@ -37,8 +50,15 @@ namespace WorldZero.Common.Entity
             );
         }
 
-        internal Task(int id, string factionId, string statusId, string summary,
-                    int points, int level, int minLevel)
+        internal Task(
+            int id,
+            string factionId,
+            string statusId,
+            string summary,
+            int points,
+            int level,
+            int minLevel
+        )
             : base(new Id(id))
         {
             this._setup(
