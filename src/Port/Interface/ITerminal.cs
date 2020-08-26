@@ -1,7 +1,7 @@
 namespace WorldZero.Port.Interface
 {
     /// <summary>
-    /// This interface defines a simple IO terminal that ports can utilize.
+    /// This interface defines a simple IO interface.
     /// </summary>
     public interface ITerminal
     {
@@ -15,13 +15,12 @@ namespace WorldZero.Port.Interface
         /// This method will prompt the user for the supplied generic type.
         /// This should not allow nulls to be returned, if appropriate.
         /// </summary>
-        T PromptNoNulls<T>(string message=null);
+        T PromptNotNull<T>(string message=null);
 
         /// <summary>
         /// This method will display the message in a way that the
         /// implementation deems most appropriate.
         /// </summary>
-        /// <param name="message"></param>
         void Print(string message=null);
 
         /// <summary>
