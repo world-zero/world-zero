@@ -9,6 +9,12 @@ namespace WorldZero.Common.Entity
     /// </summary>
     public class Faction : INamedEntity
     {
+        /// <summary>
+        /// Initialize a new Faction. There is no requirement for any optional
+        /// parameter to have another optional parameter. This means that it is
+        /// possible to have a faction without an ability name but with an
+        /// ability description.
+        /// </summary>
         public Faction(Name name, PastDate dateFounded,
             string desc=null, Name abilityName=null, string abilityDesc=null)
             : base(name)
