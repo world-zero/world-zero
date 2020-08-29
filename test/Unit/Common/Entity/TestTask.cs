@@ -80,7 +80,7 @@ namespace WorldZero.Test.Unit.Common.Entity
             Assert.AreEqual(this._points, this._t.Points);
             this._t.Points = new PointTotal(100000);
             Assert.AreEqual(new PointTotal(100000), this._t.Points);
-            Assert.Throws<ArgumentException>(()=>this._t.Points = null);
+            Assert.Throws<ArgumentNullException>(()=>this._t.Points = null);
             Assert.AreEqual(new PointTotal(100000), this._t.Points);
         }
 
@@ -90,7 +90,7 @@ namespace WorldZero.Test.Unit.Common.Entity
             Assert.AreEqual(this._level, this._t.Level);
             this._t.Level = new Level(9);
             Assert.AreEqual(new Level(9), this._t.Level);
-            Assert.Throws<ArgumentException>(()=>this._t.Level = null);
+            Assert.Throws<ArgumentNullException>(()=>this._t.Level = null);
             Assert.AreEqual(new Level(9), this._t.Level);
         }
 
@@ -100,7 +100,7 @@ namespace WorldZero.Test.Unit.Common.Entity
             Assert.AreEqual(this._minLevel, this._t.MinLevel);
             this._t.MinLevel = new Level(0);
             Assert.AreEqual(new Level(0), this._t.MinLevel);
-            Assert.Throws<ArgumentException>(()=>this._t.MinLevel = null);
+            Assert.Throws<ArgumentNullException>(()=>this._t.MinLevel = null);
             Assert.AreEqual(new Level(0), this._t.MinLevel);
         }
 
@@ -121,7 +121,7 @@ namespace WorldZero.Test.Unit.Common.Entity
             Assert.AreEqual(this._factionId, this._t.FactionId);
             this._t.FactionId = new Name("kennel");
             Assert.AreEqual(new Name("kennel"), this._t.FactionId);
-            Assert.Throws<ArgumentException>(()=>this._t.FactionId = null);
+            Assert.Throws<ArgumentNullException>(()=>this._t.FactionId = null);
             Assert.AreEqual(new Name("kennel"), this._t.FactionId);
         }
 
@@ -131,7 +131,7 @@ namespace WorldZero.Test.Unit.Common.Entity
             Assert.AreEqual(this._statusId, this._t.StatusId);
             this._t.StatusId = new Name("crate");
             Assert.AreEqual(new Name("crate"), this._t.StatusId);
-            Assert.Throws<ArgumentException>(()=>this._t.StatusId = null);
+            Assert.Throws<ArgumentNullException>(()=>this._t.StatusId = null);
             Assert.AreEqual(new Name("crate"), this._t.StatusId);
         }
     }

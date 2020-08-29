@@ -180,7 +180,7 @@ namespace WorldZero.Common.Entity
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Attempted to set a `PlayerId` to null.");
+                    throw new ArgumentNullException("PlayerId");
                 this._playerId = value;
             }
         }

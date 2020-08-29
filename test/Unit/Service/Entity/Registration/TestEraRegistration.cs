@@ -24,7 +24,7 @@ namespace WorldZero.Test.Unit.Service.Entity.Registration
         [Test]
         public void TestRegister()
         {
-            Assert.Throws<ArgumentException>(()=>this._eraRegistration.Register(null));
+            Assert.Throws<ArgumentNullException>(()=>this._eraRegistration.Register(null));
 
             PastDate badExpected = new PastDate(new DateTime(2000, 1, 1));
             Era e = new Era(new Name("first"), badExpected, new PastDate(DateTime.UtcNow));

@@ -23,7 +23,7 @@ namespace WorldZero.Common.Interface.Entity
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Attempted to set a `Name` to null.");
+                    throw new ArgumentNullException("Name");
 
                 this._name = value;
             }

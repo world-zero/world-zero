@@ -39,7 +39,7 @@ namespace WorldZero.Common.Entity
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Attempted to set a `PastDate` to null.");
+                    throw new ArgumentNullException("StartDate");
 
                 this._checkDates(value, this.EndDate);
                 this._startDate = value;

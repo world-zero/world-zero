@@ -24,13 +24,13 @@ namespace WorldZero.Test.Unit.Service.Interface
         [Test]
         public void TestConstructorBad()
         {
-            Assert.Throws<ArgumentException>(()=>new TestEntityRegistration(null));
+            Assert.Throws<ArgumentNullException>(()=>new TestEntityRegistration(null));
         }
 
         [Test]
         public void TestRegister()
         {
-            Assert.Throws<ArgumentException>(()=>this._registration.Register(null));
+            Assert.Throws<ArgumentNullException>(()=>this._registration.Register(null));
 
             var p = new Player(new Name("Hal"));
             Assert.IsFalse(p.IsIdSet());

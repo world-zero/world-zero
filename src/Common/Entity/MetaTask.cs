@@ -111,7 +111,7 @@ namespace WorldZero.Common.Entity
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Attempted to set an `Id` to null.");
+                    throw new ArgumentNullException("FactionId");
                 this._factionId = value;
             }
         }
@@ -123,7 +123,7 @@ namespace WorldZero.Common.Entity
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Attempted to set an `Id` to null.");
+                    throw new ArgumentNullException("StatusId");
                 this._statusId = value;
             }
         }

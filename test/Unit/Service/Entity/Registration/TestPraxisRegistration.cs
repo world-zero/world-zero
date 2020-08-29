@@ -78,25 +78,25 @@ namespace WorldZero.Test.Unit.Service.Entity.Registration
         [Test]
         public void TestConstructor()
         {
-            Assert.Throws<ArgumentException>(
+            Assert.Throws<ArgumentNullException>(
                 ()=>new PraxisRegistration(
                     null,
                     null,
                     null)
             );
-            Assert.Throws<ArgumentException>(
+            Assert.Throws<ArgumentNullException>(
                 ()=>new PraxisRegistration(
                     this._praxisRepo,
                     null,
                     null)
             );
-            Assert.Throws<ArgumentException>(
+            Assert.Throws<ArgumentNullException>(
                 ()=>new PraxisRegistration(
                     this._praxisRepo,
                     this._taskRepo,
                     null)
             );
-            Assert.Throws<ArgumentException>(
+            Assert.Throws<ArgumentNullException>(
                 ()=>new PraxisRegistration(
                     this._praxisRepo,
                     null,

@@ -62,7 +62,7 @@ namespace WorldZero.Common.Entity
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Attempted to set a `TaskId` to null.");
+                    throw new ArgumentNullException("TaskId");
                 this._taskId = value;
             }
         }
@@ -76,7 +76,7 @@ namespace WorldZero.Common.Entity
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Attempted to set an `Id` to null.");
+                    throw new ArgumentNullException("StatusId");
 
                 this._statusId = value;
             }

@@ -1,6 +1,5 @@
 using WorldZero.Common.Interface;
 using System;
-using System.Collections.Generic;
 
 namespace WorldZero.Common.ValueObject
 {
@@ -18,7 +17,7 @@ namespace WorldZero.Common.ValueObject
             protected set
             {
                 if (DateTime.UtcNow < value)
-                    throw new ArgumentException("A PastDate cannot have a datetime that is in the future.");
+                    throw new ArgumentException("A PastDate cannot have a DateTime that is in the future.");
                 this._val = value;
             }
         }

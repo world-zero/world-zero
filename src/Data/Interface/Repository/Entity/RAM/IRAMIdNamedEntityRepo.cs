@@ -63,7 +63,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM
         public Entity GetByName(Name name)
         {
             if (name == null)
-                throw new ArgumentException("`name` cannot be null.");
+                throw new ArgumentNullException("name");
             if (!this._savedNames.ContainsKey(name))
                 throw new ArgumentException($"There is no stored entity with the name {name.Get}.");
             return (Entity) this._savedNames[name].DeepCopy();
@@ -83,7 +83,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM
         public override void Insert(Entity entity)
         {
             if (entity == null)
-                throw new ArgumentException("You cannot insert a null entity.");
+                throw new ArgumentNullException("entity");
 
             // By nature of being an IIdEntity.
             if (entity.IsIdSet())
@@ -113,7 +113,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM
         public override void Update(Entity entity)
         {
             if (entity == null)
-                throw new ArgumentException("You cannot update a null entity.");
+                throw new ArgumentNullException("entity");
 
             if (!entity.IsIdSet())
                 throw new ArgumentException("You cannot update an entity without a valid ID as the ID is assigned on Save, so it cannot be an update if it does not already exist.");
@@ -195,7 +195,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM
         public override void Delete(Id id)
         {
             if (id == null)
-                throw new ArgumentException("You cannot delete a null id.");
+                throw new ArgumentNullException("id");
 
             if (!this._saved.ContainsKey(id))
             {

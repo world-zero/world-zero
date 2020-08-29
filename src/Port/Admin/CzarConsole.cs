@@ -4,11 +4,6 @@ using WorldZero.Common.ValueObject;
 using WorldZero.Service.Entity.Registration;
 using WorldZero.Port.Interface;
 
-// TODO: document
-// for in-progress tasks during an era migration, be sure to check their level on first save ONLY
-// this is to make sure that there arent any weird bugs where someone was inprogress on a task
-//      with a min-level of 5 but then the era rolled over and their level is now 1
-
 // NOTE: Most of these are not done (at the time of writing) due to lack of
 // sufficient service classes. Before beginning a method's implementation, make
 // sure the needed service classes exist.
@@ -48,20 +43,18 @@ namespace WorldZero.Port.Admin
             TaskRegistration taskRegistration
         )
         {
-            string error =
-                "CzarConsole requires all parameters to be non-null.";
-            if (terminal == null) throw new ArgumentException(error);
-            if (characterRegistration == null) throw new ArgumentException(error);
-            if (eraRegistration == null) throw new ArgumentException(error);
-            if (factionRegistration == null) throw new ArgumentException(error);
-            if (flagRegistration == null) throw new ArgumentException(error);
-            if (locationRegistration == null) throw new ArgumentException(error);
-            if (metaTaskRegistration == null) throw new ArgumentException(error);
-            if (playerRegistration == null) throw new ArgumentException(error);
-            if (praxisRegistration == null) throw new ArgumentException(error);
-            if (statusRegistration == null) throw new ArgumentException(error);
-            if (tagRegistration == null) throw new ArgumentException(error);
-            if (taskRegistration == null) throw new ArgumentException(error);
+            if (terminal == null) throw new ArgumentNullException("terminal");
+            if (characterRegistration == null) throw new ArgumentNullException("characterRegistration");
+            if (eraRegistration == null) throw new ArgumentNullException("eraRegistration");
+            if (factionRegistration == null) throw new ArgumentNullException("factionRegistration");
+            if (flagRegistration == null) throw new ArgumentNullException("flagRegistration");
+            if (locationRegistration == null) throw new ArgumentNullException("locationRegistration");
+            if (metaTaskRegistration == null) throw new ArgumentNullException("metaTaskRegistration");
+            if (playerRegistration == null) throw new ArgumentNullException("playerRegistration");
+            if (praxisRegistration == null) throw new ArgumentNullException("praxisRegistration");
+            if (statusRegistration == null) throw new ArgumentNullException("statusRegistration");
+            if (tagRegistration == null) throw new ArgumentNullException("tagRegistration");
+            if (taskRegistration == null) throw new ArgumentNullException("taskRegistration");
 
             this._terminal = terminal;
             this._characterRegistration = characterRegistration;
@@ -258,6 +251,10 @@ namespace WorldZero.Port.Admin
             {
                 newName = new Name(this._terminal
                     .PromptNotNull<string>("Enter the new era's name."));
+            }
+            catch (ArgumentNullException)
+            {
+                throw new InvalidOperationException("An implementation of ITerminal.PromptNotNull returned null.");
             }
             catch (ArgumentException e)
             {

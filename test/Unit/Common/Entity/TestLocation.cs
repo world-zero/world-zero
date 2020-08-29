@@ -51,7 +51,7 @@ namespace WorldZero.Test.Unit.Common.Entity
             Assert.AreEqual(this._city, this._l.City);
             this._l.City = new Name("Test");
             Assert.AreEqual(new Name("Test"), this._l.City);
-            Assert.Throws<ArgumentException>(()=>this._l.City = null);
+            Assert.Throws<ArgumentNullException>(()=>this._l.City = null);
             Assert.AreEqual(new Name("Test"), this._l.City);
         }
 
@@ -61,7 +61,7 @@ namespace WorldZero.Test.Unit.Common.Entity
             Assert.AreEqual(this._state, this._l.State);
             this._l.State = new Name("Test");
             Assert.AreEqual(new Name("Test"), this._l.State);
-            Assert.Throws<ArgumentException>(()=>this._l.State = null);
+            Assert.Throws<ArgumentNullException>(()=>this._l.State = null);
             Assert.AreEqual(new Name("Test"), this._l.State);
         }
 
@@ -71,7 +71,7 @@ namespace WorldZero.Test.Unit.Common.Entity
             Assert.AreEqual(this._country, this._l.Country);
             this._l.Country = new Name("Test");
             Assert.AreEqual(new Name("Test"), this._l.Country);
-            Assert.Throws<ArgumentException>(()=>this._l.Country = null);
+            Assert.Throws<ArgumentNullException>(()=>this._l.Country = null);
             Assert.AreEqual(new Name("Test"), this._l.Country);
         }
 
@@ -81,7 +81,7 @@ namespace WorldZero.Test.Unit.Common.Entity
             Assert.AreEqual(this._zip, this._l.Zip);
             this._l.Zip = new Name("Test");
             Assert.AreEqual(new Name("Test"), this._l.Zip);
-            Assert.Throws<ArgumentException>(()=>this._l.Zip = null);
+            Assert.Throws<ArgumentNullException>(()=>this._l.Zip = null);
             Assert.AreEqual(new Name("Test"), this._l.Zip);
         }
     }

@@ -22,8 +22,8 @@ namespace WorldZero.Service.Entity.Registration
         )
             : base(metaTaskRepo)
         {
-            if ( (statusRepo == null) || (factionRepo == null) )
-                throw new ArgumentException(NullRepoException);
+            if (factionRepo == null) throw new ArgumentNullException("factionRepo");
+            if (statusRepo == null) throw new ArgumentNullException("statusRepo");
             this._factionRepo = factionRepo;
             this._statusRepo = statusRepo;
         }

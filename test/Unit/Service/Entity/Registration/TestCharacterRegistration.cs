@@ -150,7 +150,7 @@ namespace WorldZero.Test.Unit.Service.Entity.Registration
                 this._factionRepo,
                 this._locationRepo
             );
-            Assert.Throws<ArgumentException>(
+            Assert.Throws<ArgumentNullException>(
                 ()=>new CharacterRegistration(
                     null,
                     this._playerRepo,
@@ -158,7 +158,7 @@ namespace WorldZero.Test.Unit.Service.Entity.Registration
                     this._locationRepo
                 )
             );
-            Assert.Throws<ArgumentException>(
+            Assert.Throws<ArgumentNullException>(
                 ()=>new CharacterRegistration(
                     this._characterRepo,
                     null,
@@ -166,7 +166,7 @@ namespace WorldZero.Test.Unit.Service.Entity.Registration
                     this._locationRepo
                 )
             );
-            Assert.Throws<ArgumentException>(
+            Assert.Throws<ArgumentNullException>(
                 ()=>new CharacterRegistration(
                     this._characterRepo,
                     this._playerRepo,
@@ -174,7 +174,7 @@ namespace WorldZero.Test.Unit.Service.Entity.Registration
                     this._locationRepo
                 )
             );
-            Assert.Throws<ArgumentException>(
+            Assert.Throws<ArgumentNullException>(
                 ()=>new CharacterRegistration(
                     this._characterRepo,
                     this._playerRepo,

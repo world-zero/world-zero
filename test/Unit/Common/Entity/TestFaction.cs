@@ -60,7 +60,7 @@ namespace WorldZero.Test.Unit.Common.Entity
             var newDT = new PastDate(DateTime.UtcNow);
             this._f.DateFounded = newDT;
             Assert.AreEqual(this._f.DateFounded, newDT);
-            Assert.Throws<ArgumentException>(()=>this._f.DateFounded = null);
+            Assert.Throws<ArgumentNullException>(()=>this._f.DateFounded = null);
             Assert.Throws<ArgumentException>(()=>this._f.DateFounded = new PastDate(new DateTime(3000, 5, 1, 8, 30, 52)));
             Assert.AreEqual(this._f.DateFounded, newDT);
         }

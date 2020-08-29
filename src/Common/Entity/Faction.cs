@@ -64,7 +64,7 @@ namespace WorldZero.Common.Entity
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Attempted to set a `PastDate` to null.");
+                    throw new ArgumentNullException("DateFounded");
                 this._dateFounded = value;
             }
         }

@@ -45,7 +45,7 @@ namespace WorldZero.Test.Unit.Common.Entity
             Assert.AreEqual(this._taskId, this._p.TaskId);
             this._p.TaskId = new Id(34);
             Assert.AreEqual(new Id(34), this._p.TaskId);
-            Assert.Throws<ArgumentException>(()=>this._p.TaskId = null);
+            Assert.Throws<ArgumentNullException>(()=>this._p.TaskId = null);
             Assert.AreEqual(new Id(34), this._p.TaskId);
         }
 
@@ -55,7 +55,7 @@ namespace WorldZero.Test.Unit.Common.Entity
             Assert.AreEqual(this._statusId, this._p.StatusId);
             this._p.StatusId = new Name("crate");
             Assert.AreEqual(new Name("crate"), this._p.StatusId);
-            Assert.Throws<ArgumentException>(()=>this._p.StatusId = null);
+            Assert.Throws<ArgumentNullException>(()=>this._p.StatusId = null);
             Assert.AreEqual(new Name("crate"), this._p.StatusId);
         }
     }

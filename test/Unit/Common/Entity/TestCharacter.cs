@@ -116,7 +116,7 @@ namespace WorldZero.Test.Unit.Common.Entity
             Assert.AreEqual(this._playerId, this._c.PlayerId);
             this._c.PlayerId = new Id(43);
             Assert.AreEqual(new Id(43), this._c.PlayerId);
-            Assert.Throws<ArgumentException>(()=>this._c.PlayerId = null);
+            Assert.Throws<ArgumentNullException>(()=>this._c.PlayerId = null);
             Assert.AreEqual(new Id(43), this._c.PlayerId);
         }
 

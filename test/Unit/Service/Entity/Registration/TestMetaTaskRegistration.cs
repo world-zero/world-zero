@@ -83,25 +83,25 @@ namespace WorldZero.Test.Unit.Service.Entity.Registration
         [Test]
         public void TestConstructor()
         {
-            Assert.Throws<ArgumentException>(
+            Assert.Throws<ArgumentNullException>(
                 ()=>new MetaTaskRegistration(
                     null,
                     null,
                     null)
             );
-            Assert.Throws<ArgumentException>(
+            Assert.Throws<ArgumentNullException>(
                 ()=>new MetaTaskRegistration(
                     this._metaTaskRepo,
                     null,
                     null)
             );
-            Assert.Throws<ArgumentException>(
+            Assert.Throws<ArgumentNullException>(
                 ()=>new MetaTaskRegistration(
                     this._metaTaskRepo,
                     this._factionRepo,
                     null)
             );
-            Assert.Throws<ArgumentException>(
+            Assert.Throws<ArgumentNullException>(
                 ()=>new MetaTaskRegistration(
                     this._metaTaskRepo,
                     null,

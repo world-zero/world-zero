@@ -34,7 +34,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM
         [Test]
         public void TestGetByName()
         {
-            Assert.Throws<ArgumentException>(()=>this._repo.GetByName(null));
+            Assert.Throws<ArgumentNullException>(()=>this._repo.GetByName(null));
             Assert.Throws<ArgumentException>(()=>this._repo.GetByName(new Name("fake")));
 
             Player actual = this._repo.GetByName(this._player.Name);

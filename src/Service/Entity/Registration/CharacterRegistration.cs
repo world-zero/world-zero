@@ -24,12 +24,9 @@ namespace WorldZero.Service.Entity.Registration
         )
             : base(characterRepo)
         {
-            if (   (playerRepo == null)
-                || (factionRepo == null)
-                || (locationRepo == null) )
-            {
-                throw new ArgumentException(NullRepoException);
-            }
+            if (playerRepo == null) throw new ArgumentNullException("playerRepo");
+            if (factionRepo == null) throw new ArgumentNullException("factionRepo");
+            if (locationRepo == null) throw new ArgumentNullException("locationRepo");
             this._playerRepo = playerRepo;
             this._factionRepo = factionRepo;
             this._locationRepo = locationRepo;

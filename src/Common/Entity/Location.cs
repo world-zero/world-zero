@@ -71,7 +71,7 @@ namespace WorldZero.Common.Entity
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Cannot have a NULL city name.");
+                    throw new ArgumentNullException("City");
                 this._city = value;
             }
         }
@@ -83,7 +83,7 @@ namespace WorldZero.Common.Entity
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Cannot have a NULL state name.");
+                    throw new ArgumentNullException("State");
                 this._state = value;
             }
         }
@@ -95,7 +95,7 @@ namespace WorldZero.Common.Entity
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Cannot have a NULL country name.");
+                    throw new ArgumentNullException("Country");
                 this._country = value;
             }
         }
@@ -107,7 +107,7 @@ namespace WorldZero.Common.Entity
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Cannot have a NULL zip name.");
+                    throw new ArgumentNullException("Zip");
                 this._zip = value;
             }
         }

@@ -31,7 +31,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity
             Assert.AreEqual(new Name(this._sName), this._e.Name);
             this._e.Name = new Name("Steve");
             Assert.AreEqual(new Name("Steve"), this._e.Name);
-            Assert.Throws<ArgumentException>(()=>this._e.Name = null);
+            Assert.Throws<ArgumentNullException>(()=>this._e.Name = null);
             Assert.AreEqual(new Name("Steve"), this._e.Name);
         }
     }

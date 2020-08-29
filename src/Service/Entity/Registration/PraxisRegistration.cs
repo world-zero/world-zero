@@ -22,8 +22,8 @@ namespace WorldZero.Service.Entity.Registration
         )
             : base(praxisRepo)
         {
-            if ( (statusRepo == null) || (taskRepo == null) )
-                throw new ArgumentException(NullRepoException);
+            if (taskRepo == null) throw new ArgumentNullException("taskRepo");
+            if (statusRepo == null) throw new ArgumentNullException("statusRepo");
             this._taskRepo = taskRepo;
             this._statusRepo = statusRepo;
         }

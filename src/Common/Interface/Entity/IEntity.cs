@@ -34,7 +34,7 @@ namespace WorldZero.Common.Interface.Entity
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Attempted to set an `Id` to null.");
+                    throw new ArgumentNullException("Id");
 
                 if (this.IsIdSet())
                     throw new ArgumentException("Attempted to re-set the `Id` of an entity.");

@@ -31,12 +31,11 @@ namespace WorldZero.Service.Interface
         where IdType : ISingleValueObject<SVOType>
     {
         protected readonly IEntityRepo<Entity, IdType, SVOType> _repo;
-        public const string NullRepoException = "A service class' repo cannot be null.";
 
         protected IEntityRegistration(IEntityRepo<Entity, IdType, SVOType> repo)
         {
             if (repo == null)
-                throw new ArgumentException(NullRepoException);
+                throw new ArgumentNullException("repo");
             this._repo = repo;
         }
 
@@ -57,13 +56,13 @@ namespace WorldZero.Service.Interface
         public virtual Entity RegisterAsync(Entity e)
         {
             // TODO: I have this issue logged.
-            throw new InvalidOperationException("This method is future work.");
+            throw new NotImplementedException("This method is future work.");
         }
 
         protected void AssertNotNull(Entity e)
         {
             if (e == null)
-                throw new ArgumentException("A null value cannot be registered.");
+                throw new ArgumentNullException();
         }
     }
 }

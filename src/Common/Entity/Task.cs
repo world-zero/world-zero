@@ -114,7 +114,7 @@ namespace WorldZero.Common.Entity
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Attempted to set a `PointTotal` to null.");
+                    throw new ArgumentNullException("Points");
 
                 this._points = value;
             }
@@ -127,7 +127,7 @@ namespace WorldZero.Common.Entity
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Attempted to set a `Level` to null.");
+                    throw new ArgumentNullException("Level");
 
                 this._checkLevels(value, this._minLevel);
                 this._level = value;
@@ -141,7 +141,7 @@ namespace WorldZero.Common.Entity
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Attempted to set a `Level` to null.");
+                    throw new ArgumentNullException("MinLevel");
 
                 this._checkLevels(this._level, value);
                 this._minLevel = value;
@@ -165,7 +165,7 @@ namespace WorldZero.Common.Entity
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Attempted to set an `Id` to null.");
+                    throw new ArgumentNullException("FactionId");
 
                 this._factionId = value;
             }
@@ -178,7 +178,7 @@ namespace WorldZero.Common.Entity
             set
             {
                 if (value == null)
-                    throw new ArgumentException("Attempted to set an `Id` to null.");
+                    throw new ArgumentNullException("StatusId");
 
                 this._statusId = value;
             }

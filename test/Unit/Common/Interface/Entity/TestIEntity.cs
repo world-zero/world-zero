@@ -17,7 +17,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity
 
             Assert.IsFalse(e.IsIdSet(), "IEntity.IsIdSet() is reporting a false positive.");
 
-            Assert.Throws<ArgumentException>(()=>e.Id = null, "An exception was not thrown while attempting to set the Id to NULL.");
+            Assert.Throws<ArgumentNullException>(()=>e.Id = null, "An exception was not thrown while attempting to set the Id to NULL.");
             Assert.IsNotNull(e.Id, "The Id was set to NULL when it should not have been.");
 
             Assert.IsFalse(e.IsIdSet(), "IEntity.IsIdSet() is reporting a false positive.");
@@ -31,7 +31,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity
             Assert.Throws<ArgumentException>(()=>e.Id = new Id(1999));
             Assert.AreEqual(id, e.Id, "The Id get adjusted when it should not have been.");
 
-            Assert.Throws<ArgumentException>(()=>e.Id = null);
+            Assert.Throws<ArgumentNullException>(()=>e.Id = null);
             Assert.IsNotNull(e.Id, "The Id was set to NULL when it should not have been.");
         }
     }
