@@ -8,10 +8,10 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM
     /// If an entity with a non-repo set ID is supplied, then there will be
     /// undefined behavior.
     /// </remarks>
-    public abstract class IRAMIdEntityRepo<Entity>
-        : IRAMEntityRepo<Entity, Id, int>,
-          IIdEntityRepo<Entity>
-        where Entity : IIdEntity
+    public abstract class IRAMIdEntityRepo<TEntity>
+        : IRAMEntityRepo<TEntity, Id, int>,
+          IIdEntityRepo<TEntity>
+        where TEntity : IIdEntity
     {
         private int _nextIdValue;
 
@@ -23,7 +23,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM
             this._nextIdValue = 1;
         }
 
-        protected override Id GenerateId(Entity entity)
+        protected override Id GenerateId(TEntity entity)
         {
             return new Id(this._nextIdValue++);
         }

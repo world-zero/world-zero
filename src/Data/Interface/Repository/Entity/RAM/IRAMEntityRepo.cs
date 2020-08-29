@@ -16,10 +16,10 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM
     /// going to throw exceptions about conflicts between staged and saved
     /// entities on Save.
     /// </summary>
-    public abstract class IRAMEntityRepo<Entity, IdType, SVOType>
-        : IEntityRepo<Entity, IdType, SVOType>
-        where Entity : IEntity<IdType, SVOType>
-        where IdType : ISingleValueObject<SVOType>
+    public abstract class IRAMEntityRepo<TEntity, TId, TSingleValObj>
+        : IEntityRepo<TEntity, TId, TSingleValObj>
+        where TEntity : IEntity<TId, TSingleValObj>
+        where TId : ISingleValueObject<TSingleValObj>
     {
         // These will use use the ID of an entity to key that entity. For
         // staged changes, a null entity reference indicates that the entity
@@ -28,50 +28,50 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM
         // the new entity, and return an ID to use as the key; this is
         // necessary in cases of repo-generated IDs. By default, this method
         // will simply return the ID of the supplied entity.
-        protected Dictionary<IdType, Entity> _saved;
-        protected Dictionary<IdType, Entity> _staged;
-        protected virtual IdType GenerateId(Entity entity)
+        protected Dictionary<TId, TEntity> _saved;
+        protected Dictionary<TId, TEntity> _staged;
+        protected virtual TId GenerateId(TEntity entity)
         {
             return entity.Id;
         }
 
         public IRAMEntityRepo()
         {
-            this._saved  = new Dictionary<IdType, Entity>();
-            this._staged = new Dictionary<IdType, Entity>();
+            this._saved  = new Dictionary<TId, TEntity>();
+            this._staged = new Dictionary<TId, TEntity>();
         }
 
         /// <summary>
         /// Get all of the saved entities as an enumerable.
         /// </summary>
         /// <returns>The saved entities enumerable.</returns>
-        public IEnumerable<Entity> GetAll()
+        public IEnumerable<TEntity> GetAll()
         {
-            foreach(KeyValuePair<IdType, Entity> pair in this._saved)
+            foreach(KeyValuePair<TId, TEntity> pair in this._saved)
             {
-                IdType id = pair.Key;
-                Entity entity = pair.Value;
+                TId id = pair.Key;
+                TEntity entity = pair.Value;
                 if ( (entity.Id != id) || (!entity.IsIdSet()) )
                     throw new InvalidOperationException("A saved entity without an ID has been discovered.");
-                yield return (Entity) entity.DeepCopy();
+                yield return (TEntity) entity.DeepCopy();
             }
         }
 
         /// <remarks>
         /// This will only search the saved entities.
         /// </remarks>
-        public virtual Entity GetById(IdType id)
+        public virtual TEntity GetById(TId id)
         {
             if (!this._saved.ContainsKey(id))
                 throw new ArgumentException("You cannot get an entity with an ID does not exist.");
-            return (Entity) this._saved[id].DeepCopy();
+            return (TEntity) this._saved[id].DeepCopy();
         }
 
         /// <remarks>
         /// This does NOT do anything to verify that the entity is new and not
         /// already stored. GenerateId would be a perfect place to do this.
         /// </remarks>
-        public virtual void Insert(Entity entity)
+        public virtual void Insert(TEntity entity)
         {
             this._staged[this.GenerateId(entity)] = entity;
         }
@@ -81,7 +81,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM
         /// already staged with a set ID. This will not let unsaved entities
         /// that are staged be updated.
         /// </summary>
-        public virtual void Update(Entity entity)
+        public virtual void Update(TEntity entity)
         {
             if (!entity.IsIdSet())
                 throw new InvalidOperationException("An entity cannot be updated if the ID is unset, as stored entities will have a set ID on save.");
@@ -94,7 +94,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM
         /// on initialization, like `Name`s). If the entity is staged and
         /// saved, the entity will be staged to be deleted.
         /// </summary>
-        public virtual void Delete(IdType id)
+        public virtual void Delete(TId id)
         {
             this._staged[id] = null;
         }
@@ -105,10 +105,10 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM
         /// </summary>
         public virtual void Save()
         {
-            foreach (KeyValuePair<IdType, Entity> pair in this._staged)
+            foreach (KeyValuePair<TId, TEntity> pair in this._staged)
             {
-                IdType id = pair.Key;
-                Entity entity = pair.Value;
+                TId id = pair.Key;
+                TEntity entity = pair.Value;
 
                 if (entity == null)
                     this.CommitDelete(id);
@@ -132,7 +132,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM
         /// delete, then it must be an erroneous deletion (trying to delete
         /// something unsaved), so this will return null.
         /// </summary>
-        protected virtual Entity CommitDelete(IdType id)
+        protected virtual TEntity CommitDelete(TId id)
         {
             if (this._saved.ContainsKey(id))
             {
@@ -143,14 +143,14 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM
             return null;
         }
 
-        protected virtual Entity CommitChange(IdType id, Entity entity)
+        protected virtual TEntity CommitChange(TId id, TEntity entity)
         {
-            Entity old;
+            TEntity old;
             if (this._saved.ContainsKey(id))
                 old = this._saved[id];
             else
                 old = null;
-            this._saved[id] = (Entity) entity.DeepCopy();
+            this._saved[id] = (TEntity) entity.DeepCopy();
             return old;
         }
     }

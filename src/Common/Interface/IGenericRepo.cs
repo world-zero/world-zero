@@ -2,18 +2,18 @@ using System.Collections.Generic;
 
 namespace WorldZero.Common.Interface
 {
-    public interface IGenericRepo<ClassType, IdType>
-        where ClassType : class
+    public interface IGenericRepo<TClass, TId>
+        where TClass : class
     {
-        IEnumerable<ClassType> GetAll();
+        IEnumerable<TClass> GetAll();
         /// <summary>
         /// Get a saved item by its ID. If there is no corresponding ID, then
         /// an exception is thrown.
         /// </summary>
-        ClassType GetById(IdType id);
-        void Delete(IdType id);
-        void Insert(ClassType obj);
-        void Update(ClassType obj);
+        TClass GetById(TId id);
+        void Delete(TId id);
+        void Insert(TClass obj);
+        void Update(TClass obj);
         void Save();
     }
 }

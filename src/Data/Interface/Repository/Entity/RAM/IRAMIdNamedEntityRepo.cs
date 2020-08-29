@@ -13,16 +13,16 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM
     /// be Saved-ed first.
     /// This class assumes that entities cannot have unset names.
     /// </remarks>
-    public abstract class IRAMIdNamedEntityRepo<Entity>
-        : IRAMIdEntityRepo<Entity>,
-          IIdNamedEntityRepo<Entity>
-        where Entity : IIdNamedEntity
+    public abstract class IRAMIdNamedEntityRepo<TEntity>
+        : IRAMIdEntityRepo<TEntity>,
+          IIdNamedEntityRepo<TEntity>
+        where TEntity : IIdNamedEntity
     {
         // Sure these could use IDs instead of the whole entity, but a
         // reference takes up the same amount of space either way. These
         // follow the same style as the parent's saved/staged dictionaries.
-        protected Dictionary<Name, Entity> _savedNames;
-        protected Dictionary<Name, Entity> _stagedNames;
+        protected Dictionary<Name, TEntity> _savedNames;
+        protected Dictionary<Name, TEntity> _stagedNames;
 
         // As a name staged to be deleted can be recycled, this will lead to
         // a bug as the old name is not deleted anymore, and an exception will
@@ -55,18 +55,18 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM
         public IRAMIdNamedEntityRepo()
             : base()
         {
-            this._savedNames  = new Dictionary<Name, Entity>();
-            this._stagedNames = new Dictionary<Name, Entity>();
+            this._savedNames  = new Dictionary<Name, TEntity>();
+            this._stagedNames = new Dictionary<Name, TEntity>();
             this._recycledNames = new Dictionary<Name, int>();
         }
 
-        public Entity GetByName(Name name)
+        public TEntity GetByName(Name name)
         {
             if (name == null)
                 throw new ArgumentNullException("name");
             if (!this._savedNames.ContainsKey(name))
                 throw new ArgumentException($"There is no stored entity with the name {name.Get}.");
-            return (Entity) this._savedNames[name].DeepCopy();
+            return (TEntity) this._savedNames[name].DeepCopy();
         }
 
         // Cases
@@ -80,7 +80,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM
         /// This method has undefined behavior if an entity is inserted, has
         /// its name changed, and is then inserted again.
         /// </remarks>
-        public override void Insert(Entity entity)
+        public override void Insert(TEntity entity)
         {
             if (entity == null)
                 throw new ArgumentNullException("entity");
@@ -110,7 +110,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM
         //      as null (staged to be deleted).
         // 4. The name of an entity has been updated but is already saved or
         //      staged (to non-null).
-        public override void Update(Entity entity)
+        public override void Update(TEntity entity)
         {
             if (entity == null)
                 throw new ArgumentNullException("entity");
@@ -138,11 +138,11 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM
         /// <summary>
         /// This path is for addressing a name that is saved and/or staged.
         /// </summary>
-        private void _updateHelper(Entity entity)
+        private void _updateHelper(TEntity entity)
         {
             if (this._stagedNames.ContainsKey(entity.Name))
             {
-                Entity staged = this._stagedNames[entity.Name];
+                TEntity staged = this._stagedNames[entity.Name];
                 if (staged == null)
                 // The name is staged to be deleted, so it can be recycled.
                 {
@@ -160,21 +160,21 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM
             }
         }
 
-        private Name _findOldName(Entity entity)
+        private Name _findOldName(TEntity entity)
         {
             // StagedNames is checked first in order to make sure the name
             // isn't stale.
-            foreach (KeyValuePair<Name, Entity> pair in this._stagedNames)
+            foreach (KeyValuePair<Name, TEntity> pair in this._stagedNames)
             {
                 Name name = pair.Key;
-                Entity e = pair.Value;
+                TEntity e = pair.Value;
                 if (e.Id == entity.Id)
                     return name;
             }
-            foreach (KeyValuePair<Name, Entity> pair in this._savedNames)
+            foreach (KeyValuePair<Name, TEntity> pair in this._savedNames)
             {
                 Name name = pair.Key;
-                Entity e = pair.Value;
+                TEntity e = pair.Value;
                 if (e.Id == entity.Id)
                     return name;
             }
@@ -203,7 +203,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM
                 return;
             }
 
-            Entity saved = this._saved[id];
+            TEntity saved = this._saved[id];
             if (!this._savedNames.ContainsKey(saved.Name))
                 throw new InvalidOperationException("A saved entity does not have a saved name.");
 
@@ -221,9 +221,9 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM
         /// <summary>
         /// This is a helper to Delete.
         /// </summary>
-        private void _deleteStagedChanges(Id id, Entity saved)
+        private void _deleteStagedChanges(Id id, TEntity saved)
         {
-            Entity staged = this._staged[id];
+            TEntity staged = this._staged[id];
             if (saved.Name == staged.Name)
             {
                 this._stagedNames[staged.Name] = null;
@@ -247,10 +247,10 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM
         public override void Save()
         {
             base.Save();
-            foreach (KeyValuePair<Name, Entity> pair in this._stagedNames)
+            foreach (KeyValuePair<Name, TEntity> pair in this._stagedNames)
             {
                 Name name = pair.Key;
-                Entity e = pair.Value;
+                TEntity e = pair.Value;
                 if (e != null)
                     throw new InvalidOperationException("An entity was missed during Save.");
                 this._savedNames.Remove(name);
@@ -262,16 +262,16 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM
                 throw new InvalidOperationException($"After Save-ing, there are a number un-processed recycled names: {c}.");
         }
 
-        protected override Entity CommitDelete(Id id)
+        protected override TEntity CommitDelete(Id id)
         {
-            Entity old = base.CommitDelete(id);
+            TEntity old = base.CommitDelete(id);
             if (old == null)
                 return null;
             this._removeOldName(old);
             return old;
         }
 
-        protected override Entity CommitChange(Id id, Entity entity)
+        protected override TEntity CommitChange(Id id, TEntity entity)
         {
             var old = base.CommitChange(id, entity);
 
@@ -289,12 +289,12 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM
                 }
             }
             this._removeOldName(old, entity.Name);
-            this._savedNames[entity.Name] = (Entity) entity.DeepCopy();
+            this._savedNames[entity.Name] = (TEntity) entity.DeepCopy();
             this._stagedNames.Remove(entity.Name);
             return old;
         }
 
-        private void _removeOldName(Entity entity, Name newName=null)
+        private void _removeOldName(TEntity entity, Name newName=null)
         {
             if (entity == null)
             {

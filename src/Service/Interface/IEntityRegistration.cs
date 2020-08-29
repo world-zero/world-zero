@@ -8,14 +8,14 @@ namespace WorldZero.Service.Interface
     /// <summary>
     /// This is a generic interface for entity creation service classes.
     /// </summary>
-    /// <typeparam name="Entity">
+    /// <typeparam name="TEntity">
     /// The IEntity implementation that this class abstracts.
     /// </typeparam>
-    /// <typeparam name="IdType">
+    /// <typeparam name="TId">
     /// This is the `ISingleValueObject` implementation that `Entity` uses as
     /// an ID.
     /// </typeparam>
-    /// <typeparam name="SVOType">
+    /// <typeparam name="TSingleValObj">
     /// This is the built-in type behind `IdType`.
     /// </typeparam>
     /// <remarks>
@@ -26,13 +26,13 @@ namespace WorldZero.Service.Interface
     /// protected IEraRepo _eraRepo { get { return (IEraRepo) this._repo; } }
     /// </code>
     /// </remarks>
-    public abstract class IEntityRegistration<Entity, IdType, SVOType>
-        where Entity : IEntity<IdType, SVOType>
-        where IdType : ISingleValueObject<SVOType>
+    public abstract class IEntityRegistration<TEntity, TId, TSingleValObj>
+        where TEntity : IEntity<TId, TSingleValObj>
+        where TId : ISingleValueObject<TSingleValObj>
     {
-        protected readonly IEntityRepo<Entity, IdType, SVOType> _repo;
+        protected readonly IEntityRepo<TEntity, TId, TSingleValObj> _repo;
 
-        protected IEntityRegistration(IEntityRepo<Entity, IdType, SVOType> repo)
+        protected IEntityRegistration(IEntityRepo<TEntity, TId, TSingleValObj> repo)
         {
             if (repo == null)
                 throw new ArgumentNullException("repo");
@@ -42,7 +42,7 @@ namespace WorldZero.Service.Interface
         /// <summary>
         /// This will store the supplied entity and save the repo.
         /// </summary>
-        public virtual Entity Register(Entity e)
+        public virtual TEntity Register(TEntity e)
         {
             this.AssertNotNull(e);
             this._repo.Insert(e);
@@ -53,13 +53,13 @@ namespace WorldZero.Service.Interface
         /// <summary>
         /// This will store the supplied entity and save the repo.
         /// </summary>
-        public virtual Entity RegisterAsync(Entity e)
+        public virtual TEntity RegisterAsync(TEntity e)
         {
             // TODO: I have this issue logged.
             throw new NotImplementedException("This method is future work.");
         }
 
-        protected void AssertNotNull(Entity e)
+        protected void AssertNotNull(TEntity e)
         {
             if (e == null)
                 throw new ArgumentNullException();
