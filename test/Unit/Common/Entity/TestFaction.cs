@@ -12,7 +12,6 @@ namespace WorldZero.Test.Unit.Common.Entity
         private PastDate _dateFounded;
         private string _desc;
         private Name _abilityName;
-        private string _abilityDesc;
         private Faction _f;
 
         [SetUp]
@@ -22,9 +21,8 @@ namespace WorldZero.Test.Unit.Common.Entity
             this._dateFounded = new PastDate(DateTime.UtcNow);
             this._desc = "primary description";
             this._abilityName = new Name("Plot Power");
-            this._abilityDesc = "a description";
 
-            this._f = new Faction(this._name, this._dateFounded, this._desc, this._abilityName, this._abilityDesc);
+            this._f = new Faction(this._name, this._dateFounded, this._desc, this._abilityName);
         }
 
         [Test]
@@ -38,7 +36,6 @@ namespace WorldZero.Test.Unit.Common.Entity
             );
             Assert.IsNull(f.Description);
             Assert.IsNull(f.AbilityName);
-            Assert.IsNull(f.AbilityDesc);
         }
 
         [Test]
@@ -50,7 +47,6 @@ namespace WorldZero.Test.Unit.Common.Entity
             );
             Assert.AreEqual(this._desc, this._f.Description);
             Assert.AreEqual(this._abilityName, this._f.AbilityName);
-            Assert.AreEqual(this._abilityDesc, this._f.AbilityDesc);
         }
 
         [Test]

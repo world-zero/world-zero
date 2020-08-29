@@ -16,6 +16,7 @@ namespace WorldZero.Port.Admin
     public class CzarConsole
     {
         protected readonly ITerminal _terminal;
+        protected readonly AbilityRegistration _abilityRegistration;
         protected readonly CharacterRegistration _characterRegistration;
         protected readonly EraRegistration _eraRegistration;
         protected readonly FactionRegistration _factionRegistration;
@@ -30,6 +31,7 @@ namespace WorldZero.Port.Admin
 
         public CzarConsole(
             ITerminal terminal,
+            AbilityRegistration abilityRegistration,
             CharacterRegistration characterRegistration,
             EraRegistration eraRegistration,
             FactionRegistration factionRegistration,
@@ -44,6 +46,7 @@ namespace WorldZero.Port.Admin
         )
         {
             if (terminal == null) throw new ArgumentNullException("terminal");
+            if (abilityRegistration == null) throw new ArgumentNullException("abilityRegistration");
             if (characterRegistration == null) throw new ArgumentNullException("characterRegistration");
             if (eraRegistration == null) throw new ArgumentNullException("eraRegistration");
             if (factionRegistration == null) throw new ArgumentNullException("factionRegistration");
@@ -84,9 +87,11 @@ namespace WorldZero.Port.Admin
         {
             this._eraRegistration.Register(new Name("The Beginning"));
 
+            // TODO: The plan is to move these into config files, but this
+            // works for now.
             this._setupStatuses();
             this._setupFlags();
-            this._setupFactions();
+            this._setupAbilitiesFactions();
         }
 
         private void _setupStatuses()
@@ -113,89 +118,95 @@ namespace WorldZero.Port.Admin
             this._FlagRegistration.Register(new Flag(new Name("Fatphobic")));
         }
 
-        private void _setupFactions()
+        private void _setupAbilitiesFactions()
         {
+            // These are not hardcoded or in classes to allow for
+            // database-driven correlations. This is also why this method isn't
+            // broken into helpers.
             PastDate now = new PastDate(DateTime.UtcNow);
+            Ability ability;
 
-            // This does not use children of Faction for the specifics as it is
-            // desired to be able to add a faction to the factions table and
-            // have the system work just fine.
-
-            this._factionRegistration.Register(new Faction(
-                new Name("UA"),
-                now,
-                null,
-                null,
+            ability = new Ability(
+                new Name("Beginner's Bonus"), 
                 String.Join(" ",
                     "You get 100% points on all tasks you do. You can sign up",
                     "for a task from any group. When you do, if you are level",
                     "2, you will get a “welcome letter” from that group upon",
                     "completion of a task from that group. At 3, you have to",
-                    "choose one of the other groups (other than albescent)."
+                    "choose one of the other available groups."
                 )
+            );
+            this._abilityRegistration.Register(ability);
+            this._factionRegistration.Register(new Faction(
+                new Name("UA"), now, null, ability.Id
             ));
 
-            this._factionRegistration.Register(new Faction(
-                new Name("UA Masters"),
-                now,
-                null,
+            ability = new Ability(
                 new Name("Jack of all Trades"),
-                "You may complete tasks for all factions at 80% of the points."
+                "You complete tasks for all factions at 80% of the points."
+            );
+            this._abilityRegistration.Register(ability);
+            this._factionRegistration.Register(new Faction(
+                new Name("UA Masters"), now, null, ability.Id
             ));
 
+            ability = new Ability(
+                new Name("Competitor"), 
+                "You will receive an extra 10% of points from duels."
+            );
+            this._abilityRegistration.Register(ability);
             this._factionRegistration.Register(new Faction(
-                new Name("Snide"),
-                now,
-                null,
-                new Name("The Power of Spite"),
-                "An extra 10% of points can be awarded if you win a duel."
+                new Name("Snide"), now, null, ability.Id
             ));
 
-            this._factionRegistration.Register(new Faction(
-                new Name("Gestalt"),
-                now,
-                null,
-                new Name("Collaborator"),
+            ability = new Ability(
+                new Name("Collaborator"), 
                 String.Join(" ",
-                    "Basically, if you do a task for your group, you receive",
-                    "110% of the points. If you do a task of another group,",
-                    "then you receive 70% of the points." 
+                    "If you complete a task for your group, you receive 110%",
+                    "of the points. If you do a task of another group, then",
+                    "you receive 70% of the points." 
                 )
+            );
+            this._abilityRegistration.Register(ability);
+            this._factionRegistration.Register(new Faction(
+                new Name("Gestalt"), now, null, ability.Id
+            ));
+
+            ability = new Ability(
+                new Name("Historian"), 
+                "You may sign up for approved pretired / retired tasks."
+            );
+            this._abilityRegistration.Register(ability);
+            this._factionRegistration.Register(new Faction(
+                new Name("Journeymen"), now, null, ability.Id
+            ));
+
+            ability = new Ability(
+                new Name("Reiterate"), 
+                String.Join(" ",
+                    "You may complete one task of each level a certain",
+                    "number of times."
+                )
+            );
+            this._abilityRegistration.Register(ability);
+            this._factionRegistration.Register(new Faction(
+                new Name("Analog"), now, null, ability.Id
             ));
 
             this._factionRegistration.Register(new Faction(
-                new Name("Journeymen"),
-                now,
-                null,
-                null,
-                null
+                new Name("Singularity"), now
             ));
 
-            this._factionRegistration.Register(new Faction(
-                new Name("Analog"),
-                now,
-                null,
-                new Name("Practice Makes Perfect"),
-                "idk what this is"
-            ));
-
-            this._factionRegistration.Register(new Faction(
-                new Name("Singularity"),
-                now,
-                null,
-                null,
-                null
-            ));
-
-            this._factionRegistration.Register(new Faction(
-                new Name("Albescent"),
-                now,
-                null,
-                new Name("Open Season"),
+            ability = new Ability(
+                new Name("Open Season"), 
                 String.Join(" ",
                     "You may complete any task with any meta task(s) from any",
                     "group for full points."
                 )
+            );
+            this._abilityRegistration.Register(ability);
+            this._factionRegistration.Register(new Faction(
+                new Name("Albescent"), now, null, ability.Id
             ));
         }
 

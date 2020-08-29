@@ -6,7 +6,7 @@ using WorldZero.Data.Repository.Entity.RAM;
 using WorldZero.Service.Interface;
 using NUnit.Framework;
 
-namespace WorldZero.Test.Unit.Service.Interface
+namespace WorldZero.Test.Integration.Service.Interface
 {
     [TestFixture]
     public class TestIEntityRegistration

@@ -15,36 +15,44 @@ namespace WorldZero.Common.Entity
         /// possible to have a faction without an ability name but with an
         /// ability description.
         /// </summary>
-        public Faction(Name name, PastDate dateFounded,
-            string desc=null, Name abilityName=null, string abilityDesc=null)
+        public Faction(
+            Name name,
+            PastDate dateFounded,
+            string desc=null,
+            Name abilityName=null
+        )
             : base(name)
         {
             this._setup(
                 dateFounded,
                 desc,
-                abilityName,
-                abilityDesc
+                abilityName
             );
         }
 
-        internal Faction(string name, DateTime dateFounded, string desc, string abilityName, string abilityDesc)
+        internal Faction(
+            string name,
+            DateTime dateFounded,
+            string desc,
+            string abilityName
+        )
             : base(new Name(name))
         {
             this._setup(
                 new PastDate(dateFounded),
                 desc,
-                new Name(abilityName),
-                abilityDesc
+                new Name(abilityName)
             );
         }
 
-        private void _setup(PastDate dateFounded, string desc,
-                            Name abilityName, string abilityDesc)
+        private void _setup(
+            PastDate dateFounded,
+            string desc,
+            Name abilityName)
         {
             this.DateFounded = dateFounded;
             this.Description = desc;
             this.AbilityName = abilityName;
-            this.AbilityDesc = abilityDesc;
         }
 
         public override IEntity<Name, string> DeepCopy()
@@ -53,10 +61,11 @@ namespace WorldZero.Common.Entity
                 this.Id,
                 this.DateFounded,
                 this.Description,
-                this.AbilityName,
-                this.AbilityDesc
+                this.AbilityName
             );
         }
+
+        public Name AbilityName { get; set; }
 
         public PastDate DateFounded
         {
@@ -70,10 +79,19 @@ namespace WorldZero.Common.Entity
         }
         private PastDate _dateFounded;
 
-        public string Description { get; set; }
-
-        public Name AbilityName { get; set; }
-
-        public string AbilityDesc { get; set; }
+        public string Description
+        {
+            get { return this._description; }
+            set
+            {
+                if (value == null)
+                    this._description = null;
+                else if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("Attempted to set a `Description` to whitespace.");
+                else
+                    this._description = value;
+            }
+        }
+        private string _description;
     }
 }
