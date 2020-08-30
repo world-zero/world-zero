@@ -7,6 +7,10 @@ namespace WorldZero.Common.Entity
     /// <summary>
     /// Praxis is a entity for a tuple of the Praxis table.
     /// </summary>
+    /// <remarks>
+    /// As you would expect, validation of the Status is left to the Praxis
+    /// registration class.
+    /// </remarks>
     public class Praxis : IIdEntity
     {
         public Praxis(Id taskId, Name statusId, bool areDueling=false)

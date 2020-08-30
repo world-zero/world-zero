@@ -89,12 +89,16 @@ namespace WorldZero.Port.Admin
 
             // TODO: The plan is to move these into config files, but this
             // works for now.
-            this._setupStatuses();
+            this._setupBaseStatuses();
             this._setupFlags();
             this._setupAbilitiesFactions();
         }
 
-        private void _setupStatuses()
+        /// <remarks>
+        /// Do NOT change these, other things rely on these names to be as
+        /// they are.
+        /// </remarks>
+        private void _setupBaseStatuses()
         {
             this._statusRegistration.Register(
                 new Status(
@@ -102,6 +106,7 @@ namespace WorldZero.Port.Admin
                     "This is generally only to be used by proposed tasks."));
             this._statusRegistration.Register(new Status(new Name("Active")));
             this._statusRegistration.Register(new Status(new Name("Retired")));
+            this._statusRegistration.Register(new Status(new Name("In Progress")));
         }
 
         private void _setupFlags()
@@ -173,7 +178,9 @@ namespace WorldZero.Port.Admin
             ));
 
             ability = new Ability(
-                new Name("Historian"), 
+                // NOTE: this name is used in other documentation annd in class
+                // members, it is not recommended to change it.
+                new Name("Historian"),
                 "You may sign up for approved pretired / retired tasks."
             );
             this._abilityRegistration.Register(ability);
@@ -185,7 +192,7 @@ namespace WorldZero.Port.Admin
                 new Name("Reiterate"), 
                 String.Join(" ",
                     "You may complete one task of each level a certain",
-                    "number of times."
+                    "number of extra times."
                 )
             );
             this._abilityRegistration.Register(ability);

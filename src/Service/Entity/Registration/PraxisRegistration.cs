@@ -35,6 +35,16 @@ namespace WorldZero.Service.Entity.Registration
         public override Praxis Register(Praxis p)
         {
             this.AssertNotNull(p);
+            Task t;
+            try
+            {
+                t = this._taskRepo.GetById(p.TaskId);
+            }
+            catch (ArgumentException)
+            {
+                throw new ArgumentException($"Praxis of ID {p.Id} has an invalid task ID of {p.TaskId}.");
+            }
+
             try
             {
                 this._statusRepo.GetById(p.StatusId);
@@ -43,14 +53,14 @@ namespace WorldZero.Service.Entity.Registration
             {
                 throw new ArgumentException($"Praxis of ID {p.Id} has an invalid status ID of {p.StatusId}.");
             }
-            try
+
+            if (t.StatusId != new Name("Active"))
+                throw new ArgumentException("A praxis cannot be submitted for a non-active task.");
+
+            if ( (p.StatusId != new Name("In Progress"))
+              && (p.StatusId != new Name("Active")) )
             {
-                if (p.TaskId != null)
-                    this._taskRepo.GetById(p.TaskId);
-            }
-            catch (ArgumentException)
-            {
-                throw new ArgumentException($"Praxis of ID {p.Id} has an invalid task ID of {p.TaskId}.");
+                throw new ArgumentException("A praxis can only be Active or In Progress");
             }
             return base.Register(p);
         }

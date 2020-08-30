@@ -30,8 +30,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                 this._taskRepo,
                 this._statusRepo
             );
-            this._status0 = new Status(new Name("INVALID"));
-            this._status1 = new Status(new Name("VALID"));
+            this._status0 = new Status(new Name("Active"));
+            this._status1 = new Status(new Name("Active"));
             this._statusRepo.Insert(this._status0);
             this._statusRepo.Insert(this._status1);
             this._statusRepo.Save();
