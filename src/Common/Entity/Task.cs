@@ -15,7 +15,8 @@ namespace WorldZero.Common.Entity
             string summary,
             PointTotal points,
             Level level,
-            Level minLevel=null
+            Level minLevel=null,
+            bool isHistorianable=false
         )
             : base()
         {
@@ -25,7 +26,8 @@ namespace WorldZero.Common.Entity
                 minLevel,
                 points,
                 factionId,
-                statusId
+                statusId,
+                isHistorianable
             );
         }
 
@@ -36,7 +38,8 @@ namespace WorldZero.Common.Entity
             string summary,
             PointTotal points,
             Level level,
-            Level minLevel=null
+            Level minLevel=null,
+            bool isHistorianable=false
         )
             : base(id)
         {
@@ -46,7 +49,8 @@ namespace WorldZero.Common.Entity
                 minLevel,
                 points,
                 factionId,
-                statusId
+                statusId,
+                isHistorianable
             );
         }
 
@@ -57,7 +61,8 @@ namespace WorldZero.Common.Entity
             string summary,
             int points,
             int level,
-            int minLevel
+            int minLevel,
+            bool isHistorianable
         )
             : base(new Id(id))
         {
@@ -67,17 +72,27 @@ namespace WorldZero.Common.Entity
                 new Level(minLevel),
                 new PointTotal(points),
                 new Name(factionId),
-                new Name(statusId)
+                new Name(statusId),
+                isHistorianable
             );
         }
 
-        private void _setup(string summary, Level level, Level minLevel, PointTotal points, Name factionId, Name statusId)
+        private void _setup(
+            string summary,
+            Level level,
+            Level minLevel,
+            PointTotal points,
+            Name factionId,
+            Name statusId,
+            bool isHistorianable
+        )
         {
             this.Summary = summary;
             this.Level = level;
             if (minLevel == null) this.MinLevel = new Level(0);
             else                  this.MinLevel = minLevel;
             this.Points = points;
+            this.isHistorianable = isHistorianable;
             this.FactionId = factionId;
             this.StatusId = statusId;
         }
@@ -91,7 +106,8 @@ namespace WorldZero.Common.Entity
                 this.Summary,
                 this.Points,
                 this.Level,
-                this.MinLevel
+                this.MinLevel,
+                this.isHistorianable
             );
         }
 
@@ -158,6 +174,12 @@ namespace WorldZero.Common.Entity
                 throw new ArgumentException("The Level must be at least MinLevel.");
             }
         }
+
+        /// <summary>
+        /// This auto-property controls whether or not the Historian ability
+        /// can be used on this task.
+        /// </summary>
+        public bool isHistorianable { get; set; }
 
         public Name FactionId
         {
