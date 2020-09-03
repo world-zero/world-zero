@@ -45,10 +45,8 @@ namespace WorldZero.Common.Interface
 
         public override bool Equals(object obj)
         {
-            if (obj == null || obj.GetType() != GetType())
-            {
+            if ( (obj == null) || (obj.GetType() != this.GetType()) )
                 return false;
-            }
 
             IValueObject other = (IValueObject)obj;
             IEnumerator<object> thisValues = GetAtomicValues().GetEnumerator();
@@ -61,8 +59,8 @@ namespace WorldZero.Common.Interface
                     return false;
                 }
 
-                if (thisValues.Current != null &&
-                    !thisValues.Current.Equals(otherValues.Current))
+                if ( (thisValues.Current != null)
+                  && (!thisValues.Current.Equals(otherValues.Current)) )
                 {
                     return false;
                 }
@@ -73,8 +71,8 @@ namespace WorldZero.Common.Interface
         public override int GetHashCode()
         {
             return GetAtomicValues()
-            .Select(x => x != null ? x.GetHashCode() : 0)
-            .Aggregate((x, y) => x ^ y);
+                .Select(x => x != null ? x.GetHashCode() : 0)
+                .Aggregate((x, y) => x ^ y);
         }
     }
 }
