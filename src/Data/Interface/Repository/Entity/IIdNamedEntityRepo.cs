@@ -7,10 +7,10 @@ namespace WorldZero.Data.Interface.Repository.Entity
     /// <summary>
     /// This repo is responsible for implementations of `INamedEntity`.
     /// </summary>
-    public interface IIdNamedEntityRepo<IdNamedEntity>
-        : IIdEntityRepo<IdNamedEntity>
-        where IdNamedEntity : IIdEntity
+    public interface IIdNamedEntityRepo<TIdNamedEntity>
+        : IIdEntityRepo<TIdNamedEntity>
+        where TIdNamedEntity : IIdEntity
     {
-        IdNamedEntity GetByName(Name name);
+        TIdNamedEntity GetByName(Name name);
     }
 }

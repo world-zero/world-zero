@@ -7,8 +7,8 @@ namespace WorldZero.Data.Interface.Repository.Entity
     /// <summary>
     /// This repo is responsible for implementations of `IIdEntity`.
     /// </summary>
-    public interface IIdEntityRepo<IdEntity>
-        : IEntityRepo<IdEntity, Id, int>
-        where IdEntity : IIdEntity
+    public interface IIdEntityRepo<TIdEntity>
+        : IEntityRepo<TIdEntity, Id, int>
+        where TIdEntity : IIdEntity
     { }
 }
