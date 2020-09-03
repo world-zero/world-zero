@@ -11,8 +11,8 @@ namespace WorldZero.Common.Interface.Entity
     /// <summary>
     /// This is the interface for an Entity with an Id.
     /// </summary>
-    public abstract class IEntity<SingleValObj, VOType>
-        where SingleValObj : ISingleValueObject<VOType>
+    public abstract class IEntity<TSingleValObj, TValObj>
+        where TSingleValObj : ISingleValueObject<TValObj>
     {
         public bool IsIdSet()
         {
@@ -21,7 +21,7 @@ namespace WorldZero.Common.Interface.Entity
             return !this._id.Equals(this.UnsetIdValue);
         }
 
-        abstract public IEntity<SingleValObj, VOType> DeepCopy();
+        abstract public IEntity<TSingleValObj, TValObj> DeepCopy();
 
         /// <summary>
         /// This is the Id for an entity - it is a value object with a single
@@ -30,7 +30,7 @@ namespace WorldZero.Common.Interface.Entity
         /// <exception cref="ArgumentException">
         /// This is thrown if a set Id is attempted to be changed.
         /// </exception>
-        public SingleValObj Id
+        public TSingleValObj Id
         {
             get { return this._id; }
             set
@@ -44,7 +44,7 @@ namespace WorldZero.Common.Interface.Entity
                 this._id = value;
             }
         }
-        private SingleValObj _id;
+        private TSingleValObj _id;
 
         // This is functionally a readonly member, but my IDE was having none
         // of that, so here we are.
@@ -52,9 +52,9 @@ namespace WorldZero.Common.Interface.Entity
         /// An ID with this value is considered unset, and can still be
         /// changed.
         /// </summary>
-        public SingleValObj UnsetIdValue { get; private set; }
+        public TSingleValObj UnsetIdValue { get; private set; }
 
-        public IEntity(SingleValObj unsetValue)
+        public IEntity(TSingleValObj unsetValue)
         {
             this.UnsetIdValue = unsetValue;
             this._id = this.UnsetIdValue;
