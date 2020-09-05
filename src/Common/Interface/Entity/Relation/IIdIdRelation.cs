@@ -2,6 +2,7 @@ using WorldZero.Common.ValueObject;
 
 namespace WorldZero.Common.Interface.Entity.Relation
 {
+    /// <inheritdoc cref="IEntityRelation">
     public abstract class IIdIdRelation
         : IEntityRelation<Id, int, Id, int>
     {

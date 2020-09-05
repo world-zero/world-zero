@@ -23,7 +23,6 @@ namespace WorldZero.Common.Interface.Entity.Relation
     /// relations.
     /// It is worth noting that == and != are not overloaded, just .Equals().
     /// </remarks>
-
     public abstract class IEntityRelation
         <TLeftSingleValObj, TLeftBuiltIn, TRightSingleValObj, TRightBuiltIn>
         : IIdEntity
