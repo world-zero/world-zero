@@ -1,4 +1,4 @@
-using WorldZero.Common.ValueObject.General;
+using WorldZero.Common.ValueObject;
 using WorldZero.Common.Interface.Entity;
 
 namespace WorldZero.Common.Entity

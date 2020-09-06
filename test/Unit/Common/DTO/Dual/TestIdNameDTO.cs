@@ -1,5 +1,5 @@
 using System;
-using WorldZero.Common.ValueObject.General;
+using WorldZero.Common.ValueObject;
 using WorldZero.Common.DTO.Dual;
 using NUnit.Framework;
 

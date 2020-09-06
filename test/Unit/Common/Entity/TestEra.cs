@@ -1,6 +1,6 @@
 using System;
 using WorldZero.Common.Entity;
-using WorldZero.Common.ValueObject.General;
+using WorldZero.Common.ValueObject;
 using NUnit.Framework;
 
 namespace WorldZero.Test.Unit.Common.Entity

@@ -1,6 +1,6 @@
 using System;
 using WorldZero.Common.Entity;
-using WorldZero.Common.ValueObject.General;
+using WorldZero.Common.ValueObject;
 using WorldZero.Data.Interface.Repository.Entity;
 using WorldZero.Data.Repository.Entity.RAM;
 using WorldZero.Service.Entity.Registration;

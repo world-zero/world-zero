@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using WorldZero.Common.Entity;
-using WorldZero.Common.ValueObject.General;
+using WorldZero.Common.ValueObject;
 using WorldZero.Data.Interface.Repository.Entity.RAM;
 using NUnit.Framework;
 

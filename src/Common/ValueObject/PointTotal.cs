@@ -1,7 +1,7 @@
 using WorldZero.Common.Interface;
 using System;
 
-namespace WorldZero.Common.ValueObject.General
+namespace WorldZero.Common.ValueObject
 {
     /// <summary>
     /// A PointTotal is a ValueObject that contains a valid point total. A
