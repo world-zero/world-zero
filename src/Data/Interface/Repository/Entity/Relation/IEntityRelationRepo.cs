@@ -23,7 +23,16 @@ namespace WorldZero.Data.Interface.Repository.Entity.Relation
             TRightBuiltIn
         >
     {
-        IEnumerable<TEntityRelation> GetByLeftId();
-        IEnumerable<TEntityRelation> GetByRightId();
+        /// <summary>
+        /// Return the saved relational entities that have the supplied left
+        /// ID as an iterable.
+        /// </summary>
+        IEnumerable<TEntityRelation> GetByLeftId(TLeftSingleValObj id);
+
+        /// <summary>
+        /// Return the saved relational entities that have the supplied right
+        /// ID as an iterable.
+        /// </summary>
+        IEnumerable<TEntityRelation> GetByRightId(TRightSingleValObj id);
     }
 }
