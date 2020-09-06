@@ -1,7 +1,7 @@
 using WorldZero.Common.Interface;
 using System;
 
-namespace WorldZero.Common.ValueObject
+namespace WorldZero.Common.ValueObject.General
 {
     /// <summary>
     /// A Level is a ValueObject that contains a valid level. A level is valid

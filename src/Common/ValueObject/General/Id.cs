@@ -1,7 +1,7 @@
 using WorldZero.Common.Interface;
 using System;
 
-namespace WorldZero.Common.ValueObject
+namespace WorldZero.Common.ValueObject.General
 {
     /// <summary>
     /// An Id is a ValueObject that contains a valid ID. An ID is valid iff it

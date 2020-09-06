@@ -1,4 +1,4 @@
-using WorldZero.Common.ValueObject;
+using WorldZero.Common.ValueObject.General;
 
 namespace WorldZero.Common.Interface.Entity.Relation
 {

@@ -1,5 +1,5 @@
 using WorldZero.Common.Interface.Entity;
-using WorldZero.Common.ValueObject;
+using WorldZero.Common.ValueObject.General;
 using System;
 
 namespace WorldZero.Common.Entity

@@ -1,5 +1,5 @@
 using WorldZero.Service.Interface;
-using WorldZero.Common.ValueObject;
+using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Entity;
 using WorldZero.Data.Interface.Repository.Entity;
 

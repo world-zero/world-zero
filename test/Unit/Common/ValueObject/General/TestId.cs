@@ -1,8 +1,8 @@
 using System;
-using WorldZero.Common.ValueObject;
+using WorldZero.Common.ValueObject.General;
 using NUnit.Framework;
 
-namespace WorldZero.Test.Unit.Common.ValueObject
+namespace WorldZero.Test.Unit.Common.ValueObject.General
 {
     [TestFixture]
     public class TestId
