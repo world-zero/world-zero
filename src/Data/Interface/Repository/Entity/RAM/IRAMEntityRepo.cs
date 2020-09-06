@@ -47,7 +47,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM
         /// <returns>The saved entities enumerable.</returns>
         public IEnumerable<TEntity> GetAll()
         {
-            foreach(KeyValuePair<TId, TEntity> pair in this._saved)
+            foreach (KeyValuePair<TId, TEntity> pair in this._saved)
             {
                 TId id = pair.Key;
                 TEntity entity = pair.Value;
@@ -73,6 +73,8 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM
         /// </remarks>
         public virtual void Insert(TEntity entity)
         {
+            if (entity == null)
+                throw new ArgumentNullException("entity");
             this._staged[this.GenerateId(entity)] = entity;
         }
 
@@ -83,6 +85,8 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM
         /// </summary>
         public virtual void Update(TEntity entity)
         {
+            if (entity == null)
+                throw new ArgumentNullException("entity");
             if (!entity.IsIdSet())
                 throw new InvalidOperationException("An entity cannot be updated if the ID is unset, as stored entities will have a set ID on save.");
             this._staged[entity.Id] = entity;
@@ -96,6 +100,8 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM
         /// </summary>
         public virtual void Delete(TId id)
         {
+            if (id == null)
+                throw new ArgumentNullException("id");
             this._staged[id] = null;
         }
 
