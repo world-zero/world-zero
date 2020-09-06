@@ -12,6 +12,8 @@ namespace WorldZero.Common.Interface.Entity.Relation
     /// RightId will not be considered equal to a child with a `Name` LeftId
     /// and an `Id` RightId, even if the corresponding properties have the same
     /// values.
+    /// Additionally, validatation of IDs falls to the repository and service
+    /// class(es), as necessary.
     /// </summary>
     /// <remarks>
     /// As usual, enforcing that the combination of the left and right is the
@@ -22,6 +24,8 @@ namespace WorldZero.Common.Interface.Entity.Relation
     /// `PraxisFlag`). An exception to this rule is for self-referencial
     /// relations.
     /// It is worth noting that == and != are not overloaded, just .Equals().
+    /// It is recommended that children add more descriptive wrapper properties
+    /// for LeftId and RightId.
     /// </remarks>
     public abstract class IEntityRelation
         <TLeftSingleValObj, TLeftBuiltIn, TRightSingleValObj, TRightBuiltIn>
