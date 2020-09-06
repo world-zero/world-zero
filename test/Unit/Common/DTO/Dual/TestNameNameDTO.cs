@@ -3,7 +3,7 @@ using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.DTO.Dual;
 using NUnit.Framework;
 
-namespace WorldZero.Test.Common.DTO.Dual
+namespace WorldZero.Test.Unit.Common.DTO.Dual
 {
     [TestFixture]
     public class TestNameNameDTO
