@@ -1,4 +1,5 @@
 using WorldZero.Common.ValueObject;
+using WorldZero.Common.DTO.Dual;
 using WorldZero.Common.Interface.Entity;
 using WorldZero.Common.Interface.Entity.Relation;
 
@@ -34,6 +35,14 @@ namespace WorldZero.Common.Entity.Relation
 
         public CommentFlag(Id id, Id commentId, Name flagId)
             : base(id, commentId, flagId)
+        { }
+
+        public CommentFlag(IdNameDTO dto)
+            : base(dto.LeftId, dto.RightId)
+        { }
+
+        public CommentFlag(Id id, IdNameDTO dto)
+            : base(id, dto.LeftId, dto.RightId)
         { }
 
         internal CommentFlag(int id, int commentId, string flagId)

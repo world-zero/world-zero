@@ -1,4 +1,6 @@
 using WorldZero.Common.ValueObject;
+using WorldZero.Common.DTO.Dual;
+using WorldZero.Common.Interface.DTO;
 
 namespace WorldZero.Common.Interface.Entity.Relation
 {
@@ -13,5 +15,13 @@ namespace WorldZero.Common.Interface.Entity.Relation
         public IIdNameRelation(Id id, Id leftId, Name rightId)
             : base(id, leftId, rightId)
         { }
+
+        public override IDualDTO<Id, int, Name, string> GetDTO()
+        {
+            return new IdNameDTO(
+                this.LeftId,
+                this.RightId
+            );
+        }
     }
 }

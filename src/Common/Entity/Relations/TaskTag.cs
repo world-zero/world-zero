@@ -1,4 +1,5 @@
 using WorldZero.Common.ValueObject;
+using WorldZero.Common.DTO.Dual;
 using WorldZero.Common.Interface.Entity;
 using WorldZero.Common.Interface.Entity.Relation;
 
@@ -34,6 +35,14 @@ namespace WorldZero.Common.Entity.Relation
 
         public TaskTag(Id id, Id taskId, Name tagId)
             : base(id, taskId, tagId)
+        { }
+
+        public TaskTag(IdNameDTO dto)
+            : base(dto.LeftId, dto.RightId)
+        { }
+
+        public TaskTag(Id id, IdNameDTO dto)
+            : base(id, dto.LeftId, dto.RightId)
         { }
 
         internal TaskTag(int id, int taskId, string tagId)

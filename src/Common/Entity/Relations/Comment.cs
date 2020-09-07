@@ -1,5 +1,6 @@
 using System;
 using WorldZero.Common.ValueObject;
+using WorldZero.Common.DTO.Dual;
 using WorldZero.Common.Interface.Entity;
 using WorldZero.Common.Interface.Entity.Relation;
 
@@ -38,6 +39,18 @@ namespace WorldZero.Common.Entity.Relation
 
         public Comment(Id id, Id praxisId, Id characterId, string comment)
             : base(id, praxisId, characterId)
+        {
+            this.Value = comment;
+        }
+
+        public Comment(IdIdDTO dto, string comment)
+            : base(dto.LeftId, dto.RightId)
+        {
+            this.Value = comment;
+        }
+
+        public Comment(Id id, IdIdDTO dto, string comment)
+            : base(id, dto.LeftId, dto.RightId)
         {
             this.Value = comment;
         }

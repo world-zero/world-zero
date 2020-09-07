@@ -1,4 +1,5 @@
 using WorldZero.Common.ValueObject;
+using WorldZero.Common.DTO.Dual;
 using WorldZero.Common.Interface.Entity;
 using WorldZero.Common.Interface.Entity.Relation;
 
@@ -34,6 +35,14 @@ namespace WorldZero.Common.Entity.Relation
 
         public PraxisFlag(Id id, Id praxisId, Name flagId)
             : base(id, praxisId, flagId)
+        { }
+
+        public PraxisFlag(IdNameDTO dto)
+            : base(dto.LeftId, dto.RightId)
+        { }
+
+        public PraxisFlag(Id id, IdNameDTO dto)
+            : base(id, dto.LeftId, dto.RightId)
         { }
 
         internal PraxisFlag(int id, int praxisId, string flagId)

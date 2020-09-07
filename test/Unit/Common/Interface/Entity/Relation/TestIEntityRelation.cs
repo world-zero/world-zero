@@ -1,6 +1,7 @@
 using System;
 using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.Interface.Entity;
+using WorldZero.Common.Interface.DTO;
 using WorldZero.Common.ValueObject;
 using NUnit.Framework;
 
@@ -64,6 +65,11 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Relation
                 this.RightId
             );
         }
+
+        public override IDualDTO<Id, int, Id, int> GetDTO()
+        {
+            return null;
+        }
     }
 
     public class TestIdNameRelation : IEntityRelation<Id, int, Name, string>
@@ -83,6 +89,11 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Relation
                 this.LeftId,
                 this.RightId
             );
+        }
+
+        public override IDualDTO<Id, int, Name, string> GetDTO()
+        {
+            return null;
         }
     }
 
@@ -104,6 +115,11 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Relation
                 this.RightId
             );
         }
+
+        public override IDualDTO<Name, string, Id, int> GetDTO()
+        {
+            return null;
+        }
     }
 
     public class TestNameNameRelation : IEntityRelation<Name, string, Name, string>
@@ -122,6 +138,11 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Relation
                 this.LeftId,
                 this.RightId
             );
+        }
+
+        public override IDualDTO<Name, string, Name, string> GetDTO()
+        {
+            return null;
         }
     }
 }

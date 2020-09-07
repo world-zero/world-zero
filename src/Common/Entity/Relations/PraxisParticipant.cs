@@ -1,4 +1,5 @@
 using System;
+using WorldZero.Common.DTO.Dual;
 using WorldZero.Common.ValueObject;
 using WorldZero.Common.Interface.Entity;
 using WorldZero.Common.Interface.Entity.Relation;
@@ -53,6 +54,18 @@ namespace WorldZero.Common.Entity.Relation
             int submissionCount=1
         )
             : base(id, praxisId, characterId)
+        {
+            this.SubmissionCount = submissionCount;
+        }
+
+        public PraxisParticipant(IdIdDTO dto, int submissionCount=1)
+            : base(dto.LeftId, dto.RightId)
+        {
+            this.SubmissionCount = submissionCount;
+        }
+
+        public PraxisParticipant(Id id, IdIdDTO dto, int submissionCount=1)
+            : base(id, dto.LeftId, dto.RightId)
         {
             this.SubmissionCount = submissionCount;
         }

@@ -1,4 +1,5 @@
 using WorldZero.Common.ValueObject;
+using WorldZero.Common.DTO.Dual;
 using WorldZero.Common.Interface.Entity;
 using WorldZero.Common.Interface.Entity.Relation;
 
@@ -34,6 +35,14 @@ namespace WorldZero.Common.Entity.Relation
 
         public MetaTaskTag(Id id, Id metaTaskId, Name TagId)
             : base(id, metaTaskId, TagId)
+        { }
+
+        public MetaTaskTag(IdNameDTO dto)
+            : base(dto.LeftId, dto.RightId)
+        { }
+
+        public MetaTaskTag(Id id, IdNameDTO dto)
+            : base(dto.LeftId, dto.RightId)
         { }
 
         internal MetaTaskTag(int id, int metaTaskId, string tagId)

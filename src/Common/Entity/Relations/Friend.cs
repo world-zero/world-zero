@@ -1,4 +1,5 @@
 using WorldZero.Common.ValueObject;
+using WorldZero.Common.DTO.Dual;
 using WorldZero.Common.Interface.Entity;
 using WorldZero.Common.Interface.Entity.Relation;
 
@@ -34,6 +35,14 @@ namespace WorldZero.Common.Entity.Relation
 
         public Friend(Id id, Id firstCharacterId, Id secondCharacterId)
             : base(id, firstCharacterId, secondCharacterId)
+        { }
+
+        public Friend(IdIdDTO dto)
+            : base(dto.LeftId, dto.RightId)
+        { }
+
+        public Friend(Id id, IdIdDTO dto)
+            : base(id, dto.LeftId, dto.RightId)
         { }
 
         internal Friend(int id, int firstCharacterId, int secondCharacterId)

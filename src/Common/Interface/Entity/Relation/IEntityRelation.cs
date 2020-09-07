@@ -1,4 +1,5 @@
 using System;
+using WorldZero.Common.Interface.DTO;
 using WorldZero.Common.ValueObject;
 
 namespace WorldZero.Common.Interface.Entity.Relation
@@ -72,6 +73,10 @@ namespace WorldZero.Common.Interface.Entity.Relation
             }
         }
         protected TRightSingleValObj _rightId;
+
+        public abstract IDualDTO
+        <TLeftSingleValObj, TLeftBuiltIn, TRightSingleValObj, TRightBuiltIn>
+        GetDTO();
 
         public override bool Equals(object obj)
         {

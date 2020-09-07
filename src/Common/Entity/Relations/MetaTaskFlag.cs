@@ -1,4 +1,5 @@
 using WorldZero.Common.ValueObject;
+using WorldZero.Common.DTO.Dual;
 using WorldZero.Common.Interface.Entity;
 using WorldZero.Common.Interface.Entity.Relation;
 
@@ -34,6 +35,14 @@ namespace WorldZero.Common.Entity.Relation
 
         public MetaTaskFlag(Id id, Id metaTaskId, Name flagId)
             : base(id, metaTaskId, flagId)
+        { }
+
+        public MetaTaskFlag(IdNameDTO dto)
+            : base(dto.LeftId, dto.RightId)
+        { }
+
+        public MetaTaskFlag(Id id, IdNameDTO dto)
+            : base(dto.LeftId, dto.RightId)
         { }
 
         internal MetaTaskFlag(int id, int metaTaskId, string flagId)
