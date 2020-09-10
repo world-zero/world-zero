@@ -8,22 +8,22 @@ namespace WorldZero.Common.Interface.DTO
     /// the left and right IDs.
     /// </summary>
     public abstract class IDualDTO
-        <TLeftSingleValObj, TLeftBuiltIn, TRightSingleValObj, TRightBuiltIn>
+        <TLeftSVO, TLeftBuiltIn, TRightSVO, TRightBuiltIn>
         : IValueObject
-        where TLeftSingleValObj  : ISingleValueObject<TLeftBuiltIn>
-        where TRightSingleValObj : ISingleValueObject<TRightBuiltIn>
+        where TLeftSVO  : ISingleValueObject<TLeftBuiltIn>
+        where TRightSVO : ISingleValueObject<TRightBuiltIn>
     {
         public abstract IDualDTO
-        <TLeftSingleValObj, TLeftBuiltIn, TRightSingleValObj, TRightBuiltIn>
+        <TLeftSVO, TLeftBuiltIn, TRightSVO, TRightBuiltIn>
         DeepCopy();
 
-        public IDualDTO(TLeftSingleValObj leftId, TRightSingleValObj rightId)
+        public IDualDTO(TLeftSVO leftId, TRightSVO rightId)
         {
             this.LeftId = leftId;
             this.RightId = rightId;
         }
 
-        public TLeftSingleValObj LeftId
+        public TLeftSVO LeftId
         {
             get { return this._leftId; }
             private set
@@ -33,9 +33,9 @@ namespace WorldZero.Common.Interface.DTO
                 this._leftId = value;
             }
         }
-        protected TLeftSingleValObj _leftId;
+        protected TLeftSVO _leftId;
 
-        public TRightSingleValObj RightId
+        public TRightSVO RightId
         {
             get { return this._rightId; }
             private set
@@ -45,7 +45,7 @@ namespace WorldZero.Common.Interface.DTO
                 this._rightId = value;
             }
         }
-        protected TRightSingleValObj _rightId;
+        protected TRightSVO _rightId;
 
         protected override IEnumerable<object> GetAtomicValues()
         {

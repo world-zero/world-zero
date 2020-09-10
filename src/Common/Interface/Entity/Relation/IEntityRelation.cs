@@ -29,28 +29,28 @@ namespace WorldZero.Common.Interface.Entity.Relation
     /// for LeftId and RightId.
     /// </remarks>
     public abstract class IEntityRelation
-        <TLeftSingleValObj, TLeftBuiltIn, TRightSingleValObj, TRightBuiltIn>
+        <TLeftSVO, TLeftBuiltIn, TRightSVO, TRightBuiltIn>
         : IIdEntity
-        where TLeftSingleValObj  : ISingleValueObject<TLeftBuiltIn>
-        where TRightSingleValObj : ISingleValueObject<TRightBuiltIn>
+        where TLeftSVO  : ISingleValueObject<TLeftBuiltIn>
+        where TRightSVO : ISingleValueObject<TRightBuiltIn>
     {
         // NOTE: IEntity.DeepCopy() is still not implemmented.
 
-        public IEntityRelation(TLeftSingleValObj leftId, TRightSingleValObj rightId)
+        public IEntityRelation(TLeftSVO leftId, TRightSVO rightId)
             : base()
         {
             this.LeftId = leftId;
             this.RightId = rightId;
         }
 
-        public IEntityRelation(Id id, TLeftSingleValObj leftId, TRightSingleValObj rightId)
+        public IEntityRelation(Id id, TLeftSVO leftId, TRightSVO rightId)
             : base(id)
         {
             this.LeftId = leftId;
-            this.RightId = RightId;
+            this.RightId = rightId;
         }
 
-        public TLeftSingleValObj LeftId
+        public TLeftSVO LeftId
         {
             get { return this._leftId; }
             set
@@ -60,9 +60,9 @@ namespace WorldZero.Common.Interface.Entity.Relation
                 this._leftId = value;
             }
         }
-        protected TLeftSingleValObj _leftId;
+        protected TLeftSVO _leftId;
 
-        public TRightSingleValObj RightId
+        public TRightSVO RightId
         {
             get { return this._rightId; }
             set
@@ -72,10 +72,10 @@ namespace WorldZero.Common.Interface.Entity.Relation
                 this._rightId = value;
             }
         }
-        protected TRightSingleValObj _rightId;
+        protected TRightSVO _rightId;
 
         public abstract IDualDTO
-        <TLeftSingleValObj, TLeftBuiltIn, TRightSingleValObj, TRightBuiltIn>
+        <TLeftSVO, TLeftBuiltIn, TRightSVO, TRightBuiltIn>
         GetDTO();
 
         public override bool Equals(object obj)
@@ -85,18 +85,18 @@ namespace WorldZero.Common.Interface.Entity.Relation
 
             IEntityRelation
             <
-                TLeftSingleValObj,
+                TLeftSVO,
                 TLeftBuiltIn,
-                TRightSingleValObj,
+                TRightSVO,
                 TRightBuiltIn
             > other;
             try
             {
                 other = (IEntityRelation
                 <
-                    TLeftSingleValObj,
+                    TLeftSVO,
                     TLeftBuiltIn,
-                    TRightSingleValObj,
+                    TRightSVO,
                     TRightBuiltIn
                 >) obj;
             }

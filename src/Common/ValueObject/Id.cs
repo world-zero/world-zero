@@ -30,7 +30,6 @@ namespace WorldZero.Common.ValueObject
 
         public Id(int id)
             : base(id)
-        {
-        }
+        { }
     }
 }

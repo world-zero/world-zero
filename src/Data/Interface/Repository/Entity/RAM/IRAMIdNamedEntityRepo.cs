@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using WorldZero.Common.ValueObject;
 using WorldZero.Common.Interface.Entity;
 
+// NOTE: The logic for enforcing a name uniqueness is repeated to enforce a
+// unique composite "key" of Left/Right IDs in IRAMEntityRelationRepo. Any
+// changes that need to be applied to this class are likely needed there as
+// well.
+
 namespace WorldZero.Data.Interface.Repository.Entity.RAM
 {
     /// <inheritdoc cref="IRAMEntityRepo"/>
@@ -168,14 +173,14 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM
             {
                 Name name = pair.Key;
                 TEntity e = pair.Value;
-                if (e.Id == entity.Id)
+                if ( (e != null) && (e.Id == entity.Id) )
                     return name;
             }
             foreach (KeyValuePair<Name, TEntity> pair in this._savedNames)
             {
                 Name name = pair.Key;
                 TEntity e = pair.Value;
-                if (e.Id == entity.Id)
+                if ( (e != null) && (e.Id == entity.Id) )
                     return name;
             }
             return null;
