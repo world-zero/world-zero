@@ -21,3 +21,13 @@ chains and branches, adding and adjusting as they go.
 In the interest of time, the entity repos don't have many entity-specific
 function members. As these are just going to be variations of a `SELECT` query,
 this decision seems reasonable at the time of writing.
+
+## Spots where I am lazy
+
+### RAM Entity Relation Repos
+
+Some relational entities, like Comment and PraxisParticipant, have the usual
+dual combination that are enforced to be unique, but they also have a third
+member to track the count, making it a triple unique key. Because RAM repos are
+more of a dev tool as opposed to a production database repo, these do not. As a
+result, they will crash when they really shouldn't around this case.
