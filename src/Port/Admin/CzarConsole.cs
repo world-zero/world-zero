@@ -1,4 +1,5 @@
 using System;
+using Microsoft.Extensions.DependencyInjection;
 using WorldZero.Common.Entity;
 using WorldZero.Common.ValueObject;
 using WorldZero.Service.Entity.Registration;
@@ -16,6 +17,7 @@ namespace WorldZero.Port.Admin
     public class CzarConsole
     {
         protected readonly ITerminal _terminal;
+        protected readonly IServiceProvider _serviceProvider;
         protected readonly AbilityRegistration _abilityRegistration;
         protected readonly CharacterRegistration _characterRegistration;
         protected readonly EraRegistration _eraRegistration;
@@ -29,48 +31,54 @@ namespace WorldZero.Port.Admin
         protected readonly TagRegistration _tagRegistration;
         protected readonly TaskRegistration _taskRegistration;
 
+        /// <summary>
+        /// Provide administrators with a means of controlling the system.
+        /// </summary>
+        /// <param name="serviceProvider">
+        /// An IServiceProvider that contains a multitude of needed services.
+        /// If any are not configured, then an exception will be thrown. For a
+        /// full listing, read the constructor's code.
+        /// </param>
+        /// <param name="terminal">The chosen IO medium.</param>
         public CzarConsole(
-            ITerminal terminal,
-            AbilityRegistration abilityRegistration,
-            CharacterRegistration characterRegistration,
-            EraRegistration eraRegistration,
-            FactionRegistration factionRegistration,
-            FlagRegistration flagRegistration,
-            LocationRegistration locationRegistration,
-            MetaTaskRegistration metaTaskRegistration,
-            PlayerRegistration playerRegistration,
-            PraxisRegistration praxisRegistration,
-            StatusRegistration statusRegistration,
-            TagRegistration tagRegistration,
-            TaskRegistration taskRegistration
+            IServiceProvider serviceProvider,
+            ITerminal terminal
         )
         {
             if (terminal == null) throw new ArgumentNullException("terminal");
-            if (abilityRegistration == null) throw new ArgumentNullException("abilityRegistration");
-            if (characterRegistration == null) throw new ArgumentNullException("characterRegistration");
-            if (eraRegistration == null) throw new ArgumentNullException("eraRegistration");
-            if (factionRegistration == null) throw new ArgumentNullException("factionRegistration");
-            if (flagRegistration == null) throw new ArgumentNullException("flagRegistration");
-            if (locationRegistration == null) throw new ArgumentNullException("locationRegistration");
-            if (metaTaskRegistration == null) throw new ArgumentNullException("metaTaskRegistration");
-            if (playerRegistration == null) throw new ArgumentNullException("playerRegistration");
-            if (praxisRegistration == null) throw new ArgumentNullException("praxisRegistration");
-            if (statusRegistration == null) throw new ArgumentNullException("statusRegistration");
-            if (tagRegistration == null) throw new ArgumentNullException("tagRegistration");
-            if (taskRegistration == null) throw new ArgumentNullException("taskRegistration");
+            if (serviceProvider == null) throw new ArgumentNullException("serviceProvider");
 
             this._terminal = terminal;
-            this._characterRegistration = characterRegistration;
-            this._eraRegistration = eraRegistration;
-            this._factionRegistration = factionRegistration;
-            this._FlagRegistration = flagRegistration;
-            this._LocationRegistration = locationRegistration;
-            this._metaTaskRegistration = metaTaskRegistration;
-            this._playerRegistration = playerRegistration;
-            this._praxisRegistration = praxisRegistration;
-            this._statusRegistration = statusRegistration;
-            this._tagRegistration = tagRegistration;
-            this._taskRegistration = taskRegistration;
+            this._serviceProvider = serviceProvider;
+            try
+            {
+                this._characterRegistration = this._serviceProvider
+                    .GetRequiredService<CharacterRegistration>();
+                this._eraRegistration = this._serviceProvider
+                    .GetRequiredService<EraRegistration>();
+                this._factionRegistration = this._serviceProvider
+                    .GetRequiredService<FactionRegistration>();
+                this._FlagRegistration = this._serviceProvider
+                    .GetRequiredService<FlagRegistration>();
+                this._LocationRegistration = this._serviceProvider
+                    .GetRequiredService<LocationRegistration>();
+                this._metaTaskRegistration = this._serviceProvider
+                    .GetRequiredService<MetaTaskRegistration>();
+                this._playerRegistration = this._serviceProvider
+                    .GetRequiredService<PlayerRegistration>();
+                this._praxisRegistration = this._serviceProvider
+                    .GetRequiredService<PraxisRegistration>();
+                this._statusRegistration = this._serviceProvider
+                    .GetRequiredService<StatusRegistration>();
+                this._tagRegistration = this._serviceProvider
+                    .GetRequiredService<TagRegistration>();
+                this._taskRegistration = this._serviceProvider
+                    .GetRequiredService<TaskRegistration>();
+            }
+            catch (InvalidOperationException e)
+            {
+                throw new ArgumentNullException(e.Message);
+            }
         }
 
         /// <summary>
