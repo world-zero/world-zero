@@ -16,8 +16,8 @@ namespace WorldZero.Port.Admin
     /// </summary>
     public class CzarConsole
     {
-        protected readonly ITerminal _terminal;
         protected readonly IServiceProvider _serviceProvider;
+        protected readonly ITerminal _terminal;
         protected readonly AbilityRegistration _abilityRegistration;
         protected readonly CharacterRegistration _characterRegistration;
         protected readonly EraRegistration _eraRegistration;
@@ -39,19 +39,17 @@ namespace WorldZero.Port.Admin
         /// If any are not configured, then an exception will be thrown. For a
         /// full listing, read the constructor's code.
         /// </param>
-        /// <param name="terminal">The chosen IO medium.</param>
         public CzarConsole(
-            IServiceProvider serviceProvider,
-            ITerminal terminal
+            IServiceProvider serviceProvider
         )
         {
-            if (terminal == null) throw new ArgumentNullException("terminal");
             if (serviceProvider == null) throw new ArgumentNullException("serviceProvider");
 
-            this._terminal = terminal;
             this._serviceProvider = serviceProvider;
             try
             {
+                this._terminal = this._serviceProvider
+                    .GetRequiredService<ITerminal>();
                 this._characterRegistration = this._serviceProvider
                     .GetRequiredService<CharacterRegistration>();
                 this._eraRegistration = this._serviceProvider
