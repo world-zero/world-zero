@@ -39,9 +39,7 @@ namespace WorldZero.Port.Admin
         /// If any are not configured, then an exception will be thrown. For a
         /// full listing, read the constructor's code.
         /// </param>
-        public CzarConsole(
-            IServiceProvider serviceProvider
-        )
+        public CzarConsole(IServiceProvider serviceProvider)
         {
             if (serviceProvider == null) throw new ArgumentNullException("serviceProvider");
 
