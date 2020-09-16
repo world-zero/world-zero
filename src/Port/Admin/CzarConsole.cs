@@ -16,7 +16,6 @@ namespace WorldZero.Port.Admin
     /// </summary>
     public class CzarConsole
     {
-        protected readonly IServiceProvider _serviceProvider;
         protected readonly ITerminal _terminal;
         protected readonly AbilityRegistration _abilityRegistration;
         protected readonly CharacterRegistration _characterRegistration;
@@ -43,32 +42,31 @@ namespace WorldZero.Port.Admin
         {
             if (serviceProvider == null) throw new ArgumentNullException("serviceProvider");
 
-            this._serviceProvider = serviceProvider;
             try
             {
-                this._terminal = this._serviceProvider
+                this._terminal = serviceProvider
                     .GetRequiredService<ITerminal>();
-                this._characterRegistration = this._serviceProvider
+                this._characterRegistration = serviceProvider
                     .GetRequiredService<CharacterRegistration>();
-                this._eraRegistration = this._serviceProvider
+                this._eraRegistration = serviceProvider
                     .GetRequiredService<EraRegistration>();
-                this._factionRegistration = this._serviceProvider
+                this._factionRegistration = serviceProvider
                     .GetRequiredService<FactionRegistration>();
-                this._FlagRegistration = this._serviceProvider
+                this._FlagRegistration = serviceProvider
                     .GetRequiredService<FlagRegistration>();
-                this._LocationRegistration = this._serviceProvider
+                this._LocationRegistration = serviceProvider
                     .GetRequiredService<LocationRegistration>();
-                this._metaTaskRegistration = this._serviceProvider
+                this._metaTaskRegistration = serviceProvider
                     .GetRequiredService<MetaTaskRegistration>();
-                this._playerRegistration = this._serviceProvider
+                this._playerRegistration = serviceProvider
                     .GetRequiredService<PlayerRegistration>();
-                this._praxisRegistration = this._serviceProvider
+                this._praxisRegistration = serviceProvider
                     .GetRequiredService<PraxisRegistration>();
-                this._statusRegistration = this._serviceProvider
+                this._statusRegistration = serviceProvider
                     .GetRequiredService<StatusRegistration>();
-                this._tagRegistration = this._serviceProvider
+                this._tagRegistration = serviceProvider
                     .GetRequiredService<TagRegistration>();
-                this._taskRegistration = this._serviceProvider
+                this._taskRegistration = serviceProvider
                     .GetRequiredService<TaskRegistration>();
             }
             catch (InvalidOperationException e)
