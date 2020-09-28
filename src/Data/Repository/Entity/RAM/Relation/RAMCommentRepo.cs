@@ -1,10 +1,11 @@
+using WorldZero.Common.ValueObject;
 using WorldZero.Data.Interface.Repository.Entity.RAM.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Common.Entity.Relation;
 
 namespace WorldZero.Data.Repository.Entity.RAM.Relation
 {
-    /// <inheritdoc cref="ICommentRepo">
+    /// <inheritdoc cref="ICommentRepo"/>
     /// <remarks>
     /// As this repo is not a production-level tool (database repos fill that
     /// shoe), this will *not* allow multiple comments from the same character
@@ -14,5 +15,11 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
     public class RAMCommentRepo
         : IRAMIdIdRepo<Comment>,
           ICommentRepo
-    { }
+    {
+        protected override int GetRuleCount()
+        {
+            var a = new Comment(new Id(1), new Id(2), "sdf");
+            return a.GetUniqueRules().Count;
+        }
+    }
 }

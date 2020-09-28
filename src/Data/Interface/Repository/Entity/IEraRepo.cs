@@ -2,7 +2,7 @@ using WorldZero.Common.Entity;
 
 namespace WorldZero.Data.Interface.Repository.Entity
 {
-    /// <inheritdoc cref="INamedEntityRepo">
+    /// <inheritdoc cref="INamedEntityRepo"/>
     /// <remarks>
     /// Unlike normal repositories, this repo will not be responsible for
     /// ensuring that there is only one active era and that eras do not

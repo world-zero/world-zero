@@ -54,7 +54,7 @@ namespace WorldZero.Common.Entity
             this.Zip = zip;
         }
 
-        public override IEntity<Id, int> DeepCopy()
+        public override IEntity<Id, int> Clone()
         {
             return new Location(
                 this.Id,

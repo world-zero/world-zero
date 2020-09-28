@@ -43,7 +43,7 @@ namespace WorldZero.Common.Entity
             );
         }
 
-        public override IEntity<Id, int> DeepCopy()
+        public override IEntity<Id, int> Clone()
         {
             return new Praxis(
                 this.Id,

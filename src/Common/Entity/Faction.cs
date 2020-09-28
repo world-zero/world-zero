@@ -55,7 +55,7 @@ namespace WorldZero.Common.Entity
             this.AbilityName = abilityName;
         }
 
-        public override IEntity<Name, string> DeepCopy()
+        public override IEntity<Name, string> Clone()
         {
             return new Faction(
                 this.Id,

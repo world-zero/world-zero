@@ -126,7 +126,7 @@ namespace WorldZero.Common.Entity
             this.HasProfilePic = hasProfilePic;
         }
 
-        public override IEntity<Id, int> DeepCopy()
+        public override IEntity<Id, int> Clone()
         {
             return new Character(
                 this.Id,

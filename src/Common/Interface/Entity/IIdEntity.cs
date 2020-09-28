@@ -2,7 +2,7 @@ using WorldZero.Common.ValueObject;
 
 namespace WorldZero.Common.Interface.Entity
 {
-    /// <inheritdoc cref="IEntity">
+    /// <inheritdoc cref="IEntity"/>
     /// <summary>
     /// This class is used for entities that have a `Id` primary key. This
     /// value will be 0 when unspecified as the unset state and if not supplied

@@ -1,12 +1,13 @@
 using System;
 using System.Linq;
 using WorldZero.Common.Entity;
+using WorldZero.Common.ValueObject;
 using WorldZero.Data.Interface.Repository.Entity;
 using WorldZero.Data.Interface.Repository.Entity.RAM;
 
 namespace WorldZero.Data.Repository.Entity.RAM
 {
-    /// <inheritdoc cref="IEraRepo">
+    /// <inheritdoc cref="IEraRepo"/>
     public class RAMEraRepo
         : IRAMNamedEntityRepo<Era>,
         IEraRepo
@@ -26,6 +27,12 @@ namespace WorldZero.Data.Repository.Entity.RAM
 
             else
                 throw new InvalidOperationException("There should not be more than one active era at a time, the repo as been populated incorrectly.");
+        }
+
+        protected override int GetRuleCount()
+        {
+            var a = new Era(new Name("s"), new PastDate(DateTime.UtcNow));
+            return a.GetUniqueRules().Count;
         }
     }
 }

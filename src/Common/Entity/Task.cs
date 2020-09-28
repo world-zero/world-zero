@@ -97,7 +97,7 @@ namespace WorldZero.Common.Entity
             this.StatusId = statusId;
         }
 
-        public override IEntity<Id, int> DeepCopy()
+        public override IEntity<Id, int> Clone()
         {
             return new Task(
                 this.Id,

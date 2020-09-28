@@ -1,6 +1,8 @@
 using System;
-using WorldZero.Common.Interface.DTO;
+using System.Collections.Generic;
+using WorldZero.Common.Interface.DTO.Entity;
 using WorldZero.Common.ValueObject;
+using WorldZero.Common.Collections;
 
 namespace WorldZero.Common.Interface.Entity.Relation
 {
@@ -29,28 +31,28 @@ namespace WorldZero.Common.Interface.Entity.Relation
     /// for LeftId and RightId.
     /// </remarks>
     public abstract class IEntityRelation
-        <TLeftSVO, TLeftBuiltIn, TRightSVO, TRightBuiltIn>
+        <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
         : IIdEntity
-        where TLeftSVO  : ISingleValueObject<TLeftBuiltIn>
-        where TRightSVO : ISingleValueObject<TRightBuiltIn>
+        where TLeftId  : ISingleValueObject<TLeftBuiltIn>
+        where TRightId : ISingleValueObject<TRightBuiltIn>
     {
-        // NOTE: IEntity.DeepCopy() is still not implemmented.
+        // NOTE: IEntity.Clone() is still not implemmented.
 
-        public IEntityRelation(TLeftSVO leftId, TRightSVO rightId)
+        public IEntityRelation(TLeftId leftId, TRightId rightId)
             : base()
         {
             this.LeftId = leftId;
             this.RightId = rightId;
         }
 
-        public IEntityRelation(Id id, TLeftSVO leftId, TRightSVO rightId)
+        public IEntityRelation(Id id, TLeftId leftId, TRightId rightId)
             : base(id)
         {
             this.LeftId = leftId;
             this.RightId = rightId;
         }
 
-        public TLeftSVO LeftId
+        public TLeftId LeftId
         {
             get { return this._leftId; }
             set
@@ -60,9 +62,9 @@ namespace WorldZero.Common.Interface.Entity.Relation
                 this._leftId = value;
             }
         }
-        protected TLeftSVO _leftId;
+        protected TLeftId _leftId;
 
-        public TRightSVO RightId
+        public TRightId RightId
         {
             get { return this._rightId; }
             set
@@ -72,10 +74,10 @@ namespace WorldZero.Common.Interface.Entity.Relation
                 this._rightId = value;
             }
         }
-        protected TRightSVO _rightId;
+        protected TRightId _rightId;
 
-        public abstract IDualDTO
-        <TLeftSVO, TLeftBuiltIn, TRightSVO, TRightBuiltIn>
+        public abstract IRelationDTO
+        <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
         GetDTO();
 
         public override bool Equals(object obj)
@@ -85,18 +87,18 @@ namespace WorldZero.Common.Interface.Entity.Relation
 
             IEntityRelation
             <
-                TLeftSVO,
+                TLeftId,
                 TLeftBuiltIn,
-                TRightSVO,
+                TRightId,
                 TRightBuiltIn
             > other;
             try
             {
                 other = (IEntityRelation
                 <
-                    TLeftSVO,
+                    TLeftId,
                     TLeftBuiltIn,
-                    TRightSVO,
+                    TRightId,
                     TRightBuiltIn
                 >) obj;
             }
@@ -123,6 +125,21 @@ namespace WorldZero.Common.Interface.Entity.Relation
         {
             return this.LeftId.Get.GetHashCode()
                  * this.RightId.Get.GetHashCode();
+        }
+
+        internal override W0List<W0Set<object>> GetUniqueRules()
+        {
+            var r = base.GetUniqueRules();
+            r.Add(this.GetRelationCombo());
+            return r;
+       }
+
+        protected virtual W0Set<object> GetRelationCombo()
+        {
+            var s = new W0Set<object>();
+            s.Add(this.LeftId);
+            s.Add(this.RightId);
+            return s;
         }
     }
 }

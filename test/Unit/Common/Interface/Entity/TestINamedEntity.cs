@@ -50,7 +50,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity
         {
         }
 
-        public override IEntity<Name, string> DeepCopy()
+        public override IEntity<Name, string> Clone()
         {
             return null;
         }

@@ -1,10 +1,10 @@
 using WorldZero.Common.ValueObject;
-using WorldZero.Common.DTO.Dual;
-using WorldZero.Common.Interface.DTO;
+using WorldZero.Common.DTO.Entity.Relation;
+using WorldZero.Common.Interface.DTO.Entity;
 
 namespace WorldZero.Common.Interface.Entity.Relation
 {
-    /// <inheritdoc cref="IEntityRelation">
+    /// <inheritdoc cref="IEntityRelation"/>
     public abstract class IIdNameRelation
         : IEntityRelation<Id, int, Name, string>
     {
@@ -16,7 +16,7 @@ namespace WorldZero.Common.Interface.Entity.Relation
             : base(id, leftId, rightId)
         { }
 
-        public override IDualDTO<Id, int, Name, string> GetDTO()
+        public override IRelationDTO<Id, int, Name, string> GetDTO()
         {
             return new IdNameDTO(
                 this.LeftId,

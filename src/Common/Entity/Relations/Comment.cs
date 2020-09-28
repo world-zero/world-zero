@@ -1,6 +1,6 @@
 using System;
 using WorldZero.Common.ValueObject;
-using WorldZero.Common.DTO.Dual;
+using WorldZero.Common.DTO.Entity.Relation;
 using WorldZero.Common.Interface.Entity;
 using WorldZero.Common.Interface.Entity.Relation;
 
@@ -11,11 +11,7 @@ namespace WorldZero.Common.Entity.Relation
     /// containing the content of the comment they are leaving on the related
     /// praxis.
     /// </summary>
-    /// </remarks>
-    /// Comment repositories are responsible for ensuring that there
-    /// is a triple uniqueness on PraxisId, CharacterId, and Count.
-    /// </remarks>
-    public class Comment : IIdIdRelation
+    public class Comment : IIdIdCntRelation
     {
         /// <summary>
         /// PraxisId wraps LeftId, which is the ID of the related Praxis.
@@ -41,10 +37,9 @@ namespace WorldZero.Common.Entity.Relation
             string comment,
             int count=1
         )
-            : base(praxisId, characterId)
+            : base(praxisId, characterId, count)
         {
             this.Value = comment;
-            this.Count = count;
         }
 
         public Comment(
@@ -54,10 +49,9 @@ namespace WorldZero.Common.Entity.Relation
             string comment,
             int count=1
         )
-            : base(id, praxisId, characterId)
+            : base(id, praxisId, characterId, count)
         {
             this.Value = comment;
-            this.Count = count;
         }
 
         public Comment(
@@ -65,10 +59,9 @@ namespace WorldZero.Common.Entity.Relation
             string comment,
             int count=1
         )
-            : base(dto.LeftId, dto.RightId)
+            : base(dto.LeftId, dto.RightId, count)
         {
             this.Value = comment;
-            this.Count = count;
         }
 
         public Comment(
@@ -96,13 +89,14 @@ namespace WorldZero.Common.Entity.Relation
             this.Count = count;
         }
 
-        public override IEntity<Id, int> DeepCopy()
+        public override IEntity<Id, int> Clone()
         {
             return new Comment(
                 this.Id,
                 this.LeftId,
                 this.RightId,
-                this.Value
+                this.Value,
+                this.Count
             );
         }
 
@@ -117,22 +111,5 @@ namespace WorldZero.Common.Entity.Relation
             }
         }
         protected string _value;
-
-        /// <summary>
-        /// This value tracks the number of this comment that this character
-        /// has submitted to the related praxis. This is necessary to allow
-        /// characters to comment several times on a single praxis.
-        /// </summary>
-        public int Count
-        {
-            get { return this._count; }
-            set
-            {
-                if (value < 1)
-                    throw new ArgumentException("A character cannot start counting comments left on a praxis before 1.");
-                this._count = value;
-            }
-        }
-        protected int _count;
     }
 }

@@ -1,5 +1,4 @@
-using System;
-using WorldZero.Common.DTO.Dual;
+using WorldZero.Common.DTO.Entity.Relation;
 using WorldZero.Common.ValueObject;
 using WorldZero.Common.Interface.Entity;
 using WorldZero.Common.Interface.Entity.Relation;
@@ -10,14 +9,7 @@ namespace WorldZero.Common.Entity.Relation
     /// This relation maps a character's ID to another character's ID,
     /// signifying that they are collaberating on a.
     /// </summary>
-    /// </remarks>
-    /// PraxisParticipant repositories are responsible for ensuring that there
-    /// is a triple uniqueness on PraxisId, CharacterId, and SubmissionCount,
-    /// whereas the PraxisParticipant creation service class is responsible for
-    /// ensuring that the character can actually have that number of
-    /// submissions for that praxis at that level.
-    /// </remarks>
-    public class PraxisParticipant : IIdIdRelation
+    public class PraxisParticipant : IIdIdCntRelation
     {
         /// <summary>
         /// PraxisId wraps LeftId, which is the ID of the related Praxis.
@@ -37,82 +29,44 @@ namespace WorldZero.Common.Entity.Relation
             set { this.RightId = value; }
         }
 
-        public PraxisParticipant(
-            Id praxisId,
-            Id characterId,
-            int submissionCount=1
-        )
-            : base(praxisId, characterId)
-        {
-            this.SubmissionCount = submissionCount;
-        }
+        public PraxisParticipant(Id praxisId, Id characterId, int count=1)
+            : base(praxisId, characterId, count)
+        { }
 
         public PraxisParticipant(
             Id id,
             Id praxisId,
             Id characterId,
-            int submissionCount=1
+            int count=1
         )
-            : base(id, praxisId, characterId)
-        {
-            this.SubmissionCount = submissionCount;
-        }
+            : base(id, praxisId, characterId, count)
+        { }
 
-        public PraxisParticipant(IdIdDTO dto, int submissionCount=1)
-            : base(dto.LeftId, dto.RightId)
-        {
-            this.SubmissionCount = submissionCount;
-        }
+        public PraxisParticipant(IdIdDTO dto, int count=1)
+            : base(dto.LeftId, dto.RightId, count)
+        { }
 
-        public PraxisParticipant(Id id, IdIdDTO dto, int submissionCount=1)
-            : base(id, dto.LeftId, dto.RightId)
-        {
-            this.SubmissionCount = submissionCount;
-        }
+        public PraxisParticipant(Id id, IdIdDTO dto, int count=1)
+            : base(id, dto.LeftId, dto.RightId, count)
+        { }
 
         internal PraxisParticipant(
             int id,
             int praxisId,
             int characterId,
-            int submissionCount
+            int count
         )
-            : base(new Id(id), new Id(praxisId), new Id(characterId))
-        {
-            try
-            {
-                this.SubmissionCount = submissionCount;
-            }
-            catch (ArgumentException)
-            {
-                throw new InvalidOperationException("While initializing a PraxisParticipant from the Dapper-intended constructor, invalid data was discovered.");
-            }
-        }
+            : base(new Id(id), new Id(praxisId), new Id(characterId), count)
+        { }
 
-        public override IEntity<Id, int> DeepCopy()
+        public override IEntity<Id, int> Clone()
         {
             return new PraxisParticipant(
                 this.Id,
                 this.LeftId,
                 this.RightId,
-                this.SubmissionCount
+                this.Count
             );
         }
-
-        /// <summary>
-        /// This value tracks the count of praxises this character has
-        /// submitted. This is especially necessary for abilities that allow
-        /// users to re-attempt or re-complete a task.
-        /// </summary>
-        public int SubmissionCount
-        {
-            get { return this._submissionCount; }
-            set
-            {
-                if (value < 1)
-                    throw new ArgumentException("A character cannot complete a praxis less than 1 times.");
-                this._submissionCount = value;
-            }
-        }
-        protected int _submissionCount;
     }
 }

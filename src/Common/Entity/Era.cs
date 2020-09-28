@@ -24,7 +24,7 @@ namespace WorldZero.Common.Entity
                 this.StartDate = new PastDate(endDate);
         }
 
-        public override IEntity<Name, string> DeepCopy()
+        public override IEntity<Name, string> Clone()
         {
             return new Era(
                 this.Id,

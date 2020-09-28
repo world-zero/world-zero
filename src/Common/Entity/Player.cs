@@ -26,7 +26,7 @@ namespace WorldZero.Common.Entity
             this.IsBlocked = isBlocked;
         }
 
-        public override IEntity<Id, int> DeepCopy()
+        public override IEntity<Id, int> Clone()
         {
             return new Player(
                 this.Id,

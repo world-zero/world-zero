@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using System;
+using WorldZero.Common.Collections;
 
 // This is necessary for the Dapper-compatible constructors, which will need to
 // be utilized in Data.
@@ -9,7 +10,7 @@ using System;
 namespace WorldZero.Common.Interface.Entity
 {
     /// <summary>
-    /// This is the interface for an Entity with an Id.
+    /// This is the interface for an Entity, complete with an Id.
     /// </summary>
     public abstract class IEntity<TSingleValObj, TValObj>
         where TSingleValObj : ISingleValueObject<TValObj>
@@ -21,7 +22,25 @@ namespace WorldZero.Common.Interface.Entity
             return !this._id.Equals(this.UnsetIdValue);
         }
 
-        abstract public IEntity<TSingleValObj, TValObj> DeepCopy();
+        /// <summary>
+        /// This method will return a list of sets, each of which contains
+        /// at least one member that a repository should ensure are unique as a
+        /// combiniation, per set. This does not include the Id of an entity.
+        /// </summary>
+        /// <returns>
+        /// A list of HashSets of ISingleValueObjects and/or built in types
+        /// that repos must consider treat as unique for a specific instance.
+        /// These types will be able to cast to object and have .Equals work
+        /// appropriately. This will never return null, but it can return an
+        /// empty list.
+        /// </returns>
+        internal virtual W0List<W0Set<object>> GetUniqueRules()
+        {
+            var r = new W0List<W0Set<object>>();
+            return r;
+        }
+
+        abstract public IEntity<TSingleValObj, TValObj> Clone();
 
         /// <summary>
         /// This is the Id for an entity - it is a value object with a single

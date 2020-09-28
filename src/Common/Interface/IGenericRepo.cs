@@ -14,6 +14,14 @@ namespace WorldZero.Common.Interface
         void Delete(TId id);
         void Insert(TClass obj);
         void Update(TClass obj);
+        /// <summary>
+        /// Save the stored instances and initiallize any IDs, if needed.
+        /// </summary>
+        /// <remarks>
+        /// This should use Discard() in case of save failure, and no artifacts
+        /// should exist. This will also perform deep copy saves.
+        /// </remarks>
         void Save();
+        void Discard();
     }
 }

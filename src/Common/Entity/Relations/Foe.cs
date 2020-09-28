@@ -1,5 +1,5 @@
 using WorldZero.Common.ValueObject;
-using WorldZero.Common.DTO.Dual;
+using WorldZero.Common.DTO.Entity.Relation;
 using WorldZero.Common.Interface.Entity;
 using WorldZero.Common.Interface.Entity.Relation;
 
@@ -54,7 +54,7 @@ namespace WorldZero.Common.Entity.Relation
             )
         { }
 
-        public override IEntity<Id, int> DeepCopy()
+        public override IEntity<Id, int> Clone()
         {
             return new Foe(
                 this.Id,

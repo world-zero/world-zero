@@ -34,6 +34,13 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity
             Assert.Throws<ArgumentNullException>(()=>e.Id = null);
             Assert.IsNotNull(e.Id, "The Id was set to NULL when it should not have been.");
         }
+
+        [Test]
+        public void TestGetUniqueRules()
+        {
+            var e = new TestEntity();
+            Assert.IsNotNull(e.GetUniqueRules());
+        }
     }
 
     public class TestEntity : IEntity<Id, int>
@@ -42,7 +49,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity
             : base(new Id(0))
         { }
 
-        public override IEntity<Id, int> DeepCopy()
+        public override IEntity<Id, int> Clone()
         {
             return null;
         }

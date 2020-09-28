@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace WorldZero.Common.Collections
@@ -11,6 +12,20 @@ namespace WorldZero.Common.Collections
     /// </remarks>
     public class W0Set<T> : HashSet<T>
     {
+        public W0Set()
+            : base()
+        { }
+
+        public W0Set(HashSet<T> hashSet)
+            : base()
+        {
+            if (hashSet == null)
+                throw new ArgumentNullException("hashSet");
+
+            foreach (T t in hashSet)
+                this.Add(t);
+        }
+
         public override int GetHashCode()
         {
             int r = 1;

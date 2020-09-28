@@ -20,7 +20,7 @@ namespace WorldZero.Common.Entity
             this.Description = description;
         }
 
-        public override IEntity<Name, string> DeepCopy()
+        public override IEntity<Name, string> Clone()
         { 
             return new Flag(
                 this.Id

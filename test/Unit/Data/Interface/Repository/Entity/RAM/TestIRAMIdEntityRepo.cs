@@ -1,5 +1,8 @@
+using System;
+using WorldZero.Common.Interface.Entity;
 using WorldZero.Common.Entity;
 using WorldZero.Common.ValueObject;
+using WorldZero.Common.Collections;
 using WorldZero.Data.Interface.Repository.Entity.RAM;
 using NUnit.Framework;
 
@@ -97,9 +100,142 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM
             this._repo.Save();
             Assert.AreEqual(new Id(1), task2.Id);
         }
+
+        [Test]
+        public void TestIdsArentArtifactsOnSaveFailure()
+        {
+            var repo = new TestTaskRAMIdEntityRepo();
+            var validTask = new TestTask(
+                new Name("valid"),
+                new Name("f"),
+                "x",
+                new PointTotal(43),
+                new Level(2),
+                3
+            );
+            repo.Insert(validTask);
+            var invalidTask = new TestTask(
+                new Name("invalid"),
+                new Name("f"),
+                "x",
+                new PointTotal(43),
+                new Level(2),
+                3
+            );
+            repo.Insert(invalidTask);
+            Assert.Throws<ArgumentException>(()=>repo.Save());
+            Assert.IsFalse(validTask.IsIdSet());
+        }
     }
 
     public class TestRAMIdEntityRepo
         : IRAMIdEntityRepo<Task>
-    { }
+    {
+        protected override int GetRuleCount()
+        {
+            var a = new Task(
+                new Name("f"),
+                new Name("x"),
+                "z",
+                new PointTotal(2),
+                new Level(3)
+            );
+            return a.GetUniqueRules().Count;
+        }
+    }
+
+    public class TestTaskRAMIdEntityRepo
+        : IRAMIdEntityRepo<TestTask>
+    {
+        protected override int GetRuleCount()
+        {
+            var a = new TestTask(
+                new Name("f"),
+                new Name("x"),
+                "z",
+                new PointTotal(2),
+                new Level(3),
+                3
+            );
+            return a.GetUniqueRules().Count;
+        }
+    }
+
+    public class TestTask
+        : Task
+    {
+        public TestTask(
+            Name factionId,
+            Name statusId,
+            string summary,
+            PointTotal points,
+            Level level,
+            int unique,
+            Level minLevel=null,
+            bool isHistorianable=false
+        )
+        : base (
+            factionId,
+            statusId,
+            summary,
+            points,
+            level,
+            minLevel,
+            isHistorianable
+        )
+        {
+            this.Unique = unique;
+        }
+
+        public TestTask(
+            Id id,
+            Name factionId,
+            Name statusId,
+            string summary,
+            PointTotal points,
+            Level level,
+            int unique,
+            Level minLevel=null,
+            bool isHistorianable=false
+        )
+        : base (
+            id,
+            factionId,
+            statusId,
+            summary,
+            points,
+            level,
+            minLevel,
+            isHistorianable
+        )
+        {
+            this.Unique = unique;
+        }
+
+        public override IEntity<Id, int> Clone()
+        {
+            return new TestTask(
+                this.Id,
+                this.FactionId,
+                this.StatusId,
+                this.Summary,
+                this.Points,
+                this.Level,
+                this.Unique,
+                this.MinLevel,
+                this.isHistorianable
+            );
+        }
+
+        public int Unique { get; set; }
+
+        internal override W0List<W0Set<object>> GetUniqueRules()
+        {
+            var r = base.GetUniqueRules();
+            var n = new W0Set<object>();
+            n.Add(this.Unique);
+            r.Add(n);
+            return r;
+        }
+    }
 }

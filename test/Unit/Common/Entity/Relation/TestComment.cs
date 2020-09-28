@@ -1,4 +1,6 @@
+using System.Linq;
 using System;
+using System.Collections.Generic;
 using WorldZero.Common.Entity.Relation;
 using WorldZero.Common.ValueObject;
 using NUnit.Framework;
@@ -32,14 +34,6 @@ namespace WorldZero.Test.Unit.Common.Entity.Relation
             Assert.Throws<ArgumentException>(()=>this._c.Value = null);
             Assert.Throws<ArgumentException>(()=>this._c.Value = "");
             Assert.Throws<ArgumentException>(()=>this._c.Value = "   ");
-        }
-
-        [Test]
-        public void TestCount()
-        {
-            new Comment(this._id0, this._id1, "asdf", 1);
-            Assert.Throws<ArgumentException>(()=>
-                new Comment(this._id0, this._id1, "asdf", 0));
         }
     }
 }

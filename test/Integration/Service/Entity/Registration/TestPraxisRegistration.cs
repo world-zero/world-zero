@@ -31,13 +31,13 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                 this._statusRepo
             );
             this._status0 = new Status(new Name("Active"));
-            this._status1 = new Status(new Name("Active"));
+            this._status1 = new Status(new Name("Retired"));
             this._statusRepo.Insert(this._status0);
             this._statusRepo.Insert(this._status1);
             this._statusRepo.Save();
             this._task0 = new Task(
                 new Name("Legion of DIO"),
-                this._status1.Id,
+                this._status0.Id,
                 "DIO's minions.",
                 new PointTotal(5),
                 new Level(3)
@@ -49,7 +49,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         [Test]
         public void TestRegisterHappy()
         {
-            var p = new Praxis(this._task0.Id, this._status1.Id);
+            // TODO: run this through the debugger and see why it's failing
+            var p = new Praxis(this._task0.Id, this._status0.Id);
             Assert.IsFalse(p.IsIdSet());
             this._registration.Register(p);
             Assert.IsTrue(p.IsIdSet());

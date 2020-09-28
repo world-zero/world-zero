@@ -1,7 +1,8 @@
 using System;
+using System.Collections.Generic;
 using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.Interface.Entity;
-using WorldZero.Common.Interface.DTO;
+using WorldZero.Common.Interface.DTO.Entity;
 using WorldZero.Common.ValueObject;
 using NUnit.Framework;
 
@@ -10,6 +11,18 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Relation
     [TestFixture]
     public class TestIEntityRelation
     {
+        private Id _leftId;
+        private Id _rightId;
+        private TestIdIdRelation _idid;
+
+        [SetUp]
+        public void Setup()
+        {
+            this._leftId = new Id(3);
+            this._rightId = new Id(9);
+            this._idid = new TestIdIdRelation(this._leftId, this._rightId);
+        }
+
         [Test]
         public void TestConstructorArgs()
         {
@@ -45,6 +58,36 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Relation
             Assert.IsFalse(nameid.Equals(idname));
             Assert.IsFalse(idname.Equals(nameid));
         }
+
+        [Test]
+        public void TestGetUniqueRules()
+        {
+            var combos = this._idid.GetUniqueRules();
+            Assert.IsNotNull(combos);
+            bool hasLeftId = false;
+            bool hasRightId = false;
+            foreach (IEnumerable<object> iterable in combos)
+            {
+                hasLeftId = false;
+                hasRightId = false;
+                foreach (object o in iterable)
+                {
+                    var id = o as Id;
+                    if (id != null)
+                    {
+                        if (id == this._leftId)
+                            hasLeftId = true;
+                        else if (id == this._rightId)
+                            hasRightId = true;
+                    }
+                }
+
+                if (hasLeftId && hasRightId)
+                    break;
+            }
+            Assert.IsTrue(hasLeftId);
+            Assert.IsTrue(hasRightId);
+        }
     }
 
     public class TestIdIdRelation : IEntityRelation<Id, int, Id, int>
@@ -57,7 +100,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Relation
             : base(id, leftId, rightId)
         { }
 
-        public override IEntity<Id, int> DeepCopy()
+        public override IEntity<Id, int> Clone()
         {
             return new TestIdIdRelation(
                 this.Id,
@@ -66,7 +109,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Relation
             );
         }
 
-        public override IDualDTO<Id, int, Id, int> GetDTO()
+        public override IRelationDTO<Id, int, Id, int> GetDTO()
         {
             return null;
         }
@@ -82,7 +125,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Relation
             : base(id, leftId, rightId)
         { }
 
-        public override IEntity<Id, int> DeepCopy()
+        public override IEntity<Id, int> Clone()
         {
             return new TestIdNameRelation(
                 this.Id,
@@ -91,7 +134,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Relation
             );
         }
 
-        public override IDualDTO<Id, int, Name, string> GetDTO()
+        public override IRelationDTO<Id, int, Name, string> GetDTO()
         {
             return null;
         }
@@ -107,7 +150,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Relation
             : base(id, leftId, rightId)
         { }
 
-        public override IEntity<Id, int> DeepCopy()
+        public override IEntity<Id, int> Clone()
         {
             return new TestNameIdRelation(
                 this.Id,
@@ -116,7 +159,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Relation
             );
         }
 
-        public override IDualDTO<Name, string, Id, int> GetDTO()
+        public override IRelationDTO<Name, string, Id, int> GetDTO()
         {
             return null;
         }
@@ -132,15 +175,16 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Relation
             : base(id, leftId, rightId)
         { }
 
-        public override IEntity<Id, int> DeepCopy()
+        public override IEntity<Id, int> Clone()
         {
-            return new TestNameNameRelation( this.Id,
+            return new TestNameNameRelation(
+                this.Id,
                 this.LeftId,
                 this.RightId
             );
         }
 
-        public override IDualDTO<Name, string, Name, string> GetDTO()
+        public override IRelationDTO<Name, string, Name, string> GetDTO()
         {
             return null;
         }

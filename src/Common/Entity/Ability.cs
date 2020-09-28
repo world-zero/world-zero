@@ -34,7 +34,7 @@ namespace WorldZero.Common.Entity
         }
         private string _desc;
 
-        public override IEntity<Name, string> DeepCopy()
+        public override IEntity<Name, string> Clone()
         {
             return new Ability(
                 this.Id,

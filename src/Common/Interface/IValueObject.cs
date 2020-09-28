@@ -29,7 +29,8 @@ namespace WorldZero.Common.Interface
             return NotEqualOperator(left, right);
         }
 
-        protected static bool EqualOperator(IValueObject left, IValueObject right)
+        protected static
+        bool EqualOperator(IValueObject left, IValueObject right)
         {
             if (ReferenceEquals(left, null) ^ ReferenceEquals(right, null))
             {
@@ -38,7 +39,8 @@ namespace WorldZero.Common.Interface
             return ReferenceEquals(left, null) || left.Equals(right);
         }
 
-        protected static bool NotEqualOperator(IValueObject left, IValueObject right)
+        protected static
+        bool NotEqualOperator(IValueObject left, IValueObject right)
         {
             return !(EqualOperator(left, right));
         }
@@ -48,13 +50,15 @@ namespace WorldZero.Common.Interface
             if ( (obj == null) || (obj.GetType() != this.GetType()) )
                 return false;
 
-            IValueObject other = (IValueObject)obj;
-            IEnumerator<object> thisValues = GetAtomicValues().GetEnumerator();
-            IEnumerator<object> otherValues = other.GetAtomicValues().GetEnumerator();
+            IValueObject other = (IValueObject) obj;
+            IEnumerator<object> thisValues =
+                                    this.GetAtomicValues().GetEnumerator();
+            IEnumerator<object> otherValues =
+                                    other.GetAtomicValues().GetEnumerator();
             while (thisValues.MoveNext() && otherValues.MoveNext())
             {
-                if (ReferenceEquals(thisValues.Current, null) ^
-                    ReferenceEquals(otherValues.Current, null))
+                if (  (ReferenceEquals(thisValues.Current, null))
+                    ^ (ReferenceEquals(otherValues.Current, null))  )
                 {
                     return false;
                 }
@@ -71,8 +75,8 @@ namespace WorldZero.Common.Interface
         public override int GetHashCode()
         {
             return GetAtomicValues()
-                .Select(x => x != null ? x.GetHashCode() : 0)
-                .Aggregate((x, y) => x ^ y);
+                   .Select(x => x != null ? x.GetHashCode() : 0)
+                   .Aggregate((x, y) => x ^ y);
         }
     }
 }

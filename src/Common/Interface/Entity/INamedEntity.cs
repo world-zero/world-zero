@@ -2,7 +2,7 @@ using WorldZero.Common.ValueObject;
 
 namespace WorldZero.Common.Interface.Entity
 {
-    /// <inheritdoc cref="IEntity">
+    /// <inheritdoc cref="IEntity"/>
     /// <summary>
     /// This class is used for entities that have a `Name` primary key. This
     /// can be either null for unset, or set.

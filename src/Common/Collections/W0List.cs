@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace WorldZero.Common.Collections
@@ -11,6 +12,20 @@ namespace WorldZero.Common.Collections
     /// </remarks>
     public class W0List<T> : List<T>
     {
+        public W0List()
+            : base()
+        { }
+
+        public W0List(List<T> list)
+            : base()
+        {
+            if (list == null)
+                throw new ArgumentNullException("list");
+
+            foreach (T t in list)
+                this.Add(t);
+        }
+
         public override int GetHashCode()
         {
             int r = 1;

@@ -1,10 +1,11 @@
+using WorldZero.Common.ValueObject;
 using WorldZero.Data.Interface.Repository.Entity.RAM.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Common.Entity.Relation;
 
 namespace WorldZero.Data.Repository.Entity.RAM.Relation
 {
-    /// <inheritdoc cref="IPraxisParticipantRepo">
+    /// <inheritdoc cref="IPraxisParticipantRepo"/>
     /// <remarks>
     /// As this repo is not a production-level tool (database repos fill that
     /// shoe), this will *not* allow multiple submissions from the same
@@ -14,5 +15,11 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
     public class RAMPraxisParticipantRepo
         : IRAMIdIdRepo<PraxisParticipant>,
           IPraxisParticipantRepo
-    { }
+    {
+        protected override int GetRuleCount()
+        {
+            var a = new PraxisParticipant(new Id(3), new Id(2));
+            return a.GetUniqueRules().Count;
+        }
+    }
 }

@@ -1,5 +1,5 @@
 using WorldZero.Common.ValueObject;
-using WorldZero.Common.DTO.Dual;
+using WorldZero.Common.DTO.Entity.Relation;
 using WorldZero.Common.Interface.Entity;
 using WorldZero.Common.Interface.Entity.Relation;
 
@@ -49,7 +49,7 @@ namespace WorldZero.Common.Entity.Relation
             : base(new Id(id), new Id(taskId), new Name(flagId))
         { }
 
-        public override IEntity<Id, int> DeepCopy()
+        public override IEntity<Id, int> Clone()
         {
             return new TaskFlag(
                 this.Id,

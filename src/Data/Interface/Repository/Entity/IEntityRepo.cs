@@ -9,9 +9,9 @@ namespace WorldZero.Data.Interface.Repository.Entity
     /// <remarks>
     /// On Save(), entities with an int ID will have that value be set.
     /// </remarks>
-    public interface IEntityRepo<TEntity, TId, TSingleValObj>
+    public interface IEntityRepo<TEntity, TId, TIdBuiltIn>
         : IGenericRepo<TEntity, TId>
-        where TEntity : IEntity<TId, TSingleValObj>
-        where TId : ISingleValueObject<TSingleValObj>
+        where TEntity : IEntity<TId, TIdBuiltIn>
+        where TId : ISingleValueObject<TIdBuiltIn>
     { }
 }

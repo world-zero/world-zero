@@ -10,15 +10,3 @@
 /home/swatts/code/world-zero/world-zero-new/src/Data/obj/Debug/netstandard2.0/WorldZero.Data.csproj.CopyComplete
 /home/swatts/code/world-zero/world-zero-new/src/Data/obj/Debug/netstandard2.0/WorldZero.Data.dll
 /home/swatts/code/world-zero/world-zero-new/src/Data/obj/Debug/netstandard2.0/WorldZero.Data.pdb
-/home/swatts/code/world-zero/src/Data/bin/Debug/netstandard2.0/WorldZero.Data.deps.json
-/home/swatts/code/world-zero/src/Data/bin/Debug/netstandard2.0/WorldZero.Data.dll
-/home/swatts/code/world-zero/src/Data/bin/Debug/netstandard2.0/WorldZero.Data.pdb
-/home/swatts/code/world-zero/src/Data/bin/Debug/netstandard2.0/WorldZero.Common.dll
-/home/swatts/code/world-zero/src/Data/bin/Debug/netstandard2.0/WorldZero.Common.pdb
-/home/swatts/code/world-zero/src/Data/obj/Debug/netstandard2.0/WorldZero.Data.csprojAssemblyReference.cache
-/home/swatts/code/world-zero/src/Data/obj/Debug/netstandard2.0/WorldZero.Data.AssemblyInfoInputs.cache
-/home/swatts/code/world-zero/src/Data/obj/Debug/netstandard2.0/WorldZero.Data.AssemblyInfo.cs
-/home/swatts/code/world-zero/src/Data/obj/Debug/netstandard2.0/WorldZero.Data.csproj.CoreCompileInputs.cache
-/home/swatts/code/world-zero/src/Data/obj/Debug/netstandard2.0/WorldZero.Data.csproj.CopyComplete
-/home/swatts/code/world-zero/src/Data/obj/Debug/netstandard2.0/WorldZero.Data.dll
-/home/swatts/code/world-zero/src/Data/obj/Debug/netstandard2.0/WorldZero.Data.pdb
