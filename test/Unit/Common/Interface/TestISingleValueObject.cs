@@ -2,7 +2,7 @@ using System;
 using WorldZero.Common.Interface;
 using NUnit.Framework;
 
-namespace WorldZero.Test.Unit.Common.ValueObject
+namespace WorldZero.Test.Unit.Common.ValueObject.General
 {
     [TestFixture]
     public class TestSingleValueObject

@@ -1,4 +1,5 @@
-using WorldZero.Common.ValueObject;
+using WorldZero.Common.ValueObject.General;
+using WorldZero.Common.ValueObject.DTO.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity.RAM.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Common.Entity.Relation;
@@ -7,7 +8,15 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
 {
     /// <inheritdoc cref="IFriendRepo"/>
     public class RAMFriendRepo
-        : IRAMIdIdRepo<Friend>,
+        : IRAMEntityRelationRepo
+          <
+            Friend,
+            Id,
+            int,
+            Id,
+            int,
+            RelationDTO<Id, int, Id, int>
+          >,
           IFriendRepo
     {
         protected override int GetRuleCount()

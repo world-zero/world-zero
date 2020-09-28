@@ -1,5 +1,5 @@
-using WorldZero.Common.ValueObject;
-using WorldZero.Common.DTO.Entity.Relation;
+using WorldZero.Common.ValueObject.General;
+using WorldZero.Common.ValueObject.DTO.Entity.Relation;
 using WorldZero.Common.Interface.Entity;
 using WorldZero.Common.Interface.Entity.Relation;
 
@@ -37,11 +37,11 @@ namespace WorldZero.Common.Entity.Relation
             : base(id, PraxisId, tagId)
         { }
 
-        public PraxisTag(IdNameDTO dto)
+        public PraxisTag(RelationDTO<Id, int, Name, string> dto)
             : base(dto.LeftId, dto.RightId)
         { }
 
-        public PraxisTag(Id id, IdNameDTO dto)
+        public PraxisTag(Id id, RelationDTO<Id, int, Name, string> dto)
             : base(id, dto.LeftId, dto.RightId)
         { }
 

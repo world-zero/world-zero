@@ -3,8 +3,8 @@ using System;
 using System.Collections.Generic;
 using WorldZero.Common.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity.RAM.Relation;
-using WorldZero.Common.ValueObject;
-using WorldZero.Common.DTO.Entity.Relation;
+using WorldZero.Common.ValueObject.General;
+using WorldZero.Common.ValueObject.DTO.Entity.Relation;
 using NUnit.Framework;
 
 namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Relation
@@ -83,14 +83,24 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Relation
         {
             this._assertPraxisParticipantsEqual(
                 this._pp0,
-                this._repo.GetByDTO(this._pp0.GetDTO()));
+                this._repo.GetByDTO(
+                    (CntRelationDTO<Id, int, Id, int>) this._pp0.GetDTO()));
             Assert.Throws<ArgumentException>(()=>
-                this._repo.GetByDTO(new IdIdDTO(new Id(43), new Id(31))));
+                this._repo.GetByDTO(new CntRelationDTO<Id, int, Id, int>(
+                    new Id(43), new Id(31), 2)));
         }
     }
 
     public class TestRAMEntityRelationRepo
-        : IRAMEntityRelationRepo<PraxisParticipant, Id, int, Id, int>
+        : IRAMEntityRelationRepo
+          <
+            PraxisParticipant,
+            Id,
+            int,
+            Id,
+            int,
+            CntRelationDTO<Id, int, Id, int>
+          >
     {
         public TestRAMEntityRelationRepo()
             : base()

@@ -1,6 +1,6 @@
 using System;
-using WorldZero.Common.DTO.Entity.Relation;
-using WorldZero.Common.ValueObject;
+using WorldZero.Common.ValueObject.DTO.Entity.Relation;
+using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface.Entity;
 using WorldZero.Common.Interface.Entity.Relation;
 
@@ -78,13 +78,13 @@ namespace WorldZero.Common.Entity.Relation
             this.Points = points;
         }
 
-        public Vote(IdIdDTO dto, PointTotal points)
+        public Vote(RelationDTO<Id, int, Id, int> dto, PointTotal points)
             : base(dto.LeftId, dto.RightId)
         {
             this.Points = points;
         }
 
-        public Vote(Id id, IdIdDTO dto, PointTotal points)
+        public Vote(Id id, RelationDTO<Id, int, Id, int> dto, PointTotal points)
             : base(id, dto.LeftId, dto.RightId)
         {
             this.Points = points;

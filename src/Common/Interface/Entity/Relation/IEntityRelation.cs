@@ -1,7 +1,6 @@
 using System;
-using System.Collections.Generic;
-using WorldZero.Common.Interface.DTO.Entity;
-using WorldZero.Common.ValueObject;
+using WorldZero.Common.ValueObject.DTO.Entity.Relation;
+using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Collections;
 
 namespace WorldZero.Common.Interface.Entity.Relation
@@ -76,7 +75,7 @@ namespace WorldZero.Common.Interface.Entity.Relation
         }
         protected TRightId _rightId;
 
-        public abstract IRelationDTO
+        public abstract RelationDTO
         <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
         GetDTO();
 

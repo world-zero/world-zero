@@ -1,6 +1,5 @@
-using WorldZero.Common.ValueObject;
-using WorldZero.Common.DTO.Entity.Relation;
-using WorldZero.Common.Interface.DTO.Entity;
+using WorldZero.Common.ValueObject.General;
+using WorldZero.Common.ValueObject.DTO.Entity.Relation;
 
 namespace WorldZero.Common.Interface.Entity.Relation
 {
@@ -16,9 +15,9 @@ namespace WorldZero.Common.Interface.Entity.Relation
             : base(id, leftId, rightId)
         { }
 
-        public override IRelationDTO<Id, int, Id, int> GetDTO()
+        public override RelationDTO<Id, int, Id, int> GetDTO()
         {
-            return new IdIdDTO(
+            return new RelationDTO<Id, int, Id, int>(
                 this.LeftId,
                 this.RightId
             );

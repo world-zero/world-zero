@@ -1,6 +1,5 @@
 using System;
-using System.Collections.Generic;
-using WorldZero.Common.ValueObject;
+using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Collections;
 
 namespace WorldZero.Common.Interface.Entity.Relation

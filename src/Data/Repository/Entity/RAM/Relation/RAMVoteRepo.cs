@@ -1,13 +1,22 @@
+using WorldZero.Common.ValueObject.DTO.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity.RAM.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Common.Entity.Relation;
-using WorldZero.Common.ValueObject;
+using WorldZero.Common.ValueObject.General;
 
 namespace WorldZero.Data.Repository.Entity.RAM.Relation
 {
     /// <inheritdoc cref="IVoteRepo"/>
     public class RAMVoteRepo
-        : IRAMIdIdRepo<Vote>,
+        : IRAMEntityRelationRepo
+          <
+            Vote,
+            Id,
+            int,
+            Id,
+            int,
+            RelationDTO<Id, int, Id, int>
+          >,
           IVoteRepo
     {
         protected override int GetRuleCount()

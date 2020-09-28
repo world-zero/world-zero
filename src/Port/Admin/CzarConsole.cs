@@ -1,8 +1,8 @@
 using System;
 using Microsoft.Extensions.DependencyInjection;
 using WorldZero.Common.Entity;
-using WorldZero.Common.ValueObject;
-using WorldZero.Service.Entity.Registration;
+using WorldZero.Common.ValueObject.General;
+using WorldZero.Service.Registration.Entity;
 using WorldZero.Port.Interface;
 
 // NOTE: Most of these are not done (at the time of writing) due to lack of

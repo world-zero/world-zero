@@ -1,6 +1,6 @@
 using System;
-using WorldZero.Common.ValueObject;
-using WorldZero.Common.DTO.Entity.Relation;
+using WorldZero.Common.ValueObject.General;
+using WorldZero.Common.ValueObject.DTO.Entity.Relation;
 using WorldZero.Common.Interface.Entity;
 using WorldZero.Common.Interface.Entity.Relation;
 
@@ -55,25 +55,22 @@ namespace WorldZero.Common.Entity.Relation
         }
 
         public Comment(
-            IdIdDTO dto,
-            string comment,
-            int count=1
+            CntRelationDTO<Id, int, Id, int> dto,
+            string comment
         )
-            : base(dto.LeftId, dto.RightId, count)
+            : base(dto.LeftId, dto.RightId, dto.Count)
         {
             this.Value = comment;
         }
 
         public Comment(
             Id id,
-            IdIdDTO dto,
-            string comment,
-            int count=1
+            CntRelationDTO<Id, int, Id, int> dto,
+            string comment
         )
-            : base(id, dto.LeftId, dto.RightId)
+            : base(id, dto.LeftId, dto.RightId, dto.Count)
         {
             this.Value = comment;
-            this.Count = count;
         }
 
         internal Comment(

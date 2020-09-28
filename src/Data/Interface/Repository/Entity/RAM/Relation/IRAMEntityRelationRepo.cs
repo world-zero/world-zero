@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using WorldZero.Common.Interface;
-using WorldZero.Common.Interface.DTO.Entity;
+using WorldZero.Common.ValueObject.DTO.Entity.Relation;
 using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 
@@ -13,19 +13,29 @@ using WorldZero.Data.Interface.Repository.Entity.Relation;
 namespace WorldZero.Data.Interface.Repository.Entity.RAM.Relation
 {
     public abstract class IRAMEntityRelationRepo
-        <
+    <
+        TEntityRelation,
+        TLeftId,
+        TLeftBuiltIn,
+        TRightId,
+        TRightBuiltIn,
+        TRelationDTO
+    >
+        : IRAMIdEntityRepo<TEntityRelation>,
+          IEntityRelationRepo
+          <
             TEntityRelation,
             TLeftId,
             TLeftBuiltIn,
             TRightId,
-            TRightBuiltIn
-        >
-        : IRAMIdEntityRepo<TEntityRelation>,
-          IEntityRelationRepo
-              <TEntityRelation, TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
+            TRightBuiltIn,
+            TRelationDTO
+          >
         where TLeftId : ISingleValueObject<TLeftBuiltIn>
         where TRightId : ISingleValueObject<TRightBuiltIn>
         where TEntityRelation : IEntityRelation
+            <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
+        where TRelationDTO : RelationDTO
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
     {
         public IRAMEntityRelationRepo()
@@ -74,8 +84,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Relation
             }
         }
 
-        public TEntityRelation GetByDTO(
-            IRelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto)
+        public TEntityRelation GetByDTO(TRelationDTO dto)
         {
             if (dto == null)
                 throw new ArgumentNullException("dto");
