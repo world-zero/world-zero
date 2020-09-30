@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using WorldZero.Common.Interface;
-using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Relation;
 using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 
 namespace WorldZero.Data.Interface.Repository.Entity.RAM.Relation
 {
+    /// <inheritdoc cref="IEntityRelationCntRepo"/>
     public abstract class IRAMEntityRelationCntRepo
     <
         TEntityRelation,
@@ -47,42 +47,62 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Relation
             : base()
         { }
 
-        protected override void FinalChecks()
+        public IEnumerable<TEntityRelation> GetByPartialDTO(
+            RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
+        )
         {
-            base.FinalChecks();
-            // Ensure that the saved count values are correct.
-            // Again, this is absurdly inefficient, but dev tool.
-            foreach (KeyValuePair<Id, TEntityRelation> p in this._saved)
+            if (dto == null)
+                throw new ArgumentNullException("dto");
+
+            IEnumerable<TEntityRelation> r =
+                from er in this._saved.Values
+                where dto.LeftId == er.LeftId
+                where dto.RightId == er.RightId
+                select er;
+
+            if (r.Count() == 0)
+                throw new ArgumentException("dto has no matching entities.");
+
+            return r;
+        }
+
+        public int GetNextCount(
+            RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
+        )
+        {
+            int c = 1;
+            int savedC = 0;
+            int stagedC = 0;
+
+            try
             {
-                TEntityRelation er = p.Value;
-                IEnumerable<TEntityRelation> partners =
-                    from temp in this._saved.Values
-                    where er.LeftId == temp.LeftId
-                    where er.RightId == temp.RightId
-                    select temp;
-
-                int expected;
-                if (partners.Count() == 0)
-                {
-                    expected = 1;
-                }
-                else
-                {
-                    // We do not care about the relation between Count and
-                    // partners.Count() since entities can be deleted.
-                    int largest = 0;
-                    foreach (TEntityRelation temp in partners)
-                    {
-                        if (temp.Count > largest)
-                            largest = temp.Count;
-                    }
-                    expected = largest + 1;
-                }
-
-                int c = er.Count;
-                if (c != expected)
-                    throw new ArgumentException($"The supplied entity relation does not have an expected Count of {expected}, instead having {c}.");
+                IEnumerable<int> saved =
+                    from value in this._saved.Values
+                    where value.LeftId == dto.LeftId
+                    where value.RightId == dto.RightId
+                    select value.Count;
+                savedC = saved.Max();
             }
+            catch (InvalidOperationException)
+            { }
+
+            try
+            {
+                IEnumerable<int> staged =
+                    from value in this._staged.Values
+                    where value.LeftId == dto.LeftId
+                    where value.RightId == dto.RightId
+                    select value.Count;
+                stagedC = staged.Max();
+            }
+            catch (InvalidOperationException)
+            { }
+
+            if (savedC > c)
+                c = savedC;
+            if (stagedC > c)
+                c = stagedC;
+            return c+1;
         }
     }
 }

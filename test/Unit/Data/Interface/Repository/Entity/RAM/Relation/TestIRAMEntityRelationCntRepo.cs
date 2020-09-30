@@ -45,11 +45,16 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Relation
             this._repo.Save();
         }
 
-        // be sure these work correctly w/ valid/invalid cnts whose partners
-        // are either all staged or all saved
+        [Test]
+        public void TestCountBad()
+        {
+            var p = new PraxisParticipant(this._id0, this._id1);
+            this._repo.Insert(p);
+            Assert.Throws<ArgumentException>(()=>this._repo.Save());
+        }
 
         [Test]
-        public void TestFinalChecks()
+        public void TestSequenceOfActions()
         {
             var p1 = new PraxisParticipant(new Id(1), new Id(2), 1);
             this._repo.Insert(p1);
@@ -74,10 +79,31 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Relation
             this._repo.Insert(p2again);
             this._repo.Save();
         }
+
+        [Test]
+        public void TestGetNextCount()
+        {
+            int actual = this._repo.GetNextCount(
+                new RelationDTO<Id, int, Id, int>(this._id0, this._id1));
+            Assert.AreEqual(2, actual);
+
+            this._repo.Insert(
+                new PraxisParticipant(this._id0, this._id1, actual));
+
+            actual = this._repo.GetNextCount(
+                new RelationDTO<Id, int, Id, int>(this._id0, this._id1));
+            Assert.AreEqual(3, actual);
+
+            this._repo.Delete(this._pp0.Id);
+            this._repo.Save();
+            actual = this._repo.GetNextCount(
+                new RelationDTO<Id, int, Id, int>(this._id0, this._id1));
+            Assert.AreEqual(3, actual);
+        }
     }
 
     public class TestRAMEntityRelationCntRepo
-        : IRAMEntityRelationRepo
+        : IRAMEntityRelationCntRepo
           <
             PraxisParticipant,
             Id,
