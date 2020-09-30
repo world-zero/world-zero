@@ -16,7 +16,9 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM
     // done in TestIRAMIdEntityRepo.cs .
     // NOTE: Since DummyEntity can only have set Ids, these tests do not make
     // sure that Ids are not artifacts in entities that are "saved" before a
-    // failed save. These tests are performed in TestIRAMIdEntityRepo.
+    // failed save. These tests are performed in TestIRAMIdEntityRepo. For
+    // similar reasoning, the tests around FinalChecks() are performed there as
+    // well.
 
     [TestFixture]
     public class TestIRAMEntityRepo

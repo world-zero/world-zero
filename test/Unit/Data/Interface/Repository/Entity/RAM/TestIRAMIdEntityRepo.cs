@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using WorldZero.Common.Interface.Entity;
 using WorldZero.Common.Entity;
 using WorldZero.Common.ValueObject.General;
@@ -9,7 +10,8 @@ using NUnit.Framework;
 namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM
 {
     // NOTE: TestIRAMEntityRepo.cs does not test the functional member
-    // `GenerateId`, and that is done here instead.
+    // `GenerateId`, and that is done here instead. Additionally, the tests
+    // around FinalChecks() are performed here by the same logic.
     [TestFixture]
     public class TestIRAMIdEntityRepo
     {
@@ -21,6 +23,17 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM
         private Level _minLevel;
         private Task _task;
         private TestRAMIdEntityRepo _repo;
+
+        private void _assertEntitiesEqual(Task expected, Task actual)
+        {
+            Assert.AreEqual(expected.Id, actual.Id);
+            Assert.AreEqual(expected.FactionId, actual.FactionId);
+            Assert.AreEqual(expected.StatusId, actual.StatusId);
+            Assert.AreEqual(expected.Summary, actual.Summary);
+            Assert.AreEqual(expected.Points, actual.Points);
+            Assert.AreEqual(expected.Level, actual.Level);
+            Assert.AreEqual(expected.MinLevel, actual.MinLevel);
+        }
 
         [SetUp]
         public void Setup()
@@ -126,6 +139,30 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM
             Assert.Throws<ArgumentException>(()=>repo.Save());
             Assert.IsFalse(validTask.IsIdSet());
         }
+
+        [Test]
+        public void TestFinalChecks()
+        {
+            var repo = new TestRAMIdEntityRepoBROKEN();
+            var e = new Task(
+                new Name("f"),
+                new Name("invalid"),
+                "x",
+                new PointTotal(43),
+                new Level(2)
+            );
+            repo.Insert(e);
+            Assert.Throws<ArgumentException>(()=>repo.Save());
+            Assert.IsFalse(e.IsIdSet());
+            Assert.AreEqual(0, repo.Saved.Count);
+            Assert.AreEqual(0, repo.Staged.Count);
+            for (int i = 0; i < repo.SavedRules.Count; i++)
+            {
+                Assert.AreEqual(0, repo.SavedRules[i].Count);
+                Assert.AreEqual(0, repo.StagedRules[i].Count);
+                Assert.AreEqual(0, repo.RecycledRules[i].Count);
+            }
+        }
     }
 
     public class TestRAMIdEntityRepo
@@ -142,6 +179,48 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM
             );
             return a.GetUniqueRules().Count;
         }
+    }
+
+    public class TestRAMIdEntityRepoBROKEN
+        : IRAMIdEntityRepo<Task>
+    {
+        private bool _isFirstFinalCheck = true;
+
+        protected override int GetRuleCount()
+        {
+            var a = new Task(
+                new Name("f"),
+                new Name("x"),
+                "z",
+                new PointTotal(2),
+                new Level(3)
+            );
+            return a.GetUniqueRules().Count;
+        }
+
+        protected override void FinalChecks()
+        {
+            if (this._isFirstFinalCheck)
+            {
+                this._isFirstFinalCheck = !this._isFirstFinalCheck;
+                throw new ArgumentException("foo");
+            }
+            else
+            {
+                this._isFirstFinalCheck = !this._isFirstFinalCheck;
+            }
+        }
+
+        public Dictionary<Id, Task> Saved
+        { get { return this._saved; } }
+        public Dictionary<Id, Task> Staged
+        { get{ return this._staged; } }
+        public W0List<Dictionary<W0Set<object>, Task>> SavedRules
+        { get { return this._savedRules; } }
+        public W0List<Dictionary<W0Set<object>, Task>> StagedRules
+        { get { return this._stagedRules; } }
+        public W0List<Dictionary<W0Set<object>, int>> RecycledRules
+        { get { return this._recycledRules; } }
     }
 
     public class TestTaskRAMIdEntityRepo

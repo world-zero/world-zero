@@ -6,8 +6,8 @@ using WorldZero.Common.Interface.Entity.Relation;
 namespace WorldZero.Common.Entity.Relation
 {
     /// <summary>
-    /// This relation maps a character's ID to another character's ID,
-    /// signifying that they are collaberating on a.
+    /// This relation maps a character's ID to a praxis, allowing for multiple
+    /// characters to participate on a single praxis.
     /// </summary>
     public class PraxisParticipant : IIdIdCntRelation
     {

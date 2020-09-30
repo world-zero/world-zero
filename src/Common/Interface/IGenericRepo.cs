@@ -22,6 +22,9 @@ namespace WorldZero.Common.Interface
         /// should exist. This will also perform deep copy saves.
         /// </remarks>
         void Save();
+        /// <summary>
+        /// Reset the staged data to the default, empty staged state.
+        /// </summary>
         void Discard();
     }
 }

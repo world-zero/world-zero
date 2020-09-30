@@ -405,6 +405,25 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM
         }
 
         /// <summary>
+        /// In short, this will serve as a means for subclasses to easily
+        /// verify the contents of saved before the save is truly committed. A
+        /// subclass that wants to cancel a save due to invalid data should
+        /// throw an ArgumentException during this method. On Save failure,
+        /// this is ran again to assert that the newly restored saved states
+        /// are still valid, tripping up an InvalidOperationException if they
+        /// are not.
+        /// </summary>
+        /// <remarks>
+        /// This will be performed just after staged has been moved into saved,
+        /// and beforer entities have their IDs saved to outside references (if
+        /// necessary), as well as being after the staged states have been
+        /// cleaned out. We can get away with being this inefficient since this
+        /// is just a dev tool.
+        /// </remarks>
+        protected virtual void FinalChecks()
+        { }
+
+        /// <summary>
         /// This will save the staged entities. In the case of repo-generated
         /// IDs, the reference will have its ID set then.
         /// </summary>
@@ -423,10 +442,13 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM
             }
             catch (ArgumentException)
             { throw new InvalidOperationException("_clone*() received a null."); }
-            
+
             try
             {
                 var idMappings = this.CommitStaged();
+                // No errors occurred during save! Now we can safely apply the
+                // side effect changes to entity references (if appropriate)
+                // and return.
                 foreach (KeyValuePair<TId, TEntity> p in idMappings)
                     p.Value.Id = p.Key;
 
@@ -439,15 +461,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM
                 throw new InvalidCastException("An invalid cast occurred. Are you doing weird things with Polymorphism? Is Clone() returning the correct type?", e);
             }
 
-            try
-            {
-                this._saved = this._cloneSaved(tempSaved);
-                this._savedRules = this._cloneSavedRules(tempSavedRules);
-            }
-            catch (ArgumentException)
-            { throw new InvalidOperationException("_clone*() received a null."); }
-            this.Discard();
-            throw new ArgumentException("Saved() could not be completed due to faulty staged data. Discarding the changes.");
+            this._restoreSavedStates(tempSaved, tempSavedRules);
         }
 
         private Dictionary<TId, TEntity> _cloneSaved(Dictionary<TId, TEntity> dict)
@@ -481,6 +495,35 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM
                 r.Add(newDict);
             }
             return r;
+        }
+
+        /// <summary>
+        /// A save could not be committed, roll back to the previous saved
+        /// states with a clean staged states. This will re-run FinalChecks()
+        /// to ensure that the restored state is valid as well.
+        /// </summary>
+        private void _restoreSavedStates(
+            Dictionary<TId, TEntity> tempSaved,
+            W0List<Dictionary<W0Set<object>, TEntity>> tempSavedRules
+        )
+        {
+            try
+            {
+                this._saved = this._cloneSaved(tempSaved);
+                this._savedRules = this._cloneSavedRules(tempSavedRules);
+            }
+            catch (ArgumentException)
+            {
+                throw new InvalidOperationException("_clone*() received a null.");
+            }
+            this.Discard();
+            try
+            { this.FinalChecks(); }
+            catch (ArgumentException e)
+            {
+                throw new InvalidOperationException("After restoring Saved, it is still corrupt.", e);
+            }
+            throw new ArgumentException("Save() could not be completed due to faulty staged data. Discarding the changes.");
         }
 
         /// <summary>
@@ -519,6 +562,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM
 
 
             this._cleanUpRules();
+            this.FinalChecks();
             return idMappings;
         }
 
