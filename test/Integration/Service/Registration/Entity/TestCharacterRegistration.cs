@@ -2,7 +2,7 @@ using System;
 using WorldZero.Common.Entity;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity;
-using WorldZero.Data.Repository.Entity.RAM;
+using WorldZero.Data.Repository.RAM.Entity;
 using WorldZero.Service.Registration.Entity;
 using NUnit.Framework;
 

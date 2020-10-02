@@ -5,8 +5,8 @@ using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
-using WorldZero.Data.Repository.Entity.RAM;
-using WorldZero.Data.Repository.Entity.RAM.Relation;
+using WorldZero.Data.Repository.RAM.Entity;
+using WorldZero.Data.Repository.RAM.Entity.Relation;
 using WorldZero.Service.Interface.Registration;
 using NUnit.Framework;
 
