@@ -1,10 +1,10 @@
 using System;
 using WorldZero.Common.ValueObject.DTO.Entity.Relation;
 using WorldZero.Common.Interface;
-using WorldZero.Data.Interface.Repository.Entity;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
-using WorldZero.Common.Interface.Entity;
+using WorldZero.Data.Interface.Repository.Entity;
 using WorldZero.Common.Interface.Entity.Relation;
+using WorldZero.Common.Interface.Entity;
 
 namespace WorldZero.Service.Interface.Registration
 {
@@ -15,19 +15,29 @@ namespace WorldZero.Service.Interface.Registration
     /// <typeparam name="TEntityRelation">
     /// The IEntityRelation implementation that this class abstracts.
     /// </typeparam>
+    /// <typeparam name="TLeftEntity">
+    /// This is the entity that maps to `TEntityRelation`'s `LeftId`.
+    /// </typeparam>
     /// <typeparam name="TLeftId">
-    /// This is the `ISingleValueObject` implementation that `TEntity` uses as
-    /// a left ID.
+    /// This is the `ISingleValueObject` implementation that `TEntityRelation`
+    /// uses as a left ID.
     /// </typeparam>
     /// <typeparam name="TLeftBuiltIn">
     /// This is the built-in type behind `TLeftId`.
     /// </typeparam>
+    /// <typeparam name="TRightEntity">
+    /// This is the entity that maps to `TEntityRelation`'s `RightId`.
+    /// </typeparam>
     /// <typeparam name="TRightId">
-    /// This is the `ISingleValueObject` implementation that `TEntity` uses as
-    /// a right ID.
+    /// This is the `ISingleValueObject` implementation that `TEntityRelation`
+    /// uses as a right ID.
     /// </typeparam>
     /// <typeparam name="TRightBuiltIn">
     /// This is the built-in type behind `TRightId`.
+    /// </typeparam>
+    /// <typeparam name="TRelationDTO">
+    /// This is needed for the `TEntityRelationRepo`, but this class does not
+    /// actually care about this type outside of that.
     /// </typeparam>
     /// <remarks>
     /// For ease of use, it is recommended to have a property similar to the
@@ -36,12 +46,17 @@ namespace WorldZero.Service.Interface.Registration
     /// <code>
     /// protected IEraRepo _eraRepo { get { return (IEraRepo) this._repo; } }
     /// </code>
+    /// It is also worth noting that we don't actually care about the DTO type
+    /// for the registration class itself - this is why there is no
+    /// `IEntityRelationCntRegistration`.
     /// </remarks>
     public abstract class IEntityRelationRegistration
     <
         TEntityRelation,
+        TLeftEntity,
         TLeftId,
         TLeftBuiltIn,
+        TRightEntity,
         TRightId,
         TRightBuiltIn,
         TRelationDTO
@@ -52,6 +67,8 @@ namespace WorldZero.Service.Interface.Registration
         where TRightId : ISingleValueObject<TRightBuiltIn>
         where TRelationDTO : RelationDTO
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
+        where TLeftEntity : IEntity<TLeftId, TLeftBuiltIn>
+        where TRightEntity : IEntity<TRightId, TRightBuiltIn>
     {
         protected readonly IEntityRelationRepo
         <
@@ -64,6 +81,22 @@ namespace WorldZero.Service.Interface.Registration
         >
         _repo;
 
+        protected readonly IEntityRepo
+        <
+            TLeftEntity,
+            TLeftId,
+            TLeftBuiltIn
+        >
+        _leftRepo;
+
+        protected readonly IEntityRepo
+        <
+            TRightEntity,
+            TRightId,
+            TRightBuiltIn
+        >
+        _rightRepo;
+
         protected IEntityRelationRegistration(
             IEntityRelationRepo
             <
@@ -74,20 +107,49 @@ namespace WorldZero.Service.Interface.Registration
                 TRightBuiltIn,
                 TRelationDTO
             >
-            repo
-        )
+            repo,
+            IEntityRepo
+            <
+                TLeftEntity,
+                TLeftId,
+                TLeftBuiltIn
+            >
+            leftRepo,
+            IEntityRepo
+            <
+                TRightEntity,
+                TRightId,
+                TRightBuiltIn
+            >
+            rightRepo
+            )
         {
-            if (repo == null)
-                throw new ArgumentNullException("repo");
+            this.AssertNotNull(repo);
+            this.AssertNotNull(leftRepo);
+            this.AssertNotNull(rightRepo);
             this._repo = repo;
+            this._leftRepo = leftRepo;
+            this._rightRepo = rightRepo;
         }
 
         /// <summary>
-        /// This will store the supplied entity and save the repo.
+        /// This will store the supplied entity and save the repo. This will
+        /// verify that the left and right IDs exist in their corresponding
+        /// repos.
         /// </summary>
         public virtual TEntityRelation Register(TEntityRelation e)
         {
             this.AssertNotNull(e);
+            try
+            { this._leftRepo.GetById(e.LeftId); }
+            catch (ArgumentException)
+            { throw new ArgumentException("Could not insert the relation entity as its left ID is not registered with the correct repo."); }
+
+            try
+            { this._rightRepo.GetById(e.RightId); }
+            catch (ArgumentException)
+            { throw new ArgumentException("Could not insert the relation entity as its right ID is not registered with the correct repo."); }
+
             this._repo.Insert(e);
             this._repo.Save();
             return e;
@@ -102,9 +164,9 @@ namespace WorldZero.Service.Interface.Registration
             throw new NotImplementedException("This method is future work.");
         }
 
-        protected void AssertNotNull(TEntityRelation e)
+        protected void AssertNotNull(object o)
         {
-            if (e == null)
+            if (o == null)
                 throw new ArgumentNullException();
         }
     }

@@ -59,9 +59,9 @@ namespace WorldZero.Service.Interface.Registration
             throw new NotImplementedException("This method is future work.");
         }
 
-        protected void AssertNotNull(TEntity e)
+        protected void AssertNotNull(object o)
         {
-            if (e == null)
+            if (o == null)
                 throw new ArgumentNullException();
         }
     }
