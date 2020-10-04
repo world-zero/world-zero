@@ -34,8 +34,7 @@ namespace WorldZero.Service.Interface.Registration
 
         protected IEntityRegistration(IEntityRepo<TEntity, TId, TSingleValObj> repo)
         {
-            if (repo == null)
-                throw new ArgumentNullException("repo");
+            this.AssertNotNull(repo, "repo");
             this._repo = repo;
         }
 
@@ -44,7 +43,7 @@ namespace WorldZero.Service.Interface.Registration
         /// </summary>
         public virtual TEntity Register(TEntity e)
         {
-            this.AssertNotNull(e);
+            this.AssertNotNull(e, "e");
             this._repo.Insert(e);
             this._repo.Save();
             return e;
@@ -59,10 +58,10 @@ namespace WorldZero.Service.Interface.Registration
             throw new NotImplementedException("This method is future work.");
         }
 
-        protected void AssertNotNull(object o)
+        protected void AssertNotNull(object o, string name)
         {
             if (o == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(name);
         }
     }
 }

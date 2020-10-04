@@ -38,7 +38,7 @@ namespace WorldZero.Service.Registration.Entity
         /// </summary>
         public override Character Register(Character c)
         {
-            this.AssertNotNull(c);
+            this.AssertNotNull(c, "c");
             try
             {
                 this._playerRepo.GetById(c.PlayerId);

@@ -47,7 +47,7 @@ namespace WorldZero.Service.Registration.Entity
         /// </remarks>
         public override Era Register(Era newEra)
         {
-            this.AssertNotNull(newEra);
+            this.AssertNotNull(newEra, "newEra");
             var now = new PastDate(DateTime.UtcNow);
             Era old = this._eraRepo.GetActiveEra();
             if (old != null)

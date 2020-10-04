@@ -34,7 +34,7 @@ namespace WorldZero.Service.Registration.Entity
         /// </summary>
         public override Praxis Register(Praxis p)
         {
-            this.AssertNotNull(p);
+            this.AssertNotNull(p, "p");
             Task t;
             try
             {

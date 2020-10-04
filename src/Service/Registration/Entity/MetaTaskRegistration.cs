@@ -34,7 +34,7 @@ namespace WorldZero.Service.Registration.Entity
         /// </summary>
         public override MetaTask Register(MetaTask mt)
         {
-            this.AssertNotNull(mt);
+            this.AssertNotNull(mt, "mt");
             try
             {
                 this._statusRepo.GetById(mt.StatusId);

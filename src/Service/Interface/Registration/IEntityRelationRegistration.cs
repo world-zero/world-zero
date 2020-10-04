@@ -1,5 +1,6 @@
 using System;
 using WorldZero.Common.ValueObject.DTO.Entity.Relation;
+using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity;
@@ -8,6 +9,7 @@ using WorldZero.Common.Interface.Entity;
 
 namespace WorldZero.Service.Interface.Registration
 {
+    /// <inheritdoc cref="IEntityRegistration"/>
     /// <summary>
     /// This is a generic interface for entity relation creation service
     /// classes.
@@ -60,7 +62,7 @@ namespace WorldZero.Service.Interface.Registration
         TRightId,
         TRightBuiltIn,
         TRelationDTO
-    >
+    > : IEntityRegistration<TEntityRelation, Id, int>
         where TEntityRelation : IEntityRelation
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
         where TLeftId  : ISingleValueObject<TLeftBuiltIn>
@@ -70,7 +72,7 @@ namespace WorldZero.Service.Interface.Registration
         where TLeftEntity : IEntity<TLeftId, TLeftBuiltIn>
         where TRightEntity : IEntity<TRightId, TRightBuiltIn>
     {
-        protected readonly IEntityRelationRepo
+        protected new readonly IEntityRelationRepo
         <
             TEntityRelation,
             TLeftId,
@@ -122,12 +124,10 @@ namespace WorldZero.Service.Interface.Registration
                 TRightBuiltIn
             >
             rightRepo
-            )
+            ) : base(repo)
         {
-            this.AssertNotNull(repo);
-            this.AssertNotNull(leftRepo);
-            this.AssertNotNull(rightRepo);
-            this._repo = repo;
+            this.AssertNotNull(leftRepo, "leftRepo");
+            this.AssertNotNull(rightRepo, "rightRepo");
             this._leftRepo = leftRepo;
             this._rightRepo = rightRepo;
         }
@@ -137,9 +137,9 @@ namespace WorldZero.Service.Interface.Registration
         /// verify that the left and right IDs exist in their corresponding
         /// repos.
         /// </summary>
-        public virtual TEntityRelation Register(TEntityRelation e)
+        public override TEntityRelation Register(TEntityRelation e)
         {
-            this.AssertNotNull(e);
+            this.AssertNotNull(e, "e");
             try
             { this._leftRepo.GetById(e.LeftId); }
             catch (ArgumentException)
@@ -150,24 +150,16 @@ namespace WorldZero.Service.Interface.Registration
             catch (ArgumentException)
             { throw new ArgumentException("Could not insert the relation entity as its right ID is not registered with the correct repo."); }
 
-            this._repo.Insert(e);
-            this._repo.Save();
-            return e;
+            return base.Register(e);
         }
 
         /// <summary>
         /// This will store the supplied entity and save the repo.
         /// </summary>
-        public virtual TEntityRelation RegisterAsync(TEntityRelation e)
+        public override TEntityRelation RegisterAsync(TEntityRelation e)
         {
             // TODO: I have this issue logged.
             throw new NotImplementedException("This method is future work.");
-        }
-
-        protected void AssertNotNull(object o)
-        {
-            if (o == null)
-                throw new ArgumentNullException();
         }
     }
 }
