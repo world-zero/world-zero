@@ -1,13 +1,13 @@
 using System;
-using WorldZero.Service.Interface.Registration;
+using WorldZero.Service.Interface.Registration.Entity;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Entity;
 using WorldZero.Data.Interface.Repository.Entity;
 
 namespace WorldZero.Service.Registration.Entity
 {
-    public class PraxisRegistration
-        : IEntityRegistration<Praxis, Id, int>
+    public class PraxisReg
+        : IEntityReg<Praxis, Id, int>
     {
         protected IPraxisRepo _praxisRepo
         { get { return (IPraxisRepo) this._repo; } }
@@ -15,7 +15,7 @@ namespace WorldZero.Service.Registration.Entity
         protected readonly ITaskRepo _taskRepo;
         protected readonly IStatusRepo _statusRepo;
 
-        public PraxisRegistration(
+        public PraxisReg(
             IPraxisRepo praxisRepo,
             ITaskRepo taskRepo,
             IStatusRepo statusRepo

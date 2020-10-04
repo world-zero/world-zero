@@ -1,5 +1,5 @@
 using System;
-using WorldZero.Service.Interface.Registration;
+using WorldZero.Service.Interface.Registration.Entity;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Entity;
 using WorldZero.Data.Interface.Repository.Entity;
@@ -21,10 +21,10 @@ namespace WorldZero.Service.Registration.Entity
     /// pretty sharply divorced from other repositories, which is why this
     /// smell is tolerable.
     /// </remarks>
-    public class EraRegistration
-        : IEntityRegistration<Era, Name, string>
+    public class EraReg
+        : IEntityReg<Era, Name, string>
     {
-        public EraRegistration(IEraRepo eraRepo)
+        public EraReg(IEraRepo eraRepo)
             : base(eraRepo)
         { }
 

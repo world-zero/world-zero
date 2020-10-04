@@ -9,32 +9,32 @@ using NUnit.Framework;
 namespace WorldZero.Test.Integration.Service.Registration.Entity
 {
     [TestFixture]
-    public class TestEraRegistration
+    public class TestEraReg
     {
         private IEraRepo _repo;
-        private EraRegistration _eraRegistration;
+        private EraReg _eraReg;
 
         [SetUp]
         public void Setup()
         {
             this._repo = new RAMEraRepo();
-            this._eraRegistration = new EraRegistration(this._repo);
+            this._eraReg = new EraReg(this._repo);
         }
 
         [Test]
         public void TestRegister()
         {
-            Assert.Throws<ArgumentNullException>(()=>this._eraRegistration.Register(null));
+            Assert.Throws<ArgumentNullException>(()=>this._eraReg.Register(null));
 
             PastDate badExpected = new PastDate(new DateTime(2000, 1, 1));
             Era e = new Era(new Name("first"), badExpected, new PastDate(DateTime.UtcNow));
-            Era result = this._eraRegistration.Register(e);
+            Era result = this._eraReg.Register(e);
             Assert.AreEqual(e.Id, result.Id);
             Assert.AreNotEqual(badExpected, result.StartDate);
             Assert.IsNull(result.EndDate);
 
             Era r = new Era(new Name("second"), badExpected);
-            result = this._eraRegistration.Register(r);
+            result = this._eraReg.Register(r);
             Assert.AreEqual(r.Id, result.Id);
             Assert.AreNotEqual(badExpected, result.StartDate);
             Assert.IsNull(result.EndDate);
@@ -43,7 +43,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
             Assert.AreEqual(oldE.EndDate, r.StartDate);
 
             Era a = new Era(new Name("third"), badExpected);
-            result = this._eraRegistration.Register(a);
+            result = this._eraReg.Register(a);
             Assert.AreEqual(a.Id, result.Id);
             Assert.AreNotEqual(badExpected, result.StartDate);
             Assert.IsNull(result.EndDate);

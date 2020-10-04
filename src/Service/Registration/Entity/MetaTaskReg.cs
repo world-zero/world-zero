@@ -1,13 +1,13 @@
 using System;
-using WorldZero.Service.Interface.Registration;
+using WorldZero.Service.Interface.Registration.Entity;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Entity;
 using WorldZero.Data.Interface.Repository.Entity;
 
 namespace WorldZero.Service.Registration.Entity
 {
-    public class MetaTaskRegistration
-        : IEntityRegistration<MetaTask, Id, int>
+    public class MetaTaskReg
+        : IEntityReg<MetaTask, Id, int>
     {
         protected IMetaTaskRepo _metaTaskRepo
         { get { return (IMetaTaskRepo) this._repo; } }
@@ -15,7 +15,7 @@ namespace WorldZero.Service.Registration.Entity
         protected readonly IFactionRepo _factionRepo;
         protected readonly IStatusRepo _statusRepo;
 
-        public MetaTaskRegistration(
+        public MetaTaskReg(
             IMetaTaskRepo metaTaskRepo,
             IFactionRepo factionRepo,
             IStatusRepo statusRepo

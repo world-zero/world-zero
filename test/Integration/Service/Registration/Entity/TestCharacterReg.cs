@@ -9,13 +9,13 @@ using NUnit.Framework;
 namespace WorldZero.Test.Integration.Service.Registration.Entity
 {
     [TestFixture]
-    public class TestCharacterRegistration
+    public class TestCharacterReg
     {
         private ICharacterRepo _characterRepo;
         private IFactionRepo _factionRepo;
         private IPlayerRepo _playerRepo;
         private ILocationRepo _locationRepo;
-        private CharacterRegistration _registration;
+        private CharacterReg _registration;
         private Player _player0;
         private Faction _faction0;
         private Location _location0;
@@ -27,7 +27,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
             this._factionRepo = new RAMFactionRepo();
             this._playerRepo = new RAMPlayerRepo();
             this._locationRepo = new RAMLocationRepo();
-            this._registration = new CharacterRegistration(
+            this._registration = new CharacterReg(
                 this._characterRepo,
                 this._playerRepo,
                 this._factionRepo,
@@ -144,14 +144,14 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
         [Test]
         public void TestConstructor()
         {
-            new CharacterRegistration(
+            new CharacterReg(
                 this._characterRepo,
                 this._playerRepo,
                 this._factionRepo,
                 this._locationRepo
             );
             Assert.Throws<ArgumentNullException>(
-                ()=>new CharacterRegistration(
+                ()=>new CharacterReg(
                     null,
                     this._playerRepo,
                     this._factionRepo,
@@ -159,7 +159,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
                 )
             );
             Assert.Throws<ArgumentNullException>(
-                ()=>new CharacterRegistration(
+                ()=>new CharacterReg(
                     this._characterRepo,
                     null,
                     this._factionRepo,
@@ -167,7 +167,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
                 )
             );
             Assert.Throws<ArgumentNullException>(
-                ()=>new CharacterRegistration(
+                ()=>new CharacterReg(
                     this._characterRepo,
                     this._playerRepo,
                     null,
@@ -175,7 +175,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
                 )
             );
             Assert.Throws<ArgumentNullException>(
-                ()=>new CharacterRegistration(
+                ()=>new CharacterReg(
                     this._characterRepo,
                     this._playerRepo,
                     this._factionRepo,

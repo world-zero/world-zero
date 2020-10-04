@@ -3,7 +3,7 @@ using WorldZero.Common.Interface;
 using WorldZero.Data.Interface.Repository.Entity;
 using WorldZero.Common.Interface.Entity;
 
-namespace WorldZero.Service.Interface.Registration
+namespace WorldZero.Service.Interface.Registration.Entity
 {
     /// <summary>
     /// This is a generic interface for entity creation service classes.
@@ -26,13 +26,13 @@ namespace WorldZero.Service.Interface.Registration
     /// protected IEraRepo _eraRepo { get { return (IEraRepo) this._repo; } }
     /// </code>
     /// </remarks>
-    public abstract class IEntityRegistration<TEntity, TId, TSingleValObj>
+    public abstract class IEntityReg<TEntity, TId, TSingleValObj>
         where TEntity : IEntity<TId, TSingleValObj>
         where TId : ISingleValueObject<TSingleValObj>
     {
         protected readonly IEntityRepo<TEntity, TId, TSingleValObj> _repo;
 
-        protected IEntityRegistration(IEntityRepo<TEntity, TId, TSingleValObj> repo)
+        protected IEntityReg(IEntityRepo<TEntity, TId, TSingleValObj> repo)
         {
             this.AssertNotNull(repo, "repo");
             this._repo = repo;

@@ -9,12 +9,12 @@ using NUnit.Framework;
 namespace WorldZero.Test.Integration.Service.Registration.Entity
 {
     [TestFixture]
-    public class TestMetaTaskRegistration
+    public class TestMetaTaskReg
     {
         private IMetaTaskRepo _metaTaskRepo;
         private IFactionRepo _factionRepo;
         private IStatusRepo _statusRepo;
-        private MetaTaskRegistration _registration;
+        private MetaTaskReg _registration;
         private Status _status0;
         private Status _status1;
         private Faction _faction0;
@@ -25,7 +25,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
             this._metaTaskRepo = new RAMMetaTaskRepo();
             this._factionRepo = new RAMFactionRepo();
             this._statusRepo = new RAMStatusRepo();
-            this._registration = new MetaTaskRegistration(
+            this._registration = new MetaTaskReg(
                 this._metaTaskRepo,
                 this._factionRepo,
                 this._statusRepo
@@ -84,30 +84,30 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
         public void TestConstructor()
         {
             Assert.Throws<ArgumentNullException>(
-                ()=>new MetaTaskRegistration(
+                ()=>new MetaTaskReg(
                     null,
                     null,
                     null)
             );
             Assert.Throws<ArgumentNullException>(
-                ()=>new MetaTaskRegistration(
+                ()=>new MetaTaskReg(
                     this._metaTaskRepo,
                     null,
                     null)
             );
             Assert.Throws<ArgumentNullException>(
-                ()=>new MetaTaskRegistration(
+                ()=>new MetaTaskReg(
                     this._metaTaskRepo,
                     this._factionRepo,
                     null)
             );
             Assert.Throws<ArgumentNullException>(
-                ()=>new MetaTaskRegistration(
+                ()=>new MetaTaskReg(
                     this._metaTaskRepo,
                     null,
                     this._statusRepo)
             );
-            new MetaTaskRegistration(
+            new MetaTaskReg(
                 this._metaTaskRepo,
                 this._factionRepo,
                 this._statusRepo

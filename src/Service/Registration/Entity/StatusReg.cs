@@ -1,17 +1,17 @@
-using WorldZero.Service.Interface.Registration;
+using WorldZero.Service.Interface.Registration.Entity;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Entity;
 using WorldZero.Data.Interface.Repository.Entity;
 
 namespace WorldZero.Service.Registration.Entity
 {
-    public class StatusRegistration
-        : IEntityRegistration<Status, Name, string>
+    public class StatusReg
+        : IEntityReg<Status, Name, string>
     {
         protected IStatusRepo _statusRepo
         { get { return (IStatusRepo) this._repo; } }
 
-        public StatusRegistration(IStatusRepo statusRepo)
+        public StatusReg(IStatusRepo statusRepo)
             : base(statusRepo)
         { }
     }

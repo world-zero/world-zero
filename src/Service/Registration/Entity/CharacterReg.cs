@@ -1,13 +1,13 @@
 using System;
-using WorldZero.Service.Interface.Registration;
+using WorldZero.Service.Interface.Registration.Entity;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Entity;
 using WorldZero.Data.Interface.Repository.Entity;
 
 namespace WorldZero.Service.Registration.Entity
 {
-    public class CharacterRegistration
-        : IEntityRegistration<Character, Id, int>
+    public class CharacterReg
+        : IEntityReg<Character, Id, int>
     {
         protected readonly IPlayerRepo _playerRepo;
         protected readonly IFactionRepo _factionRepo;
@@ -16,7 +16,7 @@ namespace WorldZero.Service.Registration.Entity
         protected ICharacterRepo _characterRepo
         { get { return (ICharacterRepo) this._repo; } }
 
-        public CharacterRegistration(
+        public CharacterReg(
             ICharacterRepo characterRepo,
             IPlayerRepo playerRepo,
             IFactionRepo factionRepo,

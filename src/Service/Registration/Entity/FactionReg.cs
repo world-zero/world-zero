@@ -1,20 +1,20 @@
 using System;
-using WorldZero.Service.Interface.Registration;
+using WorldZero.Service.Interface.Registration.Entity;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Entity;
 using WorldZero.Data.Interface.Repository.Entity;
 
 namespace WorldZero.Service.Registration.Entity
 {
-    public class FactionRegistration
-        : IEntityRegistration<Faction, Name, string>
+    public class FactionReg
+        : IEntityReg<Faction, Name, string>
     {
         protected readonly IAbilityRepo _abilityRepo;
 
         protected IFactionRepo _factionRepo
         { get { return (IFactionRepo) this._repo; } }
 
-        public FactionRegistration(
+        public FactionReg(
             IFactionRepo factionRepo,
             IAbilityRepo abilityRepo
         )

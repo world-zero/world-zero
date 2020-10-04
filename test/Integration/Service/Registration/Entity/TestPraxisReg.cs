@@ -9,12 +9,12 @@ using NUnit.Framework;
 namespace WorldZero.Test.Integration.Service.Registration.Entity
 {
     [TestFixture]
-    public class TestPraxisRegistration
+    public class TestPraxisReg
     {
         private IPraxisRepo _praxisRepo;
         private ITaskRepo _taskRepo;
         private IStatusRepo _statusRepo;
-        private PraxisRegistration _registration;
+        private PraxisReg _registration;
         private Status _status0;
         private Status _status1;
         private Task _task0;
@@ -25,7 +25,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
             this._praxisRepo = new RAMPraxisRepo();
             this._taskRepo = new RAMTaskRepo();
             this._statusRepo = new RAMStatusRepo();
-            this._registration = new PraxisRegistration(
+            this._registration = new PraxisReg(
                 this._praxisRepo,
                 this._taskRepo,
                 this._statusRepo
@@ -80,30 +80,30 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
         public void TestConstructor()
         {
             Assert.Throws<ArgumentNullException>(
-                ()=>new PraxisRegistration(
+                ()=>new PraxisReg(
                     null,
                     null,
                     null)
             );
             Assert.Throws<ArgumentNullException>(
-                ()=>new PraxisRegistration(
+                ()=>new PraxisReg(
                     this._praxisRepo,
                     null,
                     null)
             );
             Assert.Throws<ArgumentNullException>(
-                ()=>new PraxisRegistration(
+                ()=>new PraxisReg(
                     this._praxisRepo,
                     this._taskRepo,
                     null)
             );
             Assert.Throws<ArgumentNullException>(
-                ()=>new PraxisRegistration(
+                ()=>new PraxisReg(
                     this._praxisRepo,
                     null,
                     this._statusRepo)
             );
-            new PraxisRegistration(
+            new PraxisReg(
                 this._praxisRepo,
                 this._taskRepo,
                 this._statusRepo

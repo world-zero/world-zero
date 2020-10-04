@@ -17,18 +17,18 @@ namespace WorldZero.Port.Admin
     public class CzarConsole
     {
         protected readonly ITerminal _terminal;
-        protected readonly AbilityRegistration _abilityRegistration;
-        protected readonly CharacterRegistration _characterRegistration;
-        protected readonly EraRegistration _eraRegistration;
-        protected readonly FactionRegistration _factionRegistration;
-        protected readonly FlagRegistration _FlagRegistration;
-        protected readonly LocationRegistration _LocationRegistration;
-        protected readonly MetaTaskRegistration _metaTaskRegistration;
-        protected readonly PlayerRegistration _playerRegistration;
-        protected readonly PraxisRegistration _praxisRegistration;
-        protected readonly StatusRegistration _statusRegistration;
-        protected readonly TagRegistration _tagRegistration;
-        protected readonly TaskRegistration _taskRegistration;
+        protected readonly AbilityReg _abilityReg;
+        protected readonly CharacterReg _characterReg;
+        protected readonly EraReg _eraReg;
+        protected readonly FactionReg _factionReg;
+        protected readonly FlagReg _FlagReg;
+        protected readonly LocationReg _LocationReg;
+        protected readonly MetaTaskReg _metaTaskReg;
+        protected readonly PlayerReg _playerReg;
+        protected readonly PraxisReg _praxisReg;
+        protected readonly StatusReg _statusReg;
+        protected readonly TagReg _tagReg;
+        protected readonly TaskReg _taskReg;
 
         /// <summary>
         /// Provide administrators with a means of controlling the system.
@@ -46,28 +46,28 @@ namespace WorldZero.Port.Admin
             {
                 this._terminal = serviceProvider
                     .GetRequiredService<ITerminal>();
-                this._characterRegistration = serviceProvider
-                    .GetRequiredService<CharacterRegistration>();
-                this._eraRegistration = serviceProvider
-                    .GetRequiredService<EraRegistration>();
-                this._factionRegistration = serviceProvider
-                    .GetRequiredService<FactionRegistration>();
-                this._FlagRegistration = serviceProvider
-                    .GetRequiredService<FlagRegistration>();
-                this._LocationRegistration = serviceProvider
-                    .GetRequiredService<LocationRegistration>();
-                this._metaTaskRegistration = serviceProvider
-                    .GetRequiredService<MetaTaskRegistration>();
-                this._playerRegistration = serviceProvider
-                    .GetRequiredService<PlayerRegistration>();
-                this._praxisRegistration = serviceProvider
-                    .GetRequiredService<PraxisRegistration>();
-                this._statusRegistration = serviceProvider
-                    .GetRequiredService<StatusRegistration>();
-                this._tagRegistration = serviceProvider
-                    .GetRequiredService<TagRegistration>();
-                this._taskRegistration = serviceProvider
-                    .GetRequiredService<TaskRegistration>();
+                this._characterReg = serviceProvider
+                    .GetRequiredService<CharacterReg>();
+                this._eraReg = serviceProvider
+                    .GetRequiredService<EraReg>();
+                this._factionReg = serviceProvider
+                    .GetRequiredService<FactionReg>();
+                this._FlagReg = serviceProvider
+                    .GetRequiredService<FlagReg>();
+                this._LocationReg = serviceProvider
+                    .GetRequiredService<LocationReg>();
+                this._metaTaskReg = serviceProvider
+                    .GetRequiredService<MetaTaskReg>();
+                this._playerReg = serviceProvider
+                    .GetRequiredService<PlayerReg>();
+                this._praxisReg = serviceProvider
+                    .GetRequiredService<PraxisReg>();
+                this._statusReg = serviceProvider
+                    .GetRequiredService<StatusReg>();
+                this._tagReg = serviceProvider
+                    .GetRequiredService<TagReg>();
+                this._taskReg = serviceProvider
+                    .GetRequiredService<TaskReg>();
             }
             catch (InvalidOperationException e)
             {
@@ -87,7 +87,7 @@ namespace WorldZero.Port.Admin
         /// </summary>
         public void InitRepos()
         {
-            this._eraRegistration.Register(new Name("The Beginning"));
+            this._eraReg.Register(new Name("The Beginning"));
 
             // TODO: The plan is to move these into config files, but this
             // works for now.
@@ -102,27 +102,27 @@ namespace WorldZero.Port.Admin
         /// </remarks>
         private void _setupBaseStatuses()
         {
-            this._statusRegistration.Register(
+            this._statusReg.Register(
                 new Status(
                     new Name("Pretired"),
                     "This is generally only to be used by proposed tasks."));
-            this._statusRegistration.Register(new Status(new Name("Active")));
-            this._statusRegistration.Register(new Status(new Name("Retired")));
-            this._statusRegistration.Register(new Status(new Name("In Progress")));
+            this._statusReg.Register(new Status(new Name("Active")));
+            this._statusReg.Register(new Status(new Name("Retired")));
+            this._statusReg.Register(new Status(new Name("In Progress")));
         }
 
         private void _setupFlags()
         {
-            this._FlagRegistration.Register(new Flag(new Name("Dangerous")));
-            this._FlagRegistration.Register(new Flag(
+            this._FlagReg.Register(new Flag(new Name("Dangerous")));
+            this._FlagReg.Register(new Flag(
                 new Name("Inappropriate")));
-            this._FlagRegistration.Register(new Flag(new Name("Misogynistic")));
-            this._FlagRegistration.Register(new Flag(new Name("Racist")));
-            this._FlagRegistration.Register(new Flag(new Name("Homophobic")));
-            this._FlagRegistration.Register(new Flag(new Name("Transphobic")));
-            this._FlagRegistration.Register(new Flag(new Name("LGBT+ -phobic")));
-            this._FlagRegistration.Register(new Flag(new Name("Classist")));
-            this._FlagRegistration.Register(new Flag(new Name("Fatphobic")));
+            this._FlagReg.Register(new Flag(new Name("Misogynistic")));
+            this._FlagReg.Register(new Flag(new Name("Racist")));
+            this._FlagReg.Register(new Flag(new Name("Homophobic")));
+            this._FlagReg.Register(new Flag(new Name("Transphobic")));
+            this._FlagReg.Register(new Flag(new Name("LGBT+ -phobic")));
+            this._FlagReg.Register(new Flag(new Name("Classist")));
+            this._FlagReg.Register(new Flag(new Name("Fatphobic")));
         }
 
         private void _setupAbilitiesFactions()
@@ -143,8 +143,8 @@ namespace WorldZero.Port.Admin
                     "choose one of the other available groups."
                 )
             );
-            this._abilityRegistration.Register(ability);
-            this._factionRegistration.Register(new Faction(
+            this._abilityReg.Register(ability);
+            this._factionReg.Register(new Faction(
                 new Name("UA"), now, null, ability.Id
             ));
 
@@ -152,8 +152,8 @@ namespace WorldZero.Port.Admin
                 new Name("Jack of all Trades"),
                 "You complete tasks for all factions at 80% of the points."
             );
-            this._abilityRegistration.Register(ability);
-            this._factionRegistration.Register(new Faction(
+            this._abilityReg.Register(ability);
+            this._factionReg.Register(new Faction(
                 new Name("UA Masters"), now, null, ability.Id
             ));
 
@@ -161,8 +161,8 @@ namespace WorldZero.Port.Admin
                 new Name("Competitor"), 
                 "You will receive an extra 10% of points from duels."
             );
-            this._abilityRegistration.Register(ability);
-            this._factionRegistration.Register(new Faction(
+            this._abilityReg.Register(ability);
+            this._factionReg.Register(new Faction(
                 new Name("Snide"), now, null, ability.Id
             ));
 
@@ -174,8 +174,8 @@ namespace WorldZero.Port.Admin
                     "you receive 70% of the points." 
                 )
             );
-            this._abilityRegistration.Register(ability);
-            this._factionRegistration.Register(new Faction(
+            this._abilityReg.Register(ability);
+            this._factionReg.Register(new Faction(
                 new Name("Gestalt"), now, null, ability.Id
             ));
 
@@ -185,8 +185,8 @@ namespace WorldZero.Port.Admin
                 new Name("Historian"),
                 "You may sign up for approved pretired / retired tasks."
             );
-            this._abilityRegistration.Register(ability);
-            this._factionRegistration.Register(new Faction(
+            this._abilityReg.Register(ability);
+            this._factionReg.Register(new Faction(
                 new Name("Journeymen"), now, null, ability.Id
             ));
 
@@ -197,12 +197,12 @@ namespace WorldZero.Port.Admin
                     "number of extra times."
                 )
             );
-            this._abilityRegistration.Register(ability);
-            this._factionRegistration.Register(new Faction(
+            this._abilityReg.Register(ability);
+            this._factionReg.Register(new Faction(
                 new Name("Analog"), now, null, ability.Id
             ));
 
-            this._factionRegistration.Register(new Faction(
+            this._factionReg.Register(new Faction(
                 new Name("Singularity"), now
             ));
 
@@ -213,8 +213,8 @@ namespace WorldZero.Port.Admin
                     "group for full points."
                 )
             );
-            this._abilityRegistration.Register(ability);
-            this._factionRegistration.Register(new Faction(
+            this._abilityReg.Register(ability);
+            this._factionReg.Register(new Faction(
                 new Name("Albescent"), now, null, ability.Id
             ));
         }
@@ -244,7 +244,7 @@ namespace WorldZero.Port.Admin
         /// <summary>
         /// This method will end the previous era and start a new era. For the
         /// finer details about the era start and end dates, see
-        /// `EraRegistration.Register`.
+        /// `EraReg.Register`.
         /// </summary>
         public void EraMigration()
         {

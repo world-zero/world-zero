@@ -7,9 +7,9 @@ using WorldZero.Data.Interface.Repository.Entity;
 using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.Interface.Entity;
 
-namespace WorldZero.Service.Interface.Registration
+namespace WorldZero.Service.Interface.Registration.Entity
 {
-    /// <inheritdoc cref="IEntityRegistration"/>
+    /// <inheritdoc cref="IEntityReg"/>
     /// <summary>
     /// This is a generic interface for entity relation creation service
     /// classes.
@@ -50,9 +50,9 @@ namespace WorldZero.Service.Interface.Registration
     /// </code>
     /// It is also worth noting that we don't actually care about the DTO type
     /// for the registration class itself - this is why there is no
-    /// `IEntityRelationCntRegistration`.
+    /// `IEntityRelationCntReg`.
     /// </remarks>
-    public abstract class IEntityRelationRegistration
+    public abstract class IEntityRelationReg
     <
         TEntityRelation,
         TLeftEntity,
@@ -62,7 +62,7 @@ namespace WorldZero.Service.Interface.Registration
         TRightId,
         TRightBuiltIn,
         TRelationDTO
-    > : IEntityRegistration<TEntityRelation, Id, int>
+    > : IEntityReg<TEntityRelation, Id, int>
         where TEntityRelation : IEntityRelation
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
         where TLeftId  : ISingleValueObject<TLeftBuiltIn>
@@ -99,7 +99,7 @@ namespace WorldZero.Service.Interface.Registration
         >
         _rightRepo;
 
-        protected IEntityRelationRegistration(
+        protected IEntityRelationReg(
             IEntityRelationRepo
             <
                 TEntityRelation,
@@ -151,15 +151,6 @@ namespace WorldZero.Service.Interface.Registration
             { throw new ArgumentException("Could not insert the relation entity as its right ID is not registered with the correct repo."); }
 
             return base.Register(e);
-        }
-
-        /// <summary>
-        /// This will store the supplied entity and save the repo.
-        /// </summary>
-        public override TEntityRelation RegisterAsync(TEntityRelation e)
-        {
-            // TODO: I have this issue logged.
-            throw new NotImplementedException("This method is future work.");
         }
     }
 }

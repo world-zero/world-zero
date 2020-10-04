@@ -9,11 +9,11 @@ using NUnit.Framework;
 namespace WorldZero.Test.Integration.Service.Registration.Entity
 {
     [TestFixture]
-    public class TestFactionRegistration
+    public class TestFactionReg
     {
         private IFactionRepo _factionRepo;
         private IAbilityRepo _abilityRepo;
-        private FactionRegistration _registration;
+        private FactionReg _registration;
         private Faction _faction0;
         private Ability _ability0;
 
@@ -22,7 +22,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
         {
             this._factionRepo = new RAMFactionRepo();
             this._abilityRepo = new RAMAbilityRepo();
-            this._registration = new FactionRegistration(
+            this._registration = new FactionReg(
                 this._factionRepo,
                 this._abilityRepo
             );
@@ -76,24 +76,24 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
         [Test]
         public void TestConstructor()
         {
-            new FactionRegistration(
+            new FactionReg(
                 this._factionRepo,
                 this._abilityRepo
             );
             Assert.Throws<ArgumentNullException>(
-                ()=>new FactionRegistration(
+                ()=>new FactionReg(
                     null,
                     this._abilityRepo
                 )
             );
             Assert.Throws<ArgumentNullException>(
-                ()=>new FactionRegistration(
+                ()=>new FactionReg(
                     this._factionRepo,
                     null
                 )
             );
             Assert.Throws<ArgumentNullException>(
-                ()=>new FactionRegistration(
+                ()=>new FactionReg(
                     null,
                     null
                 )

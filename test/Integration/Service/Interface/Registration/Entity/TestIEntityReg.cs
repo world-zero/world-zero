@@ -3,28 +3,28 @@ using WorldZero.Common.Entity;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity;
 using WorldZero.Data.Repository.RAM.Entity;
-using WorldZero.Service.Interface.Registration;
+using WorldZero.Service.Interface.Registration.Entity;
 using NUnit.Framework;
 
-namespace WorldZero.Test.Integration.Service.Interface.Registration
+namespace WorldZero.Test.Integration.Service.Interface.Registration.Entity
 {
     [TestFixture]
-    public class TestIEntityRegistration
+    public class TestIEntityReg
     {
         private IPlayerRepo _repo;
-        private TestEntityRegistration _registration;
+        private TestEntityReg _registration;
 
         [SetUp]
         public void Setup()
         {
             this._repo = new RAMPlayerRepo();
-            this._registration = new TestEntityRegistration(this._repo);
+            this._registration = new TestEntityReg(this._repo);
         }
 
         [Test]
         public void TestConstructorBad()
         {
-            Assert.Throws<ArgumentNullException>(()=>new TestEntityRegistration(null));
+            Assert.Throws<ArgumentNullException>(()=>new TestEntityReg(null));
         }
 
         [Test]
@@ -52,10 +52,10 @@ namespace WorldZero.Test.Integration.Service.Interface.Registration
         }
     }
 
-    public class TestEntityRegistration
-        : IEntityRegistration<Player, Id, int>
+    public class TestEntityReg
+        : IEntityReg<Player, Id, int>
     {
-        public TestEntityRegistration(IPlayerRepo repo)
+        public TestEntityReg(IPlayerRepo repo)
             : base(repo)
         { }
     }

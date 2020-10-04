@@ -7,18 +7,18 @@ using WorldZero.Data.Interface.Repository.Entity;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Data.Repository.RAM.Entity;
 using WorldZero.Data.Repository.RAM.Entity.Relation;
-using WorldZero.Service.Interface.Registration;
+using WorldZero.Service.Interface.Registration.Entity;
 using NUnit.Framework;
 
-namespace WorldZero.Test.Integration.Service.Interface.Registration
+namespace WorldZero.Test.Integration.Service.Interface.Registration.Entity
 {
     [TestFixture]
-    public class TestIEntityRelationRegistration
+    public class TestIEntityRelationReg
     {
         private IVoteRepo _voteRepo;
         private ICharacterRepo _characterRepo;
         private IPraxisRepo _praxisRepo;
-        private TestEntityRelationRegistration _registration;
+        private TestEntityRelationReg _registration;
 
         [SetUp]
         public void Setup()
@@ -26,7 +26,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Registration
             this._voteRepo = new RAMVoteRepo();
             this._characterRepo = new RAMCharacterRepo();
             this._praxisRepo = new RAMPraxisRepo();
-            this._registration = new TestEntityRelationRegistration(
+            this._registration = new TestEntityRelationReg(
                 this._voteRepo,
                 this._characterRepo,
                 this._praxisRepo
@@ -37,17 +37,17 @@ namespace WorldZero.Test.Integration.Service.Interface.Registration
         public void TestConstructorBad()
         {
             Assert.Throws<ArgumentNullException>(()=>
-                new TestEntityRelationRegistration(
+                new TestEntityRelationReg(
                     null,
                     this._characterRepo,
                     this._praxisRepo));
             Assert.Throws<ArgumentNullException>(()=>
-                new TestEntityRelationRegistration(
+                new TestEntityRelationReg(
                     this._voteRepo,
                     null,
                     this._praxisRepo));
             Assert.Throws<ArgumentNullException>(()=>
-                new TestEntityRelationRegistration(
+                new TestEntityRelationReg(
                     this._voteRepo,
                     this._characterRepo,
                     null));
@@ -87,8 +87,8 @@ namespace WorldZero.Test.Integration.Service.Interface.Registration
         }
     }
 
-    public class TestEntityRelationRegistration
-        : IEntityRelationRegistration
+    public class TestEntityRelationReg
+        : IEntityRelationReg
         <
             Vote,
             Character,
@@ -100,7 +100,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Registration
             RelationDTO<Id, int, Id, int>
         >
     {
-        public TestEntityRelationRegistration(
+        public TestEntityRelationReg(
             IVoteRepo repo,
             ICharacterRepo characterRepo,
             IPraxisRepo praxisRepo
