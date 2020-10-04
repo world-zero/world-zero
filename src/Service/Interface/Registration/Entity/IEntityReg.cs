@@ -15,7 +15,7 @@ namespace WorldZero.Service.Interface.Registration.Entity
     /// This is the `ISingleValueObject` implementation that `Entity` uses as
     /// an ID.
     /// </typeparam>
-    /// <typeparam name="TSingleValObj">
+    /// <typeparam name="TBuiltIn">
     /// This is the built-in type behind `IdType`.
     /// </typeparam>
     /// <remarks>
@@ -26,13 +26,13 @@ namespace WorldZero.Service.Interface.Registration.Entity
     /// protected IEraRepo _eraRepo { get { return (IEraRepo) this._repo; } }
     /// </code>
     /// </remarks>
-    public abstract class IEntityReg<TEntity, TId, TSingleValObj>
-        where TEntity : IEntity<TId, TSingleValObj>
-        where TId : ISingleValueObject<TSingleValObj>
+    public abstract class IEntityReg<TEntity, TId, TBuiltIn>
+        where TEntity : IEntity<TId, TBuiltIn>
+        where TId : ISingleValueObject<TBuiltIn>
     {
-        protected readonly IEntityRepo<TEntity, TId, TSingleValObj> _repo;
+        protected readonly IEntityRepo<TEntity, TId, TBuiltIn> _repo;
 
-        protected IEntityReg(IEntityRepo<TEntity, TId, TSingleValObj> repo)
+        protected IEntityReg(IEntityRepo<TEntity, TId, TBuiltIn> repo)
         {
             this.AssertNotNull(repo, "repo");
             this._repo = repo;

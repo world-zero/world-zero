@@ -62,15 +62,16 @@ namespace WorldZero.Service.Interface.Registration.Entity
         TRightId,
         TRightBuiltIn,
         TRelationDTO
-    > : IEntityReg<TEntityRelation, Id, int>
+    >
+    : IEntityReg<TEntityRelation, Id, int>
         where TEntityRelation : IEntityRelation
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
+        where TLeftEntity : IEntity<TLeftId, TLeftBuiltIn>
         where TLeftId  : ISingleValueObject<TLeftBuiltIn>
+        where TRightEntity : IEntity<TRightId, TRightBuiltIn>
         where TRightId : ISingleValueObject<TRightBuiltIn>
         where TRelationDTO : RelationDTO
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
-        where TLeftEntity : IEntity<TLeftId, TLeftBuiltIn>
-        where TRightEntity : IEntity<TRightId, TRightBuiltIn>
     {
         protected new readonly IEntityRelationRepo
         <
@@ -124,7 +125,8 @@ namespace WorldZero.Service.Interface.Registration.Entity
                 TRightBuiltIn
             >
             rightRepo
-            ) : base(repo)
+        )
+            : base(repo)
         {
             this.AssertNotNull(leftRepo, "leftRepo");
             this.AssertNotNull(rightRepo, "rightRepo");
