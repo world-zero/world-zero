@@ -43,10 +43,18 @@ namespace WorldZero.Service.Interface.Registration.Entity
         /// </summary>
         public virtual TEntity Register(TEntity e)
         {
-            this.AssertNotNull(e, "e");
+            this.PreRegisterChecks(e);
             this._repo.Insert(e);
             this._repo.Save();
             return e;
+        }
+
+        /// <summary>
+        /// Ensure that the entity is not null.
+        /// </summary>
+        protected virtual void PreRegisterChecks(TEntity e)
+        {
+            this.AssertNotNull(e, "e");
         }
 
         /// <summary>

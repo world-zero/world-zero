@@ -141,7 +141,18 @@ namespace WorldZero.Service.Interface.Registration.Entity
         /// </summary>
         public override TEntityRelation Register(TEntityRelation e)
         {
-            this.AssertNotNull(e, "e");
+            this.PreRegisterChecks(e);
+            return base.Register(e);
+        }
+
+        /// <summary>
+        /// Ensure that the entity is not null *and* that the IDs exist in the
+        /// needed repos.
+        /// </summary>
+        protected override void PreRegisterChecks(TEntityRelation e)
+        {
+            base.PreRegisterChecks(e);
+
             try
             { this._leftRepo.GetById(e.LeftId); }
             catch (ArgumentException)
@@ -151,8 +162,6 @@ namespace WorldZero.Service.Interface.Registration.Entity
             { this._rightRepo.GetById(e.RightId); }
             catch (ArgumentException)
             { throw new ArgumentException("Could not insert the relation entity as its right ID is not registered with the correct repo."); }
-
-            return base.Register(e);
         }
     }
 }
