@@ -29,7 +29,7 @@ namespace WorldZero.Service.Registration.Entity.Relation
         { get { return (ICommentRepo) this._leftRepo; } }
 
         protected IFlagRepo _flagRepo
-        { get { return (IFlagRepo) this._leftRepo; } }
+        { get { return (IFlagRepo) this._rightRepo; } }
 
         public CommentFlagReg(
             ICommentFlagRepo commentFlagRepo,
