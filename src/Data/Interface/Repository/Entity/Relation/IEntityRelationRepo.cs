@@ -40,6 +40,10 @@ namespace WorldZero.Data.Interface.Repository.Entity.Relation
         /// Return the saved relational entity that have the supplied DTO. If
         /// there is no corresponding DTO, an exception is thrown.
         /// </summary>
+        /// <remarks>
+        /// This will not attempt to find entities of the inverse order of
+        /// left/right IDs, if appropriate.
+        /// </remarks>
         TEntityRelation GetByDTO(TRelationDTO dto);
     }
 }
