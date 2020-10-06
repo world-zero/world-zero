@@ -82,7 +82,9 @@ grounds of a service class.
 
 Most, if not all, properties will throw `ArgumentException`s on a sad or bad
 path, excluding the `ArgumentNullException` usage. Most, if not all, other
-classes will follow suit.  
+classes will follow suit. Full disclosure, I regret the degree at which
+everything throws exceptions as opposed to returning, say, an empty list;
+fortunately, there are not many cases of this.  
 
 `ArgumentException` is thrown when the user of some code does something bad.
 `InvalidOperationException` is thrown when an unreachable case is reached,
