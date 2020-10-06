@@ -141,7 +141,7 @@ namespace WorldZero.Service.Interface.Registration.Entity
         /// </summary>
         public override TEntityRelation Register(TEntityRelation e)
         {
-            this.PreRegisterChecks(e);
+            this.PreRegisterChecks(e, "e");
             return base.Register(e);
         }
 
@@ -149,9 +149,9 @@ namespace WorldZero.Service.Interface.Registration.Entity
         /// Ensure that the entity is not null *and* that the IDs exist in the
         /// needed repos.
         /// </summary>
-        protected override void PreRegisterChecks(TEntityRelation e)
+        protected override void PreRegisterChecks(TEntityRelation e, string t)
         {
-            base.PreRegisterChecks(e);
+            base.PreRegisterChecks(e, t);
 
             try
             { this._leftRepo.GetById(e.LeftId); }
