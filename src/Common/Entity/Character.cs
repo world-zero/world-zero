@@ -79,6 +79,12 @@ namespace WorldZero.Common.Entity
             );
         }
 
+        /// <remarks>
+        /// The level fields are not stored as they are determined on 
+        /// property request. That said, this will throw an exception if there
+        /// is a supplied level that does not match the corresponding point
+        /// totol.
+        /// </remarks>
         internal Character(
             int    id,
             string name,
@@ -86,13 +92,24 @@ namespace WorldZero.Common.Entity
             string factionId,
             int    locationId,
             int    eraPoints,
+            int    eraLevel,
             int    totalPoints,
+            int    totalLevel,
             int    votePointsLeft,
             bool   hasBio,
             bool   hasProfilePic
         )
             : base(new Id(id), new Name(name))
         {
+            var expectedEraLevel =
+                this._calculateLevel(new PointTotal(eraPoints)).Get;
+            if (eraLevel != expectedEraLevel)
+                throw new InvalidOperationException($"EraLevel ({eraLevel}) and EraPoints ({expectedEraLevel}) do not match.");
+            var expectedTotalLevel =
+                this._calculateLevel(new PointTotal(totalPoints)).Get;
+            if (totalLevel != expectedTotalLevel)
+                throw new InvalidOperationException($"TotalLevel ({totalLevel}) and TotalPoints ({expectedTotalLevel}) do not match.");
+
             this._setup(
                 new Id(playerId),
                 new Name(factionId),

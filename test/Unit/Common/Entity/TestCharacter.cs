@@ -92,7 +92,9 @@ namespace WorldZero.Test.Unit.Common.Entity
                 this._factionId.Get,
                 this._locationId.Get,
                 this._eraPoints.Get,
+                1,
                 this._totalPoints.Get,
+                1,
                 this._votePointsLeft.Get,
                 this._hasBio,
                 this._hasProfilePic
@@ -108,6 +110,36 @@ namespace WorldZero.Test.Unit.Common.Entity
             Assert.AreEqual(this._votePointsLeft, c.VotePointsLeft);
             Assert.AreEqual(this._hasBio, c.HasBio);
             Assert.AreEqual(this._hasProfilePic, c.HasProfilePic);
+
+            // Make sure that the point-level validation is executing.
+            Assert.Throws<InvalidOperationException>(()=>new Character(
+                this._characterId.Get,
+                this._name.Get,
+                this._playerId.Get,
+                this._factionId.Get,
+                this._locationId.Get,
+                this._eraPoints.Get,
+                1,
+                this._totalPoints.Get,
+                6,
+                this._votePointsLeft.Get,
+                this._hasBio,
+                this._hasProfilePic
+            ));
+            Assert.Throws<InvalidOperationException>(()=>new Character(
+                this._characterId.Get,
+                this._name.Get,
+                this._playerId.Get,
+                this._factionId.Get,
+                this._locationId.Get,
+                this._eraPoints.Get,
+                6,
+                this._totalPoints.Get,
+                1,
+                this._votePointsLeft.Get,
+                this._hasBio,
+                this._hasProfilePic
+            ));
         }
 
         [Test]
