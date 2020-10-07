@@ -9,6 +9,65 @@ namespace WorldZero.Service.Registration.Entity
     public class CharacterReg
         : IEntityReg<Character, Id, int>
     {
+        /// <summary>
+        /// This level controls the minimum level at which a player can create
+        /// additional characters.
+        /// <summary>
+        /// </remarks>
+        /// Naturally, if a player has no characters, then they can register a
+        /// new character. Alternatively, a player's level is determined by
+        /// looping through each of their characters and finding the
+        /// character(s) with the highest era or total level, the larger of
+        /// which is used for the player level.
+        /// </remarks>
+        public static Level MinLevelToRegister = new Level(3);
+
+        /// <summary>
+        /// Determine if a player can register another character based off
+        /// MinLevelToRegister.
+        /// </summary>
+        /// </remarks>
+        /// Naturally, if a player has no characters, then they can register a
+        /// new character. Alternatively, a player's level is determined by
+        /// looping through each of their characters and finding the
+        /// character(s) with the highest era or total level, the larger of
+        /// which is used for the player level.
+        /// </remarks>
+        public bool CanRegCharacter(Player p)
+        {
+            if (p == null)
+                throw new ArgumentNullException("p");
+            return CanRegCharacter(p.Id);
+        }
+        /// <summary>
+        /// Determine if a player can register another character based off
+        /// MinLevelToRegister.
+        /// </summary>
+        /// </remarks>
+        /// Naturally, if a player has no characters, then they can register a
+        /// new character. Alternatively, a player's level is determined by
+        /// looping through each of their characters and finding the
+        /// character(s) with the highest era or total level, the larger of
+        /// which is used for the player level.
+        /// </remarks>
+        public bool CanRegCharacter(Id playerId)
+        {
+            if (playerId == null)
+                throw new ArgumentNullException("playerId");
+            if (MinLevelToRegister == null)
+                throw new ArgumentException("MinLevelToRegister is null, but it is needed for this method.");
+
+            try
+            {
+                Level l = this._characterRepo.FindHighestLevel(playerId);
+                if (l.Get < MinLevelToRegister.Get)
+                    return false;
+            }
+            catch (ArgumentException)
+            { }
+            return true;
+        }
+
         protected readonly IPlayerRepo _playerRepo;
         protected readonly IFactionRepo _factionRepo;
         protected readonly ILocationRepo _locationRepo;
@@ -41,7 +100,9 @@ namespace WorldZero.Service.Registration.Entity
             this.AssertNotNull(c, "c");
             try
             {
-                this._playerRepo.GetById(c.PlayerId);
+                Player p = this._playerRepo.GetById(c.PlayerId);
+                if (!this.CanRegCharacter(p))
+                    throw new ArgumentException("The supplied Character belongs to a Player that does not have sufficient level to register another Character.");
             }
             catch (ArgumentException)
             {

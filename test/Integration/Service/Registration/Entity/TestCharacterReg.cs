@@ -23,6 +23,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
         [SetUp]
         public void Setup()
         {
+            CharacterReg.MinLevelToRegister = new Level(3);
             this._characterRepo = new RAMCharacterRepo();
             this._factionRepo = new RAMFactionRepo();
             this._playerRepo = new RAMPlayerRepo();
@@ -59,7 +60,8 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
                 new Name("something"),
                 this._player0.Id,
                 this._faction0.Id,
-                this._location0.Id
+                this._location0.Id,
+                new PointTotal(600)
             );
             Assert.IsFalse(c.IsIdSet());
             this._registration.Register(c);
@@ -89,7 +91,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
         [Test]
         public void TestRegisterSad()
         {
-            // all good foreign keys
+            // All good foreign keys, this is a happy run.
             var c = new Character(
                 new Name("something"),
                 this._player0.Id,
@@ -97,7 +99,14 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
                 this._location0.Id
             );
 
-            // all bad foreign keys
+            // Make sure that a player with an insufficient level cannot
+            // register another character.
+            this._registration.Register(c);
+            Assert.Throws<ArgumentException>(()=>this._registration.Register(
+                new Character(new Name("f"), new Id(4324))
+            ));
+
+            // All bad foreign keys.
             c = new Character(
                 new Name("dummy character"),
                 new Id(9001),
@@ -108,7 +117,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
                 ()=>this._registration.Register(c)
             );
 
-            // only the first is invalid
+            // Only the first is invalid.
             c = new Character(
                 new Name("dummy character"),
                 new Id(9001),
@@ -119,7 +128,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
                 ()=>this._registration.Register(c)
             );
 
-            // only the second is invalid
+            // Only the second is invalid.
             c = new Character(
                 new Name("dummy character"),
                 this._player0.Id,
@@ -130,7 +139,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
                 ()=>this._registration.Register(c)
             );
 
-            // only the third is invalid
+            // Only the third is invalid.
             c = new Character(
                 this._player0.Id,
                 this._faction0.Id,
@@ -182,6 +191,54 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
                     null
                 )
             );
+        }
+
+        [Test]
+        public void TestCanRegCharacterNullChecks()
+        {
+            Assert.Throws<ArgumentNullException>(()=>
+                this._registration.CanRegCharacter((Player) null));
+            Assert.Throws<ArgumentNullException>(()=>
+                this._registration.CanRegCharacter((Id) null));
+
+            Level old = CharacterReg.MinLevelToRegister;
+            CharacterReg.MinLevelToRegister = null;
+            Assert.Throws<ArgumentException>(()=>
+                this._registration.CanRegCharacter(new Player(new Name("f"))));
+            Assert.Throws<ArgumentException>(()=>
+                this._registration.CanRegCharacter(new Id(234)));
+            CharacterReg.MinLevelToRegister = old;
+        }
+
+        [Test]
+        public void TestCanRegCharacterNoAssociatedPlayerId()
+        {
+            Assert.IsTrue(this._registration.CanRegCharacter(
+                new Player(new Id(342), new Name("f"))));
+            Assert.IsTrue(this._registration.CanRegCharacter(new Id(342)));
+        }
+
+        [Test]
+        public void TestCanRegCharacterHappy()
+        {
+            this._registration.Register(new Character(
+                new Name("f"),
+                new Id(1),
+                null,
+                null,
+                new PointTotal(3000)
+            ));
+            Assert.IsTrue(this._registration.CanRegCharacter(new Id(1)));
+        }
+
+        [Test]
+        public void TestCanRegCharacterSad()
+        {
+            this._registration.Register(new Character(
+                new Name("f"),
+                new Id(1)
+            ));
+            Assert.IsFalse(this._registration.CanRegCharacter(new Id(1)));
         }
     }
 }

@@ -113,6 +113,7 @@ namespace WorldZero.Port.Admin
 
         private void _setupFlags()
         {
+            this._FlagReg.Register(new Flag(new Name("Duplicate")));
             this._FlagReg.Register(new Flag(new Name("Dangerous")));
             this._FlagReg.Register(new Flag(
                 new Name("Inappropriate")));
@@ -125,11 +126,14 @@ namespace WorldZero.Port.Admin
             this._FlagReg.Register(new Flag(new Name("Fatphobic")));
         }
 
+        /// <remarks>
+        /// These are not classes as we would like to be able to adjust things
+        /// easily and be database-driven. That said, it is highly recommended
+        /// to not change the exact names or purposes of these abilities
+        /// without reviewing the codebase.
+        /// </remarks>
         private void _setupAbilitiesFactions()
         {
-            // These are not hardcoded or in classes to allow for
-            // database-driven correlations. This is also why this method isn't
-            // broken into helpers.
             PastDate now = new PastDate(DateTime.UtcNow);
             Ability ability;
 
@@ -180,8 +184,6 @@ namespace WorldZero.Port.Admin
             ));
 
             ability = new Ability(
-                // NOTE: this name is used in other documentation annd in class
-                // members, it is not recommended to change it.
                 new Name("Historian"),
                 "You may sign up for approved pretired / retired tasks."
             );
@@ -191,7 +193,7 @@ namespace WorldZero.Port.Admin
             ));
 
             ability = new Ability(
-                new Name("Reiterate"), 
+                new Name("Reiterator"), 
                 String.Join(" ",
                     "You may complete one task of each level a certain",
                     "number of extra times."
