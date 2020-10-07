@@ -98,16 +98,23 @@ namespace WorldZero.Service.Registration.Entity
         public override Character Register(Character c)
         {
             this.AssertNotNull(c, "c");
+            bool shouldCrash = false;
             try
             {
                 Player p = this._playerRepo.GetById(c.PlayerId);
                 if (!this.CanRegCharacter(p))
-                    throw new ArgumentException("The supplied Character belongs to a Player that does not have sufficient level to register another Character.");
+                    shouldCrash = true;
+            }
+            catch (ArgumentNullException)
+            {
+                throw new InvalidOperationException("A null was found where it should not be possible.");
             }
             catch (ArgumentException)
             {
-                throw new ArgumentException($"Character of ID {c.Id} has an invalid Player ID of {c.PlayerId}.");
+                throw new ArgumentException($"Character of ID {c.Id.Get} has an invalid Player ID of {c.PlayerId.Get}.");
             }
+            if (shouldCrash)
+                throw new ArgumentException("The supplied Character belongs to a Player that does not have sufficient level to register another Character.");
             try
             {
                 if (c.FactionId != null)
@@ -115,7 +122,7 @@ namespace WorldZero.Service.Registration.Entity
             }
             catch (ArgumentException)
             {
-                throw new ArgumentException($"Character of ID {c.Id} has an invalid Faction ID of {c.FactionId}.");
+                throw new ArgumentException($"Character of ID {c.Id.Get} has an invalid Faction ID of {c.FactionId.Get}.");
             }
             try
             {
@@ -124,7 +131,7 @@ namespace WorldZero.Service.Registration.Entity
             }
             catch (ArgumentException)
             {
-                throw new ArgumentException($"Character of ID {c.Id} has an invalid Location ID of {c.LocationId}.");
+                throw new ArgumentException($"Character of ID {c.Id.Get} has an invalid Location ID of {c.LocationId.Get}.");
             }
             return base.Register(c);
         }
