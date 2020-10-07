@@ -13,5 +13,22 @@ namespace WorldZero.Data.Interface.Repository.Entity
         /// PlayerId. If there are none, then an exception is thrown.
         /// </summary>
         IEnumerable<Character> GetByPlayerId(Id playerId);
+
+        /// <remarks>
+        /// The level is determined by processing the player's characters and
+        /// finding the character(s) with the highest era or total level, and
+        /// using the the larger of which for the returned level. This will
+        /// throw an ArgumentException if the supplied playerId does not map to
+        /// any characters.
+        /// </remarks>
+        Level FindHighestLevel(Player player);
+        /// <remarks>
+        /// The level is determined by processing the player's characters and
+        /// finding the character(s) with the highest era or total level, and
+        /// using the the larger of which for the returned level. This will
+        /// throw an ArgumentException if the supplied playerId does not map to
+        /// any characters.
+        /// </remarks>
+        Level FindHighestLevel(Id playerId);
     }
 }

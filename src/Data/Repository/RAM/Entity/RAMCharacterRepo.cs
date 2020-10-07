@@ -29,6 +29,45 @@ namespace WorldZero.Data.Repository.RAM.Entity
                 return chars;
         }
 
+        public Level FindHighestLevel(Player player)
+        {
+            if (player == null)
+                throw new ArgumentNullException("player");
+            return this.FindHighestLevel(player.Id);
+        }
+
+        public Level FindHighestLevel(Id playerId)
+        {
+            if (playerId == null)
+                throw new ArgumentNullException("playerId");
+
+            IEnumerable<Character> chars;
+            try
+            {
+                chars = this.GetByPlayerId(playerId);
+            }
+            catch (ArgumentException e)
+            { throw new ArgumentException(e.Message); }
+
+            int highest = -1;
+            foreach (Character c in chars)
+            {
+                int curr = c.TotalLevel.Get;
+                if (curr > highest)
+                    highest = curr;
+                curr = c.EraLevel.Get;
+                if (curr > highest)
+                    highest = curr;
+            }
+
+            try
+            {
+                return new Level(highest);
+            }
+            catch (ArgumentException e)
+            { throw new InvalidOperationException("This should not occur.", e); }
+        }
+
         protected override int GetRuleCount()
         {
             var a = new Character(new Name("asdf"), new Id(2));

@@ -9,6 +9,35 @@ namespace WorldZero.Common.Entity
     /// </summary>
     public class Character : IIdNamedEntity
     {
+        /// <summary>
+        /// Determine the level based off the number of points supplied.
+        /// </summary>
+        /// <param name="points">The points to calculate the level of.</param>
+        /// <returns><c>Level</c> corresponding to the <c>points</c>.</returns>
+        public static Level CalculateLevel(PointTotal points)
+        {
+            if (points == null)
+                throw new ArgumentNullException("points");
+
+            int r = -1; // Just to make sure it's getting set.
+            int p = points.Get;
+            if      (p < 10)   r = 0;
+            else if (p < 70)   r = 1;
+            else if (p < 170)  r = 2;
+            else if (p < 330)  r = 3;
+            else if (p < 610)  r = 4;
+            else if (p < 1090) r = 5;
+            else if (p < 1840) r = 6;
+            else if (p < 3040) r = 7;
+            else               r = 8;
+            try
+            {
+                return new Level(r);
+            }
+            catch (ArgumentException e)
+            { throw new InvalidOperationException("This should not occur.", e); }
+        }
+
         /// <param name="name"></param>
         /// <param name="playerId"></param>
         /// <param name="factionId"></param>
@@ -102,11 +131,11 @@ namespace WorldZero.Common.Entity
             : base(new Id(id), new Name(name))
         {
             var expectedEraLevel =
-                this._calculateLevel(new PointTotal(eraPoints)).Get;
+                CalculateLevel(new PointTotal(eraPoints)).Get;
             if (eraLevel != expectedEraLevel)
                 throw new InvalidOperationException($"EraLevel ({eraLevel}) and EraPoints ({expectedEraLevel}) do not match.");
             var expectedTotalLevel =
-                this._calculateLevel(new PointTotal(totalPoints)).Get;
+                CalculateLevel(new PointTotal(totalPoints)).Get;
             if (totalLevel != expectedTotalLevel)
                 throw new InvalidOperationException($"TotalLevel ({totalLevel}) and TotalPoints ({expectedTotalLevel}) do not match.");
 
@@ -157,27 +186,6 @@ namespace WorldZero.Common.Entity
                 this.HasBio,
                 this.HasProfilePic
             );
-        }
-
-        /// <summary>
-        /// Determine the level based off the number of points supplied.
-        /// </summary>
-        /// <param name="points">The points to calculate the level of.</param>
-        /// <returns><c>Level</c> corresponding to the <c>points</c>.</returns>
-        private Level _calculateLevel(PointTotal points)
-        {
-            int r = -1; // Just to make sure it's getting set.
-            int p = points.Get;
-            if      (p < 10)   r = 0;
-            else if (p < 70)   r = 1;
-            else if (p < 170)  r = 2;
-            else if (p < 330)  r = 3;
-            else if (p < 610)  r = 4;
-            else if (p < 1090) r = 5;
-            else if (p < 1840) r = 6;
-            else if (p < 3040) r = 7;
-            else               r = 8;
-            return new Level(r);
         }
 
         /// <summary>
@@ -237,12 +245,12 @@ namespace WorldZero.Common.Entity
 
         public Level EraLevel
         {
-            get { return this._calculateLevel(this.EraPoints); }
+            get { return CalculateLevel(this.EraPoints); }
         }
 
         public Level TotalLevel
         {
-            get { return this._calculateLevel(this.TotalPoints); }
+            get { return CalculateLevel(this.TotalPoints); }
         }
 
         /// <value>
