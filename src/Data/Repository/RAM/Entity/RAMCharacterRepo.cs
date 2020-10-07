@@ -18,7 +18,7 @@ namespace WorldZero.Data.Repository.RAM.Entity
             if (playerId == null)
                 throw new ArgumentNullException("playerId");
 
-            var chars =
+            IEnumerable<Character> chars =
                 from character in this._saved.Values
                 where character.PlayerId == playerId
                 select character;
