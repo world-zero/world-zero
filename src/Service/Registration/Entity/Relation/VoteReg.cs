@@ -9,8 +9,6 @@ using WorldZero.Common.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 
-// TODO: make sure a player is voting once on a praxis
-
 // TODO: Upon receiveing a vote, give 2 votes to the character.
 //      Points are given as votes are recieved, apart from duels. I am waiting on further information about duels, and how long to keep a praxis live.
 
