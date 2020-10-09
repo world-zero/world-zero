@@ -128,8 +128,10 @@ namespace WorldZero.Service.Interface.Registration.Entity
         )
             : base(repo)
         {
+            this.AssertNotNull(repo, "repo");
             this.AssertNotNull(leftRepo, "leftRepo");
             this.AssertNotNull(rightRepo, "rightRepo");
+            this._repo = repo;
             this._leftRepo = leftRepo;
             this._rightRepo = rightRepo;
         }
