@@ -1,3 +1,4 @@
+using System.Collections;
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -28,14 +29,33 @@ namespace WorldZero.Data.Repository.RAM.Entity.Relation
                 throw new ArgumentNullException("playerId");
 
             IEnumerable<Id> charIds =
-                from praxisParticipant in this._saved.Values
-                where praxisParticipant.PraxisId == praxisId
-                select praxisParticipant.CharacterId;
+                from pp in this._saved.Values
+                where pp.PraxisId == praxisId
+                select pp.CharacterId;
 
             if (charIds.Count() == 0)
                 throw new ArgumentException($"There are no characters associated with PraxisId of {praxisId.Get}");
             else
                 return charIds;
+        }
+
+        public bool ParticipantCheck(Id praxisId, Id characterId)
+        {
+            if (praxisId == null)
+                throw new ArgumentNullException("praxisId");
+            if (characterId == null)
+                throw new ArgumentNullException("characterId");
+
+            IEnumerable<PraxisParticipant> participants =
+                from pp in this._saved.Values
+                where pp.PraxisId == praxisId
+                where pp.CharacterId == characterId
+                select pp;
+
+            if (participants.Count() == 0)
+                return false;
+
+            return true;
         }
 
         protected override int GetRuleCount()

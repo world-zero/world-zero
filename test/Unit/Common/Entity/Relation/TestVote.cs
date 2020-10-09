@@ -28,7 +28,20 @@ namespace WorldZero.Test.Unit.Common.Entity.Relation
             this._id0 = new Id(3);
             this._id1 = new Id(5);
             this._pt = new PointTotal(Vote.MinPoints.Get+1);
-            this._vote = new Vote(this._id0, this._id1, this._pt);
+            this._vote = new Vote(this._id0, this._id1, new Id(100), this._pt);
+        }
+
+        [Test]
+        public void TestCantVoteForSelf()
+        {
+            Assert.Throws<ArgumentException>(()=>
+                new Vote(new Id(1), new Id(2), new Id(1), new PointTotal(2)));
+            var v =
+                new Vote(new Id(1), new Id(2), new Id(3), new PointTotal(2));
+            Assert.Throws<ArgumentException>(()=>
+                v.VotingCharacterId = new Id(3));
+            Assert.Throws<ArgumentException>(()=>
+                v.ReceivingCharacterId = new Id(1));
         }
 
         [Test]

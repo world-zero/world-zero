@@ -30,7 +30,7 @@ namespace WorldZero.Data.Repository.RAM.Entity.Relation
             IEnumerable<Id> charIds =
                 from praxisParticipant in this._saved.Values
                 where praxisParticipant.PraxisId == praxisId
-                select praxisParticipant.CharacterId;
+                select praxisParticipant.VotingCharacterId;
 
             if (charIds.Count() == 0)
                 throw new ArgumentException($"There are no characters associated with PraxisId of {praxisId.Get}");
@@ -40,7 +40,8 @@ namespace WorldZero.Data.Repository.RAM.Entity.Relation
 
         protected override int GetRuleCount()
         {
-            var a = new Vote(new Id(2), new Id(2), new PointTotal(3));
+            var a =
+                new Vote(new Id(2), new Id(2), new Id(3), new PointTotal(3));
             return a.GetUniqueRules().Count;
         }
     }

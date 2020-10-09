@@ -9,9 +9,6 @@ using WorldZero.Common.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 
-// TODO: Upon receiveing a vote, give 2 votes to the character.
-//      Points are given as votes are recieved, apart from duels. I am waiting on further information about duels, and how long to keep a praxis live.
-
 namespace WorldZero.Service.Registration.Entity.Relation
 {
     public class VoteReg
@@ -62,12 +59,15 @@ namespace WorldZero.Service.Registration.Entity.Relation
             this.AssertNotNull(v, "v");
             var votingChar     = this._regGetCharacter(v);
             var praxis         = this._regGetPraxis(v);
+            this._regAssertValidRecChar(v);
             var votersCharsIds = this._regGetVotersCharsIds(votingChar);
             var praxisCharsIds = this._regGetPraxisCharsIds(praxis);
 
+            // Make sure someone isn't voting on their own praxis.
             if (votersCharsIds.Intersect(praxisCharsIds).Count() != 0)
                 throw new ArgumentException("A player is attempting to vote on their own praxis.");
 
+            // Make sure someone isn't voting on a praxis multiple times.
             var votesCharIds = this._regGetPraxisVoters(v.PraxisId);
             if (   (votesCharIds != null)
                 && (votersCharsIds.Intersect(votersCharsIds).Count() != 0) )
@@ -79,16 +79,37 @@ namespace WorldZero.Service.Registration.Entity.Relation
         }
 
         /// <summary>
-        /// Return the character associated with the supplied vote.
+        /// Return the voting character associated with the supplied vote.
         /// </summary>
         private Character _regGetCharacter(Vote v)
         {
             try
             {
-                return this._leftRepo.GetById(v.LeftId);
+                return this._characterRepo.GetById(v.LeftId);
             }
             catch (ArgumentException)
             { throw new ArgumentException("Could not insert the relation entity as its left ID is not registered with the correct repo."); }
+        }
+
+        /// <summary>
+        /// Make sure that `v.ReceivingCharacterId` is an actual character and
+        /// that the character is a participant on `v.PraxisId`.
+        /// </summary>
+        private void _regAssertValidRecChar(Vote v)
+        {
+            // Check that the participant exists.
+            try
+            {
+                this._characterRepo.GetById(v.ReceivingCharacterId);
+            }
+            catch (ArgumentException)
+            { throw new ArgumentException("The vote's receiving character does not exist."); }
+
+            // Check that the participant actually participated.
+            var pId = v.PraxisId;
+            var cId = v.ReceivingCharacterId;
+            if (!this._praxisPartRepo.ParticipantCheck(pId, cId))
+                throw new ArgumentException("The supplied vote's receiving character is not a participant of the supplied praxis.");
         }
 
         /// <summary>
@@ -98,7 +119,7 @@ namespace WorldZero.Service.Registration.Entity.Relation
         {
             try
             {
-                return this._rightRepo.GetById(v.RightId);
+                return this._praxisRepo.GetById(v.RightId);
             }
             catch (ArgumentException)
             { throw new ArgumentException("Could not insert the relation entity as its right ID is not registered with the correct repo."); }

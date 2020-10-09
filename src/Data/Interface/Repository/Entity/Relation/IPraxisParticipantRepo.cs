@@ -21,5 +21,11 @@ namespace WorldZero.Data.Interface.Repository.Entity.Relation
         /// the supplied PraxisId. If there are none, then an exception is thrown.
         /// </summary>
         IEnumerable<Id> GetCharIdsByPraxisId(Id praxisId);
+
+        /// <summary>
+        /// This will check if the supplied praxis ID has the supplied
+        /// participant and return a boolean accordingly.
+        /// </summary>
+        bool ParticipantCheck(Id praxisId, Id characterId);
     }
 }

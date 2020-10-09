@@ -27,9 +27,12 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Relation
             this._pId1 = new Id(2);
             this._cId0 = new Id(3);
             this._cId1 = new Id(4);
-            this._v0 = new Vote(this._cId0, this._pId0, new PointTotal(3));
-            this._v1 = new Vote(this._cId1, this._pId0, new PointTotal(3));
-            this._vAlt = new Vote(this._cId0, this._pId1, new PointTotal(3));
+            this._v0 = new Vote(
+                this._cId0, this._pId0, new Id(10), new PointTotal(3));
+            this._v1 = new Vote(
+                this._cId1, this._pId0, new Id(10), new PointTotal(3));
+            this._vAlt = new Vote(
+                this._cId0, this._pId1, new Id(10), new PointTotal(3));
         }
 
         [Test]

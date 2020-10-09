@@ -59,7 +59,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Registration.Entity
             Assert.Throws<ArgumentNullException>(()=>
                 this._registration.Register(null));
 
-            var v = new Vote(new Id(1), new Id(1), new PointTotal(4));
+            var v = new Vote(new Id(1), new Id(1), new Id(5), new PointTotal(4));
             Assert.Throws<ArgumentException>(()=>
                 this._registration.Register(v));
 
@@ -81,7 +81,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Registration.Entity
                 new Character(new Name("foo"), new Id(2))
             );
             this._characterRepo.Save();
-            v.CharacterId = new Id(2);
+            v.VotingCharacterId = new Id(2);
             this._registration.Register(v);
             Assert.IsTrue(v.IsIdSet());
         }

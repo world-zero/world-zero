@@ -49,7 +49,8 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
                 this._voteReg.Register(null));
 
             // Invalid left id.
-            Vote v = new Vote(new Id(10), new Id(20), new PointTotal(3));
+            Vote v =
+                new Vote(new Id(10), new Id(20), new Id(30), new PointTotal(3));
             Assert.Throws<ArgumentException>(()=>
                 this._voteReg.Register(v));
 
@@ -77,7 +78,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
             );
             charReg.Register(character);
 
-            v.CharacterId = character.Id;
+            v.VotingCharacterId = character.Id;
             Assert.Throws<ArgumentException>(()=>
                 this._voteReg.Register(v));
 
@@ -122,7 +123,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
             // Someone is voting with a different character.
             var altChar = new Character(new Name("Hal"), player.Id);
             charReg.Register(altChar);
-            v.CharacterId = altChar.Id;
+            v.VotingCharacterId = altChar.Id;
             Assert.Throws<ArgumentException>(()=>this._voteReg.Register(v));
 
             // Happy case!
@@ -138,7 +139,10 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
                 new PointTotal(40000)
             );
             charReg.Register(newChar);
-            var newVote = new Vote(newChar.Id, praxis.Id, new PointTotal(2));
+            this._ppRepo.Insert(new PraxisParticipant(praxis.Id, altChar.Id));
+            this._ppRepo.Save();
+            var newVote =
+                new Vote(newChar.Id, praxis.Id, altChar.Id, new PointTotal(2));
             this._voteReg.Register(newVote);
 
             // Someone is voting on the same praxis again, but with a different
@@ -147,29 +151,44 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
                 new Name("Monster Hunter"),
                 newPlayer.Id
             );
-            var newNewVote =
-                new Vote(newNewChar.Id, praxis.Id, new PointTotal(2));
+            var newNewVote = new Vote(
+                newNewChar.Id,
+                praxis.Id,
+                altChar.Id,
+                new PointTotal(2)
+            );
             Assert.Throws<ArgumentException>(()=>
                 this._voteReg.Register(newNewVote));
         }
 
         [Test]
-        public void TestRegisterBugs()
+        public void TestRegisterBadParticipant()
         {
-            var c = new Character(new Name("f"), new Id(0));
-            this._charRepo.Insert(c);
+            var c0 = new Character(new Name("f"), new Id(0));
+            this._charRepo.Insert(c0);
+            this._charRepo.Save();
+            var c1 = new Character(new Name("g"), new Id(2));
+            this._charRepo.Insert(c1);
             this._charRepo.Save();
             var p = new Praxis(new Id(234), new Name("Active"));
             this._praxisRepo.Insert(p);
             this._praxisRepo.Save();
 
-            var v = new Vote(c.Id, p.Id, new PointTotal(3));
-            // Catch the praxis/praxis-participnt exception.
-            Assert.Throws<InvalidOperationException>(()=>
+            // The receiving character isn't real.
+            var v = new Vote(c0.Id, p.Id, new Id(1000), new PointTotal(3));
+            Assert.Throws<ArgumentException>(()=>
                 this._voteReg.Register(v));
 
-            // Currently, there is a logical loop making it impossible to even
-            // test that VoteReg._regGetVotersCharsIds(Character) will fail.
+            // The receiving character didn't actually participate.
+            v = new Vote(c0.Id, p.Id, c1.Id, new PointTotal(3));
+            Assert.Throws<ArgumentException>(()=>
+                this._voteReg.Register(v));
+
+            // Happy case, just for kicks.
+            this._ppRepo.Insert(new PraxisParticipant(p.Id, c1.Id));
+            this._ppRepo.Save();
+            v = new Vote(c0.Id, p.Id, c1.Id, new PointTotal(3));
+            this._voteReg.Register(v);
         }
     }
 }
