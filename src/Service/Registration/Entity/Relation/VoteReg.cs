@@ -9,6 +9,11 @@ using WorldZero.Common.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 
+// TODO: make sure a player is voting once on a praxis
+
+// TODO: Upon receiveing a vote, give 2 votes to the character.
+//      Points are given as votes are recieved, apart from duels. I am waiting on further information about duels, and how long to keep a praxis live.
+
 namespace WorldZero.Service.Registration.Entity.Relation
 {
     public class VoteReg
@@ -43,6 +48,7 @@ namespace WorldZero.Service.Registration.Entity.Relation
         )
             : base(voteRepo, characterRepo, praxisRepo)
         {
+            if (this._voteRepo == null) throw new InvalidOperationException("voterepo");
             this.AssertNotNull(praxisParticipantRepo, "praxisParticipantRepo");
             this._praxisPartRepo = praxisParticipantRepo;
         }
@@ -63,6 +69,13 @@ namespace WorldZero.Service.Registration.Entity.Relation
 
             if (votersCharsIds.Intersect(praxisCharsIds).Count() != 0)
                 throw new ArgumentException("A player is attempting to vote on their own praxis.");
+
+            var votesCharIds = this._regGetPraxisVoters(v.PraxisId);
+            if (   (votesCharIds != null)
+                && (votersCharsIds.Intersect(votersCharsIds).Count() != 0) )
+            {
+                throw new ArgumentException("A player is attempting to revote on a praxis.");
+            }
 
             return base.Register(v);
         }
@@ -122,6 +135,24 @@ namespace WorldZero.Service.Registration.Entity.Relation
             }
             catch (ArgumentException)
             { throw new InvalidOperationException("There exists a praxis that does not have any participants."); }
+        }
+
+        /// <summary>
+        /// Return the `Character.Id`s that have voting on `v.PraxisId`. This
+        /// will return null if no one has voted on the praxis before.
+        /// </summary>
+        private IEnumerable<Id> _regGetPraxisVoters(Id praxisId)
+        {
+            try
+            {
+                if (this._voteRepo == null)
+                    throw new InvalidOperationException("_voteRepo");
+                return this._voteRepo.GetPraxisVoters(praxisId);
+            }
+            catch (ArgumentException)
+            {
+                return null;
+            }
         }
     }
 }

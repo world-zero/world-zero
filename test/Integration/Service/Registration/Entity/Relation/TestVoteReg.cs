@@ -120,16 +120,16 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
             Assert.Throws<ArgumentException>(()=>this._voteReg.Register(v));
 
             // Someone is voting with a different character.
-            var altCharacter = new Character(new Name("Hal"), player.Id);
-            charReg.Register(altCharacter);
-            v.CharacterId = altCharacter.Id;
+            var altChar = new Character(new Name("Hal"), player.Id);
+            charReg.Register(altChar);
+            v.CharacterId = altChar.Id;
             Assert.Throws<ArgumentException>(()=>this._voteReg.Register(v));
 
             // Happy case!
             // Create a new player/character, and vote on the existing praxis.
             var newPlayer = new Player(new Name("Hal"));
             playerReg.Register(newPlayer);
-            var newCharacter = new Character(
+            var newChar = new Character(
                 new Name("Inmost"),
                 newPlayer.Id,
                 null,
@@ -137,9 +137,20 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
                 null,
                 new PointTotal(40000)
             );
-            charReg.Register(newCharacter);
-            var newVote = new Vote(newCharacter.Id, praxis.Id, new PointTotal(2));
+            charReg.Register(newChar);
+            var newVote = new Vote(newChar.Id, praxis.Id, new PointTotal(2));
             this._voteReg.Register(newVote);
+
+            // Someone is voting on the same praxis again, but with a different
+            // character.
+            var newNewChar = new Character(
+                new Name("Monster Hunter"),
+                newPlayer.Id
+            );
+            var newNewVote =
+                new Vote(newNewChar.Id, praxis.Id, new PointTotal(2));
+            Assert.Throws<ArgumentException>(()=>
+                this._voteReg.Register(newNewVote));
         }
 
         [Test]
