@@ -8,6 +8,10 @@ using WorldZero.Data.Interface.Repository.Entity.Relation;
 
 namespace WorldZero.Service.Registration.Entity.Relation
 {
+    /// <remarks>
+    /// This will not ensure that one Player is having several of their
+    /// characters participating on the same praxis.
+    /// </remarks>
     public class PraxisParticipantReg
         : IEntityRelationReg
         <

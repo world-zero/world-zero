@@ -34,7 +34,7 @@ namespace WorldZero.Service.Registration.Entity
                 }
                 catch (ArgumentException)
                 {
-                    throw new ArgumentException($"The faction {faction.Id} has an unregistered ability ({faction.AbilityName}).");
+                    throw new ArgumentException($"The faction {faction.Id.Get} has an unregistered ability ({faction.AbilityName.Get}).");
                 }
             }
             return base.Register(faction);

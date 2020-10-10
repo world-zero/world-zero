@@ -41,7 +41,7 @@ namespace WorldZero.Service.Registration.Entity
             }
             catch (ArgumentException)
             {
-                throw new ArgumentException($"MetaTask of ID {mt.Id} has an invalid Status ID of {mt.StatusId}.");
+                throw new ArgumentException($"MetaTask of ID {mt.Id.Get} has an invalid Status ID of {mt.StatusId.Get}.");
             }
             try
             {
@@ -49,7 +49,7 @@ namespace WorldZero.Service.Registration.Entity
             }
             catch (ArgumentException)
             {
-                throw new ArgumentException($"MetaTask of ID {mt.Id} has an invalid Factionn ID of {mt.FactionId}.");
+                throw new ArgumentException($"MetaTask of ID {mt.Id.Get} has an invalid Factionn ID of {mt.FactionId.Get}.");
             }
             return base.Register(mt);
         }

@@ -42,7 +42,7 @@ namespace WorldZero.Service.Registration.Entity
             }
             catch (ArgumentException)
             {
-                throw new ArgumentException($"Praxis of ID {p.Id} has an invalid task ID of {p.TaskId}.");
+                throw new ArgumentException($"Praxis of ID {p.Id.Get} has an invalid task ID of {p.TaskId.Get}.");
             }
 
             try
@@ -51,7 +51,7 @@ namespace WorldZero.Service.Registration.Entity
             }
             catch (ArgumentException)
             {
-                throw new ArgumentException($"Praxis of ID {p.Id} has an invalid status ID of {p.StatusId}.");
+                throw new ArgumentException($"Praxis of ID {p.Id.Get} has an invalid status ID of {p.StatusId.Get}.");
             }
 
             if (t.StatusId != new Name("Active"))
