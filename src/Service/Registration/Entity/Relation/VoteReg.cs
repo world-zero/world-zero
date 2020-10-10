@@ -9,6 +9,10 @@ using WorldZero.Common.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 
+// TODO: Upon receiveing a vote, give 2 votes to the character.
+// have a method (called just b/f return base.Register(v)) to allocate votes to the receiving character
+//      this will need to be atomic w/ base.Register; look into UOWs
+
 namespace WorldZero.Service.Registration.Entity.Relation
 {
     public class VoteReg
@@ -85,7 +89,7 @@ namespace WorldZero.Service.Registration.Entity.Relation
         {
             try
             {
-                return this._characterRepo.GetById(v.LeftId);
+                return this._characterRepo.GetById(v.VotingCharacterId);
             }
             catch (ArgumentException)
             { throw new ArgumentException("Could not insert the relation entity as its left ID is not registered with the correct repo."); }
