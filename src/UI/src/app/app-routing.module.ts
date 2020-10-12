@@ -5,6 +5,7 @@ import { HomeComponent } from './home';
 import { AboutComponent } from '@app/about/about.component';
 import { PlayerComponent } from './player/player.component';
 import { TasksComponent} from '@app/tasks/tasks.component';
+import { FactionComponent} from '@app/faction/faction.component';
 import { AuthGuard } from './_helpers';
 
 const accountModule = () => import('./account/account.module').then(x => x.AccountModule);
@@ -30,7 +31,10 @@ const routes: Routes = [
     path: 'tasks',
     component: TasksComponent
   },
-
+  {
+    path: 'factions',
+    component: FactionComponent
+  },
 
   // otherwise redirect to home
   { path: '**', redirectTo: '' },

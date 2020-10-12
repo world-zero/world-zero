@@ -27,9 +27,9 @@ import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 import { AppComponent } from './app.component';
 import { AlertComponent } from './_components';
 import { HomeComponent } from './home';
-import { AboutComponent } from './about/about.component';;
-import { TasksComponent } from './tasks/tasks.component'
-
+import { AboutComponent } from './about/about.component';
+import { TasksComponent } from './tasks/tasks.component';
+import { FactionComponent } from './faction/faction.component';
 @NgModule({
     imports: [
         BrowserModule,
@@ -43,7 +43,8 @@ import { TasksComponent } from './tasks/tasks.component'
         HomeComponent
 ,
         AboutComponent ,
-        TasksComponent   ],
+        TasksComponent ,
+        FactionComponent  ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
