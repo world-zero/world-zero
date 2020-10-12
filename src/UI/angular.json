@@ -31,7 +31,8 @@
               "src/styles.less"
             ],
             "scripts": [
-                "src/app/tasks/app.js"
+                "src/app/tasks/app.js",
+                "src/app/player/app.js"
             ]
           },
           "configurations": {
