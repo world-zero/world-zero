@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>HTML dynamic table using JavaScript</title>
+  <script type="text/javascript" src="app.js"></script>
+</head>
+<body onload="load()">
+<div id="myform">
+  <b>Tasks</b>
+  <button id="addTask" onclick="toggleMenu()">Add a task!</button>
+  <table>
+    <div id="taskForm" style="display:none">
+      <tr>
+        <td>Task Name: </td>
+        <td><input type="text" id="name"></td>
+      </tr>
+      <tr>
+        <td>Task Level: </td>
+        <select class="mdb-select md-form" id="level">
+          <option value="" disabled selected>Select Level</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+        </select>
+      </tr>
+      <tr>
+        <td>Task Points: </td>
+        <td><input type="text" id="points"></td>
+      </tr>
+      <tr>
+        <td>Task Group: </td>
+        <select class="mdb-select md-form" id="group">
+          <option value="" disabled selected>Select Group</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </tr>
+      <tr>
+        <td>Task Description: </td>
+        <td><input type="text" id="description">
+      </tr>
+      <tr>
+        <td>Progress: </td>
+        <td> <select class="mdb-select md-form" id="progress">
+          <option value="" disabled selected>Progress Level</option>
+          <option value="Sign Up">Sign Up</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Completed!">Completed!</option>
+        </select>
+          <input type="button" id="add" value="Add" onclick="Javascript:addRow()"></td>
+      </tr>
+    </div>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </table>
+</div>
+<div id="mydata">
+  <b>Tasks Available</b>
+  <table id="myTableData"  border="1" cellpadding="2">
+    <tr>
+      <td>&nbsp;</td>
+      <td><b>Task Name</b></td>
+      <td><b>Level</b></td>
+      <td><b>Points</b></td>
+      <td><b>Group</b></td>
+      <td><b>Description</b></td>
+      <td><b>Progress</b></td>
+    </tr>
+  </table>
+  &nbsp;
+
+</div>
+<!--
+<div id="myDynamicTable">
+  <input type="button" id="create" value="Click here" onclick="Javascript:addTable()">
+  to create a Table and add some data using JavaScript
+</div>
+-->
+</body>
+</html>
+
+
