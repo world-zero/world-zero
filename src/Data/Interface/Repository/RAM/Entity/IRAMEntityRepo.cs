@@ -8,6 +8,26 @@ using System;
 
 [assembly: InternalsVisibleTo("WorldZero.Test.Unit")]
 
+// have a static dict mapping concrete class names to saved*/staged*
+// DONE have that value be a struct for ease
+//      have the class init the basic static dict
+//      have the constructor make sure the pair exists
+//      adjust the different saved*/staged* members to get data from that
+// DONE update docs to desc that the data is static
+//      update tests to cooperate
+//      create IEntityRepo.Clean() and .DeepClean()
+//          where deep clean is static resets the "db"
+//          where clean is static but takes a str concrete class name to reset
+//          where clean is not static and just cleans the instance's table
+//
+//      now we can implement the diff transactional methods
+//          similar to Save(), make backups of saved*/staged* data to allow for rolling back to prev state
+
+// TODO: have a field to store the concrete class' name, so I don't have to compute it every damn time
+// TODO: change member dicts to be vv
+//      they need to be Dict<obj, obj>; just convert their types during loops and it should be good?
+//      first commit the changes to EntityData, then play as much as id like
+
 namespace WorldZero.Data.Interface.Repository.RAM.Entity
 {
     /// <summary>
@@ -18,21 +38,21 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
     /// This is just going to make sure that nothing it holds is null or
     /// negative, where appropriate.
     /// </remarks>
-    internal class EntityData<TId, TIdBuiltIn, TEntity>
-        where TId : ISingleValueObject<TIdBuiltIn>
-        where TEntity : IEntity<TId, TIdBuiltIn>
+    internal class EntityData
     {
-        public EntityData(int ruleCount)
+        public EntityData()
         {
-            this.Saved = new Dictionary<TId, TEntity>();
-            this.Staged = new Dictionary<TId, TEntity>();
-            this.SavedRules = new W0List<Dictionary<W0Set<object>, TEntity>>();
-            this.StagedRules = new W0List<Dictionary<W0Set<object>, TEntity>>();
+            this.Saved = new Dictionary<object, object>();
+            this.Staged = new Dictionary<object, object>();
+            this.SavedRules = new W0List<Dictionary<W0Set<object>, object>>();
+            this.StagedRules = new W0List<Dictionary<W0Set<object>, object>>();
             this.RecycledRules = new W0List<Dictionary<W0Set<object>, int>>();
-            this.RuleCount = ruleCount;
         }
 
-        public Dictionary<TId, TEntity> Saved
+        /// <summary>
+        /// Dictionary<TId, TEntity>
+        /// </summary>
+        public Dictionary<object, object> Saved
         {
             get { return this._saved; }
             set
@@ -42,9 +62,12 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
                 this._saved = value;
             }
         }
-        private Dictionary<TId, TEntity> _saved;
+        private Dictionary<object, object> _saved;
 
-        public Dictionary<TId, TEntity> Staged
+        /// <summary>
+        /// Dictionary<TId, TEntity>
+        /// </summary>
+        public Dictionary<object, object> Staged
         {
             get { return this._staged; }
             set
@@ -54,9 +77,12 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
                 this._staged = value;
             }
         }
-        private Dictionary<TId, TEntity> _staged;
+        private Dictionary<object, object> _staged;
 
-        public W0List<Dictionary<W0Set<object>, TEntity>> SavedRules
+        /// <summary>
+        /// W0List<Dictionary<W0Set<object>, TEntity>>
+        /// </summary>
+        public W0List<Dictionary<W0Set<object>, object>> SavedRules
         {
             get { return this._savedRules; }
             set
@@ -66,9 +92,12 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
                 this._savedRules = value;
             }
         }
-        private W0List<Dictionary<W0Set<object>, TEntity>> _savedRules;
+        private W0List<Dictionary<W0Set<object>, object>> _savedRules;
 
-        public W0List<Dictionary<W0Set<object>, TEntity>> StagedRules
+        /// <summary>
+        /// W0List<Dictionary<W0Set<object>, TEntity>>
+        /// </summary>
+        public W0List<Dictionary<W0Set<object>, object>> StagedRules
         {
             get { return this._stagedRules; }
             set
@@ -78,8 +107,11 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
                 this._stagedRules = value;
             }
         }
-        private W0List<Dictionary<W0Set<object>, TEntity>> _stagedRules;
+        private W0List<Dictionary<W0Set<object>, object>> _stagedRules;
         
+        /// <summary>
+        /// W0List<Dictionary<W0Set<object>, int>>
+        /// </summary>
         public W0List<Dictionary<W0Set<object>, int>> RecycledRules
         {
             get { return this._recycledRules; }
@@ -91,18 +123,6 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
             }
         }
         private W0List<Dictionary<W0Set<object>, int>> _recycledRules;
-
-        public int RuleCount
-        {
-            get { return this._ruleCount; }
-            set
-            {
-                if (value < 0)
-                    throw new ArgumentException("RuleCount cannot be negative.");
-                this._ruleCount = value;
-            }
-        }
-        private int _ruleCount;
     }
 
     /// <inheritdoc cref="IEntityRepo"/>
@@ -131,6 +151,16 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         where TEntity : IEntity<TId, TIdBuiltIn>
         where TId : ISingleValueObject<TIdBuiltIn>
     {
+        /// <summary>
+        /// This maps a concrete IEntity.GetType().Name to an instance of
+        /// EntityData.
+        /// </summary>
+        /// <summary>
+        /// This allows all of the data to be shared between the different
+        /// repos, allowing us to build transactions.
+        /// </summary>
+        private static Dictionary<string, EntityData> _data;
+
         /// <summary>
         /// This method will return `TEntity.GetUniqueRules().Count`. This is
         /// intended to be used just by `IRAMENtityRepo.RuleCount`.

@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using WorldZero.Common.Collections;
-using WorldZero.Common.Entity;
-using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.RAM.Entity;
 using NUnit.Framework;
 
@@ -11,14 +9,12 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
     [TestFixture]
     public class TestEntityData
     {
-        private int _ruleCount;
-        private EntityData<Id, int, Player> _data;
+        private EntityData _data;
 
         [SetUp]
         public void Setup()
         {
-            this._ruleCount = 1;
-            this._data = new EntityData<Id, int, Player>(this._ruleCount);
+            this._data = new EntityData();
         }
 
         [Test]
@@ -29,13 +25,12 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
             Assert.IsNotNull(this._data.SavedRules);
             Assert.IsNotNull(this._data.StagedRules);
             Assert.IsNotNull(this._data.RecycledRules);
-            Assert.AreEqual(this._ruleCount, this._data.RuleCount);
         }
 
         [Test]
         public void TestSaved()
         {
-            var temp = new Dictionary<Id, Player>();
+            var temp = new Dictionary<object, object>();
             this._data.Saved = temp;
             Assert.AreEqual(temp, this._data.Saved);
 
@@ -45,7 +40,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
         [Test]
         public void TestStaged()
         {
-            var temp = new Dictionary<Id, Player>();
+            var temp = new Dictionary<object, object>();
             this._data.Staged = temp;
             Assert.AreEqual(temp, this._data.Staged);
 
@@ -55,7 +50,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
         [Test]
         public void TestSavedRules()
         {
-            var temp = new W0List<Dictionary<W0Set<object>, Player>>();
+            var temp = new W0List<Dictionary<W0Set<object>, object>>();
             this._data.SavedRules = temp;
             Assert.AreEqual(temp, this._data.SavedRules);
 
@@ -66,7 +61,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
         [Test]
         public void TestStagedRules()
         {
-            var temp = new W0List<Dictionary<W0Set<object>, Player>>();
+            var temp = new W0List<Dictionary<W0Set<object>, object>>();
             this._data.StagedRules = temp;
             Assert.AreEqual(temp, this._data.StagedRules);
 
@@ -83,18 +78,6 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
 
             Assert.Throws<ArgumentNullException>(()=>
                 this._data.RecycledRules = null);
-        }
-
-        [Test]
-        public void TestRuleCount()
-        {
-            var temp = 7;
-            this._data.RuleCount = temp;
-            Assert.AreEqual(temp, this._data.RuleCount);
-
-            Assert.Throws<ArgumentException>(()=>this._data.RuleCount = -1);
-            this._data.RuleCount = 0;
-            this._data.RuleCount = 1;
         }
     }
 }
