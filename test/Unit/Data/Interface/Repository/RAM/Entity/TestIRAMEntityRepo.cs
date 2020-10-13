@@ -115,6 +115,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
         [Test]
         public void TestConstructor()
         {
+            Assert.AreEqual(this._repo.GetType().Name, this._repo.ClassName);
             Assert.IsNotNull(this._repo.Saved);
             Assert.AreEqual(0, this._repo.Saved.Count);
             Assert.IsNotNull(this._repo.Staged);
@@ -677,5 +678,6 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
         { get { return this._stagedRules; } }
         public W0List<Dictionary<W0Set<object>, int>> RecycledRules
         { get { return this._recycledRules; } }
+        public string ClassName { get { return this._className; } }
     }
 }

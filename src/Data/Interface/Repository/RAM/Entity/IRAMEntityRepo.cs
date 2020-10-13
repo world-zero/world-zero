@@ -8,26 +8,6 @@ using System;
 
 [assembly: InternalsVisibleTo("WorldZero.Test.Unit")]
 
-// have a static dict mapping concrete class names to saved*/staged*
-// DONE have that value be a struct for ease
-//      have the class init the basic static dict
-//      have the constructor make sure the pair exists
-//      adjust the different saved*/staged* members to get data from that
-// DONE update docs to desc that the data is static
-//      update tests to cooperate
-//      create IEntityRepo.Clean() and .DeepClean()
-//          where deep clean is static resets the "db"
-//          where clean is static but takes a str concrete class name to reset
-//          where clean is not static and just cleans the instance's table
-//
-//      now we can implement the diff transactional methods
-//          similar to Save(), make backups of saved*/staged* data to allow for rolling back to prev state
-
-// TODO: have a field to store the concrete class' name, so I don't have to compute it every damn time
-// TODO: change member dicts to be vv
-//      they need to be Dict<obj, obj>; just convert their types during loops and it should be good?
-//      first commit the changes to EntityData, then play as much as id like
-
 namespace WorldZero.Data.Interface.Repository.RAM.Entity
 {
     /// <summary>
@@ -125,6 +105,21 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         private W0List<Dictionary<W0Set<object>, int>> _recycledRules;
     }
 
+// have a static dict mapping concrete class names to saved*/staged*
+// DONE have that value be a struct for ease
+// DONE have the class init the basic static dict
+//      have the constructor make sure the pair exists
+//      adjust the different saved*/staged* members to get data from that
+// DONE update docs to desc that the data is static
+//      update tests to cooperate
+//      create IEntityRepo.Clean() and .DeepClean()
+//          where deep clean is static resets the "db"
+//          where clean is static but takes a str concrete class name to reset
+//          where clean is not static and just cleans the instance's table
+//
+// now we can implement the diff transactional methods
+//     similar to Save(), make backups of saved*/staged* data to allow for rolling back to prev state
+
     /// <inheritdoc cref="IEntityRepo"/>
     /// <summary>
     /// As the name suggests, this repo holds the entities in static memory,
@@ -159,7 +154,8 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         /// This allows all of the data to be shared between the different
         /// repos, allowing us to build transactions.
         /// </summary>
-        private static Dictionary<string, EntityData> _data;
+        private static Dictionary<string, EntityData> _data =
+            new Dictionary<string, EntityData>();
 
         /// <summary>
         /// This method will return `TEntity.GetUniqueRules().Count`. This is
@@ -195,6 +191,12 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         }
         private int _ruleCount = -1;
 
+        /// <summary>
+        /// This is a once-computed `this.GetType().Name`, evaluted in the
+        /// constructor.
+        /// </summary>
+        protected string _className;
+
         // These will use use the ID of an entity to key that entity. For
         // staged changes, a null entity reference indicates that the entity
         // of that ID should be deleted. As for inserts and updates, there is
@@ -204,6 +206,10 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         // will simply return the ID of the supplied entity.
         protected Dictionary<TId, TEntity> _saved;
         protected Dictionary<TId, TEntity> _staged;
+        // TODO: change member dicts to be vv
+        //      they need to be Dict<obj, obj>; just convert their types during loops and it should be good?
+        //      first commit the changes to EntityData, then play as much as id like
+
 
         // The following are derived from this: Dictionary<Name, TEntity>
         //      First, instead of Name, we use a W0Set<object>.
@@ -244,6 +250,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
 
         public IRAMEntityRepo()
         {
+            this._className = this.GetType().Name;
             this._saved  = new Dictionary<TId, TEntity>();
             this._savedRules = new W0List<Dictionary<W0Set<object>, TEntity>>();
             for (int i = 0; i < this.RuleCount; i++)
