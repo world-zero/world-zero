@@ -3,27 +3,126 @@ using WorldZero.Common.Interface;
 using WorldZero.Common.Interface.Entity;
 using WorldZero.Common.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System;
+
+[assembly: InternalsVisibleTo("WorldZero.Test.Unit")]
 
 namespace WorldZero.Data.Interface.Repository.RAM.Entity
 {
+    /// <summary>
+    /// This is the needed data that a specific entity repo would require to
+    /// work as a RAM entity repo.
+    /// </summary>
+    /// <remarks>
+    /// This is just going to make sure that nothing it holds is null or
+    /// negative, where appropriate.
+    /// </remarks>
+    internal class EntityData<TId, TIdBuiltIn, TEntity>
+        where TId : ISingleValueObject<TIdBuiltIn>
+        where TEntity : IEntity<TId, TIdBuiltIn>
+    {
+        public EntityData(int ruleCount)
+        {
+            this.Saved = new Dictionary<TId, TEntity>();
+            this.Staged = new Dictionary<TId, TEntity>();
+            this.SavedRules = new W0List<Dictionary<W0Set<object>, TEntity>>();
+            this.StagedRules = new W0List<Dictionary<W0Set<object>, TEntity>>();
+            this.RecycledRules = new W0List<Dictionary<W0Set<object>, int>>();
+            this.RuleCount = ruleCount;
+        }
+
+        public Dictionary<TId, TEntity> Saved
+        {
+            get { return this._saved; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("Saved");
+                this._saved = value;
+            }
+        }
+        private Dictionary<TId, TEntity> _saved;
+
+        public Dictionary<TId, TEntity> Staged
+        {
+            get { return this._staged; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("Staged");
+                this._staged = value;
+            }
+        }
+        private Dictionary<TId, TEntity> _staged;
+
+        public W0List<Dictionary<W0Set<object>, TEntity>> SavedRules
+        {
+            get { return this._savedRules; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("SavedRules");
+                this._savedRules = value;
+            }
+        }
+        private W0List<Dictionary<W0Set<object>, TEntity>> _savedRules;
+
+        public W0List<Dictionary<W0Set<object>, TEntity>> StagedRules
+        {
+            get { return this._stagedRules; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("StagedRules");
+                this._stagedRules = value;
+            }
+        }
+        private W0List<Dictionary<W0Set<object>, TEntity>> _stagedRules;
+        
+        public W0List<Dictionary<W0Set<object>, int>> RecycledRules
+        {
+            get { return this._recycledRules; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("RecycledRules");
+                this._recycledRules = value;
+            }
+        }
+        private W0List<Dictionary<W0Set<object>, int>> _recycledRules;
+
+        public int RuleCount
+        {
+            get { return this._ruleCount; }
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentException("RuleCount cannot be negative.");
+                this._ruleCount = value;
+            }
+        }
+        private int _ruleCount;
+    }
+
     /// <inheritdoc cref="IEntityRepo"/>
     /// <summary>
-    /// As the name suggests, this repo holds the entities in memory, with
-    /// absolutely no persistence. The supplied and returned enties are deep
+    /// As the name suggests, this repo holds the entities in static memory,
+    /// with absolutely no persistence. The supplied and returned entities are deep
     /// copies to those that are saved and staged.
-    /// This repo will also enforce any rules defined by
-    /// `IEntity.GetUniqueRules()`.
+    /// </summary>
+    /// <remarks>
+    /// This repo will enforce any rules defined by `IEntity.GetUniqueRules()`.
+    /// <br/>
     /// In an effort to be similar to a database-connecting repo, this is only
     /// going to throw exceptions about conflicts between staged and saved
     /// entities on Save.
-    /// </summary>
-    /// <remarks>
+    /// <br/>
     /// Caution is adviced when changing the rule of an entity as the
     /// rule uniqueness assumes that this will not change without of an Update.
     /// An Update and then a Delete will still have this issue, the Update must
     /// be Saved-ed first.
-    ///
+    /// <br/>
     /// In order to maintain the flexibility that a database repo would offer,
     /// this is pretty inefficient.
     /// </remarks>
@@ -416,7 +515,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         /// </summary>
         /// <remarks>
         /// This will be performed just after staged has been moved into saved,
-        /// and beforer entities have their IDs saved to outside references (if
+        /// and before entities have their IDs saved to outside references (if
         /// necessary), as well as being after the staged states have been
         /// cleaned out. We can get away with being this inefficient since this
         /// is just a dev tool.
