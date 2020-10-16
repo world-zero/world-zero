@@ -30,6 +30,13 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
             this._repo.Save();
         }
 
+        [TearDown]
+        public void TearDown()
+        {
+            this._repo.CleanAll();
+            this._repo.ResetNextIdValue();
+        }
+
         [Test]
         public void TestGetByName()
         {
@@ -48,6 +55,8 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
         public TestRAMIdNamedEntityRepo()
             : base()
         { }
+
+        public void ResetNextIdValue() { _nextIdValue = 1; }
 
         protected override int GetRuleCount()
         {

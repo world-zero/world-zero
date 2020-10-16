@@ -19,7 +19,8 @@ namespace WorldZero.Data.Repository.RAM.Entity
                 throw new ArgumentNullException("playerId");
 
             IEnumerable<Character> chars =
-                from character in this._saved.Values
+                from c in this._saved.Values
+                let character = this.TEntityCast(c)
                 where character.PlayerId == playerId
                 select character;
 

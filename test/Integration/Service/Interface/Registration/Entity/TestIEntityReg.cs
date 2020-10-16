@@ -21,6 +21,12 @@ namespace WorldZero.Test.Integration.Service.Interface.Registration.Entity
             this._registration = new TestEntityReg(this._repo);
         }
 
+        [TearDown]
+        public void TearDown()
+        {
+            this._repo.CleanAll();
+        }
+
         [Test]
         public void TestConstructorBad()
         {

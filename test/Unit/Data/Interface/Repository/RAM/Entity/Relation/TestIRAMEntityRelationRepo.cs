@@ -48,6 +48,12 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Relation
             this._repo.Save();
         }
 
+        [TearDown]
+        public void TearDown()
+        {
+            this._repo.CleanAll();
+        }
+
         [Test]
         public void TestGetByLeftId()
         {

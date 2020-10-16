@@ -31,6 +31,17 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
         private DummyEntity[] _entities;
         private W0Set<DummyEntity> _storedEntities;
         private TestRAMEntityRepo _repo;
+        private TestRAMEntityRepoAlt _altRepo;
+
+        private Name _idCast(object o)
+        {
+            return this._repo.TIdCast(o);
+        }
+
+        private DummyEntity _entityCast(object o)
+        {
+            return this._repo.TEntityCast(o);
+        }
 
         private void
         _assertEntitiesEqual(DummyEntity expected, DummyEntity actual)
@@ -64,7 +75,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
         /// </summary>
         private void _assertRulesStored(
             DummyEntity e,
-            List<Dictionary<W0Set<object>, DummyEntity>> storedRules,
+            List<Dictionary<W0Set<object>, object>> storedRules,
             bool shouldBePresent,
             bool shouldBeNull=false
         )
@@ -80,7 +91,8 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
                 else if (containsRule)
                 {
                     Assert.IsNotNull(storedRules[i][rule]);
-                    this._assertEntitiesEqual(e, storedRules[i][rule]);
+                    this._assertEntitiesEqual(e,
+                        this._entityCast(storedRules[i][rule]));
                 }
             }
         }
@@ -99,6 +111,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
                 this._combo1
             );
             this._repo = new TestRAMEntityRepo();
+            this._altRepo = new TestRAMEntityRepoAlt();
 
             // These are used not for checking their specific values, but for
             // checking that they are being CRUD-ed correctly. This is also why
@@ -110,6 +123,12 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
             this._entities[3] = new DummyEntity(new Name("oof"), 3, 7, 3);
             this._entities[4] = new DummyEntity(new Name("zab"), 0, 3, 9);
             this._storedEntities = new W0Set<DummyEntity>();
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            this._repo.CleanAll();
         }
 
         [Test]
@@ -164,7 +183,12 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
             this._repo.Insert(this._e);
             Assert.AreEqual(0, this._repo.Saved.Count);
             Assert.AreEqual(1, this._repo.Staged.Count);
-            Assert.AreEqual(this._name, this._repo.Staged[this._name].Id);
+            Assert.AreEqual(
+                this._name,
+                this._idCast(
+                    this._entityCast(this._repo.Staged[this._name]
+                ).Id)
+            );
 
             Assert.Throws<ArgumentException>(()=>this._repo.Insert(
                 new DummyEntity(this._name, 34, 43224, 432344)
@@ -174,7 +198,12 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
             Assert.AreEqual(1, this._repo.Saved.Count);
             Assert.AreEqual(0, this._repo.Staged.Count);
             this._assertUniformRuleCounts(1, 0);
-            Assert.AreEqual(this._name, this._repo.Saved[this._name].Id);
+            Assert.AreEqual(
+                this._name,
+                this._idCast(
+                    this._entityCast(this._repo.Saved[this._name]
+                ).Id)
+            );
         }
 
         [Test]
@@ -266,7 +295,9 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
             Assert.AreEqual(2, this._repo.StagedRules[1].Count);
             Assert.IsNull(this._repo.StagedRules[1][oldRules[1]]);
             this._assertEntitiesEqual(
-                this._e, this._repo.StagedRules[1][newRules[1]]);
+                this._e,
+                this._entityCast(this._repo.StagedRules[1][newRules[1]])
+            );
 
             this._repo.Save();
             this._assertUniformRuleCounts(1, 0);
@@ -289,7 +320,9 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
             Assert.AreEqual(0, this._repo.StagedRules[1].Count);
             Assert.IsNull(this._repo.StagedRules[0][oldRules[0]]);
             this._assertEntitiesEqual(
-                this._e, this._repo.StagedRules[0][newRules[0]]);
+                this._e,
+                this._entityCast(this._repo.StagedRules[0][newRules[0]])
+            );
 
             this._repo.Save();
             this._assertUniformRuleCounts(1, 0);
@@ -348,7 +381,9 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
             Assert.AreEqual(0, this._repo.Saved.Count);
             Assert.AreEqual(1, this._repo.Staged.Count);
             this._assertEntitiesEqual(
-                newEntity, this._repo.Staged[newEntity.Id]);
+                newEntity,
+                this._entityCast(this._repo.Staged[newEntity.Id])
+            );
             // ^^ Not tested heavily as covered by this.TestInsertSave() and
             // this.TestInsertSaveRules().
 
@@ -401,7 +436,9 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
             for (int i = 0; i < rules.Count; i++)
             {
                 this._assertEntitiesEqual(
-                    newDummy, this._repo.SavedRules[i][ rules[i] ]);
+                    newDummy,
+                    this._entityCast(this._repo.SavedRules[i][ rules[i] ])
+                );
             }
         }
 
@@ -670,11 +707,37 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
             return a.GetUniqueRules().Count;
         }
 
-        public Dictionary<Name, DummyEntity> Saved { get { return this._saved; }}
-        public Dictionary<Name, DummyEntity> Staged { get{ return this._staged;}}
-        public W0List<Dictionary<W0Set<object>, DummyEntity>> SavedRules
+        public Dictionary<object, object> Saved { get { return this._saved; }}
+        public Dictionary<object, object> Staged { get{ return this._staged;}}
+        public W0List<Dictionary<W0Set<object>, object>> SavedRules
         { get { return this._savedRules; } }
-        public W0List<Dictionary<W0Set<object>, DummyEntity>> StagedRules
+        public W0List<Dictionary<W0Set<object>, object>> StagedRules
+        { get { return this._stagedRules; } }
+        public W0List<Dictionary<W0Set<object>, int>> RecycledRules
+        { get { return this._recycledRules; } }
+        public string ClassName { get { return this._className; } }
+        public Dictionary<string, EntityData> Data { get { return _data; } }
+        public EntityData InstanceData { get { return _data[this._className];}}
+    }
+
+    public class TestRAMEntityRepoAlt
+        : IRAMEntityRepo<DummyEntity, Name, string>
+    {
+        public TestRAMEntityRepoAlt()
+            : base()
+        { }
+
+        protected override int GetRuleCount()
+        {
+            var a = new DummyEntity(new Name("foo"), 2, 3, 9);
+            return a.GetUniqueRules().Count;
+        }
+
+        public Dictionary<object, object> Saved { get { return this._saved; }}
+        public Dictionary<object, object> Staged { get{ return this._staged;}}
+        public W0List<Dictionary<W0Set<object>, object>> SavedRules
+        { get { return this._savedRules; } }
+        public W0List<Dictionary<W0Set<object>, object>> StagedRules
         { get { return this._stagedRules; } }
         public W0List<Dictionary<W0Set<object>, int>> RecycledRules
         { get { return this._recycledRules; } }

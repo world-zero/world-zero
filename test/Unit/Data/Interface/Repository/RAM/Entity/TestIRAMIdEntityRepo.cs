@@ -56,6 +56,13 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
             this._repo = new TestRAMIdEntityRepo();
         }
 
+        [TearDown]
+        public void TearDown()
+        {
+            this._repo.Clean();
+            this._repo.ResetNextIdValue();
+        }
+
         [Test]
         public void TestThatIdIsSetOnSave()
         {
@@ -168,6 +175,8 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
     public class TestRAMIdEntityRepo
         : IRAMIdEntityRepo<Task>
     {
+        public void ResetNextIdValue() { _nextIdValue = 1; }
+
         protected override int GetRuleCount()
         {
             var a = new Task(
@@ -211,13 +220,13 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
             }
         }
 
-        public Dictionary<Id, Task> Saved
+        public Dictionary<object, object> Saved
         { get { return this._saved; } }
-        public Dictionary<Id, Task> Staged
+        public Dictionary<object, object> Staged
         { get{ return this._staged; } }
-        public W0List<Dictionary<W0Set<object>, Task>> SavedRules
+        public W0List<Dictionary<W0Set<object>, object>> SavedRules
         { get { return this._savedRules; } }
-        public W0List<Dictionary<W0Set<object>, Task>> StagedRules
+        public W0List<Dictionary<W0Set<object>, object>> StagedRules
         { get { return this._stagedRules; } }
         public W0List<Dictionary<W0Set<object>, int>> RecycledRules
         { get { return this._recycledRules; } }

@@ -21,6 +21,12 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
             this._eraReg = new EraReg(this._repo);
         }
 
+        [TearDown]
+        public void TearDown()
+        {
+            this._repo.CleanAll();
+        }
+
         [Test]
         public void TestRegister()
         {

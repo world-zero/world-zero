@@ -33,6 +33,12 @@ namespace WorldZero.Test.Integration.Service.Interface.Registration.Entity
             );
         }
 
+        [TearDown]
+        public void TearDown()
+        {
+            this._voteRepo.CleanAll();
+        }
+
         [Test]
         public void TestConstructorBad()
         {

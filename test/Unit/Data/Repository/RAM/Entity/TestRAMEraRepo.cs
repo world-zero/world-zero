@@ -17,6 +17,12 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity
             this._repo = new RAMEraRepo();
         }
 
+        [TearDown]
+        public void TearDown()
+        {
+            this._repo.CleanAll();
+        }
+
         [Test]
         public void TestGetActiveEraHappy()
         {

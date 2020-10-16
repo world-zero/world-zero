@@ -46,10 +46,15 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
             this._taskRepo.Save();
         }
 
+        [TearDown]
+        public void TearDown()
+        {
+            this._praxisRepo.CleanAll();
+        }
+
         [Test]
         public void TestRegisterHappy()
         {
-            // TODO: run this through the debugger and see why it's failing
             var p = new Praxis(this._task0.Id, this._status0.Id);
             Assert.IsFalse(p.IsIdSet());
             this._registration.Register(p);

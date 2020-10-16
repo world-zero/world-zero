@@ -28,9 +28,10 @@ namespace WorldZero.Data.Repository.RAM.Entity.Relation
                 throw new ArgumentNullException("playerId");
 
             IEnumerable<Id> charIds =
-                from praxisParticipant in this._saved.Values
-                where praxisParticipant.PraxisId == praxisId
-                select praxisParticipant.VotingCharacterId;
+                from ppTemp in this._saved.Values
+                let pp = this.TEntityCast(ppTemp)
+                where pp.PraxisId == praxisId
+                select pp.VotingCharacterId;
 
             if (charIds.Count() == 0)
                 throw new ArgumentException($"There are no characters associated with PraxisId of {praxisId.Get}");

@@ -14,19 +14,17 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
           IIdEntityRepo<TEntity>
         where TEntity : IIdEntity
     {
-        private int _nextIdValue;
+        // This is set to 1 to mimic the default first value of
+        // auto-generated database int IDs.
+        protected static int _nextIdValue = 1;
 
         public IRAMIdEntityRepo()
             : base()
-        {
-            // This is set to 1 to mimic the default first value of
-            // auto-generated database int IDs.
-            this._nextIdValue = 1;
-        }
+        { }
 
         protected override Id GenerateId(TEntity entity)
         {
-            return new Id(this._nextIdValue++);
+            return new Id(_nextIdValue++);
         }
     }
 }

@@ -5,11 +5,6 @@ using System.Collections.Generic;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface.Entity;
 
-// NOTE: The logic for enforcing a name uniqueness is repeated to enforce a
-// unique composite "key" of Left/Right IDs in IRAMEntityRelationRepo. Any
-// changes that need to be applied to this class are likely needed there as
-// well.
-
 namespace WorldZero.Data.Interface.Repository.RAM.Entity
 {
     /// <inheritdoc cref="IRAMEntityRepo"/>
@@ -28,7 +23,8 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
                 throw new ArgumentNullException("name");
 
             IEnumerable<TEntity> match = 
-                from e in this._saved.Values
+                from eTemp in this._saved.Values
+                let e = this.TEntityCast(eTemp)
                 where e.Name.Equals(name)
                 select e;
 

@@ -25,7 +25,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity
             Assert.AreEqual(expected.HasProfilePic, actual.HasProfilePic);
         }
 
-        private RAMCharacterRepo _charRepo;
+        private DummyRAMCharacterRepo _charRepo;
         private Character _c0;
         private Character _c1;
         private Character _c2;
@@ -33,7 +33,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity
         [SetUp]
         public void Setup()
         {
-            this._charRepo = new RAMCharacterRepo();
+            this._charRepo = new DummyRAMCharacterRepo();
             this._c0 = new Character(
                 new Name("DIO"),
                 new Id(1),
@@ -63,6 +63,13 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity
             this._charRepo.Insert(this._c1);
             this._charRepo.Insert(this._c2);
             this._charRepo.Save();
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            this._charRepo.CleanAll();
+            this._charRepo.ResetNextIdValue();
         }
 
         [Test]
@@ -101,5 +108,11 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity
             );
             Assert.AreEqual(this._c0.EraLevel, actual);
         }
+    }
+
+    public class DummyRAMCharacterRepo
+        : RAMCharacterRepo
+    {
+        public void ResetNextIdValue() { _nextIdValue = 1; }
     }
 }

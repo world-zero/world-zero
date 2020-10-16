@@ -15,9 +15,10 @@ namespace WorldZero.Data.Repository.RAM.Entity
 
         public Era GetActiveEra()
         {
-            var active = from pair in this._saved
-                         where pair.Value.EndDate == null
-                         select pair.Value;
+            var active = from e in this._saved.Values
+                let era = this.TEntityCast(e)
+                where era.EndDate == null
+                select era;
 
             if (active.Count() == 0)
                 return null;

@@ -9,22 +9,30 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
     [TestFixture]
     public class TestEntityData
     {
+        private int _ruleCount;
         private EntityData _data;
 
         [SetUp]
         public void Setup()
         {
-            this._data = new EntityData();
+            this._ruleCount = 2;
+            this._data = new EntityData(this._ruleCount);
         }
 
         [Test]
         public void TestConstructor()
         {
+            Assert.Throws<ArgumentException>(()=>new EntityData(-1));
+            new EntityData(0);
+
             Assert.IsNotNull(this._data.Saved);
             Assert.IsNotNull(this._data.Staged);
             Assert.IsNotNull(this._data.SavedRules);
+            Assert.AreEqual(this._ruleCount, this._data.SavedRules.Count);
             Assert.IsNotNull(this._data.StagedRules);
+            Assert.AreEqual(this._ruleCount, this._data.StagedRules.Count);
             Assert.IsNotNull(this._data.RecycledRules);
+            Assert.AreEqual(this._ruleCount, this._data.RecycledRules.Count);
         }
 
         [Test]
@@ -78,6 +86,38 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
 
             Assert.Throws<ArgumentNullException>(()=>
                 this._data.RecycledRules = null);
+        }
+
+        [Test]
+        public void TestCleanStaged()
+        {
+            this._data.Saved.Add(3, null);
+            this._data.SavedRules[0].Add(new W0Set<object>(), 0);
+            this._data.Staged.Add(9, null);
+            this._data.StagedRules[1].Add(new W0Set<object>(), 9);
+            this._data.RecycledRules[0].Add(new W0Set<object>(), -324);
+            this._data.CleanStaged();
+            Assert.IsNull(this._data.Saved[3]);
+            Assert.AreEqual(1, this._data.SavedRules[0].Count);
+            Assert.AreEqual(0, this._data.Staged.Count);
+            Assert.AreEqual(0, this._data.StagedRules[1].Count);
+            Assert.AreEqual(0, this._data.RecycledRules[0].Count);
+        }
+
+        [Test]
+        public void TestClean()
+        {
+            this._data.Saved.Add(3, null);
+            this._data.SavedRules[0].Add(new W0Set<object>(), 0);
+            this._data.Staged.Add(9, null);
+            this._data.StagedRules[1].Add(new W0Set<object>(), 9);
+            this._data.RecycledRules[0].Add(new W0Set<object>(), -324);
+            this._data.Clean();
+            Assert.AreEqual(0, this._data.Saved.Count);
+            Assert.AreEqual(0, this._data.SavedRules[0].Count);
+            Assert.AreEqual(0, this._data.Staged.Count);
+            Assert.AreEqual(0, this._data.StagedRules[1].Count);
+            Assert.AreEqual(0, this._data.RecycledRules[0].Count);
         }
     }
 }

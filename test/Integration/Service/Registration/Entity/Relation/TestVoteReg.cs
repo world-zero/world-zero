@@ -42,6 +42,12 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
             );
         }
 
+        [TearDown]
+        public void TearDown()
+        {
+            this._charRepo.CleanAll();
+        }
+
         [Test]
         public void TestRegister()
         {

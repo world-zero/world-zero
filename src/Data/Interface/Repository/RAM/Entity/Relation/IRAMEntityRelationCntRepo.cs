@@ -55,7 +55,8 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity.Relation
                 throw new ArgumentNullException("dto");
 
             IEnumerable<TEntityRelation> r =
-                from er in this._saved.Values
+                from erTemp in this._saved.Values
+                let er = this.TEntityCast(erTemp)
                 where dto.LeftId == er.LeftId
                 where dto.RightId == er.RightId
                 select er;
@@ -77,7 +78,8 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity.Relation
             try
             {
                 IEnumerable<int> saved =
-                    from value in this._saved.Values
+                    from val in this._saved.Values
+                    let value = this.TEntityCast(val)
                     where value.LeftId == dto.LeftId
                     where value.RightId == dto.RightId
                     select value.Count;
@@ -89,7 +91,8 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity.Relation
             try
             {
                 IEnumerable<int> staged =
-                    from value in this._staged.Values
+                    from val in this._staged.Values
+                    let value = this.TEntityCast(val)
                     where value.LeftId == dto.LeftId
                     where value.RightId == dto.RightId
                     select value.Count;

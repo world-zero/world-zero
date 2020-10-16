@@ -18,15 +18,47 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
     /// This is just going to make sure that nothing it holds is null or
     /// negative, where appropriate.
     /// </remarks>
-    internal class EntityData
+    public class EntityData
     {
-        public EntityData()
+        private readonly int _ruleCount;
+
+        public EntityData(int ruleCount)
+        {
+            if (ruleCount < 0)
+                throw new ArgumentException("ruleCount cannot be negative.");
+            this._ruleCount = ruleCount;
+
+            this.Clean();
+        }
+
+        /// <summary>
+        /// This will clean an instance to the default state, containing no
+        /// state data outside of the rule count.
+        /// </summary>
+        public void Clean()
         {
             this.Saved = new Dictionary<object, object>();
-            this.Staged = new Dictionary<object, object>();
             this.SavedRules = new W0List<Dictionary<W0Set<object>, object>>();
+            for (int i = 0; i < this._ruleCount; i++)
+                this.SavedRules.Add(new Dictionary<W0Set<object>, object>());
+
+            this.CleanStaged();
+        }
+
+        /// <summary>
+        /// This will clean out an instance's staged and recycled data.
+        /// </summary>
+        public void CleanStaged()
+        {
+            this.Staged = new Dictionary<object, object>();
+
             this.StagedRules = new W0List<Dictionary<W0Set<object>, object>>();
+            for (int i = 0; i < this._ruleCount; i++)
+                this.StagedRules.Add(new Dictionary<W0Set<object>, object>());
+
             this.RecycledRules = new W0List<Dictionary<W0Set<object>, int>>();
+            for (int i = 0; i < this._ruleCount; i++)
+                this.RecycledRules.Add(new Dictionary<W0Set<object>, int>());
         }
 
         /// <summary>
@@ -108,8 +140,17 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
 // have a static dict mapping concrete class names to saved*/staged*
 // DONE have that value be a struct for ease
 // DONE have the class init the basic static dict
-//      have the constructor make sure the pair exists
-//      adjust the different saved*/staged* members to get data from that
+
+// DONE have the constructor make sure the pair exists
+// DONE adjust the different saved*/staged* members to get data from that
+// DONE also adjust tests to test the rule count init-ing of EntityData's new constructor
+// DONE     and test EntityData.ResetStaged()
+// DONE figure out wh weird invalidopexc about dereferencing a rule that doesnt exis
+// DONE     then build Clean/DeepClean, and call after every test
+// DONE also GenerateId for IIdEnities needs to have a static nextIdValue
+// DONE test EntityData.FullReset()
+// DONE move static _data to an ABC IStaticEntityData
+
 // DONE update docs to desc that the data is static
 //      update tests to cooperate
 //      create IEntityRepo.Clean() and .DeepClean()
@@ -119,6 +160,41 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
 //
 // now we can implement the diff transactional methods
 //     similar to Save(), make backups of saved*/staged* data to allow for rolling back to prev state
+
+    /// <remarks>
+    /// Since generic classes of different types aren't actually the same
+    /// class, it is necessary to put the static member that should be shared
+    /// regardless of types as an abstract base class.
+    /// </remarks>
+    public abstract class IStaticEntityData
+    {
+        /// <summary>
+        /// This maps a concrete IEntity.GetType().Name to an instance of
+        /// EntityData.
+        /// </summary>
+        /// <summary>
+        /// This allows all of the data to be shared between the different
+        /// repos, allowing us to build transactions.
+        /// </summary>
+        protected static Dictionary<string, EntityData> _data =
+            new Dictionary<string, EntityData>();
+
+        /// <summary>
+        /// If not present, create a new `name` : `EntityData` pair in the
+        /// static data; this will throw an ArgumentException if the
+        /// `ruleCount` is invalid for `EntityData`.
+        /// </summary>
+        /// <remarks>
+        /// This is used instead of a constructor as `this.GetType().Name` does
+        /// not work when being passed to a base constructor as `this` does not
+        /// exist in that context.
+        /// </remarks>
+        protected void EnsureExists(string name, int ruleCount)
+        {
+            if (!_data.ContainsKey(name))
+                _data[name] = new EntityData(ruleCount);
+        }
+    }
 
     /// <inheritdoc cref="IEntityRepo"/>
     /// <summary>
@@ -142,21 +218,11 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
     /// this is pretty inefficient.
     /// </remarks>
     public abstract class IRAMEntityRepo<TEntity, TId, TIdBuiltIn>
-        : IEntityRepo<TEntity, TId, TIdBuiltIn>
+        : IStaticEntityData,
+          IEntityRepo<TEntity, TId, TIdBuiltIn>
         where TEntity : IEntity<TId, TIdBuiltIn>
         where TId : ISingleValueObject<TIdBuiltIn>
     {
-        /// <summary>
-        /// This maps a concrete IEntity.GetType().Name to an instance of
-        /// EntityData.
-        /// </summary>
-        /// <summary>
-        /// This allows all of the data to be shared between the different
-        /// repos, allowing us to build transactions.
-        /// </summary>
-        private static Dictionary<string, EntityData> _data =
-            new Dictionary<string, EntityData>();
-
         /// <summary>
         /// This method will return `TEntity.GetUniqueRules().Count`. This is
         /// intended to be used just by `IRAMENtityRepo.RuleCount`.
@@ -183,7 +249,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
                 {
                     int r = this.GetRuleCount();
                     if (r < 0)
-                        throw new NotImplementedException("GetRuleCount() did not return a non-negative value.");
+                        throw new InvalidOperationException("GetRuleCount() did not return a non-negative value.");
                     this._ruleCount = r;
                 }
                 return this._ruleCount;
@@ -204,12 +270,32 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         // the new entity, and return an ID to use as the key; this is
         // necessary in cases of repo-generated IDs. By default, this method
         // will simply return the ID of the supplied entity.
-        protected Dictionary<TId, TEntity> _saved;
-        protected Dictionary<TId, TEntity> _staged;
-        // TODO: change member dicts to be vv
-        //      they need to be Dict<obj, obj>; just convert their types during loops and it should be good?
-        //      first commit the changes to EntityData, then play as much as id like
-
+        protected Dictionary<object, object> _saved
+        {
+            get { return _data[this._className].Saved; }
+            set
+            {
+                try
+                {
+                    _data[this._className].Saved = value;
+                }
+                catch (ArgumentException e)
+                { throw new InvalidOperationException(e.Message); }
+            }
+        }
+        protected Dictionary<object, object> _staged
+        {
+            get { return _data[this._className].Staged; }
+            set
+            {
+                try
+                {
+                    _data[this._className].Staged = value;
+                }
+                catch (ArgumentException e)
+                { throw new InvalidOperationException(e.Message); }
+            }
+        }
 
         // The following are derived from this: Dictionary<Name, TEntity>
         //      First, instead of Name, we use a W0Set<object>.
@@ -219,9 +305,73 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         // Sure, we could probbaly get away with just allowing one rule, but if
         // I'm already refactoring this to have any member(s) be a rule, I'm
         // doing this too.
-        protected W0List<Dictionary<W0Set<object>, TEntity>> _savedRules;
-        protected W0List<Dictionary<W0Set<object>, TEntity>> _stagedRules;
-        protected W0List<Dictionary<W0Set<object>, int>> _recycledRules;
+        protected W0List<Dictionary<W0Set<object>, object>> _savedRules
+        {
+            get { return _data[this._className].SavedRules; }
+            set
+            {
+                try
+                {
+                    _data[this._className].SavedRules = value;
+                }
+                catch (ArgumentException e)
+                { throw new InvalidOperationException(e.Message); }
+            }
+        }
+        protected W0List<Dictionary<W0Set<object>, object>> _stagedRules
+        {
+            get { return _data[this._className].StagedRules; }
+            set
+            {
+                try
+                {
+                    _data[this._className].StagedRules = value;
+                }
+                catch (ArgumentException e)
+                { throw new InvalidOperationException(e.Message); }
+            }
+        }
+        protected W0List<Dictionary<W0Set<object>, int>> _recycledRules
+        {
+            get { return _data[this._className].RecycledRules; }
+            set
+            {
+                try
+                {
+                    _data[this._className].RecycledRules = value;
+                }
+                catch (ArgumentException e)
+                { throw new InvalidOperationException(e.Message); }
+            }
+        }
+
+        /// <summary>
+        /// Cast and return the argument to `TId`, otherwise throwing an
+        /// `InvalidOperationException`.
+        /// </summary>
+        public TId TIdCast(object o)
+        {
+            try
+            {
+                return (TId) o;
+            }
+            catch (InvalidCastException e)
+            { throw new InvalidOperationException("There is an incompatible type stored as a TId.", e); }
+        }
+
+        /// <summary>
+        /// Cast and return the argument to `TEntity`, otherwise throwing an
+        /// `InvalidOperationException`.
+        /// </summary>
+        public virtual TEntity TEntityCast(object o)
+        {
+            try
+            {
+                return (TEntity) o;
+            }
+            catch (InvalidCastException e)
+            { throw new InvalidOperationException("There is an incompatible type stored as a TEntity.", e); }
+        }
 
         /// <summary>
         /// If the supplied rule is staged as null (staged to be deleted), then
@@ -248,28 +398,35 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
             return entity.Id;
         }
 
+        /// <remarks>
+        /// This will create the concrete class' EntityData instance, if it
+        /// does not already exist.
+        /// </remarks>
         public IRAMEntityRepo()
         {
             this._className = this.GetType().Name;
-            this._saved  = new Dictionary<TId, TEntity>();
-            this._savedRules = new W0List<Dictionary<W0Set<object>, TEntity>>();
-            for (int i = 0; i < this.RuleCount; i++)
-                this._savedRules.Add(new Dictionary<W0Set<object>, TEntity>());
+            try
+            {
+                base.EnsureExists(this._className, this.RuleCount);
+            }
+            catch (ArgumentException e)
+            { throw new InvalidOperationException(e.Message, e); }
+        }
 
-            this.Discard();
+        public void Clean()
+        {
+            _data[this._className].Clean();
+        }
+
+        public void CleanAll()
+        {
+            foreach (KeyValuePair<string, EntityData> p in _data)
+                p.Value.Clean();
         }
 
         public void Discard()
         {
-            this._staged = new Dictionary<TId, TEntity>();
-            this._stagedRules = new W0List<Dictionary<W0Set<object>, TEntity>>();
-            this._recycledRules = new W0List<Dictionary<W0Set<object>, int>>();
-
-            for (int i = 0; i < this.RuleCount; i++)
-            {
-                this._stagedRules.Add(new Dictionary<W0Set<object>, TEntity>());
-                this._recycledRules.Add(new Dictionary<W0Set<object>, int>());
-            }
+            _data[this._className].CleanStaged();
         }
 
         /// <summary>
@@ -278,12 +435,14 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         /// <returns>The saved entities enumerable.</returns>
         public IEnumerable<TEntity> GetAll()
         {
-            foreach (KeyValuePair<TId, TEntity> pair in this._saved)
+            foreach (KeyValuePair<object, object> pair in this._saved)
             {
-                TId id = pair.Key;
-                TEntity entity = pair.Value;
+                TId id = this.TIdCast(pair.Key);
+                TEntity entity = this.TEntityCast(pair.Value);
+
                 if ( (entity.Id != id) || (!entity.IsIdSet()) )
                     throw new InvalidOperationException("A saved entity without an ID has been discovered.");
+
                 yield return (TEntity) entity.Clone();
             }
         }
@@ -295,7 +454,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         {
             if (!this._saved.ContainsKey(id))
                 throw new ArgumentException("You cannot get an entity with an ID does not exist.");
-            return (TEntity) this._saved[id].Clone();
+            return (TEntity) this.TEntityCast(this._saved[id]).Clone();
         }
 
         // Cases
@@ -405,7 +564,8 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         {
             if (this._stagedRules[listIndex].ContainsKey(rule))
             {
-                TEntity staged = this._stagedRules[listIndex][rule];
+                TEntity staged =
+                    this.TEntityCast(this._stagedRules[listIndex][rule]);
                 if (staged == null)
                 {
                     this._recycleIfNeeded(listIndex, rule);
@@ -425,19 +585,19 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         private W0Set<object> _findOldRule(TEntity entity, int listIndex)
         {
             // Staged is checked first since it will be less stale.
-            foreach (KeyValuePair<W0Set<object>, TEntity> pair in
+            foreach (KeyValuePair<W0Set<object>, object> pair in
                 this._stagedRules[listIndex])
             {
                 W0Set<object> rule = pair.Key;
-                TEntity e = pair.Value;
+                TEntity e = this.TEntityCast(pair.Value);
                 if ( (e != null) && (e.Id == entity.Id) )
                     return rule;
             }
-            foreach (KeyValuePair<W0Set<object>, TEntity> pair in
+            foreach (KeyValuePair<W0Set<object>, object> pair in
                 this._savedRules[listIndex])
             {
                 W0Set<object> rule = pair.Key;
-                TEntity e = pair.Value;
+                TEntity e = this.TEntityCast(pair.Value);
                 if ( (e != null) && (e.Id == entity.Id) )
                     return rule;
             }
@@ -472,7 +632,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
             if (this._isStagedOnlyEntity(id))
                 return;
 
-            TEntity saved = this._saved[id];
+            TEntity saved = this.TEntityCast(this._saved[id]);
             W0List<W0Set<object>> rules = saved.GetUniqueRules();
             if (rules.Count != this.RuleCount)
                 throw new InvalidOperationException("this.RuleCount and TEntity.GetUniqueRules().Count do not match.");
@@ -501,7 +661,8 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
             {
                 if (this._staged.ContainsKey(id))
                 {
-                    W0List<W0Set<object>> rules = this._staged[id].GetUniqueRules();
+                    W0List<W0Set<object>> rules =
+                        this.TEntityCast(this._staged[id]).GetUniqueRules();
                     for (int i = 0; i < this.RuleCount; i++)
                         this._stagedRules[i][ rules[i] ] = null;
                 }
@@ -517,7 +678,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         /// </summary>
         private void _deleteSavedStagedEntity(TId id, TEntity saved)
         {
-            TEntity staged = this._staged[id];
+            TEntity staged = this.TEntityCast(this._staged[id]);
             W0List<W0Set<object>> stagedRules = staged.GetUniqueRules();
             W0List<W0Set<object>> savedRules = saved.GetUniqueRules();
 
@@ -570,8 +731,8 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         /// </remarks>
         public virtual void Save()
         {
-            Dictionary<TId, TEntity> tempSaved;
-            W0List<Dictionary<W0Set<object>, TEntity>> tempSavedRules;
+            Dictionary<object, object> tempSaved;
+            W0List<Dictionary<W0Set<object>, object>> tempSavedRules;
             try
             {
                 tempSaved = this._cloneSaved(this._saved);
@@ -586,45 +747,46 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
                 // No errors occurred during save! Now we can safely apply the
                 // side effect changes to entity references (if appropriate)
                 // and return.
-                foreach (KeyValuePair<TId, TEntity> p in idMappings)
-                    p.Value.Id = p.Key;
+                foreach (KeyValuePair<object, object> p in idMappings)
+                    this.TEntityCast(p.Value).Id = this.TIdCast(p.Key);
 
                 return;
             }
-            catch (ArgumentException)
-            { }
+            catch (ArgumentException e)
+            {
+                this._restoreSavedStates(tempSaved, tempSavedRules, e);
+            }
             catch (InvalidCastException e)
             {
                 throw new InvalidCastException("An invalid cast occurred. Are you doing weird things with Polymorphism? Is Clone() returning the correct type?", e);
             }
-
-            this._restoreSavedStates(tempSaved, tempSavedRules);
         }
 
-        private Dictionary<TId, TEntity> _cloneSaved(Dictionary<TId, TEntity> dict)
+        private
+        Dictionary<object, object> _cloneSaved(Dictionary<object, object> dict)
         {
             if (dict == null)
                 throw new ArgumentException("dict");
 
-            var r = new Dictionary<TId, TEntity>();
-            foreach (KeyValuePair<TId, TEntity> pair in dict)
+            var r = new Dictionary<object, object>();
+            foreach (KeyValuePair<object, object> pair in dict)
                 r.Add(pair.Key, pair.Value);
 
             return r;
         }
 
-        private W0List<Dictionary<W0Set<object>, TEntity>> _cloneSavedRules(
-            W0List<Dictionary<W0Set<object>, TEntity>> listDict
+        private W0List<Dictionary<W0Set<object>, object>> _cloneSavedRules(
+            W0List<Dictionary<W0Set<object>, object>> listDict
         )
         {
             if (listDict == null)
                 throw new ArgumentException("listDict");
 
-            var r = new W0List<Dictionary<W0Set<object>, TEntity>>();
+            var r = new W0List<Dictionary<W0Set<object>, object>>();
             for (int i = 0; i < listDict.Count; i++)
             {
-                var newDict = new Dictionary<W0Set<object>, TEntity>();
-                foreach (KeyValuePair<W0Set<object>, TEntity> pair in
+                var newDict = new Dictionary<W0Set<object>, object>();
+                foreach (KeyValuePair<W0Set<object>, object> pair in
                     listDict[i])
                 {
                     newDict.Add(pair.Key, pair.Value);
@@ -640,8 +802,9 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         /// to ensure that the restored state is valid as well.
         /// </summary>
         private void _restoreSavedStates(
-            Dictionary<TId, TEntity> tempSaved,
-            W0List<Dictionary<W0Set<object>, TEntity>> tempSavedRules
+            Dictionary<object, object> tempSaved,
+            W0List<Dictionary<W0Set<object>, object>> tempSavedRules,
+            Exception exc
         )
         {
             try
@@ -660,7 +823,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
             {
                 throw new InvalidOperationException("After restoring Saved, it is still corrupt.", e);
             }
-            throw new ArgumentException("Save() could not be completed due to faulty staged data. Discarding the changes.");
+            throw new ArgumentException("Save() could not be completed due to faulty staged data. Discarding the changes.", exc);
         }
 
         /// <summary>
@@ -668,18 +831,18 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         /// ID be set to. If there are no IDs to set, then the dict will be
         /// empty (but never null).
         /// </summary>
-        protected virtual Dictionary<TId, TEntity> CommitStaged()
+        protected virtual Dictionary<object, object> CommitStaged()
         {
-            // We use idMappings during CommitSTaged()
+            // We use idMappings during CommitStaged()
             // because we want to make sure everything can commit without an
             // exception being thrown. Otherwise, entities that were saved
             // before the exception and Discard() will still have their IDs
             // set without being actually saved.
-            var idMappings = new Dictionary<TId, TEntity>();
-            foreach (KeyValuePair<TId, TEntity> pair in this._staged)
+            var idMappings = new Dictionary<object, object>();
+            foreach (KeyValuePair<object, object> pair in this._staged)
             {
-                TId id = pair.Key;
-                TEntity entity = pair.Value;
+                TId id = this.TIdCast(pair.Key);
+                TEntity entity = this.TEntityCast(pair.Value);
 
                 if (entity == null)
                     this.CommitDelete(id);
@@ -697,7 +860,6 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
             if (c != 0)
                 throw new InvalidOperationException($"After a Save, there should be no staged entities, but there are {c} staged entities remaining.");
 
-
             this._cleanUpRules();
             this.FinalChecks();
             return idMappings;
@@ -712,10 +874,10 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
             for (int i = 0; i < this.RuleCount; i++)
             {
                 var dict = this._stagedRules[i];
-                foreach (KeyValuePair<W0Set<object>, TEntity> pair in dict)
+                foreach (KeyValuePair<W0Set<object>, object> pair in dict)
                 {
                     W0Set<object> rule = pair.Key;
-                    TEntity e = pair.Value;
+                    TEntity e = this.TEntityCast(pair.Value);
                     if (e != null)
                         throw new InvalidOperationException("An entity was missed during Save.");
                     this._savedRules[i].Remove(rule);
@@ -741,7 +903,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
             TEntity oldEntity = null;
             if (this._saved.ContainsKey(id))
             {
-                oldEntity = this._saved[id];
+                oldEntity = this.TEntityCast(this._saved[id]);
                 this._saved.Remove(id);
             }
             if (oldEntity != null)
@@ -793,7 +955,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         {
             TEntity old;
             if (this._saved.ContainsKey(id))
-                old = this._saved[id];
+                old = this.TEntityCast(this._saved[id]);
             else
                 old = null;
 
@@ -812,7 +974,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
             {
                 W0Set<object> rule = rules[i];
                 if (   (this._savedRules[i].ContainsKey(rule))
-                    && (this._savedRules[i][rule].Id != id)
+                    && (this.TEntityCast(this._savedRules[i][rule]).Id != id)
                     && (!this._recycledRules[i].ContainsKey(rule))   )
                 {
                     throw new ArgumentException($"Attempting to Save a rule that is already used.");

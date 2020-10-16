@@ -31,14 +31,23 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
             this._id2 = new Id(2);
             this._id3 = new Id(3);
             this._id4 = new Id(4);
-            this._friendRepo = new RAMFriendRepo();
-            this._characterRepo = new RAMCharacterRepo();
-            this._foeRepo = new RAMFoeRepo();
+            this._friendRepo = new DummyRAMFriendRepo();
+            this._foeRepo = new DummyRAMFoeRepo();
+            this._characterRepo = new DummyRAMCharacterRepo();
             this._foeReg = new FoeReg(
                 this._foeRepo,
                 this._characterRepo,
                 this._friendRepo
             );
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            this._foeRepo.CleanAll();
+            ((DummyRAMFriendRepo) this._friendRepo).ResetNextIdValue();
+            ((DummyRAMFoeRepo) this._foeRepo).ResetNextIdValue();
+            ((DummyRAMCharacterRepo) this._characterRepo).ResetNextIdValue();
         }
 
         [Test]
@@ -78,5 +87,35 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
             Assert.Throws<ArgumentException>(()=>
                 this._foeReg.Register(new Foe(this._id2, this._id1)));
         }
+    }
+
+    public class DummyRAMFriendRepo
+        : RAMFriendRepo
+    {
+        public DummyRAMFriendRepo()
+            : base()
+        { }
+
+        public void ResetNextIdValue() { _nextIdValue = 1; }
+    }
+
+    public class DummyRAMFoeRepo
+        : RAMFoeRepo
+    {
+        public DummyRAMFoeRepo()
+            : base()
+        { }
+
+        public void ResetNextIdValue() { _nextIdValue = 1; }
+    }
+
+    public class DummyRAMCharacterRepo
+        : RAMCharacterRepo
+    {
+        public DummyRAMCharacterRepo()
+            : base()
+        { }
+
+        public void ResetNextIdValue() { _nextIdValue = 1; }
     }
 }

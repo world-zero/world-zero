@@ -26,8 +26,8 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
             CharacterReg.MinLevelToRegister = new Level(3);
             this._characterRepo = new RAMCharacterRepo();
             this._factionRepo = new RAMFactionRepo();
-            this._playerRepo = new RAMPlayerRepo();
-            this._locationRepo = new RAMLocationRepo();
+            this._playerRepo = new DummyRAMPlayerRepo();
+            this._locationRepo = new DummyRAMLocationRepo();
             this._registration = new CharacterReg(
                 this._characterRepo,
                 this._playerRepo,
@@ -51,6 +51,14 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
             );
             this._locationRepo.Insert(this._location0);
             this._locationRepo.Save();
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            this._playerRepo.CleanAll();
+            ((DummyRAMPlayerRepo) this._playerRepo).ResetNextIdValue();
+            ((DummyRAMLocationRepo) this._locationRepo).ResetNextIdValue();
         }
 
         [Test]
@@ -223,12 +231,13 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
         {
             this._registration.Register(new Character(
                 new Name("f"),
-                new Id(1),
+                this._player0.Id,
                 null,
                 null,
                 new PointTotal(3000)
             ));
-            Assert.IsTrue(this._registration.CanRegCharacter(new Id(1)));
+            Assert.IsTrue(
+                this._registration.CanRegCharacter(this._player0.Id));
         }
 
         [Test]
@@ -236,9 +245,22 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
         {
             this._registration.Register(new Character(
                 new Name("f"),
-                new Id(1)
+                this._player0.Id
             ));
-            Assert.IsFalse(this._registration.CanRegCharacter(new Id(1)));
+            Assert.IsFalse(
+                this._registration.CanRegCharacter(this._player0.Id));
         }
+    }
+
+    public class DummyRAMPlayerRepo
+        : RAMPlayerRepo
+    {
+        public void ResetNextIdValue() { _nextIdValue = 1; }
+    }
+
+    public class DummyRAMLocationRepo
+        : RAMLocationRepo
+    {
+        public void ResetNextIdValue() { _nextIdValue = 1; }
     }
 }

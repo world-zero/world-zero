@@ -32,6 +32,12 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Relation
             this._ppAlt = new PraxisParticipant(this._pId1, this._cId0);
         }
 
+        [TearDown]
+        public void TearDown()
+        {
+            this._repo.CleanAll();
+        }
+
         [Test]
         public void TestGetByPlayerId()
         {

@@ -29,7 +29,8 @@ namespace WorldZero.Data.Repository.RAM.Entity.Relation
                 throw new ArgumentNullException("playerId");
 
             IEnumerable<Id> charIds =
-                from pp in this._saved.Values
+                from ppTemp in this._saved.Values
+                let pp = this.TEntityCast(ppTemp)
                 where pp.PraxisId == praxisId
                 select pp.CharacterId;
 
@@ -47,7 +48,8 @@ namespace WorldZero.Data.Repository.RAM.Entity.Relation
                 throw new ArgumentNullException("characterId");
 
             IEnumerable<PraxisParticipant> participants =
-                from pp in this._saved.Values
+                from ppTemp in this._saved.Values
+                let pp = this.TEntityCast(ppTemp)
                 where pp.PraxisId == praxisId
                 where pp.CharacterId == characterId
                 select pp;

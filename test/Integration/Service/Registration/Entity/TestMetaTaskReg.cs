@@ -43,6 +43,12 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
             this._factionRepo.Save();
         }
 
+        [TearDown]
+        public void TearDown()
+        {
+            this._factionRepo.CleanAll();
+        }
+
         [Test]
         public void TestRegisterHappy()
         {
