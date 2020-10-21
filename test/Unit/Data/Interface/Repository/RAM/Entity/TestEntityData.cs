@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using WorldZero.Common.Collections;
+using WorldZero.Common.Entity;
+using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.RAM.Entity;
 using NUnit.Framework;
 
@@ -11,6 +13,26 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
     {
         private int _ruleCount;
         private EntityData _data;
+
+        private void _assertEDEmpty(EntityData ed)
+        {
+            Assert.IsNotNull(ed);
+            Assert.AreEqual(0, ed.Saved.Count);
+            Assert.AreEqual(0, ed.SavedRules[0].Count);
+            Assert.AreEqual(0, ed.Staged.Count);
+            Assert.AreEqual(0, ed.StagedRules[1].Count);
+            Assert.AreEqual(0, ed.RecycledRules[0].Count);
+        }
+
+        private void _assertEDNotEmpty(EntityData ed)
+        {
+            Assert.IsNotNull(ed);
+            Assert.AreNotEqual(0, ed.Saved.Count);
+            Assert.AreNotEqual(0, ed.SavedRules[0].Count);
+            Assert.AreNotEqual(0, ed.Staged.Count);
+            Assert.AreNotEqual(0, ed.StagedRules[1].Count);
+            Assert.AreNotEqual(0, ed.RecycledRules[0].Count);
+        }
 
         [SetUp]
         public void Setup()
@@ -33,6 +55,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
             Assert.AreEqual(this._ruleCount, this._data.StagedRules.Count);
             Assert.IsNotNull(this._data.RecycledRules);
             Assert.AreEqual(this._ruleCount, this._data.RecycledRules.Count);
+            this._assertEDEmpty(this._data);
         }
 
         [Test]
@@ -113,11 +136,36 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
             this._data.StagedRules[1].Add(new W0Set<object>(), 9);
             this._data.RecycledRules[0].Add(new W0Set<object>(), -324);
             this._data.Clean();
-            Assert.AreEqual(0, this._data.Saved.Count);
-            Assert.AreEqual(0, this._data.SavedRules[0].Count);
-            Assert.AreEqual(0, this._data.Staged.Count);
-            Assert.AreEqual(0, this._data.StagedRules[1].Count);
-            Assert.AreEqual(0, this._data.RecycledRules[0].Count);
+            this._assertEDEmpty(this._data);
+        }
+
+        [Test]
+        public void TestCloneEmptyED()
+        {
+            var clone = this._data.Clone();
+            this._assertEDEmpty(clone);
+
+            this._data.Saved.Add(3, null);
+            this._data.SavedRules[0].Add(new W0Set<object>(), 0);
+            this._data.Staged.Add(9, null);
+            this._data.StagedRules[1].Add(new W0Set<object>(), 9);
+            this._data.RecycledRules[0].Add(new W0Set<object>(), -324);
+
+            this._assertEDEmpty(clone);
+        }
+
+        [Test]
+        public void TestCloneNonEmptyED()
+        {
+            this._data.Saved.Add(3, new Player(new Name("foo")));
+            this._data.SavedRules[0].Add(new W0Set<object>(), 0);
+            this._data.Staged.Add(9, null);
+            this._data.StagedRules[1].Add(new W0Set<object>(), 9);
+            this._data.RecycledRules[0].Add(new W0Set<object>(), -324);
+
+            var clone = this._data.Clone();
+            this._data.Clean();
+            this._assertEDNotEmpty(clone);
         }
     }
 }

@@ -93,7 +93,6 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity
         [Test]
         public void TestFindHighestLevel()
         {
-            // TODO: be sure to run all of these tests on both versions of the method
             Level actual = this._charRepo.FindHighestLevel(new Id(2));
             Assert.AreEqual(this._c2.TotalLevel, actual);
             actual = this._charRepo.FindHighestLevel(
