@@ -382,25 +382,6 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         }
 
         /// <summary>
-        /// Return a shallow, specific `EntityData` instance with the supplied
-        /// `className`. If the name is not supplied, the current instance is
-        /// used; if an invalid className is supplied, an
-        /// `InvalidOperationException` is thrown (since this is an internal
-        /// helper method).
-        /// </summary>
-        protected EntityData GetED(string className=null)
-        {
-            if (className == null)
-                return _data[this._className];
-            else
-            {
-                if (!_data.ContainsKey(className))
-                    throw new InvalidOperationException($"Attempting to get repo data for a repo that DNE: {className}.");
-                return _data[className];
-            }
-        }
-
-        /// <summary>
         /// Cast and return the argument to `TId`, otherwise throwing an
         /// `InvalidOperationException`.
         /// </summary>
@@ -437,20 +418,15 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         /// `className` is specified if it is desired to check for a repo that
         /// isn't the current instance.
         /// </remarks>
-        private bool _recycleIfNeeded(
-            int listIndex,
-            W0Set<object> oldRule,
-            string className=null
-        )
+        private bool _recycleIfNeeded(int listIndex, W0Set<object> oldRule)
         {
-            EntityData ed = this.GetED(className);
-            if (ed.RecycledRules.Count <= listIndex)
+            if (this._recycledRules.Count <= listIndex)
                 throw new InvalidOperationException("Attempting to dereference a rule list that does not exist.");
 
-            if (   (ed.StagedRules[listIndex].ContainsKey(oldRule))
-                && (ed.StagedRules[listIndex][oldRule] == null) )
+            if (   (this._stagedRules[listIndex].ContainsKey(oldRule))
+                && (this._stagedRules[listIndex][oldRule] == null) )
             {
-                ed.RecycledRules[listIndex].Add(oldRule, 0);
+                this._recycledRules[listIndex].Add(oldRule, 0);
                 return true;
             }
 
@@ -479,12 +455,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
 
         public void Clean()
         {
-            this.CleanInstance(this._className);
-        }
-
-        protected void CleanInstance(string className)
-        {
-            this.GetED(className).Clean();
+            _data[this._className].Clean();
         }
 
         public void CleanAll()
@@ -495,12 +466,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
 
         public void Discard()
         {
-            this.DiscardInstance(this._className);
-        }
-
-        protected void DiscardInstance(string className)
-        {
-            this.GetED(className).CleanStaged();
+            _data[this._className].CleanStaged();
         }
 
         /// <summary>
@@ -792,12 +758,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         /// cleaned out. We can get away with being this inefficient since this
         /// is just a dev tool.
         /// </remarks>
-        protected void FinalChecks()
-        {
-            this.FinalChecksInstance(this._className);
-        }
-
-        protected virtual void FinalChecksInstance(string className)
+        protected virtual void FinalChecks()
         { }
 
         /// <summary>
@@ -812,19 +773,6 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         /// </remarks>
         public void Save()
         {
-            this.SaveInstance(this._className);
-        }
-
-        /// <summary>
-        /// This does the actual work of Save for a specific instance.
-        /// </summary>
-        /// <remarks>
-        /// This allows us to save any entity's data without needing a
-        /// reference to that entity's repo. This is helpful when dealing with
-        /// transactions.
-        /// </remarks>
-        protected virtual void SaveInstance(string className)
-        {
             if (_tempData != null)
                 throw new ArgumentException("There is a transaction active, save via EndTransaction().");
             if (   (this._staged.Count == 0)
@@ -835,13 +783,12 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
                 return;
             }
 
-            EntityData ed = this.GetED(className);
-            EntityData tempED = ed.Clone();
+            EntityData tempED = _data[this._className].Clone();
             tempED.CleanStaged();
 
             try
             {
-                var idMappings = this.CommitStaged(className, ed);
+                var idMappings = this.CommitStaged();
                 // No errors occurred during save! Now we can safely apply the
                 // side effect changes to entity references (if appropriate)
                 // and return.
@@ -852,7 +799,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
             }
             catch (ArgumentException e)
             {
-                this._restoreSavedStates(className, tempED, e);
+                this._restoreSavedStates(tempED, e);
             }
             catch (InvalidCastException e)
             {
@@ -865,19 +812,15 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         /// states with a clean staged states. This will re-run FinalChecks()
         /// to ensure that the restored state is valid as well.
         /// </summary>
-        private void _restoreSavedStates(
-            string className,
-            EntityData tempED,
-            Exception exc
-        )
+        private void _restoreSavedStates(EntityData tempED, Exception exc)
         {
-            _data[className] = tempED;
-            this.DiscardInstance(className);
+            _data[this._className] = tempED;
+            this.Discard();
             try
-            { this.FinalChecksInstance(className); }
+            { this.FinalChecks(); }
             catch (ArgumentException e)
             {
-                throw new InvalidOperationException($"After restoring Saved, the data of repo {className} is still corrupt.", e);
+                throw new InvalidOperationException($"After restoring Saved, the data of repo {this._className} is still corrupt.", e);
             }
             throw new ArgumentException("Save() could not be completed due to faulty staged data. Discarding the changes.", exc);
         }
@@ -888,7 +831,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         /// empty (but never null).
         /// </summary>
         protected virtual
-        Dictionary<object, object> CommitStaged(string className, EntityData ed)
+        Dictionary<object, object> CommitStaged()
         {
             // We use idMappings during CommitStaged()
             // because we want to make sure everything can commit without an
@@ -896,29 +839,29 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
             // before the exception and Discard() will still have their IDs
             // set without being actually saved.
             var idMappings = new Dictionary<object, object>();
-            foreach (KeyValuePair<object, object> pair in ed.Staged)
+            foreach (KeyValuePair<object, object> pair in this._staged)
             {
                 TId id = this.TIdCast(pair.Key);
                 TEntity entity = this.TEntityCast(pair.Value);
 
                 if (entity == null)
-                    this.CommitDelete(ed, id);
+                    this.CommitDelete(id);
                 else
                 {
                     if (!entity.IsIdSet())
                         idMappings.Add(id, entity);
-                    this.CommitChange(ed, id, entity);
+                    this.CommitChange(id, entity);
                 }
 
-                ed.Staged.Remove(id);
+                this._staged.Remove(id);
             }
 
-            var c = ed.Staged.Count;
+            var c = this._staged.Count;
             if (c != 0)
-                throw new InvalidOperationException($"After a Save, there should be no staged entities, but there are {c} staged entities remaining in {className}.");
+                throw new InvalidOperationException($"After a Save, there should be no staged entities, but there are {c} staged entities remaining in {this._className}.");
 
-            this._cleanUpRules(ed);
-            this.FinalChecksInstance(className);
+            this._cleanUpRules();
+            this.FinalChecks();
             return idMappings;
         }
 
@@ -926,19 +869,19 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         /// This is a helper to Save(), it makes sure that the rules were saved
         /// correctly.
         /// </summary>
-        private void _cleanUpRules(EntityData ed)
+        private void _cleanUpRules()
         {
-            for (int i = 0; i < ed.RuleCount; i++)
+            for (int i = 0; i < this._ruleCount; i++)
             {
-                var dict = ed.StagedRules[i];
+                var dict = this._stagedRules[i];
                 foreach (KeyValuePair<W0Set<object>, object> pair in dict)
                 {
                     W0Set<object> rule = pair.Key;
                     TEntity e = this.TEntityCast(pair.Value);
                     if (e != null)
                         throw new InvalidOperationException("An entity was missed during Save.");
-                    ed.SavedRules[i].Remove(rule);
-                    ed.StagedRules[i].Remove(rule);
+                    this._savedRules[i].Remove(rule);
+                    this._stagedRules[i].Remove(rule);
                 }
             }
 
@@ -955,24 +898,23 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         /// delete, then it must be an erroneous deletion (trying to delete
         /// something unsaved), so this will return null.
         /// </summary>
-        protected virtual TEntity CommitDelete(EntityData ed, TId id)
+        protected virtual TEntity CommitDelete(TId id)
         {
             TEntity oldEntity = null;
-            if (ed.Saved.ContainsKey(id))
+            if (this._saved.ContainsKey(id))
             {
-                oldEntity = this.TEntityCast(ed.Saved[id]);
-                ed.Saved.Remove(id);
+                oldEntity = this.TEntityCast(this._saved[id]);
+                this._saved.Remove(id);
             }
             if (oldEntity != null)
             {
-                for (int i = 0; i < ed.RuleCount; i++)
-                    this._removeRuleIfNeeded(ed, oldEntity, i);
+                for (int i = 0; i < this._ruleCount; i++)
+                    this._removeRuleIfNeeded(oldEntity, i);
             }
             return oldEntity;
         }
 
         private void _removeRuleIfNeeded(
-            EntityData ed,
             TEntity entity,
             int listIndex,
             W0Set<object> newRule=null
@@ -981,47 +923,39 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
             if (entity == null)
             {
                 if (newRule != null)
-                    this._recycleIncrement(ed, listIndex, newRule);
+                    this._recycleIncrement(listIndex, newRule);
                 return;
             }
 
             W0Set<object> oldRule = entity.GetUniqueRules()[listIndex];
-            if (!ed.SavedRules[listIndex].ContainsKey(oldRule))
+            if (!this._savedRules[listIndex].ContainsKey(oldRule))
                 return;
 
-            if (!this._recycleIncrement(ed, listIndex, oldRule))
-                ed.SavedRules[listIndex].Remove(oldRule);
+            if (!this._recycleIncrement(listIndex, oldRule))
+                this._savedRules[listIndex].Remove(oldRule);
         }
 
-        private bool _recycleIncrement(
-            EntityData ed,
-            int listIndex,
-            W0Set<object> rule
-        )
+        private bool _recycleIncrement(int listIndex, W0Set<object> rule)
         {
-            if (!ed.RecycledRules[listIndex].ContainsKey(rule))
+            if (!this._recycledRules[listIndex].ContainsKey(rule))
                 return false;
 
-            ed.RecycledRules[listIndex][rule]++;
-            var c = ed.RecycledRules[listIndex][rule];
+            this._recycledRules[listIndex][rule]++;
+            var c = this._recycledRules[listIndex][rule];
             if (c > 2)
                 throw new InvalidOperationException($"A recycled rule has been fond with a count of {c}, which is greater than 2, which should not occur.");
 
             else if (c == 2)
-                ed.RecycledRules[listIndex].Remove(rule);
+                this._recycledRules[listIndex].Remove(rule);
 
             return true;
         }
 
-        protected virtual TEntity CommitChange(
-            EntityData ed,
-            TId id,
-            TEntity entity
-        )
+        protected virtual TEntity CommitChange(TId id, TEntity entity)
         {
             TEntity old;
-            if (ed.Saved.ContainsKey(id))
-                old = this.TEntityCast(ed.Saved[id]);
+            if (this._saved.ContainsKey(id))
+                old = this.TEntityCast(this._saved[id]);
             else
                 old = null;
 
@@ -1034,21 +968,21 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
             if (!entityClone.IsIdSet())
                 entityClone.Id = id;
 
-            ed.Saved[id] = entityClone;
+            this._saved[id] = entityClone;
             List<W0Set<object>> rules = entity.GetUniqueRules();
-            for (int i = 0; i < ed.RuleCount; i++)
+            for (int i = 0; i < this._ruleCount; i++)
             {
                 W0Set<object> rule = rules[i];
-                if (   (ed.SavedRules[i].ContainsKey(rule))
-                    && (this.TEntityCast(ed.SavedRules[i][rule]).Id != id)
-                    && (!ed.RecycledRules[i].ContainsKey(rule))   )
+                if (   (this._savedRules[i].ContainsKey(rule))
+                    && (this.TEntityCast(this._savedRules[i][rule]).Id != id)
+                    && (!this._recycledRules[i].ContainsKey(rule))   )
                 {
                     throw new ArgumentException($"Attempting to Save a rule that is already used.");
                 }
 
-                this._removeRuleIfNeeded(ed, entity, i);
-                ed.SavedRules[i][rule] = entityClone;
-                ed.StagedRules[i].Remove(rule);
+                this._removeRuleIfNeeded(entity, i);
+                this._savedRules[i][rule] = entityClone;
+                this._stagedRules[i].Remove(rule);
             }
             return old;
         }
@@ -1077,7 +1011,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
             try
             {
                 foreach (string className in _data.Keys)
-                    this.SaveInstance(className);
+                    this.Save();
             }
             catch (ArgumentException e)
             {

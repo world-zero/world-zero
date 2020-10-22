@@ -207,7 +207,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
             return a.GetUniqueRules().Count;
         }
 
-        protected override void FinalChecksInstance(string className)
+        protected override void FinalChecks()
         {
             if (this._isFirstFinalCheck)
             {
