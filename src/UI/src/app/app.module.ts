@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PlayerComponent } from './player/player.component';
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -30,28 +31,33 @@ import { HomeComponent } from './home';
 import { AboutComponent } from './about/about.component';
 import { TasksComponent } from './tasks/tasks.component';
 import { FactionComponent } from './faction/faction.component';
+import { EditPraxisComponent } from './edit-praxis/edit-praxis.component';
+import { CKEditorModule } from 'ckeditor4-angular';
+
 @NgModule({
     imports: [
         BrowserModule,
         ReactiveFormsModule,
         HttpClientModule,
-        AppRoutingModule
+        AppRoutingModule,
+        CKEditorModule,
+        MDBBootstrapModule.forRoot()
     ],
     declarations: [
         AppComponent,
         AlertComponent,
-        HomeComponent
-,
+        HomeComponent,
         AboutComponent ,
         TasksComponent ,
-        FactionComponent  ],
+        FactionComponent ,
+        EditPraxisComponent ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-
         // provider used to create fake backend
         fakeBackendProvider
     ],
     bootstrap: [AppComponent]
 })
+
 export class AppModule { }

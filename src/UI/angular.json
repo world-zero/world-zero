@@ -31,8 +31,11 @@
               "src/styles.less"
             ],
             "scripts": [
-                "src/app/tasks/app.js",
-                "src/app/player/app.js"
+                "node_modules/ckeditor4/config.js",
+                "node_modules/ckeditor4/ckeditor.js",
+                "src/app/faction/faction.js",
+                "src/app/player/player.js",
+                "src/app/tasks/tasks.js"
             ]
           },
           "configurations": {
@@ -97,7 +100,9 @@
             "styles": [
               "src/styles.less"
             ],
-            "scripts": []
+            "scripts": [
+              "../node_modules/ckeditor4/ckeditor.js"
+            ]
           }
         },
         "lint": {

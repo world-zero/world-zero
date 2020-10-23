@@ -2,6 +2,7 @@
 
 import { AccountService } from './_services';
 import { User } from './_models';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({ selector: 'app', templateUrl: 'app.component.html' })
 export class AppComponent {

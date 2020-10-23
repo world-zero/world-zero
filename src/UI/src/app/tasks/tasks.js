@@ -1,22 +1,23 @@
+function addRowToTable() {
 
-function addRow() {
-
-  var myName = document.getElementById("Player Name");
-  var points = document.getElementById("Points");
-  var level = document.getElementById("Level");
-  var group = document.getElementById("Affiliation");
-
+  var myName = document.getElementById("name");
+  var level = document.getElementById("level");
+  var points = document.getElementById("points");
+  var group = document.getElementById("group");
+  var description = document.getElementById("description");
+  var progress = document.getElementById("progress");
+  var table = document.getElementById("myTableData");
 
   var rowCount = table.rows.length;
   var row = table.insertRow(rowCount);
 
   row.insertCell(0).innerHTML= '<input type="button" value = "Delete" onClick="Javacsript:deleteRow(this)">';
   row.insertCell(1).innerHTML= myName.value;
-  row.insertCell(2).innerHTML= points.value;
-  row.insertCell(3).innerHTML= level.value;
+  row.insertCell(2).innerHTML= level.value;
+  row.insertCell(3).innerHTML= points.value;
   row.insertCell(4).innerHTML= group.value;
-
-
+  row.insertCell(5).innerHTML= description.value;
+  row.insertCell(6).innerHTML= progress.value;
 
 }
 

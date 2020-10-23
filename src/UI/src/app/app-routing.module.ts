@@ -6,7 +6,9 @@ import { AboutComponent } from '@app/about/about.component';
 import { PlayerComponent } from './player/player.component';
 import { TasksComponent} from '@app/tasks/tasks.component';
 import { FactionComponent} from '@app/faction/faction.component';
+import { EditPraxisComponent } from '@app/edit-praxis/edit-praxis.component';
 import { AuthGuard } from './_helpers';
+
 
 const accountModule = () => import('./account/account.module').then(x => x.AccountModule);
 const usersModule = () => import('./users/users.module').then(x => x.UsersModule);
@@ -34,6 +36,10 @@ const routes: Routes = [
   {
     path: 'factions',
     component: FactionComponent
+  },
+  {
+    path: 'edit-praxis',
+    component: EditPraxisComponent
   },
 
   // otherwise redirect to home

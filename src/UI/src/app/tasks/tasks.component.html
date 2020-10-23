@@ -1,9 +1,15 @@
 <!DOCTYPE html>
 
 <html>
+<style>
+  body {
+    background-color: transparent;
+  }
+</style>
+
 <head>
   <title>HTML dynamic table using JavaScript</title>
-  <script type="text/javascript" src="app.js"></script>
+  <script type="text/javascript" src="tasks.js"></script>
 </head>
 <body onload="load()">
 <div id="myform">
@@ -56,7 +62,7 @@
           <option value="In Progress">In Progress</option>
           <option value="Completed!">Completed!</option>
         </select>
-          <input type="button" id="add" value="Add" onclick="Javascript:addRow()"></td>
+          <input type="button" id="add" value="Add" onclick="Javascript:addRowToTable()"></td>
       </tr>
     </div>
     <tr>

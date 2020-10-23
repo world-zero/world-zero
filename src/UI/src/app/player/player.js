@@ -1,26 +1,28 @@
+/*
+/*
 function addRow() {
 
-  var myName = document.getElementById("name");
-  var level = document.getElementById("level");
-  var points = document.getElementById("points");
-  var group = document.getElementById("group");
-  var description = document.getElementById("description");
-  var progress = document.getElementById("progress");
-  var table = document.getElementById("myTableData");
+  var myName = document.getElementById("Player Name");
+  var points = document.getElementById("Points");
+  var level = document.getElementById("Level");
+  var group = document.getElementById("Affiliation");
+
 
   var rowCount = table.rows.length;
   var row = table.insertRow(rowCount);
 
   row.insertCell(0).innerHTML= '<input type="button" value = "Delete" onClick="Javacsript:deleteRow(this)">';
   row.insertCell(1).innerHTML= myName.value;
-  row.insertCell(2).innerHTML= level.value;
-  row.insertCell(3).innerHTML= points.value;
+  row.insertCell(2).innerHTML= points.value;
+  row.insertCell(3).innerHTML= level.value;
   row.insertCell(4).innerHTML= group.value;
-  row.insertCell(5).innerHTML= description.value;
-  row.insertCell(6).innerHTML= progress.value;
+
+
 
 }
+*/
 
+/*
 function deleteRow(obj) {
 
   var index = obj.parentNode.parentNode.rowIndex;
@@ -72,3 +74,19 @@ function toggleMenu() {
   }
 
 }
+*/
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.maxHeight){
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";
+    }
+  });
+}
+
