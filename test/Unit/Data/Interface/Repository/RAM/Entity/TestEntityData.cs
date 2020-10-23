@@ -12,6 +12,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
     public class TestEntityData
     {
         private int _ruleCount;
+        private TestRAMEntityRepo _repo;
         private EntityData _data;
 
         private void _assertEDEmpty(EntityData ed)
@@ -38,15 +39,20 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
         public void Setup()
         {
             this._ruleCount = 2;
-            this._data = new EntityData(this._ruleCount);
+            this._repo = new TestRAMEntityRepo();
+            this._data = new EntityData(this._ruleCount, this._repo);
         }
 
         [Test]
         public void TestConstructor()
         {
-            Assert.Throws<ArgumentException>(()=>new EntityData(-1));
-            new EntityData(0);
+            Assert.Throws<ArgumentException>(
+                ()=>new EntityData(-1, this._repo));
+            Assert.Throws<ArgumentNullException>(
+                ()=>new EntityData(0, null));
+            new EntityData(0, this._repo);
 
+            Assert.AreEqual(this._repo, this._data.Repo);
             Assert.IsNotNull(this._data.Saved);
             Assert.IsNotNull(this._data.Staged);
             Assert.IsNotNull(this._data.SavedRules);

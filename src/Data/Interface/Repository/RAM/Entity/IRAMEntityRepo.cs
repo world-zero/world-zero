@@ -19,17 +19,28 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
     /// negative, where appropriate.
     /// <br />
     /// Inserting `null` as a value in `Saved` is unhandled.
+    /// <br />
+    /// Each instance contains a reference to a repo that uses that reference.
+    /// This allows a collection of `EntityData's to be controllable via their
+    /// repos, which is extremely helpful during repo transaction methods.
     /// </remarks>
     public class EntityData
     {
         public readonly int RuleCount;
+        /// <summary>
+        /// This is a reference to the RAM repository that stores this
+        /// structure.
+        /// </summary>
+        public readonly IStaticRAMEntityRepo Repo;
 
-        public EntityData(int ruleCount)
+        public EntityData(int ruleCount, IStaticRAMEntityRepo repo)
         {
             if (ruleCount < 0)
                 throw new ArgumentException("ruleCount cannot be negative.");
+            if (repo == null)
+                throw new ArgumentNullException("repo");
             this.RuleCount = ruleCount;
-
+            this.Repo = repo;
             this.Clean();
         }
 
@@ -78,8 +89,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         /// </remarks>
         public EntityData Clone()
         {
-            var clone = new EntityData(this.RuleCount);
-
+            var clone = new EntityData(this.RuleCount, this.Repo);
             foreach (KeyValuePair<object, object> p in this.Saved)
             {
                 clone.Saved.Add(p.Key, p.Value);
@@ -190,13 +200,24 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         private W0List<Dictionary<W0Set<object>, int>> _recycledRules;
     }
 
+    /// <summary>
+    /// This is a helper base class used to get around some static/typing
+    /// issues that exist when "implementing" `IEntityRepo` directly with
+    /// `IRAMEntityRepo`.
+    /// </summary>
     /// <remarks>
     /// Since generic classes of different types aren't actually the same
     /// class, it is necessary to put the static member that should be shared
     /// regardless of types as an abstract base class.
     /// </remarks>
-    public abstract class IStaticEntityData
+    public abstract class IStaticRAMEntityRepo
     {
+        // This exists here because a repo has a variety of types, which make
+        // casting to it dynamically extremely unpleasant. This way, we can
+        // cast down to this parent ABC and have polymorphism save us from all
+        // that nasty typing and reflection headache.
+        public abstract void Save();
+
         /// <summary>
         /// This maps a concrete IEntity.GetType().Name to an instance of
         /// EntityData.
@@ -221,14 +242,17 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         /// `ruleCount` is invalid for `EntityData`.
         /// </summary>
         /// <remarks>
-        /// This is used instead of a constructor as `this.GetType().Name` does
-        /// not work when being passed to a base constructor as `this` does not
-        /// exist in that context.
+        /// This is used instead of a constructor as `this.GetType().Name` in
+        /// children classes does not work when being passed to a base
+        /// constructor as `this` does not exist in that context.
         /// </remarks>
         protected void InitIfNeeded(string name, int ruleCount)
         {
+            if (name == null)
+                throw new ArgumentNullException("name");
+
             if (!_data.ContainsKey(name))
-                _data[name] = new EntityData(ruleCount);
+                _data[name] = new EntityData(ruleCount, this);
         }
     }
 
@@ -254,7 +278,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
     /// this is pretty inefficient.
     /// </remarks>
     public abstract class IRAMEntityRepo<TEntity, TId, TIdBuiltIn>
-        : IStaticEntityData,
+        : IStaticRAMEntityRepo,
           IEntityRepo<TEntity, TId, TIdBuiltIn>
         where TEntity : IEntity<TId, TIdBuiltIn>
         where TId : ISingleValueObject<TIdBuiltIn>
@@ -771,7 +795,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         /// Yeah this is super inefficient in order to emulate how DB errors
         /// would be thrown. Good thing this is just a dev tool.
         /// </remarks>
-        public void Save()
+        public override void Save()
         {
             if (_tempData != null)
                 throw new ArgumentException("There is a transaction active, save via EndTransaction().");
@@ -1011,7 +1035,10 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
             try
             {
                 foreach (string className in _data.Keys)
-                    this.Save();
+                {
+                    // TODO: loop through the dict and save everything.
+                    //      I may need to differentiate b/w nothing-to-save exceptions and bad-save exceptions
+                }
             }
             catch (ArgumentException e)
             {
