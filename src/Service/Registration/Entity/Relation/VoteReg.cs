@@ -9,10 +9,6 @@ using WorldZero.Common.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 
-// TODO: Upon receiveing a vote, give 2 votes to the character.
-// have a method (called just b/f return base.Register(v)) to allocate votes to the receiving character
-//      this will need to be atomic w/ base.Register; look into UOWs
-
 namespace WorldZero.Service.Registration.Entity.Relation
 {
     public class VoteReg
@@ -28,6 +24,11 @@ namespace WorldZero.Service.Registration.Entity.Relation
             RelationDTO<Id, int, Id, int>
         >
     {
+        /// <summary>
+        /// As a character receives a vote, they will get this many votes.
+        /// </summary>
+        public static PointTotal VotesEarned = new PointTotal(2);
+
         protected IVoteRepo _voteRepo
         { get { return (IVoteRepo) this._repo; } }
 
@@ -63,7 +64,7 @@ namespace WorldZero.Service.Registration.Entity.Relation
             this.AssertNotNull(v, "v");
             var votingChar     = this._regGetCharacter(v);
             var praxis         = this._regGetPraxis(v);
-            this._regAssertValidRecChar(v);
+            var recChar        = this._regGetRecChar(v);
             var votersCharsIds = this._regGetVotersCharsIds(votingChar);
             var praxisCharsIds = this._regGetPraxisCharsIds(praxis);
 
@@ -79,7 +80,19 @@ namespace WorldZero.Service.Registration.Entity.Relation
                 throw new ArgumentException("A player is attempting to revote on a praxis.");
             }
 
-            return base.Register(v);
+            recChar.VotePointsLeft = new PointTotal(
+                recChar.VotePointsLeft.Get + VotesEarned.Get
+            );
+            try
+            {
+                this._characterRepo.BeginTransaction();
+                this._voteRepo.Insert(v);
+                this._characterRepo.Update(recChar);
+                this._characterRepo.EndTransaction();
+                return v;
+            }
+            catch (ArgumentException e)
+            { throw new ArgumentException("A repo error occurred while saving a vote.", e); }
         }
 
         /// <summary>
@@ -99,12 +112,13 @@ namespace WorldZero.Service.Registration.Entity.Relation
         /// Make sure that `v.ReceivingCharacterId` is an actual character and
         /// that the character is a participant on `v.PraxisId`.
         /// </summary>
-        private void _regAssertValidRecChar(Vote v)
+        private Character _regGetRecChar(Vote v)
         {
             // Check that the participant exists.
+            Character c;
             try
             {
-                this._characterRepo.GetById(v.ReceivingCharacterId);
+                c = this._characterRepo.GetById(v.ReceivingCharacterId);
             }
             catch (ArgumentException)
             { throw new ArgumentException("The vote's receiving character does not exist."); }
@@ -114,6 +128,7 @@ namespace WorldZero.Service.Registration.Entity.Relation
             var cId = v.ReceivingCharacterId;
             if (!this._praxisPartRepo.ParticipantCheck(pId, cId))
                 throw new ArgumentException("The supplied vote's receiving character is not a participant of the supplied praxis.");
+            return c;
         }
 
         /// <summary>
