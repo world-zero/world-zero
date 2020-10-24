@@ -49,7 +49,8 @@ namespace WorldZero.Data.Interface.Repository.Entity
 
         /// <summary>
         /// Discard all of the changes made, reverting to the state just before
-        /// calling this method.
+        /// calling this method; no exception will be thrown when called
+        /// without an active transaction.
         /// </summary>
         /// <remarks>
         /// This will include reverting back to the saved and staged states

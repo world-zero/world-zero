@@ -53,6 +53,15 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
             Assert.AreEqual(expected.Combo1, actual.Combo1);
         }
 
+        private void
+        _assertEntitiesEqual(DummyEntity expected, object actual)
+        {
+            this._assertEntitiesEqual(
+                expected,
+                (DummyEntity) actual
+            );
+        }
+
         private void _assertUniformRuleCounts(int uniform)
         {
             this._assertUniformRuleCounts(uniform, uniform, uniform);
@@ -128,6 +137,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
         [TearDown]
         public void TearDown()
         {
+            this._repo.DiscardTransaction();
             this._repo.CleanAll();
         }
 
@@ -190,6 +200,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
                 ).Id)
             );
 
+            Assert.Throws<ArgumentException>(()=>this._repo.Insert(this._e));
             Assert.Throws<ArgumentException>(()=>this._repo.Insert(
                 new DummyEntity(this._name, 34, 43224, 432344)
             ));
@@ -204,6 +215,17 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
                     this._entityCast(this._repo.Saved[this._name]
                 ).Id)
             );
+        }
+
+        [Test]
+        public void TestInsertSaveSameEntity()
+        {
+            // NOTE: I have this issue logged.
+            this._repo.Insert(this._e);
+            this._repo.Save();
+            this._repo.Insert(this._e);
+            Assert.Throws<ArgumentException>(
+                ()=>this._repo.Save());
         }
 
         [Test]
@@ -574,6 +596,180 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
                 new W0Set<DummyEntity>(this._repo.GetAll().ToHashSet());
             Assert.AreEqual(3, newEntities.Count);
         }
+
+        [Test]
+        public void TestBeginTransaction()
+        {
+            Assert.IsNull(this._repo.TempData);
+            Assert.IsNull(this._altRepo.TempData);
+            this._repo.BeginTransaction();
+            Assert.IsNotNull(this._repo.TempData);
+            Assert.IsNotNull(this._altRepo.TempData);
+            Assert.AreNotEqual(this._repo.TempData, this._repo.Data);
+            Assert.AreNotEqual(this._altRepo.TempData, this._altRepo.Data);
+            Assert.Throws<ArgumentException>(
+                ()=>this._repo.Save());
+            Assert.Throws<ArgumentException>(
+                ()=>this._altRepo.Save());
+            Assert.Throws<ArgumentException>(
+                ()=>this._repo.BeginTransaction());
+            Assert.Throws<ArgumentException>(
+                ()=>this._altRepo.BeginTransaction());
+        }
+
+        [Test]
+        public void TestDiscardTransaction()
+        {
+            // Make sure no exc is thrown when no active transaction exists.
+            this._repo.DiscardTransaction();
+
+            this._repo.Insert(this._entities[0]);
+            this._repo.Save();
+            this._repo.Insert(this._entities[1]);
+            this._repo.BeginTransaction();
+            this._repo.Insert(this._entities[2]);
+            this._altRepo.Insert(this._entities[3]);
+            this._altRepo.DiscardTransaction();
+            Assert.IsNull(this._repo.TempData);
+            Assert.IsNull(this._altRepo.TempData);
+            Assert.AreEqual(0, this._altRepo.Staged.Count);
+            Assert.AreEqual(1, this._repo.Staged.Count);
+            Assert.AreEqual(1, this._repo.Saved.Count);
+            this._assertEntitiesEqual(
+                this._entities[0],
+                this._repo.Saved[this._entities[0].Id]
+            );
+            this._assertEntitiesEqual(
+                this._entities[1],
+                this._repo.Staged[this._entities[1].Id]
+            );
+
+            this._repo.Insert(this._e);
+            this._repo.Save();
+            this._repo.BeginTransaction();
+            this._altRepo.EndTransaction();
+            this._repo.BeginTransaction();
+            Assert.Throws<ArgumentException>(
+                ()=>this._altRepo.BeginTransaction());
+        }
+
+        [Test]
+        public void TestEndTransactionHappy()
+        {
+            this._repo.Insert(this._entities[0]);
+            this._repo.Save();
+            this._repo.BeginTransaction();
+
+            this._repo.Delete(this._entities[0].Id);
+            this._altRepo.Insert(this._entities[0]);
+            this._repo.EndTransaction();
+            Assert.IsNull(this._repo.TempData);
+            Assert.IsNull(this._altRepo.TempData);
+            Assert.AreEqual(0, this._repo.Saved.Count);
+            Assert.AreEqual(0, this._repo.Staged.Count);
+            Assert.AreEqual(1, this._altRepo.Saved.Count);
+            Assert.AreEqual(0, this._altRepo.Staged.Count);
+            this._assertEntitiesEqual(
+                this._entities[0],
+                this._altRepo.Saved[this._entities[0].Id]
+            );
+
+            this._repo.Insert(this._e);
+            this._repo.Save();
+            this._repo.BeginTransaction();
+            this._altRepo.EndTransaction();
+            this._repo.BeginTransaction();
+            Assert.Throws<ArgumentException>(
+                ()=>this._altRepo.BeginTransaction());
+        }
+
+        [Test]
+        public void TestEndTransactionSad()
+        {
+            var badEntity = new DummyEntity(
+                new Name("bad dummy"),
+                this._unique,
+                this._combo0,
+                this._combo1
+            );
+
+            this._repo.Insert(this._e);
+            this._repo.Save();
+            this._altRepo.Insert(this._e);
+            this._altRepo.Save();
+            this._repo.BeginTransaction();
+
+            this._repo.Insert(badEntity);
+            this._altRepo.Insert(this._entities[0]);
+            Assert.Throws<ArgumentException>(
+                ()=>this._altRepo.EndTransaction());
+            Assert.IsNull(this._repo.TempData);
+            Assert.IsNull(this._altRepo.TempData);
+            Assert.AreEqual(1, this._repo.Saved.Count);
+            Assert.AreEqual(0, this._repo.Staged.Count);
+            this._assertEntitiesEqual(
+                this._e,
+                this._repo.Saved[this._e.Id]
+            );
+            Assert.AreEqual(1, this._altRepo.Saved.Count);
+            Assert.AreEqual(0, this._altRepo.Staged.Count);
+            this._assertEntitiesEqual(
+                this._e,
+                this._altRepo.Saved[this._e.Id]
+            );
+
+            this._repo.Insert(this._e);
+            this._repo.Save();
+            this._repo.BeginTransaction();
+            this._altRepo.EndTransaction();
+            this._repo.BeginTransaction();
+            Assert.Throws<ArgumentException>(
+                ()=>this._altRepo.BeginTransaction());
+        }
+
+        [Test]
+        public void TestEndTransactionSadReverse()
+        {
+            var badEntity = new DummyEntity(
+                new Name("bad dummy"),
+                this._unique,
+                this._combo0,
+                this._combo1
+            );
+
+            this._repo.Insert(this._e);
+            this._repo.Save();
+            this._altRepo.Insert(this._e);
+            this._altRepo.Save();
+            this._repo.BeginTransaction();
+
+            this._altRepo.Insert(badEntity);
+            this._repo.Insert(this._entities[0]);
+            Assert.Throws<ArgumentException>(
+                ()=>this._altRepo.EndTransaction());
+            Assert.IsNull(this._repo.TempData);
+            Assert.IsNull(this._altRepo.TempData);
+            Assert.AreEqual(1, this._repo.Saved.Count);
+            Assert.AreEqual(0, this._repo.Staged.Count);
+            this._assertEntitiesEqual(
+                this._e,
+                this._repo.Saved[this._e.Id]
+            );
+            Assert.AreEqual(1, this._altRepo.Saved.Count);
+            Assert.AreEqual(0, this._altRepo.Staged.Count);
+            this._assertEntitiesEqual(
+                this._e,
+                this._altRepo.Saved[this._e.Id]
+            );
+
+            this._repo.Insert(this._e);
+            this._repo.Save();
+            this._repo.BeginTransaction();
+            this._altRepo.EndTransaction();
+            this._repo.BeginTransaction();
+            Assert.Throws<ArgumentException>(
+                ()=>this._altRepo.BeginTransaction());
+        }
     }
 
     [TestFixture]
@@ -717,6 +913,8 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
         { get { return this._recycledRules; } }
         public string ClassName { get { return this._className; } }
         public Dictionary<string, EntityData> Data { get { return _data; } }
+        public Dictionary<string, EntityData> TempData
+        { get { return _tempData; } }
         public EntityData InstanceData { get { return _data[this._className];}}
     }
 
@@ -742,5 +940,8 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
         public W0List<Dictionary<W0Set<object>, int>> RecycledRules
         { get { return this._recycledRules; } }
         public string ClassName { get { return this._className; } }
+        public Dictionary<string, EntityData> Data { get { return _data; } }
+        public Dictionary<string, EntityData> TempData
+        { get { return _tempData; } }
     }
 }

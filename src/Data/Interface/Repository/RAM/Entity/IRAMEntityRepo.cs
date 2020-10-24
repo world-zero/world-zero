@@ -90,15 +90,12 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         public EntityData Clone()
         {
             var clone = new EntityData(this.RuleCount, this.Repo);
+
             foreach (KeyValuePair<object, object> p in this.Saved)
-            {
                 clone.Saved.Add(p.Key, p.Value);
-            }
 
             foreach (KeyValuePair<object, object> p in this.Staged)
-            {
                 clone.Staged.Add(p.Key, p.Value);
-            }
 
             for (int i = 0; i < this.RuleCount; i++)
             {
@@ -532,9 +529,6 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         // 3. An entity that is already staged is inserted with the same rule.
         // 4. See remarks.
         /// <remarks>
-        /// This method has undefined behavior if an entity is inserted, has
-        /// its name changed, and is then inserted again.
-        /// 
         /// This method will make sure that an entity with a set ID cannot be
         /// re-staged (for entities that do not have repo-supplied IDs). This
         /// will not detect re-staged rules.
@@ -807,8 +801,8 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
                 return;
             }
 
-            EntityData tempED = _data[this._className].Clone();
-            tempED.CleanStaged();
+            EntityData backupED = _data[this._className].Clone();
+            backupED.CleanStaged();
 
             try
             {
@@ -823,7 +817,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
             }
             catch (ArgumentException e)
             {
-                this._restoreSavedStates(tempED, e);
+                this._restoreSavedStates(backupED, e);
             }
             catch (InvalidCastException e)
             {
@@ -836,9 +830,9 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         /// states with a clean staged states. This will re-run FinalChecks()
         /// to ensure that the restored state is valid as well.
         /// </summary>
-        private void _restoreSavedStates(EntityData tempED, Exception exc)
+        private void _restoreSavedStates(EntityData backupED, Exception exc)
         {
-            _data[this._className] = tempED;
+            _data[this._className] = backupED;
             this.Discard();
             try
             { this.FinalChecks(); }
@@ -1034,11 +1028,8 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
             _tempData = null;
             try
             {
-                foreach (string className in _data.Keys)
-                {
-                    // TODO: loop through the dict and save everything.
-                    //      I may need to differentiate b/w nothing-to-save exceptions and bad-save exceptions
-                }
+                foreach (EntityData ed in _data.Values)
+                    ed.Repo.Save();
             }
             catch (ArgumentException e)
             {
