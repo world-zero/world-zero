@@ -532,6 +532,10 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         /// This method will make sure that an entity with a set ID cannot be
         /// re-staged (for entities that do not have repo-supplied IDs). This
         /// will not detect re-staged rules.
+        /// <br />
+        /// BUG: An entity with an already present ID (that doesn't have
+        /// repo-assigned IDs) that is inserted will not be caught, it will
+        /// just override the saved entiy.
         /// </remarks>
         public virtual void Insert(TEntity entity)
         {
