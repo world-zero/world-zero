@@ -9,7 +9,6 @@ using WorldZero.Data.Interface.Repository.Entity;
 //      like so no one can edit the status of a praxis w/o a praxis service class
 
 // General Functionality
-// DONE: make sure the status of the task/metatask are active
 // TODO: make sure participants are only completing metatasks they have access to
 // TODO: after a praxis is moved out of active and into retired, allocate the points
 //      have this be a method, but on what Praxis CRUD service class? U?
@@ -62,9 +61,17 @@ namespace WorldZero.Service.Registration.Entity
         }
 
         /// <summary>
-        /// Create the praxis and save it. This will ensure that the
-        /// praxis has a valid task ID and status ID.
+        /// Register the praxis and supplied participants.
         /// </summary>
+        /// <remarks>
+        /// A praxis can only be registered if it is Active or In Progress.
+        /// <br />
+        /// A praxis can only be registered if it has an Active task associated
+        /// with it.
+        /// <br />
+        /// A praxis can only be registered if it has an Active meta task
+        /// associated with it, if a meta task is supplied.
+        /// </remarks>
         public override Praxis Register(Praxis p)
         {
             this.AssertNotNull(p, "p");
