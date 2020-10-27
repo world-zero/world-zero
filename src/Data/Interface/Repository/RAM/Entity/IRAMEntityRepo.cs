@@ -8,6 +8,9 @@ using System;
 
 [assembly: InternalsVisibleTo("WorldZero.Test.Unit")]
 
+// It's not a terrible idea to refactor this and have Staged track the CRUD
+// type (create, update, delete) associated with the staged change.
+
 namespace WorldZero.Data.Interface.Repository.RAM.Entity
 {
     /// <summary>
@@ -544,7 +547,10 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
 
             TId newId = this.GenerateId(entity);
             if (this._staged.ContainsKey(newId))
-                throw new ArgumentException("An entity with an already staged ID was attempted to be inserted.");
+            {
+                if (this._staged[newId] !=  null)
+                    throw new ArgumentException("An entity with an already staged ID was attempted to be inserted.");
+            }
             this._staged[newId] = entity;
 
             var rules = entity.GetUniqueRules();

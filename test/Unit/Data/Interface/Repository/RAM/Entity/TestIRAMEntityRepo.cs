@@ -229,6 +229,27 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
         }
 
         [Test]
+        public void TestQuicklyReusingId()
+        {
+            this._repo.Insert(this._e);
+            this._repo.Save();
+            this._repo.Delete(this._e.Id);
+            this._repo.Insert(this._entities[0]);
+            this._repo.Save();
+        }
+
+        [Test]
+        public void TestSlowlyReusingId()
+        {
+            this._repo.Insert(this._e);
+            this._repo.Save();
+            this._repo.Delete(this._e.Id);
+            this._repo.Save();
+            this._repo.Insert(this._entities[0]);
+            this._repo.Save();
+        }
+
+        [Test]
         public void TestInsertSaveRules()
         {
             this._assertUniformRuleCounts(0);
