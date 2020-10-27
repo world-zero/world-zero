@@ -2,8 +2,11 @@ using System;
 using WorldZero.Common.Entity;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity;
+using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Data.Repository.RAM.Entity;
+using WorldZero.Data.Repository.RAM.Entity.Relation;
 using WorldZero.Service.Registration.Entity;
+using WorldZero.Service.Registration.Entity.Relation;
 using NUnit.Framework;
 
 namespace WorldZero.Test.Integration.Service.Registration.Entity
@@ -11,7 +14,10 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
     [TestFixture]
     public class TestPraxisReg
     {
+        private IPraxisParticipantRepo _ppRepo;
+        private ICharacterRepo _charRepo;
         private IPraxisRepo _praxisRepo;
+        private PraxisParticipantReg _ppReg;
         private ITaskRepo _taskRepo;
         private IStatusRepo _statusRepo;
         private PraxisReg _registration;
@@ -22,13 +28,21 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
         [SetUp]
         public void Setup()
         {
+            this._ppRepo = new RAMPraxisParticipantRepo();
+            this._charRepo = new RAMCharacterRepo();
             this._praxisRepo = new RAMPraxisRepo();
+            this._ppReg = new PraxisParticipantReg(
+                this._ppRepo,
+                this._praxisRepo,
+                this._charRepo
+            );
             this._taskRepo = new RAMTaskRepo();
             this._statusRepo = new RAMStatusRepo();
             this._registration = new PraxisReg(
                 this._praxisRepo,
                 this._taskRepo,
-                this._statusRepo
+                this._statusRepo,
+                this._ppReg
             );
             this._status0 = new Status(new Name("Active"));
             this._status1 = new Status(new Name("Retired"));
@@ -88,11 +102,13 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
                 ()=>new PraxisReg(
                     null,
                     null,
+                    null,
                     null)
             );
             Assert.Throws<ArgumentNullException>(
                 ()=>new PraxisReg(
                     this._praxisRepo,
+                    null,
                     null,
                     null)
             );
@@ -100,18 +116,28 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
                 ()=>new PraxisReg(
                     this._praxisRepo,
                     this._taskRepo,
-                    null)
+                    null,
+                    this._ppReg)
             );
             Assert.Throws<ArgumentNullException>(
                 ()=>new PraxisReg(
                     this._praxisRepo,
                     null,
-                    this._statusRepo)
+                    this._statusRepo,
+                    this._ppReg)
+            );
+            Assert.Throws<ArgumentNullException>(
+                ()=>new PraxisReg(
+                    this._praxisRepo,
+                    this._taskRepo,
+                    this._statusRepo,
+                    null)
             );
             new PraxisReg(
                 this._praxisRepo,
                 this._taskRepo,
-                this._statusRepo
+                this._statusRepo,
+                this._ppReg
             );
         }
     }

@@ -22,6 +22,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
         private RAMPraxisRepo _praxisRepo;
         private RAMPraxisParticipantRepo _ppRepo;
         private VoteReg _voteReg;
+        private PraxisParticipantReg _ppReg;
 
         [SetUp]
         public void Setup()
@@ -34,6 +35,11 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
             this._charRepo = new RAMCharacterRepo();
             this._praxisRepo = new RAMPraxisRepo();
             this._ppRepo = new RAMPraxisParticipantRepo();
+            this._ppReg = new PraxisParticipantReg(
+                this._ppRepo,
+                this._praxisRepo,
+                this._charRepo
+            );
             this._voteReg = new VoteReg(
                 this._voteRepo,
                 this._charRepo,
@@ -111,7 +117,8 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
             var praxisReg = new PraxisReg(
                 this._praxisRepo,
                 taskRepo,
-                statusRepo
+                statusRepo,
+                this._ppReg
             );
             praxisReg.Register(praxis);
 

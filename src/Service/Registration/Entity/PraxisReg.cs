@@ -1,4 +1,5 @@
 using System;
+using WorldZero.Service.Registration.Entity.Relation;
 using WorldZero.Service.Interface.Registration.Entity;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Entity;
@@ -14,18 +15,22 @@ namespace WorldZero.Service.Registration.Entity
 
         protected readonly ITaskRepo _taskRepo;
         protected readonly IStatusRepo _statusRepo;
+        protected readonly PraxisParticipantReg _ppReg;
 
         public PraxisReg(
             IPraxisRepo praxisRepo,
             ITaskRepo taskRepo,
-            IStatusRepo statusRepo
+            IStatusRepo statusRepo,
+            PraxisParticipantReg ppReg
         )
             : base(praxisRepo)
         {
             if (taskRepo == null) throw new ArgumentNullException("taskRepo");
             if (statusRepo == null) throw new ArgumentNullException("statusRepo");
+            if (ppReg == null) throw new ArgumentNullException("ppReg");
             this._taskRepo = taskRepo;
             this._statusRepo = statusRepo;
+            this._ppReg = ppReg;
         }
 
         /// <summary>
