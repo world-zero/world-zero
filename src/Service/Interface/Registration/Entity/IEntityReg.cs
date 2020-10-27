@@ -71,5 +71,15 @@ namespace WorldZero.Service.Interface.Registration.Entity
             if (o == null)
                 throw new ArgumentNullException(name);
         }
+
+        protected void EnsureExists(TEntity e)
+        {
+            try
+            {
+                this._repo.Insert(e);
+                this._repo.Save();
+            }
+            catch (ArgumentException) { }
+        }
     }
 }

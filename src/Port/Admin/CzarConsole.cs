@@ -81,49 +81,32 @@ namespace WorldZero.Port.Admin
         /// method assumes that there will be no conflicts with existing repo
         /// data, so it is highly recommended to only run this method with
         /// empty repositories.
-        ///
+        /// </summary>
+        /// <remarks>
+        /// This does not init all of the repos. Some data is initialized in
+        /// the registration classes themselves as they have increased
+        /// necessity via special logic, like flagging a task as inappropriate.
+        /// <br />
         /// WARNING; Due to this being a setup tool, it is not multi-threaded
         /// safe.
-        /// </summary>
+        /// </remarks>
         public void InitRepos()
         {
             this._eraReg.Register(new Name("The Beginning"));
 
-            // TODO: The plan is to move these into config files, but this
-            // works for now.
-            this._setupBaseStatuses();
             this._setupFlags();
             this._setupAbilitiesFactions();
         }
 
-        /// <remarks>
-        /// Do NOT change these, other things rely on these names to be as
-        /// they are.
-        /// </remarks>
-        private void _setupBaseStatuses()
-        {
-            this._statusReg.Register(
-                new Status(
-                    new Name("Pretired"),
-                    "This is generally only to be used by proposed tasks."));
-            this._statusReg.Register(new Status(new Name("Active")));
-            this._statusReg.Register(new Status(new Name("Retired")));
-            this._statusReg.Register(new Status(new Name("In Progress")));
-        }
-
         private void _setupFlags()
         {
-            this._FlagReg.Register(new Flag(new Name("Duplicate")));
-            this._FlagReg.Register(new Flag(new Name("Dangerous")));
-            this._FlagReg.Register(new Flag(
-                new Name("Inappropriate")));
-            this._FlagReg.Register(new Flag(new Name("Misogynistic")));
-            this._FlagReg.Register(new Flag(new Name("Racist")));
-            this._FlagReg.Register(new Flag(new Name("Homophobic")));
-            this._FlagReg.Register(new Flag(new Name("Transphobic")));
-            this._FlagReg.Register(new Flag(new Name("LGBT+ -phobic")));
-            this._FlagReg.Register(new Flag(new Name("Classist")));
-            this._FlagReg.Register(new Flag(new Name("Fatphobic")));
+            new Flag(new Name("Misogynistic"));
+            new Flag(new Name("Racist"));
+            new Flag(new Name("Homophobic"));
+            new Flag(new Name("Transphobic"));
+            new Flag(new Name("LGBT+ -phobic"));
+            new Flag(new Name("Classist"));
+            new Flag(new Name("Fatphobic"));
         }
 
         /// <remarks>
