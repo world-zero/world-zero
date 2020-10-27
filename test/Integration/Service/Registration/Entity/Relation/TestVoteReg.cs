@@ -114,9 +114,11 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
             taskReg.Register(task);
 
             var praxis = new Praxis(task.Id, status.Id);
+            var mtRepo = new RAMMetaTaskRepo();
             var praxisReg = new PraxisReg(
                 this._praxisRepo,
                 taskRepo,
+                mtRepo,
                 statusRepo,
                 this._ppReg
             );

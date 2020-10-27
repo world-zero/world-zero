@@ -19,6 +19,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
         private IPraxisRepo _praxisRepo;
         private PraxisParticipantReg _ppReg;
         private ITaskRepo _taskRepo;
+        private IMetaTaskRepo _mtRepo;
         private IStatusRepo _statusRepo;
         private PraxisReg _registration;
         private Status _status0;
@@ -37,15 +38,17 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
                 this._charRepo
             );
             this._taskRepo = new RAMTaskRepo();
+            this._mtRepo = new RAMMetaTaskRepo();
             this._statusRepo = new RAMStatusRepo();
             this._registration = new PraxisReg(
                 this._praxisRepo,
                 this._taskRepo,
+                this._mtRepo,
                 this._statusRepo,
                 this._ppReg
             );
-            this._status0 = new Status(new Name("Active"));
-            this._status1 = new Status(new Name("Retired"));
+            this._status0 = StatusReg.Active;
+            this._status1 = StatusReg.Retired;
             this._statusRepo.Insert(this._status0);
             this._statusRepo.Insert(this._status1);
             this._statusRepo.Save();
@@ -67,9 +70,27 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
         }
 
         [Test]
-        public void TestRegisterHappy()
+        public void TestRegisterHappyWith()
         {
             var p = new Praxis(this._task0.Id, this._status0.Id);
+            Assert.IsFalse(p.IsIdSet());
+            this._registration.Register(p);
+            Assert.IsTrue(p.IsIdSet());
+            Assert.IsNotNull(this._praxisRepo.GetById(p.Id));
+        }
+
+        [Test]
+        public void TestRegisterHappyWithMetaTask()
+        {
+            var mt =
+                new MetaTask(new Name("x"), StatusReg.Active.Id, "x", 2);
+            this._mtRepo.Insert(mt);
+            this._mtRepo.Save();
+            var p = new Praxis(
+                this._task0.Id,
+                StatusReg.InProgress.Id,
+                mt.Id
+            );
             Assert.IsFalse(p.IsIdSet());
             this._registration.Register(p);
             Assert.IsTrue(p.IsIdSet());
@@ -93,6 +114,18 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
             Assert.Throws<ArgumentException>(
                 ()=>this._registration.Register(p)
             );
+
+            var mt = new MetaTask(new Name("x"), new Name("faaake"), "x", 2);
+            this._mtRepo.Insert(mt);
+            this._mtRepo.Save();
+            p = new Praxis(
+                this._task0.Id,
+                StatusReg.Active.Id,
+                mt.Id
+            );
+            Assert.Throws<ArgumentException>(
+                ()=>this._registration.Register(p)
+            );
         }
 
         [Test]
@@ -101,27 +134,23 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
             Assert.Throws<ArgumentNullException>(
                 ()=>new PraxisReg(
                     null,
-                    null,
-                    null,
-                    null)
-            );
-            Assert.Throws<ArgumentNullException>(
-                ()=>new PraxisReg(
-                    this._praxisRepo,
-                    null,
-                    null,
-                    null)
-            );
-            Assert.Throws<ArgumentNullException>(
-                ()=>new PraxisReg(
-                    this._praxisRepo,
                     this._taskRepo,
-                    null,
+                    this._mtRepo,
+                    this._statusRepo,
                     this._ppReg)
             );
             Assert.Throws<ArgumentNullException>(
                 ()=>new PraxisReg(
                     this._praxisRepo,
+                    null,
+                    this._mtRepo,
+                    this._statusRepo,
+                    this._ppReg)
+            );
+            Assert.Throws<ArgumentNullException>(
+                ()=>new PraxisReg(
+                    this._praxisRepo,
+                    this._taskRepo,
                     null,
                     this._statusRepo,
                     this._ppReg)
@@ -130,12 +159,22 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
                 ()=>new PraxisReg(
                     this._praxisRepo,
                     this._taskRepo,
+                    this._mtRepo,
+                    null,
+                    this._ppReg)
+            );
+            Assert.Throws<ArgumentNullException>(
+                ()=>new PraxisReg(
+                    this._praxisRepo,
+                    this._taskRepo,
+                    this._mtRepo,
                     this._statusRepo,
                     null)
             );
             new PraxisReg(
                 this._praxisRepo,
                 this._taskRepo,
+                this._mtRepo,
                 this._statusRepo,
                 this._ppReg
             );
