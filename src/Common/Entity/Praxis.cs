@@ -13,32 +13,52 @@ namespace WorldZero.Common.Entity
     /// </remarks>
     public class Praxis : IIdEntity
     {
-        public Praxis(Id taskId, Name statusId, bool areDueling=false)
+        public Praxis(
+            Id taskId,
+            Name statusId,
+            Id metaTaskId=null,
+            bool areDueling=false
+        )
             : base()
         {
             this._setup(
                 taskId,
                 statusId,
+                metaTaskId,
                 areDueling
             );
         }
 
-        public Praxis(Id id, Id taskId, Name statusId, bool areDueling=false)
+        public Praxis(
+            Id id,
+            Id taskId,
+            Name statusId,
+            Id metaTaskId=null,
+            bool areDueling=false
+        )
             : base(id)
         {
             this._setup(
                 taskId,
                 statusId,
+                metaTaskId,
                 areDueling
             );
         }
 
-        internal Praxis(int id, int taskId, string statusId, bool areDueling)
+        internal Praxis(
+            int id,
+            int taskId,
+            string statusId,
+            int metaTaskId,
+            bool areDueling
+        )
             : base(new Id(id))
         {
             this._setup(
                 new Id(taskId),
                 new Name(statusId),
+                new Id(metaTaskId),
                 areDueling
             );
         }
@@ -49,14 +69,16 @@ namespace WorldZero.Common.Entity
                 this.Id,
                 this.TaskId,
                 this.StatusId,
+                this.MetaTaskId,
                 this.AreDueling
             );
         }
 
-        private void _setup(Id taskId, Name statusId, bool areDueling)
+        private void _setup(Id taskId, Name statusId, Id metaTaskId, bool areDueling)
         {
             this.TaskId = taskId;
             this.StatusId = statusId;
+            this.MetaTaskId = metaTaskId;
             this.AreDueling = areDueling;
         }
 
@@ -72,8 +94,6 @@ namespace WorldZero.Common.Entity
         }
         private Id _taskId;
 
-        public bool AreDueling { get; set; }
-
         public Name StatusId
         {
             get { return this._statusId; }
@@ -86,5 +106,8 @@ namespace WorldZero.Common.Entity
             }
         }
         private Name _statusId;
+
+        public Id MetaTaskId { get; set; }
+        public bool AreDueling { get; set; }
     }
 }

@@ -11,6 +11,7 @@ namespace WorldZero.Test.Unit.Common.Entity
         private Id _praxisId;
         private Id _taskId;
         private Name _statusId;
+        private Id _metaTaskId;
         private bool _areDueling;
         private Praxis _p;
 
@@ -19,6 +20,7 @@ namespace WorldZero.Test.Unit.Common.Entity
         {
             this._praxisId = new Id(19999);
             this._taskId = new Id(939);
+            this._metaTaskId = new Id(666);
             this._statusId = new Name("valid");
             this._areDueling = true;
 
@@ -26,6 +28,7 @@ namespace WorldZero.Test.Unit.Common.Entity
                 this._praxisId,
                 this._taskId,
                 this._statusId,
+                this._metaTaskId,
                 this._areDueling
             );
         }
@@ -36,6 +39,7 @@ namespace WorldZero.Test.Unit.Common.Entity
             Assert.AreEqual(this._praxisId, this._p.Id);
             Assert.AreEqual(this._taskId, this._p.TaskId);
             Assert.AreEqual(this._statusId, this._p.StatusId);
+            Assert.AreEqual(this._metaTaskId, this._p.MetaTaskId);
             Assert.AreEqual(this._areDueling, this._p.AreDueling);
         }
 
