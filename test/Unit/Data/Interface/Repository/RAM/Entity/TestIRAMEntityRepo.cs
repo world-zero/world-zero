@@ -629,10 +629,6 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
             Assert.AreNotEqual(this._repo.TempData, this._repo.Data);
             Assert.AreNotEqual(this._altRepo.TempData, this._altRepo.Data);
             Assert.Throws<ArgumentException>(
-                ()=>this._repo.Save());
-            Assert.Throws<ArgumentException>(
-                ()=>this._altRepo.Save());
-            Assert.Throws<ArgumentException>(
                 ()=>this._repo.BeginTransaction());
             Assert.Throws<ArgumentException>(
                 ()=>this._altRepo.BeginTransaction());

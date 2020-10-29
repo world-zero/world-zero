@@ -21,6 +21,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
         private RAMCharacterRepo _charRepo;
         private RAMPraxisRepo _praxisRepo;
         private RAMPraxisParticipantRepo _ppRepo;
+        private RAMMetaTaskRepo _mtRepo;
         private VoteReg _voteReg;
         private PraxisParticipantReg _ppReg;
 
@@ -34,11 +35,13 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
             this._voteRepo = new RAMVoteRepo();
             this._charRepo = new RAMCharacterRepo();
             this._praxisRepo = new RAMPraxisRepo();
+            this._mtRepo = new RAMMetaTaskRepo();
             this._ppRepo = new RAMPraxisParticipantRepo();
             this._ppReg = new PraxisParticipantReg(
                 this._ppRepo,
                 this._praxisRepo,
-                this._charRepo
+                this._charRepo,
+                this._mtRepo
             );
             this._voteReg = new VoteReg(
                 this._voteRepo,
@@ -122,15 +125,8 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
                 statusRepo,
                 this._ppReg
             );
-            praxisReg.Register(praxis);
-
-            var pp = new PraxisParticipant(praxis.Id, character.Id);
-            var ppReg = new PraxisParticipantReg(
-                this._ppRepo,
-                this._praxisRepo,
-                this._charRepo
-            );
-            ppReg.Register(pp);
+            var pp = new PraxisParticipant(character.Id);
+            praxisReg.Register(praxis, pp);
 
             v.PraxisId = praxis.Id;
             Assert.Throws<ArgumentException>(()=>this._voteReg.Register(v));
