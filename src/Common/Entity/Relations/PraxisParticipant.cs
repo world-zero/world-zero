@@ -9,15 +9,40 @@ namespace WorldZero.Common.Entity.Relation
     /// This relation maps a character's ID to a praxis, allowing for multiple
     /// characters to participate on a single praxis.
     /// </summary>
+    /// <remarks>
+    /// Since a relation requires a left and right ID to be set on
+    /// initialization, `PraxisId` will default to a `new Id(0)` when supplied
+    /// with null. Similarly, if `LeftId` contains `new Id(0)`, `PraxisId` will
+    /// return null. This will not apply to `LeftId`, it will contain
+    /// `new Id(0)` like normal.
+    /// </remarks>
     public class PraxisParticipant : IIdIdCntRelation
     {
         /// <summary>
         /// PraxisId wraps LeftId, which is the ID of the related Praxis.
         /// </summary>
+        /// <remarks>
+        /// Since a relation requires a left and right ID to be set on
+        /// initialization, `PraxisId` will default to a `new Id(0)` when
+        /// supplied with null. Similarly, if `LeftId` contains `new Id(0)`,
+        /// `PraxisId` will return null. This will not apply to `LeftId`, it
+        /// will contain `new Id(0)` like normal.
+        /// </remarks>
         public Id PraxisId
         {
-            get { return this.LeftId; }
-            set { this.LeftId = value; }
+            get
+            {
+                if (this.LeftId == new Id(0))
+                    return null;
+                return this.LeftId;
+            }
+            set
+            {
+                if (value == null)
+                    this.LeftId = new Id(0);
+                else
+                    this.LeftId = value;
+            }
         }
 
         /// <summary>
@@ -28,6 +53,10 @@ namespace WorldZero.Common.Entity.Relation
             get { return this.RightId; }
             set { this.RightId = value; }
         }
+
+        public PraxisParticipant(Id characterId, int count=1)
+            : base(new Id(0), characterId, count)
+        { }
 
         public PraxisParticipant(Id praxisId, Id characterId, int count=1)
             : base(praxisId, characterId, count)
