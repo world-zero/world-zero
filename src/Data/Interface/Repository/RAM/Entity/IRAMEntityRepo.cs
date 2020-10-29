@@ -259,10 +259,14 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
     /// <inheritdoc cref="IEntityRepo"/>
     /// <summary>
     /// As the name suggests, this repo holds the entities in static memory,
-    /// with absolutely no persistence. The supplied and returned entities are deep
-    /// copies to those that are saved and staged.
+    /// with absolutely no persistence.
     /// </summary>
     /// <remarks>
+    /// THIS DEV-TOOL IS NOT MULTI-THREAD SAFE.
+    /// <br/>
+    /// The supplied and returned entities are deep copies to those that are
+    /// saved and staged.
+    /// <br/>
     /// This repo will enforce any rules defined by `IEntity.GetUniqueRules()`.
     /// <br/>
     /// In an effort to be similar to a database-connecting repo, this is only
@@ -791,9 +795,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
 
         /// <summary>
         /// This will save the staged entities. In the case of repo-generated
-        /// IDs, the reference will have its ID set then. This will not work
-        /// if a transaction is active, it will need to be ended via
-        /// `EndTransaction`.
+        /// IDs, the reference will have its ID set then..
         /// </summary>
         /// <remarks>
         /// Yeah this is super inefficient in order to emulate how DB errors
@@ -801,8 +803,6 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         /// </remarks>
         public override void Save()
         {
-            if (_tempData != null)
-                throw new ArgumentException("There is a transaction active, save via EndTransaction().");
             if (   (this._staged.Count == 0)
                 && (this._stagedRules.Count == 0)
                 && (this._recycledRules.Count == 0)   )
@@ -1015,7 +1015,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
             return old;
         }
 
-        public void BeginTransaction()
+        public void BeginTransaction(bool serializeLock=false)
         {
             if (_tempData != null)
                 throw new ArgumentException("There is already an active transaction.");

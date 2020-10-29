@@ -29,10 +29,25 @@ namespace WorldZero.Data.Interface.Repository.Entity
         /// <summary>
         /// This will create a transaction between all repositories.
         /// </summary>
+        /// <param name="serialize">
+        /// If true, the transaction should act like
+        /// `SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;` was entered just
+        /// before the transaction was begun. This will ensure that:
+        /// <br />
+        /// - Statements cannot read data that has been modified but not yet
+        /// committed by other transactions.
+        /// <br />
+        /// - No other transactions can modify data that has been read by the
+        /// current transaction until the current transaction completes.
+        /// <br />
+        /// - Other transactions cannot insert new rows with key values that
+        /// would fall in the range of keys read by any statements in the
+        /// current transaction until the current transaction completes.
+        /// </param>
         /// <exception cref="ArgumentException">
         /// This is thrown if there is already an active transaction.
         /// </exception>
-        void BeginTransaction();
+        void BeginTransaction(bool serialize=false);
 
         /// <summary>
         /// This will end a transaction and save. The end of a transaction will
