@@ -16,9 +16,6 @@ using WorldZero.Data.Interface.Repository.Entity;
 // General Functionality
 // TODO: after a praxis is moved out of active and into retired, allocate the points
 //      have this be a method, but on what Praxis CRUD service class? U?
-// TODO: A character cannot submit a praxis for a task that is more than 2 levels greater than their level (level 2 can submit for level 4, but not level 5)
-//      Characters need to be able to set a praxis as in-progress, and that the level rule is
-//      performed AT THAT TIME ONLY.
 // TODO: Make sure AreDueling is reasonable - make sure this check is applied on post-user-adds/-deletes via PraxisParticipantReg.Register()
 
 // Era Magic Numbers
@@ -31,6 +28,16 @@ using WorldZero.Data.Interface.Repository.Entity;
 //      Have the Reiterator-skill's max submission count live on Era too
 // TODO: if a praxis is flagged as inappropriate, remove some of the base points; make this be a number/bool, like MetaTask; add to magic numbers ticket
 //      naturally, throw onto era somehow
+// TODO: A character cannot submit a praxis for a task that is more than 2 levels greater than their level (level 2 can submit for level 4, but not level 5)
+//      Characters need to be able to set a praxis as in-progress, and that the level rule is
+//      performed AT THAT TIME ONLY.
+//      This should be done on praxis participant. Naturally, we want to have this level difference exist on an era
+//      I have included the addition to PraxisParticipantReg's remarks below.
+    /// <br />
+    /// The character's level versus the task's level is computed here, as they
+    /// register with / on a praxis. This will allow someone to register as in
+    /// progress for a praxis and still be able to complete it after an era
+    /// rolls over.
 
 namespace WorldZero.Service.Registration.Entity
 {

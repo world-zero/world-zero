@@ -85,7 +85,8 @@ namespace WorldZero.Service.Registration.Entity.Relation
             Character c;
             try
             {
-                return c = this._characterRepo.GetById(pp.CharacterId);
+                c = this._characterRepo.GetById(pp.CharacterId);
+                return c;
             }
             catch (ArgumentException)
             { throw new ArgumentException($"CharacterParticipant of ID {pp.Id.Get} has an invalid character ID of {pp.CharacterId.Get}."); }
