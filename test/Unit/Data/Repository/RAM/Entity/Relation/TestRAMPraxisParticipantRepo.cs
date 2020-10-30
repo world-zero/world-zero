@@ -81,5 +81,21 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Relation
             Assert.IsTrue(this._repo.ParticipantCheck(
                 this._pp0.PraxisId, this._pp0.CharacterId));
         }
+
+        [Test]
+        public void TestGetParticipantCount()
+        {
+            Assert.AreEqual(0, this._repo.GetParticipantCount(this._pId0));
+
+            this._repo.Insert(this._pp0);
+            Assert.AreEqual(0, this._repo.GetParticipantCount(this._pId0));
+            this._repo.Save();
+            Assert.AreEqual(1, this._repo.GetParticipantCount(this._pId0));
+
+            this._repo.Insert(this._pp1);
+            Assert.AreEqual(1, this._repo.GetParticipantCount(this._pId0));
+            this._repo.Save();
+            Assert.AreEqual(2, this._repo.GetParticipantCount(this._pId0));
+        }
     }
 }

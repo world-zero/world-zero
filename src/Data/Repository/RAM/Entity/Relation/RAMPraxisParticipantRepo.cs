@@ -1,4 +1,3 @@
-using System.Collections;
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -58,6 +57,20 @@ namespace WorldZero.Data.Repository.RAM.Entity.Relation
                 return false;
 
             return true;
+        }
+        
+        public int GetParticipantCount(Id praxisId)
+        {
+            if (praxisId == null)
+                throw new ArgumentNullException("praxisId");
+
+            IEnumerable<PraxisParticipant> participants =
+                from ppTemp in this._saved.Values
+                let pp = this.TEntityCast(ppTemp)
+                where pp.PraxisId == praxisId
+                select pp;
+
+            return participants.Count();
         }
 
         protected override int GetRuleCount()
