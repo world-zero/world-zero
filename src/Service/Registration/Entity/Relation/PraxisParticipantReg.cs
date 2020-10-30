@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using WorldZero.Service.Interface.Registration.Entity;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Relation;
@@ -10,10 +11,14 @@ using WorldZero.Data.Interface.Repository.Entity.Relation;
 namespace WorldZero.Service.Registration.Entity.Relation
 {
     /// <remarks>
+    /// A Praxis should always have at least one participant.
+    /// <br />
     /// This will not ensure that one Player is having several of their
     /// characters participating on the same praxis.
     /// <br />
-    /// A Praxis should always have at least one participant.
+    /// When furthering development, be mindful about how PraxisReg needs a
+    /// participant - both PraxisReg and PraxisParticipantReg rely on this
+    /// fact.
     /// </remarks>
     public class PraxisParticipantReg
         : IEntityRelationReg
@@ -58,6 +63,21 @@ namespace WorldZero.Service.Registration.Entity.Relation
             Character c = this._verifyCharacter(pp);
             MetaTask mt = this._getMetaTask(p);
             this._verifyFaction(c, mt);
+            if (p.AreDueling)
+            {
+                // If there's no participants, then we know this is being
+                // called in tandem with PraxisReg.Register(), since that will
+                // not let a Praxis be registered without a participant, and
+                // that a praxis should never exist without any participants
+                // outside of that time. We can savely register this pp because
+                // PraxisReg would not allow a dueling praxis to be registered
+                // if it had the incorrect number of participants.
+
+                int ppCount =
+                    this._praxisParticipantRepo.GetParticipantCount(p.Id);
+                if (ppCount >= 2)
+                    throw new ArgumentException($"The associated praxis is set to dueling, which only allows for 2 participants, not {ppCount}.");
+            }
             return base.Register(pp);
         }
 
@@ -89,7 +109,7 @@ namespace WorldZero.Service.Registration.Entity.Relation
                 return c;
             }
             catch (ArgumentException)
-            { throw new ArgumentException($"CharacterParticipant of ID {pp.Id.Get} has an invalid character ID of {pp.CharacterId.Get}."); }
+            { throw new ArgumentException($"PraxisParticipant of ID {pp.Id.Get} has an invalid character ID of {pp.CharacterId.Get}."); }
         }
 
         private void _verifyFaction(Character c, MetaTask mt)

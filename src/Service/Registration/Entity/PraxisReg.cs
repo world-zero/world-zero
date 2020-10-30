@@ -15,8 +15,7 @@ using WorldZero.Data.Interface.Repository.Entity;
 
 // General Functionality
 // TODO: after a praxis is moved out of active and into retired, allocate the points
-//      have this be a method, but on what Praxis CRUD service class? U?
-// TODO: Make sure AreDueling is reasonable - make sure this check is applied on post-user-adds/-deletes via PraxisParticipantReg.Register()
+//      This should live on the PraxisUpdate service class
 
 // Era Magic Numbers
 // So they need to live on era, obviously. But how do I want to access them?
@@ -45,6 +44,10 @@ namespace WorldZero.Service.Registration.Entity
     /// Register the praxis and supplied participants.
     /// </summary>
     /// <remarks>
+    /// When furthering development, be mindful about how Praxis needs a
+    /// participant - both PraxisReg and PraxisParticipantReg really
+    /// rely on this fact.
+    /// <br />
     /// A praxis can only be registered if it is Active or In Progress.
     /// <br />
     /// A praxis can only be registered if it has an Active task associated
@@ -54,6 +57,10 @@ namespace WorldZero.Service.Registration.Entity
     /// associated with it, if a meta task is supplied.
     /// <br />
     /// A praxis participant can only be registered if it's `PraxisId` is null.
+    /// <br />
+    /// When furthering development, be mindful about how PraxisReg needs a
+    /// participant - both PraxisReg and PraxisParticipantReg rely on this
+    /// fact.
     /// </remarks>
     public class PraxisReg
         : IEntityReg<Praxis, Id, int>
@@ -97,6 +104,7 @@ namespace WorldZero.Service.Registration.Entity
 
         public Praxis Register(Praxis p, PraxisParticipant pp)
         {
+            this.AssertNotNull(pp, "pp");
             var pps = new List<PraxisParticipant>();
             pps.Add(pp);
             return this.Register(p, pps);
@@ -106,9 +114,11 @@ namespace WorldZero.Service.Registration.Entity
         {
             this.AssertNotNull(p, "p");
             this.AssertNotNull(pps, "pps");
+            this._verifyStatus(p);
             if (pps.Count == 0) 
                 throw new ArgumentException("pps contains no praxis participants.");
-            this._verifyStatus(p);
+            if ( (p.AreDueling) && (pps.Count != 2)  )
+                throw new ArgumentException("The praxis thinks the participants are dueling but there are not two participants exactly.");
 
             foreach (PraxisParticipant pp in pps)
             {
@@ -127,15 +137,14 @@ namespace WorldZero.Service.Registration.Entity
                     pp.PraxisId = p.Id;
                     this._ppReg.Register(pp);
                 }
+                this._praxisRepo.EndTransaction();
+                return p;
             }
             catch (ArgumentException e)
             {
                 this._praxisRepo.DiscardTransaction();
                 throw new ArgumentException("An error occurred during praxis registration, discarding praxis / participant(s) registration.", e);
             }
-            this._praxisRepo.EndTransaction();
-
-            return p;
         }
 
         private void _verifyStatus(Praxis p)

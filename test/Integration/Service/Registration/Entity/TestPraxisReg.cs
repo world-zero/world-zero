@@ -214,6 +214,19 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
         }
 
         [Test]
+        public void TestRegisterEnsureDiscardIsUsedOnPPRegFailure()
+        {
+            int expected = this._ppRepo.Saved.Count;
+
+            var ppBad = new PraxisParticipant(new Id(666));
+            this._pps.Add(ppBad);
+            Assert.Throws<ArgumentException>(
+                ()=>this._registration.Register(this._p, this._pps));
+
+            Assert.AreEqual(expected, this._ppRepo.Saved.Count);
+        }
+
+        [Test]
         public void TestConstructor()
         {
             Assert.Throws<ArgumentNullException>(
