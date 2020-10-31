@@ -23,9 +23,12 @@ using WorldZero.Data.Interface.Repository.Entity;
 //
 // TODO: A character can only have 20 being-voted-on / in-progress praxises at a time.
 //      Have this be static and controlled by era; add the member name to that ticket
+//      PraxisParticipantUpdate will need to be in charge of checking this as well as PPReg
 // TODO: Normally, characters can only complete a task once (have this be a static field controlled by Era)
 //      Have the Reiterator-skill's max submission count live on Era too
-// TODO: if a praxis is flagged as inappropriate, remove some of the base points; make this be a number/bool, like MetaTask; add to magic numbers ticket
+// TODO: if a praxis is flagged as inappropriate, remove some of the base points
+//      adjust Flag to have a number/bool, like MetaTask's bonus
+//      add to magic numbers ticket
 //      naturally, throw onto era somehow
 // TODO: A character cannot submit a praxis for a task that is more than 2 levels greater than their level (level 2 can submit for level 4, but not level 5)
 //      Characters need to be able to set a praxis as in-progress, and that the level rule is
