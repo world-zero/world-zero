@@ -72,5 +72,10 @@ namespace WorldZero.Data.Interface.Repository.Entity
         /// that existed just before the transaction was started.
         /// </remarks>
         void DiscardTransaction();
+
+        /// <summary>
+        /// This return true iff a transaction is actve.
+        /// </summary>
+        bool IsTransactionActive();
     }
 }

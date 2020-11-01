@@ -1017,7 +1017,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
 
         public void BeginTransaction(bool serializeLock=false)
         {
-            if (_tempData != null)
+            if (this.IsTransactionActive())
                 throw new ArgumentException("There is already an active transaction.");
 
             _tempData = new Dictionary<string, EntityData>();
@@ -1031,7 +1031,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         /// </remarks>
         public void EndTransaction()
         {
-            if (_tempData == null)
+            if (!this.IsTransactionActive())
                 throw new ArgumentException("There is no active transaction.");
 
             var tempData = _tempData;
@@ -1051,13 +1051,20 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
 
         public void DiscardTransaction()
         {
-            if (_tempData == null)
+            if (!this.IsTransactionActive())
                 return;
 
             // We don't actually need to make a deep copy since we're just
             // scrubbing out the old version anyways.
             _data = _tempData;
             _tempData = null;
+        }
+
+        public bool IsTransactionActive()
+        {
+            if (_tempData == null)
+                return false;
+            return true;
         }
     }
 }

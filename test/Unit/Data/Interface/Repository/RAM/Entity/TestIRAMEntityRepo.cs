@@ -787,6 +787,24 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
             Assert.Throws<ArgumentException>(
                 ()=>this._altRepo.BeginTransaction());
         }
+
+        [Test]
+        public void TestIsTransactionActive()
+        {
+            Assert.IsFalse(this._repo.IsTransactionActive());
+
+            this._repo.BeginTransaction();
+            Assert.IsTrue(this._repo.IsTransactionActive());
+
+            this._repo.DiscardTransaction();
+            Assert.IsFalse(this._repo.IsTransactionActive());
+
+            this._repo.BeginTransaction();
+            Assert.IsTrue(this._repo.IsTransactionActive());
+
+            this._repo.EndTransaction();
+            Assert.IsFalse(this._repo.IsTransactionActive());
+        }
     }
 
     [TestFixture]
