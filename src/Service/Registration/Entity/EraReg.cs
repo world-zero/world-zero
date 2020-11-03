@@ -50,7 +50,7 @@ namespace WorldZero.Service.Registration.Entity
             this.AssertNotNull(newEra, "newEra");
             var now = new PastDate(DateTime.UtcNow);
 
-            this._eraRepo.BeginTransaction();
+            this._eraRepo.BeginTransaction(true);
             Era old = this._eraRepo.GetActiveEra();
             if (old != null)
             {
@@ -75,6 +75,15 @@ namespace WorldZero.Service.Registration.Entity
             return this.Register(
                 new Era(newEraName, new PastDate(DateTime.UtcNow))
             );
+        }
+
+        /// <summary>
+        /// Return the current era. For more, <see
+        /// cref="WorldZero.Data.Interface.Repository.Entity.IEraRepo.GetActiveEra()"/>.
+        /// </summary>
+        public Era GetActiveEra()
+        {
+            return this._eraRepo.GetActiveEra();
         }
     }
 }

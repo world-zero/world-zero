@@ -121,6 +121,9 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
             var taskReg = new TaskReg(taskRepo);
             taskReg.Register(task);
 
+            var eraRepo = new RAMEraRepo();
+            var eraReg = new EraReg(eraRepo);
+
             var praxis = new Praxis(task.Id, status.Id);
             var mtRepo = new RAMMetaTaskRepo();
             var praxisReg = new PraxisReg(
@@ -128,7 +131,8 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
                 taskRepo,
                 mtRepo,
                 statusRepo,
-                this._ppReg
+                this._ppReg,
+                eraReg
             );
             var pp = new PraxisParticipant(character.Id);
             praxisReg.Register(praxis, pp);

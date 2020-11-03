@@ -21,7 +21,8 @@ namespace WorldZero.Data.Interface.Repository.Entity
     {
         /// <summary>
         /// Return the active era. If there is no active era, this returns
-        /// null. The current era must be saved to be considered active.
+        /// null. The current era must be saved to be considered active. This
+        /// will not create a serialized transaction.
         /// </summary>
         Era GetActiveEra();
     }

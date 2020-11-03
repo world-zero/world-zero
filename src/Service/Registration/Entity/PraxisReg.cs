@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using WorldZero.Service.Registration.Entity.Relation;
@@ -19,7 +18,7 @@ using WorldZero.Data.Interface.Repository.Entity;
 //      This should live on the PraxisUpdate service class
 
 // Era Magic Numbers
-// So they need to live on era, obviously. But how do I want to access them?
+// WIP: So they need to live on era, obviously. But how do I want to access them?
 //      Static properties of EraReg that gets them from the latest instance?
 //      use EraReg.GetActiveEra() (maybe rename to EraReg.ActiveEra) and if no era exists during init, create a basic era
 //
@@ -77,13 +76,15 @@ namespace WorldZero.Service.Registration.Entity
         protected readonly IMetaTaskRepo _mtRepo;
         protected readonly IStatusRepo _statusRepo;
         protected readonly PraxisParticipantReg _ppReg;
+        protected readonly EraReg _eraReg;
 
         public PraxisReg(
             IPraxisRepo praxisRepo,
             ITaskRepo taskRepo,
             IMetaTaskRepo mtRepo,
             IStatusRepo statusRepo,
-            PraxisParticipantReg ppReg
+            PraxisParticipantReg ppReg,
+            EraReg eraReg
         )
             : base(praxisRepo)
         {
@@ -91,10 +92,12 @@ namespace WorldZero.Service.Registration.Entity
             if (mtRepo == null) throw new ArgumentNullException("mtRepo");
             if (statusRepo == null) throw new ArgumentNullException("statusRepo");
             if (ppReg == null) throw new ArgumentNullException("ppReg");
+            if (eraReg == null) throw new ArgumentNullException("eraReg");
             this._statusRepo = statusRepo;
             this._taskRepo = taskRepo;
             this._mtRepo = mtRepo;
             this._ppReg = ppReg;
+            this._eraReg = eraReg;
         }
 
         /// <summary>
