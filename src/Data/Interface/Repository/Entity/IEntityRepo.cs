@@ -27,7 +27,8 @@ namespace WorldZero.Data.Interface.Repository.Entity
         void CleanAll();
 
         /// <summary>
-        /// This will create a transaction between all repositories.
+        /// This will create a transaction between all repositories, allowing
+        /// for nested transactions as described by the MS SQL Server docs.
         /// </summary>
         /// <param name="serialize">
         /// If true, the transaction should act like
@@ -44,9 +45,6 @@ namespace WorldZero.Data.Interface.Repository.Entity
         /// would fall in the range of keys read by any statements in the
         /// current transaction until the current transaction completes.
         /// </param>
-        /// <exception cref="ArgumentException">
-        /// This is thrown if there is already an active transaction.
-        /// </exception>
         void BeginTransaction(bool serialize=false);
 
         /// <summary>
@@ -56,6 +54,9 @@ namespace WorldZero.Data.Interface.Repository.Entity
         /// <remarks>
         /// A database repository with different connections will not be able
         /// to save changes between the connections.
+        /// <br />
+        /// Per MS SQL Server docs, this will not end the entire transaction or
+        /// commit the transaction iff it is nested within another transaction.
         /// </remarks>
         /// <exception cref="ArgumentException">
         /// This is thrown if an error occurs during the transaction's save.
@@ -70,6 +71,10 @@ namespace WorldZero.Data.Interface.Repository.Entity
         /// <remarks>
         /// This will include reverting back to the saved and staged states
         /// that existed just before the transaction was started.
+        /// <br />
+        /// This will discard the entire transaction, even if the call occurs
+        /// from within a nested transaction. This is done to mimic the MS SQL
+        /// Server documentation surrounding ROLLBACK.
         /// </remarks>
         void DiscardTransaction();
 

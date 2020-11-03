@@ -51,6 +51,9 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         /// This will clean an instance to the default state, containing no
         /// state data outside of the rule count.
         /// </summary>
+        /// <remarks>
+        /// This will not change TxnDepth.
+        /// </remarks>
         public void Clean()
         {
             this.Saved = new Dictionary<object, object>();
@@ -64,6 +67,9 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         /// <summary>
         /// This will clean out an instance's staged and recycled data.
         /// </summary>
+        /// <remarks>
+        /// This will not change TxnDepth.
+        /// </remarks>
         public void CleanStaged()
         {
             this.Staged = new Dictionary<object, object>();
@@ -235,6 +241,18 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         /// `null` when there is no transaction occurring.
         /// </summary>
         protected static Dictionary<string, EntityData> _tempData = null;
+
+        protected static int _txnDepth
+        {
+            get { return _txnDepthPrivate; }
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentException("TxnDepth cannot be negative.");
+                _txnDepthPrivate = value;
+            }
+        }
+        private static int _txnDepthPrivate;
 
         /// <summary>
         /// If not present, create a new `name` : `EntityData` pair in the
@@ -1017,12 +1035,12 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
 
         public void BeginTransaction(bool serializeLock=false)
         {
-            if (this.IsTransactionActive())
-                throw new ArgumentException("There is already an active transaction.");
-
-            _tempData = new Dictionary<string, EntityData>();
-            foreach (KeyValuePair<string, EntityData> p in _data)
-                _tempData[p.Key] = p.Value.Clone();
+            if (_txnDepth++ == 0)
+            {
+                _tempData = new Dictionary<string, EntityData>();
+                foreach (KeyValuePair<string, EntityData> p in _data)
+                    _tempData[p.Key] = p.Value.Clone();
+            }
         }
 
         /// <remarks>
@@ -1033,6 +1051,9 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         {
             if (!this.IsTransactionActive())
                 throw new ArgumentException("There is no active transaction.");
+
+            if (--_txnDepth != 0)
+                return;
 
             var tempData = _tempData;
             _tempData = null;
@@ -1058,6 +1079,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
             // scrubbing out the old version anyways.
             _data = _tempData;
             _tempData = null;
+            _txnDepth = 0;
         }
 
         public bool IsTransactionActive()

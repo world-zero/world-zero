@@ -48,7 +48,6 @@ namespace WorldZero.Service.Registration.Entity.Relation
         )
             : base(voteRepo, characterRepo, praxisRepo)
         {
-            if (this._voteRepo == null) throw new InvalidOperationException("voterepo");
             this.AssertNotNull(praxisParticipantRepo, "praxisParticipantRepo");
             this._praxisPartRepo = praxisParticipantRepo;
         }
@@ -62,6 +61,7 @@ namespace WorldZero.Service.Registration.Entity.Relation
             // This does not use base.PreRegisterChecks() as querying the two
             // repositories twice each would be extremely costly for a DB repo.
             this.AssertNotNull(v, "v");
+            this._voteRepo.BeginTransaction(true);
             var votingChar     = this._regGetCharacter(v);
             var praxis         = this._regGetPraxis(v);
             var recChar        = this._regGetRecChar(v);
@@ -70,13 +70,17 @@ namespace WorldZero.Service.Registration.Entity.Relation
 
             // Make sure someone isn't voting on their own praxis.
             if (votersCharsIds.Intersect(praxisCharsIds).Count() != 0)
+            {
+                this._voteRepo.DiscardTransaction();
                 throw new ArgumentException("A player is attempting to vote on their own praxis.");
+            }
 
             // Make sure someone isn't voting on a praxis multiple times.
             var votesCharIds = this._regGetPraxisVoters(v.PraxisId);
             if (   (votesCharIds != null)
                 && (votersCharsIds.Intersect(votersCharsIds).Count() != 0) )
             {
+                this._voteRepo.DiscardTransaction();
                 throw new ArgumentException("A player is attempting to revote on a praxis.");
             }
 
@@ -85,14 +89,16 @@ namespace WorldZero.Service.Registration.Entity.Relation
             );
             try
             {
-                this._characterRepo.BeginTransaction();
                 this._voteRepo.Insert(v);
                 this._characterRepo.Update(recChar);
                 this._characterRepo.EndTransaction();
                 return v;
             }
             catch (ArgumentException e)
-            { throw new ArgumentException("A repo error occurred while saving a vote.", e); }
+            {
+                this._voteRepo.DiscardTransaction();
+                throw new ArgumentException("A repo error occurred while saving a vote.", e);
+            }
         }
 
         /// <summary>
@@ -105,7 +111,10 @@ namespace WorldZero.Service.Registration.Entity.Relation
                 return this._characterRepo.GetById(v.VotingCharacterId);
             }
             catch (ArgumentException)
-            { throw new ArgumentException("Could not insert the relation entity as its left ID is not registered with the correct repo."); }
+            {
+                this._voteRepo.DiscardTransaction();
+                throw new ArgumentException("Could not insert the relation entity as its left ID is not registered with the correct repo.");
+            }
         }
 
         /// <summary>
@@ -121,13 +130,19 @@ namespace WorldZero.Service.Registration.Entity.Relation
                 c = this._characterRepo.GetById(v.ReceivingCharacterId);
             }
             catch (ArgumentException)
-            { throw new ArgumentException("The vote's receiving character does not exist."); }
+            {
+                this._voteRepo.DiscardTransaction();
+                throw new ArgumentException("The vote's receiving character does not exist.");
+            }
 
             // Check that the participant actually participated.
             var pId = v.PraxisId;
             var cId = v.ReceivingCharacterId;
             if (!this._praxisPartRepo.ParticipantCheck(pId, cId))
+            {
+                this._voteRepo.DiscardTransaction();
                 throw new ArgumentException("The supplied vote's receiving character is not a participant of the supplied praxis.");
+            }
             return c;
         }
 
@@ -141,7 +156,10 @@ namespace WorldZero.Service.Registration.Entity.Relation
                 return this._praxisRepo.GetById(v.RightId);
             }
             catch (ArgumentException)
-            { throw new ArgumentException("Could not insert the relation entity as its right ID is not registered with the correct repo."); }
+            {
+                this._voteRepo.DiscardTransaction();
+                throw new ArgumentException("Could not insert the relation entity as its right ID is not registered with the correct repo.");
+            }
         }
 
         /// <summary>
@@ -156,7 +174,10 @@ namespace WorldZero.Service.Registration.Entity.Relation
                 chars = this._characterRepo.GetByPlayerId(votingChar.PlayerId);
             }
             catch (ArgumentException)
-            { throw new InvalidOperationException("There exists a vote with a player that has no characters."); }
+            {
+                this._voteRepo.DiscardTransaction();
+                throw new InvalidOperationException("There exists a vote with a player that has no characters.");
+            }
 
             foreach (Character c in chars)
                 yield return c.Id;
@@ -172,7 +193,10 @@ namespace WorldZero.Service.Registration.Entity.Relation
                 return this._praxisPartRepo.GetCharIdsByPraxisId(praxis.Id);
             }
             catch (ArgumentException)
-            { throw new InvalidOperationException("There exists a praxis that does not have any participants."); }
+            {
+                this._voteRepo.DiscardTransaction();
+                throw new InvalidOperationException("There exists a praxis that does not have any participants.");
+            }
         }
 
         /// <summary>

@@ -49,6 +49,8 @@ namespace WorldZero.Service.Registration.Entity
         {
             this.AssertNotNull(newEra, "newEra");
             var now = new PastDate(DateTime.UtcNow);
+
+            this._eraRepo.BeginTransaction();
             Era old = this._eraRepo.GetActiveEra();
             if (old != null)
             {
@@ -57,7 +59,10 @@ namespace WorldZero.Service.Registration.Entity
             }
             newEra.EndDate = null;
             newEra.StartDate = now;
-            return base.Register(newEra);
+            var r = base.Register(newEra);
+            this._eraRepo.EndTransaction();
+
+            return r;
         }
 
         /// <summary>

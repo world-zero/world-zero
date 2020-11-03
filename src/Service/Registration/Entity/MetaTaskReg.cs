@@ -35,23 +35,25 @@ namespace WorldZero.Service.Registration.Entity
         public override MetaTask Register(MetaTask mt)
         {
             this.AssertNotNull(mt, "mt");
-            try
+            if (   (mt.StatusId != StatusReg.InProgress.Id)
+                && (mt.StatusId != StatusReg.Active.Id)   )
             {
-                this._statusRepo.GetById(mt.StatusId);
+                throw new ArgumentException("A meta task can only be Active or In Progress");
             }
-            catch (ArgumentException)
-            {
-                throw new ArgumentException($"MetaTask of ID {mt.Id.Get} has an invalid Status ID of {mt.StatusId.Get}.");
-            }
+
+            this._metaTaskRepo.BeginTransaction(true);
             try
             {
                 this._factionRepo.GetById(mt.FactionId);
             }
             catch (ArgumentException)
             {
+                this._metaTaskRepo.DiscardTransaction();
                 throw new ArgumentException($"MetaTask of ID {mt.Id.Get} has an invalid Factionn ID of {mt.FactionId.Get}.");
             }
-            return base.Register(mt);
+            var r = base.Register(mt);
+            this._metaTaskRepo.EndTransaction();
+            return r;
         }
     }
 }

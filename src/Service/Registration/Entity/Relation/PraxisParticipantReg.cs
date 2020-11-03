@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using WorldZero.Service.Interface.Registration.Entity;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Relation;
@@ -59,6 +58,7 @@ namespace WorldZero.Service.Registration.Entity.Relation
         public override PraxisParticipant Register(PraxisParticipant pp)
         {
             this.AssertNotNull(pp, "pp");
+            this._praxisParticipantRepo.BeginTransaction(true);
             Praxis p = this._verifyPraxis(pp);
             Character c = this._verifyCharacter(pp);
             MetaTask mt = this._getMetaTask(p);
@@ -76,9 +76,14 @@ namespace WorldZero.Service.Registration.Entity.Relation
                 int ppCount =
                     this._praxisParticipantRepo.GetParticipantCount(p.Id);
                 if (ppCount >= 2)
+                {
+                    this._praxisParticipantRepo.DiscardTransaction();
                     throw new ArgumentException($"The associated praxis is set to dueling, which only allows for 2 participants, not {ppCount}.");
+                }
             }
-            return base.Register(pp);
+            var r = base.Register(pp);
+            this._praxisParticipantRepo.EndTransaction();
+            return r;
         }
 
         private Praxis _verifyPraxis(PraxisParticipant pp)
@@ -89,11 +94,15 @@ namespace WorldZero.Service.Registration.Entity.Relation
                 p = this._praxisRepo.GetById(pp.PraxisId);
             }
             catch (ArgumentException)
-            { throw new ArgumentException($"PraxisParticipant of ID {pp.Id.Get} has an invalid praxis ID of {pp.PraxisId.Get}."); }
+            {
+                this._praxisParticipantRepo.DiscardTransaction();
+                throw new ArgumentException($"PraxisParticipant of ID {pp.Id.Get} has an invalid praxis ID of {pp.PraxisId.Get}.");
+            }
 
             if (   (p.StatusId != StatusReg.InProgress.Id)
                 && (p.StatusId != StatusReg.Active.Id)      )
             {
+                this._praxisParticipantRepo.DiscardTransaction();
                 throw new ArgumentException("A participant can only be registered for an active or in-progres task.");
             }
 
@@ -109,7 +118,10 @@ namespace WorldZero.Service.Registration.Entity.Relation
                 return c;
             }
             catch (ArgumentException)
-            { throw new ArgumentException($"PraxisParticipant of ID {pp.Id.Get} has an invalid character ID of {pp.CharacterId.Get}."); }
+            {
+                this._praxisParticipantRepo.DiscardTransaction();
+                throw new ArgumentException($"PraxisParticipant of ID {pp.Id.Get} has an invalid character ID of {pp.CharacterId.Get}.");
+            }
         }
 
         private void _verifyFaction(Character c, MetaTask mt)
@@ -118,10 +130,16 @@ namespace WorldZero.Service.Registration.Entity.Relation
                 return;
 
             if (c.FactionId == null)
+            {
+                this._praxisParticipantRepo.DiscardTransaction();
                 throw new ArgumentException("The meta task has a sponsoring faction but the character is unaligned.");
+            }
 
             if (mt.FactionId != c.FactionId)
+            {
+                this._praxisParticipantRepo.DiscardTransaction();
                 throw new ArgumentException("The meta task is not sponsored by the character's faction.");
+            }
         }
 
         /// <remarks>
@@ -132,15 +150,15 @@ namespace WorldZero.Service.Registration.Entity.Relation
         {
             if (p.MetaTaskId == null)
                 return null;
-            MetaTask mt;
             try
             {
-                mt = this._mtRepo.GetById(p.MetaTaskId);
+                return this._mtRepo.GetById(p.MetaTaskId);
             }
             catch (ArgumentException)
-            { throw new ArgumentException($"Praxis of ID {p.Id.Get} has an invalid meta task ID of {p.MetaTaskId.Get}."); }
-            return mt;
+            {
+                this._praxisParticipantRepo.DiscardTransaction();
+                throw new ArgumentException($"Praxis of ID {p.Id.Get} has an invalid meta task ID of {p.MetaTaskId.Get}.");
+            }
         }
-
     }
 }

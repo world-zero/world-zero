@@ -26,6 +26,7 @@ namespace WorldZero.Service.Registration.Entity
 
         public override Faction Register(Faction faction)
         {
+            this._factionRepo.BeginTransaction(true);
             if (faction.AbilityName != null)
             {
                 try
@@ -34,10 +35,13 @@ namespace WorldZero.Service.Registration.Entity
                 }
                 catch (ArgumentException)
                 {
+                    this._factionRepo.DiscardTransaction();
                     throw new ArgumentException($"The faction {faction.Id.Get} has an unregistered ability ({faction.AbilityName.Get}).");
                 }
             }
-            return base.Register(faction);
+            var r = base.Register(faction);
+            this._factionRepo.EndTransaction();
+            return r;
         }
     }
 }

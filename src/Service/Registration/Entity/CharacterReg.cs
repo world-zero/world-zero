@@ -90,7 +90,6 @@ namespace WorldZero.Service.Registration.Entity
             this._factionRepo = factionRepo;
             this._locationRepo = locationRepo;
         }
-
         /// <summary>
         /// Create the character and save them. This will ensure that the
         /// character has a valid player ID, and faction ID if set.
@@ -98,6 +97,17 @@ namespace WorldZero.Service.Registration.Entity
         public override Character Register(Character c)
         {
             this.AssertNotNull(c, "c");
+            this._characterRepo.BeginTransaction(true);
+            this._verifyPlayer(c);
+            this._verifyFaction(c);
+            this._verifyLocation(c);
+            var r = base.Register(c);
+            this._characterRepo.EndTransaction();
+            return r;
+        }
+
+        private void _verifyPlayer(Character c)
+        {
             bool shouldCrash = false;
             try
             {
@@ -107,14 +117,24 @@ namespace WorldZero.Service.Registration.Entity
             }
             catch (ArgumentNullException)
             {
+                this._characterRepo.DiscardTransaction();
                 throw new InvalidOperationException("A null was found where it should not be possible.");
             }
             catch (ArgumentException)
             {
+                this._characterRepo.DiscardTransaction();
                 throw new ArgumentException($"Character of ID {c.Id.Get} has an invalid Player ID of {c.PlayerId.Get}.");
             }
+
             if (shouldCrash)
+            {
+                this._characterRepo.DiscardTransaction();
                 throw new ArgumentException("The supplied Character belongs to a Player that does not have sufficient level to register another Character.");
+            }
+        }
+
+        private void _verifyFaction(Character c)
+        {
             try
             {
                 if (c.FactionId != null)
@@ -122,8 +142,13 @@ namespace WorldZero.Service.Registration.Entity
             }
             catch (ArgumentException)
             {
+                this._characterRepo.DiscardTransaction();
                 throw new ArgumentException($"Character of ID {c.Id.Get} has an invalid Faction ID of {c.FactionId.Get}.");
             }
+        }
+
+        private void _verifyLocation(Character c)
+        {
             try
             {
                 if (c.LocationId != null)
@@ -131,9 +156,9 @@ namespace WorldZero.Service.Registration.Entity
             }
             catch (ArgumentException)
             {
+                this._characterRepo.DiscardTransaction();
                 throw new ArgumentException($"Character of ID {c.Id.Get} has an invalid Location ID of {c.LocationId.Get}.");
             }
-            return base.Register(c);
         }
     }
 }

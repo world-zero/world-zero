@@ -42,6 +42,11 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
         [TearDown]
         public void TearDown()
         {
+            if (this._factionRepo.IsTransactionActive())
+            {
+                this._factionRepo.DiscardTransaction();
+                throw new InvalidOperationException("A test exits with an active transaction.");
+            }
             this._factionRepo.CleanAll();
         }
 

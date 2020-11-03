@@ -137,7 +137,11 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
         [TearDown]
         public void TearDown()
         {
-            this._repo.DiscardTransaction();
+            if (this._repo.IsTransactionActive())
+            {
+                this._repo.DiscardTransaction();
+                throw new InvalidOperationException("A test exits with an active transaction.");
+            }
             this._repo.CleanAll();
         }
 
@@ -623,15 +627,23 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
         {
             Assert.IsNull(this._repo.TempData);
             Assert.IsNull(this._altRepo.TempData);
+            Assert.AreEqual(0, this._repo.TxnDepth);
+
             this._repo.BeginTransaction();
+            Assert.AreEqual(1, this._repo.TxnDepth);
             Assert.IsNotNull(this._repo.TempData);
             Assert.IsNotNull(this._altRepo.TempData);
             Assert.AreNotEqual(this._repo.TempData, this._repo.Data);
             Assert.AreNotEqual(this._altRepo.TempData, this._altRepo.Data);
-            Assert.Throws<ArgumentException>(
-                ()=>this._repo.BeginTransaction());
-            Assert.Throws<ArgumentException>(
-                ()=>this._altRepo.BeginTransaction());
+
+            this._repo.BeginTransaction();
+            Assert.AreEqual(2, this._repo.TxnDepth);
+            Assert.IsNotNull(this._repo.TempData);
+            Assert.IsNotNull(this._altRepo.TempData);
+            Assert.AreNotEqual(this._repo.TempData, this._repo.Data);
+            Assert.AreNotEqual(this._altRepo.TempData, this._altRepo.Data);
+
+            this._repo.DiscardTransaction();
         }
 
         [Test]
@@ -647,6 +659,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
             this._repo.Insert(this._entities[2]);
             this._altRepo.Insert(this._entities[3]);
             this._altRepo.DiscardTransaction();
+            Assert.AreEqual(0, this._repo.TxnDepth);
             Assert.IsNull(this._repo.TempData);
             Assert.IsNull(this._altRepo.TempData);
             Assert.AreEqual(0, this._altRepo.Staged.Count);
@@ -661,13 +674,15 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
                 this._repo.Staged[this._entities[1].Id]
             );
 
+            this._repo.BeginTransaction();
+            this._repo.BeginTransaction();
+            this._repo.DiscardTransaction();
+            Assert.AreEqual(0, this._repo.TxnDepth);
+
+            this._repo.BeginTransaction();
             this._repo.Insert(this._e);
             this._repo.Save();
-            this._repo.BeginTransaction();
             this._altRepo.EndTransaction();
-            this._repo.BeginTransaction();
-            Assert.Throws<ArgumentException>(
-                ()=>this._altRepo.BeginTransaction());
         }
 
         [Test]
@@ -680,6 +695,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
             this._repo.Delete(this._entities[0].Id);
             this._altRepo.Insert(this._entities[0]);
             this._repo.EndTransaction();
+            Assert.AreEqual(0, this._repo.TxnDepth);
             Assert.IsNull(this._repo.TempData);
             Assert.IsNull(this._altRepo.TempData);
             Assert.AreEqual(0, this._repo.Saved.Count);
@@ -691,13 +707,18 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
                 this._altRepo.Saved[this._entities[0].Id]
             );
 
+            this._repo.BeginTransaction();
+            this._repo.BeginTransaction();
+            this._repo.EndTransaction();
+            Assert.AreEqual(1, this._repo.TxnDepth);
+            Assert.IsNotNull(this._repo.TempData);
+            this._repo.EndTransaction();
+            Assert.AreEqual(0, this._repo.TxnDepth);
+
+            this._repo.BeginTransaction();
             this._repo.Insert(this._e);
             this._repo.Save();
-            this._repo.BeginTransaction();
             this._altRepo.EndTransaction();
-            this._repo.BeginTransaction();
-            Assert.Throws<ArgumentException>(
-                ()=>this._altRepo.BeginTransaction());
         }
 
         [Test]
@@ -735,13 +756,10 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
                 this._altRepo.Saved[this._e.Id]
             );
 
+            this._repo.BeginTransaction();
             this._repo.Insert(this._e);
             this._repo.Save();
-            this._repo.BeginTransaction();
             this._altRepo.EndTransaction();
-            this._repo.BeginTransaction();
-            Assert.Throws<ArgumentException>(
-                ()=>this._altRepo.BeginTransaction());
         }
 
         [Test]
@@ -779,13 +797,10 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
                 this._altRepo.Saved[this._e.Id]
             );
 
+            this._repo.BeginTransaction();
             this._repo.Insert(this._e);
             this._repo.Save();
-            this._repo.BeginTransaction();
             this._altRepo.EndTransaction();
-            this._repo.BeginTransaction();
-            Assert.Throws<ArgumentException>(
-                ()=>this._altRepo.BeginTransaction());
         }
 
         [Test]
@@ -951,6 +966,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
         public Dictionary<string, EntityData> TempData
         { get { return _tempData; } }
         public EntityData InstanceData { get { return _data[this._className];}}
+        public int TxnDepth { get { return _txnDepth; } }
     }
 
     public class TestRAMEntityRepoAlt

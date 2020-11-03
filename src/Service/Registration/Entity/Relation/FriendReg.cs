@@ -48,6 +48,7 @@ namespace WorldZero.Service.Registration.Entity.Relation
             Foe fMatch = null;
             Foe inverseFMatch = null;
 
+            this._friendRepo.BeginTransaction(true);
             try
             {
                 fMatch = this._foeRepo.GetByDTO(f.GetDTO());
@@ -64,10 +65,15 @@ namespace WorldZero.Service.Registration.Entity.Relation
             if (   (fMatch == null)
                 && (inverseFMatch == null)   )
             {
-                return base.Register(f);
+                var r = base.Register(f);
+                this._friendRepo.EndTransaction();
+                return r;
             }
             else
+            {
+                this._friendRepo.DiscardTransaction();
                 throw new ArgumentException("You cannot become friends with a foe.");
+            }
         }
     }
 }

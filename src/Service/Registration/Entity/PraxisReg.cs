@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections.Generic;
 using WorldZero.Service.Registration.Entity.Relation;
@@ -20,6 +21,7 @@ using WorldZero.Data.Interface.Repository.Entity;
 // Era Magic Numbers
 // So they need to live on era, obviously. But how do I want to access them?
 //      Static properties of EraReg that gets them from the latest instance?
+//      use EraReg.GetActiveEra() (maybe rename to EraReg.ActiveEra) and if no era exists during init, create a basic era
 //
 // TODO: A character can only have 20 being-voted-on / in-progress praxises at a time.
 //      Have this be static and controlled by era; add the member name to that ticket

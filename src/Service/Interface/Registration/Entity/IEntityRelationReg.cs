@@ -143,13 +143,31 @@ namespace WorldZero.Service.Interface.Registration.Entity
         /// </summary>
         public override TEntityRelation Register(TEntityRelation e)
         {
-            this.PreRegisterChecks(e, "e");
-            return base.Register(e);
+            this._repo.BeginTransaction(true);
+            try
+            {
+                this.PreRegisterChecks(e, "e");
+            }
+            catch (ArgumentNullException exc)
+            {
+                this._repo.DiscardTransaction();
+                throw new ArgumentNullException("See trace.", exc);
+            }
+            catch (ArgumentException exc)
+            {
+                this._repo.DiscardTransaction();
+                throw new ArgumentException("An error occurred during the registration of a relational entity.", exc);
+            }
+            var r = base.Register(e);
+            this._repo.EndTransaction();
+            return r;
         }
 
         /// <summary>
         /// Ensure that the entity is not null *and* that the IDs exist in the
         /// needed repos.
+        /// <br />
+        /// This *will not* start a serialized transaction.
         /// </summary>
         protected override void PreRegisterChecks(TEntityRelation e, string t)
         {

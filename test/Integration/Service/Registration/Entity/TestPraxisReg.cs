@@ -94,6 +94,11 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
         [TearDown]
         public void TearDown()
         {
+            if (this._praxisRepo.IsTransactionActive())
+            {
+                this._praxisRepo.DiscardTransaction();
+                throw new InvalidOperationException("A test exits with an active transaction.");
+            }
             this._praxisRepo.CleanAll();
         }
 

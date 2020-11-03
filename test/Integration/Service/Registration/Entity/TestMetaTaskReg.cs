@@ -46,6 +46,11 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
         [TearDown]
         public void TearDown()
         {
+            if (this._factionRepo.IsTransactionActive())
+            {
+                this._factionRepo.DiscardTransaction();
+                throw new InvalidOperationException("A test exits with an active transaction.");
+            }
             this._factionRepo.CleanAll();
         }
 
@@ -53,7 +58,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
         public void TestRegisterHappy()
         {
             var mt = new MetaTask(
-                this._faction0.Id, this._status1.Id, "something", 33.4
+                this._faction0.Id, StatusReg.Active.Id, "something", 33.4
             );
             Assert.IsFalse(mt.IsIdSet());
             this._registration.Register(mt);

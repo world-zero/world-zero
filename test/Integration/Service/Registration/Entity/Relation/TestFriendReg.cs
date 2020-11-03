@@ -5,8 +5,6 @@ using WorldZero.Common.Entity;
 using WorldZero.Common.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
-using WorldZero.Data.Repository.RAM.Entity;
-using WorldZero.Data.Repository.RAM.Entity.Relation;
 using WorldZero.Service.Registration.Entity.Relation;
 using NUnit.Framework;
 
@@ -44,6 +42,11 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
         [TearDown]
         public void TearDown()
         {
+            if (this._foeRepo.IsTransactionActive())
+            {
+                this._foeRepo.DiscardTransaction();
+                throw new InvalidOperationException("A test exits with an active transaction.");
+            }
             this._foeRepo.CleanAll();
             ((DummyRAMFriendRepo) this._friendRepo).ResetNextIdValue();
             ((DummyRAMFoeRepo) this._foeRepo).ResetNextIdValue();

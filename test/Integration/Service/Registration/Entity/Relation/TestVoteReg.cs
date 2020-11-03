@@ -54,6 +54,11 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
         [TearDown]
         public void TearDown()
         {
+            if (this._charRepo.IsTransactionActive())
+            {
+                this._charRepo.DiscardTransaction();
+                throw new InvalidOperationException("A test exits with an active transaction.");
+            }
             this._charRepo.CleanAll();
         }
 
