@@ -87,6 +87,10 @@ namespace WorldZero.Common.Entity
         /// bonus or a point percentage modifier. For more, see
         /// <see cref="MetaTask.IsFlatBonus"/>.
         /// </summary>
+        /// <remarks>
+        /// If `IsFlatBonus` is false, then this will act as the percentage
+        /// of the point total to add.
+        /// </remarks>
         public double Bonus
         {
             get { return this._bonus; }
@@ -116,6 +120,47 @@ namespace WorldZero.Common.Entity
             }
         }
         private Name _factionId;
+
+        public PointTotal ApplyBonus(PointTotal pt)
+        {
+            if (pt == null)
+                throw new ArgumentNullException("pt");
+
+            if (this.IsFlatBonus)
+                return this._applyFlatBonus(pt);
+            else
+                return this._applyPercentBonus(pt);
+        }
+
+        private PointTotal _applyFlatBonus(PointTotal pt)
+        {
+            try
+            {
+                int r = pt.Get + Convert.ToInt32(this.Bonus);
+                return new PointTotal(r);
+            }
+            catch (OverflowException e)
+            { throw new ArgumentException("BonusDeduction is too large to treat as an int.", e); }
+            catch (ArgumentException e)
+            { throw new InvalidOperationException("This shouldn't be happening.", e); }
+        }
+
+        private PointTotal _applyPercentBonus(PointTotal pt)
+        {
+            try
+            {
+                var given  = Convert.ToDouble(pt.Get);
+                var bonus  = given * this.Bonus;
+                var result = given + bonus;
+                return new PointTotal(Convert.ToInt32(result));
+            }
+            catch (OverflowException e)
+            { throw new ArgumentException("The new result could not be converted to an int.", e); }
+            catch (InvalidCastException e)
+            { throw new ArgumentException("The new result could not be converted to an int.", e); }
+            catch (ArgumentException e)
+            { throw new InvalidOperationException("This shouldn't be happening.", e); }
+        }
 
         public Name StatusId
         {

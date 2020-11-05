@@ -8,7 +8,8 @@ namespace WorldZero.Common.ValueObject.General
     /// point total is valid iff it is not below zero.
     /// </summary>
     /// <exception cref="ArgumentException">
-    /// This is thrown on set iff the point total is invalid.</exception>
+    /// This is thrown on set iff the point total is invalid.
+    /// </exception>
     public sealed class PointTotal : ISingleValueObject<int>
     {
         public override int Get 

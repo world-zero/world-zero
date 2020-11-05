@@ -18,10 +18,6 @@ using WorldZero.Data.Interface.Repository.Entity;
 //      This should live on the PraxisUpdate service class
 
 // Era Magic Numbers
-// WIP: So they need to live on era, obviously. But how do I want to access them?
-//      Static properties of EraReg that gets them from the latest instance?
-//      use EraReg.GetActiveEra() (maybe rename to EraReg.ActiveEra) and if no era exists during init, create a basic era
-//
 // TODO: A character can only have 20 being-voted-on / in-progress praxises at a time.
 //      Have this be static and controlled by era; add the member name to that ticket
 //      PraxisParticipantUpdate will need to be in charge of checking this as well as PPReg

@@ -38,7 +38,17 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
             Assert.Throws<ArgumentNullException>(()=>this._eraReg.Register(null));
 
             PastDate badExpected = new PastDate(new DateTime(2000, 1, 1));
-            Era e = new Era(new Name("first"), badExpected, new PastDate(DateTime.UtcNow));
+            Era e = new Era(
+                new Name("first"),
+                badExpected,
+                null,
+                10,
+                1,
+                2,
+                0.1,
+                false,
+                new PastDate(DateTime.UtcNow)
+            );
             Era result = this._eraReg.Register(e);
             Assert.AreEqual(e.Id, result.Id);
             Assert.AreNotEqual(badExpected, result.StartDate);
