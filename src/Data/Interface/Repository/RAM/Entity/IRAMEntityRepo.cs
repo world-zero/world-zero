@@ -280,7 +280,8 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
     /// with absolutely no persistence.
     /// </summary>
     /// <remarks>
-    /// THIS DEV-TOOL IS NOT MULTI-THREAD SAFE.
+    /// THIS DEV-TOOL IS NOT MULTI-THREAD SAFE. Be advised that implementations
+    /// that return the same `GetEntityName()` will operate on the same data.
     /// <br/>
     /// The supplied and returned entities are deep copies to those that are
     /// saved and staged.
@@ -339,11 +340,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         }
         private int _ruleCount = -1;
 
-        /// <summary>
-        /// This is a once-computed `this.GetType().Name`, evaluted in the
-        /// constructor.
-        /// </summary>
-        protected string _className;
+        protected readonly string _entityName;
 
         // These will use use the ID of an entity to key that entity. For
         // staged changes, a null entity reference indicates that the entity
@@ -354,12 +351,12 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         // will simply return the ID of the supplied entity.
         protected Dictionary<object, object> _saved
         {
-            get { return _data[this._className].Saved; }
+            get { return _data[this._entityName].Saved; }
             set
             {
                 try
                 {
-                    _data[this._className].Saved = value;
+                    _data[this._entityName].Saved = value;
                 }
                 catch (ArgumentException e)
                 { throw new InvalidOperationException(e.Message); }
@@ -367,12 +364,12 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         }
         protected Dictionary<object, object> _staged
         {
-            get { return _data[this._className].Staged; }
+            get { return _data[this._entityName].Staged; }
             set
             {
                 try
                 {
-                    _data[this._className].Staged = value;
+                    _data[this._entityName].Staged = value;
                 }
                 catch (ArgumentException e)
                 { throw new InvalidOperationException(e.Message); }
@@ -389,12 +386,12 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         // doing this too.
         protected W0List<Dictionary<W0Set<object>, object>> _savedRules
         {
-            get { return _data[this._className].SavedRules; }
+            get { return _data[this._entityName].SavedRules; }
             set
             {
                 try
                 {
-                    _data[this._className].SavedRules = value;
+                    _data[this._entityName].SavedRules = value;
                 }
                 catch (ArgumentException e)
                 { throw new InvalidOperationException(e.Message); }
@@ -402,12 +399,12 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         }
         protected W0List<Dictionary<W0Set<object>, object>> _stagedRules
         {
-            get { return _data[this._className].StagedRules; }
+            get { return _data[this._entityName].StagedRules; }
             set
             {
                 try
                 {
-                    _data[this._className].StagedRules = value;
+                    _data[this._entityName].StagedRules = value;
                 }
                 catch (ArgumentException e)
                 { throw new InvalidOperationException(e.Message); }
@@ -415,12 +412,12 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         }
         protected W0List<Dictionary<W0Set<object>, int>> _recycledRules
         {
-            get { return _data[this._className].RecycledRules; }
+            get { return _data[this._entityName].RecycledRules; }
             set
             {
                 try
                 {
-                    _data[this._className].RecycledRules = value;
+                    _data[this._entityName].RecycledRules = value;
                 }
                 catch (ArgumentException e)
                 { throw new InvalidOperationException(e.Message); }
@@ -490,10 +487,10 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         /// </remarks>
         public IRAMEntityRepo()
         {
-            this._className = this.GetType().Name;
+            this._entityName = typeof(TEntity).Name;
             try
             {
-                base.InitIfNeeded(this._className, this.RuleCount);
+                base.InitIfNeeded(this._entityName, this.RuleCount);
             }
             catch (ArgumentException e)
             { throw new InvalidOperationException(e.Message, e); }
@@ -501,7 +498,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
 
         public void Clean()
         {
-            _data[this._className].Clean();
+            _data[this._entityName].Clean();
         }
 
         public void CleanAll()
@@ -512,7 +509,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
 
         public void Discard()
         {
-            _data[this._className].CleanStaged();
+            _data[this._entityName].CleanStaged();
         }
 
         /// <summary>
@@ -829,7 +826,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
                 return;
             }
 
-            EntityData backupED = _data[this._className].Clone();
+            EntityData backupED = _data[this._entityName].Clone();
             backupED.CleanStaged();
 
             try
@@ -860,13 +857,13 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         /// </summary>
         private void _restoreSavedStates(EntityData backupED, Exception exc)
         {
-            _data[this._className] = backupED;
+            _data[this._entityName] = backupED;
             this.Discard();
             try
             { this.FinalChecks(); }
             catch (ArgumentException e)
             {
-                throw new InvalidOperationException($"After restoring Saved, the data of repo {this._className} is still corrupt.", e);
+                throw new InvalidOperationException($"After restoring Saved, the data of repo {this._entityName} is still corrupt.", e);
             }
             throw new ArgumentException("Save() could not be completed due to faulty staged data. Discarding the changes.", exc);
         }
@@ -904,7 +901,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
 
             var c = this._staged.Count;
             if (c != 0)
-                throw new InvalidOperationException($"After a Save, there should be no staged entities, but there are {c} staged entities remaining in {this._className}.");
+                throw new InvalidOperationException($"After a Save, there should be no staged entities, but there are {c} staged entities remaining in {this._entityName}.");
 
             this._cleanUpRules();
             this.FinalChecks();

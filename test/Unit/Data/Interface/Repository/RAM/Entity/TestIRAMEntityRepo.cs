@@ -54,12 +54,24 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
         }
 
         private void
+        _assertEntitiesEqual(DummyEntity expected, DummyEntityAlt actual)
+        {
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected.Id, actual.Id);
+            Assert.AreEqual(expected.Unique, actual.Unique);
+            Assert.AreEqual(expected.Combo0, actual.Combo0);
+            Assert.AreEqual(expected.Combo1, actual.Combo1);
+        }
+
+        private void
         _assertEntitiesEqual(DummyEntity expected, object actual)
         {
-            this._assertEntitiesEqual(
-                expected,
-                (DummyEntity) actual
-            );
+            DummyEntity act = actual as DummyEntity;
+            DummyEntityAlt actAlt = actual as DummyEntityAlt;
+            if (act != null)
+                this._assertEntitiesEqual(expected, act);
+            else
+                this._assertEntitiesEqual(expected, actAlt);
         }
 
         private void _assertUniformRuleCounts(int uniform)
@@ -148,7 +160,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
         [Test]
         public void TestConstructor()
         {
-            Assert.AreEqual(this._repo.GetType().Name, this._repo.ClassName);
+            Assert.AreEqual(typeof(DummyEntity).Name, this._repo.EntityName);
             Assert.IsNotNull(this._repo.Saved);
             Assert.AreEqual(0, this._repo.Saved.Count);
             Assert.IsNotNull(this._repo.Staged);
@@ -657,7 +669,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
             this._repo.Insert(this._entities[1]);
             this._repo.BeginTransaction();
             this._repo.Insert(this._entities[2]);
-            this._altRepo.Insert(this._entities[3]);
+            this._altRepo.Insert(this._entities[3].ToAlt());
             this._altRepo.DiscardTransaction();
             Assert.AreEqual(0, this._repo.TxnDepth);
             Assert.IsNull(this._repo.TempData);
@@ -693,7 +705,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
             this._repo.BeginTransaction();
 
             this._repo.Delete(this._entities[0].Id);
-            this._altRepo.Insert(this._entities[0]);
+            this._altRepo.Insert(this._entities[0].ToAlt());
             this._repo.EndTransaction();
             Assert.AreEqual(0, this._repo.TxnDepth);
             Assert.IsNull(this._repo.TempData);
@@ -733,12 +745,12 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
 
             this._repo.Insert(this._e);
             this._repo.Save();
-            this._altRepo.Insert(this._e);
+            this._altRepo.Insert(this._e.ToAlt());
             this._altRepo.Save();
             this._repo.BeginTransaction();
 
             this._repo.Insert(badEntity);
-            this._altRepo.Insert(this._entities[0]);
+            this._altRepo.Insert(this._entities[0].ToAlt());
             Assert.Throws<ArgumentException>(
                 ()=>this._altRepo.EndTransaction());
             Assert.IsNull(this._repo.TempData);
@@ -774,11 +786,11 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
 
             this._repo.Insert(this._e);
             this._repo.Save();
-            this._altRepo.Insert(this._e);
+            this._altRepo.Insert(this._e.ToAlt());
             this._altRepo.Save();
             this._repo.BeginTransaction();
 
-            this._altRepo.Insert(badEntity);
+            this._altRepo.Insert(badEntity.ToAlt());
             this._repo.Insert(this._entities[0]);
             Assert.Throws<ArgumentException>(
                 ()=>this._altRepo.EndTransaction());
@@ -938,6 +950,17 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
                 this.Other
             );
         }
+
+        public DummyEntityAlt ToAlt()
+        {
+            return new DummyEntityAlt(
+                this.Id,
+                this.Unique,
+                this.Combo0,
+                this.Combo1,
+                this.Other
+            );
+        }
     }
 
     public class TestRAMEntityRepo
@@ -961,16 +984,67 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
         { get { return this._stagedRules; } }
         public W0List<Dictionary<W0Set<object>, int>> RecycledRules
         { get { return this._recycledRules; } }
-        public string ClassName { get { return this._className; } }
+        public string EntityName { get { return this._entityName; } }
         public Dictionary<string, EntityData> Data { get { return _data; } }
         public Dictionary<string, EntityData> TempData
         { get { return _tempData; } }
-        public EntityData InstanceData { get { return _data[this._className];}}
+        public EntityData InstanceData { get { return _data[this._entityName];}}
         public int TxnDepth { get { return _txnDepth; } }
     }
 
+    /// <summary>
+    /// This is a dummy entity to use with testRepoAlt
+    /// </summary>
+    public class DummyEntityAlt
+        : INamedEntity
+    {
+        public int Unique { get; set; }
+        public int Combo0 { get; set; }
+        public int Combo1 { get; set; }
+        public int Other { get; set; }
+
+        public DummyEntityAlt(
+            Name id,
+            int unique,
+            int combo0,
+            int combo1,
+            int other=909
+        )
+            : base(id)
+        {
+            this.Unique = unique;
+            this.Combo0 = combo0;
+            this.Combo1 = combo1;
+            this.Other = other;
+        }
+
+        internal override W0List<W0Set<object>> GetUniqueRules()
+        {
+            var r = base.GetUniqueRules();
+            var rule0 = new W0Set<object>();
+            rule0.Add(this.Unique);
+            r.Add(rule0);
+            var rule1 = new W0Set<object>();
+            rule1.Add(this.Combo0);
+            rule1.Add(this.Combo1);
+            r.Add(rule1);
+            return r;
+        }
+
+        public override IEntity<Name, string> Clone()
+        {
+            return new DummyEntityAlt(
+                this.Id,
+                this.Unique,
+                this.Combo0,
+                this.Combo1,
+                this.Other
+            );
+        }
+    }
+
     public class TestRAMEntityRepoAlt
-        : IRAMEntityRepo<DummyEntity, Name, string>
+        : IRAMEntityRepo<DummyEntityAlt, Name, string>
     {
         public TestRAMEntityRepoAlt()
             : base()
@@ -978,7 +1052,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
 
         protected override int GetRuleCount()
         {
-            var a = new DummyEntity(new Name("foo"), 2, 3, 9);
+            var a = new DummyEntityAlt(new Name("foo"), 2, 3, 9);
             return a.GetUniqueRules().Count;
         }
 
@@ -990,7 +1064,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity
         { get { return this._stagedRules; } }
         public W0List<Dictionary<W0Set<object>, int>> RecycledRules
         { get { return this._recycledRules; } }
-        public string ClassName { get { return this._className; } }
+        public string EntityName { get { return this._entityName; } }
         public Dictionary<string, EntityData> Data { get { return _data; } }
         public Dictionary<string, EntityData> TempData
         { get { return _tempData; } }
