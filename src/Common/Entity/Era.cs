@@ -5,13 +5,14 @@ using System;
 namespace WorldZero.Common.Entity
 {
     /// <summary>
-    /// An Era is a configuration file for the game at any given time.
+    /// An Era is a configuration file for the game at any given time. If a
+    /// start date is not supplied, time of initialization will be used.
     /// </summary>
     public class Era : INamedEntity
     {
         public Era(
             Name name,
-            PastDate startDate,
+            PastDate startDate=null,
             Level taskLevelDelta=null,
             int maxPraxises=20,
             int maxTasks=1,
@@ -22,6 +23,8 @@ namespace WorldZero.Common.Entity
         )
             : base(name)
         {
+            if (startDate == null)
+                startDate = new PastDate(DateTime.UtcNow);
             this.StartDate = startDate;
             this.EndDate = endDate;
 

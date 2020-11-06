@@ -37,8 +37,7 @@ namespace WorldZero.Test.Unit.Common.Entity
         public void TestDefaultValues()
         {
             var name = new Name("Pumpkin Pie");
-            var startDate = new PastDate(DateTime.UtcNow);
-            var e = new Era(name, startDate);
+            var e = new Era(name);
 
             // Ignore the minutes/milliseconds/seconds so this test doesn't fail.
             Assert.AreEqual(
