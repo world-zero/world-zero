@@ -18,10 +18,9 @@ namespace WorldZero.Service.Registration.Entity.Relation
     /// <br />
     /// This will ensure that a character does not have more than the allowed
     /// number of in progress / active praxises, as defined by the Era returned
-    /// by `EraReg.GetActiveEra()`, which defaults to 20. That said, if someone
-    /// has X in progress praxises and the new Era has the MaxPraxises of X-3,
-    /// then they will keep their in progress praxises despite being over the
-    /// limit.
+    /// by `EraReg.GetActiveEra()`. That said, if someone has X in progress
+    /// praxises and the new Era has the MaxPraxises of X-3, then they will
+    /// keep their in progress praxises despite being over the limit.
     /// <br />
     /// When furthering development, be mindful about how PraxisReg needs a
     /// participant - both PraxisReg and PraxisParticipantReg rely on this
