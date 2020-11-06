@@ -7,11 +7,15 @@ using WorldZero.Data.Interface.Repository.Entity;
 namespace WorldZero.Service.Registration.Entity
 {
     /// <summary>
-    /// This class is responsible for creating new eras. As long as this class
-    /// is the only item altering the supplied Era repository, there will be no
-    /// internal consistency errors.
+    /// This class is responsible for creating new eras.
     /// </summary>
     /// <remarks>
+    /// If no era exists when an instance is initialized, this will create a
+    /// default era. There should always be at least one Era at all times.
+    /// <br />
+    /// As long as this class is the only item altering the supplied Era
+    /// repository, there will be no internal consistency errors.
+    /// <br />
     /// Unlike other repositories, IEraRepo implementations are NOT responsible
     /// for ensuring that the eras are internally correct (in the sense that
     /// eras cannot overlap one another and that there can only be one active
@@ -26,7 +30,18 @@ namespace WorldZero.Service.Registration.Entity
     {
         public EraReg(IEraRepo eraRepo)
             : base(eraRepo)
-        { }
+        {
+            this._eraRepo.BeginTransaction(true);
+            if (this._eraRepo.GetActiveEra() == null)
+            {
+                this.Register(new Era(
+                    new Name("The Beginning"),
+                    startDate: new PastDate(DateTime.UtcNow))
+                );
+                this._eraRepo.EndTransaction();
+            }
+            this._eraRepo.DiscardTransaction();
+        }
 
         protected IEraRepo _eraRepo { get { return (IEraRepo) this._repo; } }
 
@@ -73,17 +88,27 @@ namespace WorldZero.Service.Registration.Entity
         public Era Register(Name newEraName)
         {
             return this.Register(
-                new Era(newEraName, new PastDate(DateTime.UtcNow))
+                new Era(newEraName, startDate: new PastDate(DateTime.UtcNow))
             );
         }
 
+        // TODO: This shouldn't be on a creation registry; I have this logged
+        // and I will move it later.
         /// <summary>
         /// Return the current era. For more, <see
         /// cref="WorldZero.Data.Interface.Repository.Entity.IEraRepo.GetActiveEra()"/>.
         /// </summary>
+        /// <remarks>
+        /// That said, `EraReg` will not allow a null era to be returned as
+        /// this class should have created one during initialization if there
+        /// was no active era.
+        /// </remarks>
         public Era GetActiveEra()
         {
-            return this._eraRepo.GetActiveEra();
+            var e = this._eraRepo.GetActiveEra();
+            if (e == null)
+                throw new InvalidOperationException("There is no active era found.");
+            return e;
         }
     }
 }

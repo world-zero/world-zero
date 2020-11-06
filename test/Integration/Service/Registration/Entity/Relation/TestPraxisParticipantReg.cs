@@ -18,6 +18,8 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
         private DummyRAMCharacterRepo _charRepo;
         private DummyRAMMetaTaskRepo _mtRepo;
         private PraxisParticipantReg _ppReg;
+        private RAMEraRepo _eraRepo;
+        private EraReg _eraReg;
         private Character _c0;
         private Character _c1;
         private Character _c2;
@@ -31,6 +33,8 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
         [SetUp]
         public void Setup()
         {
+            this._eraRepo = new RAMEraRepo();
+            this._eraReg = new EraReg(this._eraRepo);
             this._ppRepo = new DummyRAMPraxisParticipantRepo();
             this._praxisRepo = new DummyRAMPraxisRepo();
             this._charRepo = new DummyRAMCharacterRepo();
@@ -39,7 +43,8 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
                 this._ppRepo,
                 this._praxisRepo,
                 this._charRepo,
-                this._mtRepo
+                this._mtRepo,
+                this._eraReg
             );
 
             this._tId = new Id(56);
@@ -98,6 +103,20 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
             this._praxisRepo.Save();
             this._ppReg.Register(this._pp);
             Assert.IsNotNull(this._ppRepo.GetById(this._pp.Id));
+        }
+
+        [Test]
+        public void TestRegisterTooManyPraxises()
+        {
+            this._eraReg.Register(new Era(
+                new Name("few praxises allowed"),
+                maxPraxises: 1
+            ));
+
+            this._ppReg.Register(this._pp);
+            var pp = new PraxisParticipant(this._p1.Id, this._c0.Id);
+            Assert.Throws<ArgumentException>(()=>
+                this._ppReg.Register(pp));
         }
 
         [Test]
@@ -164,6 +183,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
                     null,
                     null,
                     null,
+                    null,
                     null
                 )
             );
@@ -172,7 +192,8 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
                     null,
                     this._praxisRepo,
                     this._charRepo,
-                    this._mtRepo
+                    this._mtRepo,
+                    this._eraReg
                 )
             );
             Assert.Throws<ArgumentNullException>(
@@ -180,7 +201,8 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
                     this._ppRepo,
                     null,
                     this._charRepo,
-                    this._mtRepo
+                    this._mtRepo,
+                    this._eraReg
                 )
             );
             Assert.Throws<ArgumentNullException>(
@@ -188,7 +210,8 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
                     this._ppRepo,
                     this._praxisRepo,
                     null,
-                    this._mtRepo
+                    this._mtRepo,
+                    this._eraReg
                 )
             );
             Assert.Throws<ArgumentNullException>(
@@ -196,6 +219,16 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
                     this._ppRepo,
                     this._praxisRepo,
                     this._charRepo,
+                    null,
+                    this._eraReg
+                )
+            );
+            Assert.Throws<ArgumentNullException>(
+                ()=>new PraxisParticipantReg(
+                    this._ppRepo,
+                    this._praxisRepo,
+                    this._charRepo,
+                    this._mtRepo,
                     null
                 )
             );
@@ -203,7 +236,8 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
                 this._ppRepo,
                 this._praxisRepo,
                 this._charRepo,
-                this._mtRepo
+                this._mtRepo,
+                this._eraReg
             );
         }
     }

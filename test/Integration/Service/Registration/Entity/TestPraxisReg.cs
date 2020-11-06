@@ -48,7 +48,8 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
                 this._ppRepo,
                 this._praxisRepo,
                 this._charRepo,
-                this._mtRepo
+                this._mtRepo,
+                this._eraReg
             );
             this._taskRepo = new RAMTaskRepo();
             this._statusRepo = new RAMStatusRepo();

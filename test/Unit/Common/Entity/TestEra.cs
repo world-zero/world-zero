@@ -22,13 +22,13 @@ namespace WorldZero.Test.Unit.Common.Entity
 
             this._e = new Era(
                 this._name,
-                this._startDate,
                 null,
                 10,
                 20,
                 30,
                 1,
                 true,
+                this._startDate,
                 this._endDate
             );
         }
@@ -59,13 +59,13 @@ namespace WorldZero.Test.Unit.Common.Entity
             var endDate = new PastDate(DateTime.UtcNow);
             var e = new Era(
                 name,
-                startDate,
                 new Level(5),
                 100,
                 2,
                 9,
                 1,
                 true,
+                startDate,
                 endDate
             );
             Assert.IsNotNull(e.EndDate);
@@ -102,8 +102,10 @@ namespace WorldZero.Test.Unit.Common.Entity
         {
             Assert.AreEqual(this._startDate, this._e.StartDate);
             Assert.AreEqual(this._endDate, this._e.EndDate);
-            Assert.Throws<ArgumentException>(()=>this._e.EndDate = new PastDate(new DateTime(1, 1, 1)));
-            Assert.Throws<ArgumentException>(()=>this._e.StartDate = new PastDate(new DateTime(3000, 1, 1)));
+            Assert.Throws<ArgumentException>(()=>
+                this._e.EndDate = new PastDate(new DateTime(1, 1, 1)));
+            Assert.Throws<ArgumentException>(()=>
+                this._e.StartDate = new PastDate(new DateTime(3000, 1, 1)));
         }
 
         [Test]

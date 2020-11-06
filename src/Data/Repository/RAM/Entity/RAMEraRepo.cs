@@ -32,7 +32,7 @@ namespace WorldZero.Data.Repository.RAM.Entity
 
         protected override int GetRuleCount()
         {
-            var a = new Era(new Name("s"), new PastDate(DateTime.UtcNow));
+            var a = new Era(new Name("s"));
             return a.GetUniqueRules().Count;
         }
     }

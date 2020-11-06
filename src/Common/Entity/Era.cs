@@ -12,13 +12,13 @@ namespace WorldZero.Common.Entity
     {
         public Era(
             Name name,
-            PastDate startDate=null,
             Level taskLevelDelta=null,
             int maxPraxises=20,
             int maxTasks=1,
             int maxTasksReiterator=2,
             double penaltyDeduction=0.1,
             bool isFlatPenalty=false,
+            PastDate startDate=null,
             PastDate endDate=null
         )
             : base(name)
@@ -38,20 +38,19 @@ namespace WorldZero.Common.Entity
 
         internal Era(
             string name,
-            DateTime startDate,
             int taskLevelDelta,
             int maxPraxises,
             int maxTasks,
             int maxTasksReiterator,
             double penaltyDeduction,
             bool isFlatPenalty,
+            DateTime startDate,
             DateTime endDate
         )
             : base(new Name(name))
         {
             this.StartDate = new PastDate(startDate);
-            if (endDate != null)
-                this.StartDate = new PastDate(endDate);
+            this.EndDate = new PastDate(endDate);
             this.TaskLevelDelta = new Level(taskLevelDelta);
             this.MaxPraxises = maxPraxises;
             this.MaxTasks = maxTasks;
@@ -64,13 +63,13 @@ namespace WorldZero.Common.Entity
         {
             return new Era(
                 this.Id,
-                this.StartDate,
                 this.TaskLevelDelta,
                 this.MaxPraxises,
                 this.MaxTasks,
                 this.MaxTasksReiterator,
                 this.PenaltyDeduction,
                 this.IsFlatPenalty,
+                this.StartDate,
                 this.EndDate
             );
         }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using WorldZero.Service.Interface.Registration.Entity;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Relation;
@@ -14,6 +15,13 @@ namespace WorldZero.Service.Registration.Entity.Relation
     /// <br />
     /// This will not ensure that one Player is having several of their
     /// characters participating on the same praxis.
+    /// <br />
+    /// This will ensure that a character does not have more than the allowed
+    /// number of in progress / active praxises, as defined by the Era returned
+    /// by `EraReg.GetActiveEra()`, which defaults to 20. That said, if someone
+    /// has X in progress praxises and the new Era has the MaxPraxises of X-3,
+    /// then they will keep their in progress praxises despite being over the
+    /// limit.
     /// <br />
     /// When furthering development, be mindful about how PraxisReg needs a
     /// participant - both PraxisReg and PraxisParticipantReg rely on this
@@ -43,16 +51,27 @@ namespace WorldZero.Service.Registration.Entity.Relation
 
         protected readonly IMetaTaskRepo _mtRepo;
 
+        protected readonly EraReg _eraReg;
+
+        protected ISet<Name> _praxisLiveStatuses;
+
         public PraxisParticipantReg(
             IPraxisParticipantRepo praxisParticipantRepo,
             IPraxisRepo praxisRepo,
             ICharacterRepo characterRepo,
-            IMetaTaskRepo mtRepo
+            IMetaTaskRepo mtRepo,
+            EraReg eraReg
         )
             : base(praxisParticipantRepo, praxisRepo, characterRepo)
         {
             this.AssertNotNull(mtRepo, "mtRepo");
+            this.AssertNotNull(eraReg, "eraReg");
             this._mtRepo = mtRepo;
+            this._eraReg = eraReg;
+
+            this._praxisLiveStatuses = new HashSet<Name>();
+            this._praxisLiveStatuses.Add(StatusReg.InProgress.Id);
+            this._praxisLiveStatuses.Add(StatusReg.Active.Id);
         }
 
         public override PraxisParticipant Register(PraxisParticipant pp)
@@ -61,6 +80,8 @@ namespace WorldZero.Service.Registration.Entity.Relation
             this._praxisParticipantRepo.BeginTransaction(true);
             Praxis p = this._verifyPraxis(pp);
             Character c = this._verifyCharacter(pp);
+            Era activeEra = this._eraReg.GetActiveEra();
+            this._verifyPraxisCount(c, activeEra);
             MetaTask mt = this._getMetaTask(p);
             this._verifyFaction(c, mt);
             if (p.AreDueling)
@@ -158,6 +179,18 @@ namespace WorldZero.Service.Registration.Entity.Relation
             {
                 this._praxisParticipantRepo.DiscardTransaction();
                 throw new ArgumentException($"Praxis of ID {p.Id.Get} has an invalid meta task ID of {p.MetaTaskId.Get}.");
+            }
+        }
+
+        private void _verifyPraxisCount(Character c, Era activeEra)
+        {
+            int praxisCount = this._praxisRepo
+                .GetPraxisCount(c.Id, this._praxisLiveStatuses);
+            praxisCount++;
+            if (praxisCount > activeEra.MaxPraxises)
+            {
+                this._praxisParticipantRepo.DiscardTransaction();
+                throw new ArgumentException($"The character {c.Name} ({c.Id}) has already reached their maximum amount of allowed live praxises, {praxisCount} (max of {activeEra.MaxPraxises}).");
             }
         }
     }

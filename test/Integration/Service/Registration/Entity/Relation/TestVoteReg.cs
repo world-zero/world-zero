@@ -24,6 +24,8 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
         private RAMMetaTaskRepo _mtRepo;
         private VoteReg _voteReg;
         private PraxisParticipantReg _ppReg;
+        private RAMEraRepo _eraRepo;
+        private EraReg _eraReg;
 
         [SetUp]
         public void Setup()
@@ -32,6 +34,8 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
             this._id2 = new Id(2);
             this._id3 = new Id(3);
             this._id4 = new Id(4);
+            this._eraRepo = new RAMEraRepo();
+            this._eraReg = new EraReg(this._eraRepo);
             this._voteRepo = new RAMVoteRepo();
             this._charRepo = new RAMCharacterRepo();
             this._praxisRepo = new RAMPraxisRepo();
@@ -41,7 +45,8 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
                 this._ppRepo,
                 this._praxisRepo,
                 this._charRepo,
-                this._mtRepo
+                this._mtRepo,
+                this._eraReg
             );
             this._voteReg = new VoteReg(
                 this._voteRepo,

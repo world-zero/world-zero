@@ -18,9 +18,6 @@ using WorldZero.Data.Interface.Repository.Entity;
 //      This should live on the PraxisUpdate service class
 
 // Era Magic Numbers
-// TODO: A character can only have 20 being-voted-on / in-progress praxises at a time.
-//      Have this be static and controlled by era; add the member name to that ticket
-//      PraxisParticipantUpdate will need to be in charge of checking this as well as PPReg
 // TODO: Normally, characters can only complete a task once (have this be a static field controlled by Era)
 //      Have the Reiterator-skill's max submission count live on Era too
 // TODO: if a praxis is flagged as inappropriate, remove some of the base points
