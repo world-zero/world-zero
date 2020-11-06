@@ -24,6 +24,9 @@ using WorldZero.Data.Interface.Repository.Entity;
 //      adjust Flag to have a number/bool, like MetaTask's bonus
 //      add to magic numbers ticket
 //      naturally, throw onto era somehow
+//
+//      Do this for Tasks too, and MetaTasks
+
 // TODO: A character cannot submit a praxis for a task that is more than 2 levels greater than their level (level 2 can submit for level 4, but not level 5)
 //      Characters need to be able to set a praxis as in-progress, and that the level rule is
 //      performed AT THAT TIME ONLY.
