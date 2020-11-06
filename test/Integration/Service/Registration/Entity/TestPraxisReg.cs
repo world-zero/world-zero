@@ -44,14 +44,15 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
             this._charRepo = new RAMCharacterRepo();
             this._praxisRepo = new DummyRAMPraxisRepo();
             this._mtRepo = new RAMMetaTaskRepo();
+            this._taskRepo = new RAMTaskRepo();
             this._ppReg = new PraxisParticipantReg(
                 this._ppRepo,
                 this._praxisRepo,
                 this._charRepo,
                 this._mtRepo,
+                this._taskRepo,
                 this._eraReg
             );
-            this._taskRepo = new RAMTaskRepo();
             this._statusRepo = new RAMStatusRepo();
             this._registration = new PraxisReg(
                 this._praxisRepo,
@@ -78,7 +79,12 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
 
             this._f =
                 new Faction(new Name("Good"), new PastDate(DateTime.UtcNow));
-            this._c = new Character(new Name("valid"), new Id(1), this._f.Id);
+            this._c = new Character(
+                new Name("valid"),
+                new Id(1),
+                this._f.Id,
+                eraPoints: new PointTotal(1000)
+            );
             this._charRepo.Insert(this._c);
             this._charRepo.Save();
 
@@ -91,7 +97,12 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
             this._pp = new PraxisParticipant(this._c.Id);
             this._pps = new List<PraxisParticipant>();
             this._pps.Add(this._pp);
-            var c = new Character(new Name("alt"), new Id(100), this._f.Id);
+            var c = new Character(
+                new Name("alt"),
+                new Id(100),
+                this._f.Id,
+                eraPoints: new PointTotal(1000)
+            );
             this._charRepo.Insert(c);
             this._charRepo.Save();
             this._pps.Add(new PraxisParticipant(c.Id));

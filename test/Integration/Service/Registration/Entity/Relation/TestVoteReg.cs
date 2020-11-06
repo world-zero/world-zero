@@ -17,6 +17,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
         private Id _id2;
         private Id _id3;
         private Id _id4;
+        private RAMTaskRepo _taskRepo;
         private RAMVoteRepo _voteRepo;
         private RAMCharacterRepo _charRepo;
         private RAMPraxisRepo _praxisRepo;
@@ -34,6 +35,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
             this._id2 = new Id(2);
             this._id3 = new Id(3);
             this._id4 = new Id(4);
+            this._taskRepo = new RAMTaskRepo();
             this._eraRepo = new RAMEraRepo();
             this._eraReg = new EraReg(this._eraRepo);
             this._voteRepo = new RAMVoteRepo();
@@ -46,6 +48,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
                 this._praxisRepo,
                 this._charRepo,
                 this._mtRepo,
+                this._taskRepo,
                 this._eraReg
             );
             this._voteReg = new VoteReg(

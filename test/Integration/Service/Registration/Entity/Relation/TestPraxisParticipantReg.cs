@@ -13,6 +13,8 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
     [TestFixture]
     public class TestPraxisParticipantReg
     {
+        private PointTotal _pt;
+        private RAMTaskRepo _taskRepo;
         private DummyRAMPraxisParticipantRepo _ppRepo;
         private DummyRAMPraxisRepo _praxisRepo;
         private DummyRAMCharacterRepo _charRepo;
@@ -33,6 +35,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
         [SetUp]
         public void Setup()
         {
+            this._taskRepo = new RAMTaskRepo();
             this._eraRepo = new RAMEraRepo();
             this._eraReg = new EraReg(this._eraRepo);
             this._ppRepo = new DummyRAMPraxisParticipantRepo();
@@ -44,15 +47,39 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
                 this._praxisRepo,
                 this._charRepo,
                 this._mtRepo,
+                this._taskRepo,
                 this._eraReg
             );
 
-            this._tId = new Id(56);
+            var task = new Task(
+                new Name("x"),
+                StatusReg.Active.Id,
+                "z",
+                new PointTotal(2),
+                new Level(3)
+            );
+            this._taskRepo.Insert(task);
+            this._taskRepo.Save();
+            this._tId = task.Id;
             this._f =
                 new Faction(new Name("Good"), new PastDate(DateTime.UtcNow));
-            this._c0 = new Character(new Name("valid"), new Id(1), this._f.Id);
-            this._c1 = new Character(new Name("other"), new Id(20));
-            this._c2 = new Character(new Name("other other"), new Id(10));
+            this._pt = new PointTotal(1000);
+            this._c0 = new Character(
+                new Name("valid"),
+                new Id(1),
+                this._f.Id,
+                eraPoints: this._pt
+            );
+            this._c1 = new Character(
+                new Name("other"),
+                new Id(20),
+                eraPoints: this._pt
+            );
+            this._c2 = new Character(
+                new Name("other other"),
+                new Id(10),
+                eraPoints: this._pt
+            );
             this._charRepo.Insert(this._c0);
             this._charRepo.Insert(this._c1);
             this._charRepo.Insert(this._c2);
@@ -103,6 +130,16 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
             this._praxisRepo.Save();
             this._ppReg.Register(this._pp);
             Assert.IsNotNull(this._ppRepo.GetById(this._pp.Id));
+        }
+
+        [Test]
+        public void TestRegisterInsufficientLevel()
+        {
+            var c = new Character(new Name("c"), new Id(9));
+            this._charRepo.Insert(c);
+            this._charRepo.Save();
+            var pp = new PraxisParticipant(this._p0.Id, c.Id);
+            Assert.Throws<ArgumentException>(()=>this._ppReg.Register(pp));
         }
 
         [Test]
@@ -184,6 +221,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
                     null,
                     null,
                     null,
+                    null,
                     null
                 )
             );
@@ -193,6 +231,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
                     this._praxisRepo,
                     this._charRepo,
                     this._mtRepo,
+                    this._taskRepo,
                     this._eraReg
                 )
             );
@@ -202,6 +241,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
                     null,
                     this._charRepo,
                     this._mtRepo,
+                    this._taskRepo,
                     this._eraReg
                 )
             );
@@ -211,6 +251,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
                     this._praxisRepo,
                     null,
                     this._mtRepo,
+                    this._taskRepo,
                     this._eraReg
                 )
             );
@@ -219,6 +260,17 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
                     this._ppRepo,
                     this._praxisRepo,
                     this._charRepo,
+                    null,
+                    this._taskRepo,
+                    this._eraReg
+                )
+            );
+            Assert.Throws<ArgumentNullException>(
+                ()=>new PraxisParticipantReg(
+                    this._ppRepo,
+                    this._praxisRepo,
+                    this._charRepo,
+                    this._mtRepo,
                     null,
                     this._eraReg
                 )
@@ -229,6 +281,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
                     this._praxisRepo,
                     this._charRepo,
                     this._mtRepo,
+                    this._taskRepo,
                     null
                 )
             );
@@ -237,6 +290,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
                 this._praxisRepo,
                 this._charRepo,
                 this._mtRepo,
+                this._taskRepo,
                 this._eraReg
             );
         }

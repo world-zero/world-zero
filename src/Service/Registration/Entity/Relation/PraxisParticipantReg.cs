@@ -13,8 +13,15 @@ namespace WorldZero.Service.Registration.Entity.Relation
     /// <remarks>
     /// A Praxis should always have at least one participant.
     /// <br />
-    /// This will not ensure that one Player is having several of their
+    /// This will ensure that one Player is not having several of their
     /// characters participating on the same praxis.
+    /// <br />
+    /// The character's level versus the task's level is computed here, as they
+    /// register with / on a praxis. This will allow someone to register as In
+    /// Progress for a praxis and still be able to complete it after an Era
+    /// roll-over. For example, if someone's EraLevel is X, and
+    /// `Era.TaskLevelDelta` is Y, then someone can be a participant of tasks
+    /// of X+Y and below.
     /// <br />
     /// This will ensure that a character does not have more than the allowed
     /// number of in progress / active praxises, as defined by the Era returned
@@ -49,9 +56,8 @@ namespace WorldZero.Service.Registration.Entity.Relation
         { get { return (ICharacterRepo) this._rightRepo; } }
 
         protected readonly IMetaTaskRepo _mtRepo;
-
+        protected readonly ITaskRepo _taskRepo;
         protected readonly EraReg _eraReg;
-
         protected ISet<Name> _praxisLiveStatuses;
 
         public PraxisParticipantReg(
@@ -59,13 +65,16 @@ namespace WorldZero.Service.Registration.Entity.Relation
             IPraxisRepo praxisRepo,
             ICharacterRepo characterRepo,
             IMetaTaskRepo mtRepo,
+            ITaskRepo taskRepo,
             EraReg eraReg
         )
             : base(praxisParticipantRepo, praxisRepo, characterRepo)
         {
             this.AssertNotNull(mtRepo, "mtRepo");
+            this.AssertNotNull(taskRepo, "taskRepo");
             this.AssertNotNull(eraReg, "eraReg");
             this._mtRepo = mtRepo;
+            this._taskRepo = taskRepo;
             this._eraReg = eraReg;
 
             this._praxisLiveStatuses = new HashSet<Name>();
@@ -80,6 +89,7 @@ namespace WorldZero.Service.Registration.Entity.Relation
             Praxis p = this._verifyPraxis(pp);
             Character c = this._verifyCharacter(pp);
             Era activeEra = this._eraReg.GetActiveEra();
+            this._verifyLevel(c, activeEra, p);
             this._verifyPraxisCount(c, activeEra);
             MetaTask mt = this._getMetaTask(p);
             this._verifyFaction(c, mt);
@@ -189,7 +199,28 @@ namespace WorldZero.Service.Registration.Entity.Relation
             if (praxisCount > activeEra.MaxPraxises)
             {
                 this._praxisParticipantRepo.DiscardTransaction();
-                throw new ArgumentException($"The character {c.Name} ({c.Id}) has already reached their maximum amount of allowed live praxises, {praxisCount} (max of {activeEra.MaxPraxises}).");
+                throw new ArgumentException($"The character {c.Name.Get} ({c.Id.Get}) has already reached their maximum amount of allowed live praxises, {praxisCount} (max of {activeEra.MaxPraxises}).");
+            }
+        }
+
+        private void _verifyLevel(Character c, Era activeEra, Praxis p)
+        {
+            int bufferedLevel = c.EraLevel.Get + activeEra.TaskLevelDelta.Get;
+            int reqLevel;
+            try
+            {
+                reqLevel = this._taskRepo.GetById(p.TaskId).Level.Get;
+            }
+            catch (ArgumentException)
+            {
+                this._praxisParticipantRepo.DiscardTransaction();
+                throw new ArgumentException("The Task the participant is participating on does not exist.");
+            }
+
+            if (bufferedLevel < reqLevel)
+            {
+                this._praxisParticipantRepo.DiscardTransaction();
+                throw new ArgumentException($"Participant {c.Name.Get} ({c.Id.Get}) has level {c.EraLevel.Get}, when combined with buffer {bufferedLevel}, does not reach level requirement ({reqLevel}).");
             }
         }
     }

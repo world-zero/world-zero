@@ -27,17 +27,6 @@ using WorldZero.Data.Interface.Repository.Entity;
 //
 //      Do this for Tasks too, and MetaTasks
 
-// TODO: A character cannot submit a praxis for a task that is more than 2 levels greater than their level (level 2 can submit for level 4, but not level 5)
-//      Characters need to be able to set a praxis as in-progress, and that the level rule is
-//      performed AT THAT TIME ONLY.
-//      This should be done on praxis participant. Naturally, we want to have this level difference exist on an era
-//      I have included the addition to PraxisParticipantReg's remarks below.
-    /// <br />
-    /// The character's level versus the task's level is computed here, as they
-    /// register with / on a praxis. This will allow someone to register as in
-    /// progress for a praxis and still be able to complete it after an era
-    /// rolls over.
-
 namespace WorldZero.Service.Registration.Entity
 {
     /// <summary>
@@ -129,7 +118,7 @@ namespace WorldZero.Service.Registration.Entity
                 if (pp.PraxisId != null)
                     throw new ArgumentException("The praxis participant is already associated with a praxis, which cannot be the supplied praxis since it has an unset ID.");
             }
-            this._praxisRepo.BeginTransaction();
+            this._praxisRepo.BeginTransaction(true);
             try
             {
                 Task t = this._verifyTask(p);

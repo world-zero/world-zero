@@ -108,7 +108,8 @@ namespace WorldZero.Common.Entity
         /// </value>
         /// <remarks>
         /// An example of this would be how a character of level 3 would be
-        /// able to submit a praxis for a task of level 5 if `LevelDelta` is 2.
+        /// able to submit a praxis for a task of level 5 if `TaskLevelDelta`
+        /// is 2.
         /// </remarks>
         public Level TaskLevelDelta
         {
