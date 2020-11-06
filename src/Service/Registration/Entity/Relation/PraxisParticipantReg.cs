@@ -20,7 +20,7 @@ namespace WorldZero.Service.Registration.Entity.Relation
     /// register with / on a praxis. This will allow someone to register as In
     /// Progress for a praxis and still be able to complete it after an Era
     /// roll-over. For example, if someone's EraLevel is X, and
-    /// `Era.TaskLevelDelta` is Y, then someone can be a participant of tasks
+    /// `Era.TaskLevelBuffer` is Y, then someone can be a participant of tasks
     /// of X+Y and below.
     /// <br />
     /// This will ensure that a character does not have more than the allowed
@@ -205,7 +205,7 @@ namespace WorldZero.Service.Registration.Entity.Relation
 
         private void _verifyLevel(Character c, Era activeEra, Praxis p)
         {
-            int bufferedLevel = c.EraLevel.Get + activeEra.TaskLevelDelta.Get;
+            int bufferedLevel = c.EraLevel.Get + activeEra.TaskLevelBuffer.Get;
             int reqLevel;
             try
             {

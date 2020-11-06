@@ -44,7 +44,7 @@ namespace WorldZero.Test.Unit.Common.Entity
                 DateTime.UtcNow.ToString("MM:dd:yyyy HH"),
                 e.StartDate.Get.ToString("MM:dd:yyyy HH")
             );
-            Assert.AreEqual(new Level(2), e.TaskLevelDelta);
+            Assert.AreEqual(new Level(2), e.TaskLevelBuffer);
             Assert.AreEqual(20, e.MaxPraxises);
             Assert.AreEqual(1, e.MaxTasks);
             Assert.AreEqual(2, e.MaxTasksReiterator);
@@ -69,7 +69,7 @@ namespace WorldZero.Test.Unit.Common.Entity
                 endDate
             );
             Assert.IsNotNull(e.EndDate);
-            Assert.AreEqual(new Level(5), e.TaskLevelDelta);
+            Assert.AreEqual(new Level(5), e.TaskLevelBuffer);
             Assert.AreEqual(100, e.MaxPraxises);
             Assert.AreEqual(2, e.MaxTasks);
             Assert.AreEqual(9, e.MaxTasksReiterator);

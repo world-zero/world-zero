@@ -28,7 +28,7 @@ namespace WorldZero.Common.Entity
             this.StartDate = startDate;
             this.EndDate = endDate;
 
-            this.TaskLevelDelta = taskLevelDelta;
+            this.TaskLevelBuffer = taskLevelDelta;
             this.MaxPraxises = maxPraxises;
             this.MaxTasksReiterator = maxTasksReiterator;
             this.MaxTasks = maxTasks;
@@ -51,7 +51,7 @@ namespace WorldZero.Common.Entity
         {
             this.StartDate = new PastDate(startDate);
             this.EndDate = new PastDate(endDate);
-            this.TaskLevelDelta = new Level(taskLevelDelta);
+            this.TaskLevelBuffer = new Level(taskLevelDelta);
             this.MaxPraxises = maxPraxises;
             this.MaxTasks = maxTasks;
             this.MaxTasksReiterator = maxTasksReiterator;
@@ -63,7 +63,7 @@ namespace WorldZero.Common.Entity
         {
             return new Era(
                 this.Id,
-                this.TaskLevelDelta,
+                this.TaskLevelBuffer,
                 this.MaxPraxises,
                 this.MaxTasks,
                 this.MaxTasksReiterator,
@@ -108,10 +108,10 @@ namespace WorldZero.Common.Entity
         /// </value>
         /// <remarks>
         /// An example of this would be how a character of level 3 would be
-        /// able to submit a praxis for a task of level 5 if `TaskLevelDelta`
+        /// able to submit a praxis for a task of level 5 if `TaskLevelBuffer`
         /// is 2.
         /// </remarks>
-        public Level TaskLevelDelta
+        public Level TaskLevelBuffer
         {
             get { return this._taskLevelDelta; }
             set
