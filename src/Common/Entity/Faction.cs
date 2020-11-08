@@ -17,7 +17,7 @@ namespace WorldZero.Common.Entity
         /// </summary>
         public Faction(
             Name name,
-            PastDate dateFounded,
+            PastDate dateFounded=null,
             string desc=null,
             Name abilityName=null
         )
@@ -50,6 +50,8 @@ namespace WorldZero.Common.Entity
             string desc,
             Name abilityName)
         {
+            if (dateFounded == null)
+                dateFounded = new PastDate(DateTime.UtcNow);
             this.DateFounded = dateFounded;
             this.Description = desc;
             this.AbilityName = abilityName;

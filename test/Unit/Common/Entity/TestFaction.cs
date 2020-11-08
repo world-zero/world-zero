@@ -28,7 +28,7 @@ namespace WorldZero.Test.Unit.Common.Entity
         [Test]
         public void TestDefaultValues()
         {
-            var f = new Faction(this._name, new PastDate(DateTime.UtcNow));
+            var f = new Faction(this._name);
             // Ignore the minutes/milliseconds/seconds so this test doesn't fail.
             Assert.AreEqual(
                 DateTime.UtcNow.ToString("MM:dd:yyyy HH"),
