@@ -166,22 +166,55 @@ namespace WorldZero.Service.Interface.Registration.Entity
         /// <summary>
         /// Ensure that the entity is not null *and* that the IDs exist in the
         /// needed repos.
-        /// <br />
-        /// This *will not* start a serialized transaction.
         /// </summary>
+        /// <remarks>
+        /// This *will not* start a serialized transaction.
+        /// </remarks>
         protected override void PreRegisterChecks(TEntityRelation e, string t)
         {
             base.PreRegisterChecks(e, t);
+            this.GetLeftEntity(e);
+            this.GetRightEntity(e);
+        }
 
+        /// <summary>
+        /// This will get and return the left entity associated with the
+        /// supplied relational entity, throwing an `ArgumentException` if an
+        /// error occurs.
+        /// </summary>
+        /// <remarks>
+        /// This *will not* start a serialized transaction.
+        /// </remarks>
+        protected TLeftEntity GetLeftEntity(TEntityRelation e)
+        {
             try
-            { this._leftRepo.GetById(e.LeftId); }
-            catch (ArgumentException)
-            { throw new ArgumentException("Could not insert the relation entity as its left ID is not registered with the correct repo."); }
+            {
+                return this._leftRepo.GetById(e.LeftId);
+            }
+            catch (ArgumentException exc)
+            {
+                throw new ArgumentException("Could not retrieve the LeftId.", exc);
+            }
+        }
 
+        /// <summary>
+        /// This will get and return the right entity associated with the
+        /// supplied relational entity, throwing an `ArgumentException` if an
+        /// error occurs.
+        /// </summary>
+        /// <remarks>
+        /// This *will not* start a serialized transaction.
+        /// </remarks>
+        protected TRightEntity GetRightEntity(TEntityRelation e)
+        {
             try
-            { this._rightRepo.GetById(e.RightId); }
-            catch (ArgumentException)
-            { throw new ArgumentException("Could not insert the relation entity as its right ID is not registered with the correct repo."); }
+            {
+                return this._rightRepo.GetById(e.RightId);
+            }
+            catch (ArgumentException exc)
+            {
+                throw new ArgumentException("Could not retrieve the RightId.", exc);
+            }
         }
     }
 }
