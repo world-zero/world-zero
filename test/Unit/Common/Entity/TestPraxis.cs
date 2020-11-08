@@ -65,5 +65,11 @@ namespace WorldZero.Test.Unit.Common.Entity
             Assert.Throws<ArgumentNullException>(()=>this._p.StatusId = null);
             Assert.AreEqual(new Name("crate"), this._p.StatusId);
         }
+
+        [Test]
+        public void TestPoints()
+        {
+            Assert.Throws<ArgumentNullException>(()=>this._p.Points = null);
+        }
     }
 }
