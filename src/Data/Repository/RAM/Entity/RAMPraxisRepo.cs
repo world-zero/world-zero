@@ -16,7 +16,7 @@ namespace WorldZero.Data.Repository.RAM.Entity
     {
         protected override int GetRuleCount()
         {
-            var a = new Praxis(new Id(2), new Name("f"));
+            var a = new Praxis(new Id(2), new PointTotal(2), new Name("f"));
             return a.GetUniqueRules().Count;
         }
 

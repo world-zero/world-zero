@@ -15,6 +15,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
     [TestFixture]
     public class TestPraxisReg
     {
+        private PointTotal _pt;
         private IFactionRepo _factionRepo;
         private DummyRAMPraxisParticipantRepo _ppRepo;
         private ICharacterRepo _charRepo;
@@ -39,6 +40,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
         [SetUp]
         public void Setup()
         {
+            this._pt = new PointTotal(2);
             this._factionRepo = new RAMFactionRepo();
             this._eraRepo = new RAMEraRepo();
             this._eraReg = new EraReg(this._eraRepo);
@@ -97,8 +99,12 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
             this._mtRepo.Insert(this._mt);
             this._mtRepo.Save();
 
-            this._p =
-                new Praxis(this._t.Id, StatusReg.Active.Id, this._mt.Id);
+            this._p = new Praxis(
+                this._t.Id,
+                this._pt,
+                StatusReg.Active.Id,
+                this._mt.Id
+            );
             this._pp = new PraxisParticipant(this._c.Id);
             this._pps = new List<PraxisParticipant>();
             this._pps.Add(this._pp);
@@ -127,7 +133,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
         [Test]
         public void TestRegisterHappy()
         {
-            var p = new Praxis(this._t.Id, this._status0.Id);
+            var p = new Praxis(this._t.Id, this._pt,this._status0.Id);
             Assert.IsFalse(p.IsIdSet());
             Assert.IsFalse(this._pp.IsIdSet());
             this._registration.Register(p, this._pp);

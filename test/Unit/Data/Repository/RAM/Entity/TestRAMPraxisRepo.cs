@@ -28,6 +28,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity
         private PraxisParticipant _pp3;
         private Id _charId0;
         private Id _charId1;
+        private PointTotal _points;
 
         [SetUp]
         public void Setup()
@@ -40,9 +41,10 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity
             this._goodStatuses = new HashSet<Name>();
             this._goodStatuses.Add(this._goodStatus);
             this._goodStatuses.Add(this._otherGoodStatus);
-            this._p0 = new Praxis(new Id(1), this._goodStatus);
-            this._p1 = new Praxis(new Id(1), this._goodStatus);
-            this._p2 = new Praxis(new Id(1), this._badStatus);
+            this._points = new PointTotal(3);
+            this._p0 = new Praxis(new Id(1), this._points, this._goodStatus);
+            this._p1 = new Praxis(new Id(1), this._points, this._goodStatus);
+            this._p2 = new Praxis(new Id(1), this._points, this._badStatus);
             this._praxisRepo.Insert(this._p0);
             this._praxisRepo.Insert(this._p1);
             this._praxisRepo.Save();

@@ -82,7 +82,8 @@ namespace WorldZero.Test.Integration.Service.Interface.Registration.Entity
             this._characterRepo.Delete(c.Id);
             this._characterRepo.Save();
 
-            var p = new Praxis(new Id(2), new Name("Valid"));
+            var p =
+                new Praxis(new Id(2), new PointTotal(40), new Name("Valid"));
             this._praxisRepo.Insert(p);
             this._praxisRepo.Save();
             Assert.Throws<ArgumentException>(()=>

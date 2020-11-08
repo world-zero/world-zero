@@ -10,6 +10,7 @@ namespace WorldZero.Test.Unit.Common.Entity
     {
         private Id _praxisId;
         private Id _taskId;
+        private PointTotal _points;
         private Name _statusId;
         private Id _metaTaskId;
         private bool _areDueling;
@@ -19,6 +20,7 @@ namespace WorldZero.Test.Unit.Common.Entity
         public void Setup()
         {
             this._praxisId = new Id(19999);
+            this._points = new PointTotal(5);
             this._taskId = new Id(939);
             this._metaTaskId = new Id(666);
             this._statusId = new Name("valid");
@@ -27,6 +29,7 @@ namespace WorldZero.Test.Unit.Common.Entity
             this._p = new Praxis(
                 this._praxisId,
                 this._taskId,
+                this._points,
                 this._statusId,
                 this._metaTaskId,
                 this._areDueling

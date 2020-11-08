@@ -15,6 +15,7 @@ namespace WorldZero.Common.Entity
     {
         public Praxis(
             Id taskId,
+            PointTotal points,
             Name statusId,
             Id metaTaskId=null,
             bool areDueling=false
@@ -23,6 +24,7 @@ namespace WorldZero.Common.Entity
         {
             this._setup(
                 taskId,
+                points,
                 statusId,
                 metaTaskId,
                 areDueling
@@ -32,6 +34,7 @@ namespace WorldZero.Common.Entity
         public Praxis(
             Id id,
             Id taskId,
+            PointTotal points,
             Name statusId,
             Id metaTaskId=null,
             bool areDueling=false
@@ -40,6 +43,7 @@ namespace WorldZero.Common.Entity
         {
             this._setup(
                 taskId,
+                points,
                 statusId,
                 metaTaskId,
                 areDueling
@@ -49,6 +53,7 @@ namespace WorldZero.Common.Entity
         internal Praxis(
             int id,
             int taskId,
+            int points,
             string statusId,
             int metaTaskId,
             bool areDueling
@@ -57,6 +62,7 @@ namespace WorldZero.Common.Entity
         {
             this._setup(
                 new Id(taskId),
+                new PointTotal(points),
                 new Name(statusId),
                 new Id(metaTaskId),
                 areDueling
@@ -68,15 +74,27 @@ namespace WorldZero.Common.Entity
             return new Praxis(
                 this.Id,
                 this.TaskId,
+                this.Points,
                 this.StatusId,
                 this.MetaTaskId,
                 this.AreDueling
             );
         }
 
-        private void _setup(Id taskId, Name statusId, Id metaTaskId, bool areDueling)
+        private void _setup(
+            Id taskId,
+            PointTotal points,
+            Name statusId,
+            Id metaTaskId,
+            bool areDueling
+        )
         {
+            if (taskId == null)
+                throw new ArgumentNullException("taskId");
+            if (points == null)
+                throw new ArgumentNullException("points");
             this.TaskId = taskId;
+            this.Points = points;
             this.StatusId = statusId;
             this.MetaTaskId = metaTaskId;
             this.AreDueling = areDueling;
@@ -93,6 +111,19 @@ namespace WorldZero.Common.Entity
             }
         }
         private Id _taskId;
+
+        public PointTotal Points
+        {
+            get { return this._points; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("Points");
+
+                this._points = value;
+            }
+        }
+        private PointTotal _points;
 
         public Name StatusId
         {

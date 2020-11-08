@@ -102,8 +102,19 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
             this._mtRepo.Insert(this._mt);
             this._mtRepo.Save();
 
-            this._p0 = new Praxis(this._tId, StatusReg.Active.Id, this._mt.Id);
-            this._p1 = new Praxis(this._tId, StatusReg.Active.Id, null, true);
+            this._p0 = new Praxis(
+                this._tId,
+                this._pt,
+                StatusReg.Active.Id,
+                this._mt.Id
+            );
+            this._p1 = new Praxis(
+                this._tId,
+                this._pt,
+                StatusReg.Active.Id,
+                null,
+                true
+            );
             this._praxisRepo.Insert(this._p0);
             this._praxisRepo.Insert(this._p1);
             this._praxisRepo.Save();
@@ -178,7 +189,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
                 ()=>this._ppReg.Register(pp));
 
             // Praxis that isn't active or in progress.
-            var p = new Praxis(new Id(1), StatusReg.Proposed.Id);
+            var p = new Praxis(new Id(1), this._pt, StatusReg.Proposed.Id);
             this._praxisRepo.Insert(p);
             this._praxisRepo.Save();
             pp = new PraxisParticipant(p.Id, this._c0.Id);

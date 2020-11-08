@@ -135,7 +135,8 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
             var eraRepo = new RAMEraRepo();
             var eraReg = new EraReg(eraRepo);
 
-            var praxis = new Praxis(task.Id, status.Id);
+            var pt = new PointTotal(2);
+            var praxis = new Praxis(task.Id, pt, status.Id);
             var mtRepo = new RAMMetaTaskRepo();
             var praxisReg = new PraxisReg(
                 this._praxisRepo,
@@ -195,13 +196,14 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
         [Test]
         public void TestRegisterBadParticipant()
         {
+            var pt = new PointTotal(100);
             var c0 = new Character(new Name("f"), new Id(0));
             this._charRepo.Insert(c0);
             this._charRepo.Save();
             var c1 = new Character(new Name("g"), new Id(2));
             this._charRepo.Insert(c1);
             this._charRepo.Save();
-            var p = new Praxis(new Id(234), new Name("Active"));
+            var p = new Praxis(new Id(234), pt, new Name("Active"));
             this._praxisRepo.Insert(p);
             this._praxisRepo.Save();
 
