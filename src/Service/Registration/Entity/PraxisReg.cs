@@ -18,7 +18,6 @@ using WorldZero.Data.Interface.Repository.Entity;
 //      This should live on the PraxisUpdate service class
 
 // Era Magic Numbers
-// TODO: EraReg.Register() should perform the side effects of moving active praxises to retired, reseting Char.EraPoints, etc
 // TODO: if a praxis is flagged as inappropriate, remove some of the base points
 //      adjust Flag to have a number/bool, like MetaTask's bonus
 //      add to magic numbers ticket

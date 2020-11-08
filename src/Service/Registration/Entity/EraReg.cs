@@ -13,6 +13,13 @@ namespace WorldZero.Service.Registration.Entity
     /// If no era exists when an instance is initialized, this will create a
     /// default era. There should always be at least one Era at all times.
     /// <br />
+    /// While `EraReg.Register(Era)` does perform the era roll-over, this does
+    /// not perform any other era roll-over behavior, like moving all Active
+    /// praxises to become Retired. This is because there is a specific flow
+    /// that is defined by the requirements doc to avoid giving a
+    /// non-interactive method too much changing power. The doc describes this
+    /// functionality to live in `CzarConsole`.
+    /// <br />
     /// As long as this class is the only item altering the supplied Era
     /// repository, there will be no internal consistency errors.
     /// <br />
