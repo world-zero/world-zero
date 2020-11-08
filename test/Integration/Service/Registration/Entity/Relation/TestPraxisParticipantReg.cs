@@ -15,6 +15,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
     {
         private PointTotal _pt;
         private RAMTaskRepo _taskRepo;
+        private RAMFactionRepo _factionRepo;
         private DummyRAMPraxisParticipantRepo _ppRepo;
         private DummyRAMPraxisRepo _praxisRepo;
         private DummyRAMCharacterRepo _charRepo;
@@ -31,23 +32,33 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
         private PraxisParticipant _pp;
         private Faction _f;
         private Id _tId;
+        private Era _e;
 
         [SetUp]
         public void Setup()
         {
             this._taskRepo = new RAMTaskRepo();
             this._eraRepo = new RAMEraRepo();
+            this._e = new Era(
+                new Name("Testing"),
+                maxTasks: 1,
+                maxTasksReiterator: 2
+            );
+            this._eraRepo.Insert(this._e);
+            this._eraRepo.Save();
             this._eraReg = new EraReg(this._eraRepo);
             this._ppRepo = new DummyRAMPraxisParticipantRepo();
             this._praxisRepo = new DummyRAMPraxisRepo();
             this._charRepo = new DummyRAMCharacterRepo();
             this._mtRepo = new DummyRAMMetaTaskRepo();
+            this._factionRepo = new RAMFactionRepo();
             this._ppReg = new PraxisParticipantReg(
                 this._ppRepo,
                 this._praxisRepo,
                 this._charRepo,
                 this._mtRepo,
                 this._taskRepo,
+                this._factionRepo,
                 this._eraReg
             );
 
@@ -63,6 +74,8 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
             this._tId = task.Id;
             this._f =
                 new Faction(new Name("Good"), new PastDate(DateTime.UtcNow));
+            this._factionRepo.Insert(this._f);
+            this._factionRepo.Save();
             this._pt = new PointTotal(1000);
             this._c0 = new Character(
                 new Name("valid"),
@@ -213,6 +226,33 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
         }
 
         [Test]
+        public void TestRegisterTooManySubmissions()
+        {
+            var pp = new PraxisParticipant(this._p1.Id, this._c0.Id);
+            this._ppReg.Register(pp);
+            Assert.AreEqual(1, pp.Count);
+
+            // Sad: exceeds submission count.
+            pp = new PraxisParticipant(this._p1.Id, this._c0.Id);
+            Assert.Throws<ArgumentException>(()=>
+                this._ppReg.Register(pp));
+
+            // Happy: make the character's faction have Reiterator, and then
+            // they should be able to submit again.
+            this._f.AbilityName = AbilityReg.Reiterator.Id;
+            this._factionRepo.Update(this._f);
+            this._factionRepo.Save();
+            pp = new PraxisParticipant(this._p1.Id, this._c0.Id);
+            this._ppReg.Register(pp);
+            Assert.AreEqual(2, pp.Count);
+
+            // Sad: Exceed Reiterator's buffer.
+            pp = new PraxisParticipant(this._p1.Id, this._c0.Id);
+            Assert.Throws<ArgumentException>(()=>
+                this._ppReg.Register(pp));
+        }
+
+        [Test]
         public void TestConstructor()
         {
             Assert.Throws<ArgumentNullException>(
@@ -222,6 +262,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
                     null,
                     null,
                     null,
+                    null,
                     null
                 )
             );
@@ -232,6 +273,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
                     this._charRepo,
                     this._mtRepo,
                     this._taskRepo,
+                    this._factionRepo,
                     this._eraReg
                 )
             );
@@ -242,6 +284,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
                     this._charRepo,
                     this._mtRepo,
                     this._taskRepo,
+                    this._factionRepo,
                     this._eraReg
                 )
             );
@@ -252,6 +295,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
                     null,
                     this._mtRepo,
                     this._taskRepo,
+                    this._factionRepo,
                     this._eraReg
                 )
             );
@@ -262,6 +306,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
                     this._charRepo,
                     null,
                     this._taskRepo,
+                    this._factionRepo,
                     this._eraReg
                 )
             );
@@ -272,6 +317,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
                     this._charRepo,
                     this._mtRepo,
                     null,
+                    this._factionRepo,
                     this._eraReg
                 )
             );
@@ -282,7 +328,19 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
                     this._charRepo,
                     this._mtRepo,
                     this._taskRepo,
+                    this._factionRepo,
                     null
+                )
+            );
+            Assert.Throws<ArgumentNullException>(
+                ()=>new PraxisParticipantReg(
+                    this._ppRepo,
+                    this._praxisRepo,
+                    this._charRepo,
+                    this._mtRepo,
+                    this._taskRepo,
+                    null,
+                    this._eraReg
                 )
             );
             new PraxisParticipantReg(
@@ -291,6 +349,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
                 this._charRepo,
                 this._mtRepo,
                 this._taskRepo,
+                this._factionRepo,
                 this._eraReg
             );
         }

@@ -47,13 +47,15 @@ namespace WorldZero.Data.Interface.Repository.Entity.Relation
 
         /// <summary>
         /// Return an int that is the next largest Count for the supplied DTO.
+        /// </summary>
+        /// <remarks>
         /// This will not attempt to "fill in" any deleted ints, but just
         /// determine the int of the largest int plus one, where the largest
         /// int is taken from the the saved pool and the staged pool. This
         /// would mean that this would "fill in" an int of something that used
         /// to have the largest int, until it was deleted, freeing that slot
         /// up.
-        /// </summary>
+        /// </remarks>
         int GetNextCount(
             RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
         );

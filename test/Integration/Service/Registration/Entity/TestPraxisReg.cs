@@ -15,6 +15,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
     [TestFixture]
     public class TestPraxisReg
     {
+        private IFactionRepo _factionRepo;
         private DummyRAMPraxisParticipantRepo _ppRepo;
         private ICharacterRepo _charRepo;
         private DummyRAMPraxisRepo _praxisRepo;
@@ -38,6 +39,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
         [SetUp]
         public void Setup()
         {
+            this._factionRepo = new RAMFactionRepo();
             this._eraRepo = new RAMEraRepo();
             this._eraReg = new EraReg(this._eraRepo);
             this._ppRepo = new DummyRAMPraxisParticipantRepo();
@@ -51,6 +53,7 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
                 this._charRepo,
                 this._mtRepo,
                 this._taskRepo,
+                this._factionRepo,
                 this._eraReg
             );
             this._statusRepo = new RAMStatusRepo();
@@ -79,6 +82,8 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
 
             this._f =
                 new Faction(new Name("Good"), new PastDate(DateTime.UtcNow));
+            this._factionRepo.Insert(this._f);
+            this._factionRepo.Save();
             this._c = new Character(
                 new Name("valid"),
                 new Id(1),

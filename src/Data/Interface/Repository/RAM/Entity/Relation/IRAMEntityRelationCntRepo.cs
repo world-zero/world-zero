@@ -71,7 +71,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity.Relation
             RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
         )
         {
-            int c = 1;
+            int c = 0;
             int savedC = 0;
             int stagedC = 0;
 

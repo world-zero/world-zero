@@ -11,7 +11,7 @@ namespace WorldZero.Data.Repository.RAM.Entity.Relation
 {
     /// <inheritdoc cref="IPraxisParticipantRepo"/>
     public class RAMPraxisParticipantRepo
-        : IRAMEntityRelationRepo
+        : IRAMEntityRelationCntRepo
           <
             PraxisParticipant,
             Id,

@@ -18,8 +18,7 @@ using WorldZero.Data.Interface.Repository.Entity;
 //      This should live on the PraxisUpdate service class
 
 // Era Magic Numbers
-// TODO: Normally, characters can only complete a task once (have this be a static field controlled by Era)
-//      Have the Reiterator-skill's max submission count live on Era too
+// TODO: EraReg.Register() should perform the side effects of moving active praxises to retired, reseting Char.EraPoints, etc
 // TODO: if a praxis is flagged as inappropriate, remove some of the base points
 //      adjust Flag to have a number/bool, like MetaTask's bonus
 //      add to magic numbers ticket
