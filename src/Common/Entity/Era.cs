@@ -218,53 +218,6 @@ namespace WorldZero.Common.Entity
         /// </summary>
         public bool IsFlatPenalty { get; set; }
 
-        /// <summary>
-        /// This uses `PenaltyDeduction` and `IsFlatPenalty` to determine the
-        /// new point total given the supplied point total when applying the
-        /// penalty, rounding down. If the total goes below zero, this will
-        /// return `new PointTotal(0)`.
-        /// </summary>
-        public PointTotal ApplyPenalty(PointTotal pt)
-        {
-            if (pt == null)
-                throw new ArgumentNullException("pt");
-
-            if (this.IsFlatPenalty)
-                return this._applyFlatPenalty(pt);
-            else
-                return this._applyPercentPenalty(pt);
-        }
-
-        private PointTotal _applyFlatPenalty(PointTotal pt)
-        {
-            try
-            {
-                int r = pt.Get - Convert.ToInt32(this.PenaltyDeduction);
-                return new PointTotal(r);
-            }
-            catch (OverflowException e)
-            { throw new ArgumentException("PenaltyDeduction is too large to treat as an int.", e); }
-            catch (ArgumentException)
-            { return new PointTotal(0); }
-        }
-
-        private PointTotal _applyPercentPenalty(PointTotal pt)
-        {
-            try
-            {
-                var given     = Convert.ToDouble(pt.Get);
-                var deduction = given * this.PenaltyDeduction;
-                var result    = given - deduction;
-                return new PointTotal(Convert.ToInt32(result));
-            }
-            catch (OverflowException e)
-            { throw new ArgumentException("The new result could not be converted to an int.", e); }
-            catch (InvalidCastException e)
-            { throw new ArgumentException("The new result could not be converted to an int.", e); }
-            catch (ArgumentException)
-            { return new PointTotal(0); }
-        }
-
         private void _checkDates(PastDate start, PastDate end)
         {
             if ( (start != null) 

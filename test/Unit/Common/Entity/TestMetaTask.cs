@@ -71,40 +71,5 @@ namespace WorldZero.Test.Unit.Common.Entity
             Assert.Throws<ArgumentNullException>(()=>this._mt.StatusId = null);
             Assert.AreEqual(new Name("crate"), this._mt.StatusId);
         }
-
-        [Test]
-        public void TestApplyPenaltyFlatHappy()
-        {
-            this._mt.IsFlatBonus = true;
-            this._mt.Bonus = 100;
-            Assert.AreEqual(
-                new PointTotal(200),
-                this._mt.ApplyBonus(new PointTotal(100))
-            );
-        }
-
-        [Test]
-        public void TestApplyBonusFlatSad()
-        {
-            this._mt.IsFlatBonus = true;
-            Assert.Throws<ArgumentNullException>(()=>
-                this._mt.ApplyBonus(null));
-
-            this._mt.Bonus = Convert.ToDouble(int.MaxValue);
-            this._mt.Bonus += 10000;
-            Assert.Throws<ArgumentException>(()=>
-                this._mt.ApplyBonus(new PointTotal(324)));
-        }
-
-        [Test]
-        public void TestApplyBonusPercentHappy()
-        {
-            this._mt.IsFlatBonus = false;
-            this._mt.Bonus = 0.10;
-            Assert.AreEqual(
-                new PointTotal(110),
-                this._mt.ApplyBonus(new PointTotal(100))
-            );
-        }
     }
 }

@@ -147,55 +147,5 @@ namespace WorldZero.Test.Unit.Common.Entity
             Assert.Throws<ArgumentException>(()=>
                 this._e.PenaltyDeduction = -1);
         }
-
-        [Test]
-        public void TestApplyPenaltyFlatHappy()
-        {
-            this._e.IsFlatPenalty = true;
-            this._e.PenaltyDeduction = 10;
-            Assert.AreEqual(
-                new PointTotal(90),
-                this._e.ApplyPenalty(new PointTotal(100))
-            );
-        }
-
-        [Test]
-        public void TestApplyPenaltyFlatSad()
-        {
-            this._e.IsFlatPenalty = true;
-            Assert.Throws<ArgumentNullException>(()=>
-                this._e.ApplyPenalty(null));
-
-            this._e.PenaltyDeduction = 1000;
-            Assert.AreEqual(
-                new PointTotal(0),
-                this._e.ApplyPenalty(new PointTotal(10)));
-
-            this._e.PenaltyDeduction = Convert.ToDouble(int.MaxValue);
-            this._e.PenaltyDeduction += 10000;
-            Assert.Throws<ArgumentException>(()=>
-                this._e.ApplyPenalty(new PointTotal(324)));
-        }
-
-        [Test]
-        public void TestApplyPenaltyPercentHappy()
-        {
-            this._e.IsFlatPenalty = false;
-            this._e.PenaltyDeduction = 0.10;
-            Assert.AreEqual(
-                new PointTotal(90),
-                this._e.ApplyPenalty(new PointTotal(100))
-            );
-        }
-
-        [Test]
-        public void TestApplyPenaltyPercentSad()
-        {
-            this._e.IsFlatPenalty = false;
-            this._e.PenaltyDeduction = 1.1;
-            Assert.AreEqual(
-                new PointTotal(0),
-                this._e.ApplyPenalty(new PointTotal(10)));
-        }
     }
 }
