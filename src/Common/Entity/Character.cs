@@ -20,7 +20,7 @@ namespace WorldZero.Common.Entity
                 throw new ArgumentNullException("points");
 
             int r = -1; // Just to make sure it's getting set.
-            int p = points.Get;
+            int p = points.AsInt;
             if      (p < 10)   r = 0;
             else if (p < 70)   r = 1;
             else if (p < 170)  r = 2;
@@ -38,15 +38,10 @@ namespace WorldZero.Common.Entity
             { throw new InvalidOperationException("This should not occur.", e); }
         }
 
-        /// <param name="name"></param>
-        /// <param name="playerId"></param>
-        /// <param name="factionId"></param>
         /// <param name="locationId"></param>
         /// <param name="eraPoints">If unspecified, this will be set to 0.</param>
         /// <param name="totalPoints">If unspecified, this will be set to 0.</param>
         /// <param name="votePointsLeft">If unspecified, this will be set to 100.</param>
-        /// <param name="hasBio"></param>
-        /// <param name="hasProfilePic"></param>
         public Character(
             Name       name,
             Id         playerId,
@@ -120,9 +115,9 @@ namespace WorldZero.Common.Entity
             int    playerId,
             string factionId,
             int    locationId,
-            int    eraPoints,
+            double eraPoints,
             int    eraLevel,
-            int    totalPoints,
+            double totalPoints,
             int    totalLevel,
             int    votePointsLeft,
             bool   hasBio,

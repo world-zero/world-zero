@@ -10,9 +10,9 @@ namespace WorldZero.Common.ValueObject.General
     /// <exception cref="ArgumentException">
     /// This is thrown on set iff the point total is invalid.
     /// </exception>
-    public sealed class PointTotal : ISingleValueObject<int>
+    public sealed class PointTotal : ISingleValueObject<Double>
     {
-        public override int Get 
+        public override double Get 
         {
             get { return this._val; }
             protected set
@@ -23,7 +23,17 @@ namespace WorldZero.Common.ValueObject.General
             }
         }
 
-        public PointTotal(int value)
+        /// <summary>
+        /// Return the stored value as an int, rounding down.
+        /// </summary>
+        /// <remarks>
+        /// Be warned that doubles can store larger values than 32-bit ints.
+        /// This property will do nothing to catch the exceptions caused by
+        /// `Convert.ToInt32(double)`.
+        /// </remarks>
+        public int AsInt { get { return Convert.ToInt32(this._val); } }
+
+        public PointTotal(double value)
             : base(value)
         { }
 
@@ -36,14 +46,15 @@ namespace WorldZero.Common.ValueObject.General
         /// </summary>
         public static PointTotal ApplyPenalty(
             PointTotal pt,
-            double penalty,
+            PointTotal penalty,
             bool isFlatPenalty=true
         )
         {
             if (pt == null)
                 throw new ArgumentNullException("pt");
+            if (penalty == null)
+                throw new ArgumentNullException("penalty");
 
-            penalty = Math.Abs(penalty);
             if (isFlatPenalty)
                 return _applyFlatPenalty(pt, penalty, isFlatPenalty);
             else
@@ -52,38 +63,32 @@ namespace WorldZero.Common.ValueObject.General
 
         private static PointTotal _applyFlatPenalty(
             PointTotal pt,
-            double penalty,
+            PointTotal penalty,
             bool isFlatPenalty
         )
         {
             try
             {
-                int r = pt.Get - Convert.ToInt32(penalty);
+                double r = pt.Get - penalty.Get;
                 return new PointTotal(r);
             }
-            catch (OverflowException e)
-            { throw new ArgumentException("PenaltyDeduction is too large to treat as an int.", e); }
             catch (ArgumentException)
             { return new PointTotal(0); }
         }
 
         private static PointTotal _applyPercentPenalty(
             PointTotal pt,
-            double penalty,
+            PointTotal penalty,
             bool isFlatPenalty
         )
         {
             try
             {
-                var given     = Convert.ToDouble(pt.Get);
-                var deduction = given * penalty;
+                var given     = pt.Get;
+                var deduction = pt.Get * penalty.Get;
                 var result    = given - deduction;
-                return new PointTotal(Convert.ToInt32(result));
+                return new PointTotal(result);
             }
-            catch (OverflowException e)
-            { throw new ArgumentException("The new result could not be converted to an int.", e); }
-            catch (InvalidCastException e)
-            { throw new ArgumentException("The new result could not be converted to an int.", e); }
             catch (ArgumentException)
             { return new PointTotal(0); }
         }
@@ -96,14 +101,15 @@ namespace WorldZero.Common.ValueObject.General
         /// </summary>
         public static PointTotal ApplyBonus(
             PointTotal pt,
-            double bonus,
+            PointTotal bonus,
             bool isFlatBonus=true
         )
         {
             if (pt == null)
                 throw new ArgumentNullException("pt");
+            if (bonus == null)
+                throw new ArgumentNullException("bonus");
 
-            bonus = Math.Abs(bonus);
             if (isFlatBonus)
                 return _applyFlatBonus(pt, bonus, isFlatBonus);
             else
@@ -112,38 +118,32 @@ namespace WorldZero.Common.ValueObject.General
 
         private static PointTotal _applyFlatBonus(
             PointTotal pt,
-            double bonus,
+            PointTotal bonus,
             bool isFlatBonus
         )
         {
             try
             {
-                int r = pt.Get + Convert.ToInt32(bonus);
+                double r = pt.Get + bonus.Get;
                 return new PointTotal(r);
             }
-            catch (OverflowException e)
-            { throw new ArgumentException("BonusDeduction is too large to treat as an int.", e); }
             catch (ArgumentException e)
             { throw new InvalidOperationException("This shouldn't be happening.", e); }
         }
 
         private static PointTotal _applyPercentBonus(
             PointTotal pt,
-            double bonus,
+            PointTotal bonus,
             bool isFlatBonus
         )
         {
             try
             {
                 var given  = Convert.ToDouble(pt.Get);
-                var yay    = given * bonus;
+                var yay    = given * bonus.Get;
                 var result = given + yay;
-                return new PointTotal(Convert.ToInt32(result));
+                return new PointTotal(result);
             }
-            catch (OverflowException e)
-            { throw new ArgumentException("The new result could not be converted to an int.", e); }
-            catch (InvalidCastException e)
-            { throw new ArgumentException("The new result could not be converted to an int.", e); }
             catch (ArgumentException e)
             { throw new InvalidOperationException("This shouldn't be happening.", e); }
         }

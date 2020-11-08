@@ -10,7 +10,7 @@ namespace WorldZero.Test.Unit.Common.Entity
     {
         private Id _metaTaskId;
         private string _desc;
-        private double _bonus;
+        private PointTotal _bonus;
         private bool _isFlatBonus;
         private Name _factionId;
         private Name _statusId;
@@ -21,7 +21,7 @@ namespace WorldZero.Test.Unit.Common.Entity
         {
             this._metaTaskId = new Id(19);
             this._desc = "Complete this task in under 30 minutes.";
-            this._bonus = 50;
+            this._bonus = new PointTotal(50);
             this._isFlatBonus = true;
             this._factionId = new Name("a faction");
             this._statusId = new Name("valid");
@@ -42,14 +42,7 @@ namespace WorldZero.Test.Unit.Common.Entity
         [Test]
         public void TestBonus()
         {
-            Assert.AreEqual(this._bonus, this._mt.Bonus);
-            this._mt.Bonus = 9001;
-            Assert.AreEqual(9001, this._mt.Bonus);
-            Assert.Throws<ArgumentException>(()=>this._mt.Bonus = -1);
-            Assert.Throws<ArgumentException>(()=>this._mt.Bonus = 0);
-            Assert.AreEqual(9001, this._mt.Bonus);
-            this._mt.Bonus = 1;
-            Assert.AreEqual(1, this._mt.Bonus);
+            Assert.Throws<ArgumentNullException>(()=>this._mt.Bonus = null);
         }
 
         [Test]

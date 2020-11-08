@@ -9,8 +9,13 @@ namespace WorldZero.Common.Entity
     /// </summary>
     public class MetaTask : IIdEntity
     {
-        public MetaTask(Name factionId, Name statusId,
-            string description, double bonus, bool isFlatBonus=false)
+        public MetaTask(
+            Name factionId,
+            Name statusId,
+            string description,
+            PointTotal bonus,
+            bool isFlatBonus=false
+        )
             : base()
         {
             this._setup(
@@ -22,8 +27,14 @@ namespace WorldZero.Common.Entity
             );
         }
 
-        public MetaTask(Id id, Name factionId, Name statusId,
-            string description, double bonus, bool isFlatBonus=false)
+        public MetaTask(
+            Id id,
+            Name factionId,
+            Name statusId,
+            string description,
+            PointTotal bonus,
+            bool isFlatBonus=false
+        )
             : base(id)
         {
             this._setup(
@@ -35,21 +46,32 @@ namespace WorldZero.Common.Entity
             );
         }
 
-        internal MetaTask(int id, string factionId, string statusId,
-            string description, double bonus, bool isFlatBonus)
+        internal MetaTask(
+            int id,
+            string factionId,
+            string statusId,
+            string description,
+            double bonus,
+            bool isFlatBonus
+        )
             : base(new Id(id))
         {
             this._setup(
                 new Name(factionId),
                 new Name(statusId),
                 description,
-                bonus,
+                new PointTotal(bonus),
                 isFlatBonus
             );
         }
 
-        private void _setup(Name factionId, Name statusId,
-            string description, double bonus, bool isFlatBonus)
+        private void _setup(
+            Name factionId,
+            Name statusId,
+            string description,
+            PointTotal bonus,
+            bool isFlatBonus
+        )
         {
             this.FactionId = factionId;
             this.StatusId = statusId;
@@ -83,7 +105,7 @@ namespace WorldZero.Common.Entity
         private string _description;
 
         /// <summary>
-        /// Bonus is a non-negative double that can be either a flag point
+        /// Bonus is a PointTotal that can be either a flag point
         /// bonus or a point percentage modifier. For more, see
         /// <see cref="MetaTask.IsFlatBonus"/>.
         /// </summary>
@@ -91,17 +113,17 @@ namespace WorldZero.Common.Entity
         /// If `IsFlatBonus` is false, then this will act as the percentage
         /// of the point total to add.
         /// </remarks>
-        public double Bonus
+        public PointTotal Bonus
         {
             get { return this._bonus; }
             set
             {
-                if (value <= 0)
-                    throw new ArgumentException("A bonus must be a positive number.");
+                if (value == null)
+                    throw new ArgumentNullException("Bonus");
                 this._bonus = value;
             }
         }
-        private double _bonus;
+        private PointTotal _bonus;
 
         /// <summary>
         /// IsFlatBonus determines whether <c>Bonus</c> is a flat bonus point

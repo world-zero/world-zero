@@ -16,8 +16,6 @@ namespace WorldZero.Common.Entity
             int maxPraxises=20,
             int maxTasks=1,
             int maxTasksReiterator=2,
-            double penaltyDeduction=0.1,
-            bool isFlatPenalty=false,
             PastDate startDate=null,
             PastDate endDate=null
         )
@@ -32,8 +30,6 @@ namespace WorldZero.Common.Entity
             this.MaxPraxises = maxPraxises;
             this.MaxTasksReiterator = maxTasksReiterator;
             this.MaxTasks = maxTasks;
-            this.PenaltyDeduction = penaltyDeduction;
-            this.IsFlatPenalty = isFlatPenalty;
         }
 
         internal Era(
@@ -42,8 +38,6 @@ namespace WorldZero.Common.Entity
             int maxPraxises,
             int maxTasks,
             int maxTasksReiterator,
-            double penaltyDeduction,
-            bool isFlatPenalty,
             DateTime startDate,
             DateTime endDate
         )
@@ -55,8 +49,6 @@ namespace WorldZero.Common.Entity
             this.MaxPraxises = maxPraxises;
             this.MaxTasks = maxTasks;
             this.MaxTasksReiterator = maxTasksReiterator;
-            this.PenaltyDeduction = penaltyDeduction;
-            this.IsFlatPenalty = isFlatPenalty;
         }
 
         public override IEntity<Name, string> Clone()
@@ -67,8 +59,6 @@ namespace WorldZero.Common.Entity
                 this.MaxPraxises,
                 this.MaxTasks,
                 this.MaxTasksReiterator,
-                this.PenaltyDeduction,
-                this.IsFlatPenalty,
                 this.StartDate,
                 this.EndDate
             );
@@ -184,39 +174,6 @@ namespace WorldZero.Common.Entity
             }
         }
         private int _maxTasksReiterator = 1;
-
-        /// <summary>
-        /// This is the penalty deduction a praxis can receive. This can be
-        /// either a flat deduction or a percentage deduction. This logic is
-        /// determined by `IsFlatPenalty`.
-        /// </summary>
-        /// <value>
-        /// This is already treated as a deduction, it will not accept negative
-        /// values.
-        /// </value>
-        /// <remarks>
-        /// If `IsFlatPenalty` is false, then this will act as the percentage
-        /// of the point total to remove.
-        /// </remarks>
-        public double PenaltyDeduction
-        {
-            get { return this._penaltyDeduction; }
-            set
-            {
-                if (value < 0)
-                    throw new ArgumentException("A penalty should not be negative, it will already be treated as a deduction.");
-                this._penaltyDeduction = value;
-            }
-        }
-        private double _penaltyDeduction;
-
-        /// <summary>
-        /// A praxis can receive a penalty deduction that can be either a flat-
-        /// rate deduction or a percentage deduction - this choice is
-        /// controlled with this property, and the value is determined by
-        /// `PenaltyDeduction`.
-        /// </summary>
-        public bool IsFlatPenalty { get; set; }
 
         private void _checkDates(PastDate start, PastDate end)
         {

@@ -95,7 +95,7 @@ namespace WorldZero.Test.Unit.Common.Entity
                 1,
                 this._totalPoints.Get,
                 1,
-                this._votePointsLeft.Get,
+                this._votePointsLeft.AsInt,
                 this._hasBio,
                 this._hasProfilePic
             );
@@ -122,7 +122,7 @@ namespace WorldZero.Test.Unit.Common.Entity
                 1,
                 this._totalPoints.Get,
                 6,
-                this._votePointsLeft.Get,
+                this._votePointsLeft.AsInt,
                 this._hasBio,
                 this._hasProfilePic
             ));
@@ -136,7 +136,7 @@ namespace WorldZero.Test.Unit.Common.Entity
                 6,
                 this._totalPoints.Get,
                 1,
-                this._votePointsLeft.Get,
+                this._votePointsLeft.AsInt,
                 this._hasBio,
                 this._hasProfilePic
             ));

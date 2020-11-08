@@ -98,7 +98,11 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity.Relation
             this._charRepo.Insert(this._c2);
             this._charRepo.Save();
 
-            this._mt = new MetaTask(this._f.Id, StatusReg.Active.Id, "x", 2);
+            this._mt = new MetaTask(
+                this._f.Id,
+                StatusReg.Active.Id,
+                "x",
+                new PointTotal(2));
             this._mtRepo.Insert(this._mt);
             this._mtRepo.Save();
 

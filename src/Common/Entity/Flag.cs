@@ -14,12 +14,14 @@ namespace WorldZero.Common.Entity
         public Flag(
             Name name,
             string description=null,
-            double penalty=0.1,
+            PointTotal penalty=null,
             bool isFlatPenalty=false
         )
             : base(name)
         {
             this.Description = description;
+            if (penalty == null)
+                penalty = new PointTotal(0.1);
             this.Penalty = penalty;
             this.IsFlatPenalty = isFlatPenalty;
         }
@@ -33,7 +35,7 @@ namespace WorldZero.Common.Entity
             : base(new Name(name))
         {
             this.Description = description;
-            this.Penalty = penalty;
+            this.Penalty = new PointTotal(penalty);
             this.IsFlatPenalty = isFlatPenalty;
         }
 
@@ -50,7 +52,7 @@ namespace WorldZero.Common.Entity
         public string Description { get; set; }
 
         /// <summary>
-        /// Penalty is a non-negative double that can be either a flag point
+        /// Penalty is a PointTotal that can be either a flag point
         /// penalty or a point percentage modifier. For more, see
         /// <see cref="Flag.IsFlatPenalty"/>.
         /// </summary>
@@ -58,17 +60,17 @@ namespace WorldZero.Common.Entity
         /// If `IsFlatPenalty` is false, then this will act as the percentage
         /// of the point total to deduct.
         /// </remarks>
-        public double Penalty
+        public PointTotal Penalty
         {
             get { return this._penalty; }
             set
             {
-                if (value <= 0)
-                    throw new ArgumentException("A penalty must be a positive number.");
+                if (value == null)
+                    throw new ArgumentNullException("Penalty");
                 this._penalty = value;
             }
         }
-        private double _penalty;
+        private PointTotal _penalty;
 
         /// <summary>
         /// IsFlatPenalty determines whether <c>Penalty</c> is a flat penalty point

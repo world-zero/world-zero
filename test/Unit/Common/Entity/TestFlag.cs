@@ -10,7 +10,7 @@ namespace WorldZero.Test.Unit.Common.Entity
     {
         private Name _flagId;
         private string _desc;
-        private double _penalty;
+        private PointTotal _penalty;
         private bool _isFlatPenalty;
         private Flag _f;
 
@@ -19,7 +19,7 @@ namespace WorldZero.Test.Unit.Common.Entity
         {
             this._flagId = new Name("fishy");
             this._desc = "Smells like fish";
-            this._penalty = 50;
+            this._penalty = new PointTotal(50);
             this._isFlatPenalty = true;
 
             this._f = new Flag(this._flagId, this._desc, this._penalty, this._isFlatPenalty);
@@ -31,7 +31,7 @@ namespace WorldZero.Test.Unit.Common.Entity
             var f = new Flag(new Name("x"));
             Assert.AreEqual(new Name("x"), f.Id);
             Assert.IsNull(f.Description);
-            Assert.AreEqual(0.1, f.Penalty);
+            Assert.AreEqual(new PointTotal(0.1), f.Penalty);
             Assert.AreEqual(false, f.IsFlatPenalty);
         }
 
@@ -47,14 +47,7 @@ namespace WorldZero.Test.Unit.Common.Entity
         [Test]
         public void TestPenalty()
         {
-            Assert.AreEqual(this._penalty, this._f.Penalty);
-            this._f.Penalty = 9001;
-            Assert.AreEqual(9001, this._f.Penalty);
-            Assert.Throws<ArgumentException>(()=>this._f.Penalty = -1);
-            Assert.Throws<ArgumentException>(()=>this._f.Penalty = 0);
-            Assert.AreEqual(9001, this._f.Penalty);
-            this._f.Penalty = 1;
-            Assert.AreEqual(1, this._f.Penalty);
+            Assert.Throws<ArgumentNullException>(()=>this._f.Penalty = null);
         }
     }
 }

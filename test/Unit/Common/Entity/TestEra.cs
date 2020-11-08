@@ -26,8 +26,6 @@ namespace WorldZero.Test.Unit.Common.Entity
                 10,
                 20,
                 30,
-                1,
-                true,
                 this._startDate,
                 this._endDate
             );
@@ -63,8 +61,6 @@ namespace WorldZero.Test.Unit.Common.Entity
                 100,
                 2,
                 9,
-                1,
-                true,
                 startDate,
                 endDate
             );
@@ -138,14 +134,6 @@ namespace WorldZero.Test.Unit.Common.Entity
             this._e.MaxTasks = 100;
             Assert.Throws<ArgumentException>(()=>
                 this._e.MaxTasksReiterator = 10);
-        }
-
-        [Test]
-        public void TestPenaltyDeduction()
-        {
-            this._e.PenaltyDeduction = 0;
-            Assert.Throws<ArgumentException>(()=>
-                this._e.PenaltyDeduction = -1);
         }
     }
 }

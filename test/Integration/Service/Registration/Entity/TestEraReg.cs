@@ -77,8 +77,6 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
                 10,
                 1,
                 2,
-                0.1,
-                false,
                 badExpected,
                 new PastDate(DateTime.UtcNow)
             );

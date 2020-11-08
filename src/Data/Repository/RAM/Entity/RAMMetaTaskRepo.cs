@@ -12,7 +12,12 @@ namespace WorldZero.Data.Repository.RAM.Entity
     {
         protected override int GetRuleCount()
         {
-            var a = new MetaTask(new Name("x"), new Name("tag"), "x", 1);
+            var a = new MetaTask(
+                new Name("x"),
+                new Name("tag"),
+                "x",
+                new PointTotal(1)
+            );
             return a.GetUniqueRules().Count;
         }
     }

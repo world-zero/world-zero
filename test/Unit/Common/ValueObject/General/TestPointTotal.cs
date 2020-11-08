@@ -33,9 +33,8 @@ namespace WorldZero.Test.Unit.Common.ValueObject.General
         [Test]
         public void TestApplyPenaltyFlatHappy()
         {
-            Assert.AreEqual(
-                new PointTotal(125),
-                PointTotal.ApplyBonus(new PointTotal(75), 50, true)
+            Assert.AreEqual(new PointTotal(125), PointTotal
+                .ApplyBonus(new PointTotal(75), new PointTotal(50), true)
             );
         }
 
@@ -43,24 +42,20 @@ namespace WorldZero.Test.Unit.Common.ValueObject.General
         public void TestApplyBonusFlatSad()
         {
             Assert.Throws<ArgumentNullException>(()=>
-                PointTotal.ApplyBonus(null, 50, true));
+                PointTotal.ApplyBonus(null, null, true));
 
-            Assert.Throws<ArgumentException>(()=>PointTotal.ApplyBonus(
-                new PointTotal(324),
-                Convert.ToDouble(int.MaxValue)+10000,
-                true));
+            Assert.Throws<ArgumentNullException>(()=>
+                PointTotal.ApplyBonus(new PointTotal(1), null, true));
+
+            Assert.Throws<ArgumentNullException>(()=>
+                PointTotal.ApplyBonus(null, new PointTotal(1), true));
         }
 
         [Test]
         public void TestApplyBonusPercentHappy()
         {
-            Assert.AreEqual(
-                new PointTotal(110),
-                PointTotal.ApplyBonus(new PointTotal(100), 0.1, false)
-            );
-            Assert.AreEqual(
-                new PointTotal(110),
-                PointTotal.ApplyBonus(new PointTotal(100), -0.1, false)
+            Assert.AreEqual(new PointTotal(110), PointTotal
+                .ApplyBonus(new PointTotal(100), new PointTotal(0.1), false)
             );
         }
 
@@ -68,37 +63,28 @@ namespace WorldZero.Test.Unit.Common.ValueObject.General
         public void TestApplyPenaltyFlatSad()
         {
             Assert.Throws<ArgumentNullException>(()=>
-                PointTotal.ApplyPenalty(null, 40));
+                PointTotal.ApplyPenalty(null, null, true));
 
-            Assert.AreEqual(
-                new PointTotal(0),
-                PointTotal.ApplyPenalty(new PointTotal(10), 1000));
+            Assert.Throws<ArgumentNullException>(()=>
+                PointTotal.ApplyPenalty(new PointTotal(1), null, true));
 
-            Assert.Throws<ArgumentException>(()=>PointTotal.ApplyPenalty(
-                new PointTotal(324),
-                Convert.ToDouble(int.MaxValue)+10000,
-                true));
+            Assert.Throws<ArgumentNullException>(()=>
+                PointTotal.ApplyPenalty(null, new PointTotal(1), true));
         }
 
         [Test]
         public void TestApplyPenaltyPercentHappy()
         {
-            Assert.AreEqual(
-                new PointTotal(90),
-                PointTotal.ApplyPenalty(new PointTotal(100), 0.1, false)
-            );
-            Assert.AreEqual(
-                new PointTotal(90),
-                PointTotal.ApplyPenalty(new PointTotal(100), -0.1, false)
+            Assert.AreEqual(new PointTotal(90), PointTotal
+                .ApplyPenalty(new PointTotal(100), new PointTotal(0.1), false)
             );
         }
 
         [Test]
         public void TestApplyPenaltyPercentSad()
         {
-            Assert.AreEqual(
-                new PointTotal(0),
-                PointTotal.ApplyPenalty(new PointTotal(10), 1.1, false)
+            Assert.AreEqual(new PointTotal(0), PointTotal
+                .ApplyPenalty(new PointTotal(10), new PointTotal(1.1), false)
             );
         }
     }

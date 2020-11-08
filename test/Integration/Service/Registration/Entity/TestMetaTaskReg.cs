@@ -58,8 +58,10 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
         public void TestRegisterHappy()
         {
             var mt = new MetaTask(
-                this._faction0.Id, StatusReg.Active.Id, "something", 33.4
-            );
+                this._faction0.Id,
+                StatusReg.Active.Id,
+                "something",
+                new PointTotal(33.4));
             Assert.IsFalse(mt.IsIdSet());
             this._registration.Register(mt);
             Assert.IsTrue(mt.IsIdSet());
@@ -70,22 +72,28 @@ namespace WorldZero.Test.Integration.Service.Registration.Entity
         public void TestRegisterSad()
         {
             var mt = new MetaTask(
-                new Name("fake"), new Name("extra fake"), "something", 33.4
-            );
+                new Name("fake"),
+                new Name("extra fake"),
+                "something",
+                new PointTotal(33.4));
             Assert.Throws<ArgumentException>(
                 ()=>this._registration.Register(mt)
             );
 
             mt = new MetaTask(
-                new Name("fake"), this._status0.Id, "something", 33.4
-            );
+                new Name("fake"),
+                this._status0.Id,
+                "something",
+                new PointTotal(33.4));
             Assert.Throws<ArgumentException>(
                 ()=>this._registration.Register(mt)
             );
 
             mt = new MetaTask(
-                this._faction0.Id, new Name("ya basic"), "something", 33.4
-            );
+                this._faction0.Id,
+                new Name("ya basic"),
+                "something",
+                new PointTotal(33.4));
             Assert.Throws<ArgumentException>(
                 ()=>this._registration.Register(mt)
             );

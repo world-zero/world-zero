@@ -7,24 +7,6 @@ using WorldZero.Common.Entity;
 using WorldZero.Common.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity;
 
-// Do I want to return modified entities that can't have sensitive data edited?
-//      like so no one can edit the status of a praxis w/o a praxis service class
-
-// Whichever function controls changing a character's faction should consider
-// how to handle in progress / active meta tasks they've signed up for.
-
-// General Functionality
-// TODO: after a praxis is moved out of active and into retired, allocate the points
-//      This should live on the PraxisUpdate service class
-
-// Era Magic Numbers
-// TODO: if a praxis is flagged as inappropriate, remove some of the base points
-//      adjust Flag to have a number/bool, like MetaTask's bonus
-//      add to magic numbers ticket
-//      naturally, throw onto era somehow
-//
-//      Do this for Tasks too, and MetaTasks
-
 namespace WorldZero.Service.Registration.Entity
 {
     /// <summary>
