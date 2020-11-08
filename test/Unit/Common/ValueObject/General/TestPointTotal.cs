@@ -1,4 +1,3 @@
-using System.Drawing;
 using System;
 using WorldZero.Common.ValueObject.General;
 using NUnit.Framework;
@@ -59,6 +58,10 @@ namespace WorldZero.Test.Unit.Common.ValueObject.General
                 new PointTotal(110),
                 PointTotal.ApplyBonus(new PointTotal(100), 0.1, false)
             );
+            Assert.AreEqual(
+                new PointTotal(110),
+                PointTotal.ApplyBonus(new PointTotal(100), -0.1, false)
+            );
         }
 
         [Test]
@@ -83,6 +86,10 @@ namespace WorldZero.Test.Unit.Common.ValueObject.General
             Assert.AreEqual(
                 new PointTotal(90),
                 PointTotal.ApplyPenalty(new PointTotal(100), 0.1, false)
+            );
+            Assert.AreEqual(
+                new PointTotal(90),
+                PointTotal.ApplyPenalty(new PointTotal(100), -0.1, false)
             );
         }
 
