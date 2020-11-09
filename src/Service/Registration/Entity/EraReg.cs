@@ -81,10 +81,17 @@ namespace WorldZero.Service.Registration.Entity
             }
             newEra.EndDate = null;
             newEra.StartDate = now;
-            var r = base.Register(newEra);
-            this._eraRepo.EndTransaction();
-
-            return r;
+            try
+            {
+                var r = base.Register(newEra);
+                this._eraRepo.EndTransaction();
+                return r;
+            }
+            catch (ArgumentException exc)
+            {
+                this._eraRepo.DiscardTransaction();
+                throw new ArgumentException("Could not complete the registration.", exc);
+            }
         }
 
         /// <summary>

@@ -66,11 +66,14 @@ namespace WorldZero.Service.Registration.Entity.Relation
             {
                 this._praxisRepo.Update(p);
                 this._praxisFlagRepo.Insert(e);
-            } catch (ArgumentException exc)
-            { throw new InvalidOperationException(exc.Message, exc); }
-
-            this._praxisFlagRepo.EndTransaction();
-            return e;
+                this._praxisFlagRepo.EndTransaction();
+                return e;
+            }
+            catch (ArgumentException exc)
+            {
+                this._praxisFlagRepo.DiscardTransaction();
+                throw new ArgumentException("Could not complete the registration.", exc);
+            }
         }
     }
 }
