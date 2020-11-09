@@ -94,10 +94,10 @@ namespace WorldZero.Service.Registration.Entity.Relation
                 this._characterRepo.EndTransaction();
                 return v;
             }
-            catch (ArgumentException e)
+            catch (ArgumentException exc)
             {
                 this._voteRepo.DiscardTransaction();
-                throw new ArgumentException("A repo error occurred while saving a vote.", e);
+                throw new ArgumentException("Could not complete the registration.", exc);
             }
         }
 

@@ -44,8 +44,13 @@ namespace WorldZero.Service.Interface.Registration.Entity
         public virtual TEntity Register(TEntity e)
         {
             this.PreRegisterChecks(e, "e");
-            this._repo.Insert(e);
-            this._repo.Save();
+            try
+            {
+                this._repo.Insert(e);
+                this._repo.Save();
+            }
+            catch (ArgumentException exc)
+            { throw new ArgumentException("Failed to complete a register.", exc); }
             return e;
         }
 

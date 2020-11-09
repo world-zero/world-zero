@@ -158,9 +158,17 @@ namespace WorldZero.Service.Interface.Registration.Entity
                 this._repo.DiscardTransaction();
                 throw new ArgumentException("An error occurred during the registration of a relational entity.", exc);
             }
-            var r = base.Register(e);
-            this._repo.EndTransaction();
-            return r;
+            try
+            {
+                var r = base.Register(e);
+                this._repo.EndTransaction();
+                return r;
+            }
+            catch (ArgumentException exc)
+            {
+                this._repo.DiscardTransaction();
+                throw new ArgumentException("Could not complete the registration", exc);
+            }
         }
 
         /// <summary>

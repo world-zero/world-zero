@@ -66,11 +66,14 @@ namespace WorldZero.Service.Registration.Entity.Relation
             {
                 this._taskRepo.Update(t);
                 this._taskFlagRepo.Insert(e);
-            } catch (ArgumentException exc)
-            { throw new InvalidOperationException(exc.Message, exc); }
-
-            this._taskFlagRepo.EndTransaction();
-            return e;
+                this._taskFlagRepo.EndTransaction();
+                return e;
+            }
+            catch (ArgumentException exc)
+            {
+                this._taskRepo.DiscardTransaction();
+                throw new ArgumentException("Could not complete the registration.", exc);
+            }
         }
     }
 }

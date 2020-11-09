@@ -39,9 +39,17 @@ namespace WorldZero.Service.Registration.Entity
                     throw new ArgumentException($"The faction {faction.Id.Get} has an unregistered ability ({faction.AbilityName.Get}).");
                 }
             }
-            var r = base.Register(faction);
-            this._factionRepo.EndTransaction();
-            return r;
+            try
+            {
+                var r = base.Register(faction);
+                this._factionRepo.EndTransaction();
+                return r;
+            }
+            catch (ArgumentException exc)
+            {
+                this._factionRepo.DiscardTransaction();
+                throw new ArgumentException("Could not complete the registration.", exc);
+            }
         }
     }
 }
