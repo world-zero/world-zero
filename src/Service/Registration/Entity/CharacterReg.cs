@@ -101,9 +101,17 @@ namespace WorldZero.Service.Registration.Entity
             this._verifyPlayer(c);
             this._verifyFaction(c);
             this._verifyLocation(c);
-            var r = base.Register(c);
-            this._characterRepo.EndTransaction();
-            return r;
+            try
+            {
+                var r = base.Register(c);
+                this._characterRepo.EndTransaction();
+                return r;
+            }
+            catch (ArgumentException exc)
+            {
+                this._characterRepo.DiscardTransaction();
+                throw new ArgumentException("Could not complete the registration.", exc);
+            }
         }
 
         private void _verifyPlayer(Character c)

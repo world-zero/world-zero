@@ -66,9 +66,17 @@ namespace WorldZero.Service.Registration.Entity.Relation
             if (   (fMatch == null)
                 && (inverseFMatch == null)   )
             {
-                var r = base.Register(f);
-                this._friendRepo.EndTransaction();
-                return r;
+                try
+                {
+                    var r = base.Register(f);
+                    this._friendRepo.EndTransaction();
+                    return r;
+                }
+                catch (ArgumentException exc)
+                {
+                    this._friendRepo.DiscardTransaction();
+                    throw new ArgumentException("Could not complete the registration.", exc);
+                }
             }
             else
             {

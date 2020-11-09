@@ -294,16 +294,15 @@ namespace WorldZero.Service.Registration.Entity.Relation
             try
             {
                 r = base.Register(pp);
+                this._ppRepo.EndTransaction();
+                return r;
             }
-            // This does not discard as base.Register does that already,
-            // this just wants to reset pp.Count to avoid an artifiact.
             catch (ArgumentException e)
             {
                 pp.Count = oldCount;
-                throw new ArgumentException(e.Message, e);
+                this._ppRepo.DiscardTransaction();
+                throw new ArgumentException("Could not complete the registration.", e);
             }
-            this._ppRepo.EndTransaction();
-            return r;
         }
     }
 }

@@ -51,9 +51,17 @@ namespace WorldZero.Service.Registration.Entity
                 this._metaTaskRepo.DiscardTransaction();
                 throw new ArgumentException($"MetaTask of ID {mt.Id.Get} has an invalid Factionn ID of {mt.FactionId.Get}.");
             }
-            var r = base.Register(mt);
-            this._metaTaskRepo.EndTransaction();
-            return r;
+            try
+            {
+                var r = base.Register(mt);
+                this._metaTaskRepo.EndTransaction();
+                return r;
+            }
+            catch (ArgumentException exc)
+            {
+                this._metaTaskRepo.DiscardTransaction();
+                throw new ArgumentException("Could not complete the registration.", exc);
+            }
         }
     }
 }
