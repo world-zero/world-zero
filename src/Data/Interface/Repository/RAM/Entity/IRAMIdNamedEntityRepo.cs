@@ -1,5 +1,6 @@
 using WorldZero.Data.Interface.Repository.Entity;
 using System;
+using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
 using WorldZero.Common.ValueObject.General;
@@ -35,6 +36,11 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
                 throw new ArgumentException($"Could not find an entity with name {name.Get}.");
             else
                 throw new InvalidOperationException($"Multiple names of {name.Get} found, which is a bug.");
+        }
+
+        public async Task<TEntity> GetByNameAsync(Name name)
+        {
+            return this.GetByName(name);
         }
     }
 }

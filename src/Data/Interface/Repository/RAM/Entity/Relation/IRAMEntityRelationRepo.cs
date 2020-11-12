@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
 using WorldZero.Common.Interface;
@@ -100,6 +101,11 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity.Relation
                 throw new ArgumentException($"Could not find an entity with the supplied DTO.");
             else
                 throw new InvalidOperationException($"Multiple DTOs found, which is a bug.");
+        }
+
+        public async Task<TEntityRelation> GetByDTOAsync(TRelationDTO dto)
+        {
+            return this.GetByDTO(dto);
         }
 
         public override TEntityRelation TEntityCast(object o)

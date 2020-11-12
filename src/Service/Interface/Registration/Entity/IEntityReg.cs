@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using WorldZero.Common.Interface;
 using WorldZero.Data.Interface.Repository.Entity;
 using WorldZero.Common.Interface.Entity;
@@ -43,7 +44,7 @@ namespace WorldZero.Service.Interface.Registration.Entity
         /// </summary>
         public virtual TEntity Register(TEntity e)
         {
-            this.PreRegisterChecks(e, "e");
+            this.AssertNotNull(e, "e");
             try
             {
                 this._repo.Insert(e);
@@ -55,20 +56,11 @@ namespace WorldZero.Service.Interface.Registration.Entity
         }
 
         /// <summary>
-        /// Ensure that the entity is not null.
-        /// </summary>
-        protected virtual void PreRegisterChecks(TEntity e, string t)
-        {
-            this.AssertNotNull(e, t);
-        }
-
-        /// <summary>
         /// This will store the supplied entity and save the repo.
         /// </summary>
-        public virtual TEntity RegisterAsync(TEntity e)
+        public virtual async Task<TEntity> RegisterAsync(TEntity e)
         {
-            // TODO: I have this issue logged.
-            throw new NotImplementedException("This method is future work.");
+            return await Task.Run(() => this.Register(e));
         }
 
         protected void AssertNotNull(object o, string name)

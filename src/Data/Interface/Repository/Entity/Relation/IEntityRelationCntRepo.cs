@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.Interface;
@@ -57,6 +58,9 @@ namespace WorldZero.Data.Interface.Repository.Entity.Relation
         /// up.
         /// </remarks>
         int GetNextCount(
+            RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
+        );
+        Task<int> GetNextCountAsync(
             RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
         );
     }

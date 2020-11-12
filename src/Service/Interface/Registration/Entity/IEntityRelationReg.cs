@@ -6,6 +6,7 @@ using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity;
 using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.Interface.Entity;
+using System.Threading.Tasks;
 
 namespace WorldZero.Service.Interface.Registration.Entity
 {
@@ -143,10 +144,12 @@ namespace WorldZero.Service.Interface.Registration.Entity
         /// </summary>
         public override TEntityRelation Register(TEntityRelation e)
         {
+            this.AssertNotNull(e, "e");
             this._repo.BeginTransaction(true);
             try
             {
-                this.PreRegisterChecks(e, "e");
+                this.GetLeftEntity(e);
+                this.GetRightEntity(e);
             }
             catch (ArgumentNullException exc)
             {
@@ -171,18 +174,9 @@ namespace WorldZero.Service.Interface.Registration.Entity
             }
         }
 
-        /// <summary>
-        /// Ensure that the entity is not null *and* that the IDs exist in the
-        /// needed repos.
-        /// </summary>
-        /// <remarks>
-        /// This *will not* start a serialized transaction.
-        /// </remarks>
-        protected override void PreRegisterChecks(TEntityRelation e, string t)
+        public async override Task<TEntityRelation> RegisterAsync(TEntityRelation e)
         {
-            base.PreRegisterChecks(e, t);
-            this.GetLeftEntity(e);
-            this.GetRightEntity(e);
+            return await Task.Run(() => this.Register(e));
         }
 
         /// <summary>
@@ -205,6 +199,11 @@ namespace WorldZero.Service.Interface.Registration.Entity
             }
         }
 
+        protected async Task<TLeftEntity> GetLeftEntityAsync(TEntityRelation e)
+        {
+            return await Task.Run(() => this.GetLeftEntity(e));
+        }
+
         /// <summary>
         /// This will get and return the right entity associated with the
         /// supplied relational entity, throwing an `ArgumentException` if an
@@ -223,6 +222,11 @@ namespace WorldZero.Service.Interface.Registration.Entity
             {
                 throw new ArgumentException("Could not retrieve the RightId.", exc);
             }
+        }
+
+        protected async Task<TRightEntity> GetRightEntityAsync(TEntityRelation e)
+        {
+            return await Task.Run(() => this.GetRightEntity(e));
         }
     }
 }

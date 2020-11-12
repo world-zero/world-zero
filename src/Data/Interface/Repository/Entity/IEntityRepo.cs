@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using WorldZero.Common.Interface;
 using WorldZero.Common.Interface.Entity;
 
@@ -15,16 +16,10 @@ namespace WorldZero.Data.Interface.Repository.Entity
         where TId : ISingleValueObject<TIdBuiltIn>
     {
         /// <summary>
-        /// This will remove all static data for a concrete instance of
-        /// IEntityRepo.
-        /// </summary>
-        void Clean();
-
-        /// <summary>
-        /// This will remove all static data for all concrete instances of
-        /// IEntityRepo.
+        /// This will remove all stored classes.
         /// </summary>
         void CleanAll();
+        Task CleanAllAsync();
 
         /// <summary>
         /// This will create a transaction between all repositories, allowing
@@ -46,6 +41,7 @@ namespace WorldZero.Data.Interface.Repository.Entity
         /// current transaction until the current transaction completes.
         /// </param>
         void BeginTransaction(bool serialize=false);
+        Task BeginTransactionAsync(bool serialize=false);
 
         /// <summary>
         /// This will end a transaction and save. The end of a transaction will
@@ -62,6 +58,7 @@ namespace WorldZero.Data.Interface.Repository.Entity
         /// This is thrown if an error occurs during the transaction's save.
         /// </exception>
         void EndTransaction();
+        Task EndTransactionAsync();
 
         /// <summary>
         /// Discard all of the changes made, reverting to the state just before
@@ -77,10 +74,12 @@ namespace WorldZero.Data.Interface.Repository.Entity
         /// Server documentation surrounding ROLLBACK.
         /// </remarks>
         void DiscardTransaction();
+        Task DiscardTransactionAsync();
 
         /// <summary>
         /// This return true iff a transaction is actve.
         /// </summary>
         bool IsTransactionActive();
+        Task<bool> IsTransactionActiveAsync();
     }
 }

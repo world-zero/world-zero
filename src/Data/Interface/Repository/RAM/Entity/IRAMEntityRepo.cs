@@ -1,3 +1,5 @@
+using System.Globalization;
+using System.Threading.Tasks;
 using WorldZero.Data.Interface.Repository.Entity;
 using WorldZero.Common.Interface;
 using WorldZero.Common.Interface.Entity;
@@ -501,15 +503,30 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
             _data[this._entityName].Clean();
         }
 
+        public async Task CleanAsync()
+        {
+            this.Clean();
+        }
+
         public void CleanAll()
         {
             foreach (KeyValuePair<string, EntityData> p in _data)
                 p.Value.Clean();
         }
 
+        public async Task CleanAllAsync()
+        {
+            this.CleanAll();
+        }
+
         public void Discard()
         {
             _data[this._entityName].CleanStaged();
+        }
+
+        public async Task DiscardAsync()
+        {
+            this.Discard();
         }
 
         /// <summary>
@@ -533,11 +550,16 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         /// <remarks>
         /// This will only search the saved entities.
         /// </remarks>
-        public virtual TEntity GetById(TId id)
+        public TEntity GetById(TId id)
         {
             if (!this._saved.ContainsKey(id))
                 throw new ArgumentException("You cannot get an entity with an ID does not exist.");
             return (TEntity) this.TEntityCast(this._saved[id]).Clone();
+        }
+
+        public async Task<TEntity> GetByIdAsync(TId id)
+        {
+            return this.GetById(id);
         }
 
         // Cases
@@ -559,7 +581,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         /// repo-assigned IDs) that is inserted will not be caught, it will
         /// just override the saved entiy.
         /// </remarks>
-        public virtual void Insert(TEntity entity)
+        public void Insert(TEntity entity)
         {
             if (entity == null)
                 throw new ArgumentNullException("entity");
@@ -581,6 +603,11 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
                 this._recycleIfNeeded(i, rule);
                 this._stagedRules[i][rule] = entity;
             }
+        }
+
+        public async Task InsertAsync(TEntity entity)
+        {
+            this.Insert(entity);
         }
 
         // Cases
@@ -611,7 +638,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         /// other entity during Save. This is inconsistent with how a DB repo
         /// would work as the SQL to insert vs update are not the same.
         /// </remarks>
-        public virtual void Update(TEntity entity)
+        public void Update(TEntity entity)
         {
             if (entity == null)
                 throw new ArgumentNullException("entity");
@@ -641,6 +668,11 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
             }
 
             this._staged[entity.Id] = entity;
+        }
+
+        public async Task UpdateAsync(TEntity entity)
+        {
+            this.Update(entity);
         }
 
         /// <summary>
@@ -740,6 +772,11 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
                 this._deleteSavedStagedEntity(id, saved);
 
             this._staged[id] = null;
+        }
+
+        public async Task DeleteAsync(TId id)
+        {
+            this.Delete(id);
         }
 
         private bool _isStagedOnlyEntity(TId id)
@@ -848,6 +885,11 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
             {
                 throw new InvalidCastException("An invalid cast occurred. Are you doing weird things with Polymorphism? Is Clone() returning the correct type?", e);
             }
+        }
+
+        public async Task SaveAsync()
+        {
+            this.Save();
         }
 
         /// <summary>
@@ -1040,6 +1082,11 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
             }
         }
 
+        public async Task BeginTransactionAsync(bool serializeLock=false)
+        {
+            this.BeginTransaction(serializeLock);
+        }
+
         /// <remarks>
         /// There will be artifacts from repo-generated IDs where this fails on
         /// a subsequent save.
@@ -1067,6 +1114,11 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
             }
         }
 
+        public async Task EndTransactionAsync()
+        {
+            this.EndTransaction();
+        }
+
         public void DiscardTransaction()
         {
             if (!this.IsTransactionActive())
@@ -1079,11 +1131,21 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
             _txnDepth = 0;
         }
 
+        public async Task DiscardTransactionAsync()
+        {
+            this.DiscardTransaction();
+        }
+
         public bool IsTransactionActive()
         {
             if (_tempData == null)
                 return false;
             return true;
+        }
+
+        public async Task<bool> IsTransactionActiveAsync()
+        {
+            return this.IsTransactionActive();
         }
     }
 }

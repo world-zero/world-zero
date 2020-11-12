@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using WorldZero.Common.Interface;
@@ -106,6 +107,13 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity.Relation
             if (stagedC > c)
                 c = stagedC;
             return c+1;
+        }
+
+        public async Task<int> GetNextCountAsync(
+            RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
+        )
+        {
+            return this.GetNextCount(dto);
         }
     }
 }

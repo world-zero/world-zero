@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using WorldZero.Common.Interface.Entity;
 using WorldZero.Common.ValueObject.General;
 
@@ -12,5 +13,6 @@ namespace WorldZero.Data.Interface.Repository.Entity
         where TIdNamedEntity : IIdEntity
     {
         TIdNamedEntity GetByName(Name name);
+        Task<TIdNamedEntity> GetByNameAsync(Name name);
     }
 }

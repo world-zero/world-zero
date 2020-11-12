@@ -43,13 +43,23 @@ namespace WorldZero.Service.Registration.Entity.Relation
 
         public override Foe Register(Foe f)
         {
-            this.PreRegisterChecks(f, "f");
+            this.AssertNotNull(f, "f");
             Foe inverseF = new Foe(f.Id, f.RightId, f.LeftId);
 
             Friend fMatch = null;
             Friend inverseFMatch = null;
 
             this._friendRepo.BeginTransaction(true);
+            try
+            {
+                this.GetLeftEntity(f);
+                this.GetRightEntity(f);
+            }
+            catch (ArgumentException e)
+            {
+                this._friendRepo.DiscardTransaction();
+                throw new ArgumentException("Could not find a related entity.", e);
+            }
             try
             {
                 fMatch = this._friendRepo.GetByDTO(f.GetDTO());

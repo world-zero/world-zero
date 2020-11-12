@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.Interface;
 using WorldZero.Common.ValueObject.DTO.Entity.Relation;
@@ -29,6 +30,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.Relation
         /// </summary>
         IEnumerable<TEntityRelation> GetByLeftId(TLeftId id);
 
+
         /// <summary>
         /// Return the saved relational entities that have the supplied right
         /// ID as an iterable. If there is no corresponding ID, then an
@@ -45,5 +47,6 @@ namespace WorldZero.Data.Interface.Repository.Entity.Relation
         /// left/right IDs, if appropriate.
         /// </remarks>
         TEntityRelation GetByDTO(TRelationDTO dto);
+        Task<TEntityRelation> GetByDTOAsync(TRelationDTO dto);
     }
 }
