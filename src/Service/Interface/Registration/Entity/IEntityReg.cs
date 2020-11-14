@@ -11,7 +11,7 @@ namespace WorldZero.Service.Interface.Registration.Entity
         where TEntity : IEntity<TId, TBuiltIn>
         where TId : ISingleValueObject<TBuiltIn>
     {
-        protected IEntityReg(IEntityRepo<TEntity, TId, TBuiltIn> repo)
+        public IEntityReg(IEntityRepo<TEntity, TId, TBuiltIn> repo)
             : base(repo)
         { }
 

@@ -30,6 +30,8 @@ namespace WorldZero.Common.Interface
         /// <remarks>
         /// This should use Discard() in case of save failure, and no artifacts
         /// should exist. This will also perform deep copy saves.
+        /// <br />
+        /// This will not crash when something that does not exist is deleted.
         /// </remarks>
         void Save();
         Task SaveAsync();
