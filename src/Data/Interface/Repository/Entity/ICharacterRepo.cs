@@ -9,10 +9,17 @@ namespace WorldZero.Data.Interface.Repository.Entity
         : IIdNamedEntityRepo<Character>
     {
         /// <summary>
-        /// Get a collection of saved Character that have the supplied
+        /// Get a collection of saved Characters that have the supplied
         /// PlayerId. If there are none, then an exception is thrown.
         /// </summary>
         IEnumerable<Character> GetByPlayerId(Id playerId);
+
+        /// <summary>
+        /// Get a collection of saved Characters that have a matching
+        /// LocationId as the argument. If there are none, an exception is
+        /// thrown.
+        /// </summary>
+        IEnumerable<Character> GetByLocationId(Id locationId);
 
         /// <remarks>
         /// The level is determined by processing the player's characters and

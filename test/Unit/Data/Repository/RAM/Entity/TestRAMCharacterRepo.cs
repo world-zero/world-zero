@@ -91,6 +91,57 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity
         }
 
         [Test]
+        public void TestGetByLocationId()
+        {
+            Assert.Throws<ArgumentException>(()=>
+                this._charRepo.GetByLocationId(new Id(9000)));
+
+            var locRepo = new RAMLocationRepo();
+            var loc0 = new Location(
+                new Name("Oregon City"),
+                new Name("Oregon"),
+                new Name("USA"),
+                new Name("97045")
+            );
+            var loc1 = new Location(
+                new Name("Portland"),
+                new Name("Oregon"),
+                new Name("USA"),
+                new Name("920-idk")
+            );
+            locRepo.Insert(loc0);
+            locRepo.Insert(loc1);
+            locRepo.Save();
+
+            this._c0.LocationId = loc0.Id;
+            this._charRepo.Update(this._c0);
+            this._charRepo.Save();
+            var chars = this._charRepo
+                .GetByLocationId(loc0.Id).ToList<Character>();
+            Assert.AreEqual(1, chars.Count());
+            foreach (Character c in chars)
+                Assert.AreEqual(this._c0.Id, c.Id);
+
+            this._c1.LocationId = loc0.Id;
+            this._charRepo.Update(this._c1);
+            this._charRepo.Save();
+            chars = this._charRepo
+                .GetByLocationId(loc0.Id).ToList<Character>();
+            Assert.AreEqual(2, chars.Count());
+            Assert.AreEqual(this._c0.Id, chars[0].Id);
+            Assert.AreEqual(this._c1.Id, chars[1].Id);
+
+            this._c2.LocationId = loc1.Id;
+            this._charRepo.Update(this._c2);
+            this._charRepo.Save();
+            chars = this._charRepo
+                .GetByLocationId(loc1.Id).ToList<Character>();
+            Assert.AreEqual(1, chars.Count());
+            foreach (Character c in chars)
+                Assert.AreEqual(this._c2.Id, c.Id);
+        }
+
+        [Test]
         public void TestFindHighestLevel()
         {
             Level actual = this._charRepo.FindHighestLevel(new Id(2));

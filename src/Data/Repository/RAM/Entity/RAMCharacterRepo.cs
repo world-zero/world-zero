@@ -30,6 +30,25 @@ namespace WorldZero.Data.Repository.RAM.Entity
                 return chars;
         }
 
+        // TODO: test this, commit, then test LocationUnset and commit.
+        public IEnumerable<Character> GetByLocationId(Id locationId)
+        {
+            if (locationId == null)
+                throw new ArgumentNullException("locationId");
+
+            IEnumerable<Character> chars =
+                from c in this._saved.Values
+                let character = this.TEntityCast(c)
+                where character.LocationId != null
+                where character.LocationId == locationId
+                select character;
+
+            if (chars.Count() == 0)
+                throw new ArgumentException($"There are no characters with LocationId of {locationId}");
+            else
+                return chars;
+        }
+
         public Level FindHighestLevel(Player player)
         {
             if (player == null)
