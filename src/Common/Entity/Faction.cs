@@ -7,7 +7,7 @@ namespace WorldZero.Common.Entity
     /// <summary>
     /// Faction is a entity for a tuple of the Faction table.
     /// </summary>
-    public class Faction : INamedEntity
+    public class Faction : INamedEntity, IOptionalEntity
     {
         /// <summary>
         /// Initialize a new Faction. There is no requirement for any optional

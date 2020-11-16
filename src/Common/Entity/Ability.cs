@@ -8,7 +8,7 @@ namespace WorldZero.Common.Entity
     /// An ability is something that faction(s) can have to give them some
     /// bonus.
     /// </summary>
-    public class Ability : INamedEntity
+    public class Ability : INamedEntity, IOptionalEntity
     {
         public Ability(Name name, string description)
             : base(name)

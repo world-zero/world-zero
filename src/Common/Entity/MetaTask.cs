@@ -7,7 +7,7 @@ namespace WorldZero.Common.Entity
     /// <summary>
     /// MetaTask is a entity for a tuple of the MetaTask table.
     /// </summary>
-    public class MetaTask : IIdEntity
+    public class MetaTask : IIdEntity, IOptionalEntity
     {
         public MetaTask(
             Name factionId,

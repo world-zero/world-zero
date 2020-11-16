@@ -11,7 +11,7 @@ namespace WorldZero.Common.Entity
     /// Repos are responsible for ensuring that every combination of cities,
     /// states, countries, and zips are unique.
     /// </remarks>
-    public class Location : IIdEntity
+    public class Location : IIdEntity, IOptionalEntity
     {
         public Location(Name city, Name state, Name country, Name zip)
             : base()
