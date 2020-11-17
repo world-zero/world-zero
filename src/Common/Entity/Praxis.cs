@@ -11,7 +11,7 @@ namespace WorldZero.Common.Entity
     /// As you would expect, validation of the Status is left to the Praxis
     /// registration class.
     /// </remarks>
-    public class Praxis : IIdEntity
+    public class Praxis : IIdEntity, IEntityHasOptional
     {
         public Praxis(
             Id taskId,

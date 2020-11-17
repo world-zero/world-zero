@@ -7,7 +7,7 @@ namespace WorldZero.Common.Entity
     /// <summary>
     /// Character is a entity for a tuple of the Character table.
     /// </summary>
-    public class Character : IIdNamedEntity
+    public class Character : IIdNamedEntity, IEntityHasOptional
     {
         /// <summary>
         /// Determine the level based off the number of points supplied.
