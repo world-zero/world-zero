@@ -55,7 +55,7 @@ namespace WorldZero.Data.Interface.Repository.Entity
         /// commit the transaction iff it is nested within another transaction.
         /// </remarks>
         /// <exception cref="ArgumentException">
-        /// This is thrown if an error occurs during the transaction's save.
+        /// This will be thrown iff an error occurs during `Save()`.
         /// </exception>
         void EndTransaction();
         Task EndTransactionAsync();

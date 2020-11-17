@@ -54,7 +54,7 @@ namespace WorldZero.Common.Entity
                 dateFounded = new PastDate(DateTime.UtcNow);
             this.DateFounded = dateFounded;
             this.Description = desc;
-            this.AbilityName = abilityName;
+            this.AbilityId = abilityName;
         }
 
         public override IEntity<Name, string> Clone()
@@ -63,11 +63,11 @@ namespace WorldZero.Common.Entity
                 this.Id,
                 this.DateFounded,
                 this.Description,
-                this.AbilityName
+                this.AbilityId
             );
         }
 
-        public Name AbilityName { get; set; }
+        public Name AbilityId { get; set; }
 
         public PastDate DateFounded
         {

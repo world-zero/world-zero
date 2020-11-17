@@ -22,13 +22,17 @@ namespace WorldZero.Service.Interface.Entity.Deletion
         public virtual void Delete(TId id)
         {
             this.AssertNotNull(id, "id");
+            this.BeginTransaction();
             try
             {
                 this._repo.Delete(id);
-                this._repo.Save();
+                this.EndTransaction();
             }
             catch (ArgumentException exc)
-            { throw new ArgumentException("Could not delete the supplied entity.", exc); }
+            {
+                this.DiscardTransaction();
+                throw new ArgumentException("Could not delete the supplied entity.", exc);
+            }
         }
 
         public virtual void Delete(TEntity e)
@@ -45,7 +49,7 @@ namespace WorldZero.Service.Interface.Entity.Deletion
         public virtual async Task DeleteAsync(TEntity e)
         {
             this.AssertNotNull(e, "e");
-            await Task.Run(() => this.Delete(e));
+            await Task.Run(() => this.Delete(e.Id));
         }
     }
 }

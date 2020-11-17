@@ -35,7 +35,7 @@ namespace WorldZero.Test.Unit.Common.Entity
                 f.DateFounded.Get.ToString("MM:dd:yyyy HH")
             );
             Assert.IsNull(f.Description);
-            Assert.IsNull(f.AbilityName);
+            Assert.IsNull(f.AbilityId);
         }
 
         [Test]
@@ -46,7 +46,7 @@ namespace WorldZero.Test.Unit.Common.Entity
                 this._f.DateFounded.Get.ToString("MM:dd:yyyy HH")
             );
             Assert.AreEqual(this._desc, this._f.Description);
-            Assert.AreEqual(this._abilityName, this._f.AbilityName);
+            Assert.AreEqual(this._abilityName, this._f.AbilityId);
         }
 
         [Test]

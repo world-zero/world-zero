@@ -254,7 +254,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration.Relation
 
             // Happy: make the character's faction have Reiterator, and then
             // they should be able to submit again.
-            this._f.AbilityName = AbilityReg.Reiterator.Id;
+            this._f.AbilityId = AbilityReg.Reiterator.Id;
             this._factionRepo.Update(this._f);
             this._factionRepo.Save();
             pp = new PraxisParticipant(this._p1.Id, this._c0.Id);

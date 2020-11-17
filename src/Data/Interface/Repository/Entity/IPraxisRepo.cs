@@ -20,5 +20,12 @@ namespace WorldZero.Data.Interface.Repository.Entity
         /// be found.
         /// </exception>
         int GetPraxisCount(Id characterId, ISet<Name> statuses);
+
+        /// <summary>
+        /// Get a collection of saved Praxises that have a matching
+        /// MetaTask.Id as the argument. If there are none, an exception is
+        /// thrown.
+        /// </summary>
+        IEnumerable<Praxis> GetByMetaTaskId(Id metaTaskId);
     }
 }

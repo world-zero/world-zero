@@ -47,5 +47,23 @@ namespace WorldZero.Data.Repository.RAM.Entity
 
             return praxises.Count();
         }
+
+        public IEnumerable<Praxis> GetByMetaTaskId(Id metaTaskId)
+        {
+            if (metaTaskId == null)
+                throw new ArgumentNullException("metaTaskId");
+
+            IEnumerable<Praxis> praxises =
+                from p in this._saved.Values
+                let praxis = this.TEntityCast(p)
+                where praxis.MetaTaskId != null
+                where praxis.MetaTaskId == metaTaskId
+                select praxis;
+
+            if (praxises.Count() == 0)
+                throw new ArgumentException($"There are no praxises with a meta task ID of {metaTaskId}");
+            else
+                return praxises;
+        }
     }
 }

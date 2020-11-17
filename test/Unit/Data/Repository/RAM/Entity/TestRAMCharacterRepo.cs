@@ -93,6 +93,8 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity
         [Test]
         public void TestGetByLocationId()
         {
+            Assert.Throws<ArgumentNullException>(()=>
+                this._charRepo.GetByLocationId(null));
             Assert.Throws<ArgumentException>(()=>
                 this._charRepo.GetByLocationId(new Id(9000)));
 
@@ -144,6 +146,8 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity
         [Test]
         public void TestGetByFactionId()
         {
+            Assert.Throws<ArgumentNullException>(()=>
+                this._charRepo.GetByFactionId(null));
             Assert.Throws<ArgumentException>(()=>
                 this._charRepo.GetByFactionId(new Name("xcvs")));
 

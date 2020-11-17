@@ -210,8 +210,8 @@ namespace WorldZero.Service.Entity.Registration.Relation
             catch (ArgumentException e)
             { throw new InvalidOperationException("A character has a faction that does not exist, this should not be possible; only register entities via their registration class and update them via their updating class.", e); }
 
-            if (   (f.AbilityName == null )
-                || (f.AbilityName != AbilityReg.Reiterator.Id))
+            if (   (f.AbilityId == null )
+                || (f.AbilityId != AbilityReg.Reiterator.Id))
             {
                 this._ppRepo.DiscardTransaction();
                 throw new ArgumentException($"The character can only submit praxises for a task {activeEra.MaxTasks} time(s).");

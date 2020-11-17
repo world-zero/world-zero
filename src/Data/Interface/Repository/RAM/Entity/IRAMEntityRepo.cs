@@ -1094,7 +1094,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         public void EndTransaction()
         {
             if (!this.IsTransactionActive())
-                throw new ArgumentException("There is no active transaction.");
+                return;
 
             if (--_txnDepth != 0)
                 return;
