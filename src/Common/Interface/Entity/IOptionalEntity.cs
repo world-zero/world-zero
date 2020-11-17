@@ -12,7 +12,7 @@ namespace WorldZero.Common.Interface.Entity
     /// regardless of any other relations it has.
     /// <br />
     /// This is the inverse of marker <see
-    /// cref="WorldZero.Common.Interface.Entity.Marker.IEntityHasOptional"/>.
+    /// cref="WorldZero.Common.Interface.Entity.IEntityHasOptional"/>.
     /// </remarks>
     public interface IOptionalEntity
     { }

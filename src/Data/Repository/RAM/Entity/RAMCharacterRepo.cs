@@ -30,7 +30,6 @@ namespace WorldZero.Data.Repository.RAM.Entity
                 return chars;
         }
 
-        // TODO: test this, commit, then test LocationUnset and commit.
         public IEnumerable<Character> GetByLocationId(Id locationId)
         {
             if (locationId == null)
@@ -45,6 +44,24 @@ namespace WorldZero.Data.Repository.RAM.Entity
 
             if (chars.Count() == 0)
                 throw new ArgumentException($"There are no characters with LocationId of {locationId}");
+            else
+                return chars;
+        }
+
+        public IEnumerable<Character> GetByFactionId(Name factionId)
+        {
+            if (factionId == null)
+                throw new ArgumentNullException("factionId");
+
+            IEnumerable<Character> chars =
+                from c in this._saved.Values
+                let character = this.TEntityCast(c)
+                where character.FactionId != null
+                where character.FactionId == factionId
+                select character;
+
+            if (chars.Count() == 0)
+                throw new ArgumentException($"There are no characters with a Faction name of {factionId}");
             else
                 return chars;
         }

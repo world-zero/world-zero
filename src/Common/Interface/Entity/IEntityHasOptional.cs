@@ -5,7 +5,7 @@ namespace WorldZero.Common.Interface.Entity
     /// </summary>
     /// <remarks>
     /// This is the inverse of marker <see
-    /// cref="WorldZero.Common.Interface.Entity.Marker.IOptionalEntity"/>.
+    /// cref="WorldZero.Common.Interface.Entity.IOptionalEntity"/>.
     /// </remarks>
     public interface IEntityHasOptional
     { }

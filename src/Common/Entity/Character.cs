@@ -45,7 +45,7 @@ namespace WorldZero.Common.Entity
         public Character(
             Name       name,
             Id         playerId,
-            Name       factionId      =null,
+            Name       factionId    =null,
             Id         locationId     =null,
             PointTotal eraPoints      =null,
             PointTotal totalPoints    =null,

@@ -21,6 +21,13 @@ namespace WorldZero.Data.Interface.Repository.Entity
         /// </summary>
         IEnumerable<Character> GetByLocationId(Id locationId);
 
+        /// <summary>
+        /// Get a collection of saved Characters that have a matching
+        /// Faction name as the argument. If there are none, an exception is
+        /// thrown.
+        /// </summary>
+        IEnumerable<Character> GetByFactionId(Name factionId);
+
         /// <remarks>
         /// The level is determined by processing the player's characters and
         /// finding the character(s) with the highest era or total level, and

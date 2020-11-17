@@ -142,6 +142,47 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity
         }
 
         [Test]
+        public void TestGetByFactionId()
+        {
+            Assert.Throws<ArgumentException>(()=>
+                this._charRepo.GetByFactionId(new Name("xcvs")));
+
+            var factionRepo = new RAMFactionRepo();
+            var f0 = new Faction(new Name("F0"));
+            var f1 = new Faction(new Name("F1"));
+            factionRepo.Insert(f0);
+            factionRepo.Insert(f1);
+            factionRepo.Save();
+
+            this._c0.FactionId = f0.Id;
+            this._charRepo.Update(this._c0);
+            this._charRepo.Save();
+            var chars = this._charRepo
+                .GetByFactionId(f0.Id).ToList<Character>();
+            Assert.AreEqual(1, chars.Count());
+            foreach (Character c in chars)
+                Assert.AreEqual(this._c0.Id, c.Id);
+
+            this._c1.FactionId = f0.Id;
+            this._charRepo.Update(this._c1);
+            this._charRepo.Save();
+            chars = this._charRepo
+                .GetByFactionId(f0.Id).ToList<Character>();
+            Assert.AreEqual(2, chars.Count());
+            Assert.AreEqual(this._c0.Id, chars[0].Id);
+            Assert.AreEqual(this._c1.Id, chars[1].Id);
+
+            this._c2.FactionId = f1.Id;
+            this._charRepo.Update(this._c2);
+            this._charRepo.Save();
+            chars = this._charRepo
+                .GetByFactionId(f1.Id).ToList<Character>();
+            Assert.AreEqual(1, chars.Count());
+            foreach (Character c in chars)
+                Assert.AreEqual(this._c2.Id, c.Id);
+        }
+
+        [Test]
         public void TestFindHighestLevel()
         {
             Level actual = this._charRepo.FindHighestLevel(new Id(2));
