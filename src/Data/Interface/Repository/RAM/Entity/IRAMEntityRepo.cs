@@ -430,7 +430,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         /// Cast and return the argument to `TId`, otherwise throwing an
         /// `InvalidOperationException`.
         /// </summary>
-        public TId TIdCast(object o)
+        internal TId TIdCast(object o)
         {
             try
             {
@@ -444,7 +444,7 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity
         /// Cast and return the argument to `TEntity`, otherwise throwing an
         /// `InvalidOperationException`.
         /// </summary>
-        public virtual TEntity TEntityCast(object o)
+        internal virtual TEntity TEntityCast(object o)
         {
             try
             {

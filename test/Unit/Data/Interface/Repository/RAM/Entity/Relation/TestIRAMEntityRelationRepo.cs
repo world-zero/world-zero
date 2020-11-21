@@ -51,6 +51,11 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Relation
         [TearDown]
         public void TearDown()
         {
+            if (this._repo.IsTransactionActive())
+            {
+                this._repo.DiscardTransaction();
+                throw new InvalidOperationException("A test exits with an active transaction.");
+            }
             this._repo.CleanAll();
         }
 
@@ -95,6 +100,71 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Relation
                 this._repo.GetByDTO(new CntRelationDTO<Id, int, Id, int>(
                     new Id(43), new Id(31), 2)));
         }
+
+        [Test]
+        public void TestDeleteByLeftId()
+        {
+            Assert.Throws<ArgumentNullException>(()=>
+                this._repo.DeleteByLeftId(null));
+
+            this._repo.Insert(new PraxisParticipant(this._id0, this._id3));
+            Assert.AreEqual(3, this._repo.SavedCount);
+            Assert.AreEqual(1, this._repo.StagedCount);
+            this._repo.DeleteByLeftId(this._id0);
+            Assert.AreEqual(3, this._repo.StagedCount);
+            this._repo.Save();
+            Assert.AreEqual(1, this._repo.SavedCount);
+            Assert.AreEqual(0, this._repo.StagedCount);
+            Assert.Throws<ArgumentException>(()=>
+                this._repo.GetByLeftId(this._id0).First());
+        }
+
+        [Test]
+        public void TestDeleteByRightId()
+        {
+            Assert.Throws<ArgumentNullException>(()=>
+                this._repo.DeleteByRightId(null));
+
+            this._repo.Insert(new PraxisParticipant(this._id3));
+            Assert.AreEqual(3, this._repo.SavedCount);
+            Assert.AreEqual(1, this._repo.StagedCount);
+            this._repo.DeleteByRightId(this._id3);
+            Assert.AreEqual(3, this._repo.StagedCount);
+            this._repo.Save();
+            Assert.AreEqual(1, this._repo.SavedCount);
+            Assert.AreEqual(0, this._repo.StagedCount);
+            Assert.Throws<ArgumentException>(()=>
+                this._repo.GetByRightId(this._id3).First());
+        }
+
+        [Test]
+        public void TestDeleteByDTO()
+        {
+            Assert.Throws<ArgumentNullException>(()=>
+                this._repo.DeleteByDTO(null));
+
+            var dto = this._pp0.GetDTO();
+            Assert.AreEqual(3, this._repo.SavedCount);
+            this._repo.DeleteByDTO(
+                (CntRelationDTO<Id, int, Id, int>) this._pp0.GetDTO());
+            Assert.AreEqual(1, this._repo.StagedCount);
+            this._repo.Save();
+            Assert.AreEqual(2, this._repo.SavedCount);
+            Assert.AreEqual(0, this._repo.StagedCount);
+            Assert.Throws<ArgumentException>(()=>
+                this._repo.GetById(this._pp0.Id));
+
+            var pp = new PraxisParticipant(dto.LeftId, dto.RightId);
+            this._repo.Insert(pp);
+            Assert.AreEqual(2, this._repo.SavedCount);
+            Assert.AreEqual(1, this._repo.StagedCount);
+            this._repo.DeleteByDTO(
+                (CntRelationDTO<Id, int, Id, int>) pp.GetDTO());
+            Assert.AreEqual(1, this._repo.StagedCount);
+            this._repo.Save();
+            Assert.AreEqual(2, this._repo.SavedCount);
+            Assert.AreEqual(0, this._repo.StagedCount);
+        }
     }
 
     public class TestRAMEntityRelationRepo
@@ -117,5 +187,8 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Relation
             var a = new PraxisParticipant(new Id(2), new Id(93));
             return a.GetUniqueRules().Count;
         }
+
+        public int SavedCount { get { return this._saved.Count; } }
+        public int StagedCount { get { return this._staged.Count; } }
     }
 }

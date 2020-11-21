@@ -47,6 +47,17 @@ namespace WorldZero.Data.Interface.Repository.Entity.Relation
         );
 
         /// <summary>
+        /// This will stage everything with the supplied partial DTO to be
+        /// deleted.
+        /// </summary>
+        void DeleteByPartialDTO(
+            RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
+        );
+        Task DeleteByPartialDTOAsync(
+            RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
+        );
+
+        /// <summary>
         /// Return an int that is the next largest Count for the supplied DTO.
         /// </summary>
         /// <remarks>

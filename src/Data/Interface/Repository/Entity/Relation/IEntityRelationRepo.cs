@@ -30,7 +30,6 @@ namespace WorldZero.Data.Interface.Repository.Entity.Relation
         /// </summary>
         IEnumerable<TEntityRelation> GetByLeftId(TLeftId id);
 
-
         /// <summary>
         /// Return the saved relational entities that have the supplied right
         /// ID as an iterable. If there is no corresponding ID, then an
@@ -48,5 +47,26 @@ namespace WorldZero.Data.Interface.Repository.Entity.Relation
         /// </remarks>
         TEntityRelation GetByDTO(TRelationDTO dto);
         Task<TEntityRelation> GetByDTOAsync(TRelationDTO dto);
+
+        /// <summary>
+        /// This will stage everything with the supplied left ID to be deleted.
+        /// </summary>
+        void DeleteByLeftId(TLeftId id);
+        Task DeleteByLeftIdAsync(TLeftId id);
+
+        /// <summary>
+        /// This will stage everything with the supplied right ID to be
+        /// deleted.
+        /// </summary>
+        void DeleteByRightId(TRightId id);
+        Task DeleteByRightIdAsync(TRightId id);
+
+        /// <summary>
+        /// This will delete the entity with the supplied DTO. If none exists,
+        /// no exception is thrown.
+        /// </summary>
+        void DeleteByDTO(TRelationDTO dto);
+        Task DeleteByDTOAsync(TRelationDTO dto);
+
     }
 }

@@ -48,6 +48,11 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Relation
         [TearDown]
         public void TearDown()
         {
+            if (this._repo.IsTransactionActive())
+            {
+                this._repo.DiscardTransaction();
+                throw new InvalidOperationException("A test exits with an active transaction.");
+            }
             this._repo.CleanAll();
         }
 
@@ -106,6 +111,45 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Relation
                 new RelationDTO<Id, int, Id, int>(this._id0, this._id1));
             Assert.AreEqual(3, actual);
         }
+
+        [Test]
+        public void TestDeleteByPartialDTO()
+        {
+            Assert.Throws<ArgumentNullException>(()=>
+                this._repo.DeleteByPartialDTO(null));
+
+            var dto = (CntRelationDTO<Id, int, Id, int>) this._pp0.GetDTO();
+            var pp = new PraxisParticipant(dto.LeftId, dto.RightId, dto.Count+1);
+            this._repo.Insert(pp);
+            Assert.AreEqual(3, this._repo.SavedCount);
+            Assert.AreEqual(1, this._repo.StagedCount);
+            this._repo.DeleteByPartialDTO((RelationDTO<Id, int, Id, int>) dto);
+            Assert.AreEqual(3, this._repo.SavedCount);
+            Assert.AreEqual(2, this._repo.StagedCount);
+            this._repo.Save();
+            Assert.AreEqual(2, this._repo.SavedCount);
+            Assert.AreEqual(0, this._repo.StagedCount);
+
+            Assert.Throws<ArgumentException>(()=>
+                this._repo.GetById(this._pp0.Id));
+            Assert.Throws<ArgumentException>(()=>
+                this._repo.GetById(pp.Id));
+        }
+
+        [Test]
+        public void TestDeleteByDTO()
+        {
+            var dto = (CntRelationDTO<Id, int, Id, int>) this._pp0.GetDTO();
+            var pp = new PraxisParticipant(dto.LeftId, dto.RightId, dto.Count+1);
+            Assert.AreEqual(3, this._repo.SavedCount);
+            this._repo.Insert(pp);
+            this._repo.DeleteByDTO(
+                (CntRelationDTO<Id, int, Id, int>) pp.GetDTO());
+            this._repo.Save();
+            Assert.AreEqual(3, this._repo.SavedCount);
+            Assert.Throws<ArgumentException>(()=>
+                this._repo.GetById(pp.Id));
+        }
     }
 
     public class TestRAMEntityRelationCntRepo
@@ -128,5 +172,8 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Relation
             var a = new PraxisParticipant(new Id(2), new Id(93));
             return a.GetUniqueRules().Count;
         }
+
+        public int SavedCount { get { return this._saved.Count; } }
+        public int StagedCount { get { return this._staged.Count; } }
     }
 }

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using WorldZero.Common.Interface;
+using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Relation;
 using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
@@ -107,6 +108,61 @@ namespace WorldZero.Data.Interface.Repository.RAM.Entity.Relation
             if (stagedC > c)
                 c = stagedC;
             return c+1;
+        }
+
+        public void DeleteByPartialDTO(
+            RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
+        )
+        {
+            // Yes, it would be more effecient to check staged first, but this
+            // way will reveal bugs more easily.
+            if (dto == null)
+                throw new ArgumentNullException("dto");
+
+            IEnumerable<TEntityRelation> ers = 
+                from erTemp in this._saved.Values
+                let er = this.TEntityCast(erTemp)
+                where er.LeftId == dto.LeftId
+                where er.RightId == dto.RightId
+                select er;
+
+            foreach (TEntityRelation er in ers)
+                this.Delete(er.Id);
+
+            // It is possible to delete a staged-only entity, and there are
+            // some entity types that do not have an ID set until Save(), so it
+            // is necessary to check the entity with context for the ID.
+            var ids = new List<Id>();
+            foreach (KeyValuePair<object, object> p in this._staged)
+            {
+                Id tempId;
+                TEntityRelation er;
+                try
+                {
+                    tempId = this.TIdCast(p.Key);
+                    er = this.TEntityCast(p.Value);
+                }
+                catch (ArgumentException e)
+                { throw new InvalidOperationException("A cast failed.", e); }
+
+                if ( (er != null) && (er.LeftId == dto.LeftId) )
+                {
+                    if ( (er != null) && (er.RightId == dto.RightId) )
+                    {
+                        ids.Add(tempId);
+                    }
+                }
+            }
+
+            foreach (Id tempId in ids)
+                this.Delete(tempId);
+        }
+
+        public async Task DeleteByPartialDTOAsync(
+            RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
+        )
+        {
+            this.DeleteByPartialDTO(dto);
         }
 
         public async Task<int> GetNextCountAsync(

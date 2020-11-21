@@ -21,6 +21,11 @@ namespace WorldZero.Common.Interface
         void Update(TClass obj);
         Task UpdateAsync(TClass obj);
 
+        /// <summary>
+        /// This will delete saved entities. If the entity is only staged, the
+        /// entity is disregarded. If the entity is staged and saved, the
+        /// entity will be re-staged to be deleted.
+        /// </summary>
         void Delete(TId id);
         Task DeleteAsync(TId id);
 
