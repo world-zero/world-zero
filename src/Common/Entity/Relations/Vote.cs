@@ -78,7 +78,7 @@ namespace WorldZero.Common.Entity.Relation
         private Id _receivingCharacterId;
 
         /// <summary>
-        /// VotingCharacterId is a wrapper for RightId.
+        /// VotingCharacterId is a wrapper for LeftId.
         /// </summary>
         /// <remarks>
         /// This will not allow a character to vote for themself.

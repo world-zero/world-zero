@@ -12,7 +12,7 @@ namespace WorldZero.Common.Entity.Relation
     public class TaskFlag : IIdNameRelation
     {
         /// <summary>
-        /// TaskId is a wrapper for RightId.
+        /// TaskId is a wrapper for LeftId.
         /// </summary>
         public Id TaskId
         {

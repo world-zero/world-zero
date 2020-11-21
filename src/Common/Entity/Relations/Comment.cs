@@ -23,7 +23,7 @@ namespace WorldZero.Common.Entity.Relation
         }
 
         /// <summary>
-        /// CharacterId wraps LeftId, which is the ID of the related Character.
+        /// CharacterId wraps RightId, which is the ID of the related Character.
         /// </summary>
         public Id CharacterId
         {

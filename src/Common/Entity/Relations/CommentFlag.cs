@@ -21,7 +21,7 @@ namespace WorldZero.Common.Entity.Relation
         }
 
         /// <summary>
-        /// FlagId wraps LeftId, which is the ID of the related Flag.
+        /// FlagId wraps RightId, which is the ID of the related Flag.
         /// </summary>
         public Name FlagId
         {

@@ -12,7 +12,7 @@ namespace WorldZero.Common.Entity.Relation
     public class Foe : IIdIdRelation
     {
         /// <summary>
-        /// FirstCharacterId is a wrapper for RightId.
+        /// FirstCharacterId is a wrapper for LeftId.
         /// </summary>
         public Id FirstCharacterId
         {

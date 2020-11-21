@@ -12,7 +12,7 @@ namespace WorldZero.Common.Entity.Relation
     public class MetaTaskTag : IIdNameRelation
     {
         /// <summary>
-        /// MetaTaskId is a wrapper for RightId.
+        /// MetaTaskId is a wrapper for LeftId.
         /// </summary>
         public Id MetaTaskId
         {
