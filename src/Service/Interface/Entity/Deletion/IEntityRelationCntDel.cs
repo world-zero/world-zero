@@ -1,7 +1,5 @@
-using System.Reflection.Emit;
 using System;
 using WorldZero.Common.ValueObject.DTO.Entity.Relation;
-using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Common.Interface.Entity.Relation;
@@ -42,7 +40,6 @@ namespace WorldZero.Service.Interface.Entity.Deletion
         where TRelationDTO : CntRelationDTO
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
     {
-        // TODO: make a cnt repo property
         protected IEntityRelationCntRepo
         <
             TEntityRelationCnt,
