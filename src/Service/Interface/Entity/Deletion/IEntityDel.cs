@@ -37,6 +37,7 @@ namespace WorldZero.Service.Interface.Entity.Deletion
 
         public virtual void Delete(TEntity e)
         {
+            this.AssertNotNull(e, "e");
             this.Delete(e.Id);
         }
 

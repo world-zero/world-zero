@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace WorldZero.Test.Integration.Service.Interface.Entity
 {
     [TestFixture]
-    public class TestIEntityDelete
+    public class TestIEntityDel
     {
         private IPlayerRepo _repo;
         private TestEntityDelete _del;

@@ -47,7 +47,7 @@ namespace WorldZero.Service.Interface.Entity.Registration
     /// below to easily and consistently cast up in children. This example is
     /// taken from CreateEra.
     /// <code>
-    /// protected IEraRepo _eraRepo { get { return (IEraRepo) this._repo; } }
+    /// protected IEraRepo _eraRepo { get { return (IEraRepo) this._relRepo; } }
     /// </code>
     /// It is also worth noting that we don't actually care about the DTO type
     /// for the registration class itself - this is why there is no
@@ -64,7 +64,7 @@ namespace WorldZero.Service.Interface.Entity.Registration
         TRightBuiltIn,
         TRelationDTO
     >
-    : IEntityReg<TEntityRelation, Id, int>
+        : IEntityReg<TEntityRelation, Id, int>
         where TEntityRelation : IEntityRelation
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
         where TLeftEntity : IEntity<TLeftId, TLeftBuiltIn>
@@ -74,7 +74,7 @@ namespace WorldZero.Service.Interface.Entity.Registration
         where TRelationDTO : RelationDTO
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
     {
-        protected new readonly IEntityRelationRepo
+        protected IEntityRelationRepo
         <
             TEntityRelation,
             TLeftId,
@@ -83,7 +83,21 @@ namespace WorldZero.Service.Interface.Entity.Registration
             TRightBuiltIn,
             TRelationDTO
         >
-        _repo;
+        _relRepo
+        {
+            get
+            {
+                return (IEntityRelationRepo
+                    <
+                        TEntityRelation,
+                        TLeftId,
+                        TLeftBuiltIn,
+                        TRightId,
+                        TRightBuiltIn,
+                        TRelationDTO
+                    >) this._repo;
+            }
+        }
 
         protected readonly IEntityRepo
         <
@@ -129,10 +143,8 @@ namespace WorldZero.Service.Interface.Entity.Registration
         )
             : base(repo)
         {
-            this.AssertNotNull(repo, "repo");
             this.AssertNotNull(leftRepo, "leftRepo");
             this.AssertNotNull(rightRepo, "rightRepo");
-            this._repo = repo;
             this._leftRepo = leftRepo;
             this._rightRepo = rightRepo;
         }
@@ -145,7 +157,7 @@ namespace WorldZero.Service.Interface.Entity.Registration
         public override TEntityRelation Register(TEntityRelation e)
         {
             this.AssertNotNull(e, "e");
-            this._repo.BeginTransaction(true);
+            this._relRepo.BeginTransaction(true);
             try
             {
                 this.GetLeftEntity(e);
@@ -153,23 +165,23 @@ namespace WorldZero.Service.Interface.Entity.Registration
             }
             catch (ArgumentNullException exc)
             {
-                this._repo.DiscardTransaction();
+                this._relRepo.DiscardTransaction();
                 throw new ArgumentNullException("See trace.", exc);
             }
             catch (ArgumentException exc)
             {
-                this._repo.DiscardTransaction();
+                this._relRepo.DiscardTransaction();
                 throw new ArgumentException("An error occurred during the registration of a relational entity.", exc);
             }
             try
             {
                 var r = base.Register(e);
-                this._repo.EndTransaction();
+                this._relRepo.EndTransaction();
                 return r;
             }
             catch (ArgumentException exc)
             {
-                this._repo.DiscardTransaction();
+                this._relRepo.DiscardTransaction();
                 throw new ArgumentException("Could not complete the registration", exc);
             }
         }

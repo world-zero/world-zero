@@ -5,11 +5,11 @@ using WorldZero.Data.Interface.Repository.Entity;
 using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.Interface.Entity;
 
-namespace WorldZero.Service.Interface.Entity.Registration
+namespace WorldZero.Service.Interface.Entity.Deletion
 {
-    /// <inheritdoc cref="IEntityRelationReg"/>
+    /// <inheritdoc cref="IEntityRelationDel"/>
     /// <summary>
-    /// This class will is a relation entity registration where the left
+    /// This class will is a relation entity deletion where the left
     /// ID maps to an entity that is also a relational entity.
     /// </summary>
     /// <remarks>
@@ -19,7 +19,7 @@ namespace WorldZero.Service.Interface.Entity.Registration
     /// Yes I am aware that `TLEntityRelation` is just a duplicate of
     /// `TLeftEntity`.
     /// </remarks>
-    public abstract class IEntityRelateRelationalReg
+    public abstract class IEntityRelateRelationalDel
     <
         TEntityRelation,
 
@@ -39,7 +39,7 @@ namespace WorldZero.Service.Interface.Entity.Registration
 
         TRelationDTO
     >
-    : IEntityRelationReg
+    : IEntityRelationDel
     <
         TEntityRelation,
         TLeftEntity,
@@ -67,24 +67,7 @@ namespace WorldZero.Service.Interface.Entity.Registration
         where TRelationDTO : RelationDTO
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
     {
-        protected new IEntityRelationRepo
-        <
-            TLEntityRelation,
-            TLLeftId,
-            TLLeftBuiltIn,
-            TLRightId,
-            TLRightBuiltIn,
-            TLRelationDTO
-        >
-        _leftRepo
-        {
-            get
-            {
-                return this._leftRepo;
-            }
-        }
-
-        public IEntityRelateRelationalReg(
+        public IEntityRelateRelationalDel(
             IEntityRelationRepo
             <
                 TEntityRelation,
@@ -94,35 +77,9 @@ namespace WorldZero.Service.Interface.Entity.Registration
                 TRightBuiltIn,
                 TRelationDTO
             >
-            repo,
-            IEntityRelationRepo
-            <
-                TLEntityRelation,
-                TLLeftId,
-                TLLeftBuiltIn,
-                TLRightId,
-                TLRightBuiltIn,
-                TLRelationDTO
-            >
-            leftRepo,
-            IEntityRepo
-            <
-                TRightEntity,
-                TRightId,
-                TRightBuiltIn
-            >
-            rightRepo
+            repo
         )
-            : base(
-                repo,
-                (IEntityRepo
-                <
-                    TLeftEntity,
-                    TLeftId,
-                    TLeftBuiltIn
-                >) leftRepo,
-                rightRepo
-            )
+            : base(repo)
         { }
     }
 }
