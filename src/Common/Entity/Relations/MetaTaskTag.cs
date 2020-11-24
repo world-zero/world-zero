@@ -8,6 +8,10 @@ namespace WorldZero.Common.Entity.Relation
     /// <summary>
     /// This relation maps a Meta Task's ID to a Tag's ID,
     /// signifying that the meta task has tag X.
+    /// <br />
+    /// Left relation: `MetaTaskId`
+    /// <br />
+    /// Right relation: `TagId`
     /// </summary>
     public class MetaTaskTag : IIdNameRelation
     {

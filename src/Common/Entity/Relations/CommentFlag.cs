@@ -8,6 +8,10 @@ namespace WorldZero.Common.Entity.Relation
     /// <summary>
     /// This relation maps a comment's ID to a Flag's ID,
     /// signifying that the comment has flag X.
+    /// <br />
+    /// Left relation: `CommentId`
+    /// <br />
+    /// Right relation: `FlagId`
     /// </summary>
     public class CommentFlag : IIdNameRelation
     {

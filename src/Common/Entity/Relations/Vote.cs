@@ -9,6 +9,10 @@ namespace WorldZero.Common.Entity.Relation
     /// <summary>
     /// This relation applies a vote from the supplied character to the
     /// corresponding praxis.
+    /// <br />
+    /// Left relation: `VotingCharacterId`
+    /// <br />
+    /// Right relation: `PraxisId`
     /// </summary>
     /// <remarks>
     /// While making sure that a player isn't voting on their own character

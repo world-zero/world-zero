@@ -8,6 +8,10 @@ namespace WorldZero.Common.Entity.Relation
     /// <summary>
     /// This relation maps a Praxis's ID to a Tag's ID,
     /// signifying that the praxis has tag X.
+    /// <br />
+    /// Left relation: `PraxisId`
+    /// <br />
+    /// Right relation: `TagId`
     /// </summary>
     public class PraxisTag : IIdNameRelation
     {

@@ -8,6 +8,10 @@ namespace WorldZero.Common.Entity.Relation
     /// <summary>
     /// This relation maps a character's ID to a praxis, allowing for multiple
     /// characters to participate on a single praxis.
+    /// <br />
+    /// Left relation: `PraxisId`
+    /// <br />
+    /// Right relation: `CharacterId`
     /// </summary>
     /// <remarks>
     /// A Praxis should always have at least one participant.

@@ -8,6 +8,10 @@ namespace WorldZero.Common.Entity.Relation
     /// <summary>
     /// This relation maps a character's ID to another character's ID,
     /// signifying that they are friends.
+    /// <br />
+    /// Left relation: `FirstCharacterId`
+    /// <br />
+    /// Right relation: `SecondCharacterId`
     /// </summary>
     public class Friend : IIdIdRelation
     {

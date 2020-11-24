@@ -10,6 +10,10 @@ namespace WorldZero.Common.Entity.Relation
     /// This relation maps a praxis' ID to a character's ID, as well as
     /// containing the content of the comment they are leaving on the related
     /// praxis.
+    /// <br />
+    /// Left relation: `PraxisId`
+    /// <br />
+    /// Right relation: `CharacterId`
     /// </summary>
     public class Comment : IIdIdCntRelation
     {

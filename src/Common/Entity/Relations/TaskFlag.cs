@@ -8,6 +8,10 @@ namespace WorldZero.Common.Entity.Relation
     /// <summary>
     /// This relation maps a Task's ID to a Flag's ID,
     /// signifying that the task has flag X.
+    /// <br />
+    /// Left relation: `TaskId`
+    /// <br />
+    /// Right relation: `FlagId`
     /// </summary>
     public class TaskFlag : IIdNameRelation
     {
