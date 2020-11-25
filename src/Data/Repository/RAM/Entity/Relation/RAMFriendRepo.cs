@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Relation;
-using WorldZero.Data.Interface.Repository.RAM.Entity.Relation;
+using WorldZero.Data.Interface.Repository.RAM.Entity.Generic;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Common.Entity.Relation;
 

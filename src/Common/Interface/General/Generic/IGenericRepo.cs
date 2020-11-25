@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-namespace WorldZero.Common.Interface
+namespace WorldZero.Common.Interface.General.Generic
 {
     public interface IGenericRepo<TClass, TId>
         where TClass : class

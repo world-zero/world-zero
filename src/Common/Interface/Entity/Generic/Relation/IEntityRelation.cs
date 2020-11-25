@@ -2,8 +2,9 @@ using System;
 using WorldZero.Common.ValueObject.DTO.Entity.Relation;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Collections;
+using WorldZero.Common.Interface.General.Generic;
 
-namespace WorldZero.Common.Interface.Entity.Relation
+namespace WorldZero.Common.Interface.Entity.Generic.Relation
 {
     /// <summary>
     /// This entity represents a many-to-many mapping between two entities by

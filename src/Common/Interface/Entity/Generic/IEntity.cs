@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using System;
 using WorldZero.Common.Collections;
+using WorldZero.Common.Interface.General.Generic;
 
 // This is necessary for the Dapper-compatible constructors, which will need to
 // be utilized in Data.

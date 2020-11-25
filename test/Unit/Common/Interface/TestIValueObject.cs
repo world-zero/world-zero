@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using WorldZero.Common.Interface;
+using WorldZero.Common.Interface.General.Generic;
 using NUnit.Framework;
 
 namespace WorldZero.Test.Unit.Common.Inferface

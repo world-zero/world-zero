@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using WorldZero.Common.Interface;
+using WorldZero.Common.Interface.General.Generic;
 using WorldZero.Common.Interface.Entity;
 
 namespace WorldZero.Data.Interface.Repository.Entity.Generic

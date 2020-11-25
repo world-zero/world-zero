@@ -2,7 +2,7 @@ using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface.Entity;
 using WorldZero.Data.Interface.Repository.Entity.Generic;
 
-namespace WorldZero.Data.Interface.Repository.RAM.Entity
+namespace WorldZero.Data.Interface.Repository.RAM.Entity.Generic
 {
     /// <inheritdoc cref="IRAMEntityRepo"/>
     /// <remarks>

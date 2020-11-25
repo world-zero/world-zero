@@ -1,7 +1,7 @@
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Relation;
 
-namespace WorldZero.Common.Interface.Entity.Relation
+namespace WorldZero.Common.Interface.Entity.Generic.Relation
 {
     /// <inheritdoc cref="IEntityRelation"/>
     public abstract class INameNameRelation

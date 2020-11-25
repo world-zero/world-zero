@@ -1,8 +1,9 @@
 using System;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Collections;
+using WorldZero.Common.Interface.General.Generic;
 
-namespace WorldZero.Common.Interface.Entity.Relation
+namespace WorldZero.Common.Interface.Entity.Generic.Relation
 {
     /// <inheritdoc cref="IEntityRelation"/>
     /// <summary>

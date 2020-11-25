@@ -1,7 +1,7 @@
 using WorldZero.Common.ValueObject.DTO.Entity.Relation;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface.Entity;
-using WorldZero.Common.Interface.Entity.Relation;
+using WorldZero.Common.Interface.Entity.Generic.Relation;
 
 namespace WorldZero.Common.Entity.Relation
 {

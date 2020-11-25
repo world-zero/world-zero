@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace WorldZero.Common.Interface
+namespace WorldZero.Common.Interface.General.Generic
 {
     /// <summary>
     /// This is a class template for ValueObjects.

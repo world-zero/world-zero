@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using WorldZero.Data.Interface.Repository.RAM.Entity;
+using WorldZero.Data.Interface.Repository.RAM.Entity.Generic;
 using WorldZero.Common.Entity;
 using WorldZero.Common.Entity.Relation;
 using WorldZero.Common.ValueObject.General;

@@ -1,8 +1,8 @@
 using WorldZero.Common.ValueObject.DTO.Entity.Relation;
-using WorldZero.Common.Interface;
+using WorldZero.Common.Interface.General.Generic;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity;
-using WorldZero.Common.Interface.Entity.Relation;
+using WorldZero.Common.Interface.Entity.Generic.Relation;
 using WorldZero.Common.Interface.Entity;
 using WorldZero.Data.Interface.Repository.Entity.Generic;
 

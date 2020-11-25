@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using WorldZero.Common.Interface;
+using WorldZero.Common.Interface.General.Generic;
 using WorldZero.Common.Interface.Entity;
 using WorldZero.Common.Collections;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using WorldZero.Data.Interface.Repository.Entity.Generic;
 // It's not a terrible idea to refactor this and have Staged track the CRUD
 // type (create, update, delete) associated with the staged change.
 
-namespace WorldZero.Data.Interface.Repository.RAM.Entity
+namespace WorldZero.Data.Interface.Repository.RAM.Entity.Generic
 {
     /// <summary>
     /// This is the needed data that a specific entity repo would require to

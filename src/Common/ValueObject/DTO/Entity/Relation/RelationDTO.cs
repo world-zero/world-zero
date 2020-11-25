@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using WorldZero.Common.Interface;
+using WorldZero.Common.Interface.General.Generic;
 
 namespace WorldZero.Common.ValueObject.DTO.Entity.Relation
 {
