@@ -6,11 +6,11 @@ using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
 
-// TODO: make ITaggedEntity / IFlaggedEntity and adjust entities/repos/dels to need that too
+// TODO: fix the test namespacing
+// TODO: repo.ram.entity should become repo.entity.ram
 
-// TODO: update this to use ITaggedEntity
 // TODO: copy this logic to IFlaggedEntityDel
-//      then fill out the repo deletion wrappers
+//      then keep filling out the repo deletion wrappers
 
 namespace WorldZero.Service.Interface.Entity.Generic.Deletion
 {
@@ -34,8 +34,8 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
         string,
         TRelationDTO
     >
-        where TEntityRelation : IEntityRelation
-            <TLeftId, TLeftBuiltIn, Name, string>
+        where TEntityRelation : ITaggedEntity
+            <TLeftId, TLeftBuiltIn>
         where TLeftEntity : IEntity<TLeftId, TLeftBuiltIn>
         where TLeftId  : ISingleValueObject<TLeftBuiltIn>
         where TRelationDTO : RelationDTO

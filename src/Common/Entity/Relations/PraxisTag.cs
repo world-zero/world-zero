@@ -13,7 +13,7 @@ namespace WorldZero.Common.Entity.Relation
     /// <br />
     /// Right relation: `TagId`
     /// </summary>
-    public class PraxisTag : IIdNameRelation
+    public class PraxisTag : ITaggedEntity<Id, int>
     {
         /// <summary>
         /// PraxisId is a wrapper for LeftId.
@@ -22,15 +22,6 @@ namespace WorldZero.Common.Entity.Relation
         {
             get { return this.LeftId; }
             set { this.LeftId = value; }
-        }
-
-        /// <summary>
-        /// TagId is a wrapper for RightId.
-        /// </summary>
-        public Name TagId
-        {
-            get { return this.RightId; }
-            set { this.RightId = value; }
         }
 
         public PraxisTag(Id PraxisId, Name tagId)
