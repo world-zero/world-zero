@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using WorldZero.Common.ValueObject.DTO.Entity.Relation;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.RAM.Entity.Relation;
@@ -8,13 +9,11 @@ namespace WorldZero.Data.Repository.RAM.Entity.Relation
 {
     /// <inheritdoc cref="ITaskTagRepo"/>
     public class RAMTaskTagRepo
-        : IRAMEntityRelationRepo
+        : IRAMTaggedEntityRepo
           <
             TaskTag,
             Id,
             int,
-            Name,
-            string,
             RelationDTO<Id, int, Name, string>
           >,
           ITaskTagRepo
@@ -23,6 +22,16 @@ namespace WorldZero.Data.Repository.RAM.Entity.Relation
         {
             var a = new TaskTag(new Id(3), new Name("d"));
             return a.GetUniqueRules().Count;
+        }
+
+        public void DeleteByTaskId(Id taskId)
+        {
+            this.DeleteByLeftId(taskId);
+        }
+
+        public async Task DeleteByTaskIdAsync(Id taskId)
+        {
+            this.DeleteByTaskId(taskId);
         }
     }
 }

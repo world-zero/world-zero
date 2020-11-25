@@ -10,5 +10,9 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         public CommentDel(ICommentRepo repo)
             : base(repo)
         { }
+
+        // TODO: delete by praxis ID
+
+        // TODO: delete by character ID
     }
 }

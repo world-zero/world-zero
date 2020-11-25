@@ -34,19 +34,29 @@ namespace WorldZero.Service.Interface.Entity.Deletion
             TBuiltIn,
             TRelationDTO
         >
-        where TEntityRelation : IEntityRelation
-            <TId, TBuiltIn, TId, TBuiltIn>
+        where TEntityRelation : IEntitySelfRelation
+            <TId, TBuiltIn>
         where TEntity : IEntity<TId, TBuiltIn>
         where TId  : ISingleValueObject<TBuiltIn>
         where TRelationDTO : RelationDTO
             <TId, TBuiltIn, TId, TBuiltIn>
     {
+        protected
+        IEntitySelfRelationRepo<TEntityRelation, TId, TBuiltIn, TRelationDTO>
+        _selfRelRepo
+        {
+            get
+            {
+                return
+                (IEntitySelfRelationRepo<TEntityRelation, TId, TBuiltIn, TRelationDTO>)
+                this._relRepo;
+            }
+        }
+
         public IEntitySelfRelationDel(
-            IEntityRelationRepo
+            IEntitySelfRelationRepo
             <
                 TEntityRelation,
-                TId,
-                TBuiltIn,
                 TId,
                 TBuiltIn,
                 TRelationDTO
@@ -56,26 +66,20 @@ namespace WorldZero.Service.Interface.Entity.Deletion
             : base(repo)
         { }
 
-        public override void DeleteByLeftId(TId id)
-        {
-            this._deleteByLeftRight(id);
-        }
-
-        public override void DeleteByRightId(TId id)
-        {
-            this._deleteByLeftRight(id);
-        }
-
-        private void _deleteByLeftRight(TId id)
+        public void DeleteByRelatedId(TId id)
         {
             this.AssertNotNull(id, "id");
             this.BeginTransaction();
-            base.DeleteByLeftId(id);
-            base.DeleteByRightId(id);
+            this._selfRelRepo.DeleteByRelatedId(id);
             try
             { this.EndTransaction(); }
             catch (ArgumentException e)
-            { throw new ArgumentException("Could not finish deleting by a left or right ID.", e); }
+            { throw new ArgumentException("Could not complete the deletion via relateed ID.", e); }
+        }
+
+        public async Task DeleteByRelatedIdAsync(TId id)
+        {
+            await Task.Run(() => this.DeleteByRelatedId(id));
         }
     }
 }

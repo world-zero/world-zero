@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Relation;
@@ -32,5 +33,17 @@ namespace WorldZero.Data.Interface.Repository.Entity.Relation
         /// Return tne number of participants associated with a praxis.
         /// </summary>
         int GetParticipantCount(Id praxisId);
+
+        /// <summary>
+        /// `Delete()` all PraxisParticipants with the supplied praxis ID.
+        /// </summary>
+        void DeleteByPraxisId(Id praxisId);
+        Task DeleteByPraxisIdAsync(Id praxisId);
+
+        /// <summary>
+        /// `Delete()` all PraxisParticipants with the supplied character ID.
+        /// </summary>
+        void DeleteByCharacterId(Id charId);
+        Task DeleteByCharacterIdAsync(Id charId);
     }
 }

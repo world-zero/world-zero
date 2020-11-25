@@ -13,8 +13,16 @@ namespace WorldZero.Common.Entity.Relation
     /// <br />
     /// Right relation: `SecondCharacterId`
     /// </summary>
-    public class Foe : IIdIdRelation
+    public class Foe : IEntitySelfRelation<Id, int>
     {
+        public override RelationDTO<Id, int, Id, int> GetDTO()
+        {
+            return new RelationDTO<Id, int, Id, int>(
+                this.LeftId,
+                this.RightId
+            );
+        }
+
         /// <summary>
         /// FirstCharacterId is a wrapper for LeftId.
         /// </summary>

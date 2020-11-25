@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using WorldZero.Common.ValueObject.DTO.Entity.Relation;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.RAM.Entity.Relation;
@@ -23,6 +24,16 @@ namespace WorldZero.Data.Repository.RAM.Entity.Relation
         {
             var a = new PraxisFlag(new Id(3), new Name("sdf"));
             return a.GetUniqueRules().Count;
+        }
+
+        public void DeleteByPraxisId(Id praxisId)
+        {
+            this.DeleteByLeftId(praxisId);
+        }
+
+        public async Task DeleteByPraxisIdAsync(Id praxisId)
+        {
+            this.DeleteByPraxisId(praxisId);
         }
     }
 }

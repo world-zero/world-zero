@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Relation;
 using WorldZero.Data.Interface.Repository.RAM.Entity.Relation;
@@ -8,11 +9,9 @@ namespace WorldZero.Data.Repository.RAM.Entity.Relation
 {
     /// <inheritdoc cref="IFriendRepo"/>
     public class RAMFriendRepo
-        : IRAMEntityRelationRepo
+        : IRAMEntitySelfRelationRepo
           <
             Friend,
-            Id,
-            int,
             Id,
             int,
             RelationDTO<Id, int, Id, int>
@@ -23,6 +22,16 @@ namespace WorldZero.Data.Repository.RAM.Entity.Relation
         {
             var a = new Friend(new Id(3), new Id(2));
             return a.GetUniqueRules().Count;
+        }
+
+        public void DeleteByCharacterId(Id charId)
+        {
+            this.DeleteByRelatedId(charId);
+        }
+
+        public async Task DeleteByCharacterIdAsync(Id charId)
+        {
+            this.DeleteByCharacterId(charId);
         }
     }
 }

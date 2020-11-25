@@ -6,6 +6,10 @@ using WorldZero.Common.ValueObject.DTO.Entity.Relation;
 
 namespace WorldZero.Data.Interface.Repository.Entity.Relation
 {
+    /// <remarks>
+    /// It is recommended to make methods that have better names than left or
+    /// right ID that are wrappers to the corresponding method.
+    /// </remarks>
     public interface IEntityRelationRepo
     <
         TEntityRelation,

@@ -14,5 +14,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         public FoeDel(IFoeRepo repo)
             : base(repo)
         { }
+
+        // TODO: delete by character
     }
 }

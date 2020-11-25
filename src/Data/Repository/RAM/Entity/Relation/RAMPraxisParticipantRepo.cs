@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using WorldZero.Common.ValueObject.DTO.Entity.Relation;
 using WorldZero.Common.ValueObject.General;
@@ -22,6 +23,12 @@ namespace WorldZero.Data.Repository.RAM.Entity.Relation
           >,
           IPraxisParticipantRepo
     {
+        protected override int GetRuleCount()
+        {
+            var a = new PraxisParticipant(new Id(3), new Id(2));
+            return a.GetUniqueRules().Count;
+        }
+
         public IEnumerable<Id> GetCharIdsByPraxisId(Id praxisId)
         {
             if (praxisId == null)
@@ -73,10 +80,24 @@ namespace WorldZero.Data.Repository.RAM.Entity.Relation
             return participants.Count();
         }
 
-        protected override int GetRuleCount()
+        public void DeleteByPraxisId(Id praxisId)
         {
-            var a = new PraxisParticipant(new Id(3), new Id(2));
-            return a.GetUniqueRules().Count;
+            this.DeleteByLeftId(praxisId);
+        }
+
+        public async Task DeleteByPraxisIdAsync(Id praxisId)
+        {
+            this.DeleteByPraxisId(praxisId);
+        }
+
+        public void DeleteByCharacterId(Id charId)
+        {
+            this.DeleteByRightId(charId);
+        }
+
+        public async Task DeleteByCharacterIdAsync(Id charId)
+        {
+            this.DeleteByCharacterId(charId);
         }
     }
 }

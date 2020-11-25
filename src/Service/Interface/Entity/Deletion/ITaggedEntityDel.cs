@@ -1,5 +1,3 @@
-using System;
-using System.Threading.Tasks;
 using WorldZero.Common.Interface;
 using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.Interface.Entity;
@@ -7,6 +5,15 @@ using WorldZero.Common.Entity;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
+
+// TODO: make ITaggedEntity / IFlaggedEntity and adjust entities/repos/dels to need that too
+
+// TODO: make Interface.Repo.Entity.Generic, and not worry about splitting up relations
+//      do this for other project interface dirs too
+
+// TODO: update this to use ITaggedEntity
+// TODO: copy this logic to IFlaggedEntityDel
+//      then fill out the repo deletion wrappers
 
 namespace WorldZero.Service.Interface.Entity.Deletion
 {
@@ -38,13 +45,11 @@ namespace WorldZero.Service.Interface.Entity.Deletion
             <TLeftId, TLeftBuiltIn, Name, string>
     {
         public ITaggedEntityDel(
-            IEntityRelationRepo
+            ITaggedEntityRepo
             <
                 TEntityRelation,
                 TLeftId,
                 TLeftBuiltIn,
-                Name,
-                string,
                 TRelationDTO
             >
             repo

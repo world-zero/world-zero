@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Relation;
 using WorldZero.Data.Interface.Repository.RAM.Entity.Relation;
@@ -8,13 +9,11 @@ namespace WorldZero.Data.Repository.RAM.Entity.Relation
 {
     /// <inheritdoc cref="IMetaTaskFlagRepo"/>
     public class RAMMetaTaskFlagRepo
-        : IRAMEntityRelationRepo
+        : IRAMFlaggedEntityRepo
           <
             MetaTaskFlag,
             Id,
             int,
-            Name,
-            string,
             RelationDTO<Id, int, Name, string>
           >,
           IMetaTaskFlagRepo
@@ -23,6 +22,16 @@ namespace WorldZero.Data.Repository.RAM.Entity.Relation
         {
             var a = new MetaTaskFlag(new Id(3), new Name("sdf"));
             return a.GetUniqueRules().Count;
+        }
+
+        public void DeleteByMetaTaskId(Id mtId)
+        {
+            this.DeleteByLeftId(mtId);
+        }
+
+        public async Task DeleteByMetaTaskIdAsync(Id mtId)
+        {
+            this.DeleteByLeftId(mtId);
         }
     }
 }
