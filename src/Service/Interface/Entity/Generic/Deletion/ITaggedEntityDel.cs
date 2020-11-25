@@ -6,9 +6,6 @@ using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
 
-// TODO: fix the test namespacing
-// TODO: repo.ram.entity should become repo.entity.ram
-
 // TODO: copy this logic to IFlaggedEntityDel
 //      then keep filling out the repo deletion wrappers
 

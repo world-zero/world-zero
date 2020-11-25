@@ -3,7 +3,7 @@ using WorldZero.Common.ValueObject.General;
 using System;
 using NUnit.Framework;
 
-namespace WorldZero.Test.Unit.Common.Interface.Entity
+namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
 {
     [TestFixture]
     public class TestINamedEntity

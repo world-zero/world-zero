@@ -1,7 +1,7 @@
 using System;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Data.Repository.RAM.Entity.Primary;
+using WorldZero.Data.Repository.Entity.RAM.Primary;
 using NUnit.Framework;
 
 namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary

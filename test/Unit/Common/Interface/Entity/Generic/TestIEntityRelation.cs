@@ -6,7 +6,7 @@ using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Common.ValueObject.General;
 using NUnit.Framework;
 
-namespace WorldZero.Test.Unit.Common.Interface.Entity
+namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
 {
     [TestFixture]
     public class TestIEntityRelation

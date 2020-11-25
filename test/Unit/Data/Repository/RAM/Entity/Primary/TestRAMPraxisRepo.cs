@@ -1,12 +1,12 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using WorldZero.Data.Interface.Repository.RAM.Entity.Generic;
+using WorldZero.Data.Interface.Repository.Entity.RAM.Generic;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.Entity.Relation;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Data.Repository.RAM.Entity.Primary;
-using WorldZero.Data.Repository.RAM.Entity.Relation;
+using WorldZero.Data.Repository.Entity.RAM.Primary;
+using WorldZero.Data.Repository.Entity.RAM.Relation;
 using NUnit.Framework;
 
 namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary

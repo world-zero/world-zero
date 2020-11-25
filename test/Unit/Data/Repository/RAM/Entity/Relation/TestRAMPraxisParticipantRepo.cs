@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using WorldZero.Common.Entity.Relation;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Data.Repository.RAM.Entity.Relation;
+using WorldZero.Data.Repository.Entity.RAM.Relation;
 using NUnit.Framework;
 
 namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Relation

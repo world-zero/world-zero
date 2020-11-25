@@ -4,7 +4,7 @@ using NUnit.Framework;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
-using WorldZero.Data.Repository.RAM.Entity.Primary;
+using WorldZero.Data.Repository.Entity.RAM.Primary;
 using WorldZero.Service.Entity.Deletion.Primary;
 using WorldZero.Service.Entity.Registration.Primary;
 

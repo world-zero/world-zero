@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace WorldZero.Test.Unit.Common.Interface.Entity
+namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
 {
     [TestFixture]
     public class TestIIdNamedEntity

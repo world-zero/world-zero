@@ -1,6 +1,6 @@
 using System;
 using NUnit.Framework;
-using WorldZero.Data.Repository.RAM.Entity.Primary;
+using WorldZero.Data.Repository.Entity.RAM.Primary;
 using WorldZero.Service.Entity.Deletion.Primary;
 
 namespace WorldZero.Test.Integration.Service.Entity.Deletion
