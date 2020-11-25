@@ -1,7 +1,7 @@
 using WorldZero.Common.ValueObject.General;
 using System;
 using System.Collections.Generic;
-using WorldZero.Common.Collections;
+using WorldZero.Common.Collections.Generic;
 
 namespace WorldZero.Common.Interface.Entity
 {

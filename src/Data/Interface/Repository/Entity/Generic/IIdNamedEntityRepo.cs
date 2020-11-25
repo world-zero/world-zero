@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using WorldZero.Common.Interface.Entity;
 using WorldZero.Common.ValueObject.General;
 
-namespace WorldZero.Data.Interface.Repository.Entity.Generic
+namespace WorldZero.Data.Interface.Repository.Entity.Primary.Generic
 {
     /// <inheritdoc cref="IIdEntityRepo"/>
     /// <summary>

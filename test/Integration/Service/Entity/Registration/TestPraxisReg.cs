@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using WorldZero.Common.Entity;
+using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.Entity.Relation;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Data.Interface.Repository.Entity;
-using WorldZero.Data.Repository.RAM.Entity;
+using WorldZero.Data.Interface.Repository.Entity.Primary;
+using WorldZero.Data.Repository.RAM.Entity.Primary;
 using WorldZero.Data.Repository.RAM.Entity.Relation;
-using WorldZero.Service.Entity.Registration;
+using WorldZero.Service.Entity.Registration.Primary;
 using WorldZero.Service.Entity.Registration.Relation;
 using NUnit.Framework;
 
@@ -329,27 +329,5 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                 this._eraReg
             );
         }
-    }
-
-    public class DummyRAMPraxisRepo
-        : RAMPraxisRepo
-    {
-        public DummyRAMPraxisRepo()
-            : base()
-        { }
-
-        public Dictionary<object, object> Saved
-        { get { return this._saved; } }
-    }
-    public class DummyRAMPraxisParticipantRepo
-
-        : RAMPraxisParticipantRepo
-    {
-        public DummyRAMPraxisParticipantRepo()
-            : base()
-        { }
-
-        public Dictionary<object, object> Saved
-        { get { return this._saved; } }
     }
 }

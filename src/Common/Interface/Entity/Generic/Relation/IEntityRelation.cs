@@ -1,7 +1,7 @@
 using System;
-using WorldZero.Common.ValueObject.DTO.Entity.Relation;
+using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.Collections;
+using WorldZero.Common.Collections.Generic;
 using WorldZero.Common.Interface.General.Generic;
 
 namespace WorldZero.Common.Interface.Entity.Generic.Relation

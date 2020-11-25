@@ -2,9 +2,9 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using WorldZero.Common.Interface.Entity.Generic.Relation;
 using WorldZero.Common.Interface.General.Generic;
-using WorldZero.Common.ValueObject.DTO.Entity.Relation;
+using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 
-namespace WorldZero.Data.Interface.Repository.Entity.Generic
+namespace WorldZero.Data.Interface.Repository.Entity.Primary.Generic
 {
     /// <summary>
     /// This repo specializes in relational entities who can have several

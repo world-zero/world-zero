@@ -1,8 +1,8 @@
 using System;
-using WorldZero.Common.Entity;
+using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Data.Interface.Repository.Entity;
-using WorldZero.Data.Repository.RAM.Entity;
+using WorldZero.Data.Interface.Repository.Entity.Primary;
+using WorldZero.Data.Repository.RAM.Entity.Primary;
 using WorldZero.Service.Interface.Entity.Generic.Deletion;
 using NUnit.Framework;
 

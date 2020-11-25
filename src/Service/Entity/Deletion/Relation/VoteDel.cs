@@ -1,5 +1,5 @@
 using System;
-using WorldZero.Common.Entity;
+using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.Entity.Relation;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Relation;

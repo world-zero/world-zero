@@ -1,11 +1,11 @@
 using System;
 using System.Linq;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.Entity;
+using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.Entity.Relation;
-using WorldZero.Data.Repository.RAM.Entity;
+using WorldZero.Data.Repository.RAM.Entity.Primary;
 using WorldZero.Data.Repository.RAM.Entity.Relation;
-using WorldZero.Service.Entity.Deletion;
+using WorldZero.Service.Entity.Deletion.Primary;
 using WorldZero.Service.Entity.Deletion.Relation;
 using NUnit.Framework;
 

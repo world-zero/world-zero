@@ -1,12 +1,12 @@
 using System;
 using System.Linq;
 using NUnit.Framework;
-using WorldZero.Common.Entity;
+using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Data.Interface.Repository.Entity;
-using WorldZero.Data.Repository.RAM.Entity;
-using WorldZero.Service.Entity.Deletion;
-using WorldZero.Service.Entity.Registration;
+using WorldZero.Data.Interface.Repository.Entity.Primary;
+using WorldZero.Data.Repository.RAM.Entity.Primary;
+using WorldZero.Service.Entity.Deletion.Primary;
+using WorldZero.Service.Entity.Registration.Primary;
 
 namespace WorldZero.Test.Integration.Service.Entity.Deletion
 {

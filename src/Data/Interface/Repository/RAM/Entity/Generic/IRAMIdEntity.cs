@@ -1,6 +1,6 @@
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface.Entity;
-using WorldZero.Data.Interface.Repository.Entity.Generic;
+using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
 
 namespace WorldZero.Data.Interface.Repository.RAM.Entity.Generic
 {

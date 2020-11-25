@@ -1,14 +1,10 @@
 using WorldZero.Common.Interface.General.Generic;
 using WorldZero.Common.Interface.Entity.Generic.Relation;
 using WorldZero.Common.Interface.Entity;
-using WorldZero.Common.Entity;
+using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.ValueObject.DTO.Entity.Relation;
-using WorldZero.Data.Interface.Repository.Entity.Generic;
-
-// TODO: make Interface.Repo.Entity.Generic, and not worry about splitting up relations
-//      do this for other project interface dirs too
-//      entity.generic, entity.relation, entity.primary
+using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
+using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
 
 // TODO: make ITaggedEntity / IFlaggedEntity and adjust entities/repos/dels to need that too
 

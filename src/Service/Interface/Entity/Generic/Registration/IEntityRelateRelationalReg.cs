@@ -1,8 +1,8 @@
-using WorldZero.Common.ValueObject.DTO.Entity.Relation;
+using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Common.Interface.General.Generic;
 using WorldZero.Common.Interface.Entity.Generic.Relation;
 using WorldZero.Common.Interface.Entity;
-using WorldZero.Data.Interface.Repository.Entity.Generic;
+using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
 
 namespace WorldZero.Service.Interface.Entity.Registration
 {

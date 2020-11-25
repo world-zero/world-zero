@@ -1,8 +1,8 @@
 using System;
-using WorldZero.Common.Entity;
+using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.Entity.Relation;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.ValueObject.DTO.Entity.Relation;
+using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Data.Repository.RAM.Entity.Relation;
 using WorldZero.Service.Interface.Entity.Generic.Deletion;

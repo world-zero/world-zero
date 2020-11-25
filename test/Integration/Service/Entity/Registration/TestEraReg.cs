@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using WorldZero.Common.Entity;
+using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Data.Repository.RAM.Entity;
-using WorldZero.Service.Entity.Registration;
+using WorldZero.Data.Repository.RAM.Entity.Primary;
+using WorldZero.Service.Entity.Registration.Primary;
 using NUnit.Framework;
 
 namespace WorldZero.Test.Integration.Service.Entity.Registration
