@@ -4,7 +4,7 @@ using WorldZero.Common.Interface;
 using WorldZero.Common.Interface.Entity;
 using WorldZero.Data.Interface.Repository.Entity.Generic;
 
-namespace WorldZero.Service.Interface.Entity.Deletion
+namespace WorldZero.Service.Interface.Entity.Generic.Deletion
 {
     /// <summary>
     /// This service class will handle deleting entities. For more, <see cref=

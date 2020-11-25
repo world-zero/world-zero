@@ -6,7 +6,7 @@ using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.Interface.Entity;
 using System.Threading.Tasks;
 
-namespace WorldZero.Service.Interface.Entity.Deletion
+namespace WorldZero.Service.Interface.Entity.Generic.Deletion
 {
     /// <inheritdoc cref="IEntityDel"/>
     /// <summary>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using WorldZero.Common.Entity;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity;
-using WorldZero.Service.Interface.Entity.Deletion;
+using WorldZero.Service.Interface.Entity.Generic.Deletion;
 
 namespace WorldZero.Service.Entity.Deletion
 {

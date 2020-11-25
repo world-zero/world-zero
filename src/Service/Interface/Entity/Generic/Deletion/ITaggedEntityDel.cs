@@ -15,7 +15,7 @@ using WorldZero.Data.Interface.Repository.Entity.Generic;
 // TODO: copy this logic to IFlaggedEntityDel
 //      then fill out the repo deletion wrappers
 
-namespace WorldZero.Service.Interface.Entity.Deletion
+namespace WorldZero.Service.Interface.Entity.Generic.Deletion
 {
     /// <inheritdoc cref="IEntityRelationDel"/>
     public abstract class ITaggedEntityDel

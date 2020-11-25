@@ -5,7 +5,7 @@ using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Data.Repository.RAM.Entity.Relation;
-using WorldZero.Service.Interface.Entity.Deletion;
+using WorldZero.Service.Interface.Entity.Generic.Deletion;
 using NUnit.Framework;
 
 namespace WorldZero.Test.Integration.Service.Interface.Entity
