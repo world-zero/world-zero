@@ -1,4 +1,4 @@
-using WorldZero.Common.Interface.Entity;
+using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Common.ValueObject.General;
 using System;
 using System.Collections.Generic;

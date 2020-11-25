@@ -8,7 +8,7 @@ using WorldZero.Common.Interface.General.Generic;
 [assembly: InternalsVisibleTo("WorldZero.Data")]
 [assembly: InternalsVisibleTo("WorldZero.Test.Unit")]
 
-namespace WorldZero.Common.Interface.Entity
+namespace WorldZero.Common.Interface.Entity.Generic.Primary
 {
     /// <summary>
     /// This is the interface for an Entity, complete with an Id.

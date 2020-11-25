@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using WorldZero.Common.Interface.General.Generic;
-using WorldZero.Common.Interface.Entity;
+using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
 
 namespace WorldZero.Service.Interface.Entity.Generic.Deletion
@@ -11,7 +11,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
     /// In addition to handling the deletion of entities, this will provide the
     /// ability to unset all references to the entity - this involves unsetting
     /// the various references to the entity. For more, see
-    /// <see cref="WorldZero.Common.Interface.Entity.IOptionalEntity"/>.
+    /// <see cref="WorldZero.Common.Interface.Entity.Generic.Primary.IOptionalEntity"/>.
     /// Naturally, deleting an entity with this class will set all references
     /// to it to null.
     /// </summary>

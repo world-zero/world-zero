@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using WorldZero.Common.Collections.Generic;
 
-namespace WorldZero.Common.Interface.Entity
+namespace WorldZero.Common.Interface.Entity.Generic.Primary
 {
     /// <inheritdoc cref="IIdEntity"/>
     /// <summary>

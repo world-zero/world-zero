@@ -3,7 +3,7 @@ using WorldZero.Common.Interface.General.Generic;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Generic.Relation;
-using WorldZero.Common.Interface.Entity;
+using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
 
 namespace WorldZero.Service.Interface.Entity.Generic.Deletion

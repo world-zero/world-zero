@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.Interface.Entity;
+using WorldZero.Common.Interface.Entity.Generic.Primary;
 
 namespace WorldZero.Data.Interface.Repository.RAM.Entity.Generic
 {

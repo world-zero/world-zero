@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using WorldZero.Common.Interface.General.Generic;
-using WorldZero.Common.Interface.Entity;
+using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
 
 namespace WorldZero.Service.Interface.Entity
