@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using WorldZero.Common.Interface;
 using WorldZero.Common.Interface.Entity;
-using WorldZero.Data.Interface.Repository.Entity;
+using WorldZero.Data.Interface.Repository.Entity.Generic;
 
 namespace WorldZero.Service.Interface.Entity.Deletion
 {

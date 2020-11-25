@@ -2,11 +2,10 @@ using System;
 using WorldZero.Common.ValueObject.DTO.Entity.Relation;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface;
-using WorldZero.Data.Interface.Repository.Entity.Relation;
-using WorldZero.Data.Interface.Repository.Entity;
 using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.Interface.Entity;
 using System.Threading.Tasks;
+using WorldZero.Data.Interface.Repository.Entity.Generic;
 
 namespace WorldZero.Service.Interface.Entity.Registration
 {

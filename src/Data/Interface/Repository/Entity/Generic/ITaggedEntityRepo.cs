@@ -5,7 +5,7 @@ using WorldZero.Common.Interface;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Relation;
 
-namespace WorldZero.Data.Interface.Repository.Entity.Relation
+namespace WorldZero.Data.Interface.Repository.Entity.Generic
 {
     /// <remarks>
     /// As you may have noticed, relational entities that tag should have the

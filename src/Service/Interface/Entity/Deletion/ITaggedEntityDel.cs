@@ -4,7 +4,7 @@ using WorldZero.Common.Interface.Entity;
 using WorldZero.Common.Entity;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Relation;
-using WorldZero.Data.Interface.Repository.Entity.Relation;
+using WorldZero.Data.Interface.Repository.Entity.Generic;
 
 // TODO: make ITaggedEntity / IFlaggedEntity and adjust entities/repos/dels to need that too
 

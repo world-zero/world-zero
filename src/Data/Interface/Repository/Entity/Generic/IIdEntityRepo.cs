@@ -1,7 +1,7 @@
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface.Entity;
 
-namespace WorldZero.Data.Interface.Repository.Entity
+namespace WorldZero.Data.Interface.Repository.Entity.Generic
 {
     /// <inheritdoc cref="IEntityRepo"/>
     /// <summary>

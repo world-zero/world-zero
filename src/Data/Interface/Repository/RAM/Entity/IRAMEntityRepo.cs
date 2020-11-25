@@ -1,12 +1,11 @@
-using System.Globalization;
 using System.Threading.Tasks;
-using WorldZero.Data.Interface.Repository.Entity;
 using WorldZero.Common.Interface;
 using WorldZero.Common.Interface.Entity;
 using WorldZero.Common.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System;
+using WorldZero.Data.Interface.Repository.Entity.Generic;
 
 [assembly: InternalsVisibleTo("WorldZero.Test.Unit")]
 

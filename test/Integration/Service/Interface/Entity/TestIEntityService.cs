@@ -5,6 +5,7 @@ using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity;
 using WorldZero.Data.Repository.RAM.Entity;
 using WorldZero.Service.Interface.Entity;
+using WorldZero.Data.Interface.Repository.Entity.Generic;
 
 namespace WorldZero.Test.Integration.Service.Interface.Entity
 {

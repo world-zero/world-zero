@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using WorldZero.Common.Entity;
 using WorldZero.Common.ValueObject.General;
+using WorldZero.Data.Interface.Repository.Entity.Generic;
 
 namespace WorldZero.Data.Interface.Repository.Entity
 {

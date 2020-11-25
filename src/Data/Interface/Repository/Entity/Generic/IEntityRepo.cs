@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using WorldZero.Common.Interface;
 using WorldZero.Common.Interface.Entity;
 
-namespace WorldZero.Data.Interface.Repository.Entity
+namespace WorldZero.Data.Interface.Repository.Entity.Generic
 {
     /// <summary>
     /// This is a generic repository for entities that includes CRUD methods.
