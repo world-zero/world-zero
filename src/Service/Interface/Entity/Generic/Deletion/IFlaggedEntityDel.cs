@@ -9,7 +9,7 @@ using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
 namespace WorldZero.Service.Interface.Entity.Generic.Deletion
 {
     /// <inheritdoc cref="IEntityRelationDel"/>
-    public abstract class ITaggedEntityDel
+    public abstract class IFlaggedEntityDel
     <
         TEntityRelation,
         TLeftEntity,
@@ -23,20 +23,20 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
         TLeftEntity,
         TLeftId,
         TLeftBuiltIn,
-        Tag,
+        Flag,
         Name,
         string,
         TRelationDTO
     >
-        where TEntityRelation : ITaggedEntity
+        where TEntityRelation : IFlaggedEntity
             <TLeftId, TLeftBuiltIn>
         where TLeftEntity : IEntity<TLeftId, TLeftBuiltIn>
         where TLeftId  : ISingleValueObject<TLeftBuiltIn>
         where TRelationDTO : RelationDTO
             <TLeftId, TLeftBuiltIn, Name, string>
     {
-        public ITaggedEntityDel(
-            ITaggedEntityRepo
+        public IFlaggedEntityDel(
+            IFlaggedEntityRepo
             <
                 TEntityRelation,
                 TLeftId,
@@ -51,39 +51,39 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
         /// <remarks>
         /// This is just a wrapper for `DeleteByRightId()`.
         /// </remarks>
-        public void DeleteByTag(Tag tag)
+        public void DeleteByFlag(Flag flag)
         {
-            this.AssertNotNull(tag, "tag");
-            this.DeleteByRightId(tag.Id);
+            this.AssertNotNull(flag, "flag");
+            this.DeleteByRightId(flag.Id);
         }
 
         /// <remarks>
         /// This is just a wrapper for `DeleteByRightId()`.
         /// </remarks>
-        public void DeleteByTag(Name tagId)
+        public void DeleteByFlag(Name flagId)
         {
-            this.AssertNotNull(tagId, "tagId");
-            this.DeleteByRightId(tagId);
+            this.AssertNotNull(flagId, "flagId");
+            this.DeleteByRightId(flagId);
         }
 
         /// <remarks>
         /// This is just a wrapper for `DeleteByRightIdAsync()`.
         /// </remarks>
-        public async System.Threading.Tasks.Task DeleteByTagAsync(Tag tag)
+        public async System.Threading.Tasks.Task DeleteByFlagAsync(Flag flag)
         {
-            this.AssertNotNull(tag, "tag");
+            this.AssertNotNull(flag, "flag");
             await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByRightId(tag.Id));
+                this.DeleteByRightId(flag.Id));
         }
 
         /// <remarks>
         /// This is just a wrapper for `DeleteByRightIdAsync()`.
         /// </remarks>
-        public async System.Threading.Tasks.Task DeleteByTagAsync(Name tagId)
+        public async System.Threading.Tasks.Task DeleteByFlagAsync(Name flagId)
         {
-            this.AssertNotNull(tagId, "tagId");
+            this.AssertNotNull(flagId, "flagId");
             await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByRightId(tagId));
+                this.DeleteByRightId(flagId));
         }
     }
 }
