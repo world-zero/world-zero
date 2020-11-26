@@ -36,6 +36,9 @@ namespace WorldZero.Data.Interface.Repository.Entity.Primary.Generic
         // NOTE: I am leaving the GetByTagId until I work on the reading
         // service classes.
 
+        /// <summary>
+        /// `Delete()` the relations with the supplied flag.
+        /// </summary>
         void DeleteByTagId(Name tagId);
         Task DeleteByTagIdAsync(Name tagId);
     }

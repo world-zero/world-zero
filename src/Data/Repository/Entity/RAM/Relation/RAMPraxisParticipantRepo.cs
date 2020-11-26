@@ -66,6 +66,11 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
             return true;
         }
         
+        public async Task<bool> ParticipantCheckAsync(Id praxisId, Id characterId)
+        {
+            return this.ParticipantCheck(praxisId, characterId);
+        }
+
         public int GetParticipantCount(Id praxisId)
         {
             if (praxisId == null)
@@ -78,6 +83,11 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
                 select pp;
 
             return participants.Count();
+        }
+
+        public async Task<int> GetParticipantCountAsync(Id praxisId)
+        {
+            return this.GetParticipantCount(praxisId);
         }
 
         public void DeleteByPraxisId(Id praxisId)

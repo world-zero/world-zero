@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
 
@@ -29,5 +30,6 @@ namespace WorldZero.Data.Interface.Repository.Entity.Primary
         /// will not create a serialized transaction.
         /// </remarks>
         Era GetActiveEra();
+        Task<Era> GetActiveEraAsync();
     }
 }

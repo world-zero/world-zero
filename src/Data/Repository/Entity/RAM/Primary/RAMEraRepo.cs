@@ -12,7 +12,6 @@ namespace WorldZero.Data.Repository.Entity.RAM.Primary
         : IRAMNamedEntityRepo<Era>,
         IEraRepo
     {
-
         public Era GetActiveEra()
         {
             var active = from e in this._saved.Values
@@ -28,6 +27,11 @@ namespace WorldZero.Data.Repository.Entity.RAM.Primary
 
             else
                 throw new InvalidOperationException("There should not be more than one active era at a time, the repo as been populated incorrectly.");
+        }
+
+        public async System.Threading.Tasks.Task<Era> GetActiveEraAsync()
+        {
+            return this.GetActiveEra();
         }
 
         protected override int GetRuleCount()

@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
@@ -73,6 +74,11 @@ namespace WorldZero.Data.Repository.Entity.RAM.Primary
             return this.FindHighestLevel(player.Id);
         }
 
+        public async Task<Level> FindHighestLevelAsync(Player player)
+        {
+            return this.FindHighestLevel(player);
+        }
+
         public Level FindHighestLevel(Id playerId)
         {
             if (playerId == null)
@@ -103,6 +109,11 @@ namespace WorldZero.Data.Repository.Entity.RAM.Primary
             }
             catch (ArgumentException e)
             { throw new InvalidOperationException("This should not occur.", e); }
+        }
+
+        public async Task<Level> FindHighestLevelAsync(Id playerId)
+        {
+            return this.FindHighestLevel(playerId);
         }
 
         protected override int GetRuleCount()

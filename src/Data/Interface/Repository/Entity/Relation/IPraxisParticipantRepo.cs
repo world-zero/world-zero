@@ -29,11 +29,13 @@ namespace WorldZero.Data.Interface.Repository.Entity.Relation
         /// participant and return a boolean accordingly.
         /// </summary>
         bool ParticipantCheck(Id praxisId, Id characterId);
+        Task<bool> ParticipantCheckAsync(Id praxisId, Id characterId);
 
         /// <summary>
         /// Return tne number of participants associated with a praxis.
         /// </summary>
         int GetParticipantCount(Id praxisId);
+        Task<int> GetParticipantCountAsync(Id praxisId);
 
         /// <summary>
         /// `Delete()` all PraxisParticipants with the supplied praxis ID.

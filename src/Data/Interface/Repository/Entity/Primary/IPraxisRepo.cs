@@ -1,6 +1,7 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
-using System.Collections.Generic;
 using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
 
 namespace WorldZero.Data.Interface.Repository.Entity.Primary
@@ -21,6 +22,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.Primary
         /// be found.
         /// </exception>
         int GetPraxisCount(Id characterId, ISet<Name> statuses);
+        Task<int> GetPraxisCountAsync(Id characterId, ISet<Name> statuses);
 
         /// <summary>
         /// Get a collection of saved Praxises that have a matching

@@ -48,6 +48,14 @@ namespace WorldZero.Data.Repository.Entity.RAM.Primary
             return praxises.Count();
         }
 
+        public async System.Threading.Tasks.Task<int> GetPraxisCountAsync(
+            Id characterId,
+            ISet<Name> statuses
+        )
+        {
+            return this.GetPraxisCount(characterId, statuses);
+        }
+
         public IEnumerable<Praxis> GetByMetaTaskId(Id metaTaskId)
         {
             if (metaTaskId == null)

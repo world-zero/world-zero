@@ -140,5 +140,11 @@ namespace WorldZero.Service.Interface.Entity
             }
             catch (ArgumentException) { }
         }
+
+        protected async Task EnsureExistsAsync(TEntity e)
+        {
+            this.AssertNotNull(e, "e");
+            await Task.Run(() => this.EnsureExists(e));
+        }
     }
 }
