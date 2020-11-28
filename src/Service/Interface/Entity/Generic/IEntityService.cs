@@ -126,11 +126,20 @@ namespace WorldZero.Service.Interface.Entity
         }
 
         /// <summary>
-        /// This will verify that the supplied arg is not null, then begin a
-        /// transaction, then call the supplied function being given `operand`,
-        /// and then attempt to end the transaction, throwing an ArgExc if it
-        /// does not end successfully. If the action throws an ArgExc, this
-        /// will `DiscardTransaction()` and throw an ArgExc.
+        /// This will, in order:
+        /// <br />
+        /// - Verify that the supplied arg is not null.
+        /// <br />
+        /// - Begin a transaction (serialization depends on the corresponding
+        /// argument).
+        /// <br />
+        /// - Call the supplied `Action` being given `operand`; if the `Action`
+        /// throws an `ArgumentException`, this method will
+        /// `DiscardTransaction()` and throw a tracing `ArgumentException`.
+        /// <br />
+        /// - Attempt to `EndTransaction()`; if this throws an
+        /// `ArgumentException`, then this will throw a tracing
+        /// `ArgumentException`.
         /// </summary>
         /// <param name="operation">
         /// The function to perform during the transaction with operand.
@@ -138,17 +147,21 @@ namespace WorldZero.Service.Interface.Entity
         /// <param name="operand">
         /// The argument to pass to operation during the transaction.
         /// </param>
+        /// <param name="serialize">
+        /// This bool is supplied to `BeginTransaction(serialize)`.
+        /// </param>
         /// <typeparam name="TOperand">
         /// The type of the argument supplied to operation.
         /// </typeparam>
-        protected void Txn<TOperand>(
+        public void Txn<TOperand>(
             Action<TOperand> operation,
-            TOperand operand
+            TOperand operand,
+            bool serialize=false
         )
         {
             this.AssertNotNull(operation, "f");
             this.AssertNotNull(operand, "operand");
-            this.BeginTransaction();
+            this.BeginTransaction(serialize);
             try
             { operation(operand); }
             catch (ArgumentException e)
