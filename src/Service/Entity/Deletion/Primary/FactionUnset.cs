@@ -7,6 +7,7 @@ using WorldZero.Service.Interface.Entity.Generic.Deletion;
 
 namespace WorldZero.Service.Entity.Deletion.Primary
 {
+    /// <inheritdoc cref="IEntityUnset"/>
     public class FactionUnset
         : IEntityUnset<Faction, Name, string, Character, Id, int>
     {

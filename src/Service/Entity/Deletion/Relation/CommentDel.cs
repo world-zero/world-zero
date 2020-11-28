@@ -6,6 +6,7 @@ using WorldZero.Service.Interface.Entity.Generic.Deletion;
 
 namespace WorldZero.Service.Entity.Deletion.Relation
 {
+    /// <inheritdoc cref="IEntityDel"/>
     public class CommentDel : IEntityDel<Comment, Id, int>
     {
         protected ICommentRepo _commentRepo

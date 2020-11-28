@@ -6,6 +6,7 @@ using WorldZero.Service.Interface.Entity.Generic.Deletion;
 
 namespace WorldZero.Service.Entity.Deletion.Primary
 {
+    /// <inheritdoc cref="IEntityDel"/>
     /// <summary>
     /// The `EraDel` will not allow itself to be instantiated; this is because
     /// the process of rolling an era over is handled by `EraReg`.

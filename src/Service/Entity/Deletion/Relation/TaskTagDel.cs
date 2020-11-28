@@ -7,7 +7,7 @@ using WorldZero.Service.Interface.Entity.Generic.Deletion;
 
 namespace WorldZero.Service.Entity.Deletion.Relation
 {
-    /// <inheritdoc cref="IEntityDel"/>
+    /// <inheritdoc cref="ITaggedEntityDel"/>
     public class TaskTagDel : ITaggedEntityDel
     <
         TaskTag,
