@@ -11,6 +11,7 @@ using WorldZero.Service.Entity.Registration.Primary;
 
 namespace WorldZero.Service.Entity.Registration.Relation
 {
+    /// <inheritdoc cref="IEntityRelationReg"/>
     /// <remarks>
     /// A Praxis should always have at least one participant.
     /// <br />

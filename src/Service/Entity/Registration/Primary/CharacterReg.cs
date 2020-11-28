@@ -6,6 +6,7 @@ using WorldZero.Data.Interface.Repository.Entity.Primary;
 
 namespace WorldZero.Service.Entity.Registration.Primary
 {
+    /// <inheritdoc cref="IEntityReg"/>
     public class CharacterReg
         : IEntityReg<Character, Id, int>
     {

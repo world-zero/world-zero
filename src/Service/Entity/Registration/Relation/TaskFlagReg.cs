@@ -9,6 +9,7 @@ using WorldZero.Data.Interface.Repository.Entity.Relation;
 
 namespace WorldZero.Service.Entity.Registration.Relation
 {
+    /// <inheritdoc cref="IEntityRelationReg"/>
     public class TaskFlagReg
         : IEntityRelationReg
         <

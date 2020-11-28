@@ -8,6 +8,7 @@ using WorldZero.Data.Interface.Repository.Entity.Relation;
 
 namespace WorldZero.Service.Entity.Registration.Relation
 {
+    /// <inheritdoc cref="IEntityRelateRelationalReg"/>
     public class CommentFlagReg
         : IEntityRelateRelationalReg
         <

@@ -9,6 +9,7 @@ using WorldZero.Data.Interface.Repository.Entity.Primary;
 
 namespace WorldZero.Service.Entity.Registration.Primary
 {
+    /// <inheritdoc cref="IEntityReg"/>
     /// <summary>
     /// Register the praxis and supplied participants.
     /// </summary>
