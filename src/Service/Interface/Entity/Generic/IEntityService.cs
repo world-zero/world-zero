@@ -125,6 +125,43 @@ namespace WorldZero.Service.Interface.Entity
             return await this._repo.IsTransactionActiveAsync();
         }
 
+        /// <summary>
+        /// This will verify that the supplied arg is not null, then begin a
+        /// transaction, then call the supplied function being given `operand`,
+        /// and then attempt to end the transaction, throwing an ArgExc if it
+        /// does not end successfully. If the action throws an ArgExc, this
+        /// will `DiscardTransaction()` and throw an ArgExc.
+        /// </summary>
+        /// <param name="operation">
+        /// The function to perform during the transaction with operand.
+        /// </param>
+        /// <param name="operand">
+        /// The argument to pass to operation during the transaction.
+        /// </param>
+        /// <typeparam name="TOperand">
+        /// The type of the argument supplied to operation.
+        /// </typeparam>
+        protected void Txn<TOperand>(
+            Action<TOperand> operation,
+            TOperand operand
+        )
+        {
+            this.AssertNotNull(operation, "f");
+            this.AssertNotNull(operand, "operand");
+            this.BeginTransaction();
+            try
+            { operation(operand); }
+            catch (ArgumentException e)
+            {
+                this.DiscardTransaction();
+                throw new ArgumentException("The operation failed.", e);
+            }
+            try
+            { this.EndTransaction(); }
+            catch (ArgumentException e)
+            { throw new ArgumentException("Could not complete the transaction.", e); }
+        }
+
         protected void AssertNotNull(object o, string name)
         {
             if (o == null)
