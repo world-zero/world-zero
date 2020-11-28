@@ -846,7 +846,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
 
         /// <summary>
         /// This will save the staged entities. In the case of repo-generated
-        /// IDs, the reference will have its ID set then..
+        /// IDs, the reference will have its ID set then.
         /// </summary>
         /// <remarks>
         /// Yeah this is super inefficient in order to emulate how DB errors

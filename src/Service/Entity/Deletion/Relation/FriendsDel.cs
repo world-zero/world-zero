@@ -11,10 +11,41 @@ namespace WorldZero.Service.Entity.Deletion.Relation
     public class FriendDel : IEntitySelfRelationDel
         <Friend, Character, Id, int, RelationDTO<Id, int, Id, int>>
     {
+        protected IFriendRepo _friendRepo
+        { get { return (IFriendRepo) this._relRepo; } }
+
         public FriendDel(IFriendRepo repo)
             : base(repo)
         { }
 
-        // TODO: delete by character
+        public void DeleteByCharacter(Character c)
+        {
+            this.AssertNotNull(c, "c");
+            this.DeleteByCharacter(c.Id);
+        }
+
+        public void DeleteByCharacter(Id CharacterId)
+        {
+            this.Transaction<Id>(
+                this._friendRepo.DeleteByCharacterId,
+                CharacterId
+            );
+        }
+
+        public async
+        System.Threading.Tasks.Task DeleteByCharacterAsync(Character p)
+        {
+            this.AssertNotNull(p, "P");
+            await System.Threading.Tasks.Task.Run(() =>
+                this.DeleteByCharacter(p));
+        }
+
+        public async
+        System.Threading.Tasks.Task DeleteByCharacterAsync(Id charId)
+        {
+            this.AssertNotNull(charId, "charId");
+            await System.Threading.Tasks.Task.Run(() =>
+                this.DeleteByCharacter(charId));
+        }
     }
 }

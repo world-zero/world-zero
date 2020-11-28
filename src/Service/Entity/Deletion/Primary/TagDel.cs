@@ -29,20 +29,17 @@ namespace WorldZero.Service.Entity.Deletion.Primary
             this._praxisTagDel = praxisTagDel;
         }
 
-        public override void Delete(Name tagName)
+        public override void Delete(Name tagId)
         {
-            this.AssertNotNull(tagName, "tagName");
-            this.BeginTransaction();
+            void op(Name tagName)
+            {
+                this._taskTagDel.DeleteByTag(tagName);
+                this._mtTagDel.DeleteByTag(tagName);
+                this._praxisTagDel.DeleteByTag(tagName);
+                base.Delete(tagName);
+            }
 
-            this._taskTagDel.DeleteByTag(tagName);
-            this._mtTagDel.DeleteByTag(tagName);
-            this._praxisTagDel.DeleteByTag(tagName);
-            base.Delete(tagName);
-
-            try
-            { this.EndTransaction(); }
-            catch (ArgumentException e)
-            { throw new ArgumentException("The deletion could not complete.", e); }
+            this.Transaction<Name>(op, tagId);
         }
     }
 }

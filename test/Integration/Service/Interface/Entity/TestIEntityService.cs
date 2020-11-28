@@ -67,7 +67,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
             }
 
             Assert.AreEqual(0, this._x);
-            this._service.TxnPublic<int>(F, 2);
+            this._service.Transaction<int>(F, 2);
             Assert.AreEqual(2, this._x);
         }
 
@@ -75,7 +75,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
         public void TestTxnNullDelegate()
         {
             Assert.Throws<ArgumentNullException>(()=>
-                this._service.TxnPublic<int>(null, 3));
+                this._service.Transaction<int>(null, 3));
         }
 
         [Test]
@@ -95,7 +95,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
 
             this._repo.Clean();
             Assert.Throws<ArgumentException>(()=>
-                this._service.TxnPublic<int>(ExcF, 3));
+                this._service.Transaction<int>(ExcF, 3));
             Assert.AreEqual(0, this._repo.SavedCount);
             Assert.AreEqual(0, this._repo.StagedCount);
         }
@@ -117,7 +117,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
             }
 
             Assert.Throws<ArgumentException>(()=>
-                this._service.TxnPublic<int>(F, 3));
+                this._service.Transaction<int>(F, 3));
         }
     }
 
@@ -140,11 +140,6 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
         public new void EnsureExists(Comment c)
         {
             base.EnsureExists(c);
-        }
-
-        public void TxnPublic<T>(Action<T> f, T operand)
-        {
-            this.Txn<T>(f, operand);
         }
     }
 }

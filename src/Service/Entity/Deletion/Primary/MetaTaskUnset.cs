@@ -10,7 +10,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
     public class MetaTaskUnset
         : IEntityUnset<MetaTask, Id, int, Praxis, Id, int>
     {
-        public IPraxisRepo _praxisRepo
+        protected IPraxisRepo _praxisRepo
         { get { return (IPraxisRepo) this._otherRepo; } }
 
         public MetaTaskUnset(IMetaTaskRepo repo, IPraxisRepo praxisRepo)

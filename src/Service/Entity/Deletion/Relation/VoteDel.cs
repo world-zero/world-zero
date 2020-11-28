@@ -1,4 +1,3 @@
-using System;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.Entity.Relation;
 using WorldZero.Common.ValueObject.General;
@@ -16,10 +15,10 @@ namespace WorldZero.Service.Entity.Deletion.Relation
             : base(repo)
         { }
 
-        public void DeleteByVotingCharId(Character c)
+        public void DeleteByVotingChar(Character c)
         {
             this.AssertNotNull(c, "c");
-            this.DeleteByVotingCharId(c.Id);
+            this.DeleteByVotingChar(c.Id);
         }
 
         public async
@@ -27,18 +26,12 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         {
             this.AssertNotNull(c, "c");
             await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByVotingCharId(c));
+                this.DeleteByVotingChar(c));
         }
 
-        public void DeleteByVotingCharId(Id id)
+        public void DeleteByVotingChar(Id id)
         {
-            this.AssertNotNull(id, "id");
-            this.BeginTransaction();
-            this._voteRepo.DeleteByVotingCharId(id);
-            try
-            { this.EndTransaction(); }
-            catch (ArgumentException e)
-            { throw new ArgumentException("Could not complete the deletion.", e); }
+            this.Transaction<Id>(this._voteRepo.DeleteByVotingCharId, id);
         }
 
         public async
@@ -46,13 +39,13 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         {
             this.AssertNotNull(id, "id");
             await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByVotingCharId(id));
+                this.DeleteByVotingChar(id));
         }
 
-        public void DeleteByReceivingCharId(Character c)
+        public void DeleteByReceivingChar(Character c)
         {
             this.AssertNotNull(c, "c");
-            this.DeleteByReceivingCharId(c.Id);
+            this.DeleteByReceivingChar(c.Id);
         }
 
         public async
@@ -60,18 +53,12 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         {
             this.AssertNotNull(c, "c");
             await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByReceivingCharId(c));
+                this.DeleteByReceivingChar(c));
         }
 
-        public void DeleteByReceivingCharId(Id id)
+        public void DeleteByReceivingChar(Id id)
         {
-            this.AssertNotNull(id, "id");
-            this.BeginTransaction();
-            this._voteRepo.DeleteByReceivingCharId(id);
-            try
-            { this.EndTransaction(); }
-            catch (ArgumentException e)
-            { throw new ArgumentException("Could not complete the deletion.", e); }
+            this.Transaction<Id>(this._voteRepo.DeleteByReceivingCharId, id);
         }
 
         public async
@@ -79,7 +66,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         {
             this.AssertNotNull(id, "id");
             await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByReceivingCharId(id));
+                this.DeleteByReceivingChar(id));
         }
 
         public void DeleteByPraxisId(Character c)
@@ -98,13 +85,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
 
         public void DeleteByPraxisId(Id id)
         {
-            this.AssertNotNull(id, "id");
-            this.BeginTransaction();
-            this._voteRepo.DeleteByPraxisId(id);
-            try
-            { this.EndTransaction(); }
-            catch (ArgumentException e)
-            { throw new ArgumentException("Could not complete the deletion.", e); }
+            this.Transaction<Id>(this._voteRepo.DeleteByPraxisId, id);
         }
 
         public async

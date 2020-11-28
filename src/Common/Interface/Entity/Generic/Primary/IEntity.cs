@@ -7,6 +7,7 @@ using WorldZero.Common.Interface.General.Generic;
 // be utilized in Data.
 [assembly: InternalsVisibleTo("WorldZero.Data")]
 [assembly: InternalsVisibleTo("WorldZero.Test.Unit")]
+[assembly: InternalsVisibleTo("WorldZero.Test.Integration")]
 
 namespace WorldZero.Common.Interface.Entity.Generic.Primary
 {

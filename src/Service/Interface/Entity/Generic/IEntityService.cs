@@ -40,6 +40,56 @@ namespace WorldZero.Service.Interface.Entity
         }
 
         /// <summary>
+        /// This will, in order:
+        /// <br />
+        /// - Verify that the supplied arg is not null.
+        /// <br />
+        /// - Begin a transaction (serialization depends on the corresponding
+        /// argument).
+        /// <br />
+        /// - Call the supplied `Action` being given `operand`; if the `Action`
+        /// throws an `ArgumentException`, this method will
+        /// `DiscardTransaction()` and throw a tracing `ArgumentException`.
+        /// <br />
+        /// - Attempt to `EndTransaction()`; if this throws an
+        /// `ArgumentException`, then this will throw a tracing
+        /// `ArgumentException`.
+        /// </summary>
+        /// <param name="operation">
+        /// The function to perform during the transaction with operand.
+        /// </param>
+        /// <param name="operand">
+        /// The argument to pass to operation during the transaction.
+        /// </param>
+        /// <param name="serialize">
+        /// This bool is supplied to `BeginTransaction(serialize)`.
+        /// </param>
+        /// <typeparam name="TOperand">
+        /// The type of the argument supplied to operation.
+        /// </typeparam>
+        public void Transaction<TOperand>(
+            Action<TOperand> operation,
+            TOperand operand,
+            bool serialize=false
+        )
+        {
+            this.AssertNotNull(operation, "f");
+            this.AssertNotNull(operand, "operand");
+            this.BeginTransaction(serialize);
+            try
+            { operation(operand); }
+            catch (ArgumentException e)
+            {
+                this.DiscardTransaction();
+                throw new ArgumentException("The operation failed.", e);
+            }
+            try
+            { this.EndTransaction(); }
+            catch (ArgumentException e)
+            { throw new ArgumentException("Could not complete the transaction.", e); }
+        }
+
+        /// <summary>
         /// Begin a transaction.
         /// </summary>
         /// <remarks>
@@ -123,56 +173,6 @@ namespace WorldZero.Service.Interface.Entity
         public async Task<bool> IsTransactionActiveAsync()
         {
             return await this._repo.IsTransactionActiveAsync();
-        }
-
-        /// <summary>
-        /// This will, in order:
-        /// <br />
-        /// - Verify that the supplied arg is not null.
-        /// <br />
-        /// - Begin a transaction (serialization depends on the corresponding
-        /// argument).
-        /// <br />
-        /// - Call the supplied `Action` being given `operand`; if the `Action`
-        /// throws an `ArgumentException`, this method will
-        /// `DiscardTransaction()` and throw a tracing `ArgumentException`.
-        /// <br />
-        /// - Attempt to `EndTransaction()`; if this throws an
-        /// `ArgumentException`, then this will throw a tracing
-        /// `ArgumentException`.
-        /// </summary>
-        /// <param name="operation">
-        /// The function to perform during the transaction with operand.
-        /// </param>
-        /// <param name="operand">
-        /// The argument to pass to operation during the transaction.
-        /// </param>
-        /// <param name="serialize">
-        /// This bool is supplied to `BeginTransaction(serialize)`.
-        /// </param>
-        /// <typeparam name="TOperand">
-        /// The type of the argument supplied to operation.
-        /// </typeparam>
-        public void Txn<TOperand>(
-            Action<TOperand> operation,
-            TOperand operand,
-            bool serialize=false
-        )
-        {
-            this.AssertNotNull(operation, "f");
-            this.AssertNotNull(operand, "operand");
-            this.BeginTransaction(serialize);
-            try
-            { operation(operand); }
-            catch (ArgumentException e)
-            {
-                this.DiscardTransaction();
-                throw new ArgumentException("The operation failed.", e);
-            }
-            try
-            { this.EndTransaction(); }
-            catch (ArgumentException e)
-            { throw new ArgumentException("Could not complete the transaction.", e); }
         }
 
         protected void AssertNotNull(object o, string name)

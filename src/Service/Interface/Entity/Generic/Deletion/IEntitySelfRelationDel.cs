@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace WorldZero.Service.Interface.Entity.Generic.Deletion
 {
-    /// <inheritdoc cref="IEntityDel"/>
+    /// <inheritdoc cref="IEntityRelationDel"/>
     /// <summary>
     /// This abstract subclass is used for relations between the same entity.
     /// This results in `DeleteByLeftId()` and `DeleteByRightId()` performing

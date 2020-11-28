@@ -54,7 +54,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
         public void DeleteByFlag(Flag flag)
         {
             this.AssertNotNull(flag, "flag");
-            this.DeleteByRightId(flag.Id);
+            this.DeleteByRight(flag.Id);
         }
 
         /// <remarks>
@@ -63,7 +63,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
         public void DeleteByFlag(Name flagId)
         {
             this.AssertNotNull(flagId, "flagId");
-            this.DeleteByRightId(flagId);
+            this.DeleteByRight(flagId);
         }
 
         /// <remarks>
@@ -73,7 +73,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
         {
             this.AssertNotNull(flag, "flag");
             await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByRightId(flag.Id));
+                this.DeleteByRight(flag.Id));
         }
 
         /// <remarks>
@@ -83,7 +83,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
         {
             this.AssertNotNull(flagId, "flagId");
             await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByRightId(flagId));
+                this.DeleteByRight(flagId));
         }
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using WorldZero.Common.Interface.General.Generic;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
@@ -21,18 +20,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
 
         public virtual void Delete(TId id)
         {
-            this.AssertNotNull(id, "id");
-            this.BeginTransaction();
-            try
-            {
-                this._repo.Delete(id);
-                this.EndTransaction();
-            }
-            catch (ArgumentException exc)
-            {
-                this.DiscardTransaction();
-                throw new ArgumentException("Could not delete the supplied entity.", exc);
-            }
+            this.Transaction<TId>(this._repo.Delete, id);
         }
 
         public virtual void Delete(TEntity e)

@@ -1,3 +1,4 @@
+using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.Entity.Relation;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
@@ -7,12 +8,67 @@ namespace WorldZero.Service.Entity.Deletion.Relation
 {
     public class CommentDel : IEntityDel<Comment, Id, int>
     {
+        protected ICommentRepo _commentRepo
+        { get { return (ICommentRepo) this._repo; } }
+
         public CommentDel(ICommentRepo repo)
             : base(repo)
         { }
 
-        // TODO: delete by praxis ID
+        public void DeleteByPraxis(Praxis p)
+        {
+            this.AssertNotNull(p, "p");
+            this.DeleteByPraxis(p.Id);
+        }
 
-        // TODO: delete by character ID
+        public void DeleteByPraxis(Id praxisId)
+        {
+            this.Transaction<Id>(this._commentRepo.DeleteByPraxisId, praxisId);
+        }
+
+        public async System.Threading.Tasks.Task DeleteByPraxisAsync(Praxis p)
+        {
+            this.AssertNotNull(p, "P");
+            await System.Threading.Tasks.Task.Run(() =>
+                this.DeleteByPraxis(p));
+        }
+
+        public async
+        System.Threading.Tasks.Task DeleteByPraxisAsync(Id praxisId)
+        {
+            this.AssertNotNull(praxisId, "praxisId");
+            await System.Threading.Tasks.Task.Run(() =>
+                this.DeleteByPraxis(praxisId));
+        }
+
+        public void DeleteByCharacter(Character c)
+        {
+            this.AssertNotNull(c, "c");
+            this.DeleteByCharacter(c.Id);
+        }
+
+        public void DeleteByCharacter(Id CharacterId)
+        {
+            this.Transaction<Id>(
+                this._commentRepo.DeleteByCharacterId,
+                CharacterId
+            );
+        }
+
+        public async
+        System.Threading.Tasks.Task DeleteByCharacterAsync(Character p)
+        {
+            this.AssertNotNull(p, "P");
+            await System.Threading.Tasks.Task.Run(() =>
+                this.DeleteByCharacter(p));
+        }
+
+        public async
+        System.Threading.Tasks.Task DeleteByCharacterAsync(Id charId)
+        {
+            this.AssertNotNull(charId, "charId");
+            await System.Threading.Tasks.Task.Run(() =>
+                this.DeleteByCharacter(charId));
+        }
     }
 }

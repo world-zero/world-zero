@@ -113,52 +113,55 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
             : base(repo)
         { }
 
-        public virtual void DeleteByLeftId(TLeftId id)
+        public virtual void DeleteByLeft(TLeftId id)
         {
-            // Not tested because look at this thing.
-            this.AssertNotNull(id, "id");
-            this.BeginTransaction();
-            this._relRepo.DeleteByLeftId(id);
-            try
-            { this.EndTransaction(); }
-            catch (ArgumentException e)
-            { throw new ArgumentException("Could not finish deleting by leftId.", e); }
+            this.Transaction<TLeftId>(this._relRepo.DeleteByLeftId, id);
         }
 
-        public virtual async Task DeleteByLeftIdAsync(TLeftId id)
+        public virtual void DeleteByLeft(TLeftEntity e)
         {
-            this.AssertNotNull(id, "id");
-            await Task.Run(() => this.DeleteByLeftId(id));
+            this.AssertNotNull(e, "e");
+            this.DeleteByLeft(e.Id);
         }
 
-        public virtual void DeleteByRightId(TRightId id)
+        public virtual async Task DeleteByLeftAsync(TLeftEntity e)
         {
-            // Not tested because look at this thing.
-            this.AssertNotNull(id, "id");
-            this.BeginTransaction();
-            this._relRepo.DeleteByRightId(id);
-            try
-            { this.EndTransaction(); }
-            catch (ArgumentException e)
-            { throw new ArgumentException("Could not finish deleting by rightId.", e); }
+            this.AssertNotNull(e, "e");
+            await Task.Run(() => this.DeleteByLeftAsync(e.Id));
         }
 
-        public virtual async Task DeleteByRightIdAsync(TRightId id)
+        public virtual async Task DeleteByLeftAsync(TLeftId id)
         {
             this.AssertNotNull(id, "id");
-            await Task.Run(() => this.DeleteByRightId(id));
+            await Task.Run(() => this.DeleteByLeft(id));
+        }
+
+        public virtual void DeleteByRight(TRightId id)
+        {
+            this.Transaction<TRightId>(this._relRepo.DeleteByRightId, id);
+        }
+
+        public virtual void DeleteByRight(TRightEntity e)
+        {
+            this.AssertNotNull(e, "e");
+            this.DeleteByRight(e.Id);
+        }
+
+        public virtual async Task DeleteByRightAsync(TRightEntity e)
+        {
+            this.AssertNotNull(e, "e");
+            await Task.Run(() => this.DeleteByRightAsync(e.Id));
+        }
+
+        public virtual async Task DeleteByRightAsync(TRightId id)
+        {
+            this.AssertNotNull(id, "id");
+            await Task.Run(() => this.DeleteByRight(id));
         }
 
         public virtual void DeleteByDTO(TRelationDTO dto)
         {
-            // Not tested because look at this thing.
-            this.AssertNotNull(dto, "dto");
-            this.BeginTransaction();
-            this._relRepo.DeleteByDTO(dto);
-            try
-            { this.EndTransaction(); }
-            catch (ArgumentException e)
-            { throw new ArgumentException("Could not finish deleting by DTO.", e); }
+            this.Transaction<TRelationDTO>(this._relRepo.DeleteByDTO, dto);
         }
 
         public virtual async Task DeleteByDTOAsync(TRelationDTO dto)

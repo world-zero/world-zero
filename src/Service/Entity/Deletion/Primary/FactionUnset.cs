@@ -10,7 +10,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
     public class FactionUnset
         : IEntityUnset<Faction, Name, string, Character, Id, int>
     {
-        public ICharacterRepo _charRepo
+        protected ICharacterRepo _charRepo
         { get { return (ICharacterRepo) this._otherRepo; } }
 
         public FactionUnset(IFactionRepo repo, ICharacterRepo charRepo)

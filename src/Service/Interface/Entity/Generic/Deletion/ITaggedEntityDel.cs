@@ -54,7 +54,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
         public void DeleteByTag(Tag tag)
         {
             this.AssertNotNull(tag, "tag");
-            this.DeleteByRightId(tag.Id);
+            this.DeleteByRight(tag.Id);
         }
 
         /// <remarks>
@@ -63,7 +63,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
         public void DeleteByTag(Name tagId)
         {
             this.AssertNotNull(tagId, "tagId");
-            this.DeleteByRightId(tagId);
+            this.DeleteByRight(tagId);
         }
 
         /// <remarks>
@@ -73,7 +73,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
         {
             this.AssertNotNull(tag, "tag");
             await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByRightId(tag.Id));
+                this.DeleteByRight(tag.Id));
         }
 
         /// <remarks>
@@ -83,7 +83,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
         {
             this.AssertNotNull(tagId, "tagId");
             await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByRightId(tagId));
+                this.DeleteByRight(tagId));
         }
     }
 }

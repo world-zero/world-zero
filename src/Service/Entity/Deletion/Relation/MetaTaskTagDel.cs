@@ -27,7 +27,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         public void DeleteByMetaTask(MetaTask metaTask)
         {
             this.AssertNotNull(metaTask, "metaTask");
-            this.DeleteByLeftId(metaTask.Id);
+            this.DeleteByLeft(metaTask.Id);
         }
 
         /// <remarks>
@@ -36,7 +36,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         public void DeleteByMetaTask(Id metaTaskId)
         {
             this.AssertNotNull(metaTaskId, "metaTaskId");
-            this.DeleteByLeftId(metaTaskId);
+            this.DeleteByLeft(metaTaskId);
         }
 
         /// <remarks>
@@ -47,7 +47,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         {
             this.AssertNotNull(metaTask, "metaTask");
             await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByLeftId(metaTask.Id));
+                this.DeleteByLeft(metaTask.Id));
         }
 
         /// <remarks>
@@ -58,7 +58,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         {
             this.AssertNotNull(metaTaskId, "metaTaskId");
             await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByLeftId(metaTaskId));
+                this.DeleteByLeft(metaTaskId));
         }
     }
 }

@@ -27,7 +27,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         public void DeleteByPraxis(Praxis praxis)
         {
             this.AssertNotNull(praxis, "praxis");
-            this.DeleteByLeftId(praxis.Id);
+            this.DeleteByLeft(praxis.Id);
         }
 
         /// <remarks>
@@ -36,7 +36,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         public void DeleteByPraxis(Id praxisId)
         {
             this.AssertNotNull(praxisId, "praxisId");
-            this.DeleteByLeftId(praxisId);
+            this.DeleteByLeft(praxisId);
         }
 
         /// <remarks>
@@ -47,7 +47,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         {
             this.AssertNotNull(praxis, "praxis");
             await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByLeftId(praxis.Id));
+                this.DeleteByLeft(praxis.Id));
         }
 
         /// <remarks>
@@ -58,7 +58,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         {
             this.AssertNotNull(praxisId, "praxisId");
             await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByLeftId(praxisId));
+                this.DeleteByLeft(praxisId));
         }
     }
 }

@@ -84,14 +84,11 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
             RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
         )
         {
-            // Not tested because look at this thing.
-            this.AssertNotNull(dto, "dto");
-            this.BeginTransaction();
-            this._cntRepo.DeleteByPartialDTO(dto);
-            try
-            { this.EndTransaction(); }
-            catch (ArgumentException e)
-            { throw new ArgumentException("Could not complete the deletion.", e); }
+            this.Transaction
+            <RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>>(
+                this._cntRepo.DeleteByPartialDTO,
+                dto
+            );
         }
 
         public async Task DeleteByPartialDTOAsync(
