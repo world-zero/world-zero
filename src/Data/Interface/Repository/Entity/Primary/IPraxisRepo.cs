@@ -30,5 +30,11 @@ namespace WorldZero.Data.Interface.Repository.Entity.Primary
         /// thrown.
         /// </summary>
         IEnumerable<Praxis> GetByMetaTaskId(Id metaTaskId);
+
+        /// <summary>
+        /// Get a collection of saved Praxises that are praxises of the task of
+        /// the supplied ID. If there are none, an exception is thrown.
+        /// </summary>
+        IEnumerable<Praxis> GetByTaskId(Id taskId);
     }
 }

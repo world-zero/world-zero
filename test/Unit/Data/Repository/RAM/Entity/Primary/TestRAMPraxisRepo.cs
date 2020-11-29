@@ -17,6 +17,8 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
         private RAMPraxisRepo _praxisRepo;
         private TestPraxisParticipantRepoExposedData _ppRepo;
         private HashSet<Name> _goodStatuses;
+        private Id _taskId0;
+        private Id _taskId1;
         private Name _goodStatus;
         private Name _otherGoodStatus;
         private Name _badStatus;
@@ -43,9 +45,11 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
             this._goodStatuses.Add(this._goodStatus);
             this._goodStatuses.Add(this._otherGoodStatus);
             this._points = new PointTotal(3);
-            this._p0 = new Praxis(new Id(1), this._points, this._goodStatus);
-            this._p1 = new Praxis(new Id(1), this._points, this._goodStatus);
-            this._p2 = new Praxis(new Id(1), this._points, this._badStatus);
+            this._taskId0 = new Id(1);
+            this._taskId1 = new Id(2);
+            this._p0 = new Praxis(this._taskId0,this._points,this._goodStatus);
+            this._p1 = new Praxis(this._taskId0,this._points,this._goodStatus);
+            this._p2 = new Praxis(this._taskId1,this._points,this._badStatus);
             this._praxisRepo.Insert(this._p0);
             this._praxisRepo.Insert(this._p1);
             this._praxisRepo.Save();
@@ -168,6 +172,38 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
             Assert.AreEqual(1, praxises.Count());
             foreach (Praxis p in praxises)
                 Assert.AreEqual(this._p2.Id, p.Id);
+        }
+
+        [Test]
+        public void TestGetByTaskIdSad()
+        {
+            Assert.Throws<ArgumentNullException>(()=>
+                this._praxisRepo.GetByTaskId(null));
+            Assert.Throws<ArgumentException>(()=>
+                this._praxisRepo.GetByTaskId(new Id(32423)));
+        }
+
+        [Test]
+        public void TestGetByTaskId_taskId0()
+        {
+            this._praxisRepo.Insert(this._p2);
+            this._praxisRepo.Save();
+
+            var tasks = this._praxisRepo.GetByTaskId(this._taskId0).ToList();
+            Assert.AreEqual(2, tasks.Count);
+            Assert.AreEqual(this._p0.Id, tasks[0].Id);
+            Assert.AreEqual(this._p1.Id, tasks[1].Id);
+        }
+
+        [Test]
+        public void TestGetByTaskId_taskId1()
+        {
+            this._praxisRepo.Insert(this._p2);
+            this._praxisRepo.Save();
+
+            var tasks = this._praxisRepo.GetByTaskId(this._taskId1).ToList();
+            Assert.AreEqual(1, tasks.Count);
+            Assert.AreEqual(this._p2.Id, tasks[0].Id);
         }
     }
 
