@@ -85,17 +85,51 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Relation
         [Test]
         public void TestGetParticipantCount()
         {
-            Assert.AreEqual(0, this._repo.GetParticipantCount(this._pId0));
+            Assert.AreEqual(0, this._repo.GetParticipantCountViaPraxisId(this._pId0));
 
             this._repo.Insert(this._pp0);
-            Assert.AreEqual(0, this._repo.GetParticipantCount(this._pId0));
+            Assert.AreEqual(0, this._repo.GetParticipantCountViaPraxisId(this._pId0));
             this._repo.Save();
-            Assert.AreEqual(1, this._repo.GetParticipantCount(this._pId0));
+            Assert.AreEqual(1, this._repo.GetParticipantCountViaPraxisId(this._pId0));
 
             this._repo.Insert(this._pp1);
-            Assert.AreEqual(1, this._repo.GetParticipantCount(this._pId0));
+            Assert.AreEqual(1, this._repo.GetParticipantCountViaPraxisId(this._pId0));
             this._repo.Save();
-            Assert.AreEqual(2, this._repo.GetParticipantCount(this._pId0));
+            Assert.AreEqual(2, this._repo.GetParticipantCountViaPraxisId(this._pId0));
+        }
+
+        [Test]
+        public void TestGetParticipantCountViaPPId()
+        {
+            this._repo.Insert(this._pp0);
+            this._repo.Insert(this._pp1);
+            this._repo.Insert(this._ppAlt);
+            this._repo.Save();
+
+            Assert.Throws<ArgumentNullException>(()=>
+                this._repo.GetParticipantCountViaPPId(null));
+            Assert.AreEqual(0,
+                this._repo.GetParticipantCountViaPPId(new Id(20000)));
+            Assert.AreEqual(2,
+                this._repo.GetParticipantCountViaPPId(this._pp0.Id));
+            Assert.AreEqual(1,
+                this._repo.GetParticipantCountViaPPId(this._ppAlt.Id));
+        }
+
+        [Test]
+        public void TestGetParticipantCountViaCharId()
+        {
+            this._repo.Insert(this._pp0);
+            this._repo.Insert(this._pp1);
+            this._repo.Insert(this._ppAlt);
+            this._repo.Save();
+
+            Assert.Throws<ArgumentNullException>(()=>
+                this._repo.GetParticipantCountsViaCharId(null).Count());
+            Assert.AreEqual(2,
+                this._repo.GetParticipantCountsViaCharId(this._cId0).Count());
+            Assert.AreEqual(1,
+                this._repo.GetParticipantCountsViaCharId(this._cId1).Count());
         }
     }
 }

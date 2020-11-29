@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using WorldZero.Common.ValueObject.General;
+using WorldZero.Common.ValueObject.DTO.General.Generic;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Common.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
@@ -32,10 +33,29 @@ namespace WorldZero.Data.Interface.Repository.Entity.Relation
         Task<bool> ParticipantCheckAsync(Id praxisId, Id characterId);
 
         /// <summary>
-        /// Return tne number of participants associated with a praxis.
+        /// Return the number of participants associated with a praxis.
         /// </summary>
-        int GetParticipantCount(Id praxisId);
-        Task<int> GetParticipantCountAsync(Id praxisId);
+        int GetParticipantCountViaPraxisId(Id praxisId);
+        Task<int> GetParticipantCountViaPraxisIdAsync(Id praxisId);
+
+        /// <summary>
+        /// Return the number of participants that participate on the same
+        /// praxis as praxis participant `ppId`. If `ppId` does not exist, this
+        /// will return 0.
+        /// </summary>
+        int GetParticipantCountViaPPId(Id ppId);
+        Task<int> GetParticipantCountViaPPIdAsync(Id ppId);
+
+        /// <summary>
+        /// This returns an iterable of `CountingDTO`s, where each DTO's
+        /// `Countee` is the Id of a Praxis, and the `Count` is the number of
+        /// participants present for that praxis.
+        /// </summary>
+        /// <remarks>
+        /// Basically, this is an iterable version (that takes a character ID)
+        /// of <see cref="WorldZero.Data.Interface.Repository.Entity.Relation.IPraxisParticipantRepo.GetParticipantCountViaPraxisId(Id)"/>.
+        /// </remarks>
+        IEnumerable<CountingDTO<Id>> GetParticipantCountsViaCharId(Id charId);
 
         /// <summary>
         /// `Delete()` all PraxisParticipants with the supplied praxis ID.

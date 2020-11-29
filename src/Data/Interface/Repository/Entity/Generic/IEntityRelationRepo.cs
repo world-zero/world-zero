@@ -71,6 +71,5 @@ namespace WorldZero.Data.Interface.Repository.Entity.Primary.Generic
         /// </summary>
         void DeleteByDTO(TRelationDTO dto);
         Task DeleteByDTOAsync(TRelationDTO dto);
-
     }
 }

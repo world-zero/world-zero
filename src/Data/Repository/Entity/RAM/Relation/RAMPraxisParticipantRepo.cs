@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using WorldZero.Common.ValueObject.DTO.General.Generic;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.RAM.Generic;
@@ -71,7 +72,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
             return this.ParticipantCheck(praxisId, characterId);
         }
 
-        public int GetParticipantCount(Id praxisId)
+        public int GetParticipantCountViaPraxisId(Id praxisId)
         {
             if (praxisId == null)
                 throw new ArgumentNullException("praxisId");
@@ -85,9 +86,49 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
             return participants.Count();
         }
 
-        public async Task<int> GetParticipantCountAsync(Id praxisId)
+        public async Task<int> GetParticipantCountViaPraxisIdAsync(Id praxisId)
         {
-            return this.GetParticipantCount(praxisId);
+            return this.GetParticipantCountViaPraxisId(praxisId);
+        }
+
+        public int GetParticipantCountViaPPId(Id ppId)
+        {
+            if (ppId == null)
+                throw new ArgumentNullException("ppId");
+
+            Id praxisId;
+            try
+            {
+                praxisId = this.GetById(ppId).PraxisId;
+            }
+            catch (ArgumentException)
+            { return 0; }
+
+            return this.GetParticipantCountViaPraxisId(praxisId);
+        }
+
+        public async Task<int> GetParticipantCountViaPPIdAsync(Id ppId)
+        {
+            return this.GetParticipantCountViaPPId(ppId);
+        }
+
+        public
+        IEnumerable<CountingDTO<Id>> GetParticipantCountsViaCharId(Id charId)
+        {
+            if (charId == null)
+                throw new ArgumentNullException("charId");
+
+            IEnumerable<Id> praxisIds =
+                from ppTemp in this._saved.Values
+                let pp = this.TEntityCast(ppTemp)
+                where pp.CharacterId == charId
+                select pp.PraxisId;
+
+            foreach (Id praxisId in praxisIds)
+            {
+                int count = this.GetParticipantCountViaPraxisId(praxisId);
+                yield return new CountingDTO<Id>(praxisId, count);
+            }
         }
 
         public void DeleteByPraxisId(Id praxisId)
