@@ -1,4 +1,3 @@
-using System;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Common.Interface.General.Generic;
 using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
@@ -80,7 +79,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
             : base(repo)
         { }
 
-        public void DeleteByPartialDTO(
+        public virtual void DeleteByPartialDTO(
             RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
         )
         {
@@ -91,7 +90,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
             );
         }
 
-        public async Task DeleteByPartialDTOAsync(
+        public virtual async Task DeleteByPartialDTOAsync(
             RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
         )
         {

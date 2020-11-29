@@ -278,7 +278,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             if (p.AreDueling)
             {
                 int ppCount =
-                    this._ppRepo.GetParticipantCount(p.Id);
+                    this._ppRepo.GetParticipantCountViaPraxisId(p.Id);
                 if (ppCount >= 2)
                 {
                     this._ppRepo.DiscardTransaction();

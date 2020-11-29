@@ -73,7 +73,7 @@ namespace WorldZero.Service.Interface.Entity
             bool serialize=false
         )
         {
-            this.AssertNotNull(operation, "f");
+            this.AssertNotNull(operation, "operation");
             this.AssertNotNull(operand, "operand");
             this.BeginTransaction(serialize);
             try
