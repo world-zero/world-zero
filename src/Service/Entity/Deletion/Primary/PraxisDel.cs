@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
@@ -65,6 +66,43 @@ namespace WorldZero.Service.Entity.Deletion.Primary
             }
 
             this.Transaction<Id>(op, praxisId);
+        }
+
+        public void DeleteByTask(Id taskId)
+        {
+            void op(Id id)
+            {
+                IEnumerable<Praxis> praxises;
+                try
+                { praxises = this._praxisRepo.GetByTaskId(taskId); }
+                catch (ArgumentException)
+                { return; }
+
+                foreach (Praxis p in praxises)
+                    this.Delete(p);
+            }
+
+            this.Transaction<Id>(op, taskId, true);
+        }
+
+        public void DeleteByTask(Task task)
+        {
+            this.AssertNotNull(task, "task");
+            this.DeleteByTask(task.Id);
+        }
+
+        public async System.Threading.Tasks.Task DeleteByTaskasync(Task task)
+        {
+            this.AssertNotNull(task, "task");
+            await System.Threading.Tasks.Task.Run(() =>
+                this.DeleteByTask(task));
+        }
+
+        public async System.Threading.Tasks.Task DeleteByTaskasync(Id taskId)
+        {
+            this.AssertNotNull(taskId, "taskId");
+            await System.Threading.Tasks.Task.Run(() =>
+                this.DeleteByTask(taskId));
         }
     }
 }
