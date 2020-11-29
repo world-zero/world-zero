@@ -59,7 +59,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
 
         public void DeleteByPraxisId(Id praxisId)
         {
-            this.DeleteByReceivingCharId(praxisId);
+            this.DeleteByRightId(praxisId);
         }
 
         public async Task DeleteByPraxisIdAsync(Id praxisId)
