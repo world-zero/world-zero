@@ -16,6 +16,9 @@ namespace WorldZero.Common.Entity.Relation
     /// <remarks>
     /// A Praxis should always have at least one participant.
     /// <br />
+    /// Since some characters can repeat tasks, `PraxisParticipant.Count`
+    /// indicates this value, even if they get a new praxis each time.
+    /// <br />
     /// Since a relation requires a left and right ID to be set on
     /// initialization, `PraxisId` will default to a `new Id(0)` when supplied
     /// with null. Similarly, if `LeftId` contains `new Id(0)`, `PraxisId` will

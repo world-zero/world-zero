@@ -131,5 +131,27 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Relation
             Assert.AreEqual(1,
                 this._repo.GetParticipantCountsViaCharId(this._cId1).Count());
         }
+
+        [Test]
+        public void TestGetParticipantCountViaPartialDTO()
+        {
+            this._repo.Insert(this._pp0);
+            this._repo.Insert(this._pp1);
+            this._repo.Insert(this._ppAlt);
+            var pp0_second = new PraxisParticipant(
+                this._pp0.LeftId,
+                this._pp0.RightId,
+                this._pp0.Count + 1
+            );
+            this._repo.Insert(pp0_second);
+            this._repo.Save();
+
+            Assert.Throws<ArgumentNullException>(()=>
+                this._repo.GetParticipantCountsViaPartialDTO(null).Count());
+            Assert.AreEqual(2, this._repo.
+                GetParticipantCountsViaPartialDTO(this._pp0.GetDTO()).Count());
+            Assert.AreEqual(1, this._repo.
+                GetParticipantCountsViaPartialDTO(this._pp1.GetDTO()).Count());
+        }
     }
 }

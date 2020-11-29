@@ -131,6 +131,28 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
             }
         }
 
+        public
+        IEnumerable<CountingDTO<Id>> GetParticipantCountsViaPartialDTO(
+            RelationDTO<Id, int, Id, int> dto
+        )
+        {
+            if (dto == null)
+                throw new ArgumentNullException("dto");
+
+            IEnumerable<Id> praxisIds =
+                from ppTemp in this._saved.Values
+                let pp = this.TEntityCast(ppTemp)
+                where pp.LeftId == dto.LeftId
+                where pp.RightId == dto.RightId
+                select pp.PraxisId;
+
+            foreach (Id praxisId in praxisIds)
+            {
+                int count = this.GetParticipantCountViaPraxisId(praxisId);
+                yield return new CountingDTO<Id>(praxisId, count);
+            }
+        }
+
         public void DeleteByPraxisId(Id praxisId)
         {
             this.DeleteByLeftId(praxisId);
