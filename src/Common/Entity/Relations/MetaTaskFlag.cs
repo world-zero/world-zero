@@ -13,7 +13,7 @@ namespace WorldZero.Common.Entity.Relation
     /// <br />
     /// Right relation: `FlagId`
     /// </summary>
-    public class MetaTaskFlag : IIdNameRelation
+    public class MetaTaskFlag : IFlaggedEntity<Id, int>
     {
         /// <summary>
         /// MetaTaskId is a wrapper for LeftId.

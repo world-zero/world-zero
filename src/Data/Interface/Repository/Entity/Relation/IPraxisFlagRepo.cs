@@ -7,13 +7,11 @@ using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
 namespace WorldZero.Data.Interface.Repository.Entity.Relation
 {
     public interface IPraxisFlagRepo
-        : IEntityRelationRepo
+        : IFlaggedEntityRepo
           <
             PraxisFlag,
             Id,
             int,
-            Name,
-            string,
             RelationDTO<Id, int, Name, string>
           >
     {

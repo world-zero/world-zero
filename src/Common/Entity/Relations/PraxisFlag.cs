@@ -13,7 +13,7 @@ namespace WorldZero.Common.Entity.Relation
     /// <br />
     /// Right relation: `FlagId`
     /// </summary>
-    public class PraxisFlag : IIdNameRelation
+    public class PraxisFlag : IFlaggedEntity<Id, int>
     {
         /// <summary>
         /// PraxisId is a wrapper for LeftId.

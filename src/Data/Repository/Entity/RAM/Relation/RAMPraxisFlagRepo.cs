@@ -9,13 +9,11 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
 {
     /// <inheritdoc cref="IPraxisFlagRepo"/>
     public class RAMPraxisFlagRepo
-        : IRAMEntityRelationRepo
+        : IRAMFlaggedEntityRepo
           <
             PraxisFlag,
             Id,
             int,
-            Name,
-            string,
             RelationDTO<Id, int, Name, string>
           >,
           IPraxisFlagRepo

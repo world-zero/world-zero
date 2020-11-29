@@ -13,7 +13,7 @@ namespace WorldZero.Common.Entity.Relation
     /// <br />
     /// Right relation: `FlagId`
     /// </summary>
-    public class TaskFlag : IIdNameRelation
+    public class TaskFlag : IFlaggedEntity<Id, int>
     {
         /// <summary>
         /// TaskId is a wrapper for LeftId.
@@ -22,15 +22,6 @@ namespace WorldZero.Common.Entity.Relation
         {
             get { return this.LeftId; }
             set { this.LeftId = value; }
-        }
-
-        /// <summary>
-        /// FlagId is a wrapper for RightId.
-        /// </summary>
-        public Name FlagId
-        {
-            get { return this.RightId; }
-            set { this.RightId = value; }
         }
 
         public TaskFlag(Id taskId, Name flagId)

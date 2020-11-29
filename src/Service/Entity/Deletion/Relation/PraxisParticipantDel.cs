@@ -7,20 +7,13 @@ using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Service.Interface.Entity.Generic.Deletion;
 
-// TODO: Create the force methods. I will also need PraxisDel to safely perform
-//      these. For the methods themselves, I may want to have a helper that is
-//      shared by the virtual and Force versions that has a bool depending on
-//      how to act.
-
 namespace WorldZero.Service.Entity.Deletion.Relation
 {
     /// <inheritdoc cref="IEntityRelationCntDel"/>
     /// <remarks>
     /// A Praxis should always have at least one participant. As a result,
     /// these methods will throw an exception if they are going to remove a
-    /// praxis' final participant. To delete a praxis alongside the last
-    /// participant (if the participant is the last to be removed), use the
-    /// methods starting in `Force`.
+    /// praxis' final participant.
     /// </remarks>
     public class PraxisParticipantDel : IEntityRelationCntDel
     <
