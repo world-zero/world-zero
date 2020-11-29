@@ -69,31 +69,31 @@ namespace WorldZero.Service.Entity.Deletion.Relation
                 this.DeleteByReceivingChar(id));
         }
 
-        public void DeleteByPraxisId(Character c)
+        public void DeleteByPraxis(Praxis p)
         {
-            this.AssertNotNull(c, "c");
-            this.DeleteByPraxisId(c.Id);
+            this.AssertNotNull(p, "p");
+            this.DeleteByPraxis(p.Id);
         }
 
         public async
-        System.Threading.Tasks.Task DeleteByPraxisIdAsync(Character c)
+        System.Threading.Tasks.Task DeleteByPraxisAsync(Praxis p)
         {
-            this.AssertNotNull(c, "c");
+            this.AssertNotNull(p, "p");
             await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByPraxisId(c));
+                this.DeleteByPraxis(p));
         }
 
-        public void DeleteByPraxisId(Id id)
+        public void DeleteByPraxis(Id id)
         {
             this.Transaction<Id>(this._voteRepo.DeleteByPraxisId, id);
         }
 
         public async
-        System.Threading.Tasks.Task DeleteByPraxisIdAsync(Id id)
+        System.Threading.Tasks.Task DeleteByPraxisAsync(Id id)
         {
             this.AssertNotNull(id, "id");
             await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByPraxisId(id));
+                this.DeleteByPraxis(id));
         }
     }
 }
