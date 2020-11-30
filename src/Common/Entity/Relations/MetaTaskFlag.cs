@@ -24,15 +24,6 @@ namespace WorldZero.Common.Entity.Relation
             set { this.LeftId = value; }
         }
 
-        /// <summary>
-        /// FlagId is a wrapper for RightId.
-        /// </summary>
-        public Name FlagId
-        {
-            get { return this.RightId; }
-            set { this.RightId = value; }
-        }
-
         public MetaTaskFlag(Id metaTaskId, Name flagId)
             : base(metaTaskId, flagId)
         { }

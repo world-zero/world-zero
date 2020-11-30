@@ -1,4 +1,4 @@
-namespace WorldZero.Common.Interface.Entity.Generic.Primary
+namespace WorldZero.Common.Interface.Entity.Marker
 {
     /// <summary>
     /// This marker is used to signify that an entity is optional.
@@ -12,7 +12,7 @@ namespace WorldZero.Common.Interface.Entity.Generic.Primary
     /// regardless of any other relations it has.
     /// <br />
     /// This is the inverse of marker <see
-    /// cref="WorldZero.Common.Interface.Entity.Generic.Primary.IEntityHasOptional"/>.
+    /// cref="WorldZero.Common.Interface.Entity.Marker.IEntityHasOptional"/>.
     /// </remarks>
     public interface IOptionalEntity
     { }
