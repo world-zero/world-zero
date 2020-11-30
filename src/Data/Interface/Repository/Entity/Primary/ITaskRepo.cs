@@ -5,6 +5,6 @@ namespace WorldZero.Data.Interface.Repository.Entity.Primary
 {
     /// <inheritdoc cref="IIdEntityRepo"/>
     public interface ITaskRepo
-        : IIdEntityRepo<Task>
+        : IIdStatusedEntityRepo<Task>
     { }
 }

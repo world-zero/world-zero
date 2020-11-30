@@ -7,7 +7,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Primary
 {
     /// <inheritdoc cref="IMetaTaskRepo"/>
     public class RAMMetaTaskRepo
-        : IRAMIdEntityRepo<MetaTask>,
+        : IRAMIdStatusedEntityRepo<MetaTask>,
         IMetaTaskRepo
     {
         protected override int GetRuleCount()

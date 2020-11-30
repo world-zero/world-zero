@@ -8,7 +8,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.Primary
 {
     /// <inheritdoc cref="IIdEntityRepo"/>
     public interface IPraxisRepo
-        : IIdEntityRepo<Praxis>
+        : IIdStatusedEntityRepo<Praxis>
     {
         /// <summary>
         /// This will return the number of praxises a character has with

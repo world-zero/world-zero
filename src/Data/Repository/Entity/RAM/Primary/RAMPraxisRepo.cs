@@ -11,7 +11,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Primary
 {
     /// <inheritdoc cref="IPraxisRepo"/>
     public class RAMPraxisRepo
-        : IRAMIdEntityRepo<Praxis>,
+        : IRAMIdStatusedEntityRepo<Praxis>,
         IPraxisRepo
     {
         protected override int GetRuleCount()

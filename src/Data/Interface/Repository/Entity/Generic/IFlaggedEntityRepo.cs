@@ -33,7 +33,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.Primary.Generic
         where TRelationDTO : RelationDTO
             <TLeftId, TLeftBuiltIn, Name, string>
     {
-        // NOTE: I am leaving the GetByFlagId until I work on the reading
+        // NOTE: I am leaving the GetByFlagId off until I work on the reading
         // service classes.
 
         /// <summary>
