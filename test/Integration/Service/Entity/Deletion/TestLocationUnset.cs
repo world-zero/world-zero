@@ -69,11 +69,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         [Test]
         public void TestUnsetSad()
         {
-            Assert.Throws<ArgumentException>(()=>
-                this._unset.Unset(new Id(100000)));
-
-            Assert.Throws<ArgumentException>(()=>
-                this._unset.Unset(this._l.Id));
+            this._unset.Unset(new Id(100000));
+            this._unset.Unset(this._l.Id);
         }
 
         [Test]

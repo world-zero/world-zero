@@ -23,24 +23,24 @@ namespace WorldZero.Service.Entity.Deletion.Primary
             this.AssertNotNull(factionId, "factionId");
             this.BeginTransaction();
 
-            IEnumerable<Character> chars;
+            IEnumerable<Character> chars = null;
             try
             { chars = this._charRepo.GetByFactionId(factionId); }
-            catch (ArgumentException e)
-            {
-                this.DiscardTransaction();
-                throw new ArgumentException("Could not complete the unset.", e);
-            }
+            catch (ArgumentException)
+            { }
 
-            foreach (Character c in chars)
+            if (chars != null)
             {
-                c.FactionId = null;
-                try
-                { this._charRepo.Update(c); }
-                catch (ArgumentException e)
+                foreach (Character c in chars)
                 {
-                    this.DiscardTransaction();
-                    throw new ArgumentException("Could not complete the unset.", e);
+                    c.FactionId = null;
+                    try
+                    { this._charRepo.Update(c); }
+                    catch (ArgumentException e)
+                    {
+                        this.DiscardTransaction();
+                        throw new ArgumentException("Could not complete the unset.", e);
+                    }
                 }
             }
 

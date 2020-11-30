@@ -8,39 +8,84 @@ using WorldZero.Service.Interface.Entity.Generic.Deletion;
 namespace WorldZero.Service.Entity.Deletion.Primary
 {
     /// <inheritdoc cref="IEntityUnset"/>
+    /// <remarks>
+    /// This can also perform `IIdStatusedEntityDel` operations. Sure, this is
+    /// definitely a little smelly, but eh.
+    /// </remarks>
     public class MetaTaskUnset
         : IEntityUnset<MetaTask, Id, int, Praxis, Id, int>
     {
+        protected class StatusedMTDel
+            : IIdStatusedEntityDel<MetaTask>
+        {
+            public StatusedMTDel(IMetaTaskRepo mtRepo)
+                : base(mtRepo)
+            { }
+        }
+
+        protected StatusedMTDel _statusedMTDel;
+
+        protected IMetaTaskRepo _mtRepo
+        { get { return (IMetaTaskRepo) this._repo; } }
+
         protected IPraxisRepo _praxisRepo
         { get { return (IPraxisRepo) this._otherRepo; } }
 
         public MetaTaskUnset(IMetaTaskRepo repo, IPraxisRepo praxisRepo)
             : base(repo, praxisRepo)
-        { }
+        {
+            this._statusedMTDel = new StatusedMTDel(this._mtRepo);
+        }
+
+        public void DeleteByStatus(Status s)
+        {
+            this._statusedMTDel.DeleteByStatus(s);
+        }
+
+        public void DeleteByStatus(Name statusId)
+        {
+            this._statusedMTDel.DeleteByStatus(statusId);
+        }
+
+        public async
+        System.Threading.Tasks.Task DeleteByStatusAsync(Status s)
+        {
+            this.AssertNotNull(s, "s");
+            await System.Threading.Tasks.Task.Run(() =>
+                this._statusedMTDel.DeleteByStatus(s));
+        }
+
+        public async
+        System.Threading.Tasks.Task DeleteByStatusAsync(Name statusId)
+        {
+            this.AssertNotNull(statusId, "statusId");
+            await System.Threading.Tasks.Task.Run(() =>
+                this._statusedMTDel.DeleteByStatus(statusId));
+        }
 
         public override void Unset(Id metaTaskId)
         {
             this.AssertNotNull(metaTaskId, "metaTaskId");
             this.BeginTransaction();
 
-            IEnumerable<Praxis> praxiss;
+            IEnumerable<Praxis> praxises = null;
             try
-            { praxiss = this._praxisRepo.GetByMetaTaskId(metaTaskId); }
-            catch (ArgumentException e)
-            {
-                this.DiscardTransaction();
-                throw new ArgumentException("Could not complete the unset.", e);
-            }
+            { praxises = this._praxisRepo.GetByMetaTaskId(metaTaskId); }
+            catch (ArgumentException)
+            { }
 
-            foreach (Praxis p in praxiss)
+            if (praxises != null)
             {
-                p.MetaTaskId = null;
-                try
-                { this._praxisRepo.Update(p); }
-                catch (ArgumentException e)
+                foreach (Praxis p in praxises)
                 {
-                    this.DiscardTransaction();
-                    throw new ArgumentException("Could not complete the unset.", e);
+                    p.MetaTaskId = null;
+                    try
+                    { this._praxisRepo.Update(p); }
+                    catch (ArgumentException e)
+                    {
+                        this.DiscardTransaction();
+                        throw new ArgumentException("Could not complete the unset.", e);
+                    }
                 }
             }
 

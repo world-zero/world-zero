@@ -23,7 +23,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
             this.AssertNotNull(factionId, "factionId");
             this.BeginTransaction();
 
-            IEnumerable<Faction> factions;
+            IEnumerable<Faction> factions = null;
             try
             { factions = this._factionRepo.GetByAbilityId(factionId); }
             catch (ArgumentException e)
@@ -32,15 +32,18 @@ namespace WorldZero.Service.Entity.Deletion.Primary
                 throw new ArgumentException("Could not complete the unset.", e);
             }
 
-            foreach (Faction c in factions)
+            if (factions != null)
             {
-                c.AbilityId = null;
-                try
-                { this._factionRepo.Update(c); }
-                catch (ArgumentException e)
+                foreach (Faction c in factions)
                 {
-                    this.DiscardTransaction();
-                    throw new ArgumentException("Could not complete the unset.", e);
+                    c.AbilityId = null;
+                    try
+                    { this._factionRepo.Update(c); }
+                    catch (ArgumentException e)
+                    {
+                        this.DiscardTransaction();
+                        throw new ArgumentException("Could not complete the unset.", e);
+                    }
                 }
             }
 
