@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+using System.Collections.Generic;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 
@@ -8,17 +8,17 @@ namespace WorldZero.Data.Interface.Repository.Entity.Primary.Generic
     /// <summary>
     /// This repo is responsible for implementations of `IIdStatusedEntity`.
     /// </summary>
-    public interface IIdStatusedEntityRepo<TIdStatusedEntity>
-        : IIdEntityRepo<TIdStatusedEntity>
-        where TIdStatusedEntity : IIdStatusedEntity
+    public interface IIdStatusedEntityRepo<TEntity>
+        : IIdEntityRepo<TEntity>
+        where TEntity : IIdStatusedEntity
     {
-        // NOTE: I am leaving the GetByStatusId off until I work on the reading
-        // service classes.
-
         /// <summary>
-        /// `Delete()` the entities with the supplied flag.
+        /// Get a collection of entities with the supplied status ID. If none
+        /// exists, an exception is thrown.
         /// </summary>
-        void DeleteByStatusId(Name statusId);
-        Task DeleteByStatusIdAsync(Name statusId);
+        IEnumerable<TEntity> GetByStatusId(Name statusId);
+
+        // Deleting by status ID is a very bad idea as entities could need to
+        // cascade their deletion.
     }
 }

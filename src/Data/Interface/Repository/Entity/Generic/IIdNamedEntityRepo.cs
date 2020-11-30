@@ -12,6 +12,10 @@ namespace WorldZero.Data.Interface.Repository.Entity.Primary.Generic
         : IIdEntityRepo<TIdNamedEntity>
         where TIdNamedEntity : IIdEntity
     {
+        /// <summary>
+        /// Get the entity with the supplied name. If none exists, an exception
+        /// is thrown.
+        /// </summary>
         TIdNamedEntity GetByName(Name name);
         Task<TIdNamedEntity> GetByNameAsync(Name name);
     }

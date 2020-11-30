@@ -1,3 +1,4 @@
+using System.Linq;
 using System;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
@@ -35,18 +36,17 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
         }
 
         [Test]
-        public void TestDeleteByStatusId()
+        public void TestGetByStatusId()
         {
-            this._repo.DeleteByStatusId(this._statusId0);
-            Assert.AreEqual(4, this._repo.SavedCount);
-            Assert.AreEqual(2, this._repo.StagedCount);
-            this._repo.Save();
-            Assert.AreEqual(2, this._repo.SavedCount);
-            Assert.AreEqual(0, this._repo.StagedCount);
+            Assert.Throws<ArgumentNullException>(()=>
+                this._repo.GetByStatusId(null).Count());
             Assert.Throws<ArgumentException>(()=>
-                this._repo.GetById(this._p0_0.Id));
-            Assert.Throws<ArgumentException>(()=>
-                this._repo.GetById(this._p0_1.Id));
+                this._repo.GetByStatusId(new Name("sdfsfa")).Count());
+
+            var entities = this._repo.GetByStatusId(this._statusId0).ToList();
+            Assert.AreEqual(2, entities.Count);
+            Assert.AreEqual(this._p0_0.Id, entities[0].Id);
+            Assert.AreEqual(this._p0_1.Id, entities[1].Id);
         }
     }
 
@@ -61,8 +61,5 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
             var a = new Praxis(new Id(2), new PointTotal(2), new Name("x"));
             return a.GetUniqueRules().Count;
         }
-
-        public int SavedCount { get { return this._saved.Count; } }
-        public int StagedCount { get { return this._staged.Count; } }
     }
 }

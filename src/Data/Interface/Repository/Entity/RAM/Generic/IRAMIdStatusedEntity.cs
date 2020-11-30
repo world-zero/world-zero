@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
@@ -18,7 +17,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
             : base()
         { }
 
-        public void DeleteByStatusId(Name statusId)
+        public IEnumerable<TEntity> GetByStatusId(Name statusId)
         {
             if (statusId == null)
                 throw new ArgumentNullException("statusId");
@@ -29,13 +28,11 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
                 where entity.StatusId == statusId
                 select entity;
 
-            foreach (TEntity e in entities)
-                this.Delete(e.Id);
-        }
+            if (entities.Count() == 0)
+                throw new ArgumentException($"No entities exist with statusId ({statusId.Get}).");
 
-        public async Task DeleteByStatusIdAsync(Name statusId)
-        {
-            this.DeleteByStatusId(statusId);
+            foreach (TEntity e in entities)
+                yield return e;
         }
     }
 }
