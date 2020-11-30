@@ -12,7 +12,7 @@ namespace WorldZero.Common.Entity.Primary
     /// As you would expect, validation of the Status is left to the Praxis
     /// registration class.
     /// </remarks>
-    public class Praxis : IIdEntity, IEntityHasOptional
+    public class Praxis : IIdStatusedEntity, IEntityHasOptional
     {
         public Praxis(
             Id taskId,
@@ -21,12 +21,11 @@ namespace WorldZero.Common.Entity.Primary
             Id metaTaskId=null,
             bool areDueling=false
         )
-            : base()
+            : base(statusId)
         {
             this._setup(
                 taskId,
                 points,
-                statusId,
                 metaTaskId,
                 areDueling
             );
@@ -40,12 +39,11 @@ namespace WorldZero.Common.Entity.Primary
             Id metaTaskId=null,
             bool areDueling=false
         )
-            : base(id)
+            : base(id, statusId)
         {
             this._setup(
                 taskId,
                 points,
-                statusId,
                 metaTaskId,
                 areDueling
             );
@@ -59,12 +57,11 @@ namespace WorldZero.Common.Entity.Primary
             int metaTaskId,
             bool areDueling
         )
-            : base(new Id(id))
+            : base(new Id(id), new Name(statusId))
         {
             this._setup(
                 new Id(taskId),
                 new PointTotal(points),
-                new Name(statusId),
                 new Id(metaTaskId),
                 areDueling
             );
@@ -85,7 +82,6 @@ namespace WorldZero.Common.Entity.Primary
         private void _setup(
             Id taskId,
             PointTotal points,
-            Name statusId,
             Id metaTaskId,
             bool areDueling
         )
@@ -96,7 +92,6 @@ namespace WorldZero.Common.Entity.Primary
                 throw new ArgumentNullException("points");
             this.TaskId = taskId;
             this.Points = points;
-            this.StatusId = statusId;
             this.MetaTaskId = metaTaskId;
             this.AreDueling = areDueling;
         }
@@ -125,19 +120,6 @@ namespace WorldZero.Common.Entity.Primary
             }
         }
         private PointTotal _points;
-
-        public Name StatusId
-        {
-            get { return this._statusId; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("StatusId");
-
-                this._statusId = value;
-            }
-        }
-        private Name _statusId;
 
         public Id MetaTaskId { get; set; }
         public bool AreDueling { get; set; }

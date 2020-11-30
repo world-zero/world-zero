@@ -7,7 +7,7 @@ namespace WorldZero.Common.Entity.Primary
     /// <summary>
     /// Task is a entity for a tuple of the Task table.
     /// </summary>
-    public class Task : IIdEntity
+    public class Task : IIdStatusedEntity
     {
         public Task(
             Name factionId,
@@ -18,7 +18,7 @@ namespace WorldZero.Common.Entity.Primary
             Level minLevel=null,
             bool isHistorianable=false
         )
-            : base()
+            : base(statusId)
         {
             this._setup(
                 summary,
@@ -26,7 +26,6 @@ namespace WorldZero.Common.Entity.Primary
                 minLevel,
                 points,
                 factionId,
-                statusId,
                 isHistorianable
             );
         }
@@ -41,7 +40,7 @@ namespace WorldZero.Common.Entity.Primary
             Level minLevel=null,
             bool isHistorianable=false
         )
-            : base(id)
+            : base(id, statusId)
         {
             this._setup(
                 summary,
@@ -49,7 +48,6 @@ namespace WorldZero.Common.Entity.Primary
                 minLevel,
                 points,
                 factionId,
-                statusId,
                 isHistorianable
             );
         }
@@ -64,7 +62,7 @@ namespace WorldZero.Common.Entity.Primary
             int minLevel,
             bool isHistorianable
         )
-            : base(new Id(id))
+            : base(new Id(id), new Name(statusId))
         {
             this._setup(
                 summary,
@@ -72,7 +70,6 @@ namespace WorldZero.Common.Entity.Primary
                 new Level(minLevel),
                 new PointTotal(points),
                 new Name(factionId),
-                new Name(statusId),
                 isHistorianable
             );
         }
@@ -83,7 +80,6 @@ namespace WorldZero.Common.Entity.Primary
             Level minLevel,
             PointTotal points,
             Name factionId,
-            Name statusId,
             bool isHistorianable
         )
         {
@@ -94,7 +90,6 @@ namespace WorldZero.Common.Entity.Primary
             this.Points = points;
             this.isHistorianable = isHistorianable;
             this.FactionId = factionId;
-            this.StatusId = statusId;
         }
 
         public override IEntity<Id, int> Clone()
@@ -193,18 +188,5 @@ namespace WorldZero.Common.Entity.Primary
             }
         }
         private Name _factionId;
-
-        public Name StatusId
-        {
-            get { return this._statusId; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("StatusId");
-
-                this._statusId = value;
-            }
-        }
-        private Name _statusId;
     }
 }

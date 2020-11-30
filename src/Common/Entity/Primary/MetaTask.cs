@@ -8,7 +8,7 @@ namespace WorldZero.Common.Entity.Primary
     /// <summary>
     /// MetaTask is a entity for a tuple of the MetaTask table.
     /// </summary>
-    public class MetaTask : IIdEntity, IOptionalEntity
+    public class MetaTask : IIdStatusedEntity, IOptionalEntity
     {
         public MetaTask(
             Name factionId,
@@ -17,11 +17,10 @@ namespace WorldZero.Common.Entity.Primary
             PointTotal bonus,
             bool isFlatBonus=false
         )
-            : base()
+            : base(statusId)
         {
             this._setup(
                 factionId,
-                statusId,
                 description,
                 bonus,
                 isFlatBonus
@@ -36,11 +35,10 @@ namespace WorldZero.Common.Entity.Primary
             PointTotal bonus,
             bool isFlatBonus=false
         )
-            : base(id)
+            : base(id, statusId)
         {
             this._setup(
                 factionId,
-                statusId,
                 description,
                 bonus,
                 isFlatBonus
@@ -55,11 +53,10 @@ namespace WorldZero.Common.Entity.Primary
             double bonus,
             bool isFlatBonus
         )
-            : base(new Id(id))
+            : base(new Id(id), new Name(statusId))
         {
             this._setup(
                 new Name(factionId),
-                new Name(statusId),
                 description,
                 new PointTotal(bonus),
                 isFlatBonus
@@ -68,14 +65,12 @@ namespace WorldZero.Common.Entity.Primary
 
         private void _setup(
             Name factionId,
-            Name statusId,
             string description,
             PointTotal bonus,
             bool isFlatBonus
         )
         {
             this.FactionId = factionId;
-            this.StatusId = statusId;
             this.Description = description;
             this.Bonus = bonus;
             this.IsFlatBonus = isFlatBonus;
@@ -143,17 +138,5 @@ namespace WorldZero.Common.Entity.Primary
             }
         }
         private Name _factionId;
-
-        public Name StatusId
-        {
-            get { return this._statusId; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("StatusId");
-                this._statusId = value;
-            }
-        }
-        private Name _statusId;
     }
 }
