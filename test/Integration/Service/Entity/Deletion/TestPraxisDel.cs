@@ -17,8 +17,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
     [TestFixture]
     public class TestPraxisDel
     {
-        private int _next = 1;
-        private Id Next() => new Id(this._next++);
+        private int _nxt = 1;
+        private Id _next() => new Id(this._nxt++);
 
         private void _absentt<TEntity, TId, TBuiltIn>(TEntity e, Func<TId, TEntity> getById)
             where TEntity : IEntity<TId, TBuiltIn>
@@ -134,24 +134,24 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             // Now we build two praxises, each with comments, votes,
             // tags, flags, and participants.
             var pt = new PointTotal(2);
-            this._taskId0 = this.Next();
-            this._taskId1 = this.Next();
+            this._taskId0 = this._next();
+            this._taskId1 = this._next();
             this._p0 = new Praxis(this._taskId0, pt, new Name("good"));
             this._p1 = new Praxis(this._taskId1, pt, new Name("also good"));
             this._praxisRepo.Insert(this._p0);
             this._praxisRepo.Insert(this._p1);
             this._praxisRepo.Save();
-            this._comment0_0 = new Comment(this._p0.Id, this.Next(), "f");
-            this._comment0_1 = new Comment(this._p0.Id, this.Next(), "f f");
-            this._comment1_0 = new Comment(this._p1.Id, this.Next(), "x");
+            this._comment0_0 = new Comment(this._p0.Id, this._next(), "f");
+            this._comment0_1 = new Comment(this._p0.Id, this._next(), "f f");
+            this._comment1_0 = new Comment(this._p1.Id, this._next(), "x");
             this._commentRepo.Insert(this._comment0_0);
             this._commentRepo.Insert(this._comment0_1);
             this._commentRepo.Insert(this._comment1_0);
             this._commentRepo.Save();
 
-            this._vote0_0 = new Vote(this.Next(), this._p0.Id, this.Next(), pt);
-            this._vote1_0 = new Vote(this.Next(), this._p1.Id, this.Next(), pt);
-            this._vote1_1 = new Vote(this.Next(), this._p1.Id, this.Next(), pt);
+            this._vote0_0 = new Vote(this._next(), this._p0.Id, this._next(), pt);
+            this._vote1_0 = new Vote(this._next(), this._p1.Id, this._next(), pt);
+            this._vote1_1 = new Vote(this._next(), this._p1.Id, this._next(), pt);
             this._voteRepo.Insert(this._vote0_0);
             this._voteRepo.Insert(this._vote1_0);
             this._voteRepo.Insert(this._vote1_1);
@@ -173,9 +173,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._pFlagRepo.Insert(this._pFlag1_1);
             this._pFlagRepo.Save();
 
-            this._pp0_0 = new PraxisParticipant(this._p0.Id, this.Next());
-            this._pp0_1 = new PraxisParticipant(this._p0.Id, this.Next());
-            this._pp1_0 = new PraxisParticipant(this._p1.Id, this.Next());
+            this._pp0_0 = new PraxisParticipant(this._p0.Id, this._next());
+            this._pp0_1 = new PraxisParticipant(this._p0.Id, this._next());
+            this._pp1_0 = new PraxisParticipant(this._p1.Id, this._next());
             this._ppRepo.Insert(this._pp0_0);
             this._ppRepo.Insert(this._pp0_1);
             this._ppRepo.Insert(this._pp1_0);
