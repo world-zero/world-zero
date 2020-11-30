@@ -7,6 +7,8 @@ using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Service.Interface.Entity.Generic.Deletion;
 using WorldZero.Service.Entity.Deletion.Relation;
 
+// NOTE: This class is used in testing `IIdStatusedEntiyDel`.
+
 namespace WorldZero.Service.Entity.Deletion.Primary
 {
     /// <inheritdoc cref="IEntityDel"/>
@@ -19,7 +21,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
     /// Dev note: shockingly, deleting a praxis has no special logic outside of
     /// cascading the deletion.
     /// </remarks>
-    public class PraxisDel : IEntityDel<Praxis, Id, int>
+    public class PraxisDel : IIdStatusedEntityDel<Praxis>
     {
         protected IPraxisRepo _praxisRepo
         { get { return (IPraxisRepo) this._repo; } }

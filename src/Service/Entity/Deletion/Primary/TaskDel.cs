@@ -13,7 +13,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
     /// Praxises on that task - this involves using those corresponding
     /// deletion service classes.
     /// </summary>
-    public class TaskDel : IEntityDel<Task, Id, int>
+    public class TaskDel : IIdStatusedEntityDel<Task>
     {
         protected ITaskRepo _taskRepo
         { get { return (ITaskRepo) this._repo; } }

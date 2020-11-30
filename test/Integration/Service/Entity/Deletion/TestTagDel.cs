@@ -84,6 +84,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             Name n = null;
             Assert.Throws<ArgumentNullException>(()=>this._del.Delete(t));
             Assert.Throws<ArgumentNullException>(()=>this._del.Delete(n));
+            this._del.Delete(new Name("sdfdsfds"));
         }
 
         [Test]

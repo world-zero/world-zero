@@ -12,6 +12,9 @@ using NUnit.Framework;
 
 // NOTE: This file does not abide by the limit on a line's character count.
 
+// NOTE: `PraxisDel.DeleteByStatus()` is tested in place of
+// `IIdStatusedEntityDel.DeleteByStatus()`.
+
 namespace WorldZero.Test.Integration.Service.Entity.Deletion
 {
     [TestFixture]
@@ -91,6 +94,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
 
         private Id _taskId0;
         private Id _taskId1;
+        private Name _statusId0;
+        private Name _statusId1;
         private Praxis _p0;
         private Praxis _p1;
         private Comment _comment0_0;
@@ -134,10 +139,12 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             // Now we build two praxises, each with comments, votes,
             // tags, flags, and participants.
             var pt = new PointTotal(2);
+            this._statusId0 = new Name("good");
+            this._statusId1 = new Name("also good");
             this._taskId0 = this._next();
             this._taskId1 = this._next();
-            this._p0 = new Praxis(this._taskId0, pt, new Name("good"));
-            this._p1 = new Praxis(this._taskId1, pt, new Name("also good"));
+            this._p0 = new Praxis(this._taskId0, pt, this._statusId0);
+            this._p1 = new Praxis(this._taskId1, pt, this._statusId1);
             this._praxisRepo.Insert(this._p0);
             this._praxisRepo.Insert(this._p1);
             this._praxisRepo.Save();
@@ -255,6 +262,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             Praxis p = null;
             Assert.Throws<ArgumentNullException>(()=>this._del.Delete(id));
             Assert.Throws<ArgumentNullException>(()=>this._del.Delete(p));
+            this._del.Delete(new Id(10000));
         }
 
         [Test]
@@ -317,6 +325,30 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._present<PraxisParticipant, Id, int>(this._pp0_0, this._ppRepo.GetById);
             this._present<PraxisParticipant, Id, int>(this._pp0_1, this._ppRepo.GetById);
             this._absentt<PraxisParticipant, Id, int>(this._pp1_0, this._ppRepo.GetById);
+        }
+
+        [Test]
+        public void TestDeleteByStatus()
+        {
+            this._del.DeleteByStatus(this._p0.StatusId);
+            this._absentt<Praxis, Id, int>(this._p0, this._praxisRepo.GetById);
+            this._present<Praxis, Id, int>(this._p1, this._praxisRepo.GetById);
+            this._absentt<Comment, Id, int>(this._comment0_0, this._commentRepo.GetById);
+            this._absentt<Comment, Id, int>(this._comment0_1, this._commentRepo.GetById);
+            this._present<Comment, Id, int>(this._comment1_0, this._commentRepo.GetById);
+            this._absentt<Vote, Id, int>(this._vote0_0, this._voteRepo.GetById);
+            this._present<Vote, Id, int>(this._vote1_0, this._voteRepo.GetById);
+            this._present<Vote, Id, int>(this._vote1_1, this._voteRepo.GetById);
+            this._absentt<PraxisTag, Id, int>(this._pTag0_0, this._pTagRepo.GetById);
+            this._absentt<PraxisTag, Id, int>(this._pTag0_1, this._pTagRepo.GetById);
+            this._present<PraxisTag, Id, int>(this._pTag1_0, this._pTagRepo.GetById);
+            this._absentt<PraxisFlag, Id, int>(this._pFlag0_0, this._pFlagRepo.GetById);
+            this._present<PraxisFlag, Id, int>(this._pFlag1_0, this._pFlagRepo.GetById);
+            this._present<PraxisFlag, Id, int>(this._pFlag1_1, this._pFlagRepo.GetById);
+            this._absentt<PraxisParticipant, Id, int>(this._pp0_0, this._ppRepo.GetById);
+            this._absentt<PraxisParticipant, Id, int>(this._pp0_1, this._ppRepo.GetById);
+            this._present<PraxisParticipant, Id, int>(this._pp1_0, this._ppRepo.GetById);
+            this._del.DeleteByStatus(this._p0.StatusId);
         }
 
         [Test]

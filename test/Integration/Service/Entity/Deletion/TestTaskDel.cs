@@ -166,6 +166,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             Id id = null;
             Assert.Throws<ArgumentNullException>(()=>this._del.Delete(t));
             Assert.Throws<ArgumentNullException>(()=>this._del.Delete(id));
+            this._del.Delete(new Id(10000));
         }
 
         [Test]
