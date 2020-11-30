@@ -832,6 +832,17 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
             this._repo.EndTransaction();
             Assert.IsFalse(this._repo.IsTransactionActive());
         }
+
+        [Test]
+        public void TestRedeletingASavedEntity()
+        {
+            this._repo.Insert(this._e);
+            this._repo.Save();
+            this._repo.Delete(this._e.Id);
+            this._repo.Delete(this._e.Id);
+            this._repo.Save();
+            Assert.AreEqual(0, this._repo.Saved.Count());
+        }
     }
 
     [TestFixture]

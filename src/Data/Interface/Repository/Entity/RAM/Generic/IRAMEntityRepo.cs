@@ -802,6 +802,8 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
         private void _deleteSavedStagedEntity(TId id, TEntity saved)
         {
             TEntity staged = this.TEntityCast(this._staged[id]);
+            if (this._staged[id] == null)
+                return;
             W0List<W0Set<object>> stagedRules = staged.GetUniqueRules();
             W0List<W0Set<object>> savedRules = saved.GetUniqueRules();
 
