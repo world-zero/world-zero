@@ -14,9 +14,35 @@ namespace WorldZero.Service.Entity.Deletion.Primary
         protected ICharacterRepo _charRepo
         { get { return (ICharacterRepo) this._otherRepo; } }
 
-        public FactionUnset(IFactionRepo repo, ICharacterRepo charRepo)
+        protected readonly TaskDel _taskDel;
+        protected readonly MetaTaskUnset _mtUnset;
+
+        public FactionUnset(
+            IFactionRepo repo,
+            ICharacterRepo charRepo,
+            TaskDel taskDel,
+            MetaTaskUnset mtUnset
+        )
             : base(repo, charRepo)
-        { }
+        {
+            this.AssertNotNull(taskDel, "taskDel");
+            this.AssertNotNull(mtUnset, "mtUnset");
+
+            this._taskDel = taskDel;
+            this._mtUnset = mtUnset;
+        }
+
+        public override void Delete(Name factionId)
+        {
+            void f(Name name)
+            {
+                this._taskDel.DeleteByFaction(name);
+                this._mtUnset.DeleteByFaction(name);
+                base.Delete(name);
+            }
+
+            this.Transaction<Name>(f, factionId, true);
+        }
 
         public override void Unset(Name factionId)
         {
