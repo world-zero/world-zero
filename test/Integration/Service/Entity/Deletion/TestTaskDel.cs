@@ -56,8 +56,11 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private PraxisDel _praxisDel;
         private TaskDel _del;
 
+        private Faction _faction0;
+        private Faction _faction1;
         private Task _t0;
         private Task _t1;
+        private Task _t2;
         private TaskTag _tTag0_0;
         private TaskTag _tTag0_1;
         private TaskTag _tTag1_0;
@@ -76,12 +79,16 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             var status = new Name("valid");
             var pt = new PointTotal(2);
             var level = new Level(1);
-            this._t0 = new Task(new Name("a"), status, "x", pt, level);
-            this._t1 = new Task(new Name("b"), status, "x", pt, level);
+            this._faction0 = new Faction(new Name("a"));
+            this._faction1 = new Faction(new Name("b"));
+            this._t0 = new Task(this._faction0.Id, status, "x", pt, level);
+            this._t1 = new Task(this._faction0.Id, status, "x", pt, level);
+            this._t2 = new Task(this._faction1.Id, status, "x", pt, level);
 
             this._taskRepo = new RAMTaskRepo();
             this._taskRepo.Insert(this._t0);
             this._taskRepo.Insert(this._t1);
+            this._taskRepo.Insert(this._t2);
             this._taskRepo.Save();
 
             this._taskTagRepo = new RAMTaskTagRepo();
@@ -220,6 +227,35 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._present<TaskFlag, Id, int>(this._tFlag1_1, this._taskFlagRepo.GetById);
             this._present<Praxis, Id, int>(this._praxis1_0, this._praxisRepo.GetById);
             this._present<PraxisParticipant, Id, int>(this._pp1_0, this._ppRepo.GetById);
+        }
+
+        [Test]
+        public void TestDeleteByFactionSad()
+        {
+            Name name = null;
+            Faction faction = null;
+            Assert.Throws<ArgumentNullException>(()=>this._del.DeleteByFaction(name));
+            Assert.Throws<ArgumentNullException>(()=>this._del.DeleteByFaction(faction));
+
+            this._del.DeleteByFaction(new Name("faaaaakeeee 13"));
+        }
+
+        [Test]
+        public void TestDeleteByFaction_faction0()
+        {
+            this._del.DeleteByFaction(this._faction0);
+            this._absentt<Task, Id, int>(this._t0, this._taskRepo.GetById);
+            this._absentt<Task, Id, int>(this._t1, this._taskRepo.GetById);
+            this._present<Task, Id, int>(this._t2, this._taskRepo.GetById);
+        }
+
+        [Test]
+        public void TestDeleteByFaction_faction1()
+        {
+            this._del.DeleteByFaction(this._faction1);
+            this._present<Task, Id, int>(this._t0, this._taskRepo.GetById);
+            this._present<Task, Id, int>(this._t1, this._taskRepo.GetById);
+            this._absentt<Task, Id, int>(this._t2, this._taskRepo.GetById);
         }
 
         [Test]

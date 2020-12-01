@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
@@ -50,6 +51,45 @@ namespace WorldZero.Service.Entity.Deletion.Primary
             }
 
             this.Transaction<Id>(op, taskId);
+        }
+
+        public void DeleteByFaction(Faction f)
+        {
+            this.AssertNotNull(f, "f");
+            this.DeleteByFaction(f.Id);
+        }
+
+        public void DeleteByFaction(Name factionId)
+        {
+            void f(Name factionName)
+            {
+                IEnumerable<Task> tasks;
+                try
+                { tasks = this._taskRepo.GetByFactionId(factionName); }
+                catch (ArgumentException)
+                { return; }
+
+                foreach (Task t in tasks)
+                    this.Delete(t);
+            }
+
+            this.Transaction<Name>(f, factionId, true);
+        }
+
+        public async
+        System.Threading.Tasks.Task DeleteByFactionAsync(Faction f)
+        {
+            this.AssertNotNull(f, "f");
+            await System.Threading.Tasks.Task.Run(() =>
+                this.DeleteByFaction(f));
+        }
+
+        public async
+        System.Threading.Tasks.Task DeleteByFactionAsync(Name factionId)
+        {
+            this.AssertNotNull(factionId, "factionId");
+            await System.Threading.Tasks.Task.Run(() =>
+                this.DeleteByFaction(factionId));
         }
     }
 }
