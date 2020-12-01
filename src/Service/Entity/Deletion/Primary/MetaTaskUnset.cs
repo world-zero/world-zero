@@ -94,5 +94,44 @@ namespace WorldZero.Service.Entity.Deletion.Primary
             catch (ArgumentException e)
             { throw new InvalidOperationException("An error occurred during transaction end.", e); }
         }
+
+        public void DeleteByFaction(Faction f)
+        {
+            this.AssertNotNull(f, "f");
+            this.DeleteByFaction(f.Id);
+        }
+
+        public void DeleteByFaction(Name factionId)
+        {
+            void f(Name factionName)
+            {
+                IEnumerable<MetaTask> mts;
+                try
+                { mts = this._mtRepo.GetByFactionId(factionName); }
+                catch (ArgumentException)
+                { return; }
+
+                foreach (MetaTask mt in mts)
+                    this.Delete(mt);
+            }
+
+            this.Transaction<Name>(f, factionId, true);
+        }
+
+        public async
+        System.Threading.Tasks.Task DeleteByFactionAsync(Faction f)
+        {
+            this.AssertNotNull(f, "f");
+            await System.Threading.Tasks.Task.Run(() =>
+                this.DeleteByFaction(f));
+        }
+
+        public async
+        System.Threading.Tasks.Task DeleteByFactionAsync(Name factionId)
+        {
+            this.AssertNotNull(factionId, "factionId");
+            await System.Threading.Tasks.Task.Run(() =>
+                this.DeleteByFaction(factionId));
+        }
     }
 }
