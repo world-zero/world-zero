@@ -116,23 +116,13 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
 
         public override void Delete(TId id)
         {
-            this.AssertNotNull(id, "id");
-            this.BeginTransaction();
-            try
+            void f(TId id0)
             {
                 base.Delete(id);
                 this.Unset(id);
             }
-            catch (ArgumentException e)
-            {
-                this.DiscardTransaction();
-                throw new ArgumentException("Could not complete the delete, reverting.", e);
-            }
 
-            try
-            { this.EndTransaction(); }
-            catch (ArgumentException e)
-            { throw new InvalidOperationException("An error occurred during transaction end.", e); }
+            this.Transaction<TId>(f, id);
         }
     }
 }
