@@ -8,6 +8,8 @@ using WorldZero.Data.Repository.Entity.RAM.Primary;
 using WorldZero.Service.Entity.Deletion.Primary;
 using WorldZero.Service.Entity.Registration.Primary;
 
+// NOTE: This is the only class that tests `Unset()`.
+
 namespace WorldZero.Test.Integration.Service.Entity.Deletion
 {
     [TestFixture]
