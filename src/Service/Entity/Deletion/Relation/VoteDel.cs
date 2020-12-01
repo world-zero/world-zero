@@ -15,58 +15,58 @@ namespace WorldZero.Service.Entity.Deletion.Relation
             : base(repo)
         { }
 
-        public void DeleteByVotingChar(Character c)
+        public void DeleteByVotingCharacter(Character c)
         {
             this.AssertNotNull(c, "c");
-            this.DeleteByVotingChar(c.Id);
+            this.DeleteByVotingCharacter(c.Id);
         }
 
         public async
-        System.Threading.Tasks.Task DeleteByVotingCharAsync(Character c)
+        System.Threading.Tasks.Task DeleteByVotingCharacterAsync(Character c)
         {
             this.AssertNotNull(c, "c");
             await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByVotingChar(c));
+                this.DeleteByVotingCharacter(c));
         }
 
-        public void DeleteByVotingChar(Id id)
+        public void DeleteByVotingCharacter(Id id)
         {
             this.Transaction<Id>(this._voteRepo.DeleteByVotingCharId, id);
         }
 
         public async
-        System.Threading.Tasks.Task DeleteByVotingCharAsync(Id id)
+        System.Threading.Tasks.Task DeleteByVotingCharacterAsync(Id id)
         {
             this.AssertNotNull(id, "id");
             await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByVotingChar(id));
+                this.DeleteByVotingCharacter(id));
         }
 
-        public void DeleteByReceivingChar(Character c)
+        public void DeleteByReceivingCharacter(Character c)
         {
             this.AssertNotNull(c, "c");
-            this.DeleteByReceivingChar(c.Id);
+            this.DeleteByReceivingCharacter(c.Id);
         }
 
         public async
-        System.Threading.Tasks.Task DeleteByReceivingCharAsync(Character c)
+        System.Threading.Tasks.Task DeleteByReceivingCharacterAsync(Character c)
         {
             this.AssertNotNull(c, "c");
             await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByReceivingChar(c));
+                this.DeleteByReceivingCharacter(c));
         }
 
-        public void DeleteByReceivingChar(Id id)
+        public void DeleteByReceivingCharacter(Id id)
         {
             this.Transaction<Id>(this._voteRepo.DeleteByReceivingCharId, id);
         }
 
         public async
-        System.Threading.Tasks.Task DeleteByReceivingCharAsync(Id id)
+        System.Threading.Tasks.Task DeleteByReceivingCharacterAsync(Id id)
         {
             this.AssertNotNull(id, "id");
             await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByReceivingChar(id));
+                this.DeleteByReceivingCharacter(id));
         }
 
         public void DeleteByPraxis(Praxis p)
