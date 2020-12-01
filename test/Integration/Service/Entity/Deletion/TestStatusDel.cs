@@ -18,7 +18,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
     [TestFixture]
     public class TestStatusDel
     {
-        private int _nxt = 1;
+        private int _nxt = 10000;
         private Id _next() => new Id(this._nxt++);
 
         private void _absentt<TEntity, TId, TBuiltIn>(TEntity e, Func<TId, TEntity> getById)
@@ -206,7 +206,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._absentt<MetaTask, Id, int>(this._mt0, this._mtRepo.GetById);
             this._present<MetaTask, Id, int>(this._mt1, this._mtRepo.GetById);
             this._absentt<Praxis, Id, int>(this._praxis0, this._praxisRepo.GetById);
-            this._absentt<Praxis, Id, int>(this._praxis1, this._praxisRepo.GetById);
+            this._present<Praxis, Id, int>(this._praxis1, this._praxisRepo.GetById);
             this._statusDel.Delete(this._s0);
         }
 

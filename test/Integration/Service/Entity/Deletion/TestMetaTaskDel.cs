@@ -22,7 +22,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
     [TestFixture]
     public class TestMetaTaskDel
     {
-        private int _nxt = 1;
+        private int _nxt = 10000;
         private Id _next() => new Id(this._nxt++);
 
         private void _absentt<TEntity, TId, TBuiltIn>(TEntity e, Func<TId, TEntity> getById)
