@@ -62,7 +62,10 @@ their rules enforced. Repositories will set the ID of a entity (if it is an int)
 on `IEntityRepo<T>.Save()`. Again, since a valid but uninitialized ID is 0,
 repos start counting meaningful IDs at 1.
 
-    - An example of this would be ensuring that `Faction.Name`s are unique.
+    - An example of this would be ensuring that `Faction.Name`s are unique.  
+
+That all said, there is a slight addendum to how entity repositories work. For
+more, check out `backend/EntitesAndRepos.md`.
 
 3. Services are responsible for passing inputs to repos, dealing with any
 responses, performing unit-of-works (which are responsible for enforcing
@@ -80,6 +83,9 @@ grounds of a service class.
 
 ## Exceptions
 
+*I would describe these as a lil bit too exception-happy and restrictive and I
+am sorry.*
+
 Most, if not all, properties will throw `ArgumentException`s on a sad or bad
 path, excluding the `ArgumentNullException` usage. Most, if not all, other
 classes will follow suit. Full disclosure, I regret the degree at which
@@ -91,6 +97,14 @@ fortunately, there are not many cases of this.
 meaning a bug has been found.
 
 ## Style Conventions
+
+First and foremost, this is an open-source and fan-built project. Very few
+people are going to be spending lots of time really digging into this code. As
+a result, it is ***extremely*** recommended to err on the side of descriptive
+and possibly long names for anything not a local variable in a function.
+Additionally, avoid abbreviating function names. This way, we can ensure very
+high readability for all contributers to this project, regardless of their
+knowledge of the project.
 
 When in doubt, default to the suggested conventions by Microsoft. That said,
 this codebase does deviate from a few of these guidelines, and I want to lay
