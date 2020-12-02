@@ -17,19 +17,19 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
     {
         private IVoteRepo _voteRepo;
         private ICharacterRepo _characterRepo;
-        private IPraxisRepo _praxisRepo;
-        private TestEntityRelationReg _registration;
+        private IPraxisParticipantRepo _ppRepo;
+        private TestEntityRelationReg _reg;
 
         [SetUp]
         public void Setup()
         {
             this._voteRepo = new RAMVoteRepo();
             this._characterRepo = new RAMCharacterRepo();
-            this._praxisRepo = new RAMPraxisRepo();
-            this._registration = new TestEntityRelationReg(
+            this._ppRepo = new RAMPraxisParticipantRepo();
+            this._reg = new TestEntityRelationReg(
                 this._voteRepo,
                 this._characterRepo,
-                this._praxisRepo
+                this._ppRepo
             );
         }
 
@@ -51,12 +51,12 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
                 new TestEntityRelationReg(
                     null,
                     this._characterRepo,
-                    this._praxisRepo));
+                    this._ppRepo));
             Assert.Throws<ArgumentNullException>(()=>
                 new TestEntityRelationReg(
                     this._voteRepo,
                     null,
-                    this._praxisRepo));
+                    this._ppRepo));
             Assert.Throws<ArgumentNullException>(()=>
                 new TestEntityRelationReg(
                     this._voteRepo,
@@ -68,33 +68,27 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
         public void TestRegister()
         {
             Assert.Throws<ArgumentNullException>(()=>
-                this._registration.Register(null));
+                this._reg.Register(null));
 
-            var v = new Vote(new Id(1), new Id(1), new Id(5), new PointTotal(4));
+            Vote v = new Vote(new Id(0), new Id(0), new PointTotal(1));
             Assert.Throws<ArgumentException>(()=>
-                this._registration.Register(v));
+                this._reg.Register(v));
 
             var c = new Character(new Name("foo"), new Id(2));
             this._characterRepo.Insert(c);
             this._characterRepo.Save();
+            v.CharacterId = c.Id;
             Assert.Throws<ArgumentException>(()=>
-                this._registration.Register(v));
-            this._characterRepo.Delete(c.Id);
-            this._characterRepo.Save();
+                this._reg.Register(v));
 
-            var p =
-                new Praxis(new Id(2), new PointTotal(40), new Name("Valid"));
-            this._praxisRepo.Insert(p);
-            this._praxisRepo.Save();
-            Assert.Throws<ArgumentException>(()=>
-                this._registration.Register(v));
-            v.PraxisId = p.Id;
+            var pp =
+                new PraxisParticipant(new Id(20), c.Id);
+            this._ppRepo.Insert(pp);
+            this._ppRepo.Save();
+            Assert.Throws<ArgumentException>(()=>this._reg.Register(v));
 
-            var otherC = new Character(new Name("foo"), new Id(2));
-            this._characterRepo.Insert(otherC);
-            this._characterRepo.Save();
-            v.VotingCharacterId = otherC.Id;
-            this._registration.Register(v);
+            v.PraxisParticipantId = pp.Id;
+            this._reg.Register(v);
             Assert.IsTrue(v.IsIdSet());
         }
     }
@@ -106,7 +100,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
             Character,
             Id,
             int,
-            Praxis,
+            PraxisParticipant,
             Id,
             int,
             RelationDTO<Id, int, Id, int>
@@ -115,7 +109,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
         public TestEntityRelationReg(
             IVoteRepo repo,
             ICharacterRepo characterRepo,
-            IPraxisRepo praxisRepo
+            IPraxisParticipantRepo praxisRepo
         )
             : base(repo, characterRepo, praxisRepo)
         { }

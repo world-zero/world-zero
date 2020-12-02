@@ -45,8 +45,6 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private PraxisTagDel _praxisTagDel;
         private IPraxisFlagRepo _praxisFlagRepo;
         private PraxisFlagDel _praxisFlagDel;
-        private IVoteRepo _voteRepo;
-        private VoteDel _voteDel;
         private IPraxisRepo _praxisRepo;
         private IPraxisParticipantRepo _ppRepo;
         private PraxisDel _praxisDel;
@@ -77,15 +75,12 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._praxisTagDel = new PraxisTagDel(this._praxisTagRepo);
             this._praxisFlagRepo = new RAMPraxisFlagRepo();
             this._praxisFlagDel = new PraxisFlagDel(this._praxisFlagRepo);
-            this._voteRepo = new RAMVoteRepo();
-            this._voteDel = new VoteDel(this._voteRepo);
             this._praxisRepo = new RAMPraxisRepo();
             this._ppRepo = new RAMPraxisParticipantRepo();
             this._praxisDel = new PraxisDel(
                 this._praxisRepo,
                 this._ppRepo,
                 this._commentDel,
-                this._voteDel,
                 this._praxisTagDel,
                 this._praxisFlagDel
             );

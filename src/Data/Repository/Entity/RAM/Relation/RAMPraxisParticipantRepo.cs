@@ -24,10 +24,24 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
           >,
           IPraxisParticipantRepo
     {
-        protected override int GetRuleCount()
+        public IEnumerable<PraxisParticipant> GetByPraxisId(Id praxisId)
         {
-            var a = new PraxisParticipant(new Id(3), new Id(2));
-            return a.GetUniqueRules().Count;
+            return this.GetByLeftId(praxisId);
+        }
+
+        public IEnumerable<PraxisParticipant> GetByCharacterId(Id charId)
+        {
+            return this.GetByRightId(charId);
+        }
+
+        public IEnumerable<Id> GetIdsByPraxisId(Id praxisId)
+        {
+            return this.GetIdsByLeftId(praxisId);
+        }
+
+        public IEnumerable<Id> GetIdsByCharacterId(Id charId)
+        {
+            return this.GetIdsByRightId(charId);
         }
 
         public IEnumerable<Id> GetCharIdsByPraxisId(Id praxisId)
@@ -171,6 +185,12 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
         public async Task DeleteByCharacterIdAsync(Id charId)
         {
             this.DeleteByCharacterId(charId);
+        }
+
+        protected override int GetRuleCount()
+        {
+            var a = new PraxisParticipant(new Id(3), new Id(2));
+            return a.GetUniqueRules().Count;
         }
     }
 }

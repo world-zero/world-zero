@@ -19,7 +19,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             Character,
             Id,
             int,
-            Praxis,
+            PraxisParticipant,
             Id,
             int,
             RelationDTO<Id, int, Id, int>
@@ -36,21 +36,21 @@ namespace WorldZero.Service.Entity.Registration.Relation
         protected ICharacterRepo _characterRepo
         { get { return (ICharacterRepo) this._leftRepo; } }
 
-        protected IPraxisRepo _praxisRepo
-        { get { return (IPraxisRepo) this._rightRepo; } }
+        protected IPraxisParticipantRepo _ppRepo
+        { get { return (IPraxisParticipantRepo) this._rightRepo; } }
 
-        protected readonly IPraxisParticipantRepo _praxisPartRepo;
+        protected readonly IPraxisRepo _praxisRepo;
 
         public VoteReg(
             IVoteRepo voteRepo,
             ICharacterRepo characterRepo,
-            IPraxisRepo praxisRepo,
-            IPraxisParticipantRepo praxisParticipantRepo
+            IPraxisParticipantRepo praxisParticipantRepo,
+            IPraxisRepo praxisRepo
         )
-            : base(voteRepo, characterRepo, praxisRepo)
+            : base(voteRepo, characterRepo, praxisParticipantRepo)
         {
-            this.AssertNotNull(praxisParticipantRepo, "praxisParticipantRepo");
-            this._praxisPartRepo = praxisParticipantRepo;
+            this.AssertNotNull(praxisRepo, "praxisRepo");
+            this._praxisRepo = praxisRepo;
         }
 
         /// <remarks>
@@ -64,8 +64,9 @@ namespace WorldZero.Service.Entity.Registration.Relation
             this.AssertNotNull(v, "v");
             this._voteRepo.BeginTransaction(true);
             var votingChar     = this._regGetCharacter(v);
-            var praxis         = this._regGetPraxis(v);
-            var recChar        = this._regGetRecChar(v);
+            var pp             = this._regGetPP(v);
+            var praxis         = this._regGetPraxis(pp);
+            var recChar        = this._regGetRecChar(pp);
             var votersCharsIds = this._regGetVotersCharsIds(votingChar);
             var praxisCharsIds = this._regGetPraxisCharsIds(praxis);
 
@@ -76,10 +77,10 @@ namespace WorldZero.Service.Entity.Registration.Relation
                 throw new ArgumentException("A player is attempting to vote on their own praxis.");
             }
 
-            // Make sure someone isn't voting on a praxis multiple times.
-            var votesCharIds = this._regGetPraxisVoters(v.PraxisId);
+            // Make sure a Player isn't voting on a praxis multiple times.
+            var votesCharIds = this._regGetPraxisVoters(pp);
             if (   (votesCharIds != null)
-                && (votersCharsIds.Intersect(votersCharsIds).Count() != 0) )
+                && (votesCharIds.Intersect(votersCharsIds).Count() != 0) )
             {
                 this._voteRepo.DiscardTransaction();
                 throw new ArgumentException("A player is attempting to revote on a praxis.");
@@ -109,7 +110,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
         {
             try
             {
-                return this._characterRepo.GetById(v.VotingCharacterId);
+                return this._characterRepo.GetById(v.CharacterId);
             }
             catch (ArgumentException)
             {
@@ -118,48 +119,42 @@ namespace WorldZero.Service.Entity.Registration.Relation
             }
         }
 
-        /// <summary>
-        /// Make sure that `v.ReceivingCharacterId` is an actual character and
-        /// that the character is a participant on `v.PraxisId`.
-        /// </summary>
-        private Character _regGetRecChar(Vote v)
-        {
-            // Check that the participant exists.
-            Character c;
-            try
-            {
-                c = this._characterRepo.GetById(v.ReceivingCharacterId);
-            }
-            catch (ArgumentException)
-            {
-                this._voteRepo.DiscardTransaction();
-                throw new ArgumentException("The vote's receiving character does not exist.");
-            }
-
-            // Check that the participant actually participated.
-            var pId = v.PraxisId;
-            var cId = v.ReceivingCharacterId;
-            if (!this._praxisPartRepo.ParticipantCheck(pId, cId))
-            {
-                this._voteRepo.DiscardTransaction();
-                throw new ArgumentException("The supplied vote's receiving character is not a participant of the supplied praxis.");
-            }
-            return c;
-        }
-
-        /// <summary>
-        /// Return the praxis associated with the supplied vote.
-        /// </summary>
-        private Praxis _regGetPraxis(Vote v)
+        private Praxis _regGetPraxis(PraxisParticipant pp)
         {
             try
             {
-                return this._praxisRepo.GetById(v.RightId);
+                return this._praxisRepo.GetById(pp.PraxisId);
             }
             catch (ArgumentException)
             {
                 this._voteRepo.DiscardTransaction();
                 throw new ArgumentException("Could not insert the relation entity as its right ID is not registered with the correct repo.");
+            }
+        }
+
+        private PraxisParticipant _regGetPP(Vote v)
+        {
+            try
+            {
+                return this._ppRepo.GetById(v.PraxisParticipantId);
+            }
+            catch (ArgumentException e)
+            {
+                this.DiscardTransaction();
+                throw new ArgumentException("Could not find the corresponding praxis participant.", e);
+            }
+        }
+
+        private Character _regGetRecChar(PraxisParticipant pp)
+        {
+            try
+            {
+                return this._characterRepo.GetById(pp.CharacterId);
+            }
+            catch (ArgumentException e)
+            {
+                this.DiscardTransaction();
+                throw new ArgumentException("Could not find the receiving character.", e);
             }
         }
 
@@ -185,13 +180,13 @@ namespace WorldZero.Service.Entity.Registration.Relation
         }
 
         /// <summary>
-        /// Return the `Character.Id`s associated with the supplied praxis.
+        /// Return the `Character.Id`s participating on the supplied praxis.
         /// </summary>
         private IEnumerable<Id> _regGetPraxisCharsIds(Praxis praxis)
         {
             try
             {
-                return this._praxisPartRepo.GetCharIdsByPraxisId(praxis.Id);
+                return this._ppRepo.GetCharIdsByPraxisId(praxis.Id);
             }
             catch (ArgumentException)
             {
@@ -201,21 +196,26 @@ namespace WorldZero.Service.Entity.Registration.Relation
         }
 
         /// <summary>
-        /// Return the `Character.Id`s that have voting on `v.PraxisId`. This
-        /// will return null if no one has voted on the praxis before.
+        /// Return the `Character.Id`s of the voters for the related praxis.
+        /// This returns null if there no results.
         /// </summary>
-        private IEnumerable<Id> _regGetPraxisVoters(Id praxisId)
+        /// <remarks>
+        /// This can stand to be optimized - see the code for more.
+        /// </remarks>
+        private List<Id> _regGetPraxisVoters(PraxisParticipant pp)
         {
+            List<Id> voterIds = null;
             try
             {
-                if (this._voteRepo == null)
-                    throw new InvalidOperationException("_voteRepo");
-                return this._voteRepo.GetPraxisVoters(praxisId);
+                // OPTIMIZATION: create a single query instead of these two.
+                var ppIds = this._ppRepo.GetIdsByPraxisId(pp.PraxisId);
+                voterIds = this._voteRepo.GetCharacterIdsByPraxisParticipantIds
+                    (ppIds.ToList()).ToList();
             }
             catch (ArgumentException)
-            {
-                return null;
-            }
+            { }
+
+            return voterIds;
         }
     }
 }

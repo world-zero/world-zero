@@ -32,19 +32,6 @@ namespace WorldZero.Test.Unit.Common.Entity.Relation
         }
 
         [Test]
-        public void TestCantVoteForSelf()
-        {
-            Assert.Throws<ArgumentException>(()=>
-                new Vote(new Id(1), new Id(2), new Id(1), new PointTotal(2)));
-            var v =
-                new Vote(new Id(1), new Id(2), new Id(3), new PointTotal(2));
-            Assert.Throws<ArgumentException>(()=>
-                v.VotingCharacterId = new Id(3));
-            Assert.Throws<ArgumentException>(()=>
-                v.ReceivingCharacterId = new Id(1));
-        }
-
-        [Test]
         public void TestStaticMembers()
         {
             Assert.Throws<ArgumentNullException>(()=>Vote.MinPoints = null);

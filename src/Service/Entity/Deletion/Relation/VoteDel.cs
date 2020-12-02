@@ -6,6 +6,9 @@ using WorldZero.Service.Interface.Entity.Generic.Deletion;
 
 namespace WorldZero.Service.Entity.Deletion.Relation
 {
+    /// <remarks>
+    /// This will not refund the vote points used.
+    /// </remarks>
     public class VoteDel : IEntityDel<Vote, Id, int>
     {
         protected IVoteRepo _voteRepo
@@ -15,85 +18,63 @@ namespace WorldZero.Service.Entity.Deletion.Relation
             : base(repo)
         { }
 
-        public void DeleteByVotingCharacter(Character c)
+        public void DeleteByCharacter(Character c)
         {
             this.AssertNotNull(c, "c");
-            this.DeleteByVotingCharacter(c.Id);
+            this.DeleteByCharacter(c.Id);
         }
 
         public async
-        System.Threading.Tasks.Task DeleteByVotingCharacterAsync(Character c)
+        System.Threading.Tasks.Task DeleteByCharacterAsync(Character c)
         {
             this.AssertNotNull(c, "c");
             await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByVotingCharacter(c));
+                this.DeleteByCharacter(c));
         }
 
-        public void DeleteByVotingCharacter(Id id)
+        public void DeleteByCharacter(Id id)
         {
-            this.Transaction<Id>(this._voteRepo.DeleteByVotingCharId, id);
+            this.Transaction<Id>(this._voteRepo.DeleteByCharacterId, id);
         }
 
         public async
-        System.Threading.Tasks.Task DeleteByVotingCharacterAsync(Id id)
+        System.Threading.Tasks.Task DeleteByCharacterAsync(Id id)
         {
             this.AssertNotNull(id, "id");
             await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByVotingCharacter(id));
+                this.DeleteByCharacter(id));
         }
 
-        public void DeleteByReceivingCharacter(Character c)
+        public void DeleteByPraxisParticipant(PraxisParticipant pp)
         {
-            this.AssertNotNull(c, "c");
-            this.DeleteByReceivingCharacter(c.Id);
+            this.AssertNotNull(pp, "pp");
+            this.DeleteByPraxisParticipant(pp.Id);
         }
 
         public async
-        System.Threading.Tasks.Task DeleteByReceivingCharacterAsync(Character c)
+        System.Threading.Tasks.Task DeleteByPraxisParticipantAsync(
+            PraxisParticipant pp
+        )
         {
-            this.AssertNotNull(c, "c");
+            this.AssertNotNull(pp, "pp");
             await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByReceivingCharacter(c));
+                this.DeleteByPraxisParticipant(pp));
         }
 
-        public void DeleteByReceivingCharacter(Id id)
+        public void DeleteByPraxisParticipant(Id id)
         {
-            this.Transaction<Id>(this._voteRepo.DeleteByReceivingCharId, id);
+            this.Transaction<Id>(
+                this._voteRepo.DeleteByPraxisParticipantId,
+                id
+            );
         }
 
         public async
-        System.Threading.Tasks.Task DeleteByReceivingCharacterAsync(Id id)
+        System.Threading.Tasks.Task DeleteByPraxisParticipantAsync(Id id)
         {
             this.AssertNotNull(id, "id");
             await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByReceivingCharacter(id));
-        }
-
-        public void DeleteByPraxis(Praxis p)
-        {
-            this.AssertNotNull(p, "p");
-            this.DeleteByPraxis(p.Id);
-        }
-
-        public async
-        System.Threading.Tasks.Task DeleteByPraxisAsync(Praxis p)
-        {
-            this.AssertNotNull(p, "p");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByPraxis(p));
-        }
-
-        public void DeleteByPraxis(Id id)
-        {
-            this.Transaction<Id>(this._voteRepo.DeleteByPraxisId, id);
-        }
-
-        public async
-        System.Threading.Tasks.Task DeleteByPraxisAsync(Id id)
-        {
-            this.AssertNotNull(id, "id");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByPraxis(id));
+                this.DeleteByPraxisParticipant(id));
         }
     }
 }

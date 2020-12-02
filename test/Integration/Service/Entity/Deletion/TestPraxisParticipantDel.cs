@@ -12,14 +12,18 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
     [TestFixture]
     public class TestPraxisParticipatDel
     {
+        private RAMVoteRepo _voteRepo;
+        private VoteDel _voteDel;
         private RAMPraxisParticipantRepo _repo;
         private PraxisParticipantDel _del;
 
         [SetUp]
         public void Setup()
         {
+            this._voteRepo = new RAMVoteRepo();
+            this._voteDel = new VoteDel(this._voteRepo);
             this._repo = new RAMPraxisParticipantRepo();
-            this._del = new PraxisParticipantDel(this._repo);
+            this._del = new PraxisParticipantDel(this._repo, this._voteDel);
         }
 
         [TearDown]
@@ -37,7 +41,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestConstructor()
         {
             Assert.Throws<ArgumentNullException>(()=>
-                new PraxisParticipantDel(null));
+                new PraxisParticipantDel(null, this._voteDel));
+            Assert.Throws<ArgumentNullException>(()=>
+                new PraxisParticipantDel(this._repo, null));
         }
 
         [Test]
@@ -61,8 +67,36 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._repo.Insert(ppY);
             this._repo.Save();
             this._del.Delete(ppX.Id);
-            Assert.AreEqual(ppY.Id, this._repo.GetById(ppY.Id).Id);
             Assert.Throws<ArgumentException>(()=>this._repo.GetById(ppX.Id));
+            Assert.AreEqual(ppY.Id, this._repo.GetById(ppY.Id).Id);
+        }
+
+        [Test]
+        public void TestDeleteWithVotes()
+        {
+            var ppX = new PraxisParticipant(new Id(10), new Id(10));
+            this._repo.Insert(ppX);
+            this._repo.Save();
+            var ppY = new PraxisParticipant(new Id(10), new Id(11));
+            this._repo.Insert(ppY);
+            this._repo.Save();
+
+            var voteX0 = new Vote(new Id(1000), ppX.Id, new PointTotal(2));
+            var voteX1 = new Vote(new Id(3200), ppX.Id, new PointTotal(2));
+            var voteY0 = new Vote(new Id(1003), ppY.Id, new PointTotal(2));
+            this._voteRepo.Insert(voteX0);
+            this._voteRepo.Insert(voteX1);
+            this._voteRepo.Insert(voteY0);
+            this._voteRepo.Save();
+
+            this._del.Delete(ppX.Id);
+            Assert.Throws<ArgumentException>(()=>this._repo.GetById(ppX.Id));
+            Assert.Throws<ArgumentException>(()=>
+                this._voteRepo.GetById(voteX0.Id));
+            Assert.Throws<ArgumentException>(()=>
+                this._voteRepo.GetById(voteX1.Id));
+            Assert.AreEqual(ppY.Id, this._repo.GetById(ppY.Id).Id);
+            Assert.AreEqual(voteY0.Id, this._voteRepo.GetById(voteY0.Id).Id);
         }
 
         [Test]

@@ -15,6 +15,8 @@ namespace WorldZero.Service.Entity.Registration.Relation
     /// <remarks>
     /// A Praxis should always have at least one participant.
     /// <br />
+    /// This class will ensure that a duel is between two characters.
+    /// <br />
     /// This will ensure that one Player is not having several of their
     /// characters participating on the same praxis.
     /// <br />

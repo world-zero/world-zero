@@ -14,6 +14,10 @@ namespace WorldZero.Service.Entity.Deletion.Relation
     /// A Praxis should always have at least one participant. As a result,
     /// these methods will throw an exception if they are going to remove a
     /// praxis' final participant.
+    /// <br />
+    /// This will also delete the participant's received votes. Whether or not
+    /// the voting character will receive a refund is up to <see
+    /// cref="VoteDel"/>.
     /// </remarks>
     public class PraxisParticipantDel : IEntityRelationCntDel
     <
@@ -30,9 +34,17 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         protected IPraxisParticipantRepo _ppRepo
         { get { return (IPraxisParticipantRepo) this._relRepo; } }
 
-        public PraxisParticipantDel(IPraxisParticipantRepo repo)
+        protected readonly VoteDel _voteDel;
+
+        public PraxisParticipantDel(
+            IPraxisParticipantRepo repo,
+            VoteDel voteDel
+        )
             : base(repo)
-        { }
+        {
+            this.AssertNotNull(voteDel, "voteDel");
+            this._voteDel = voteDel;
+        }
 
         public void DeleteByPraxis(Praxis p)
         {
@@ -94,6 +106,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
                     this._ppRepo.GetParticipantCountViaPPId(ppId) - 1;
                 if (endCount < 1)
                     throw new ArgumentException($"Could not finish deletion, it would leave no participants on praxis {ppId.Get}.");
+                this._voteDel.DeleteByPraxisParticipant(ppId);
                 base.Delete(id0);
             }
             this.Transaction<Id>(f, ppId, true);

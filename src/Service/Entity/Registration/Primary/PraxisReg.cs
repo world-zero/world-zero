@@ -18,6 +18,8 @@ namespace WorldZero.Service.Entity.Registration.Primary
     /// participant - both PraxisReg and PraxisParticipantReg really
     /// rely on this fact.
     /// <br />
+    /// This class will ensure that a duel is between two characters.
+    /// <br />
     /// A praxis can only be registered if it is Active or In Progress.
     /// <br />
     /// A praxis can only be registered if it has an Active task associated
@@ -103,7 +105,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
             try
             {
                 Task t = this._verifyTask(p);
-                MetaTask mt = this._verifyMetaTask(p);
+                MetaTask mt = this._verifyMetaTask(p); // TODO: this method
                 this._praxisRepo.Insert(p);
                 this._praxisRepo.Save();
                 foreach (PraxisParticipant pp in pps)
@@ -146,6 +148,8 @@ namespace WorldZero.Service.Entity.Registration.Primary
             return t;
         }
 
+        // TODO: this should also take pps, make sure that the mt and faction match,
+        //      make sure that every pp has that faction
         /// <remarks>
         /// A `MetaTask` is not required for a `Praxis`, so this can return
         /// `null`.

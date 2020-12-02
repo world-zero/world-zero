@@ -8,17 +8,16 @@ namespace WorldZero.Common.Entity.Relation
 {
     /// <summary>
     /// This relation applies a vote from the supplied character to the
-    /// corresponding praxis.
+    /// corresponding praxis participant.
     /// <br />
-    /// Left relation: `VotingCharacterId`
+    /// Left relation: `CharacterId` of the character submitting the vote.
     /// <br />
-    /// Right relation: `PraxisId`
+    /// Right relation: `PraxisParticipantId`
     /// </summary>
     /// <remarks>
     /// While making sure that a player isn't voting on their own character
     /// requires knowing all of the player's character IDs, which is firmly the
-    /// responsiblity of VoteReg, this can perform a basic check to ensure that
-    /// a character isn't voting for themself.
+    /// responsiblity of VoteReg.
     /// </remarks>
     public class Vote : IIdIdRelation
     {
@@ -59,119 +58,82 @@ namespace WorldZero.Common.Entity.Relation
         private static PointTotal _maxPoints = new PointTotal(5);
 
         /// <summary>
-        /// This is the character that is receiving the vote points.
+        /// CharacterId is a wrapper for LeftId.
         /// </summary>
-        /// <remarks>
-        /// This will not allow a character to vote for themself.
-        /// </remarks>
-        public Id ReceivingCharacterId
-        {
-            get { return this._receivingCharacterId; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("ReceivingCharacterId");
-                if (   (this.VotingCharacterId != null)
-                    && (value == this.VotingCharacterId)   )
-                {
-                    throw new ArgumentException("A character cannot vote for themself.");
-                }
-                this._receivingCharacterId = value;
-            }
-        }
-        private Id _receivingCharacterId;
-
-        /// <summary>
-        /// VotingCharacterId is a wrapper for LeftId.
-        /// </summary>
-        /// <remarks>
-        /// This will not allow a character to vote for themself.
-        /// </remarks>
-        public Id VotingCharacterId
+        public Id CharacterId
         {
             get { return this.LeftId; }
             set
             {
                 if (value == null)
                     throw new ArgumentException("VotingCharacterId");
-                if (   (this.ReceivingCharacterId != null)
-                    && (value == this.ReceivingCharacterId)   )
-                {
-                    throw new ArgumentException("A character cannot vote for themself.");
-                }
                 this.LeftId = value;
             }
         }
 
         /// <summary>
-        /// PraxisId is a wrapper for RightId.
+        /// PraxisParticipantId is a wrapper for RightId.
         /// </summary>
-        public Id PraxisId
+        public Id PraxisParticipantId
         {
             get { return this.RightId; }
             set { this.RightId = value; }
         }
 
         public Vote(
-            Id votingCharacterId,
-            Id praxisId,
-            Id receivingCharacterId,
+            Id characterId,
+            Id praxisParticipantId,
             PointTotal points
         )
-            : base(votingCharacterId, praxisId)
+            : base(characterId, praxisParticipantId)
         {
-            this.ReceivingCharacterId = receivingCharacterId;
             this.Points = points;
         }
 
         public Vote(
             Id id,
-            Id votingCharacterId,
-            Id praxisId,
-            Id receivingCharacterId,
+            Id characterId,
+            Id praxisParticipantId,
             PointTotal points
         )
-            : base(id, votingCharacterId, praxisId)
+            : base(id, characterId, praxisParticipantId)
         {
-            this.ReceivingCharacterId = receivingCharacterId;
             this.Points = points;
         }
 
         public Vote(
             RelationDTO<Id, int, Id, int> dto,
-            Id receivingCharacterId,
             PointTotal points
         )
             : base(dto.LeftId, dto.RightId)
         {
-            this.ReceivingCharacterId = receivingCharacterId;
             this.Points = points;
         }
 
         public Vote(
             Id id,
             RelationDTO<Id, int, Id, int> dto,
-            Id receivingCharacterId,
             PointTotal points
         )
             : base(id, dto.LeftId, dto.RightId)
         {
-            this.ReceivingCharacterId = receivingCharacterId;
             this.Points = points;
         }
 
         internal Vote(
             int id,
-            int votingCharacterId,
-            int praxisId,
-            int receivingCharacterId,
+            int characterId,
+            int praxisParticipantId,
             int points
         )
-            : base(new Id(id), new Id(votingCharacterId), new Id(praxisId))
+            : base(
+                new Id(id),
+                new Id(characterId),
+                new Id(praxisParticipantId)
+            )
         {
             try
             {
-                this.ReceivingCharacterId = new Id(receivingCharacterId);
                 this.Points = new PointTotal(points);
             }
             catch (ArgumentException)
@@ -186,7 +148,6 @@ namespace WorldZero.Common.Entity.Relation
                 this.Id,
                 this.LeftId,
                 this.RightId,
-                this.ReceivingCharacterId,
                 this.Points
             );
         }

@@ -19,6 +19,23 @@ namespace WorldZero.Data.Interface.Repository.Entity.Relation
             CntRelationDTO<Id, int, Id, int>
           >
     {
+        IEnumerable<PraxisParticipant> GetByPraxisId(Id praxisId);
+        IEnumerable<PraxisParticipant> GetByCharacterId(Id characterId);
+
+        /// <summary>
+        /// Get a collection of PraxisParticipant IDs that are participants of
+        /// the supplied praxis ID. If there are none, then an exception is
+        /// thrown.
+        /// </summary>
+        IEnumerable<Id> GetIdsByPraxisId(Id praxisId);
+
+        /// <summary>
+        /// Get a collection of PraxisParticipant IDs that are participants of
+        /// the supplied character ID. If there are none, then an exception is
+        /// thrown.
+        /// </summary>
+        IEnumerable<Id> GetIdsByCharacterId(Id characterId);
+
         /// <summary>
         /// Get a collection of saved PraxisParticipant.CharacterId's that have
         /// the supplied PraxisId. If there are none, then an exception is thrown.
@@ -55,7 +72,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.Relation
         /// Basically, this is an iterable version (that takes a character ID)
         /// of <see cref="WorldZero.Data.Interface.Repository.Entity.Relation.IPraxisParticipantRepo.GetParticipantCountViaPraxisId(Id)"/>.
         /// </remarks>
-        IEnumerable<CountingDTO<Id>> GetParticipantCountsViaCharId(Id charId);
+        IEnumerable<CountingDTO<Id>> GetParticipantCountsViaCharId(Id characterId);
 
         /// <summary>
         /// This returns an iterable of `CountingDTO`s, where each DTO's
@@ -79,7 +96,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.Relation
         /// <summary>
         /// `Delete()` all PraxisParticipants with the supplied character ID.
         /// </summary>
-        void DeleteByCharacterId(Id charId);
-        Task DeleteByCharacterIdAsync(Id charId);
+        void DeleteByCharacterId(Id characterId);
+        Task DeleteByCharacterIdAsync(Id characterId);
     }
 }

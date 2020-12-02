@@ -19,27 +19,35 @@ namespace WorldZero.Data.Interface.Repository.Entity.Relation
           >
     {
         /// <summary>
-        /// Get a collection of saved character IDs that have voted on the
-        /// supplied praxis. If there are none, then an exception is thrown.
+        /// Get a collection of Vote IDs that have a matching character ID. If
+        /// there are none, then an exception is thrown.
         /// </summary>
-        IEnumerable<Id> GetPraxisVoters(Id praxisId);
+        IEnumerable<Id> GetIdsByCharacterId(Id charId);
+
+        /// <summary>
+        /// Get a collection of Vote IDs that have a matching praxis
+        /// participant ID. If there are none, then an exception is thrown.
+        /// </summary>
+        IEnumerable<Id> GetIdsByPraxisParticipantId(Id ppId);
+
+        /// <summary>
+        /// Get a collection of Character IDs that have a matching praxis
+        /// participant ID with any ID in the supplied list. If there are none
+        /// or the list is empty, then an exception is thrown.
+        /// </summary>
+        IEnumerable<Id> GetCharacterIdsByPraxisParticipantIds(List<Id> ppIds);
 
         /// <summary>
         /// `Delete()` all votes submitted by the supplied character ID. 
         /// </summary>
-        void DeleteByVotingCharId(Id charId);
-        Task DeleteByVotingCharIdAsync(Id charId);
+        void DeleteByCharacterId(Id charId);
+        Task DeleteByCharacterIdAsync(Id charId);
 
         /// <summary>
-        /// `Delete()` all votes received by the supplied character ID. 
+        /// `Delete()` all votes associated with the supplied praxis
+        /// participant ID. 
         /// </summary>
-        void DeleteByReceivingCharId(Id charId);
-        Task DeleteByReceivingCharIdAsync(Id charId);
-
-        /// <summary>
-        /// `Delete()` all votes associated with the supplied praxis ID. 
-        /// </summary>
-        void DeleteByPraxisId(Id praxisId);
-        Task DeleteByPraxisIdAsync(Id praxisId);
+        void DeleteByPraxisParticipantId(Id praxisId);
+        Task DeleteByPraxisParticipantIdAsync(Id praxisId);
     }
 }

@@ -23,6 +23,45 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
           >,
           IVoteRepo
     {
+        public IEnumerable<Id> GetIdsByCharacterId(Id charId)
+        {
+            return this.GetIdsByLeftId(charId);
+        }
+
+        public IEnumerable<Id> GetIdsByPraxisParticipantId(Id ppId)
+        {
+            return this.GetIdsByRightId(ppId);
+        }
+
+        public
+        IEnumerable<Id> GetCharacterIdsByPraxisParticipantIds(List<Id> ppIds)
+        {
+            if (ppIds == null)
+                throw new ArgumentNullException("praxisParticipantIds");
+
+            if (ppIds.Count == 0)
+                throw new ArgumentException("There are no supplied IDs.");
+
+            var results = new List<Id>();
+            foreach (Id ppId in ppIds)
+            {
+                try
+                {
+                    foreach (Id id in this.GetIdsByPraxisParticipantId(ppId))
+                    {
+                        results.Add(this.GetById(id).CharacterId);
+                    }
+                }
+                catch (ArgumentException)
+                { }
+            }
+
+            if (results.Count == 0)
+                throw new ArgumentException("There are no IDs returned for the supplied IDs.");
+
+            return results;
+        }
+
         protected override int GetRuleCount()
         {
             var a =
@@ -30,61 +69,24 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
             return a.GetUniqueRules().Count;
         }
 
-        public IEnumerable<Id> GetPraxisVoters(Id praxisId)
-        {
-            if (praxisId == null)
-                throw new ArgumentNullException("playerId");
-
-            IEnumerable<Id> charIds =
-                from voteTemp in this._saved.Values
-                let vote = this.TEntityCast(voteTemp)
-                where vote.PraxisId == praxisId
-                select vote.VotingCharacterId;
-
-            if (charIds.Count() == 0)
-                throw new ArgumentException($"There are no characters associated with PraxisId of {praxisId.Get}");
-            else
-                return charIds;
-        }
-
-        public void DeleteByVotingCharId(Id charId)
+        public void DeleteByCharacterId(Id charId)
         {
             this.DeleteByLeftId(charId);
         }
 
-        public async Task DeleteByVotingCharIdAsync(Id charId)
+        public async Task DeleteByCharacterIdAsync(Id charId)
         {
-            this.DeleteByVotingCharId(charId);
+            this.DeleteByCharacterId(charId);
         }
 
-        public void DeleteByPraxisId(Id praxisId)
+        public void DeleteByPraxisParticipantId(Id praxisId)
         {
             this.DeleteByRightId(praxisId);
         }
 
-        public async Task DeleteByPraxisIdAsync(Id praxisId)
+        public async Task DeleteByPraxisParticipantIdAsync(Id praxisId)
         {
-            this.DeleteByPraxisId(praxisId);
-        }
-
-        public void DeleteByReceivingCharId(Id charId)
-        {
-            if (charId == null)
-                throw new ArgumentNullException("playerId");
-
-            IEnumerable<Id> charIds =
-                from voteTemp in this._saved.Values
-                let vote = this.TEntityCast(voteTemp)
-                where vote.ReceivingCharacterId == charId
-                select vote.Id;
-
-            foreach (Id id in charIds)
-                this.Delete(id);
-        }
-
-        public async Task DeleteByReceivingCharIdAsync(Id charId)
-        {
-            this.DeleteByReceivingCharId(charId);
+            this.DeleteByPraxisParticipantId(praxisId);
         }
     }
 }

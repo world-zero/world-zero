@@ -13,11 +13,14 @@ namespace WorldZero.Service.Entity.Deletion.Primary
 {
     /// <inheritdoc cref="IEntityDel"/>
     /// <summary>
-    /// As you migh expect, deleting a praxis will delete the Comments, Votes,
-    /// Tags, Flags, and Participants on that praxis. The points used for the
-    /// votes will not be refunded.
+    /// As you migh expect, deleting a praxis will delete the Comments, Tags,
+    /// Flags, and Participants (and Votes by extension) on that praxis.
     /// </summary>
     /// <remarks>
+    /// This will also delete the participant's received votes. Whether or not
+    /// the voting character will receive a refund is up to <see
+    /// cref="VoteDel"/>.
+    /// <br />
     /// Dev note: shockingly, deleting a praxis has no special logic outside of
     /// cascading the deletion.
     /// </remarks>
@@ -28,7 +31,6 @@ namespace WorldZero.Service.Entity.Deletion.Primary
 
         protected readonly IPraxisParticipantRepo _ppRepo;
         protected readonly CommentDel _commentDel;
-        protected readonly VoteDel _voteDel;
         protected readonly PraxisTagDel _praxisTagDel;
         protected readonly PraxisFlagDel _praxisFlagDel;
 
@@ -36,7 +38,6 @@ namespace WorldZero.Service.Entity.Deletion.Primary
             IPraxisRepo praxisRepo,
             IPraxisParticipantRepo ppRepo,
             CommentDel commentDel,
-            VoteDel voteDel,
             PraxisTagDel praxisTagDel,
             PraxisFlagDel praxisFlagDel
         )
@@ -44,13 +45,11 @@ namespace WorldZero.Service.Entity.Deletion.Primary
         {
             this.AssertNotNull(ppRepo, "ppRepo");
             this.AssertNotNull(commentDel, "commentDel");
-            this.AssertNotNull(voteDel, "voteDel");
             this.AssertNotNull(praxisTagDel, "praxisTagDel");
             this.AssertNotNull(praxisFlagDel, "praxisFlagDel");
 
             this._ppRepo = ppRepo;
             this._commentDel = commentDel;
-            this._voteDel = voteDel;
             this._praxisTagDel = praxisTagDel;
             this._praxisFlagDel = praxisFlagDel;
         }
@@ -59,9 +58,8 @@ namespace WorldZero.Service.Entity.Deletion.Primary
         {
             void op(Id praxisId0)
             {
-                this._ppRepo.DeleteByPraxisId(praxisId0);
                 this._commentDel.DeleteByPraxis(praxisId0);
-                this._voteDel.DeleteByPraxis(praxisId0);
+                this._ppRepo.DeleteByPraxisId(praxisId0);
                 this._praxisTagDel.DeleteByPraxis(praxisId);
                 this._praxisFlagDel.DeleteByPraxis(praxisId);
                 base.Delete(praxisId0);

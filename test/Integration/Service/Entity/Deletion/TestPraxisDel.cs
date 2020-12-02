@@ -45,9 +45,6 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._absentt<Comment, Id, int>(this._comment0_0, this._commentRepo.GetById);
             this._absentt<Comment, Id, int>(this._comment0_1, this._commentRepo.GetById);
             this._absentt<Comment, Id, int>(this._comment1_0, this._commentRepo.GetById);
-            this._absentt<Vote, Id, int>(this._vote0_0, this._voteRepo.GetById);
-            this._absentt<Vote, Id, int>(this._vote1_0, this._voteRepo.GetById);
-            this._absentt<Vote, Id, int>(this._vote1_1, this._voteRepo.GetById);
             this._absentt<PraxisTag, Id, int>(this._pTag0_0, this._pTagRepo.GetById);
             this._absentt<PraxisTag, Id, int>(this._pTag0_1, this._pTagRepo.GetById);
             this._absentt<PraxisTag, Id, int>(this._pTag1_0, this._pTagRepo.GetById);
@@ -66,9 +63,6 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._present<Comment, Id, int>(this._comment0_0, this._commentRepo.GetById);
             this._present<Comment, Id, int>(this._comment0_1, this._commentRepo.GetById);
             this._present<Comment, Id, int>(this._comment1_0, this._commentRepo.GetById);
-            this._present<Vote, Id, int>(this._vote0_0, this._voteRepo.GetById);
-            this._present<Vote, Id, int>(this._vote1_0, this._voteRepo.GetById);
-            this._present<Vote, Id, int>(this._vote1_1, this._voteRepo.GetById);
             this._present<PraxisTag, Id, int>(this._pTag0_0, this._pTagRepo.GetById);
             this._present<PraxisTag, Id, int>(this._pTag0_1, this._pTagRepo.GetById);
             this._present<PraxisTag, Id, int>(this._pTag1_0, this._pTagRepo.GetById);
@@ -101,9 +95,6 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private Comment _comment0_0;
         private Comment _comment0_1;
         private Comment _comment1_0;
-        private Vote _vote0_0;
-        private Vote _vote1_0;
-        private Vote _vote1_1;
         private PraxisTag _pTag0_0;
         private PraxisTag _pTag0_1;
         private PraxisTag _pTag1_0;
@@ -121,8 +112,6 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._ppRepo = new RAMPraxisParticipantRepo();;
             this._commentRepo = new RAMCommentRepo();;
             this._commentDel = new CommentDel(this._commentRepo);
-            this._voteRepo = new RAMVoteRepo();
-            this._voteDel = new VoteDel(this._voteRepo);
             this._pTagRepo = new RAMPraxisTagRepo();
             this._pTagDel = new PraxisTagDel(this._pTagRepo);
             this._pFlagRepo = new RAMPraxisFlagRepo();
@@ -131,7 +120,6 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
                 this._praxisRepo,
                 this._ppRepo,
                 this._commentDel,
-                this._voteDel,
                 this._pTagDel,
                 this._pFlagDel
             );
@@ -156,13 +144,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._commentRepo.Insert(this._comment1_0);
             this._commentRepo.Save();
 
-            this._vote0_0 = new Vote(this._next(), this._p0.Id, this._next(), pt);
-            this._vote1_0 = new Vote(this._next(), this._p1.Id, this._next(), pt);
-            this._vote1_1 = new Vote(this._next(), this._p1.Id, this._next(), pt);
-            this._voteRepo.Insert(this._vote0_0);
-            this._voteRepo.Insert(this._vote1_0);
-            this._voteRepo.Insert(this._vote1_1);
-            this._voteRepo.Save();
+            this._voteRepo = new RAMVoteRepo();
+            this._voteDel = new VoteDel(this._voteRepo);
 
             this._pTag0_0 = new PraxisTag(this._p0.Id, new Name("#lit"));
             this._pTag0_1 = new PraxisTag(this._p0.Id, new Name("#pog"));
@@ -210,9 +193,6 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._absentt<Comment, Id, int>(this._comment0_0, this._commentRepo.GetById);
             this._absentt<Comment, Id, int>(this._comment0_1, this._commentRepo.GetById);
             this._present<Comment, Id, int>(this._comment1_0, this._commentRepo.GetById);
-            this._absentt<Vote, Id, int>(this._vote0_0, this._voteRepo.GetById);
-            this._present<Vote, Id, int>(this._vote1_0, this._voteRepo.GetById);
-            this._present<Vote, Id, int>(this._vote1_1, this._voteRepo.GetById);
             this._absentt<PraxisTag, Id, int>(this._pTag0_0, this._pTagRepo.GetById);
             this._absentt<PraxisTag, Id, int>(this._pTag0_1, this._pTagRepo.GetById);
             this._present<PraxisTag, Id, int>(this._pTag1_0, this._pTagRepo.GetById);
@@ -233,9 +213,6 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._present<Comment, Id, int>(this._comment0_0, this._commentRepo.GetById);
             this._present<Comment, Id, int>(this._comment0_1, this._commentRepo.GetById);
             this._absentt<Comment, Id, int>(this._comment1_0, this._commentRepo.GetById);
-            this._present<Vote, Id, int>(this._vote0_0, this._voteRepo.GetById);
-            this._absentt<Vote, Id, int>(this._vote1_0, this._voteRepo.GetById);
-            this._absentt<Vote, Id, int>(this._vote1_1, this._voteRepo.GetById);
             this._present<PraxisTag, Id, int>(this._pTag0_0, this._pTagRepo.GetById);
             this._present<PraxisTag, Id, int>(this._pTag0_1, this._pTagRepo.GetById);
             this._absentt<PraxisTag, Id, int>(this._pTag1_0, this._pTagRepo.GetById);
@@ -290,9 +267,6 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._absentt<Comment, Id, int>(this._comment0_0, this._commentRepo.GetById);
             this._absentt<Comment, Id, int>(this._comment0_1, this._commentRepo.GetById);
             this._present<Comment, Id, int>(this._comment1_0, this._commentRepo.GetById);
-            this._absentt<Vote, Id, int>(this._vote0_0, this._voteRepo.GetById);
-            this._present<Vote, Id, int>(this._vote1_0, this._voteRepo.GetById);
-            this._present<Vote, Id, int>(this._vote1_1, this._voteRepo.GetById);
             this._absentt<PraxisTag, Id, int>(this._pTag0_0, this._pTagRepo.GetById);
             this._absentt<PraxisTag, Id, int>(this._pTag0_1, this._pTagRepo.GetById);
             this._present<PraxisTag, Id, int>(this._pTag1_0, this._pTagRepo.GetById);
@@ -313,9 +287,6 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._present<Comment, Id, int>(this._comment0_0, this._commentRepo.GetById);
             this._present<Comment, Id, int>(this._comment0_1, this._commentRepo.GetById);
             this._absentt<Comment, Id, int>(this._comment1_0, this._commentRepo.GetById);
-            this._present<Vote, Id, int>(this._vote0_0, this._voteRepo.GetById);
-            this._absentt<Vote, Id, int>(this._vote1_0, this._voteRepo.GetById);
-            this._absentt<Vote, Id, int>(this._vote1_1, this._voteRepo.GetById);
             this._present<PraxisTag, Id, int>(this._pTag0_0, this._pTagRepo.GetById);
             this._present<PraxisTag, Id, int>(this._pTag0_1, this._pTagRepo.GetById);
             this._absentt<PraxisTag, Id, int>(this._pTag1_0, this._pTagRepo.GetById);
@@ -336,9 +307,6 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._absentt<Comment, Id, int>(this._comment0_0, this._commentRepo.GetById);
             this._absentt<Comment, Id, int>(this._comment0_1, this._commentRepo.GetById);
             this._present<Comment, Id, int>(this._comment1_0, this._commentRepo.GetById);
-            this._absentt<Vote, Id, int>(this._vote0_0, this._voteRepo.GetById);
-            this._present<Vote, Id, int>(this._vote1_0, this._voteRepo.GetById);
-            this._present<Vote, Id, int>(this._vote1_1, this._voteRepo.GetById);
             this._absentt<PraxisTag, Id, int>(this._pTag0_0, this._pTagRepo.GetById);
             this._absentt<PraxisTag, Id, int>(this._pTag0_1, this._pTagRepo.GetById);
             this._present<PraxisTag, Id, int>(this._pTag1_0, this._pTagRepo.GetById);
@@ -358,12 +326,10 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
                 this._praxisRepo,
                 this._ppRepo,
                 this._commentDel,
-                this._voteDel,
                 this._pTagDel,
                 this._pFlagDel
             );
             Assert.Throws<ArgumentNullException>(()=>new PraxisDel(
-                null,
                 null,
                 null,
                 null,
@@ -374,7 +340,6 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
                 null,
                 this._ppRepo,
                 this._commentDel,
-                this._voteDel,
                 this._pTagDel,
                 this._pFlagDel
             ));
@@ -382,22 +347,12 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
                 this._praxisRepo,
                 null,
                 this._commentDel,
-                this._voteDel,
                 this._pTagDel,
                 this._pFlagDel
             ));
             Assert.Throws<ArgumentNullException>(()=>new PraxisDel(
                 this._praxisRepo,
                 this._ppRepo,
-                null,
-                this._voteDel,
-                this._pTagDel,
-                this._pFlagDel
-            ));
-            Assert.Throws<ArgumentNullException>(()=>new PraxisDel(
-                this._praxisRepo,
-                this._ppRepo,
-                this._commentDel,
                 null,
                 this._pTagDel,
                 this._pFlagDel
@@ -406,7 +361,6 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
                 this._praxisRepo,
                 this._ppRepo,
                 this._commentDel,
-                this._voteDel,
                 null,
                 this._pFlagDel
             ));
@@ -414,7 +368,6 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
                 this._praxisRepo,
                 this._ppRepo,
                 this._commentDel,
-                this._voteDel,
                 this._pTagDel,
                 null
             ));
