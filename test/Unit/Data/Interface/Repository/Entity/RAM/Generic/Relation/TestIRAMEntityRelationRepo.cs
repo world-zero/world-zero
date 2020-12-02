@@ -90,6 +90,36 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
         }
 
         [Test]
+        public void TestGetIdsByLeftId()
+        {
+            Assert.Throws<ArgumentNullException>(
+                ()=>this._repo.GetIdsByLeftId(null).FirstOrDefault());
+            Assert.Throws<ArgumentException>(
+                ()=>this._repo.GetIdsByLeftId(new Id(90000000)).FirstOrDefault());
+
+            var expected = new HashSet<Id>();
+            expected.Add(this._pp0.Id);
+            expected.Add(this._pp2.Id);
+            var results = this._repo.GetIdsByLeftId(this._id0).ToHashSet();
+            Assert.AreEqual(expected, results);
+        }
+
+        [Test]
+        public void TestGetIdsByRightId()
+        {
+            Assert.Throws<ArgumentNullException>(
+                ()=>this._repo.GetIdsByRightId(null).FirstOrDefault());
+            Assert.Throws<ArgumentException>(()=>
+                this._repo.GetIdsByRightId(new Id(90000000)).FirstOrDefault());
+
+            var expected = new HashSet<Id>();
+            expected.Add(this._pp1.Id);
+            expected.Add(this._pp2.Id);
+            var results = this._repo.GetIdsByRightId(this._id3).ToHashSet();
+            Assert.AreEqual(expected, results);
+        }
+
+        [Test]
         public void TestGetByDTO()
         {
             this._assertPraxisParticipantsEqual(

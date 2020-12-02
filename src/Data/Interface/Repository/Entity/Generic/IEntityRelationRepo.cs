@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WorldZero.Common.Interface.Entity.Generic.Relation;
 using WorldZero.Common.Interface.General.Generic;
+using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 
 namespace WorldZero.Data.Interface.Repository.Entity.Primary.Generic
@@ -40,6 +41,18 @@ namespace WorldZero.Data.Interface.Repository.Entity.Primary.Generic
         /// exception is thrown.
         /// </summary>
         IEnumerable<TEntityRelation> GetByRightId(TRightId id);
+
+        /// <summary>
+        /// Return the saved IDs of the entities with the corresponding left
+        /// ID. If there are none, then this throws an exception.
+        /// </summary>
+        IEnumerable<Id> GetIdsByLeftId(TLeftId leftId);
+
+        /// <summary>
+        /// Return the saved IDs of the entities with the corresponding right
+        /// ID. If there are none, then this throws an exception.
+        /// </summary>
+        IEnumerable<Id> GetIdsByRightId(TRightId rightId);
 
         /// <summary>
         /// Return the saved relational entity that have the supplied DTO. If

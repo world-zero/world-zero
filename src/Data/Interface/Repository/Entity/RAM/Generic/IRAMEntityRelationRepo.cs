@@ -84,6 +84,18 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
             }
         }
 
+        public IEnumerable<Id> GetIdsByLeftId(TLeftId leftId)
+        {
+            foreach (TEntityRelation e in this.GetByLeftId(leftId))
+                yield return e.Id;
+        }
+
+        public IEnumerable<Id> GetIdsByRightId(TRightId rightId)
+        {
+            foreach (TEntityRelation e in this.GetByRightId(rightId))
+                yield return e.Id;
+        }
+
         public TEntityRelation GetByDTO(TRelationDTO dto)
         {
             if (dto == null)
