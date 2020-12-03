@@ -44,15 +44,13 @@ namespace WorldZero.Service.Entity.Registration.Primary
         protected readonly IMetaTaskRepo _mtRepo;
         protected readonly IStatusRepo _statusRepo;
         protected readonly PraxisParticipantReg _ppReg;
-        protected readonly EraReg _eraReg;
 
         public PraxisReg(
             IPraxisRepo praxisRepo,
             ITaskRepo taskRepo,
             IMetaTaskRepo mtRepo,
             IStatusRepo statusRepo,
-            PraxisParticipantReg ppReg,
-            EraReg eraReg
+            PraxisParticipantReg ppReg
         )
             : base(praxisRepo)
         {
@@ -60,12 +58,10 @@ namespace WorldZero.Service.Entity.Registration.Primary
             if (mtRepo == null) throw new ArgumentNullException("mtRepo");
             if (statusRepo == null) throw new ArgumentNullException("statusRepo");
             if (ppReg == null) throw new ArgumentNullException("ppReg");
-            if (eraReg == null) throw new ArgumentNullException("eraReg");
             this._statusRepo = statusRepo;
             this._taskRepo = taskRepo;
             this._mtRepo = mtRepo;
             this._ppReg = ppReg;
-            this._eraReg = eraReg;
         }
 
         /// <summary>
@@ -105,7 +101,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
             try
             {
                 Task t = this._verifyTask(p);
-                MetaTask mt = this._verifyMetaTask(p); // TODO: this method
+                MetaTask mt = this._verifyMetaTask(p);
                 this._praxisRepo.Insert(p);
                 this._praxisRepo.Save();
                 foreach (PraxisParticipant pp in pps)
@@ -148,8 +144,6 @@ namespace WorldZero.Service.Entity.Registration.Primary
             return t;
         }
 
-        // TODO: this should also take pps, make sure that the mt and faction match,
-        //      make sure that every pp has that faction
         /// <remarks>
         /// A `MetaTask` is not required for a `Praxis`, so this can return
         /// `null`.

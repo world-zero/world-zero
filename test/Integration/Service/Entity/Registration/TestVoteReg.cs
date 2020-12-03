@@ -139,8 +139,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                 taskRepo,
                 mtRepo,
                 statusRepo,
-                this._ppReg,
-                eraReg
+                this._ppReg
             );
             var pp = new PraxisParticipant(character.Id);
             praxisReg.Register(praxis, pp);

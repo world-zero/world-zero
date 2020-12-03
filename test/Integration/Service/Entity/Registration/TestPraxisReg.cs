@@ -64,8 +64,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                 this._taskRepo,
                 this._mtRepo,
                 this._statusRepo,
-                this._ppReg,
-                this._eraReg
+                this._ppReg
             );
             this._status0 = StatusReg.Active;
             this._status1 = StatusReg.Retired;
@@ -168,8 +167,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         [Test]
         public void TestRegisterNullPraxisParticipant()
         {
-            // No test for null PraxisParticipant since that's ambiguous
-            // between the overload for a list of PPs.
+            PraxisParticipant pp = null;
+            Assert.Throws<ArgumentNullException>(
+                ()=>this._registration.Register(null, pp));
         }
 
         [Test]
@@ -272,8 +272,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                     this._taskRepo,
                     this._mtRepo,
                     this._statusRepo,
-                    this._ppReg,
-                    this._eraReg)
+                    this._ppReg
+                )
             );
             Assert.Throws<ArgumentNullException>(
                 ()=>new PraxisReg(
@@ -281,8 +281,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                     null,
                     this._mtRepo,
                     this._statusRepo,
-                    this._ppReg,
-                    this._eraReg)
+                    this._ppReg
+                )
             );
             Assert.Throws<ArgumentNullException>(
                 ()=>new PraxisReg(
@@ -290,8 +290,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                     this._taskRepo,
                     null,
                     this._statusRepo,
-                    this._ppReg,
-                    this._eraReg)
+                    this._ppReg
+                )
             );
             Assert.Throws<ArgumentNullException>(
                 ()=>new PraxisReg(
@@ -299,8 +299,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                     this._taskRepo,
                     this._mtRepo,
                     null,
-                    this._ppReg,
-                    this._eraReg)
+                    this._ppReg
+                )
             );
             Assert.Throws<ArgumentNullException>(
                 ()=>new PraxisReg(
@@ -308,25 +308,15 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                     this._taskRepo,
                     this._mtRepo,
                     this._statusRepo,
-                    null,
-                    this._eraReg)
-            );
-            Assert.Throws<ArgumentNullException>(
-                ()=>new PraxisReg(
-                    this._praxisRepo,
-                    this._taskRepo,
-                    this._mtRepo,
-                    this._statusRepo,
-                    this._ppReg,
-                    null)
+                    null
+                )
             );
             new PraxisReg(
                 this._praxisRepo,
                 this._taskRepo,
                 this._mtRepo,
                 this._statusRepo,
-                this._ppReg,
-                this._eraReg
+                this._ppReg
             );
         }
     }

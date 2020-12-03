@@ -259,7 +259,13 @@ namespace WorldZero.Service.Entity.Registration.Relation
             if (c.FactionId == null)
             {
                 this._ppRepo.DiscardTransaction();
-                throw new ArgumentException("The meta task has a sponsoring faction but the character is unaligned.");
+                throw new ArgumentException("The meta task has a sponsoring faction but the participant is unaligned.");
+            }
+
+            if (mt.StatusId != StatusReg.Active.Id)
+            {
+                this._ppRepo.DiscardTransaction();
+                throw new ArgumentException("A participant cannot be submitted for a non-active meta task.");
             }
 
             if (mt.FactionId != c.FactionId)
