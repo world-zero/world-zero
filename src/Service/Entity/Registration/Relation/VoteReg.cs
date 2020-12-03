@@ -12,6 +12,14 @@ using WorldZero.Data.Interface.Repository.Entity.Relation;
 namespace WorldZero.Service.Entity.Registration.Relation
 {
     /// <inheritdoc cref="IEntityRelationReg"/>
+    /// <remarks>
+    /// This will immediately award the participant with the amount of
+    /// `Vote.Points` to their `Character.VotePointsLeft` field. This does not
+    /// use the Character updating service class.
+    /// <br />
+    /// Naturally, Players cannot vote for themselves, and Players cannot vote
+    /// several times on a praxis. Note that this describes a Player.
+    /// </remarks>
     public class VoteReg
         : IEntityRelationReg
         <
@@ -25,11 +33,6 @@ namespace WorldZero.Service.Entity.Registration.Relation
             RelationDTO<Id, int, Id, int>
         >
     {
-        /// <summary>
-        /// As a character receives a vote, they will get this many votes.
-        /// </summary>
-        public static PointTotal VotesEarned = new PointTotal(2);
-
         protected IVoteRepo _voteRepo
         { get { return (IVoteRepo) this._repo; } }
 
@@ -53,10 +56,6 @@ namespace WorldZero.Service.Entity.Registration.Relation
             this._praxisRepo = praxisRepo;
         }
 
-        /// <remarks>
-        /// This will ensure that a player isn't voting for their own praxis
-        /// with a different character.
-        /// </remarks>
         public override Vote Register(Vote v)
         {
             // This does not use base.PreRegisterChecks() as querying the two
@@ -87,7 +86,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             }
 
             recChar.VotePointsLeft = new PointTotal(
-                recChar.VotePointsLeft.Get + VotesEarned.Get
+                recChar.VotePointsLeft.Get + v.Points.Get
             );
             try
             {

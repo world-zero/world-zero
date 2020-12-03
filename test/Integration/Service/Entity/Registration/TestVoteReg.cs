@@ -154,7 +154,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             v = new Vote(altChar.Id, pp.Id, new PointTotal(1));
             Assert.Throws<ArgumentException>(()=>this._voteReg.Register(v));
 
-            // Another happy case!
+            // A happy case!
             // Create a new player/character, and vote on the existing PP.
             var newPlayer = new Player(new Name("Hal"));
             playerReg.Register(newPlayer);
@@ -170,9 +170,13 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             var newPP = new PraxisParticipant(praxis.Id, altChar.Id);
             this._ppRepo.Insert(newPP);
             this._ppRepo.Save();
+            var ptOld = altChar.VotePointsLeft.Get;
             var newVote =
                 new Vote(newChar.Id, newPP.Id, new PointTotal(2));
             this._voteReg.Register(newVote);
+            var expectedPtNew = newVote.Points.Get + ptOld;
+            var refreshAltChar = this._charRepo.GetById(altChar.Id);
+            Assert.AreEqual(expectedPtNew, refreshAltChar.VotePointsLeft.Get);
 
             // Someone is voting on the same PP again, but with a different
             // character.
