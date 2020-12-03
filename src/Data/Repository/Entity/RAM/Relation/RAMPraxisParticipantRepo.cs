@@ -7,6 +7,7 @@ using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.RAM.Generic;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
+using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.Entity.Relation;
 
 namespace WorldZero.Data.Repository.Entity.RAM.Relation
@@ -150,7 +151,8 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
             this.DeleteByLeftId(praxisId);
         }
 
-        public async Task DeleteByPraxisIdAsync(Id praxisId)
+        public async
+        System.Threading.Tasks.Task DeleteByPraxisIdAsync(Id praxisId)
         {
             this.DeleteByPraxisId(praxisId);
         }
@@ -160,7 +162,8 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
             this.DeleteByRightId(charId);
         }
 
-        public async Task DeleteByCharacterIdAsync(Id charId)
+        public async
+        System.Threading.Tasks.Task DeleteByCharacterIdAsync(Id charId)
         {
             this.DeleteByCharacterId(charId);
         }
@@ -169,6 +172,104 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
         {
             var a = new PraxisParticipant(new Id(3), new Id(2));
             return a.GetUniqueRules().Count;
+        }
+
+        public int GetPraxisCount(Id characterId, ISet<Name> statuses)
+        {
+            if (characterId == null)
+                throw new ArgumentNullException("characterId");
+            if (statuses == null)
+                throw new ArgumentNullException("statuses");
+            if (statuses.Count == 0)
+                return 0;
+
+            string praxisName = typeof(Praxis).FullName;
+            if (!_data.ContainsKey(praxisName))
+                return 0;
+
+            IEnumerable<Praxis> praxises =
+                from pTemp in _data[praxisName].Saved.Values
+                let p = (Praxis) pTemp
+                where statuses.Contains(p.StatusId)
+
+                from ppTemp in this._saved.Values
+                let pp = this.TEntityCast(ppTemp)
+
+                where pp.CharacterId == characterId
+                where pp.PraxisId == p.Id
+                select p;
+
+            return praxises.Count();
+        }
+
+        public async System.Threading.Tasks.Task<int> GetPraxisCountAsync(
+            Id characterId,
+            ISet<Name> statuses
+        )
+        {
+            return this.GetPraxisCount(characterId, statuses);
+        }
+
+        public int GetCharacterSubmissionCount(Id taskId, Id charId)
+        {
+            if (taskId == null)
+                throw new ArgumentNullException("taskId");
+            if (charId == null)
+                throw new ArgumentNullException("charId");
+
+            if (!_data.ContainsKey(typeof(Praxis).FullName))
+                return 0;
+
+            var pEntityData = _data[typeof(Praxis).FullName];
+            IEnumerable<Id> results =
+                from pTemp in pEntityData.Saved.Values
+                let p = (Praxis) pTemp
+                where p.TaskId == taskId
+                from ppTemp in this._saved.Values
+                let pp = this.TEntityCast(ppTemp)
+                where pp.PraxisId == p.Id
+                where pp.CharacterId == charId
+                select p.Id;
+
+           return results.Count();
+        }
+
+        public async System.Threading.Tasks.Task<int>
+        GetCharacterSubmissionCountAsync(Id taskId, Id charId)
+        {
+            return this.GetCharacterSubmissionCount(taskId, charId);
+        }
+
+        public int GetCharacterSubmissionCountViaPraxisId(Id praxisId, Id charId)
+        {
+            if (praxisId == null)
+                throw new ArgumentNullException("praxisId");
+            if (charId == null)
+                throw new ArgumentNullException("charId");
+
+            if (!_data.ContainsKey(typeof(Praxis).FullName))
+                return 0;
+
+            var pEntityData = _data[typeof(Praxis).FullName];
+            IEnumerable<Id> taskId =
+                from pTemp in pEntityData.Saved.Values
+                let p = (Praxis) pTemp
+                where p.Id == praxisId
+                select p.TaskId;
+
+            int c = taskId.Count();
+            if (c == 0)
+                return 0;
+            else if (c > 1)
+                throw new InvalidOperationException("There should not be more than one Task, but several were found.");
+
+           return this.GetCharacterSubmissionCount(taskId.First(), charId);
+        }
+
+        public async System.Threading.Tasks.Task<int>
+        GetCharacterSubmissionCountViaPraxisIdAsync(Id praxisId, Id charId)
+        {
+            return this.GetCharacterSubmissionCountViaPraxisId(praxisId, charId);
         }
     }
 }

@@ -246,7 +246,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         {
             var pp = new PraxisParticipant(this._p1.Id, this._c0.Id);
             this._ppReg.Register(pp);
-            Assert.AreEqual(1, this._praxisRepo
+            Assert.AreEqual(1, this._ppRepo
                 .GetCharacterSubmissionCountViaPraxisId(this._p1.Id, this._c0.Id));
 
             // Sad: exceeds submission count.
@@ -264,7 +264,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             this._factionRepo.Save();
             pp = new PraxisParticipant(p.Id, this._c0.Id);
             this._ppReg.Register(pp);
-            Assert.AreEqual(2, this._praxisRepo
+            Assert.AreEqual(2, this._ppRepo
                 .GetCharacterSubmissionCountViaPraxisId(this._p1.Id, this._c0.Id));
 
             // Sad: Exceed Reiterator's buffer.

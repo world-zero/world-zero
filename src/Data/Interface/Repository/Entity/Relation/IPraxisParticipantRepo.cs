@@ -19,6 +19,35 @@ namespace WorldZero.Data.Interface.Repository.Entity.Relation
             RelationDTO<Id, int, Id, int>
           >
     {
+        /// <summary>
+        /// This will return the number of praxises a character has with
+        /// statuses that exist in `statuses`. This will return zero if there
+        /// are no statuses in the set, or if the needed information about
+        /// praxises could not be retrieved.
+        /// </returns>
+        int GetPraxisCount(Id charId, ISet<Name> statuses);
+        Task<int> GetPraxisCountAsync(Id charId, ISet<Name> statuses);
+
+        /// <summary>
+        /// Return the number of praxises the character has submitted for the
+        /// supplied task. If either argument does not exist, this will return
+        /// zero.
+        /// </summary>
+        int GetCharacterSubmissionCount(Id taskId, Id charId);
+        Task<int> GetCharacterSubmissionCountAsync(Id taskId, Id charId);
+
+        /// <summary>
+        /// This is extremely similar to <see cref=
+        /// "IPraxisParticipantRepo.GetCharacterSubmissionCount(Id, Id)"/>,
+        /// but this method will take a praxisId as the first argument and
+        /// determine the corresponding taskId as an intermediary step.
+        /// </summary>
+        int GetCharacterSubmissionCountViaPraxisId(Id praxisId, Id charId);
+        Task<int> GetCharacterSubmissionCountViaPraxisIdAsync(
+            Id praxisId,
+            Id charId
+        );
+
         IEnumerable<PraxisParticipant> GetByPraxisId(Id praxisId);
         IEnumerable<PraxisParticipant> GetByCharacterId(Id characterId);
 

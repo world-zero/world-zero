@@ -175,7 +175,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
 
         private void _verifyPraxisCount(Character c, Era activeEra)
         {
-            int praxisCount = this._praxisRepo
+            int praxisCount = this._ppRepo
                 .GetPraxisCount(c.Id, this._praxisLiveStatuses);
             praxisCount++;
             if (praxisCount > activeEra.MaxPraxises)
@@ -192,7 +192,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
         )
         {
             int nextCount =
-                this._praxisRepo.GetCharacterSubmissionCountViaPraxisId(
+                this._ppRepo.GetCharacterSubmissionCountViaPraxisId(
                     pp.PraxisId,
                     pp.CharacterId
                 );
