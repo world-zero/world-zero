@@ -246,10 +246,14 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         {
             var pp = new PraxisParticipant(this._p1.Id, this._c0.Id);
             this._ppReg.Register(pp);
-            Assert.AreEqual(1, pp.Count);
+            Assert.AreEqual(1, this._praxisRepo
+                .GetCharacterSubmissionCountViaPraxisId(this._p1.Id, this._c0.Id));
 
             // Sad: exceeds submission count.
-            pp = new PraxisParticipant(this._p1.Id, this._c0.Id);
+            var p = new Praxis(this._tId, this._pt, StatusReg.Active.Id);
+            this._praxisRepo.Insert(p);
+            this._praxisRepo.Save();
+            pp = new PraxisParticipant(p.Id, this._c0.Id);
             Assert.Throws<ArgumentException>(()=>
                 this._ppReg.Register(pp));
 
@@ -258,9 +262,10 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             this._f.AbilityId = AbilityReg.Reiterator.Id;
             this._factionRepo.Update(this._f);
             this._factionRepo.Save();
-            pp = new PraxisParticipant(this._p1.Id, this._c0.Id);
+            pp = new PraxisParticipant(p.Id, this._c0.Id);
             this._ppReg.Register(pp);
-            Assert.AreEqual(2, pp.Count);
+            Assert.AreEqual(2, this._praxisRepo
+                .GetCharacterSubmissionCountViaPraxisId(this._p1.Id, this._c0.Id));
 
             // Sad: Exceed Reiterator's buffer.
             pp = new PraxisParticipant(this._p1.Id, this._c0.Id);

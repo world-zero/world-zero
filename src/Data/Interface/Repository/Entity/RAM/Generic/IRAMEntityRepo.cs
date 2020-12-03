@@ -488,7 +488,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
         /// </remarks>
         public IRAMEntityRepo()
         {
-            this._entityName = typeof(TEntity).Name;
+            this._entityName = typeof(TEntity).FullName;
             try
             {
                 base.InitIfNeeded(this._entityName, this.RuleCount);

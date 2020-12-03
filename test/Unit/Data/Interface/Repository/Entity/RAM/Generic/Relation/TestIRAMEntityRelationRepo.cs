@@ -28,7 +28,6 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
         {
             Assert.AreEqual(expected.Id, actual.Id);
             Assert.AreEqual(expected.GetDTO(), actual.GetDTO());
-            Assert.AreEqual(expected.Count, actual.Count);
         }
 
         [SetUp]
@@ -125,10 +124,10 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
             this._assertPraxisParticipantsEqual(
                 this._pp0,
                 this._repo.GetByDTO(
-                    (CntRelationDTO<Id, int, Id, int>) this._pp0.GetDTO()));
+                    (RelationDTO<Id, int, Id, int>) this._pp0.GetDTO()));
             Assert.Throws<ArgumentException>(()=>
-                this._repo.GetByDTO(new CntRelationDTO<Id, int, Id, int>(
-                    new Id(43), new Id(31), 2)));
+                this._repo.GetByDTO(new RelationDTO<Id, int, Id, int>(
+                    new Id(43), new Id(31))));
         }
 
         [Test]
@@ -176,7 +175,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
             var dto = this._pp0.GetDTO();
             Assert.AreEqual(3, this._repo.SavedCount);
             this._repo.DeleteByDTO(
-                (CntRelationDTO<Id, int, Id, int>) this._pp0.GetDTO());
+                (RelationDTO<Id, int, Id, int>) this._pp0.GetDTO());
             Assert.AreEqual(1, this._repo.StagedCount);
             this._repo.Save();
             Assert.AreEqual(2, this._repo.SavedCount);
@@ -189,7 +188,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
             Assert.AreEqual(2, this._repo.SavedCount);
             Assert.AreEqual(1, this._repo.StagedCount);
             this._repo.DeleteByDTO(
-                (CntRelationDTO<Id, int, Id, int>) pp.GetDTO());
+                (RelationDTO<Id, int, Id, int>) pp.GetDTO());
             Assert.AreEqual(1, this._repo.StagedCount);
             this._repo.Save();
             Assert.AreEqual(2, this._repo.SavedCount);
@@ -205,7 +204,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
             int,
             Id,
             int,
-            CntRelationDTO<Id, int, Id, int>
+            RelationDTO<Id, int, Id, int>
           >
     {
         public TestRAMEntityRelationRepo()

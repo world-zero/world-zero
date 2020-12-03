@@ -14,14 +14,14 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
         private Id _id1;
         private Id _id2;
         private Id _id3;
-        private PraxisParticipant _pp0;
-        private PraxisParticipant _pp1;
-        private PraxisParticipant _pp2;
+        private Comment _c0;
+        private Comment _c1;
+        private Comment _c2;
         private TestRAMEntityRelationCntRepo _repo;
 
-        private void _assertPraxisParticipantsEqual(
-            PraxisParticipant expected,
-            PraxisParticipant actual
+        private void _assertCommentsEqual(
+            Comment expected,
+            Comment actual
         )
         {
             Assert.AreEqual(expected.Id, actual.Id);
@@ -35,13 +35,13 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
             this._id1 = new Id(3);
             this._id2 = new Id(15);
             this._id3 = new Id(33);
-            this._pp0 = new PraxisParticipant(this._id0, this._id1);
-            this._pp1 = new PraxisParticipant(this._id2, this._id3);
-            this._pp2 = new PraxisParticipant(this._id0, this._id3);
+            this._c0 = new Comment(this._id0, this._id1, "x");
+            this._c1 = new Comment(this._id2, this._id3, "x");
+            this._c2 = new Comment(this._id0, this._id3, "x");
             this._repo = new TestRAMEntityRelationCntRepo();
-            this._repo.Insert(this._pp0);
-            this._repo.Insert(this._pp1);
-            this._repo.Insert(this._pp2);
+            this._repo.Insert(this._c0);
+            this._repo.Insert(this._c1);
+            this._repo.Insert(this._c2);
             this._repo.Save();
         }
 
@@ -59,7 +59,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
         [Test]
         public void TestCountBad()
         {
-            var p = new PraxisParticipant(this._id0, this._id1);
+            var p = new Comment(this._id0, this._id1, "x");
             this._repo.Insert(p);
             Assert.Throws<ArgumentException>(()=>this._repo.Save());
         }
@@ -67,26 +67,26 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
         [Test]
         public void TestSequenceOfActions()
         {
-            var p1 = new PraxisParticipant(new Id(1), new Id(2), 1);
+            var p1 = new Comment(new Id(1), new Id(2), "x", 1);
             this._repo.Insert(p1);
             this._repo.Save();
 
-            var p2 = new PraxisParticipant(new Id(1), new Id(2), 2);
+            var p2 = new Comment(new Id(1), new Id(2), "x", 2);
             this._repo.Insert(p2);
             this._repo.Save();
 
-            var pBad = new PraxisParticipant(new Id(1), new Id(2), 2);
+            var pBad = new Comment(new Id(1), new Id(2), "x", 2);
             this._repo.Insert(pBad);
             Assert.Throws<ArgumentException>(()=>this._repo.Save());
 
             this._repo.Delete(p2.Id);
             this._repo.Save();
 
-            var p3 = new PraxisParticipant(new Id(1), new Id(2), 3);
+            var p3 = new Comment(new Id(1), new Id(2), "x", 3);
             this._repo.Insert(p3);
             this._repo.Save();
 
-            var p2again = new PraxisParticipant(new Id(1), new Id(2), 2);
+            var p2again = new Comment(new Id(1), new Id(2), "x", 2);
             this._repo.Insert(p2again);
             this._repo.Save();
         }
@@ -99,13 +99,13 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
             Assert.AreEqual(2, actual);
 
             this._repo.Insert(
-                new PraxisParticipant(this._id0, this._id1, actual));
+                new Comment(this._id0, this._id1, "x", actual));
 
             actual = this._repo.GetNextCount(
                 new RelationDTO<Id, int, Id, int>(this._id0, this._id1));
             Assert.AreEqual(3, actual);
 
-            this._repo.Delete(this._pp0.Id);
+            this._repo.Delete(this._c0.Id);
             this._repo.Save();
             actual = this._repo.GetNextCount(
                 new RelationDTO<Id, int, Id, int>(this._id0, this._id1));
@@ -118,9 +118,9 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
             Assert.Throws<ArgumentNullException>(()=>
                 this._repo.DeleteByPartialDTO(null));
 
-            var dto = (CntRelationDTO<Id, int, Id, int>) this._pp0.GetDTO();
-            var pp = new PraxisParticipant(dto.LeftId, dto.RightId, dto.Count+1);
-            this._repo.Insert(pp);
+            var dto = (CntRelationDTO<Id, int, Id, int>) this._c0.GetDTO();
+            var c = new Comment(dto.LeftId, dto.RightId, "x", dto.Count+1);
+            this._repo.Insert(c);
             Assert.AreEqual(3, this._repo.SavedCount);
             Assert.AreEqual(1, this._repo.StagedCount);
             this._repo.DeleteByPartialDTO((RelationDTO<Id, int, Id, int>) dto);
@@ -131,31 +131,31 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
             Assert.AreEqual(0, this._repo.StagedCount);
 
             Assert.Throws<ArgumentException>(()=>
-                this._repo.GetById(this._pp0.Id));
+                this._repo.GetById(this._c0.Id));
             Assert.Throws<ArgumentException>(()=>
-                this._repo.GetById(pp.Id));
+                this._repo.GetById(c.Id));
         }
 
         [Test]
         public void TestDeleteByDTO()
         {
-            var dto = (CntRelationDTO<Id, int, Id, int>) this._pp0.GetDTO();
-            var pp = new PraxisParticipant(dto.LeftId, dto.RightId, dto.Count+1);
+            var dto = (CntRelationDTO<Id, int, Id, int>) this._c0.GetDTO();
+            var c = new Comment(dto.LeftId, dto.RightId, "x", dto.Count+1);
             Assert.AreEqual(3, this._repo.SavedCount);
-            this._repo.Insert(pp);
+            this._repo.Insert(c);
             this._repo.DeleteByDTO(
-                (CntRelationDTO<Id, int, Id, int>) pp.GetDTO());
+                (CntRelationDTO<Id, int, Id, int>) c.GetDTO());
             this._repo.Save();
             Assert.AreEqual(3, this._repo.SavedCount);
             Assert.Throws<ArgumentException>(()=>
-                this._repo.GetById(pp.Id));
+                this._repo.GetById(c.Id));
         }
     }
 
     public class TestRAMEntityRelationCntRepo
         : IRAMEntityRelationCntRepo
           <
-            PraxisParticipant,
+            Comment,
             Id,
             int,
             Id,
@@ -169,7 +169,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
 
         protected override int GetRuleCount()
         {
-            var a = new PraxisParticipant(new Id(2), new Id(93));
+            var a = new Comment(new Id(2), new Id(93), "x");
             return a.GetUniqueRules().Count;
         }
 

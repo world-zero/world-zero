@@ -138,14 +138,14 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
                 this._del.DeleteByRight(c));
 
             // Bad: deleting the only participant.
-            var ppX = new PraxisParticipant(new Id(10), new Id(10), 2);
+            var ppX = new PraxisParticipant(new Id(10), new Id(10));
             this._repo.Insert(ppX);
             this._repo.Save();
             Assert.Throws<ArgumentException>(()=>
                 this._del.DeleteByRight(ppX.RightId));
 
             // Happy: someone has joined ppX, so now ppX can leave it.
-            var ppY = new PraxisParticipant(new Id(10), new Id(11), 1);
+            var ppY = new PraxisParticipant(new Id(10), new Id(11));
             this._repo.Insert(ppY);
             this._repo.Save();
             this._del.DeleteByRight(ppX.RightId);
@@ -168,7 +168,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             var pId1 = new Id(20);
 
             // Bad: deleting the only participant.
-            var ppX = new PraxisParticipant(pId0, charId, 2);
+            var ppX = new PraxisParticipant(pId0, charId);
             this._repo.Insert(ppX);
             this._repo.Save();
             Assert.Throws<ArgumentException>(()=>
@@ -183,7 +183,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
 
             // Bad: someone has joined charId, but charId can't leave it
             // since they are on another praxis by themselves.
-            var ppY = new PraxisParticipant(pId0, new Id(11), 1);
+            var ppY = new PraxisParticipant(pId0, new Id(11));
             this._repo.Insert(ppY);
             this._repo.Save();
             Assert.Throws<ArgumentException>(()=>
@@ -201,46 +201,24 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         }
 
         [Test]
-        public void TestDeleteByPartialDTO()
-        {
-            Assert.Throws<ArgumentNullException>(()=>
-                this._del.DeleteByPartialDTO(null));
-
-            // Bad: deleting the only participant.
-            var ppX = new PraxisParticipant(new Id(10), new Id(10), 2);
-            this._repo.Insert(ppX);
-            this._repo.Save();
-            Assert.Throws<ArgumentException>(()=>
-                this._del.DeleteByPartialDTO(ppX.GetDTO()));
-
-            // Happy: someone has joined ppX, so now ppX can leave it.
-            var ppY = new PraxisParticipant(new Id(10), new Id(11), 1);
-            this._repo.Insert(ppY);
-            this._repo.Save();
-            this._del.DeleteByPartialDTO(ppX.GetDTO());
-            Assert.Throws<ArgumentException>(()=>this._repo.GetById(ppX.Id));
-            Assert.AreEqual(ppY.Id, this._repo.GetById(ppY.Id).Id);
-        }
-
-        [Test]
         public void TestDeleteByDTO()
         {
             Assert.Throws<ArgumentNullException>(()=>
                 this._del.DeleteByDTO(null));
 
             // Bad: deleting the only participant.
-            var ppX = new PraxisParticipant(new Id(10), new Id(10), 2);
+            var ppX = new PraxisParticipant(new Id(10), new Id(10));
             this._repo.Insert(ppX);
             this._repo.Save();
             Assert.Throws<ArgumentException>(()=>this._del.DeleteByDTO(
-                (CntRelationDTO<Id, int, Id, int>) ppX.GetDTO()));
+                (RelationDTO<Id, int, Id, int>) ppX.GetDTO()));
 
             // Happy: someone has joined ppX, so now ppX can leave it.
-            var ppY = new PraxisParticipant(new Id(10), new Id(11), 1);
+            var ppY = new PraxisParticipant(new Id(10), new Id(11));
             this._repo.Insert(ppY);
             this._repo.Save();
             this._del.DeleteByDTO(
-                (CntRelationDTO<Id, int, Id, int>) ppX.GetDTO());
+                (RelationDTO<Id, int, Id, int>) ppX.GetDTO());
             Assert.Throws<ArgumentException>(()=>this._repo.GetById(ppX.Id));
             Assert.AreEqual(ppY.Id, this._repo.GetById(ppY.Id).Id);
         }

@@ -9,7 +9,7 @@ using WorldZero.Service.Interface.Entity.Generic.Deletion;
 
 namespace WorldZero.Service.Entity.Deletion.Relation
 {
-    /// <inheritdoc cref="IEntityRelationCntDel"/>
+    /// <inheritdoc cref="IEntityRelationDel"/>
     /// <remarks>
     /// A Praxis should always have at least one participant. As a result,
     /// these methods will throw an exception if they are going to remove a
@@ -19,7 +19,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
     /// the voting character will receive a refund is up to <see
     /// cref="VoteDel"/>.
     /// </remarks>
-    public class PraxisParticipantDel : IEntityRelationCntDel
+    public class PraxisParticipantDel : IEntityRelationDel
     <
         PraxisParticipant,
         Praxis,
@@ -28,7 +28,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         Character,
         Id,
         int,
-        CntRelationDTO<Id, int, Id, int>
+        RelationDTO<Id, int, Id, int>
     >
     {
         protected IPraxisParticipantRepo _ppRepo
@@ -141,40 +141,17 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         }
 
         /// <remarks>
-        /// This will not be able to detect and delete PPs that have the same
-        /// praxis and character. Luckily, people cannot have several
-        /// characters on the same praxis, so this is not an issue.
-        /// </remarks>
-        public override void DeleteByPartialDTO(
-            RelationDTO<Id, int, Id, int> dto
-        )
-        {
-            void f(RelationDTO<Id, int, Id, int> dto0)
-            {
-                var dtos = this._ppRepo.GetParticipantCountsViaPartialDTO(dto);
-                foreach (CountingDTO<Id> countDto in dtos)
-                {
-                    int endCount = countDto.Count - 1;
-                    if (endCount < 1)
-                        throw new ArgumentException($"Could not finish deletion, it would leave no participants on praxis {countDto.Countee.Get}.");
-                }
-                base.DeleteByPartialDTO(dto0);
-            }
-            this.Transaction<RelationDTO<Id, int, Id, int>>(f, dto, true);
-        }
-
-        /// <remarks>
         /// Yes, this op takes two DB queries instead of one while a serialized
         /// transaction is active, but I seriously doubt this method is even
         /// going to get used, so I am okay with it being twice as costly.
         /// </remarks>
-        public override void DeleteByDTO(CntRelationDTO<Id, int, Id, int> dto)
+        public override void DeleteByDTO(RelationDTO<Id, int, Id, int> dto)
         {
-            void f(CntRelationDTO<Id, int, Id, int> dto0)
+            void f(RelationDTO<Id, int, Id, int> dto0)
             {
                 this.Delete(this._ppRepo.GetByDTO(dto));
             }
-            this.Transaction<CntRelationDTO<Id, int, Id, int>>(f, dto, true);
+            this.Transaction<RelationDTO<Id, int, Id, int>>(f, dto, true);
         }
     }
 }

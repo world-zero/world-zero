@@ -9,14 +9,14 @@ using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
 namespace WorldZero.Data.Interface.Repository.Entity.Relation
 {
     public interface IPraxisParticipantRepo
-        : IEntityRelationCntRepo
+        : IEntityRelationRepo
           <
             PraxisParticipant,
             Id,
             int,
             Id,
             int,
-            CntRelationDTO<Id, int, Id, int>
+            RelationDTO<Id, int, Id, int>
           >
     {
         IEnumerable<PraxisParticipant> GetByPraxisId(Id praxisId);
@@ -73,19 +73,6 @@ namespace WorldZero.Data.Interface.Repository.Entity.Relation
         /// of <see cref="WorldZero.Data.Interface.Repository.Entity.Relation.IPraxisParticipantRepo.GetParticipantCountViaPraxisId(Id)"/>.
         /// </remarks>
         IEnumerable<CountingDTO<Id>> GetParticipantCountsViaCharId(Id characterId);
-
-        /// <summary>
-        /// This returns an iterable of `CountingDTO`s, where each DTO's
-        /// `Countee` is the Id of a Praxis, and the `Count` is the number of
-        /// participants present for that praxis.
-        /// </summary>
-        /// <remarks>
-        /// Basically, this is an iterable version (that takes a character ID)
-        /// of <see cref="WorldZero.Data.Interface.Repository.Entity.Relation.IPraxisParticipantRepo.GetParticipantCountViaPraxisId(Id)"/>.
-        /// </remarks>
-        IEnumerable<CountingDTO<Id>> GetParticipantCountsViaPartialDTO(
-            RelationDTO<Id, int, Id, int> dto
-        );
 
         /// <summary>
         /// `Delete()` all PraxisParticipants with the supplied praxis ID.

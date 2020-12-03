@@ -21,8 +21,28 @@ namespace WorldZero.Data.Interface.Repository.Entity.Primary
         /// This is thrown if the related table for `PraxisParticipant`s cannot
         /// be found.
         /// </exception>
-        int GetPraxisCount(Id characterId, ISet<Name> statuses);
-        Task<int> GetPraxisCountAsync(Id characterId, ISet<Name> statuses);
+        int GetPraxisCount(Id charId, ISet<Name> statuses);
+        Task<int> GetPraxisCountAsync(Id charId, ISet<Name> statuses);
+
+        /// <summary>
+        /// Return the number of praxises the character has submitted for the
+        /// supplied task. If either argument does not exist, this will return
+        /// zero.
+        /// </summary>
+        int GetCharacterSubmissionCount(Id taskId, Id charId);
+        Task<int> GetCharacterSubmissionCountAsync(Id taskId, Id charId);
+
+        /// <summary>
+        /// This is extremely similar to <see
+        /// cref="IPraxisRepo.GetCharacterSubmissionCount(Id, Id)"/>,
+        /// but this method will take a praxisId as the first argument and
+        /// determine the corresponding taskId as an intermediary step.
+        /// </summary>
+        int GetCharacterSubmissionCountViaPraxisId(Id praxisId, Id charId);
+        Task<int> GetCharacterSubmissionCountViaPraxisIdAsync(
+            Id praxisId,
+            Id charId
+        );
 
         /// <summary>
         /// Get a collection of saved Praxises that have a matching

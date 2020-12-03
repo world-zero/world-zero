@@ -31,6 +31,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
         private PraxisParticipant _pp3;
         private Id _charId0;
         private Id _charId1;
+        private Id _charIdUnused;
         private PointTotal _points;
 
         [SetUp]
@@ -55,6 +56,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
             this._praxisRepo.Save();
             this._charId0 = new Id(1);
             this._charId1 = new Id(2);
+            this._charIdUnused = new Id(3);
             this._pp0 = new PraxisParticipant(this._p0.Id, this._charId0);
             this._pp1 = new PraxisParticipant(this._p0.Id, this._charId1);
             this._pp2 = new PraxisParticipant(this._p1.Id, this._charId0);
@@ -70,6 +72,66 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
         public void TearDown()
         {
             this._praxisRepo.CleanAll();
+        }
+
+        [Test]
+        public void TestGetCharacterSubmissionCountSad()
+        {
+            Assert.Throws<ArgumentNullException>(()=>this._praxisRepo
+                .GetCharacterSubmissionCount(null, this._charId0));
+            Assert.Throws<ArgumentNullException>(()=>this._praxisRepo
+                .GetCharacterSubmissionCount(this._taskId0, null));
+            Id badId = new Id(100000);
+            Assert.AreEqual(0, this._praxisRepo
+                .GetCharacterSubmissionCount(badId, badId));
+            Assert.AreEqual(0, this._praxisRepo
+                .GetCharacterSubmissionCount(this._taskId1, this._charId1));
+            this._ppRepo.Data.Remove(typeof(PraxisParticipant).FullName);
+            Assert.AreEqual(0, this._praxisRepo
+                .GetCharacterSubmissionCount(this._taskId0, this._charId0));
+        }
+
+        [Test]
+        public void TestGetCharacterSubmissionCountHappy()
+        {
+            Assert.AreEqual(2, this._praxisRepo
+                .GetCharacterSubmissionCount(this._taskId0, this._charId0));
+        }
+
+        [Test]
+        public void TestGetCharacterSubmissionCountViaPraxisIdSad()
+        {
+            Assert.Throws<ArgumentNullException>(()=>this._praxisRepo
+                .GetCharacterSubmissionCountViaPraxisId(null, this._charId0));
+            Assert.Throws<ArgumentNullException>(()=>this._praxisRepo
+                .GetCharacterSubmissionCountViaPraxisId(this._p0.Id, null));
+            Id badId = new Id(100000);
+            Assert.AreEqual(0, this._praxisRepo
+                .GetCharacterSubmissionCountViaPraxisId(badId, badId));
+            Assert.AreEqual(0, this._praxisRepo
+                .GetCharacterSubmissionCountViaPraxisId(
+                    this._p0.Id,
+                    this._charIdUnused
+                )
+            );
+            this._ppRepo.Data.Remove(typeof(PraxisParticipant).FullName);
+            Assert.AreEqual(0, this._praxisRepo
+                .GetCharacterSubmissionCountViaPraxisId(
+                    this._p0.Id,
+                    this._charId0
+                )
+            );
+        }
+
+        [Test]
+        public void TestGetCharacterSubmissionCountViaPraxisIdHappy()
+        {
+            Assert.AreEqual(2, this._praxisRepo
+                .GetCharacterSubmissionCountViaPraxisId(
+                    this._p0.Id,
+                    this._charId0
+                )
+            );
         }
 
         [Test]
@@ -90,7 +152,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
             var id = new Id(2);
             var set = new HashSet<Name>();
             set.Add(new Name("x"));
-            this._ppRepo.Data.Remove(typeof(PraxisParticipant).Name);
+            this._ppRepo.Data.Remove(typeof(PraxisParticipant).FullName);
             Assert.Throws<InvalidOperationException>(()=>
                 this._praxisRepo.GetPraxisCount(id, set));
         }

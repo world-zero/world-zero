@@ -53,7 +53,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             Character,
             Id,
             int,
-            CntRelationDTO<Id, int, Id, int>
+            RelationDTO<Id, int, Id, int>
         >
     {
         protected IPraxisParticipantRepo _ppRepo
@@ -100,7 +100,6 @@ namespace WorldZero.Service.Entity.Registration.Relation
         {
             this.AssertNotNull(pp, "pp");
             this._ppRepo.BeginTransaction(true);
-
             Praxis p      = this._verifyPraxis(pp);
             Character c   = this._verifyCharacter(pp);
             Era activeEra = this._eraReg.GetActiveEra();
@@ -110,7 +109,9 @@ namespace WorldZero.Service.Entity.Registration.Relation
             MetaTask mt   = this._getMetaTask(p);
                             this._verifyFactionsMatch(c, mt);
                             this._verifyDuel(p);
-            return          this._reg(pp, count);
+            var r         = base.Register(pp);
+            this.EndTransaction();
+            return r;
         }
 
         private Praxis _verifyPraxis(PraxisParticipant pp)
@@ -190,10 +191,12 @@ namespace WorldZero.Service.Entity.Registration.Relation
             Era activeEra
         )
         {
-            int nextCount = this._ppRepo.GetNextCount(
-                (RelationDTO<Id, int, Id, int>) pp.GetDTO()
-            );
-            if (nextCount <= activeEra.MaxTasks)
+            int nextCount =
+                this._praxisRepo.GetCharacterSubmissionCountViaPraxisId(
+                    pp.PraxisId,
+                    pp.CharacterId
+                );
+            if (++nextCount <= activeEra.MaxTasks)
                 return nextCount;
 
             // The reiterator ability allows for more task recompletions, see
@@ -286,26 +289,6 @@ namespace WorldZero.Service.Entity.Registration.Relation
                     this._ppRepo.DiscardTransaction();
                     throw new ArgumentException($"The associated praxis is set to dueling, which only allows for 2 participants, not {ppCount}.");
                 }
-            }
-        }
-
-        private PraxisParticipant _reg(PraxisParticipant pp, int count)
-        {
-            PraxisParticipant r;
-            int oldCount = pp.Count;
-            pp.Count = count;
-
-            try
-            {
-                r = base.Register(pp);
-                this._ppRepo.EndTransaction();
-                return r;
-            }
-            catch (ArgumentException e)
-            {
-                pp.Count = oldCount;
-                this._ppRepo.DiscardTransaction();
-                throw new ArgumentException("Could not complete the registration.", e);
             }
         }
     }

@@ -13,14 +13,14 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
 {
     /// <inheritdoc cref="IPraxisParticipantRepo"/>
     public class RAMPraxisParticipantRepo
-        : IRAMEntityRelationCntRepo
+        : IRAMEntityRelationRepo
           <
             PraxisParticipant,
             Id,
             int,
             Id,
             int,
-            CntRelationDTO<Id, int, Id, int>
+            RelationDTO<Id, int, Id, int>
           >,
           IPraxisParticipantRepo
     {
@@ -136,28 +136,6 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
                 from ppTemp in this._saved.Values
                 let pp = this.TEntityCast(ppTemp)
                 where pp.CharacterId == charId
-                select pp.PraxisId;
-
-            foreach (Id praxisId in praxisIds)
-            {
-                int count = this.GetParticipantCountViaPraxisId(praxisId);
-                yield return new CountingDTO<Id>(praxisId, count);
-            }
-        }
-
-        public
-        IEnumerable<CountingDTO<Id>> GetParticipantCountsViaPartialDTO(
-            RelationDTO<Id, int, Id, int> dto
-        )
-        {
-            if (dto == null)
-                throw new ArgumentNullException("dto");
-
-            IEnumerable<Id> praxisIds =
-                from ppTemp in this._saved.Values
-                let pp = this.TEntityCast(ppTemp)
-                where pp.LeftId == dto.LeftId
-                where pp.RightId == dto.RightId
                 select pp.PraxisId;
 
             foreach (Id praxisId in praxisIds)

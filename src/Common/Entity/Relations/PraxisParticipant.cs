@@ -16,8 +16,8 @@ namespace WorldZero.Common.Entity.Relation
     /// <remarks>
     /// A Praxis should always have at least one participant.
     /// <br />
-    /// Since some characters can repeat tasks, `PraxisParticipant.Count`
-    /// indicates this value, even if they get a new praxis each time.
+    /// Since some characters can repeat tasks, but since the praxis is
+    /// different for every attempt, this does not track the attempt number.
     /// <br />
     /// Since a relation requires a left and right ID to be set on
     /// initialization, `PraxisId` will default to a `new Id(0)` when supplied
@@ -25,7 +25,7 @@ namespace WorldZero.Common.Entity.Relation
     /// return null. This will not apply to `LeftId`, it will contain
     /// `new Id(0)` like normal.
     /// </remarks>
-    public class PraxisParticipant : IIdIdCntRelation
+    public class PraxisParticipant : IIdIdRelation
     {
         /// <summary>
         /// PraxisId wraps LeftId, which is the ID of the related Praxis.
@@ -63,38 +63,36 @@ namespace WorldZero.Common.Entity.Relation
             set { this.RightId = value; }
         }
 
-        public PraxisParticipant(Id characterId, int count=1)
-            : base(new Id(0), characterId, count)
+        public PraxisParticipant(Id characterId)
+            : base(new Id(0), characterId)
         { }
 
-        public PraxisParticipant(Id praxisId, Id characterId, int count=1)
-            : base(praxisId, characterId, count)
+        public PraxisParticipant(Id praxisId, Id characterId)
+            : base(praxisId, characterId)
         { }
 
         public PraxisParticipant(
             Id id,
             Id praxisId,
-            Id characterId,
-            int count=1
+            Id characterId
         )
-            : base(id, praxisId, characterId, count)
+            : base(id, praxisId, characterId)
         { }
 
-        public PraxisParticipant(CntRelationDTO<Id, int, Id, int> dto)
-            : base(dto.LeftId, dto.RightId, dto.Count)
+        public PraxisParticipant(RelationDTO<Id, int, Id, int> dto)
+            : base(dto.LeftId, dto.RightId)
         { }
 
-        public PraxisParticipant(Id id, CntRelationDTO<Id, int, Id, int> dto)
-            : base(id, dto.LeftId, dto.RightId, dto.Count)
+        public PraxisParticipant(Id id, RelationDTO<Id, int, Id, int> dto)
+            : base(id, dto.LeftId, dto.RightId)
         { }
 
         internal PraxisParticipant(
             int id,
             int praxisId,
-            int characterId,
-            int count
+            int characterId
         )
-            : base(new Id(id), new Id(praxisId), new Id(characterId), count)
+            : base(new Id(id), new Id(praxisId), new Id(characterId))
         { }
 
         public override IEntity<Id, int> Clone()
@@ -102,8 +100,7 @@ namespace WorldZero.Common.Entity.Relation
             return new PraxisParticipant(
                 this.Id,
                 this.LeftId,
-                this.RightId,
-                this.Count
+                this.RightId
             );
         }
     }

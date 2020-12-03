@@ -160,7 +160,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
         [Test]
         public void TestConstructor()
         {
-            Assert.AreEqual(typeof(DummyEntity).Name, this._repo.EntityName);
+            Assert.AreEqual(typeof(DummyEntity).FullName, this._repo.EntityName);
             Assert.IsNotNull(this._repo.Saved);
             Assert.AreEqual(0, this._repo.Saved.Count);
             Assert.IsNotNull(this._repo.Staged);
