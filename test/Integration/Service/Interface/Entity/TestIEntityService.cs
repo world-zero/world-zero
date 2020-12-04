@@ -79,7 +79,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
         }
 
         [Test]
-        public void TestTxnFThrowsException()
+        public void TestTxnFThrowsArgException()
         {
             void ExcF(int x)
             {
@@ -95,6 +95,28 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
 
             this._repo.Clean();
             Assert.Throws<ArgumentException>(()=>
+                this._service.Transaction<int>(ExcF, 3));
+            Assert.AreEqual(0, this._repo.SavedCount);
+            Assert.AreEqual(0, this._repo.StagedCount);
+        }
+
+        [Test]
+        public void TestTxnFThrowsInvalidOpException()
+        {
+            void ExcF(int x)
+            {
+                var id0 = new Id(1);
+                var id1 = new Id(2);
+                var id2 = new Id(3);
+                this._repo.Insert(new Comment(id0, id1, "f"));
+                this._repo.Insert(new Comment(id1, id2, "f"));
+                this._repo.Save();
+                this._repo.Insert(new Comment(id0, id1, "f"));
+                throw new InvalidOperationException("sdfasdf");
+            }
+
+            this._repo.Clean();
+            Assert.Throws<InvalidOperationException>(()=>
                 this._service.Transaction<int>(ExcF, 3));
             Assert.AreEqual(0, this._repo.SavedCount);
             Assert.AreEqual(0, this._repo.StagedCount);

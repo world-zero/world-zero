@@ -54,6 +54,10 @@ namespace WorldZero.Service.Interface.Entity
         /// - Attempt to `EndTransaction()`; if this throws an
         /// `ArgumentException`, then this will throw a tracing
         /// `ArgumentException`.
+        /// <br />
+        /// If an `InvalidOperationException` is thrown during the operation or
+        /// `EndTransaction`, then this will discard the transaction and trace
+        /// that exception.
         /// </summary>
         /// <param name="operation">
         /// The function to perform during the transaction with operand.
@@ -83,10 +87,17 @@ namespace WorldZero.Service.Interface.Entity
                 this.DiscardTransaction();
                 throw new ArgumentException("The operation failed.", e);
             }
+            catch (InvalidOperationException e)
+            {
+                this.DiscardTransaction();
+                throw new InvalidOperationException("A bug has been found, discarding transaction.", e);
+            }
             try
             { this.EndTransaction(); }
             catch (ArgumentException e)
             { throw new ArgumentException("Could not complete the transaction.", e); }
+            catch (InvalidOperationException e)
+            { throw new InvalidOperationException("A bug has been found, discarding transaction.", e); }
         }
 
         /// <summary>
