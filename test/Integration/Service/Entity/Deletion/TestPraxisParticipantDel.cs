@@ -3,6 +3,7 @@ using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.Entity.Relation;
+using WorldZero.Data.Repository.Entity.RAM.Primary;
 using WorldZero.Data.Repository.Entity.RAM.Relation;
 using WorldZero.Service.Entity.Deletion.Relation;
 using NUnit.Framework;
@@ -12,18 +13,31 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
     [TestFixture]
     public class TestPraxisParticipatDel
     {
+        private RAMPraxisRepo _praxisRepo;
         private RAMVoteRepo _voteRepo;
         private VoteDel _voteDel;
         private RAMPraxisParticipantRepo _repo;
         private PraxisParticipantDel _del;
+        private Praxis _p0;
+        private Praxis _p1;
 
         [SetUp]
         public void Setup()
         {
+            this._praxisRepo = new RAMPraxisRepo();
             this._voteRepo = new RAMVoteRepo();
             this._voteDel = new VoteDel(this._voteRepo);
             this._repo = new RAMPraxisParticipantRepo();
-            this._del = new PraxisParticipantDel(this._repo, this._voteDel);
+            this._del = new PraxisParticipantDel(
+                this._repo,
+                this._praxisRepo,
+                this._voteDel
+            );
+            this._p0 = new Praxis(new Id(1), new PointTotal(1), new Name("s"));
+            this._p1 = new Praxis(new Id(2), new PointTotal(1), new Name("s"));
+            this._praxisRepo.Insert(this._p0);
+            this._praxisRepo.Insert(this._p1);
+            this._praxisRepo.Save();
         }
 
         [TearDown]
@@ -40,10 +54,31 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         [Test]
         public void TestConstructor()
         {
-            Assert.Throws<ArgumentNullException>(()=>
-                new PraxisParticipantDel(null, this._voteDel));
-            Assert.Throws<ArgumentNullException>(()=>
-                new PraxisParticipantDel(this._repo, null));
+            new PraxisParticipantDel(
+                this._repo,
+                this._praxisRepo,
+                this._voteDel
+            );
+            Assert.Throws<ArgumentNullException>(()=>new PraxisParticipantDel(
+                null,
+                null,
+                null
+            ));
+            Assert.Throws<ArgumentNullException>(()=>new PraxisParticipantDel(
+                null,
+                this._praxisRepo,
+                this._voteDel
+            ));
+            Assert.Throws<ArgumentNullException>(()=>new PraxisParticipantDel(
+                this._repo,
+                null,
+                this._voteDel
+            ));
+            Assert.Throws<ArgumentNullException>(()=>new PraxisParticipantDel(
+                this._repo,
+                this._praxisRepo,
+                null
+            ));
         }
 
         [Test]
@@ -57,13 +92,13 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
                 this._del.Delete(ppX));
 
             // Bad: deleting the only participant.
-            ppX = new PraxisParticipant(new Id(10), new Id(10));
+            ppX = new PraxisParticipant(this._p0.Id, new Id(10));
             this._repo.Insert(ppX);
             this._repo.Save();
             Assert.Throws<ArgumentException>(()=>this._del.Delete(ppX));
 
             // Happy: someone has joined ppX, so now ppX can leave it.
-            var ppY = new PraxisParticipant(new Id(10), new Id(11));
+            var ppY = new PraxisParticipant(this._p0.Id, new Id(11));
             this._repo.Insert(ppY);
             this._repo.Save();
             this._del.Delete(ppX.Id);
@@ -74,10 +109,10 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         [Test]
         public void TestDeleteWithVotes()
         {
-            var ppX = new PraxisParticipant(new Id(10), new Id(10));
+            var ppX = new PraxisParticipant(this._p0.Id, new Id(10));
             this._repo.Insert(ppX);
             this._repo.Save();
-            var ppY = new PraxisParticipant(new Id(10), new Id(11));
+            var ppY = new PraxisParticipant(this._p0.Id, new Id(11));
             this._repo.Insert(ppY);
             this._repo.Save();
 
@@ -138,14 +173,14 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
                 this._del.DeleteByRight(c));
 
             // Bad: deleting the only participant.
-            var ppX = new PraxisParticipant(new Id(10), new Id(10));
+            var ppX = new PraxisParticipant(this._p0.Id, new Id(10));
             this._repo.Insert(ppX);
             this._repo.Save();
             Assert.Throws<ArgumentException>(()=>
                 this._del.DeleteByRight(ppX.RightId));
 
             // Happy: someone has joined ppX, so now ppX can leave it.
-            var ppY = new PraxisParticipant(new Id(10), new Id(11));
+            var ppY = new PraxisParticipant(this._p0.Id, new Id(11));
             this._repo.Insert(ppY);
             this._repo.Save();
             this._del.DeleteByRight(ppX.RightId);
@@ -164,8 +199,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
                 this._del.DeleteByCharacter(c));
 
             var charId = new Id(2);
-            var pId0 = new Id(10);
-            var pId1 = new Id(20);
+            var pId0 = this._p0.Id;
+            var pId1 = this._p1.Id;
 
             // Bad: deleting the only participant.
             var ppX = new PraxisParticipant(pId0, charId);
@@ -207,20 +242,49 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
                 this._del.DeleteByDTO(null));
 
             // Bad: deleting the only participant.
-            var ppX = new PraxisParticipant(new Id(10), new Id(10));
+            var ppX = new PraxisParticipant(this._p0.Id, new Id(10));
             this._repo.Insert(ppX);
             this._repo.Save();
             Assert.Throws<ArgumentException>(()=>this._del.DeleteByDTO(
                 (RelationDTO<Id, int, Id, int>) ppX.GetDTO()));
 
             // Happy: someone has joined ppX, so now ppX can leave it.
-            var ppY = new PraxisParticipant(new Id(10), new Id(11));
+            var ppY = new PraxisParticipant(this._p0.Id, new Id(11));
             this._repo.Insert(ppY);
             this._repo.Save();
             this._del.DeleteByDTO(
                 (RelationDTO<Id, int, Id, int>) ppX.GetDTO());
             Assert.Throws<ArgumentException>(()=>this._repo.GetById(ppX.Id));
             Assert.AreEqual(ppY.Id, this._repo.GetById(ppY.Id).Id);
+        }
+
+        [Test]
+        public void TestDuelCase()
+        {
+            // If a participant of a duel leaves, then the praxis is changed
+            // to no longer be a duel, and the remaining participant is awarded
+            // the points based off their received votes.
+            var p = new Praxis(
+                new Id(1),
+                new PointTotal(1),
+                new Name("s"),
+                areDueling: true
+            );
+            this._praxisRepo.Insert(p);
+            this._praxisRepo.Save();
+            Assert.IsTrue(p.AreDueling);
+
+            var ppX = new PraxisParticipant(p.Id, new Id(10));
+            this._repo.Insert(ppX);
+            this._repo.Save();
+
+            var ppY = new PraxisParticipant(p.Id, new Id(11));
+            this._repo.Insert(ppY);
+            this._repo.Save();
+
+            this._del.Delete(ppX);
+            var refreshedP = this._praxisRepo.GetById(p.Id);
+            Assert.IsFalse(refreshedP.AreDueling);
         }
     }
 }

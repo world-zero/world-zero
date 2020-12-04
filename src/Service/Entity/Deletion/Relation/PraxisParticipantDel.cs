@@ -4,6 +4,7 @@ using WorldZero.Common.Entity.Relation;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.General.Generic;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
+using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Service.Interface.Entity.Generic.Deletion;
 
@@ -14,6 +15,10 @@ namespace WorldZero.Service.Entity.Deletion.Relation
     /// A Praxis should always have at least one participant. As a result,
     /// these methods will throw an exception if they are going to remove a
     /// praxis' final participant.
+    /// <br />
+    /// If a participant of a duel is deleted, then the praxis will be updated
+    /// to no longer be a duel. This does not use the praxis updating service
+    /// class.
     /// <br />
     /// This will also delete the participant's received votes. Whether or not
     /// the voting character will receive a refund is up to <see
@@ -34,15 +39,20 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         protected IPraxisParticipantRepo _ppRepo
         { get { return (IPraxisParticipantRepo) this._relRepo; } }
 
+        protected readonly IPraxisRepo _praxisRepo;
         protected readonly VoteDel _voteDel;
 
         public PraxisParticipantDel(
             IPraxisParticipantRepo repo,
+            IPraxisRepo praxisRepo,
             VoteDel voteDel
         )
             : base(repo)
         {
+            this.AssertNotNull(praxisRepo, "praxisRepo");
             this.AssertNotNull(voteDel, "voteDel");
+
+            this._praxisRepo = praxisRepo;
             this._voteDel = voteDel;
         }
 
@@ -106,6 +116,30 @@ namespace WorldZero.Service.Entity.Deletion.Relation
                     this._ppRepo.GetParticipantCountViaPPId(ppId) - 1;
                 if (endCount < 1)
                     throw new ArgumentException($"Could not finish deletion, it would leave no participants on praxis {ppId.Get}.");
+
+                if (endCount == 1)
+                {
+                    PraxisParticipant pp;
+                    try
+                    { pp = this._ppRepo.GetById(ppId); }
+                    catch (ArgumentException)
+                    { return; }
+
+                    Praxis p;
+                    try
+                    {
+                        p = this._praxisRepo.GetById(pp.PraxisId);
+                    }
+                    catch (ArgumentException)
+                    { throw new InvalidOperationException("There exists PraxisParticipant(s) for a Praxis that does not exist."); }
+
+                    if (p.AreDueling)
+                    {
+                        p.AreDueling = false;
+                        this._praxisRepo.Update(p);
+                    }
+                }
+
                 this._voteDel.DeleteByPraxisParticipant(ppId);
                 base.Delete(id0);
             }
