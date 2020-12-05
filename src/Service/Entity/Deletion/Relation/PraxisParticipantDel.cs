@@ -1,3 +1,4 @@
+using System.Reflection.Emit;
 using System;
 using System.Collections.Generic;
 using WorldZero.Common.Entity.Primary;
@@ -8,6 +9,7 @@ using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Service.Interface.Entity.Generic.Deletion;
+using WorldZero.Service.Entity.Deletion.Primary;
 
 using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("WorldZero.Test.Integration")]
@@ -18,7 +20,9 @@ namespace WorldZero.Service.Entity.Deletion.Relation
     /// <remarks>
     /// A Praxis should always have at least one participant. As a result,
     /// these methods will throw an exception if they are going to remove a
-    /// praxis' final participant.
+    /// praxis' final participant. However, the methods beginning with `Sudo`
+    /// that take a `PraxisDel` class will delete the praxis if the last
+    /// participant is removed.
     /// <br />
     /// If a participant of a duel is deleted, then the praxis will be updated
     /// to no longer be a duel. This does not use the praxis updating service
@@ -159,6 +163,66 @@ namespace WorldZero.Service.Entity.Deletion.Relation
                 this.DeleteByCharacter(id));
         }
 
+        public void SudoDeleteByCharacter(Character c, PraxisDel praxisDel)
+        {
+            this.AssertNotNull(c, "c");
+            this.AssertNotNull(praxisDel, "praxisDel");
+            this.SudoDeleteByCharacter(c.Id, praxisDel);
+        }
+
+        public void SudoDeleteByCharacter(Id charId, PraxisDel praxisDel)
+        {
+            this.AssertNotNull(praxisDel, "praxisDel");
+            void f(Id id0) => this._deleteByChar(id0, praxisDel);
+            this.Transaction<Id>(f, charId, true);
+        }
+
+        public async
+        System.Threading.Tasks.Task SudoDeleteByCharacterAsync(
+            Character c,
+            PraxisDel praxisDel
+        )
+        {
+            this.AssertNotNull(c, "c");
+            this.AssertNotNull(praxisDel, "praxisDel");
+            await System.Threading.Tasks.Task.Run(() =>
+                this.SudoDeleteByCharacter(c, praxisDel));
+        }
+
+        public async
+        System.Threading.Tasks.Task SudoDeleteByCharacterAsync(
+            Id id,
+            PraxisDel praxisDel
+        )
+        {
+            this.AssertNotNull(id, "id");
+            this.AssertNotNull(praxisDel, "praxisDel");
+            await System.Threading.Tasks.Task.Run(() =>
+                this.SudoDeleteByCharacter(id, praxisDel));
+        }
+
+        /// <summary>
+        /// WARNING
+        /// <br />
+        /// Do not supply this with pDel unless the callee explicitally needs
+        /// it.
+        /// </summary>
+        private void _deleteByChar(Id charId, PraxisDel pDel)
+        {
+            var dtos = this._ppRepo.GetParticipantCountsViaCharId(charId);
+            foreach (CountingDTO<Id> dto in dtos)
+            {
+                int endCount = dto.Count - 1;
+                if (endCount < 1)
+                {
+                    if (pDel == null)
+                        throw new ArgumentException($"Could not finish deletion, it would leave no participants on praxis {dto.Countee.Get}.");
+                    pDel.Delete(dto.Countee);
+                }
+            }
+            base.DeleteByRight(charId);
+        }
+
         /// <summary>
         /// WARNING
         /// <br />
@@ -222,17 +286,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         /// </remarks>
         public override void DeleteByRight(Id charId)
         {
-            void f(Id Id0)
-            {
-                var dtos = this._ppRepo.GetParticipantCountsViaCharId(charId);
-                foreach (CountingDTO<Id> dto in dtos)
-                {
-                    int endCount = dto.Count - 1;
-                    if (endCount < 1)
-                        throw new ArgumentException($"Could not finish deletion, it would leave no participants on praxis {dto.Countee.Get}.");
-                }
-                base.DeleteByRight(charId);
-            }
+            void f(Id id0) => this._deleteByChar(id0, null);
             this.Transaction<Id>(f, charId, true);
         }
 

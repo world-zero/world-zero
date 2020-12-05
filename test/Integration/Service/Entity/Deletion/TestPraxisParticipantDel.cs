@@ -5,6 +5,7 @@ using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.Entity.Relation;
 using WorldZero.Data.Repository.Entity.RAM.Primary;
 using WorldZero.Data.Repository.Entity.RAM.Relation;
+using WorldZero.Service.Entity.Deletion.Primary;
 using WorldZero.Service.Entity.Deletion.Relation;
 using NUnit.Framework;
 
@@ -79,6 +80,56 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
                 this._praxisRepo,
                 null
             ));
+        }
+
+        [Test]
+        public void TestSudoDeleteByCharacter()
+        {
+            var commentRepo = new RAMCommentRepo();
+            var commentDel = new CommentDel(commentRepo);
+            var praxisTagRepo = new RAMPraxisTagRepo();
+            var praxisTagDel = new PraxisTagDel(praxisTagRepo);
+            var praxisFlagRepo = new RAMPraxisFlagRepo();
+            var praxisFlagDel = new PraxisFlagDel(praxisFlagRepo);
+            var praxisDel = new PraxisDel(
+                this._praxisRepo,
+                this._del,
+                commentDel,
+                praxisTagDel,
+                praxisFlagDel
+            );
+
+            var charId0 = new Id(10);
+            var charId1 = new Id(30);
+            var ppX = new PraxisParticipant(this._p0.Id, charId0);
+            this._repo.Insert(ppX);
+            this._repo.Save();
+            var ppY = new PraxisParticipant(this._p0.Id, charId1);
+            this._repo.Insert(ppY);
+            this._repo.Save();
+            var ppZ = new PraxisParticipant(this._p1.Id, charId0);
+            this._repo.Insert(ppZ);
+            this._repo.Save();
+
+            Id id = null;
+            Character c = null;
+            Assert.Throws<ArgumentNullException>(()=>
+                this._del.SudoDeleteByCharacter(id, praxisDel));
+            Assert.Throws<ArgumentNullException>(()=>
+                this._del.SudoDeleteByCharacter(c, praxisDel));
+            Assert.Throws<ArgumentNullException>(()=>
+                this._del.SudoDeleteByCharacter(charId0, null));
+
+            this._del.SudoDeleteByCharacter(charId0, praxisDel);
+            Assert.Throws<ArgumentException>(()=>this._repo.GetById(ppX.Id));
+            Assert.Throws<ArgumentException>(()=>this._repo.GetById(ppZ.Id));
+            this._repo.GetById(ppY.Id);
+
+            this._del.SudoDeleteByCharacter(charId0, praxisDel);
+            this._repo.GetById(ppY.Id);
+
+            this._del.SudoDeleteByCharacter(charId1, praxisDel);
+            Assert.Throws<ArgumentException>(()=>this._repo.GetById(ppY.Id));
         }
 
         [Test]
