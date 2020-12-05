@@ -38,6 +38,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             Assert.AreEqual(actualEntity.Id, e.Id);
         }
 
+        private PraxisParticipantDel _ppDel;
+        private RAMVoteRepo _voteRepo;
+        private VoteDel _voteDel;
         private RAMTaskRepo _taskRepo;
         private ITaskTagRepo _taskTagRepo;
         private TaskTagDel _taskTagDel;
@@ -69,6 +72,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private Praxis _praxis0_1;
         private Praxis _praxis1_0;
         private PraxisParticipant _pp0_0;
+        private PraxisParticipant _pp0_1;
         private PraxisParticipant _pp1_0;
 
         [SetUp]
@@ -129,14 +133,23 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
 
             this._ppRepo = new RAMPraxisParticipantRepo();
             this._pp0_0=new PraxisParticipant(this._praxis0_0.Id, this._next());
+            this._pp0_1=new PraxisParticipant(this._praxis0_0.Id, this._next());
             this._pp1_0=new PraxisParticipant(this._praxis1_0.Id, this._next());
             this._ppRepo.Insert(this._pp0_0);
             this._ppRepo.Insert(this._pp1_0);
             this._ppRepo.Save();
 
+            this._voteRepo = new RAMVoteRepo();
+            this._voteDel = new VoteDel(this._voteRepo);
+            this._ppRepo = new RAMPraxisParticipantRepo();
+            this._ppDel = new PraxisParticipantDel(
+                this._ppRepo,
+                this._praxisRepo,
+                this._voteDel
+            );
             this._praxisDel = new PraxisDel(
                 this._praxisRepo,
-                this._ppRepo,
+                this._ppDel,
                 this._commentDel,
                 this._praxisTagDel,
                 this._praxisFlagDel

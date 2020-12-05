@@ -54,6 +54,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._absentt<PraxisParticipant, Id, int>(this._pp0_0, this._ppRepo.GetById);
             this._absentt<PraxisParticipant, Id, int>(this._pp0_1, this._ppRepo.GetById);
             this._absentt<PraxisParticipant, Id, int>(this._pp1_0, this._ppRepo.GetById);
+            this._absentt<Vote, Id, int>(this._v0_0, this._voteRepo.GetById);
+            this._absentt<Vote, Id, int>(this._v0_1, this._voteRepo.GetById);
+            this._absentt<Vote, Id, int>(this._v1_0, this._voteRepo.GetById);
         }
 
         private void _allPresent()
@@ -72,10 +75,14 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._present<PraxisParticipant, Id, int>(this._pp0_0, this._ppRepo.GetById);
             this._present<PraxisParticipant, Id, int>(this._pp0_1, this._ppRepo.GetById);
             this._present<PraxisParticipant, Id, int>(this._pp1_0, this._ppRepo.GetById);
+            this._present<Vote, Id, int>(this._v0_0, this._voteRepo.GetById);
+            this._present<Vote, Id, int>(this._v0_1, this._voteRepo.GetById);
+            this._present<Vote, Id, int>(this._v1_0, this._voteRepo.GetById);
         }
 
         private RAMPraxisRepo _praxisRepo;
         private RAMPraxisParticipantRepo _ppRepo;
+        private PraxisParticipantDel _ppDel;
         private RAMCommentRepo _commentRepo;
         private CommentDel _commentDel;
         private RAMVoteRepo _voteRepo;
@@ -104,6 +111,10 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private PraxisParticipant _pp0_0;
         private PraxisParticipant _pp0_1;
         private PraxisParticipant _pp1_0;
+        // Votes are tested as well to ensure that the PP deletion is cascaded.
+        private Vote _v0_0;
+        private Vote _v0_1;
+        private Vote _v1_0;
 
         [SetUp]
         public void Setup()
@@ -116,13 +127,6 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._pTagDel = new PraxisTagDel(this._pTagRepo);
             this._pFlagRepo = new RAMPraxisFlagRepo();
             this._pFlagDel = new PraxisFlagDel(this._pFlagRepo);
-            this._del = new PraxisDel(
-                this._praxisRepo,
-                this._ppRepo,
-                this._commentDel,
-                this._pTagDel,
-                this._pFlagDel
-            );
 
             // Now we build two praxises, each with comments, votes,
             // tags, flags, and participants.
@@ -143,9 +147,6 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._commentRepo.Insert(this._comment0_1);
             this._commentRepo.Insert(this._comment1_0);
             this._commentRepo.Save();
-
-            this._voteRepo = new RAMVoteRepo();
-            this._voteDel = new VoteDel(this._voteRepo);
 
             this._pTag0_0 = new PraxisTag(this._p0.Id, new Name("#lit"));
             this._pTag0_1 = new PraxisTag(this._p0.Id, new Name("#pog"));
@@ -170,7 +171,31 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._ppRepo.Insert(this._pp0_1);
             this._ppRepo.Insert(this._pp1_0);
             this._ppRepo.Save();
+
+            this._voteRepo = new RAMVoteRepo();
+            this._voteDel = new VoteDel(this._voteRepo);
+            this._v0_0 = new Vote(this._next(), this._pp0_0.Id, pt);
+            this._v0_1 = new Vote(this._next(), this._pp0_1.Id, pt);
+            this._v1_0 = new Vote(this._next(), this._pp1_0.Id, pt);
+            this._voteRepo.Insert(this._v0_0);
+            this._voteRepo.Insert(this._v0_1);
+            this._voteRepo.Insert(this._v1_0);
+            this._voteRepo.Save();
+
             this._allPresent();
+
+            this._ppDel = new PraxisParticipantDel(
+                this._ppRepo,
+                this._praxisRepo,
+                this._voteDel
+            );
+            this._del = new PraxisDel(
+                this._praxisRepo,
+                this._ppDel,
+                this._commentDel,
+                this._pTagDel,
+                this._pFlagDel
+            );
         }
 
         [TearDown]
@@ -202,6 +227,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._absentt<PraxisParticipant, Id, int>(this._pp0_0, this._ppRepo.GetById);
             this._absentt<PraxisParticipant, Id, int>(this._pp0_1, this._ppRepo.GetById);
             this._present<PraxisParticipant, Id, int>(this._pp1_0, this._ppRepo.GetById);
+            this._absentt<Vote, Id, int>(this._v0_0, this._voteRepo.GetById);
+            this._absentt<Vote, Id, int>(this._v0_1, this._voteRepo.GetById);
+            this._present<Vote, Id, int>(this._v1_0, this._voteRepo.GetById);
         }
 
         [Test]
@@ -222,6 +250,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._present<PraxisParticipant, Id, int>(this._pp0_0, this._ppRepo.GetById);
             this._present<PraxisParticipant, Id, int>(this._pp0_1, this._ppRepo.GetById);
             this._absentt<PraxisParticipant, Id, int>(this._pp1_0, this._ppRepo.GetById);
+            this._present<Vote, Id, int>(this._v0_0, this._voteRepo.GetById);
+            this._present<Vote, Id, int>(this._v0_1, this._voteRepo.GetById);
+            this._absentt<Vote, Id, int>(this._v1_0, this._voteRepo.GetById);
         }
 
         [Test]
@@ -276,6 +307,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._absentt<PraxisParticipant, Id, int>(this._pp0_0, this._ppRepo.GetById);
             this._absentt<PraxisParticipant, Id, int>(this._pp0_1, this._ppRepo.GetById);
             this._present<PraxisParticipant, Id, int>(this._pp1_0, this._ppRepo.GetById);
+            this._absentt<Vote, Id, int>(this._v0_0, this._voteRepo.GetById);
+            this._absentt<Vote, Id, int>(this._v0_1, this._voteRepo.GetById);
+            this._present<Vote, Id, int>(this._v1_0, this._voteRepo.GetById);
         }
 
         [Test]
@@ -296,6 +330,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._present<PraxisParticipant, Id, int>(this._pp0_0, this._ppRepo.GetById);
             this._present<PraxisParticipant, Id, int>(this._pp0_1, this._ppRepo.GetById);
             this._absentt<PraxisParticipant, Id, int>(this._pp1_0, this._ppRepo.GetById);
+            this._present<Vote, Id, int>(this._v0_0, this._voteRepo.GetById);
+            this._present<Vote, Id, int>(this._v0_1, this._voteRepo.GetById);
+            this._absentt<Vote, Id, int>(this._v1_0, this._voteRepo.GetById);
         }
 
         [Test]
@@ -316,6 +353,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._absentt<PraxisParticipant, Id, int>(this._pp0_0, this._ppRepo.GetById);
             this._absentt<PraxisParticipant, Id, int>(this._pp0_1, this._ppRepo.GetById);
             this._present<PraxisParticipant, Id, int>(this._pp1_0, this._ppRepo.GetById);
+            this._absentt<Vote, Id, int>(this._v0_0, this._voteRepo.GetById);
+            this._absentt<Vote, Id, int>(this._v0_1, this._voteRepo.GetById);
+            this._present<Vote, Id, int>(this._v1_0, this._voteRepo.GetById);
             this._del.DeleteByStatus(this._p0.StatusId);
         }
 
@@ -324,7 +364,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         {
             new PraxisDel(
                 this._praxisRepo,
-                this._ppRepo,
+                this._ppDel,
                 this._commentDel,
                 this._pTagDel,
                 this._pFlagDel
@@ -338,7 +378,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             ));
             Assert.Throws<ArgumentNullException>(()=>new PraxisDel(
                 null,
-                this._ppRepo,
+                this._ppDel,
                 this._commentDel,
                 this._pTagDel,
                 this._pFlagDel
@@ -352,21 +392,21 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             ));
             Assert.Throws<ArgumentNullException>(()=>new PraxisDel(
                 this._praxisRepo,
-                this._ppRepo,
+                this._ppDel,
                 null,
                 this._pTagDel,
                 this._pFlagDel
             ));
             Assert.Throws<ArgumentNullException>(()=>new PraxisDel(
                 this._praxisRepo,
-                this._ppRepo,
+                this._ppDel,
                 this._commentDel,
                 null,
                 this._pFlagDel
             ));
             Assert.Throws<ArgumentNullException>(()=>new PraxisDel(
                 this._praxisRepo,
-                this._ppRepo,
+                this._ppDel,
                 this._commentDel,
                 this._pTagDel,
                 null

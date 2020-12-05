@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
-using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Service.Interface.Entity.Generic.Deletion;
 using WorldZero.Service.Entity.Deletion.Relation;
 
@@ -29,26 +28,26 @@ namespace WorldZero.Service.Entity.Deletion.Primary
         protected IPraxisRepo _praxisRepo
         { get { return (IPraxisRepo) this._repo; } }
 
-        protected readonly IPraxisParticipantRepo _ppRepo;
+        protected readonly PraxisParticipantDel _ppDel;
         protected readonly CommentDel _commentDel;
         protected readonly PraxisTagDel _praxisTagDel;
         protected readonly PraxisFlagDel _praxisFlagDel;
 
         public PraxisDel(
             IPraxisRepo praxisRepo,
-            IPraxisParticipantRepo ppRepo,
+            PraxisParticipantDel ppDel,
             CommentDel commentDel,
             PraxisTagDel praxisTagDel,
             PraxisFlagDel praxisFlagDel
         )
             : base(praxisRepo)
         {
-            this.AssertNotNull(ppRepo, "ppRepo");
+            this.AssertNotNull(ppDel, "ppDel");
             this.AssertNotNull(commentDel, "commentDel");
             this.AssertNotNull(praxisTagDel, "praxisTagDel");
             this.AssertNotNull(praxisFlagDel, "praxisFlagDel");
 
-            this._ppRepo = ppRepo;
+            this._ppDel = ppDel;
             this._commentDel = commentDel;
             this._praxisTagDel = praxisTagDel;
             this._praxisFlagDel = praxisFlagDel;
@@ -59,10 +58,10 @@ namespace WorldZero.Service.Entity.Deletion.Primary
             void op(Id praxisId0)
             {
                 this._commentDel.DeleteByPraxis(praxisId0);
-                this._ppRepo.DeleteByPraxisId(praxisId0);
                 this._praxisTagDel.DeleteByPraxis(praxisId);
                 this._praxisFlagDel.DeleteByPraxis(praxisId);
                 base.Delete(praxisId0);
+                this._ppDel.UNSAFE_DeleteByPraxis(praxisId0);
             }
 
             this.Transaction<Id>(op, praxisId);
@@ -74,12 +73,13 @@ namespace WorldZero.Service.Entity.Deletion.Primary
             {
                 IEnumerable<Praxis> praxises;
                 try
-                { praxises = this._praxisRepo.GetByTaskId(taskId); }
+                {
+                    praxises = this._praxisRepo.GetByTaskId(taskId);
+                    foreach (Praxis p in praxises)
+                        this.Delete(p);
+                }
                 catch (ArgumentException)
                 { return; }
-
-                foreach (Praxis p in praxises)
-                    this.Delete(p);
             }
 
             this.Transaction<Id>(op, taskId, true);

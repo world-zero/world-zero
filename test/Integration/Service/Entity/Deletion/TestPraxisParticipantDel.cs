@@ -82,6 +82,42 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         }
 
         [Test]
+        public void TestUNSAFE_DeleteByPraxis()
+        {
+            Id id = null;
+            Praxis p = null;
+            Assert.Throws<ArgumentNullException>(()=>
+                this._del.UNSAFE_DeleteByPraxis(id));
+            Assert.Throws<ArgumentNullException>(()=>
+                this._del.UNSAFE_DeleteByPraxis(p));
+
+            var ppX = new PraxisParticipant(this._p0.Id, new Id(10));
+            this._repo.Insert(ppX);
+            this._repo.Save();
+            var ppY = new PraxisParticipant(this._p0.Id, new Id(11));
+            this._repo.Insert(ppY);
+            this._repo.Save();
+
+            var voteX0 = new Vote(new Id(1000), ppX.Id, new PointTotal(2));
+            var voteX1 = new Vote(new Id(3200), ppX.Id, new PointTotal(2));
+            var voteY0 = new Vote(new Id(1003), ppY.Id, new PointTotal(2));
+            this._voteRepo.Insert(voteX0);
+            this._voteRepo.Insert(voteX1);
+            this._voteRepo.Insert(voteY0);
+            this._voteRepo.Save();
+
+            this._del.UNSAFE_DeleteByPraxis(this._p0.Id);
+            Assert.Throws<ArgumentException>(()=>this._repo.GetById(ppX.Id));
+            Assert.Throws<ArgumentException>(()=>this._repo.GetById(ppY.Id));
+            Assert.Throws<ArgumentException>(()=>
+                this._voteRepo.GetById(voteX0.Id));
+            Assert.Throws<ArgumentException>(()=>
+                this._voteRepo.GetById(voteX1.Id));
+            Assert.Throws<ArgumentException>(()=>
+                this._voteRepo.GetById(voteY0.Id));
+        }
+
+        [Test]
         public void TestDelete()
         {
             Id id = null;

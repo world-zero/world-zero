@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.Entity.Relation;
 using WorldZero.Common.ValueObject.General;
@@ -7,6 +8,9 @@ using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Service.Interface.Entity.Generic.Deletion;
+
+using System.Runtime.CompilerServices;
+[assembly: InternalsVisibleTo("WorldZero.Test.Integration")]
 
 namespace WorldZero.Service.Entity.Deletion.Relation
 {
@@ -54,6 +58,53 @@ namespace WorldZero.Service.Entity.Deletion.Relation
 
             this._praxisRepo = praxisRepo;
             this._voteDel = voteDel;
+        }
+
+        /// <summary>
+        /// WARNING
+        /// <br />
+        /// As the name implies, this method is an unsafe version of
+        /// `DeleteByPraxis` - this is because it will not actually `Delete()`
+        /// all participants on the praxis, which is generally not allowed.
+        /// </summary>
+        /// <remarks>
+        /// This should really only be used by <see
+        /// cref="WorldZero.Service.Entity.Deletion.Primary.PraxisDel"/> - use
+        /// this anywhere else with extreme caution.
+        /// </remarks>
+        internal void UNSAFE_DeleteByPraxis(Praxis p)
+        {
+            this.AssertNotNull(p, "p");
+            this.UNSAFE_DeleteByPraxis(p.Id);
+        }
+
+        /// <summary>
+        /// WARNING
+        /// <br />
+        /// As the name implies, this method is an unsafe version of
+        /// `DeleteByPraxis` - this is because it will not actually `Delete()`
+        /// all participants on the praxis, which is generally not allowed.
+        /// </summary>
+        /// <remarks>
+        /// This should really only be used by <see
+        /// cref="WorldZero.Service.Entity.Deletion.Primary.PraxisDel"/> - use
+        /// this anywhere else with extreme caution.
+        /// </remarks>
+        internal void UNSAFE_DeleteByPraxis(Id praxisId)
+        {
+            void f(Id id)
+            {
+                IEnumerable<PraxisParticipant> pps;
+                try
+                {
+                    pps = this._ppRepo.GetByPraxisId(id);
+                    foreach (PraxisParticipant pp in pps)
+                        this._delete(pp.Id, false);
+                }
+                catch (ArgumentException)
+                { return; }
+            }
+            this.Transaction<Id>(f, praxisId, true);
         }
 
         public void DeleteByPraxis(Praxis p)
@@ -108,41 +159,52 @@ namespace WorldZero.Service.Entity.Deletion.Relation
                 this.DeleteByCharacter(id));
         }
 
+        /// <summary>
+        /// WARNING
+        /// <br />
+        /// Do not use `safeMode=false` unless you are `UNSAFE_DeleteByPraxis`.
+        /// For more, see that method.
+        /// </summary>
+        private void _delete(Id ppId, bool safeMode=true)
+        {
+            int endCount =
+                this._ppRepo.GetParticipantCountViaPPId(ppId) - 1;
+            if (endCount < 1)
+            {
+                if (safeMode)
+                    throw new ArgumentException($"Could not finish deletion, it would leave no participants on praxis {ppId.Get}.");
+            }
+
+            if (endCount == 1)
+            {
+                PraxisParticipant pp;
+                try
+                { pp = this._ppRepo.GetById(ppId); }
+                catch (ArgumentException)
+                { return; }
+
+                Praxis p;
+                try
+                {
+                    p = this._praxisRepo.GetById(pp.PraxisId);
+                }
+                catch (ArgumentException)
+                { throw new InvalidOperationException("There exists PraxisParticipant(s) for a Praxis that does not exist."); }
+
+                if (p.AreDueling)
+                {
+                    p.AreDueling = false;
+                    this._praxisRepo.Update(p);
+                }
+            }
+
+            this._voteDel.DeleteByPraxisParticipant(ppId);
+            base.Delete(ppId);
+        }
+
         public override void Delete(Id ppId)
         {
-            void f(Id id0)
-            {
-                int endCount =
-                    this._ppRepo.GetParticipantCountViaPPId(ppId) - 1;
-                if (endCount < 1)
-                    throw new ArgumentException($"Could not finish deletion, it would leave no participants on praxis {ppId.Get}.");
-
-                if (endCount == 1)
-                {
-                    PraxisParticipant pp;
-                    try
-                    { pp = this._ppRepo.GetById(ppId); }
-                    catch (ArgumentException)
-                    { return; }
-
-                    Praxis p;
-                    try
-                    {
-                        p = this._praxisRepo.GetById(pp.PraxisId);
-                    }
-                    catch (ArgumentException)
-                    { throw new InvalidOperationException("There exists PraxisParticipant(s) for a Praxis that does not exist."); }
-
-                    if (p.AreDueling)
-                    {
-                        p.AreDueling = false;
-                        this._praxisRepo.Update(p);
-                    }
-                }
-
-                this._voteDel.DeleteByPraxisParticipant(ppId);
-                base.Delete(id0);
-            }
+            void f(Id id0) => this._delete(ppId);
             this.Transaction<Id>(f, ppId, true);
         }
 
