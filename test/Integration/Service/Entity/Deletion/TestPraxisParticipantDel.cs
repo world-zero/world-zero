@@ -133,6 +133,47 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         }
 
         [Test]
+        public void TestSudoDeleteByCharacterDueling()
+        {
+            var commentRepo = new RAMCommentRepo();
+            var commentDel = new CommentDel(commentRepo);
+            var praxisTagRepo = new RAMPraxisTagRepo();
+            var praxisTagDel = new PraxisTagDel(praxisTagRepo);
+            var praxisFlagRepo = new RAMPraxisFlagRepo();
+            var praxisFlagDel = new PraxisFlagDel(praxisFlagRepo);
+            var praxisDel = new PraxisDel(
+                this._praxisRepo,
+                this._del,
+                commentDel,
+                praxisTagDel,
+                praxisFlagDel
+            );
+
+            var p = new Praxis(
+                new Id(342),
+                new PointTotal(2),
+                new Name("x"),
+                areDueling: true
+            );
+            this._praxisRepo.Insert(p);
+            this._praxisRepo.Save();
+
+            var charId0 = new Id(10);
+            var charId1 = new Id(30);
+            var pp0 = new PraxisParticipant(p.Id, charId0);
+            var pp1 = new PraxisParticipant(p.Id, charId1);
+            this._repo.Insert(pp0);
+            this._repo.Insert(pp1);
+            this._repo.Save();
+
+            this._del.SudoDeleteByCharacter(charId0, praxisDel);
+
+            Assert.AreEqual(1,this._repo.GetParticipantCountViaPraxisId(p.Id));
+            p = this._praxisRepo.GetById(p.Id);
+            Assert.IsFalse(p.AreDueling);
+        }
+
+        [Test]
         public void TestUNSAFE_DeleteByPraxis()
         {
             Id id = null;

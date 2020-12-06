@@ -219,8 +219,31 @@ namespace WorldZero.Service.Entity.Deletion.Relation
                         throw new ArgumentException($"Could not finish deletion, it would leave no participants on praxis {dto.Countee.Get}.");
                     pDel.Delete(dto.Countee);
                 }
+                else if (endCount == 1)
+                    this._unduel(dto.Countee);
             }
             base.DeleteByRight(charId);
+        }
+
+        /// <summary>
+        /// Change a praxis' AreDueling property to False. Only use this within
+        /// a serialized transaction.
+        /// </summary>
+        private void _unduel(Id praxisId)
+        {
+            Praxis p;
+            try
+            {
+                p = this._praxisRepo.GetById(praxisId);
+            }
+            catch (ArgumentException e)
+            { throw new InvalidOperationException("Could not un-duel a praxis, it is unclear how the supplied praxis ID is supposed to exist.", e); }
+
+            if (p.AreDueling)
+            {
+                p.AreDueling = false;
+                this._praxisRepo.Update(p);
+            }
         }
 
         /// <summary>
@@ -247,19 +270,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
                 catch (ArgumentException)
                 { return; }
 
-                Praxis p;
-                try
-                {
-                    p = this._praxisRepo.GetById(pp.PraxisId);
-                }
-                catch (ArgumentException)
-                { throw new InvalidOperationException("There exists PraxisParticipant(s) for a Praxis that does not exist."); }
-
-                if (p.AreDueling)
-                {
-                    p.AreDueling = false;
-                    this._praxisRepo.Update(p);
-                }
+                this._unduel(pp.PraxisId);
             }
 
             this._voteDel.DeleteByPraxisParticipant(ppId);
