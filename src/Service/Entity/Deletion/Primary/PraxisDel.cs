@@ -58,8 +58,8 @@ namespace WorldZero.Service.Entity.Deletion.Primary
             void op(Id praxisId0)
             {
                 this._commentDel.DeleteByPraxis(praxisId0);
-                this._praxisTagDel.DeleteByPraxis(praxisId);
-                this._praxisFlagDel.DeleteByPraxis(praxisId);
+                this._praxisTagDel.DeleteByPraxis(praxisId0);
+                this._praxisFlagDel.DeleteByPraxis(praxisId0);
                 base.Delete(praxisId0);
                 this._ppDel.UNSAFE_DeleteByPraxis(praxisId0);
             }
