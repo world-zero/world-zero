@@ -9,7 +9,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
 {
     /// <inheritdoc cref="IEntitySelfRelationDel"/>
     public class FoeDel : IEntitySelfRelationDel
-        <Foe, Character, Id, int, RelationDTO<Id, int, Id, int>>
+        <Foe, UnsafeCharacter, Id, int, RelationDTO<Id, int, Id, int>>
     {
         protected IFoeRepo _foeRepo
         { get { return (IFoeRepo) this._relRepo; } }
@@ -18,7 +18,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
             : base(repo)
         { }
 
-        public void DeleteByCharacter(Character c)
+        public void DeleteByCharacter(UnsafeCharacter c)
         {
             this.AssertNotNull(c, "c");
             this.DeleteByCharacter(c.Id);
@@ -33,7 +33,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         }
 
         public async
-        System.Threading.Tasks.Task DeleteByCharacterAsync(Character p)
+        System.Threading.Tasks.Task DeleteByCharacterAsync(UnsafeCharacter p)
         {
             this.AssertNotNull(p, "P");
             await System.Threading.Tasks.Task.Run(() =>

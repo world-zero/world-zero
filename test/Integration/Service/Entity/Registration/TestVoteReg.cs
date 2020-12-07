@@ -20,7 +20,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         private RAMFactionRepo _factionRepo;
         private RAMTaskRepo _taskRepo;
         private RAMVoteRepo _voteRepo;
-        private RAMCharacterRepo _charRepo;
+        private RAMUnsafeCharacterRepo _charRepo;
         private RAMPraxisRepo _praxisRepo;
         private RAMPraxisParticipantRepo _ppRepo;
         private RAMMetaTaskRepo _mtRepo;
@@ -41,7 +41,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             this._eraRepo = new RAMEraRepo();
             this._eraReg = new EraReg(this._eraRepo);
             this._voteRepo = new RAMVoteRepo();
-            this._charRepo = new RAMCharacterRepo();
+            this._charRepo = new RAMUnsafeCharacterRepo();
             this._praxisRepo = new RAMPraxisRepo();
             this._mtRepo = new RAMMetaTaskRepo();
             this._ppRepo = new RAMPraxisParticipantRepo();
@@ -94,7 +94,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
 
             var factionRepo = new RAMFactionRepo();
             var locationRepo = new RAMLocationRepo();
-            var character = new Character(
+            var character = new UnsafeCharacter(
                 new Name("Stinky"),
                 player.Id,
                 null,
@@ -148,7 +148,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             Assert.Throws<ArgumentException>(()=>this._voteReg.Register(v));
 
             // Someone is voting with a different character.
-            var altChar = new Character(new Name("Hal"), player.Id);
+            var altChar = new UnsafeCharacter(new Name("Hal"), player.Id);
             charReg.Register(altChar);
             v.CharacterId = altChar.Id;
             v = new Vote(altChar.Id, pp.Id, new PointTotal(1));
@@ -158,7 +158,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             // Create a new player/character, and vote on the existing PP.
             var newPlayer = new Player(new Name("Hal"));
             playerReg.Register(newPlayer);
-            var newChar = new Character(
+            var newChar = new UnsafeCharacter(
                 new Name("Inmost"),
                 newPlayer.Id,
                 null,
@@ -180,7 +180,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
 
             // Someone is voting on the same PP again, but with a different
             // character.
-            var newNewChar = new Character(
+            var newNewChar = new UnsafeCharacter(
                 new Name("Monster Hunter"),
                 newPlayer.Id
             );

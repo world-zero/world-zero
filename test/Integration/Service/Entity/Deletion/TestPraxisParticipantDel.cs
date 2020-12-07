@@ -112,7 +112,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._repo.Save();
 
             Id id = null;
-            Character c = null;
+            UnsafeCharacter c = null;
             Assert.Throws<ArgumentNullException>(()=>
                 this._del.SudoDeleteByCharacter(id, praxisDel));
             Assert.Throws<ArgumentNullException>(()=>
@@ -294,7 +294,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestDeleteByRight()
         {
             Id id = null;
-            Character c = null;
+            UnsafeCharacter c = null;
             Assert.Throws<ArgumentNullException>(()=>
                 this._del.DeleteByRight(id));
             Assert.Throws<ArgumentNullException>(()=>
@@ -320,7 +320,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestDeleteByCharacter()
         {
             Id id = null;
-            Character c = null;
+            UnsafeCharacter c = null;
             Assert.Throws<ArgumentNullException>(()=>
                 this._del.DeleteByCharacter(id));
             Assert.Throws<ArgumentNullException>(()=>

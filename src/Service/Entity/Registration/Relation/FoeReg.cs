@@ -17,10 +17,10 @@ namespace WorldZero.Service.Entity.Registration.Relation
         : IEntityRelationReg
         <
             Foe,
-            Character,
+            UnsafeCharacter,
             Id,
             int,
-            Character,
+            UnsafeCharacter,
             Id,
             int,
             RelationDTO<Id, int, Id, int>
@@ -33,7 +33,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
 
         public FoeReg(
             IFoeRepo foeRepo,
-            ICharacterRepo characterRepo,
+            IUnsafeCharacterRepo characterRepo,
             IFriendRepo friendRepo
         )
             : base(foeRepo, characterRepo, characterRepo)

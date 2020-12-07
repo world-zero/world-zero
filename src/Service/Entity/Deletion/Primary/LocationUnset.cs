@@ -9,12 +9,12 @@ namespace WorldZero.Service.Entity.Deletion.Primary
 {
     /// <inheritdoc cref="IEntityUnset"/>
     public class LocationUnset
-        : IEntityUnset<Location, Id, int, Character, Id, int>
+        : IEntityUnset<Location, Id, int, UnsafeCharacter, Id, int>
     {
-        protected ICharacterRepo _charRepo
-        { get { return (ICharacterRepo) this._otherRepo; } }
+        protected IUnsafeCharacterRepo _charRepo
+        { get { return (IUnsafeCharacterRepo) this._otherRepo; } }
 
-        public LocationUnset(ILocationRepo repo, ICharacterRepo charRepo)
+        public LocationUnset(ILocationRepo repo, IUnsafeCharacterRepo charRepo)
             : base(repo, charRepo)
         { }
 
@@ -23,7 +23,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
             this.AssertNotNull(locationId, "locationId");
             this.BeginTransaction();
 
-            IEnumerable<Character> chars = null;
+            IEnumerable<UnsafeCharacter> chars = null;
             try
             { chars = this._charRepo.GetByLocationId(locationId); }
             catch (ArgumentException)
@@ -31,7 +31,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
 
             if (chars != null)
             {
-                foreach (Character c in chars)
+                foreach (UnsafeCharacter c in chars)
                 {
                     c.LocationId = null;
                     try

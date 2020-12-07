@@ -42,7 +42,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
                 this.DeleteByPraxis(praxisId));
         }
 
-        public void DeleteByCharacter(Character c)
+        public void DeleteByCharacter(UnsafeCharacter c)
         {
             this.AssertNotNull(c, "c");
             this.DeleteByCharacter(c.Id);
@@ -57,11 +57,11 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         }
 
         public async
-        System.Threading.Tasks.Task DeleteByCharacterAsync(Character p)
+        System.Threading.Tasks.Task DeleteByCharacterAsync(UnsafeCharacter c)
         {
-            this.AssertNotNull(p, "P");
+            this.AssertNotNull(c, "c");
             await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByCharacter(p));
+                this.DeleteByCharacter(c));
         }
 
         public async

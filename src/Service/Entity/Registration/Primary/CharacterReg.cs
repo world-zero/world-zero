@@ -8,7 +8,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
 {
     /// <inheritdoc cref="IEntityReg"/>
     public class CharacterReg
-        : IEntityReg<Character, Id, int>
+        : IEntityReg<UnsafeCharacter, Id, int>
     {
         /// <summary>
         /// This level controls the minimum level at which a player can create
@@ -73,11 +73,11 @@ namespace WorldZero.Service.Entity.Registration.Primary
         protected readonly IFactionRepo _factionRepo;
         protected readonly ILocationRepo _locationRepo;
 
-        protected ICharacterRepo _characterRepo
-        { get { return (ICharacterRepo) this._repo; } }
+        protected IUnsafeCharacterRepo _characterRepo
+        { get { return (IUnsafeCharacterRepo) this._repo; } }
 
         public CharacterReg(
-            ICharacterRepo characterRepo,
+            IUnsafeCharacterRepo characterRepo,
             IPlayerRepo playerRepo,
             IFactionRepo factionRepo,
             ILocationRepo locationRepo
@@ -95,7 +95,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
         /// Create the character and save them. This will ensure that the
         /// character has a valid player ID, and faction ID if set.
         /// </summary>
-        public override Character Register(Character c)
+        public override UnsafeCharacter Register(UnsafeCharacter c)
         {
             this.AssertNotNull(c, "c");
             this._characterRepo.BeginTransaction(true);
@@ -115,7 +115,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
             }
         }
 
-        private void _verifyPlayer(Character c)
+        private void _verifyPlayer(UnsafeCharacter c)
         {
             bool shouldCrash = false;
             try
@@ -142,7 +142,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
             }
         }
 
-        private void _verifyFaction(Character c)
+        private void _verifyFaction(UnsafeCharacter c)
         {
             try
             {
@@ -156,7 +156,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
             }
         }
 
-        private void _verifyLocation(Character c)
+        private void _verifyLocation(UnsafeCharacter c)
         {
             try
             {

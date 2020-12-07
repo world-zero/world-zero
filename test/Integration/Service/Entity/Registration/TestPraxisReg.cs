@@ -18,7 +18,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         private PointTotal _pt;
         private IFactionRepo _factionRepo;
         private DummyRAMPraxisParticipantRepo _ppRepo;
-        private ICharacterRepo _charRepo;
+        private IUnsafeCharacterRepo _charRepo;
         private DummyRAMPraxisRepo _praxisRepo;
         private PraxisParticipantReg _ppReg;
         private ITaskRepo _taskRepo;
@@ -28,7 +28,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         private Status _status0;
         private Status _status1;
         private Task _t;
-        private Character _c;
+        private UnsafeCharacter _c;
         private Praxis _p;
         private MetaTask _mt;
         private PraxisParticipant _pp;
@@ -45,7 +45,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             this._eraRepo = new RAMEraRepo();
             this._eraReg = new EraReg(this._eraRepo);
             this._ppRepo = new DummyRAMPraxisParticipantRepo();
-            this._charRepo = new RAMCharacterRepo();
+            this._charRepo = new RAMUnsafeCharacterRepo();
             this._praxisRepo = new DummyRAMPraxisRepo();
             this._mtRepo = new RAMMetaTaskRepo();
             this._taskRepo = new RAMTaskRepo();
@@ -85,7 +85,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                 new Faction(new Name("Good"), new PastDate(DateTime.UtcNow));
             this._factionRepo.Insert(this._f);
             this._factionRepo.Save();
-            this._c = new Character(
+            this._c = new UnsafeCharacter(
                 new Name("valid"),
                 new Id(1),
                 this._f.Id,
@@ -111,7 +111,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             this._pp = new PraxisParticipant(this._c.Id);
             this._pps = new List<PraxisParticipant>();
             this._pps.Add(this._pp);
-            var c = new Character(
+            var c = new UnsafeCharacter(
                 new Name("alt"),
                 new Id(100),
                 this._f.Id,

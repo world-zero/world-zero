@@ -10,7 +10,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
     [TestFixture]
     public class TestRAMCharacterRepo
     {
-        private void _assertCharsEqual(Character expected, Character actual)
+        private void _assertCharsEqual(UnsafeCharacter expected, UnsafeCharacter actual)
         {
             Assert.AreEqual(expected.Id, actual.Id);
             Assert.AreEqual(expected.Name, actual.Name);
@@ -26,15 +26,15 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
         }
 
         private DummyRAMCharacterRepo _charRepo;
-        private Character _c0;
-        private Character _c1;
-        private Character _c2;
+        private UnsafeCharacter _c0;
+        private UnsafeCharacter _c1;
+        private UnsafeCharacter _c2;
 
         [SetUp]
         public void Setup()
         {
             this._charRepo = new DummyRAMCharacterRepo();
-            this._c0 = new Character(
+            this._c0 = new UnsafeCharacter(
                 new Name("DIO"),
                 new Id(1),
                 null,
@@ -42,7 +42,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
                 new PointTotal(700),
                 new PointTotal(50)
             );
-            this._c1 = new Character(
+            this._c1 = new UnsafeCharacter(
                 new Name("Joturo Kujo"),
                 new Id(2),
                 null,
@@ -50,7 +50,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
                 new PointTotal(150),
                 new PointTotal(600)
             );
-            this._c2 = new Character(
+            this._c2 = new UnsafeCharacter(
                 new Name("Iggy"),
                 new Id(2),
                 null,
@@ -119,16 +119,16 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
             this._charRepo.Update(this._c0);
             this._charRepo.Save();
             var chars = this._charRepo
-                .GetByLocationId(loc0.Id).ToList<Character>();
+                .GetByLocationId(loc0.Id).ToList<UnsafeCharacter>();
             Assert.AreEqual(1, chars.Count());
-            foreach (Character c in chars)
+            foreach (UnsafeCharacter c in chars)
                 Assert.AreEqual(this._c0.Id, c.Id);
 
             this._c1.LocationId = loc0.Id;
             this._charRepo.Update(this._c1);
             this._charRepo.Save();
             chars = this._charRepo
-                .GetByLocationId(loc0.Id).ToList<Character>();
+                .GetByLocationId(loc0.Id).ToList<UnsafeCharacter>();
             Assert.AreEqual(2, chars.Count());
             Assert.AreEqual(this._c0.Id, chars[0].Id);
             Assert.AreEqual(this._c1.Id, chars[1].Id);
@@ -137,9 +137,9 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
             this._charRepo.Update(this._c2);
             this._charRepo.Save();
             chars = this._charRepo
-                .GetByLocationId(loc1.Id).ToList<Character>();
+                .GetByLocationId(loc1.Id).ToList<UnsafeCharacter>();
             Assert.AreEqual(1, chars.Count());
-            foreach (Character c in chars)
+            foreach (UnsafeCharacter c in chars)
                 Assert.AreEqual(this._c2.Id, c.Id);
         }
 
@@ -162,16 +162,16 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
             this._charRepo.Update(this._c0);
             this._charRepo.Save();
             var chars = this._charRepo
-                .GetByFactionId(f0.Id).ToList<Character>();
+                .GetByFactionId(f0.Id).ToList<UnsafeCharacter>();
             Assert.AreEqual(1, chars.Count());
-            foreach (Character c in chars)
+            foreach (UnsafeCharacter c in chars)
                 Assert.AreEqual(this._c0.Id, c.Id);
 
             this._c1.FactionId = f0.Id;
             this._charRepo.Update(this._c1);
             this._charRepo.Save();
             chars = this._charRepo
-                .GetByFactionId(f0.Id).ToList<Character>();
+                .GetByFactionId(f0.Id).ToList<UnsafeCharacter>();
             Assert.AreEqual(2, chars.Count());
             Assert.AreEqual(this._c0.Id, chars[0].Id);
             Assert.AreEqual(this._c1.Id, chars[1].Id);
@@ -180,9 +180,9 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
             this._charRepo.Update(this._c2);
             this._charRepo.Save();
             chars = this._charRepo
-                .GetByFactionId(f1.Id).ToList<Character>();
+                .GetByFactionId(f1.Id).ToList<UnsafeCharacter>();
             Assert.AreEqual(1, chars.Count());
-            foreach (Character c in chars)
+            foreach (UnsafeCharacter c in chars)
                 Assert.AreEqual(this._c2.Id, c.Id);
         }
 
@@ -206,7 +206,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
     }
 
     public class DummyRAMCharacterRepo
-        : RAMCharacterRepo
+        : RAMUnsafeCharacterRepo
     {
         public void ResetNextIdValue() { _nextIdValue = 1; }
     }

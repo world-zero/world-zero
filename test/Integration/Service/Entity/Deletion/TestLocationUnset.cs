@@ -16,7 +16,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
     public class TestLocationUnset
     {
         private ILocationRepo _localRepo;
-        private ICharacterRepo _charRepo;
+        private IUnsafeCharacterRepo _charRepo;
         private LocationUnset _unset;
         private Location _l;
         private LocationReg _reg;
@@ -25,7 +25,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void Setup()
         {
             this._localRepo = new RAMLocationRepo();
-            this._charRepo = new RAMCharacterRepo();
+            this._charRepo = new RAMUnsafeCharacterRepo();
             this._unset = new LocationUnset(
                 this._localRepo,
                 this._charRepo
@@ -78,7 +78,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         [Test]
         public void TestUnsetHappy()
         {
-            var c = new Character(
+            var c = new UnsafeCharacter(
                 new Name("Jack"),
                 new Id(10000),
                 locationId: this._l.Id
@@ -86,7 +86,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._charRepo.Insert(c);
             this._charRepo.Save();
             var chars = this._charRepo
-                .GetByLocationId(this._l.Id).ToList<Character>();
+                .GetByLocationId(this._l.Id).ToList<UnsafeCharacter>();
             Assert.AreEqual(1, chars.Count);
             Assert.AreEqual(c.Id, chars[0].Id);
             this._unset.Unset(this._l.Id);
@@ -99,7 +99,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         [Test]
         public void TestDelete()
         {
-            var c = new Character(
+            var c = new UnsafeCharacter(
                 new Name("Jack"),
                 new Id(10000),
                 locationId: this._l.Id

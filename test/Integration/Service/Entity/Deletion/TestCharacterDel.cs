@@ -37,9 +37,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
 
         private void _allAbsentt()
         {
-            this._absentt<Character, Id, int>(this._c0_0, this._repo.GetById);
-            this._absentt<Character, Id, int>(this._c0_1, this._repo.GetById);
-            this._absentt<Character, Id, int>(this._c1_0, this._repo.GetById);
+            this._absentt<UnsafeCharacter, Id, int>(this._c0_0, this._repo.GetById);
+            this._absentt<UnsafeCharacter, Id, int>(this._c0_1, this._repo.GetById);
+            this._absentt<UnsafeCharacter, Id, int>(this._c1_0, this._repo.GetById);
             this._absentt<Friend, Id, int>(this._friend00_01, this._friendRepo.GetById);
             this._absentt<Friend, Id, int>(this._friend10_01, this._friendRepo.GetById);
             this._absentt<Friend, Id, int>(this._friend00_10, this._friendRepo.GetById);
@@ -68,9 +68,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
 
         private void _allPresent()
         {
-            this._present<Character, Id, int>(this._c0_0, this._repo.GetById);
-            this._present<Character, Id, int>(this._c0_1, this._repo.GetById);
-            this._present<Character, Id, int>(this._c1_0, this._repo.GetById);
+            this._present<UnsafeCharacter, Id, int>(this._c0_0, this._repo.GetById);
+            this._present<UnsafeCharacter, Id, int>(this._c0_1, this._repo.GetById);
+            this._present<UnsafeCharacter, Id, int>(this._c1_0, this._repo.GetById);
             this._present<Friend, Id, int>(this._friend00_01, this._friendRepo.GetById);
             this._present<Friend, Id, int>(this._friend10_01, this._friendRepo.GetById);
             this._present<Friend, Id, int>(this._friend00_10, this._friendRepo.GetById);
@@ -99,9 +99,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
 
         private Id _pId0;
         private Id _pId1;
-        private Character _c0_0;
-        private Character _c0_1;
-        private Character _c1_0;
+        private UnsafeCharacter _c0_0;
+        private UnsafeCharacter _c0_1;
+        private UnsafeCharacter _c1_0;
         private Friend _friend00_01;
         private Friend _friend10_01;
         private Friend _friend00_10;
@@ -127,7 +127,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private Vote _voteBy01on10;
         private Vote _voteBy10on00;
 
-        private RAMCharacterRepo _repo;
+        private RAMUnsafeCharacterRepo _repo;
         private RAMFriendRepo _friendRepo;
         private FriendDel _friendDel;
         private RAMFoeRepo _foeRepo;
@@ -149,7 +149,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         [SetUp]
         public void Setup()
         {
-            this._repo = new RAMCharacterRepo();
+            this._repo = new RAMUnsafeCharacterRepo();
             this._friendRepo = new RAMFriendRepo();
             this._friendDel = new FriendDel(this._friendRepo);
             this._foeRepo = new RAMFoeRepo();
@@ -190,9 +190,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
 
             this._pId0 = new Id(20);
             this._pId1 = new Id(30);
-            this._c0_0 = new Character(new Name("a"), this._pId0);
-            this._c0_1 = new Character(new Name("b"), this._pId0);
-            this._c1_0 = new Character(new Name("c"), this._pId1);
+            this._c0_0 = new UnsafeCharacter(new Name("a"), this._pId0);
+            this._c0_1 = new UnsafeCharacter(new Name("b"), this._pId0);
+            this._c1_0 = new UnsafeCharacter(new Name("c"), this._pId1);
             this._repo.Insert(this._c0_0);
             this._repo.Insert(this._c0_1);
             this._repo.Insert(this._c1_0);
@@ -279,7 +279,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestDeleteSad()
         {
             Id id = null;
-            Character c = null;
+            UnsafeCharacter c = null;
             Assert.Throws<ArgumentNullException>(()=>this._del.Delete(id));
             Assert.Throws<ArgumentNullException>(()=>this._del.Delete(c));
         }
@@ -288,9 +288,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestDelete()
         {
             this._del.Delete(this._c0_0);
-            this._absentt<Character, Id, int>(this._c0_0, this._repo.GetById);
-            this._present<Character, Id, int>(this._c0_1, this._repo.GetById);
-            this._present<Character, Id, int>(this._c1_0, this._repo.GetById);
+            this._absentt<UnsafeCharacter, Id, int>(this._c0_0, this._repo.GetById);
+            this._present<UnsafeCharacter, Id, int>(this._c0_1, this._repo.GetById);
+            this._present<UnsafeCharacter, Id, int>(this._c1_0, this._repo.GetById);
             this._absentt<Friend, Id, int>(this._friend00_01, this._friendRepo.GetById);
             this._present<Friend, Id, int>(this._friend10_01, this._friendRepo.GetById);
             this._absentt<Friend, Id, int>(this._friend00_10, this._friendRepo.GetById);
@@ -335,9 +335,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestDeleteByPlayer()
         {
             this._del.DeleteByPlayer(this._pId0);
-            this._absentt<Character, Id, int>(this._c0_0, this._repo.GetById);
-            this._absentt<Character, Id, int>(this._c0_1, this._repo.GetById);
-            this._present<Character, Id, int>(this._c1_0, this._repo.GetById);
+            this._absentt<UnsafeCharacter, Id, int>(this._c0_0, this._repo.GetById);
+            this._absentt<UnsafeCharacter, Id, int>(this._c0_1, this._repo.GetById);
+            this._present<UnsafeCharacter, Id, int>(this._c1_0, this._repo.GetById);
             this._absentt<Friend, Id, int>(this._friend00_01, this._friendRepo.GetById);
             this._absentt<Friend, Id, int>(this._friend10_01, this._friendRepo.GetById);
             this._absentt<Friend, Id, int>(this._friend00_10, this._friendRepo.GetById);

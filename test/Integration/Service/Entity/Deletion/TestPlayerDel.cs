@@ -35,22 +35,22 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         {
             this._absentt<Player, Id, int>(this._player0, this._playerRepo.GetById);
             this._absentt<Player, Id, int>(this._player1, this._playerRepo.GetById);
-            this._absentt<Character, Id, int>(this._char0_0, this._charRepo.GetById);
-            this._absentt<Character, Id, int>(this._char0_1, this._charRepo.GetById);
-            this._absentt<Character, Id, int>(this._char1_0, this._charRepo.GetById);
+            this._absentt<UnsafeCharacter, Id, int>(this._char0_0, this._charRepo.GetById);
+            this._absentt<UnsafeCharacter, Id, int>(this._char0_1, this._charRepo.GetById);
+            this._absentt<UnsafeCharacter, Id, int>(this._char1_0, this._charRepo.GetById);
         }
 
         private void _allPresent()
         {
             this._present<Player, Id, int>(this._player0, this._playerRepo.GetById);
             this._present<Player, Id, int>(this._player1, this._playerRepo.GetById);
-            this._present<Character, Id, int>(this._char0_0, this._charRepo.GetById);
-            this._present<Character, Id, int>(this._char0_1, this._charRepo.GetById);
-            this._present<Character, Id, int>(this._char1_0, this._charRepo.GetById);
+            this._present<UnsafeCharacter, Id, int>(this._char0_0, this._charRepo.GetById);
+            this._present<UnsafeCharacter, Id, int>(this._char0_1, this._charRepo.GetById);
+            this._present<UnsafeCharacter, Id, int>(this._char1_0, this._charRepo.GetById);
         }
 
         private RAMPlayerRepo _playerRepo;
-        private RAMCharacterRepo _charRepo;
+        private RAMUnsafeCharacterRepo _charRepo;
         private RAMFriendRepo _friendRepo;
         private FriendDel _friendDel;
         private RAMFoeRepo _foeRepo;
@@ -72,14 +72,14 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
 
         private Player _player0;
         private Player _player1;
-        private Character _char0_0;
-        private Character _char0_1;
-        private Character _char1_0;
+        private UnsafeCharacter _char0_0;
+        private UnsafeCharacter _char0_1;
+        private UnsafeCharacter _char1_0;
 
         [SetUp]
         public void Setup()
         {
-            this._charRepo = new RAMCharacterRepo();
+            this._charRepo = new RAMUnsafeCharacterRepo();
             this._friendRepo = new RAMFriendRepo();
             this._friendDel = new FriendDel(this._friendRepo);
             this._foeRepo = new RAMFoeRepo();
@@ -126,9 +126,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._playerRepo.Insert(this._player1);
             this._playerRepo.Save();
 
-            this._char0_0 = new Character(new Name("a"), this._player0.Id);
-            this._char0_1 = new Character(new Name("b"), this._player0.Id);
-            this._char1_0 = new Character(new Name("c"), this._player1.Id);
+            this._char0_0 = new UnsafeCharacter(new Name("a"), this._player0.Id);
+            this._char0_1 = new UnsafeCharacter(new Name("b"), this._player0.Id);
+            this._char1_0 = new UnsafeCharacter(new Name("c"), this._player1.Id);
             this._charRepo.Insert(this._char0_0);
             this._charRepo.Insert(this._char0_1);
             this._charRepo.Insert(this._char1_0);
@@ -163,9 +163,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._del.Delete(this._player0);
             this._absentt<Player, Id, int>(this._player0, this._playerRepo.GetById);
             this._present<Player, Id, int>(this._player1, this._playerRepo.GetById);
-            this._absentt<Character, Id, int>(this._char0_0, this._charRepo.GetById);
-            this._absentt<Character, Id, int>(this._char0_1, this._charRepo.GetById);
-            this._present<Character, Id, int>(this._char1_0, this._charRepo.GetById);
+            this._absentt<UnsafeCharacter, Id, int>(this._char0_0, this._charRepo.GetById);
+            this._absentt<UnsafeCharacter, Id, int>(this._char0_1, this._charRepo.GetById);
+            this._present<UnsafeCharacter, Id, int>(this._char1_0, this._charRepo.GetById);
             this._del.Delete(this._player1);
             this._allAbsentt();
         }

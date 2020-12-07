@@ -18,7 +18,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         private Id _id3;
         private Id _id4;
         private IFriendRepo _friendRepo;
-        private ICharacterRepo _characterRepo;
+        private IUnsafeCharacterRepo _characterRepo;
         private IFoeRepo _foeRepo;
         private FriendReg _friendReg;
 
@@ -56,10 +56,10 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         [Test]
         public void TestRegisterHappy()
         {
-            this._characterRepo.Insert(new Character(
+            this._characterRepo.Insert(new UnsafeCharacter(
                 new Name("first"), new Id(43)
             ));
-            this._characterRepo.Insert(new Character(
+            this._characterRepo.Insert(new UnsafeCharacter(
                 new Name("second"), new Id(43)
             ));
             this._characterRepo.Save();
@@ -74,10 +74,10 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         [Test]
         public void TestFoesCantBecomeFriends()
         {
-            this._characterRepo.Insert(new Character(
+            this._characterRepo.Insert(new UnsafeCharacter(
                 new Name("first"), new Id(43)
             ));
-            this._characterRepo.Insert(new Character(
+            this._characterRepo.Insert(new UnsafeCharacter(
                 new Name("second"), new Id(43)
             ));
             this._characterRepo.Save();

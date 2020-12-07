@@ -18,14 +18,14 @@ namespace WorldZero.Service.Entity.Deletion.Relation
             : base(repo)
         { }
 
-        public void DeleteByCharacter(Character c)
+        public void DeleteByCharacter(UnsafeCharacter c)
         {
             this.AssertNotNull(c, "c");
             this.DeleteByCharacter(c.Id);
         }
 
         public async
-        System.Threading.Tasks.Task DeleteByCharacterAsync(Character c)
+        System.Threading.Tasks.Task DeleteByCharacterAsync(UnsafeCharacter c)
         {
             this.AssertNotNull(c, "c");
             await System.Threading.Tasks.Task.Run(() =>

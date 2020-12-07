@@ -24,9 +24,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         private PraxisParticipantReg _ppReg;
         private RAMEraRepo _eraRepo;
         private EraReg _eraReg;
-        private Character _c0;
-        private Character _c1;
-        private Character _c2;
+        private UnsafeCharacter _c0;
+        private UnsafeCharacter _c1;
+        private UnsafeCharacter _c2;
         private Praxis _p0;
         private Praxis _p1;
         private MetaTask _mt;
@@ -78,18 +78,18 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             this._factionRepo.Insert(this._f);
             this._factionRepo.Save();
             this._pt = new PointTotal(1000);
-            this._c0 = new Character(
+            this._c0 = new UnsafeCharacter(
                 new Name("valid"),
                 new Id(1),
                 this._f.Id,
                 eraPoints: this._pt
             );
-            this._c1 = new Character(
+            this._c1 = new UnsafeCharacter(
                 new Name("other"),
                 new Id(20),
                 eraPoints: this._pt
             );
-            this._c2 = new Character(
+            this._c2 = new UnsafeCharacter(
                 new Name("other other"),
                 new Id(10),
                 eraPoints: this._pt
@@ -164,7 +164,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         [Test]
         public void TestRegisterInsufficientLevel()
         {
-            var c = new Character(new Name("c"), new Id(9));
+            var c = new UnsafeCharacter(new Name("c"), new Id(9));
             this._charRepo.Insert(c);
             this._charRepo.Save();
             var pp = new PraxisParticipant(this._p0.Id, c.Id);

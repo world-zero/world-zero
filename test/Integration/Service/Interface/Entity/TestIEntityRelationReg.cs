@@ -16,7 +16,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
     public class TestIEntityRelationReg
     {
         private IVoteRepo _voteRepo;
-        private ICharacterRepo _characterRepo;
+        private IUnsafeCharacterRepo _characterRepo;
         private IPraxisParticipantRepo _ppRepo;
         private TestEntityRelationReg _reg;
 
@@ -24,7 +24,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
         public void Setup()
         {
             this._voteRepo = new RAMVoteRepo();
-            this._characterRepo = new RAMCharacterRepo();
+            this._characterRepo = new RAMUnsafeCharacterRepo();
             this._ppRepo = new RAMPraxisParticipantRepo();
             this._reg = new TestEntityRelationReg(
                 this._voteRepo,
@@ -74,7 +74,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
             Assert.Throws<ArgumentException>(()=>
                 this._reg.Register(v));
 
-            var c = new Character(new Name("foo"), new Id(2));
+            var c = new UnsafeCharacter(new Name("foo"), new Id(2));
             this._characterRepo.Insert(c);
             this._characterRepo.Save();
             v.CharacterId = c.Id;
@@ -97,7 +97,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
         : IEntityRelationReg
         <
             Vote,
-            Character,
+            UnsafeCharacter,
             Id,
             int,
             PraxisParticipant,
@@ -108,7 +108,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
     {
         public TestEntityRelationReg(
             IVoteRepo repo,
-            ICharacterRepo characterRepo,
+            IUnsafeCharacterRepo characterRepo,
             IPraxisParticipantRepo praxisRepo
         )
             : base(repo, characterRepo, praxisRepo)

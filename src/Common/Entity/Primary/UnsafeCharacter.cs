@@ -8,7 +8,7 @@ namespace WorldZero.Common.Entity.Primary
     /// <summary>
     /// Character is a entity for a tuple of the Character table.
     /// </summary>
-    public class Character : IIdNamedEntity, IEntityHasOptional
+    public class UnsafeCharacter : IIdNamedEntity, IEntityHasOptional
     {
         /// <summary>
         /// Determine the level based off the number of points supplied.
@@ -43,7 +43,7 @@ namespace WorldZero.Common.Entity.Primary
         /// <param name="eraPoints">If unspecified, this will be set to 0.</param>
         /// <param name="totalPoints">If unspecified, this will be set to 0.</param>
         /// <param name="votePointsLeft">If unspecified, this will be set to 100.</param>
-        public Character(
+        public UnsafeCharacter(
             Name       name,
             Id         playerId,
             Name       factionId    =null,
@@ -78,7 +78,7 @@ namespace WorldZero.Common.Entity.Primary
         /// <param name="votePointsLeft">If unspecified, this will be set to 100.</param>
         /// <param name="hasBio"></param>
         /// <param name="hasProfilePic"></param>
-        public Character(
+        public UnsafeCharacter(
             Id         id,
             Name       name,
             Id         playerId,
@@ -110,7 +110,7 @@ namespace WorldZero.Common.Entity.Primary
         /// is a supplied level that does not match the corresponding point
         /// totol.
         /// </remarks>
-        internal Character(
+        internal UnsafeCharacter(
             int    id,
             string name,
             int    playerId,
@@ -170,7 +170,7 @@ namespace WorldZero.Common.Entity.Primary
 
         public override IEntity<Id, int> Clone()
         {
-            return new Character(
+            return new UnsafeCharacter(
                 this.Id,
                 this.Name,
                 this.PlayerId,

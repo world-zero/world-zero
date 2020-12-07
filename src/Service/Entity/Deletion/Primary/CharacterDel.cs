@@ -10,10 +10,10 @@ using WorldZero.Service.Entity.Deletion.Relation;
 namespace WorldZero.Service.Entity.Deletion.Primary
 {
     /// <inheritdoc cref="IEntityDel"/>
-    public class CharacterDel : IEntityDel<Character, Id, int>
+    public class CharacterDel : IEntityDel<UnsafeCharacter, Id, int>
     {
-        protected ICharacterRepo _charRepo
-        { get { return (ICharacterRepo) this._repo; } }
+        protected IUnsafeCharacterRepo _charRepo
+        { get { return (IUnsafeCharacterRepo) this._repo; } }
 
         protected readonly FriendDel _friendDel;
         protected readonly FoeDel _foeDel;
@@ -23,7 +23,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
         protected readonly PraxisParticipantDel _ppDel;
 
         public CharacterDel(
-            ICharacterRepo charRepo,
+            IUnsafeCharacterRepo charRepo,
             FriendDel friendDel,
             FoeDel foeDel,
             CommentDel commentDel,
@@ -74,7 +74,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
             this.AssertNotNull(playerId, "playerId");
             void f(Id id)
             {
-                IEnumerable<Character> chars;
+                IEnumerable<UnsafeCharacter> chars;
                 try
                 {
                     chars = this._charRepo.GetByPlayerId(playerId);
@@ -84,7 +84,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
                 { return; }
                 try
                 {
-                    foreach (Character c in chars)
+                    foreach (UnsafeCharacter c in chars)
                         this.Delete(c.Id);
                 }
                 catch (ArgumentException e)

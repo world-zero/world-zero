@@ -18,7 +18,7 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
         private PointTotal _votePointsLeft;
         private Id _locationId;
         private Name _factionId;
-        private Character _c;
+        private UnsafeCharacter _c;
 
         [SetUp]
         public void SetUp()
@@ -34,7 +34,7 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
             this._totalPoints = new PointTotal(20);
             this._votePointsLeft = new PointTotal(75);
 
-            this._c = new Character(
+            this._c = new UnsafeCharacter(
                 this._characterId,
                 this._name,
                 this._playerId,
@@ -52,7 +52,7 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
         public void TestDefaultValues()
         {
             // no char id, faction, location, any points, or bio/pic
-            var c = new Character(
+            var c = new UnsafeCharacter(
                 this._name,
                 this._playerId
             );
@@ -85,7 +85,7 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
         [Test]
         public void TestDapperConstructor()
         {
-            var c = new Character(
+            var c = new UnsafeCharacter(
                 this._characterId.Get,
                 this._name.Get,
                 this._playerId.Get,
@@ -112,7 +112,7 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
             Assert.AreEqual(this._hasProfilePic, c.HasProfilePic);
 
             // Make sure that the point-level validation is executing.
-            Assert.Throws<InvalidOperationException>(()=>new Character(
+            Assert.Throws<InvalidOperationException>(()=>new UnsafeCharacter(
                 this._characterId.Get,
                 this._name.Get,
                 this._playerId.Get,
@@ -126,7 +126,7 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
                 this._hasBio,
                 this._hasProfilePic
             ));
-            Assert.Throws<InvalidOperationException>(()=>new Character(
+            Assert.Throws<InvalidOperationException>(()=>new UnsafeCharacter(
                 this._characterId.Get,
                 this._name.Get,
                 this._playerId.Get,

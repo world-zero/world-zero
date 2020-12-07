@@ -9,17 +9,17 @@ namespace WorldZero.Service.Entity.Deletion.Primary
 {
     /// <inheritdoc cref="IEntityUnset"/>
     public class FactionUnset
-        : IEntityUnset<Faction, Name, string, Character, Id, int>
+        : IEntityUnset<Faction, Name, string, UnsafeCharacter, Id, int>
     {
-        protected ICharacterRepo _charRepo
-        { get { return (ICharacterRepo) this._otherRepo; } }
+        protected IUnsafeCharacterRepo _charRepo
+        { get { return (IUnsafeCharacterRepo) this._otherRepo; } }
 
         protected readonly TaskDel _taskDel;
         protected readonly MetaTaskUnset _mtUnset;
 
         public FactionUnset(
             IFactionRepo repo,
-            ICharacterRepo charRepo,
+            IUnsafeCharacterRepo charRepo,
             TaskDel taskDel,
             MetaTaskUnset mtUnset
         )
@@ -49,7 +49,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
             this.AssertNotNull(factionId, "factionId");
             this.BeginTransaction();
 
-            IEnumerable<Character> chars = null;
+            IEnumerable<UnsafeCharacter> chars = null;
             try
             { chars = this._charRepo.GetByFactionId(factionId); }
             catch (ArgumentException)
@@ -57,7 +57,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
 
             if (chars != null)
             {
-                foreach (Character c in chars)
+                foreach (UnsafeCharacter c in chars)
                 {
                     c.FactionId = null;
                     try

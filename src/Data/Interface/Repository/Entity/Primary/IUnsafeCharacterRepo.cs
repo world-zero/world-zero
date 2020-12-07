@@ -7,28 +7,28 @@ using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
 namespace WorldZero.Data.Interface.Repository.Entity.Primary
 {
     /// <inheritdoc cref="IIdNamedEntityRepo"/>
-    public interface ICharacterRepo
-        : IIdNamedEntityRepo<Character>
+    public interface IUnsafeCharacterRepo
+        : IIdNamedEntityRepo<UnsafeCharacter>
     {
         /// <summary>
         /// Get a collection of saved Characters that have the supplied
         /// PlayerId. If there are none, then an exception is thrown.
         /// </summary>
-        IEnumerable<Character> GetByPlayerId(Id playerId);
+        IEnumerable<UnsafeCharacter> GetByPlayerId(Id playerId);
 
         /// <summary>
         /// Get a collection of saved Characters that have a matching
         /// LocationId as the argument. If there are none, an exception is
         /// thrown.
         /// </summary>
-        IEnumerable<Character> GetByLocationId(Id locationId);
+        IEnumerable<UnsafeCharacter> GetByLocationId(Id locationId);
 
         /// <summary>
         /// Get a collection of saved Characters that have a matching
         /// Faction name as the argument. If there are none, an exception is
         /// thrown.
         /// </summary>
-        IEnumerable<Character> GetByFactionId(Name factionId);
+        IEnumerable<UnsafeCharacter> GetByFactionId(Name factionId);
 
         /// <remarks>
         /// The level is determined by processing the player's characters and

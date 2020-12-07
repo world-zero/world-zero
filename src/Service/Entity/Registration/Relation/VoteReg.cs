@@ -24,7 +24,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
         : IEntityRelationReg
         <
             Vote,
-            Character,
+            UnsafeCharacter,
             Id,
             int,
             PraxisParticipant,
@@ -36,8 +36,8 @@ namespace WorldZero.Service.Entity.Registration.Relation
         protected IVoteRepo _voteRepo
         { get { return (IVoteRepo) this._repo; } }
 
-        protected ICharacterRepo _characterRepo
-        { get { return (ICharacterRepo) this._leftRepo; } }
+        protected IUnsafeCharacterRepo _characterRepo
+        { get { return (IUnsafeCharacterRepo) this._leftRepo; } }
 
         protected IPraxisParticipantRepo _ppRepo
         { get { return (IPraxisParticipantRepo) this._rightRepo; } }
@@ -46,7 +46,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
 
         public VoteReg(
             IVoteRepo voteRepo,
-            ICharacterRepo characterRepo,
+            IUnsafeCharacterRepo characterRepo,
             IPraxisParticipantRepo praxisParticipantRepo,
             IPraxisRepo praxisRepo
         )
@@ -105,7 +105,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
         /// <summary>
         /// Return the voting character associated with the supplied vote.
         /// </summary>
-        private Character _regGetCharacter(Vote v)
+        private UnsafeCharacter _regGetCharacter(Vote v)
         {
             try
             {
@@ -144,7 +144,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             }
         }
 
-        private Character _regGetRecChar(PraxisParticipant pp)
+        private UnsafeCharacter _regGetRecChar(PraxisParticipant pp)
         {
             try
             {
@@ -161,9 +161,9 @@ namespace WorldZero.Service.Entity.Registration.Relation
         /// Return the `Character.Id`s that the voting character's player
         /// contains.
         /// </summary>
-        private IEnumerable<Id> _regGetVotersCharsIds(Character votingChar)
+        private IEnumerable<Id> _regGetVotersCharsIds(UnsafeCharacter votingChar)
         {
-            IEnumerable<Character> chars;
+            IEnumerable<UnsafeCharacter> chars;
             try
             {
                 chars = this._characterRepo.GetByPlayerId(votingChar.PlayerId);
@@ -174,7 +174,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
                 throw new InvalidOperationException("There exists a vote with a player that has no characters.");
             }
 
-            foreach (Character c in chars)
+            foreach (UnsafeCharacter c in chars)
                 yield return c.Id;
         }
 

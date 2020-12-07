@@ -50,7 +50,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             Praxis,
             Id,
             int,
-            Character,
+            UnsafeCharacter,
             Id,
             int,
             RelationDTO<Id, int, Id, int>
@@ -62,8 +62,8 @@ namespace WorldZero.Service.Entity.Registration.Relation
         protected IPraxisRepo _praxisRepo
         { get { return (IPraxisRepo) this._leftRepo; } }
 
-        protected ICharacterRepo _characterRepo
-        { get { return (ICharacterRepo) this._rightRepo; } }
+        protected IUnsafeCharacterRepo _characterRepo
+        { get { return (IUnsafeCharacterRepo) this._rightRepo; } }
 
         protected readonly IMetaTaskRepo _mtRepo;
         protected readonly ITaskRepo _taskRepo;
@@ -74,7 +74,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
         public PraxisParticipantReg(
             IPraxisParticipantRepo praxisParticipantRepo,
             IPraxisRepo praxisRepo,
-            ICharacterRepo characterRepo,
+            IUnsafeCharacterRepo characterRepo,
             IMetaTaskRepo mtRepo,
             ITaskRepo taskRepo,
             IFactionRepo factionRepo,
@@ -101,7 +101,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             this.AssertNotNull(pp, "pp");
             this._ppRepo.BeginTransaction(true);
             Praxis p      = this._verifyPraxis(pp);
-            Character c   = this._verifyCharacter(pp);
+            UnsafeCharacter c   = this._verifyCharacter(pp);
             Era activeEra = this._eraReg.GetActiveEra();
                             this._verifyLevel(c, activeEra, p);
                             this._verifyPraxisCount(c, activeEra);
@@ -137,9 +137,9 @@ namespace WorldZero.Service.Entity.Registration.Relation
             return p;
         }
 
-        private Character _verifyCharacter(PraxisParticipant pp)
+        private UnsafeCharacter _verifyCharacter(PraxisParticipant pp)
         {
-            Character c;
+            UnsafeCharacter c;
             try
             {
                 c = this._characterRepo.GetById(pp.CharacterId);
@@ -152,7 +152,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             }
         }
 
-        private void _verifyLevel(Character c, Era activeEra, Praxis p)
+        private void _verifyLevel(UnsafeCharacter c, Era activeEra, Praxis p)
         {
             int bufferedLevel = c.EraLevel.Get + activeEra.TaskLevelBuffer.Get;
             int reqLevel;
@@ -173,7 +173,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             }
         }
 
-        private void _verifyPraxisCount(Character c, Era activeEra)
+        private void _verifyPraxisCount(UnsafeCharacter c, Era activeEra)
         {
             int praxisCount = this._ppRepo
                 .GetPraxisCount(c.Id, this._praxisLiveStatuses);
@@ -187,7 +187,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
 
         private int _verifyPPCount(
             PraxisParticipant pp,
-            Character c,
+            UnsafeCharacter c,
             Era activeEra
         )
         {
@@ -251,7 +251,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             }
         }
 
-        private void _verifyFactionsMatch(Character c, MetaTask mt)
+        private void _verifyFactionsMatch(UnsafeCharacter c, MetaTask mt)
         {
             if (mt == null)
                 return;

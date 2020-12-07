@@ -42,7 +42,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private VoteDel _voteDel;
         private RAMFactionRepo _factionRepo;
         private RAMMetaTaskRepo _mtRepo;
-        private RAMCharacterRepo _charRepo;
+        private RAMUnsafeCharacterRepo _charRepo;
         private RAMPraxisRepo _praxisRepo;
         private RAMTaskRepo _taskRepo;
         private MetaTaskUnset _mtUnset;
@@ -74,7 +74,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._factionRepo = new RAMFactionRepo();
             this._mtRepo = new RAMMetaTaskRepo();
             this._praxisRepo = new RAMPraxisRepo();
-            this._charRepo = new RAMCharacterRepo();
+            this._charRepo = new RAMUnsafeCharacterRepo();
             this._taskRepo = new RAMTaskRepo();
             this._mtUnset = new MetaTaskUnset(
                 this._mtRepo,
