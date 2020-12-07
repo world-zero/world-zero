@@ -57,8 +57,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private PraxisDel _praxisDel;
         private TaskDel _del;
 
-        private Faction _faction0;
-        private Faction _faction1;
+        private UnsafeFaction _faction0;
+        private UnsafeFaction _faction1;
         private Task _t0;
         private Task _t1;
         private Task _t2;
@@ -81,8 +81,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             var status = new Name("valid");
             var pt = new PointTotal(2);
             var level = new Level(1);
-            this._faction0 = new Faction(new Name("a"));
-            this._faction1 = new Faction(new Name("b"));
+            this._faction0 = new UnsafeFaction(new Name("a"));
+            this._faction1 = new UnsafeFaction(new Name("b"));
             this._t0 = new Task(this._faction0.Id, status, "x", pt, level);
             this._t1 = new Task(this._faction0.Id, status, "x", pt, level);
             this._t2 = new Task(this._faction1.Id, status, "x", pt, level);
@@ -241,7 +241,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestDeleteByFactionSad()
         {
             Name name = null;
-            Faction faction = null;
+            UnsafeFaction faction = null;
             Assert.Throws<ArgumentNullException>(()=>this._del.DeleteByFaction(name));
             Assert.Throws<ArgumentNullException>(()=>this._del.DeleteByFaction(faction));
 

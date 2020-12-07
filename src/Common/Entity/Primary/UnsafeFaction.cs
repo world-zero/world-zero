@@ -8,7 +8,11 @@ namespace WorldZero.Common.Entity.Primary
     /// <summary>
     /// Faction is a entity for a tuple of the Faction table.
     /// </summary>
-    public class Faction : INamedEntity, IOptionalEntity, IEntityHasOptional
+    public class UnsafeFaction :
+        INamedEntity,
+        IOptionalEntity,
+        IEntityHasOptional,
+        IUnsafeEntity
     {
         /// <summary>
         /// Initialize a new Faction. There is no requirement for any optional
@@ -16,7 +20,7 @@ namespace WorldZero.Common.Entity.Primary
         /// possible to have a faction without an ability name but with an
         /// ability description.
         /// </summary>
-        public Faction(
+        public UnsafeFaction(
             Name name,
             PastDate dateFounded=null,
             string desc=null,
@@ -31,7 +35,7 @@ namespace WorldZero.Common.Entity.Primary
             );
         }
 
-        internal Faction(
+        internal UnsafeFaction(
             string name,
             DateTime dateFounded,
             string desc,
@@ -60,7 +64,7 @@ namespace WorldZero.Common.Entity.Primary
 
         public override IEntity<Name, string> Clone()
         {
-            return new Faction(
+            return new UnsafeFaction(
                 this.Id,
                 this.DateFounded,
                 this.Description,

@@ -11,16 +11,16 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
     [TestFixture]
     public class TestFactionReg
     {
-        private IFactionRepo _factionRepo;
+        private IUnsafeFactionRepo _factionRepo;
         private IUnsafeAbilityRepo _abilityRepo;
         private FactionReg _registration;
-        private Faction _faction0;
+        private UnsafeFaction _faction0;
         private UnsafeAbility _ability0;
 
         [SetUp]
         public void Setup()
         {
-            this._factionRepo = new RAMFactionRepo();
+            this._factionRepo = new RAMUnsafeFactionRepo();
             this._abilityRepo = new RAMUnsafeAbilityRepo();
             this._registration = new FactionReg(
                 this._factionRepo,
@@ -29,7 +29,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             this._ability0 = new UnsafeAbility(new Name("Ze Worldo"), "Stop time for 5 seconds.");
             this._abilityRepo.Insert(this._ability0);
             this._abilityRepo.Save();
-            this._faction0 = new Faction(
+            this._faction0 = new UnsafeFaction(
                 new Name("The JoJos"),
                 new PastDate(DateTime.UtcNow),
                 null,
@@ -53,7 +53,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         [Test]
         public void TestRegisterHappy()
         {
-            var f = new Faction(
+            var f = new UnsafeFaction(
                 new Name("idk"),
                 new PastDate(DateTime.UtcNow),
                 null,
@@ -62,7 +62,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             this._registration.Register(f);
             Assert.IsNotNull(this._factionRepo.GetById(f.Id));
 
-            f = new Faction(
+            f = new UnsafeFaction(
                 new Name("something"),
                 new PastDate(DateTime.UtcNow)
             );
@@ -73,7 +73,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         [Test]
         public void TestRegisterSad()
         {
-            var f = new Faction(
+            var f = new UnsafeFaction(
                 new Name("idk"),
                 new PastDate(DateTime.UtcNow),
                 null,

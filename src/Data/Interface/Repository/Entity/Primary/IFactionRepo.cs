@@ -6,14 +6,14 @@ using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
 namespace WorldZero.Data.Interface.Repository.Entity.Primary
 {
     /// <inheritdoc cref="INamedEntityRepo"/>
-    public interface IFactionRepo
-        : INamedEntityRepo<Faction>
+    public interface IUnsafeFactionRepo
+        : INamedEntityRepo<UnsafeFaction>
     {
         /// <summary>
         /// Get a collection of saved Factions that have a matching
         /// Ability name as the argument. If there are none, an exception is
         /// thrown.
         /// </summary>
-        IEnumerable<Faction> GetByAbilityId(Name abilityId);
+        IEnumerable<UnsafeFaction> GetByAbilityId(Name abilityId);
     }
 }

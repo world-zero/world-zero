@@ -151,9 +151,9 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
             Assert.Throws<ArgumentException>(()=>
                 this._charRepo.GetByFactionId(new Name("xcvs")));
 
-            var factionRepo = new RAMFactionRepo();
-            var f0 = new Faction(new Name("F0"));
-            var f1 = new Faction(new Name("F1"));
+            var factionRepo = new RAMUnsafeFactionRepo();
+            var f0 = new UnsafeFaction(new Name("F0"));
+            var f1 = new UnsafeFaction(new Name("F1"));
             factionRepo.Insert(f0);
             factionRepo.Insert(f1);
             factionRepo.Save();

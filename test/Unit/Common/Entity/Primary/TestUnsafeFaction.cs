@@ -6,13 +6,13 @@ using NUnit.Framework;
 namespace WorldZero.Test.Unit.Common.Entity.Primary
 {
     [TestFixture]
-    public class TestFaction
+    public class TestUnsafeFaction
     {
         private Name _name;
         private PastDate _dateFounded;
         private string _desc;
         private Name _abilityName;
-        private Faction _f;
+        private UnsafeFaction _f;
 
         [SetUp]
         public void Setup()
@@ -22,13 +22,13 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
             this._desc = "primary description";
             this._abilityName = new Name("Plot Power");
 
-            this._f = new Faction(this._name, this._dateFounded, this._desc, this._abilityName);
+            this._f = new UnsafeFaction(this._name, this._dateFounded, this._desc, this._abilityName);
         }
 
         [Test]
         public void TestDefaultValues()
         {
-            var f = new Faction(this._name);
+            var f = new UnsafeFaction(this._name);
             // Ignore the minutes/milliseconds/seconds so this test doesn't fail.
             Assert.AreEqual(
                 DateTime.UtcNow.ToString("MM:dd:yyyy HH"),

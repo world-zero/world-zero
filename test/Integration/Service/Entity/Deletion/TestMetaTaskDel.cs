@@ -43,8 +43,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private RAMMetaTaskRepo _repo;
         private RAMPraxisRepo _praxisRepo;
         private MetaTaskUnset _unset;
-        private Faction _faction0;
-        private Faction _faction1;
+        private UnsafeFaction _faction0;
+        private UnsafeFaction _faction1;
         private MetaTask _mt0_0;
         private MetaTask _mt0_1;
         private MetaTask _mt1_0;
@@ -61,8 +61,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
 
             var s = new Name("status");
             var pt = new PointTotal(2);
-            this._faction0 = new Faction(new Name("0"));
-            this._faction1 = new Faction(new Name("1"));
+            this._faction0 = new UnsafeFaction(new Name("0"));
+            this._faction1 = new UnsafeFaction(new Name("1"));
             this._mt0_0 = new MetaTask(this._faction0.Id, s, "x", pt);
             this._mt0_1 = new MetaTask(this._faction0.Id, s, "x", pt);
             this._mt1_0 = new MetaTask(this._faction1.Id, s, "x", pt);
@@ -88,7 +88,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestDeleteByFactionSad()
         {
             Name name = null;
-            Faction faction = null;
+            UnsafeFaction faction = null;
             Assert.Throws<ArgumentNullException>(()=>this._unset.DeleteByFaction(name));
             Assert.Throws<ArgumentNullException>(()=>this._unset.DeleteByFaction(faction));
 

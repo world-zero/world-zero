@@ -9,7 +9,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
 {
     /// <inheritdoc cref="IEntityUnset"/>
     public class FactionUnset
-        : IEntityUnset<Faction, Name, string, UnsafeCharacter, Id, int>
+        : IEntityUnset<UnsafeFaction, Name, string, UnsafeCharacter, Id, int>
     {
         protected IUnsafeCharacterRepo _charRepo
         { get { return (IUnsafeCharacterRepo) this._otherRepo; } }
@@ -18,7 +18,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
         protected readonly MetaTaskUnset _mtUnset;
 
         public FactionUnset(
-            IFactionRepo repo,
+            IUnsafeFactionRepo repo,
             IUnsafeCharacterRepo charRepo,
             TaskDel taskDel,
             MetaTaskUnset mtUnset

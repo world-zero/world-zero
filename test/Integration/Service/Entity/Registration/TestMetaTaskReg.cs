@@ -12,18 +12,18 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
     public class TestMetaTaskReg
     {
         private IMetaTaskRepo _metaTaskRepo;
-        private IFactionRepo _factionRepo;
+        private IUnsafeFactionRepo _factionRepo;
         private IStatusRepo _statusRepo;
         private MetaTaskReg _registration;
         private Status _status0;
         private Status _status1;
-        private Faction _faction0;
+        private UnsafeFaction _faction0;
 
         [SetUp]
         public void Setup()
         {
             this._metaTaskRepo = new RAMMetaTaskRepo();
-            this._factionRepo = new RAMFactionRepo();
+            this._factionRepo = new RAMUnsafeFactionRepo();
             this._statusRepo = new RAMStatusRepo();
             this._registration = new MetaTaskReg(
                 this._metaTaskRepo,
@@ -35,7 +35,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             this._statusRepo.Insert(this._status0);
             this._statusRepo.Insert(this._status1);
             this._statusRepo.Save();
-            this._faction0 = new Faction(
+            this._faction0 = new UnsafeFaction(
                 new Name("DIO's Minions"),
                 new PastDate(DateTime.UtcNow)
             );

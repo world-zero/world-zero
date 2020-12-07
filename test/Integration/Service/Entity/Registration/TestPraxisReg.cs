@@ -16,7 +16,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
     public class TestPraxisReg
     {
         private PointTotal _pt;
-        private IFactionRepo _factionRepo;
+        private IUnsafeFactionRepo _factionRepo;
         private DummyRAMPraxisParticipantRepo _ppRepo;
         private IUnsafeCharacterRepo _charRepo;
         private DummyRAMPraxisRepo _praxisRepo;
@@ -33,7 +33,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         private MetaTask _mt;
         private PraxisParticipant _pp;
         private List<PraxisParticipant> _pps;
-        private Faction _f;
+        private UnsafeFaction _f;
         private IUnsafeEraRepo _eraRepo;
         private EraReg _eraReg;
 
@@ -41,7 +41,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         public void Setup()
         {
             this._pt = new PointTotal(2);
-            this._factionRepo = new RAMFactionRepo();
+            this._factionRepo = new RAMUnsafeFactionRepo();
             this._eraRepo = new RAMUnsafeEraRepo();
             this._eraReg = new EraReg(this._eraRepo);
             this._ppRepo = new DummyRAMPraxisParticipantRepo();
@@ -82,7 +82,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             this._taskRepo.Save();
 
             this._f =
-                new Faction(new Name("Good"), new PastDate(DateTime.UtcNow));
+                new UnsafeFaction(new Name("Good"), new PastDate(DateTime.UtcNow));
             this._factionRepo.Insert(this._f);
             this._factionRepo.Save();
             this._c = new UnsafeCharacter(

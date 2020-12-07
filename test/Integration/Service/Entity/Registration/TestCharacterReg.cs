@@ -12,12 +12,12 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
     public class TestCharacterReg
     {
         private IUnsafeCharacterRepo _characterRepo;
-        private IFactionRepo _factionRepo;
+        private IUnsafeFactionRepo _factionRepo;
         private IPlayerRepo _playerRepo;
         private ILocationRepo _locationRepo;
         private CharacterReg _registration;
         private Player _player0;
-        private Faction _faction0;
+        private UnsafeFaction _faction0;
         private Location _location0;
 
         [SetUp]
@@ -25,7 +25,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         {
             CharacterReg.MinLevelToRegister = new Level(3);
             this._characterRepo = new RAMUnsafeCharacterRepo();
-            this._factionRepo = new RAMFactionRepo();
+            this._factionRepo = new RAMUnsafeFactionRepo();
             this._playerRepo = new DummyRAMPlayerRepo();
             this._locationRepo = new DummyRAMLocationRepo();
             this._registration = new CharacterReg(
@@ -37,7 +37,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             this._player0 = new Player(new Name("Johnothan Jostar"));
             this._playerRepo.Insert(this._player0);
             this._playerRepo.Save();
-            this._faction0 = new Faction(
+            this._faction0 = new UnsafeFaction(
                 new Name("The JoJos"),
                 new PastDate(DateTime.UtcNow)
             );

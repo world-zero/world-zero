@@ -67,7 +67,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
 
         protected readonly IMetaTaskRepo _mtRepo;
         protected readonly ITaskRepo _taskRepo;
-        protected readonly IFactionRepo _factionRepo;
+        protected readonly IUnsafeFactionRepo _factionRepo;
         protected readonly EraReg _eraReg;
         protected ISet<Name> _praxisLiveStatuses;
 
@@ -77,7 +77,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             IUnsafeCharacterRepo characterRepo,
             IMetaTaskRepo mtRepo,
             ITaskRepo taskRepo,
-            IFactionRepo factionRepo,
+            IUnsafeFactionRepo factionRepo,
             EraReg eraReg
         )
             : base(praxisParticipantRepo, praxisRepo, characterRepo)
@@ -208,7 +208,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
                 throw new ArgumentException($"The character can only submit praxises for a task {activeEra.MaxTasks} time(s).");
             }
 
-            Faction f;
+            UnsafeFaction f;
             try
             {
                 f = this._factionRepo.GetById(c.FactionId);

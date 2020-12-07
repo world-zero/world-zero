@@ -17,7 +17,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         private Id _id2;
         private Id _id3;
         private Id _id4;
-        private RAMFactionRepo _factionRepo;
+        private RAMUnsafeFactionRepo _factionRepo;
         private RAMTaskRepo _taskRepo;
         private RAMVoteRepo _voteRepo;
         private RAMUnsafeCharacterRepo _charRepo;
@@ -36,7 +36,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             this._id2 = new Id(2);
             this._id3 = new Id(3);
             this._id4 = new Id(4);
-            this._factionRepo = new RAMFactionRepo();
+            this._factionRepo = new RAMUnsafeFactionRepo();
             this._taskRepo = new RAMTaskRepo();
             this._eraRepo = new RAMUnsafeEraRepo();
             this._eraReg = new EraReg(this._eraRepo);
@@ -92,7 +92,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             var playerReg = new PlayerReg(playerRepo);
             playerReg.Register(player);
 
-            var factionRepo = new RAMFactionRepo();
+            var factionRepo = new RAMUnsafeFactionRepo();
             var locationRepo = new RAMLocationRepo();
             var character = new UnsafeCharacter(
                 new Name("Stinky"),

@@ -40,7 +40,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private PraxisParticipantDel _ppDel;
         private RAMVoteRepo _voteRepo;
         private VoteDel _voteDel;
-        private RAMFactionRepo _factionRepo;
+        private RAMUnsafeFactionRepo _factionRepo;
         private RAMMetaTaskRepo _mtRepo;
         private RAMUnsafeCharacterRepo _charRepo;
         private RAMPraxisRepo _praxisRepo;
@@ -59,8 +59,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private PraxisDel _praxisDel;
         private TaskDel _taskDel;
         private FactionUnset _unset;
-        private Faction _faction0;
-        private Faction _faction1;
+        private UnsafeFaction _faction0;
+        private UnsafeFaction _faction1;
         private MetaTask _mt0_0;
         private MetaTask _mt0_1;
         private MetaTask _mt1_0;
@@ -71,7 +71,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         [SetUp]
         public void Setup()
         {
-            this._factionRepo = new RAMFactionRepo();
+            this._factionRepo = new RAMUnsafeFactionRepo();
             this._mtRepo = new RAMMetaTaskRepo();
             this._praxisRepo = new RAMPraxisRepo();
             this._charRepo = new RAMUnsafeCharacterRepo();
@@ -122,8 +122,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             var pt = new PointTotal(2);
             var level = new Level(2);
 
-            this._faction0 = new Faction(new Name("0"));
-            this._faction1 = new Faction(new Name("1"));
+            this._faction0 = new UnsafeFaction(new Name("0"));
+            this._faction1 = new UnsafeFaction(new Name("1"));
             this._factionRepo.Insert(this._faction0);
             this._factionRepo.Insert(this._faction1);
             this._factionRepo.Save();
@@ -161,7 +161,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestDeleteSad()
         {
             Name name = null;
-            Faction faction = null;
+            UnsafeFaction faction = null;
             Assert.Throws<ArgumentNullException>(()=>this._unset.Delete(name));
             Assert.Throws<ArgumentNullException>(()=>this._unset.Delete(faction));
 

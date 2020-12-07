@@ -8,23 +8,23 @@ using WorldZero.Data.Interface.Repository.Entity.RAM.Generic;
 
 namespace WorldZero.Data.Repository.Entity.RAM.Primary
 {
-    /// <inheritdoc cref="IFactionRepo"/>
-    public class RAMFactionRepo
-        : IRAMNamedEntityRepo<Faction>,
-        IFactionRepo
+    /// <inheritdoc cref="IUnsafeFactionRepo"/>
+    public class RAMUnsafeFactionRepo
+        : IRAMNamedEntityRepo<UnsafeFaction>,
+        IUnsafeFactionRepo
     {
         protected override int GetRuleCount()
         {
-            var a = new Faction(new Name("x"), new PastDate(DateTime.UtcNow));
+            var a = new UnsafeFaction(new Name("x"), new PastDate(DateTime.UtcNow));
             return a.GetUniqueRules().Count;
         }
 
-        public IEnumerable<Faction> GetByAbilityId(Name abilityId)
+        public IEnumerable<UnsafeFaction> GetByAbilityId(Name abilityId)
         {
             if (abilityId == null)
                 throw new ArgumentNullException("abilityId");
 
-            IEnumerable<Faction> factions =
+            IEnumerable<UnsafeFaction> factions =
                 from p in this._saved.Values
                 let praxis = this.TEntityCast(p)
                 where praxis.AbilityId != null

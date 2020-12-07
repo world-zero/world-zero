@@ -8,15 +8,15 @@ namespace WorldZero.Service.Entity.Registration.Primary
 {
     /// <inheritdoc cref="IEntityReg"/>
     public class FactionReg
-        : IEntityReg<Faction, Name, string>
+        : IEntityReg<UnsafeFaction, Name, string>
     {
         protected readonly IUnsafeAbilityRepo _abilityRepo;
 
-        protected IFactionRepo _factionRepo
-        { get { return (IFactionRepo) this._repo; } }
+        protected IUnsafeFactionRepo _factionRepo
+        { get { return (IUnsafeFactionRepo) this._repo; } }
 
         public FactionReg(
-            IFactionRepo factionRepo,
+            IUnsafeFactionRepo factionRepo,
             IUnsafeAbilityRepo abilityRepo
         )
             : base(factionRepo)
@@ -25,7 +25,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
             this._abilityRepo = abilityRepo;
         }
 
-        public override Faction Register(Faction faction)
+        public override UnsafeFaction Register(UnsafeFaction faction)
         {
             this._factionRepo.BeginTransaction(true);
             if (faction.AbilityId != null)

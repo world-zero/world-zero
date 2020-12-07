@@ -95,7 +95,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
             { throw new InvalidOperationException("An error occurred during transaction end.", e); }
         }
 
-        public void DeleteByFaction(Faction f)
+        public void DeleteByFaction(UnsafeFaction f)
         {
             this.AssertNotNull(f, "f");
             this.DeleteByFaction(f.Id);
@@ -119,7 +119,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
         }
 
         public async
-        System.Threading.Tasks.Task DeleteByFactionAsync(Faction f)
+        System.Threading.Tasks.Task DeleteByFactionAsync(UnsafeFaction f)
         {
             this.AssertNotNull(f, "f");
             await System.Threading.Tasks.Task.Run(() =>

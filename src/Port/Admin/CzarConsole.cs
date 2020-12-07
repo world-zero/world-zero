@@ -131,7 +131,7 @@ namespace WorldZero.Port.Admin
                 )
             );
             this._abilityReg.Register(ability);
-            this._factionReg.Register(new Faction(
+            this._factionReg.Register(new UnsafeFaction(
                 new Name("UA"), now, null, ability.Id
             ));
 
@@ -140,7 +140,7 @@ namespace WorldZero.Port.Admin
                 "You complete tasks for all factions at 80% of the points."
             );
             this._abilityReg.Register(ability);
-            this._factionReg.Register(new Faction(
+            this._factionReg.Register(new UnsafeFaction(
                 new Name("UA Masters"), now, null, ability.Id
             ));
 
@@ -149,7 +149,7 @@ namespace WorldZero.Port.Admin
                 "You will receive an extra 10% of points from duels."
             );
             this._abilityReg.Register(ability);
-            this._factionReg.Register(new Faction(
+            this._factionReg.Register(new UnsafeFaction(
                 new Name("Snide"), now, null, ability.Id
             ));
 
@@ -162,7 +162,7 @@ namespace WorldZero.Port.Admin
                 )
             );
             this._abilityReg.Register(ability);
-            this._factionReg.Register(new Faction(
+            this._factionReg.Register(new UnsafeFaction(
                 new Name("Gestalt"), now, null, ability.Id
             ));
 
@@ -171,7 +171,7 @@ namespace WorldZero.Port.Admin
                 "You may sign up for approved pretired / retired tasks."
             );
             this._abilityReg.Register(ability);
-            this._factionReg.Register(new Faction(
+            this._factionReg.Register(new UnsafeFaction(
                 new Name("Journeymen"), now, null, ability.Id
             ));
 
@@ -183,11 +183,11 @@ namespace WorldZero.Port.Admin
                 )
             );
             this._abilityReg.Register(ability);
-            this._factionReg.Register(new Faction(
+            this._factionReg.Register(new UnsafeFaction(
                 new Name("Analog"), now, null, ability.Id
             ));
 
-            this._factionReg.Register(new Faction(
+            this._factionReg.Register(new UnsafeFaction(
                 new Name("Singularity"), now
             ));
 
@@ -199,7 +199,7 @@ namespace WorldZero.Port.Admin
                 )
             );
             this._abilityReg.Register(ability);
-            this._factionReg.Register(new Faction(
+            this._factionReg.Register(new UnsafeFaction(
                 new Name("Albescent"), now, null, ability.Id
             ));
         }

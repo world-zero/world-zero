@@ -9,12 +9,12 @@ namespace WorldZero.Service.Entity.Deletion.Primary
 {
     /// <inheritdoc cref="IEntityUnset"/>
     public class AbilityUnset
-        : IEntityUnset<UnsafeAbility, Name, string, Faction, Name, string>
+        : IEntityUnset<UnsafeAbility, Name, string, UnsafeFaction, Name, string>
     {
-        protected IFactionRepo _factionRepo
-        { get { return (IFactionRepo) this._otherRepo; } }
+        protected IUnsafeFactionRepo _factionRepo
+        { get { return (IUnsafeFactionRepo) this._otherRepo; } }
 
-        public AbilityUnset(IUnsafeAbilityRepo repo, IFactionRepo factionRepo)
+        public AbilityUnset(IUnsafeAbilityRepo repo, IUnsafeFactionRepo factionRepo)
             : base(repo, factionRepo)
         { }
 
@@ -23,7 +23,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
             this.AssertNotNull(factionId, "factionId");
             this.BeginTransaction();
 
-            IEnumerable<Faction> factions = null;
+            IEnumerable<UnsafeFaction> factions = null;
             try
             { factions = this._factionRepo.GetByAbilityId(factionId); }
             catch (ArgumentException e)
@@ -34,7 +34,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
 
             if (factions != null)
             {
-                foreach (Faction c in factions)
+                foreach (UnsafeFaction c in factions)
                 {
                     c.AbilityId = null;
                     try
