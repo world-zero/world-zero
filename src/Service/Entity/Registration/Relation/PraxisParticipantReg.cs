@@ -47,7 +47,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
         : IEntityRelationReg
         <
             PraxisParticipant,
-            Praxis,
+            UnsafePraxis,
             Id,
             int,
             UnsafeCharacter,
@@ -59,8 +59,8 @@ namespace WorldZero.Service.Entity.Registration.Relation
         protected IPraxisParticipantRepo _ppRepo
         { get { return (IPraxisParticipantRepo) this._repo; } }
 
-        protected IPraxisRepo _praxisRepo
-        { get { return (IPraxisRepo) this._leftRepo; } }
+        protected IUnsafePraxisRepo _praxisRepo
+        { get { return (IUnsafePraxisRepo) this._leftRepo; } }
 
         protected IUnsafeCharacterRepo _characterRepo
         { get { return (IUnsafeCharacterRepo) this._rightRepo; } }
@@ -73,7 +73,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
 
         public PraxisParticipantReg(
             IPraxisParticipantRepo praxisParticipantRepo,
-            IPraxisRepo praxisRepo,
+            IUnsafePraxisRepo praxisRepo,
             IUnsafeCharacterRepo characterRepo,
             IUnsafeMetaTaskRepo mtRepo,
             ITaskRepo taskRepo,
@@ -100,7 +100,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
         {
             this.AssertNotNull(pp, "pp");
             this._ppRepo.BeginTransaction(true);
-            Praxis p      = this._verifyPraxis(pp);
+            UnsafePraxis p      = this._verifyPraxis(pp);
             UnsafeCharacter c   = this._verifyCharacter(pp);
             UnsafeEra activeEra = this._eraReg.GetActiveEra();
                             this._verifyLevel(c, activeEra, p);
@@ -114,9 +114,9 @@ namespace WorldZero.Service.Entity.Registration.Relation
             return r;
         }
 
-        private Praxis _verifyPraxis(PraxisParticipant pp)
+        private UnsafePraxis _verifyPraxis(PraxisParticipant pp)
         {
-            Praxis p;
+            UnsafePraxis p;
             try
             {
                 p = this._praxisRepo.GetById(pp.PraxisId);
@@ -152,7 +152,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             }
         }
 
-        private void _verifyLevel(UnsafeCharacter c, UnsafeEra activeEra, Praxis p)
+        private void _verifyLevel(UnsafeCharacter c, UnsafeEra activeEra, UnsafePraxis p)
         {
             int bufferedLevel = c.EraLevel.Get + activeEra.TaskLevelBuffer.Get;
             int reqLevel;
@@ -236,7 +236,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
         /// A `MetaTask` is not required for a `Praxis`, so this can return
         /// `null`.
         /// </remarks>
-        private UnsafeMetaTask _getMetaTask(Praxis p)
+        private UnsafeMetaTask _getMetaTask(UnsafePraxis p)
         {
             if (p.MetaTaskId == null)
                 return null;
@@ -284,7 +284,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
         /// PraxisReg would not allow a dueling praxis to be registered
         /// if it had the incorrect number of participants.
         /// </remarks>
-        private void _verifyDuel(Praxis p)
+        private void _verifyDuel(UnsafePraxis p)
         {
             if (p.AreDueling)
             {

@@ -14,18 +14,18 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
     [TestFixture]
     public class TestPraxisParticipatDel
     {
-        private RAMPraxisRepo _praxisRepo;
+        private RAMUnsafePraxisRepo _praxisRepo;
         private RAMVoteRepo _voteRepo;
         private VoteDel _voteDel;
         private RAMPraxisParticipantRepo _repo;
         private PraxisParticipantDel _del;
-        private Praxis _p0;
-        private Praxis _p1;
+        private UnsafePraxis _p0;
+        private UnsafePraxis _p1;
 
         [SetUp]
         public void Setup()
         {
-            this._praxisRepo = new RAMPraxisRepo();
+            this._praxisRepo = new RAMUnsafePraxisRepo();
             this._voteRepo = new RAMVoteRepo();
             this._voteDel = new VoteDel(this._voteRepo);
             this._repo = new RAMPraxisParticipantRepo();
@@ -34,8 +34,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
                 this._praxisRepo,
                 this._voteDel
             );
-            this._p0 = new Praxis(new Id(1), new PointTotal(1), new Name("s"));
-            this._p1 = new Praxis(new Id(2), new PointTotal(1), new Name("s"));
+            this._p0 = new UnsafePraxis(new Id(1), new PointTotal(1), new Name("s"));
+            this._p1 = new UnsafePraxis(new Id(2), new PointTotal(1), new Name("s"));
             this._praxisRepo.Insert(this._p0);
             this._praxisRepo.Insert(this._p1);
             this._praxisRepo.Save();
@@ -149,7 +149,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
                 praxisFlagDel
             );
 
-            var p = new Praxis(
+            var p = new UnsafePraxis(
                 new Id(342),
                 new PointTotal(2),
                 new Name("x"),
@@ -177,7 +177,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestUNSAFE_DeleteByPraxis()
         {
             Id id = null;
-            Praxis p = null;
+            UnsafePraxis p = null;
             Assert.Throws<ArgumentNullException>(()=>
                 this._del.UNSAFE_DeleteByPraxis(id));
             Assert.Throws<ArgumentNullException>(()=>
@@ -266,7 +266,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestDeleteByLeft()
         {
             Id id = null;
-            Praxis p = null;
+            UnsafePraxis p = null;
             Assert.Throws<ArgumentNullException>(()=>
                 this._del.DeleteByLeft(id));
             Assert.Throws<ArgumentNullException>(()=>
@@ -280,7 +280,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestDeleteByPraxis()
         {
             Id id = null;
-            Praxis p = null;
+            UnsafePraxis p = null;
             Assert.Throws<ArgumentNullException>(()=>
                 this._del.DeleteByPraxis(id));
             Assert.Throws<ArgumentNullException>(()=>
@@ -392,7 +392,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             // If a participant of a duel leaves, then the praxis is changed
             // to no longer be a duel, and the remaining participant is awarded
             // the points based off their received votes.
-            var p = new Praxis(
+            var p = new UnsafePraxis(
                 new Id(1),
                 new PointTotal(1),
                 new Name("s"),

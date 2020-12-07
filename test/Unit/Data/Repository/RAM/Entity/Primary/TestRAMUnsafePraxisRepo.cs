@@ -12,9 +12,9 @@ using NUnit.Framework;
 namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
 {
     [TestFixture]
-    public class TestRAMPraxisRepo
+    public class TestRAMUnsafePraxisRepo
     {
-        private RAMPraxisRepo _praxisRepo;
+        private RAMUnsafePraxisRepo _praxisRepo;
         private TestPraxisParticipantRepoExposedData _ppRepo;
         private HashSet<Name> _goodStatuses;
         private Id _taskId0;
@@ -22,9 +22,9 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
         private Name _goodStatus;
         private Name _otherGoodStatus;
         private Name _badStatus;
-        private Praxis _p0;
-        private Praxis _p1;
-        private Praxis _p2;
+        private UnsafePraxis _p0;
+        private UnsafePraxis _p1;
+        private UnsafePraxis _p2;
         private PraxisParticipant _pp0;
         private PraxisParticipant _pp1;
         private PraxisParticipant _pp2;
@@ -37,7 +37,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
         [SetUp]
         public void Setup()
         {
-            this._praxisRepo = new RAMPraxisRepo();
+            this._praxisRepo = new RAMUnsafePraxisRepo();
             this._ppRepo = new TestPraxisParticipantRepoExposedData();
             this._goodStatus = new Name("good");
             this._otherGoodStatus = new Name("other good");
@@ -48,9 +48,9 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
             this._points = new PointTotal(3);
             this._taskId0 = new Id(1);
             this._taskId1 = new Id(2);
-            this._p0 = new Praxis(this._taskId0,this._points,this._goodStatus);
-            this._p1 = new Praxis(this._taskId0,this._points,this._goodStatus);
-            this._p2 = new Praxis(this._taskId1,this._points,this._badStatus);
+            this._p0 = new UnsafePraxis(this._taskId0,this._points,this._goodStatus);
+            this._p1 = new UnsafePraxis(this._taskId0,this._points,this._goodStatus);
+            this._p2 = new UnsafePraxis(this._taskId1,this._points,this._badStatus);
             this._praxisRepo.Insert(this._p0);
             this._praxisRepo.Insert(this._p1);
             this._praxisRepo.Save();
@@ -107,16 +107,16 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
             this._praxisRepo.Update(this._p0);
             this._praxisRepo.Save();
             var praxises = this._praxisRepo
-                .GetByMetaTaskId(mt0.Id).ToList<Praxis>();
+                .GetByMetaTaskId(mt0.Id).ToList<UnsafePraxis>();
             Assert.AreEqual(1, praxises.Count());
-            foreach (Praxis p in praxises)
+            foreach (UnsafePraxis p in praxises)
                 Assert.AreEqual(this._p0.Id, p.Id);
 
             this._p1.MetaTaskId = mt0.Id;
             this._praxisRepo.Update(this._p1);
             this._praxisRepo.Save();
             praxises = this._praxisRepo
-                .GetByMetaTaskId(mt0.Id).ToList<Praxis>();
+                .GetByMetaTaskId(mt0.Id).ToList<UnsafePraxis>();
             Assert.AreEqual(2, praxises.Count());
             Assert.AreEqual(this._p0.Id, praxises[0].Id);
             Assert.AreEqual(this._p1.Id, praxises[1].Id);
@@ -125,9 +125,9 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
             this._praxisRepo.Update(this._p2);
             this._praxisRepo.Save();
             praxises = this._praxisRepo
-                .GetByMetaTaskId(mt1.Id).ToList<Praxis>();
+                .GetByMetaTaskId(mt1.Id).ToList<UnsafePraxis>();
             Assert.AreEqual(1, praxises.Count());
-            foreach (Praxis p in praxises)
+            foreach (UnsafePraxis p in praxises)
                 Assert.AreEqual(this._p2.Id, p.Id);
         }
 

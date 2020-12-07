@@ -42,13 +42,13 @@ namespace WorldZero.Service.Entity.Registration.Relation
         protected IPraxisParticipantRepo _ppRepo
         { get { return (IPraxisParticipantRepo) this._rightRepo; } }
 
-        protected readonly IPraxisRepo _praxisRepo;
+        protected readonly IUnsafePraxisRepo _praxisRepo;
 
         public VoteReg(
             IVoteRepo voteRepo,
             IUnsafeCharacterRepo characterRepo,
             IPraxisParticipantRepo praxisParticipantRepo,
-            IPraxisRepo praxisRepo
+            IUnsafePraxisRepo praxisRepo
         )
             : base(voteRepo, characterRepo, praxisParticipantRepo)
         {
@@ -118,7 +118,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             }
         }
 
-        private Praxis _regGetPraxis(PraxisParticipant pp)
+        private UnsafePraxis _regGetPraxis(PraxisParticipant pp)
         {
             try
             {
@@ -181,7 +181,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
         /// <summary>
         /// Return the `Character.Id`s participating on the supplied praxis.
         /// </summary>
-        private IEnumerable<Id> _regGetPraxisCharsIds(Praxis praxis)
+        private IEnumerable<Id> _regGetPraxisCharsIds(UnsafePraxis praxis)
         {
             try
             {

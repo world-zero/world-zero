@@ -14,7 +14,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
         : IEntityRelationReg
         <
             PraxisFlag,
-            Praxis,
+            UnsafePraxis,
             Id,
             int,
             UnsafeFlag,
@@ -26,15 +26,15 @@ namespace WorldZero.Service.Entity.Registration.Relation
         protected IPraxisFlagRepo _praxisFlagRepo
         { get { return (IPraxisFlagRepo) this._repo; } }
 
-        protected IPraxisRepo _praxisRepo
-        { get { return (IPraxisRepo) this._leftRepo; } }
+        protected IUnsafePraxisRepo _praxisRepo
+        { get { return (IUnsafePraxisRepo) this._leftRepo; } }
 
         protected IUnsafeFlagRepo _flagRepo
         { get { return (IUnsafeFlagRepo) this._rightRepo; } }
 
         public PraxisFlagReg(
             IPraxisFlagRepo praxisFlagRepo,
-            IPraxisRepo praxisRepo,
+            IUnsafePraxisRepo praxisRepo,
             IUnsafeFlagRepo flagRepo
         )
             : base(praxisFlagRepo, praxisRepo, flagRepo)
@@ -47,7 +47,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             // because of the weird non-generic abstract classes that exist
             // right before the entities are implemented.
             this.AssertNotNull(e, "e");
-            Praxis p;
+            UnsafePraxis p;
             UnsafeFlag f;
             this._praxisFlagRepo.BeginTransaction(true);
             try

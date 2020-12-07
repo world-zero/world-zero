@@ -12,9 +12,12 @@ namespace WorldZero.Common.Entity.Primary
     /// As you would expect, validation of the Status is left to the Praxis
     /// registration class.
     /// </remarks>
-    public class Praxis : IIdStatusedEntity, IEntityHasOptional
+    public class UnsafePraxis :
+        IIdStatusedEntity,
+        IEntityHasOptional,
+        IUnsafeEntity
     {
-        public Praxis(
+        public UnsafePraxis(
             Id taskId,
             PointTotal points,
             Name statusId,
@@ -31,7 +34,7 @@ namespace WorldZero.Common.Entity.Primary
             );
         }
 
-        public Praxis(
+        public UnsafePraxis(
             Id id,
             Id taskId,
             PointTotal points,
@@ -49,7 +52,7 @@ namespace WorldZero.Common.Entity.Primary
             );
         }
 
-        internal Praxis(
+        internal UnsafePraxis(
             int id,
             int taskId,
             int points,
@@ -69,7 +72,7 @@ namespace WorldZero.Common.Entity.Primary
 
         public override IEntity<Id, int> Clone()
         {
-            return new Praxis(
+            return new UnsafePraxis(
                 this.Id,
                 this.TaskId,
                 this.Points,

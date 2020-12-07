@@ -23,10 +23,10 @@ namespace WorldZero.Service.Entity.Deletion.Primary
     /// Dev note: shockingly, deleting a praxis has no special logic outside of
     /// cascading the deletion.
     /// </remarks>
-    public class PraxisDel : IIdStatusedEntityDel<Praxis>
+    public class PraxisDel : IIdStatusedEntityDel<UnsafePraxis>
     {
-        protected IPraxisRepo _praxisRepo
-        { get { return (IPraxisRepo) this._repo; } }
+        protected IUnsafePraxisRepo _praxisRepo
+        { get { return (IUnsafePraxisRepo) this._repo; } }
 
         protected readonly PraxisParticipantDel _ppDel;
         protected readonly CommentDel _commentDel;
@@ -34,7 +34,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
         protected readonly PraxisFlagDel _praxisFlagDel;
 
         public PraxisDel(
-            IPraxisRepo praxisRepo,
+            IUnsafePraxisRepo praxisRepo,
             PraxisParticipantDel ppDel,
             CommentDel commentDel,
             PraxisTagDel praxisTagDel,
@@ -71,11 +71,11 @@ namespace WorldZero.Service.Entity.Deletion.Primary
         {
             void op(Id id)
             {
-                IEnumerable<Praxis> praxises;
+                IEnumerable<UnsafePraxis> praxises;
                 try
                 {
                     praxises = this._praxisRepo.GetByTaskId(taskId);
-                    foreach (Praxis p in praxises)
+                    foreach (UnsafePraxis p in praxises)
                         this.Delete(p);
                 }
                 catch (ArgumentException)

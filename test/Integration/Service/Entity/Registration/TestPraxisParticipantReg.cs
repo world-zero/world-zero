@@ -27,8 +27,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         private UnsafeCharacter _c0;
         private UnsafeCharacter _c1;
         private UnsafeCharacter _c2;
-        private Praxis _p0;
-        private Praxis _p1;
+        private UnsafePraxis _p0;
+        private UnsafePraxis _p1;
         private UnsafeMetaTask _mt;
         private PraxisParticipant _pp;
         private UnsafeFaction _f;
@@ -107,13 +107,13 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             this._mtRepo.Insert(this._mt);
             this._mtRepo.Save();
 
-            this._p0 = new Praxis(
+            this._p0 = new UnsafePraxis(
                 this._tId,
                 this._pt,
                 StatusReg.Active.Id,
                 this._mt.Id
             );
-            this._p1 = new Praxis(
+            this._p1 = new UnsafePraxis(
                 this._tId,
                 this._pt,
                 StatusReg.Active.Id,
@@ -194,7 +194,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                 ()=>this._ppReg.Register(pp));
 
             // Praxis that isn't active or in progress.
-            var p = new Praxis(new Id(1), this._pt, StatusReg.Proposed.Id);
+            var p = new UnsafePraxis(new Id(1), this._pt, StatusReg.Proposed.Id);
             this._praxisRepo.Insert(p);
             this._praxisRepo.Save();
             pp = new PraxisParticipant(p.Id, this._c0.Id);
@@ -250,7 +250,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                 .GetCharacterSubmissionCountViaPraxisId(this._p1.Id, this._c0.Id));
 
             // Sad: exceeds submission count.
-            var p = new Praxis(this._tId, this._pt, StatusReg.Active.Id);
+            var p = new UnsafePraxis(this._tId, this._pt, StatusReg.Active.Id);
             this._praxisRepo.Insert(p);
             this._praxisRepo.Save();
             pp = new PraxisParticipant(p.Id, this._c0.Id);
@@ -390,7 +390,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
     }
 
     public class DummyRAMPraxisRepo
-        : RAMPraxisRepo
+        : RAMUnsafePraxisRepo
     {
         public DummyRAMPraxisRepo()
             : base()

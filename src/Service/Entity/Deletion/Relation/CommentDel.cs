@@ -16,7 +16,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
             : base(repo)
         { }
 
-        public void DeleteByPraxis(Praxis p)
+        public void DeleteByPraxis(UnsafePraxis p)
         {
             this.AssertNotNull(p, "p");
             this.DeleteByPraxis(p.Id);
@@ -27,7 +27,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
             this.Transaction<Id>(this._commentRepo.DeleteByPraxisId, praxisId);
         }
 
-        public async System.Threading.Tasks.Task DeleteByPraxisAsync(Praxis p)
+        public async System.Threading.Tasks.Task DeleteByPraxisAsync(UnsafePraxis p)
         {
             this.AssertNotNull(p, "P");
             await System.Threading.Tasks.Task.Run(() =>

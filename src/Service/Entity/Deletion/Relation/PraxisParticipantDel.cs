@@ -34,7 +34,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
     public class PraxisParticipantDel : IEntityRelationDel
     <
         PraxisParticipant,
-        Praxis,
+        UnsafePraxis,
         Id,
         int,
         UnsafeCharacter,
@@ -46,12 +46,12 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         protected IPraxisParticipantRepo _ppRepo
         { get { return (IPraxisParticipantRepo) this._relRepo; } }
 
-        protected readonly IPraxisRepo _praxisRepo;
+        protected readonly IUnsafePraxisRepo _praxisRepo;
         protected readonly VoteDel _voteDel;
 
         public PraxisParticipantDel(
             IPraxisParticipantRepo repo,
-            IPraxisRepo praxisRepo,
+            IUnsafePraxisRepo praxisRepo,
             VoteDel voteDel
         )
             : base(repo)
@@ -75,7 +75,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         /// cref="WorldZero.Service.Entity.Deletion.Primary.PraxisDel"/> - use
         /// this anywhere else with extreme caution.
         /// </remarks>
-        internal void UNSAFE_DeleteByPraxis(Praxis p)
+        internal void UNSAFE_DeleteByPraxis(UnsafePraxis p)
         {
             this.AssertNotNull(p, "p");
             this.UNSAFE_DeleteByPraxis(p.Id);
@@ -110,7 +110,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
             this.Transaction<Id>(f, praxisId, true);
         }
 
-        public void DeleteByPraxis(Praxis p)
+        public void DeleteByPraxis(UnsafePraxis p)
         {
             this.DeleteByLeft(p);
         }
@@ -121,7 +121,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         }
 
         public async
-        System.Threading.Tasks.Task DeleteByPraxisAsync(Praxis p)
+        System.Threading.Tasks.Task DeleteByPraxisAsync(UnsafePraxis p)
         {
             this.AssertNotNull(p, "p");
             await System.Threading.Tasks.Task.Run(() =>
@@ -230,7 +230,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         /// </summary>
         private void _unduel(Id praxisId)
         {
-            Praxis p;
+            UnsafePraxis p;
             try
             {
                 p = this._praxisRepo.GetById(praxisId);

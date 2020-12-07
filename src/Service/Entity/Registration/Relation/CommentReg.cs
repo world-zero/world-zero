@@ -13,7 +13,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
         : IEntityRelationReg
         <
             Comment,
-            Praxis,
+            UnsafePraxis,
             Id,
             int,
             UnsafeCharacter,
@@ -25,15 +25,15 @@ namespace WorldZero.Service.Entity.Registration.Relation
         protected ICommentRepo _commentRepo
         { get { return (ICommentRepo) this._repo; } }
 
-        protected IPraxisRepo _praxisRepo
-        { get { return (IPraxisRepo) this._leftRepo; } }
+        protected IUnsafePraxisRepo _praxisRepo
+        { get { return (IUnsafePraxisRepo) this._leftRepo; } }
 
         protected IUnsafeCharacterRepo _characterRepo
         { get { return (IUnsafeCharacterRepo) this._rightRepo; } }
 
         public CommentReg(
             ICommentRepo commentRepo,
-            IPraxisRepo praxisRepo,
+            IUnsafePraxisRepo praxisRepo,
             IUnsafeCharacterRepo characterRepo
         )
             : base(commentRepo, praxisRepo, characterRepo)

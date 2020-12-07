@@ -11,7 +11,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
     public class PraxisFlagDel : IFlaggedEntityDel
     <
         PraxisFlag,
-        Praxis,
+        UnsafePraxis,
         Id,
         int,
         RelationDTO<Id, int, Name, string>
@@ -24,7 +24,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         /// <remarks>
         /// This is just a wrapper for `DeleteByLeftId()`.
         /// </remarks>
-        public void DeleteByPraxis(Praxis praxis)
+        public void DeleteByPraxis(UnsafePraxis praxis)
         {
             this.AssertNotNull(praxis, "praxis");
             this.DeleteByLeft(praxis.Id);
@@ -43,7 +43,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         /// This is just a wrapper for `DeleteByLeftIdAsync()`.
         /// </remarks>
         public async
-        System.Threading.Tasks.Task DeleteByPraxisAsync(Praxis praxis)
+        System.Threading.Tasks.Task DeleteByPraxisAsync(UnsafePraxis praxis)
         {
             this.AssertNotNull(praxis, "praxis");
             await System.Threading.Tasks.Task.Run(() =>

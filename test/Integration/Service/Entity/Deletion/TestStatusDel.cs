@@ -48,7 +48,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private PraxisTagDel _praxisTagDel;
         private IPraxisFlagRepo _praxisFlagRepo;
         private PraxisFlagDel _praxisFlagDel;
-        private IPraxisRepo _praxisRepo;
+        private IUnsafePraxisRepo _praxisRepo;
         private IPraxisParticipantRepo _ppRepo;
         private PraxisDel _praxisDel;
         private ITaskTagRepo _taskTagRepo;
@@ -65,8 +65,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private Task _t1;
         private UnsafeMetaTask _mt0;
         private UnsafeMetaTask _mt1;
-        private Praxis _praxis0;
-        private Praxis _praxis1;
+        private UnsafePraxis _praxis0;
+        private UnsafePraxis _praxis1;
 
         [SetUp]
         public void Setup()
@@ -78,7 +78,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._praxisTagDel = new PraxisTagDel(this._praxisTagRepo);
             this._praxisFlagRepo = new RAMPraxisFlagRepo();
             this._praxisFlagDel = new PraxisFlagDel(this._praxisFlagRepo);
-            this._praxisRepo = new RAMPraxisRepo();
+            this._praxisRepo = new RAMUnsafePraxisRepo();
             this._ppRepo = new RAMPraxisParticipantRepo();
             this._voteRepo = new RAMVoteRepo();
             this._voteDel = new VoteDel(this._voteRepo);
@@ -139,8 +139,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._mtRepo.Insert(this._mt1);
             this._mtRepo.Save();
 
-            this._praxis0 = new Praxis(this._next(), pt, this._s0.Id);
-            this._praxis1 = new Praxis(this._next(), pt, this._s1.Id);
+            this._praxis0 = new UnsafePraxis(this._next(), pt, this._s0.Id);
+            this._praxis1 = new UnsafePraxis(this._next(), pt, this._s1.Id);
             this._praxisRepo.Insert(this._praxis0);
             this._praxisRepo.Insert(this._praxis1);
             this._praxisRepo.Save();
@@ -177,8 +177,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._present<Task, Id, int>(this._t1, this._taskRepo.GetById);
             this._absentt<UnsafeMetaTask, Id, int>(this._mt0, this._mtRepo.GetById);
             this._present<UnsafeMetaTask, Id, int>(this._mt1, this._mtRepo.GetById);
-            this._absentt<Praxis, Id, int>(this._praxis0, this._praxisRepo.GetById);
-            this._present<Praxis, Id, int>(this._praxis1, this._praxisRepo.GetById);
+            this._absentt<UnsafePraxis, Id, int>(this._praxis0, this._praxisRepo.GetById);
+            this._present<UnsafePraxis, Id, int>(this._praxis1, this._praxisRepo.GetById);
             this._statusDel.Delete(this._s0);
         }
 
@@ -194,8 +194,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._present<Task, Id, int>(this._t1, this._taskRepo.GetById);
             this._absentt<UnsafeMetaTask, Id, int>(this._mt0, this._mtRepo.GetById);
             this._present<UnsafeMetaTask, Id, int>(this._mt1, this._mtRepo.GetById);
-            this._absentt<Praxis, Id, int>(this._praxis0, this._praxisRepo.GetById);
-            this._absentt<Praxis, Id, int>(this._praxis1, this._praxisRepo.GetById);
+            this._absentt<UnsafePraxis, Id, int>(this._praxis0, this._praxisRepo.GetById);
+            this._absentt<UnsafePraxis, Id, int>(this._praxis1, this._praxisRepo.GetById);
             this._statusDel.Delete(this._s0);
         }
 
@@ -211,8 +211,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._absentt<Task, Id, int>(this._t1, this._taskRepo.GetById);
             this._absentt<UnsafeMetaTask, Id, int>(this._mt0, this._mtRepo.GetById);
             this._present<UnsafeMetaTask, Id, int>(this._mt1, this._mtRepo.GetById);
-            this._absentt<Praxis, Id, int>(this._praxis0, this._praxisRepo.GetById);
-            this._present<Praxis, Id, int>(this._praxis1, this._praxisRepo.GetById);
+            this._absentt<UnsafePraxis, Id, int>(this._praxis0, this._praxisRepo.GetById);
+            this._present<UnsafePraxis, Id, int>(this._praxis1, this._praxisRepo.GetById);
             this._statusDel.Delete(this._s0);
         }
 
@@ -228,8 +228,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._present<Task, Id, int>(this._t1, this._taskRepo.GetById);
             this._absentt<UnsafeMetaTask, Id, int>(this._mt0, this._mtRepo.GetById);
             this._absentt<UnsafeMetaTask, Id, int>(this._mt1, this._mtRepo.GetById);
-            this._absentt<Praxis, Id, int>(this._praxis0, this._praxisRepo.GetById);
-            this._present<Praxis, Id, int>(this._praxis1, this._praxisRepo.GetById);
+            this._absentt<UnsafePraxis, Id, int>(this._praxis0, this._praxisRepo.GetById);
+            this._present<UnsafePraxis, Id, int>(this._praxis1, this._praxisRepo.GetById);
             this._statusDel.Delete(this._s0);
         }
     }

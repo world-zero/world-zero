@@ -29,7 +29,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         private Status _status1;
         private Task _t;
         private UnsafeCharacter _c;
-        private Praxis _p;
+        private UnsafePraxis _p;
         private UnsafeMetaTask _mt;
         private PraxisParticipant _pp;
         private List<PraxisParticipant> _pps;
@@ -102,7 +102,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             this._mtRepo.Insert(this._mt);
             this._mtRepo.Save();
 
-            this._p = new Praxis(
+            this._p = new UnsafePraxis(
                 this._t.Id,
                 this._pt,
                 StatusReg.Active.Id,
@@ -136,7 +136,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         [Test]
         public void TestRegisterHappy()
         {
-            var p = new Praxis(this._t.Id, this._pt,this._status0.Id);
+            var p = new UnsafePraxis(this._t.Id, this._pt,this._status0.Id);
             Assert.IsFalse(p.IsIdSet());
             Assert.IsFalse(this._pp.IsIdSet());
             this._registration.Register(p, this._pp);

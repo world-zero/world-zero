@@ -35,10 +35,10 @@ namespace WorldZero.Service.Entity.Registration.Primary
     /// fact.
     /// </remarks>
     public class PraxisReg
-        : IEntityReg<Praxis, Id, int>
+        : IEntityReg<UnsafePraxis, Id, int>
     {
-        protected IPraxisRepo _praxisRepo
-        { get { return (IPraxisRepo) this._repo; } }
+        protected IUnsafePraxisRepo _praxisRepo
+        { get { return (IUnsafePraxisRepo) this._repo; } }
 
         protected readonly ITaskRepo _taskRepo;
         protected readonly IUnsafeMetaTaskRepo _mtRepo;
@@ -46,7 +46,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
         protected readonly PraxisParticipantReg _ppReg;
 
         public PraxisReg(
-            IPraxisRepo praxisRepo,
+            IUnsafePraxisRepo praxisRepo,
             ITaskRepo taskRepo,
             IUnsafeMetaTaskRepo mtRepo,
             IStatusRepo statusRepo,
@@ -69,12 +69,12 @@ namespace WorldZero.Service.Entity.Registration.Primary
         /// Instead, use `PraxisReg.Register(Praxis, List<PraxisParticipant>)`
         /// or `PraxisReg.Register(Praxis, PraxisParticipant)`.
         /// </summary>
-        public override Praxis Register(Praxis p)
+        public override UnsafePraxis Register(UnsafePraxis p)
         {
             throw new ArgumentException("You must supply participant(s).");
         }
 
-        public Praxis Register(Praxis p, PraxisParticipant pp)
+        public UnsafePraxis Register(UnsafePraxis p, PraxisParticipant pp)
         {
             this.AssertNotNull(pp, "pp");
             var pps = new List<PraxisParticipant>();
@@ -82,7 +82,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
             return this.Register(p, pps);
         }
 
-        public Praxis Register(Praxis p, List<PraxisParticipant> pps)
+        public UnsafePraxis Register(UnsafePraxis p, List<PraxisParticipant> pps)
         {
             this.AssertNotNull(p, "p");
             this.AssertNotNull(pps, "pps");
@@ -119,7 +119,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
             }
         }
 
-        private void _verifyStatus(Praxis p)
+        private void _verifyStatus(UnsafePraxis p)
         {
             if (   (p.StatusId != StatusReg.InProgress.Id)
                 && (p.StatusId != StatusReg.Active.Id)   )
@@ -128,7 +128,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
             }
         }
 
-        private Task _verifyTask(Praxis p)
+        private Task _verifyTask(UnsafePraxis p)
         {
             Task t;
             try
@@ -148,7 +148,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
         /// A `MetaTask` is not required for a `Praxis`, so this can return
         /// `null`.
         /// </remarks>
-        private UnsafeMetaTask _verifyMetaTask(Praxis p)
+        private UnsafeMetaTask _verifyMetaTask(UnsafePraxis p)
         {
             UnsafeMetaTask mt = null;
             try

@@ -183,13 +183,13 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
             if (statuses.Count == 0)
                 return 0;
 
-            string praxisName = typeof(Praxis).FullName;
+            string praxisName = typeof(UnsafePraxis).FullName;
             if (!_data.ContainsKey(praxisName))
                 return 0;
 
-            IEnumerable<Praxis> praxises =
+            IEnumerable<UnsafePraxis> praxises =
                 from pTemp in _data[praxisName].Saved.Values
-                let p = (Praxis) pTemp
+                let p = (UnsafePraxis) pTemp
                 where statuses.Contains(p.StatusId)
 
                 from ppTemp in this._saved.Values
@@ -217,13 +217,13 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
             if (charId == null)
                 throw new ArgumentNullException("charId");
 
-            if (!_data.ContainsKey(typeof(Praxis).FullName))
+            if (!_data.ContainsKey(typeof(UnsafePraxis).FullName))
                 return 0;
 
-            var pEntityData = _data[typeof(Praxis).FullName];
+            var pEntityData = _data[typeof(UnsafePraxis).FullName];
             IEnumerable<Id> results =
                 from pTemp in pEntityData.Saved.Values
-                let p = (Praxis) pTemp
+                let p = (UnsafePraxis) pTemp
                 where p.TaskId == taskId
                 from ppTemp in this._saved.Values
                 let pp = this.TEntityCast(ppTemp)
@@ -247,13 +247,13 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
             if (charId == null)
                 throw new ArgumentNullException("charId");
 
-            if (!_data.ContainsKey(typeof(Praxis).FullName))
+            if (!_data.ContainsKey(typeof(UnsafePraxis).FullName))
                 return 0;
 
-            var pEntityData = _data[typeof(Praxis).FullName];
+            var pEntityData = _data[typeof(UnsafePraxis).FullName];
             IEnumerable<Id> taskId =
                 from pTemp in pEntityData.Saved.Values
-                let p = (Praxis) pTemp
+                let p = (UnsafePraxis) pTemp
                 where p.Id == praxisId
                 select p.TaskId;
 

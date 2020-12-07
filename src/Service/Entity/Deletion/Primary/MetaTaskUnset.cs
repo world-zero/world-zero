@@ -13,7 +13,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
     /// definitely a little smelly, but eh.
     /// </remarks>
     public class MetaTaskUnset
-        : IEntityUnset<UnsafeMetaTask, Id, int, Praxis, Id, int>
+        : IEntityUnset<UnsafeMetaTask, Id, int, UnsafePraxis, Id, int>
     {
         protected class StatusedMTDel
             : IIdStatusedEntityDel<UnsafeMetaTask>
@@ -28,10 +28,10 @@ namespace WorldZero.Service.Entity.Deletion.Primary
         protected IUnsafeMetaTaskRepo _mtRepo
         { get { return (IUnsafeMetaTaskRepo) this._repo; } }
 
-        protected IPraxisRepo _praxisRepo
-        { get { return (IPraxisRepo) this._otherRepo; } }
+        protected IUnsafePraxisRepo _praxisRepo
+        { get { return (IUnsafePraxisRepo) this._otherRepo; } }
 
-        public MetaTaskUnset(IUnsafeMetaTaskRepo repo, IPraxisRepo praxisRepo)
+        public MetaTaskUnset(IUnsafeMetaTaskRepo repo, IUnsafePraxisRepo praxisRepo)
             : base(repo, praxisRepo)
         {
             this._statusedMTDel = new StatusedMTDel(this._mtRepo);
@@ -68,7 +68,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
             this.AssertNotNull(metaTaskId, "metaTaskId");
             this.BeginTransaction();
 
-            IEnumerable<Praxis> praxises = null;
+            IEnumerable<UnsafePraxis> praxises = null;
             try
             { praxises = this._praxisRepo.GetByMetaTaskId(metaTaskId); }
             catch (ArgumentException)
@@ -76,7 +76,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
 
             if (praxises != null)
             {
-                foreach (Praxis p in praxises)
+                foreach (UnsafePraxis p in praxises)
                 {
                     p.MetaTaskId = null;
                     try

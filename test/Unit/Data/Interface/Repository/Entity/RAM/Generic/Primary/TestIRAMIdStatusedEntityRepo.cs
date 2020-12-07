@@ -11,10 +11,10 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
     public class TestIRAMIdStatusedEntityRepo
     {
         private Name _statusId0;
-        private Praxis _p0_0;
-        private Praxis _p0_1;
-        private Praxis _p1;
-        private Praxis _p2;
+        private UnsafePraxis _p0_0;
+        private UnsafePraxis _p0_1;
+        private UnsafePraxis _p1;
+        private UnsafePraxis _p2;
         private TestRAMIdStatusedEntityRepo _repo;
 
         [SetUp]
@@ -23,10 +23,10 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
             var taskId = new Id(1000);
             var pt = new PointTotal(2);
             this._statusId0 = new Name("to be deleted");
-            this._p0_0 = new Praxis(taskId, pt, this._statusId0);
-            this._p0_1 = new Praxis(taskId, pt, this._statusId0);
-            this._p1 = new Praxis(taskId, pt, new Name("other"));
-            this._p2 = new Praxis(taskId, pt, new Name("alt"));
+            this._p0_0 = new UnsafePraxis(taskId, pt, this._statusId0);
+            this._p0_1 = new UnsafePraxis(taskId, pt, this._statusId0);
+            this._p1 = new UnsafePraxis(taskId, pt, new Name("other"));
+            this._p2 = new UnsafePraxis(taskId, pt, new Name("alt"));
             this._repo = new TestRAMIdStatusedEntityRepo();
             this._repo.Insert(this._p0_0);
             this._repo.Insert(this._p0_1);
@@ -50,7 +50,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
         }
     }
 
-    public class TestRAMIdStatusedEntityRepo : IRAMIdStatusedEntityRepo<Praxis>
+    public class TestRAMIdStatusedEntityRepo : IRAMIdStatusedEntityRepo<UnsafePraxis>
     {
         public TestRAMIdStatusedEntityRepo()
             : base()
@@ -58,7 +58,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
 
         protected override int GetRuleCount()
         {
-            var a = new Praxis(new Id(2), new PointTotal(2), new Name("x"));
+            var a = new UnsafePraxis(new Id(2), new PointTotal(2), new Name("x"));
             return a.GetUniqueRules().Count;
         }
     }

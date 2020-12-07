@@ -8,23 +8,23 @@ using WorldZero.Data.Interface.Repository.Entity.RAM.Generic;
 
 namespace WorldZero.Data.Repository.Entity.RAM.Primary
 {
-    /// <inheritdoc cref="IPraxisRepo"/>
-    public class RAMPraxisRepo
-        : IRAMIdStatusedEntityRepo<Praxis>,
-        IPraxisRepo
+    /// <inheritdoc cref="IUnsafePraxisRepo"/>
+    public class RAMUnsafePraxisRepo
+        : IRAMIdStatusedEntityRepo<UnsafePraxis>,
+        IUnsafePraxisRepo
     {
         protected override int GetRuleCount()
         {
-            var a = new Praxis(new Id(2), new PointTotal(2), new Name("f"));
+            var a = new UnsafePraxis(new Id(2), new PointTotal(2), new Name("f"));
             return a.GetUniqueRules().Count;
         }
 
-        public IEnumerable<Praxis> GetByMetaTaskId(Id metaTaskId)
+        public IEnumerable<UnsafePraxis> GetByMetaTaskId(Id metaTaskId)
         {
             if (metaTaskId == null)
                 throw new ArgumentNullException("metaTaskId");
 
-            IEnumerable<Praxis> praxises =
+            IEnumerable<UnsafePraxis> praxises =
                 from p in this._saved.Values
                 let praxis = this.TEntityCast(p)
                 where praxis.MetaTaskId != null
@@ -37,12 +37,12 @@ namespace WorldZero.Data.Repository.Entity.RAM.Primary
                 return praxises;
         }
 
-        public IEnumerable<Praxis> GetByTaskId(Id taskId)
+        public IEnumerable<UnsafePraxis> GetByTaskId(Id taskId)
         {
             if (taskId == null)
                 throw new ArgumentNullException("taskId");
 
-            IEnumerable<Praxis> praxises =
+            IEnumerable<UnsafePraxis> praxises =
                 from p in this._saved.Values
                 let praxis = this.TEntityCast(p)
                 where praxis.TaskId == taskId

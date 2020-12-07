@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace WorldZero.Test.Unit.Common.Entity.Primary
 {
     [TestFixture]
-    public class TestPraxis
+    public class TestUnsafePraxis
     {
         private Id _praxisId;
         private Id _taskId;
@@ -14,7 +14,7 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
         private Name _statusId;
         private Id _metaTaskId;
         private bool _areDueling;
-        private Praxis _p;
+        private UnsafePraxis _p;
 
         [SetUp]
         public void Setup()
@@ -26,7 +26,7 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
             this._statusId = new Name("valid");
             this._areDueling = true;
 
-            this._p = new Praxis(
+            this._p = new UnsafePraxis(
                 this._praxisId,
                 this._taskId,
                 this._points,

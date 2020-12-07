@@ -41,7 +41,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         }
 
         private RAMUnsafeMetaTaskRepo _repo;
-        private RAMPraxisRepo _praxisRepo;
+        private RAMUnsafePraxisRepo _praxisRepo;
         private MetaTaskUnset _unset;
         private UnsafeFaction _faction0;
         private UnsafeFaction _faction1;
@@ -53,7 +53,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void Setup()
         {
             this._repo = new RAMUnsafeMetaTaskRepo();
-            this._praxisRepo = new RAMPraxisRepo();
+            this._praxisRepo = new RAMUnsafePraxisRepo();
             this._unset = new MetaTaskUnset(
                 this._repo,
                 this._praxisRepo
