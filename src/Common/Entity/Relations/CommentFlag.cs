@@ -1,13 +1,17 @@
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.ValueObject.DTO.Entity.Relation;
-using WorldZero.Common.Interface.Entity;
-using WorldZero.Common.Interface.Entity.Relation;
+using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
+using WorldZero.Common.Interface.Entity.Generic.Primary;
+using WorldZero.Common.Interface.Entity.Generic.Relation;
 
 namespace WorldZero.Common.Entity.Relation
 {
     /// <summary>
     /// This relation maps a comment's ID to a Flag's ID,
     /// signifying that the comment has flag X.
+    /// <br />
+    /// Left relation: `CommentId`
+    /// <br />
+    /// Right relation: `FlagId`
     /// </summary>
     public class CommentFlag : IIdNameRelation
     {
@@ -21,7 +25,7 @@ namespace WorldZero.Common.Entity.Relation
         }
 
         /// <summary>
-        /// FlagId wraps LeftId, which is the ID of the related Flag.
+        /// FlagId wraps RightId, which is the ID of the related Flag.
         /// </summary>
         public Name FlagId
         {

@@ -1,8 +1,8 @@
 using System;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.ValueObject.DTO.Entity.Relation;
-using WorldZero.Common.Interface.Entity;
-using WorldZero.Common.Interface.Entity.Relation;
+using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
+using WorldZero.Common.Interface.Entity.Generic.Primary;
+using WorldZero.Common.Interface.Entity.Generic.Relation;
 
 namespace WorldZero.Common.Entity.Relation
 {
@@ -10,6 +10,10 @@ namespace WorldZero.Common.Entity.Relation
     /// This relation maps a praxis' ID to a character's ID, as well as
     /// containing the content of the comment they are leaving on the related
     /// praxis.
+    /// <br />
+    /// Left relation: `PraxisId`
+    /// <br />
+    /// Right relation: `CharacterId`
     /// </summary>
     public class Comment : IIdIdCntRelation
     {
@@ -23,7 +27,7 @@ namespace WorldZero.Common.Entity.Relation
         }
 
         /// <summary>
-        /// CharacterId wraps LeftId, which is the ID of the related Character.
+        /// CharacterId wraps RightId, which is the ID of the related Character.
         /// </summary>
         public Id CharacterId
         {
