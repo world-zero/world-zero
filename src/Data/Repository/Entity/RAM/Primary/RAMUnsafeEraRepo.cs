@@ -7,12 +7,12 @@ using WorldZero.Data.Interface.Repository.Entity.RAM.Generic;
 
 namespace WorldZero.Data.Repository.Entity.RAM.Primary
 {
-    /// <inheritdoc cref="IEraRepo"/>
-    public class RAMEraRepo
-        : IRAMNamedEntityRepo<Era>,
-        IEraRepo
+    /// <inheritdoc cref="IUnsafeEraRepo"/>
+    public class RAMUnsafeEraRepo
+        : IRAMNamedEntityRepo<UnsafeEra>,
+        IUnsafeEraRepo
     {
-        public Era GetActiveEra()
+        public UnsafeEra GetActiveEra()
         {
             var active = from e in this._saved.Values
                 let era = this.TEntityCast(e)
@@ -29,14 +29,14 @@ namespace WorldZero.Data.Repository.Entity.RAM.Primary
                 throw new InvalidOperationException("There should not be more than one active era at a time, the repo as been populated incorrectly.");
         }
 
-        public async System.Threading.Tasks.Task<Era> GetActiveEraAsync()
+        public async System.Threading.Tasks.Task<UnsafeEra> GetActiveEraAsync()
         {
             return this.GetActiveEra();
         }
 
         protected override int GetRuleCount()
         {
-            var a = new Era(new Name("s"));
+            var a = new UnsafeEra(new Name("s"));
             return a.GetUniqueRules().Count;
         }
     }

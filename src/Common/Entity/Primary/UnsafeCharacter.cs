@@ -8,7 +8,7 @@ namespace WorldZero.Common.Entity.Primary
     /// <summary>
     /// Character is a entity for a tuple of the Character table.
     /// </summary>
-    public class UnsafeCharacter : IIdNamedEntity, IEntityHasOptional
+    public class UnsafeCharacter : IIdNamedEntity, IEntityHasOptional, IUnsafeEntity
     {
         /// <summary>
         /// Determine the level based off the number of points supplied.

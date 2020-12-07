@@ -12,7 +12,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestCannotInstantiate()
         {
             Assert.Throws<NotImplementedException>(()=>
-                new EraDel(new RAMEraRepo()));
+                new EraDel(new RAMUnsafeEraRepo()));
         }
     }
 }

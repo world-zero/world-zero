@@ -8,7 +8,7 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
     [TestFixture]
     public class TestEra
     {
-        private Era _e;
+        private UnsafeEra _e;
         private Name _name;
         private PastDate _startDate;
         private PastDate _endDate;
@@ -20,7 +20,7 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
             this._startDate = new PastDate(DateTime.UtcNow);
             this._endDate = new PastDate(DateTime.UtcNow);
 
-            this._e = new Era(
+            this._e = new UnsafeEra(
                 this._name,
                 null,
                 10,
@@ -35,7 +35,7 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
         public void TestDefaultValues()
         {
             var name = new Name("Pumpkin Pie");
-            var e = new Era(name);
+            var e = new UnsafeEra(name);
 
             // Ignore the minutes/milliseconds/seconds so this test doesn't fail.
             Assert.AreEqual(
@@ -55,7 +55,7 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
             var name = new Name("Pumpkin Pie");
             var startDate = new PastDate(DateTime.UtcNow);
             var endDate = new PastDate(DateTime.UtcNow);
-            var e = new Era(
+            var e = new UnsafeEra(
                 name,
                 new Level(5),
                 100,

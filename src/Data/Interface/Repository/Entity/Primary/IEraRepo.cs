@@ -18,8 +18,8 @@ namespace WorldZero.Data.Interface.Repository.Entity.Primary
     /// CreateEra service class. This smell is tolerable since eras are sharply
     /// divorced from other repos.
     /// </remarks>
-    public interface IEraRepo
-        : INamedEntityRepo<Era>
+    public interface IUnsafeEraRepo
+        : INamedEntityRepo<UnsafeEra>
     {
         /// <summary>
         /// Return the active era. If there is no active era, this returns
@@ -29,7 +29,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.Primary
         /// The current era must be saved to be considered active. This
         /// will not create a serialized transaction.
         /// </remarks>
-        Era GetActiveEra();
-        Task<Era> GetActiveEraAsync();
+        UnsafeEra GetActiveEra();
+        Task<UnsafeEra> GetActiveEraAsync();
     }
 }

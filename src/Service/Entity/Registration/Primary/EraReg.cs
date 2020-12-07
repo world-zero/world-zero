@@ -34,15 +34,15 @@ namespace WorldZero.Service.Entity.Registration.Primary
     /// smell is tolerable.
     /// </remarks>
     public class EraReg
-        : IEntityReg<Era, Name, string>
+        : IEntityReg<UnsafeEra, Name, string>
     {
-        public EraReg(IEraRepo eraRepo)
+        public EraReg(IUnsafeEraRepo eraRepo)
             : base(eraRepo)
         {
             this._eraRepo.BeginTransaction(true);
             if (this._eraRepo.GetActiveEra() == null)
             {
-                this.Register(new Era(
+                this.Register(new UnsafeEra(
                     new Name("The Beginning"),
                     startDate: new PastDate(DateTime.UtcNow))
                 );
@@ -51,7 +51,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
             this._eraRepo.DiscardTransaction();
         }
 
-        protected IEraRepo _eraRepo { get { return (IEraRepo) this._repo; } }
+        protected IUnsafeEraRepo _eraRepo { get { return (IUnsafeEraRepo) this._repo; } }
 
         /// <summary>
         /// This method will end the previous era and begin the supplied era.
@@ -68,13 +68,13 @@ namespace WorldZero.Service.Entity.Registration.Primary
         /// one active era at any given point in time (after the initial era
         /// has been started).
         /// </remarks>
-        public override Era Register(Era newEra)
+        public override UnsafeEra Register(UnsafeEra newEra)
         {
             this.AssertNotNull(newEra, "newEra");
             var now = new PastDate(DateTime.UtcNow);
 
             this._eraRepo.BeginTransaction(true);
-            Era old = this._eraRepo.GetActiveEra();
+            UnsafeEra old = this._eraRepo.GetActiveEra();
             if (old != null)
             {
                 old.EndDate = now;
@@ -100,10 +100,10 @@ namespace WorldZero.Service.Entity.Registration.Primary
         /// not require a new Era to be created since every part of it but the
         /// name is altered anyways.
         /// </summary>
-        public Era Register(Name newEraName)
+        public UnsafeEra Register(Name newEraName)
         {
             return this.Register(
-                new Era(newEraName, startDate: new PastDate(DateTime.UtcNow))
+                new UnsafeEra(newEraName, startDate: new PastDate(DateTime.UtcNow))
             );
         }
 
@@ -111,14 +111,14 @@ namespace WorldZero.Service.Entity.Registration.Primary
         // and I will move it later.
         /// <summary>
         /// Return the current era. For more, <see
-        /// cref="WorldZero.Data.Interface.Repository.Entity.Primary.IEraRepo.GetActiveEra()"/>.
+        /// cref="WorldZero.Data.Interface.Repository.Entity.Primary.IUnsafeEraRepo.GetActiveEra()"/>.
         /// </summary>
         /// <remarks>
         /// That said, `EraReg` will not allow a null era to be returned as
         /// this class should have created one during initialization if there
         /// was no active era.
         /// </remarks>
-        public Era GetActiveEra()
+        public UnsafeEra GetActiveEra()
         {
             var e = this._eraRepo.GetActiveEra();
             if (e == null)

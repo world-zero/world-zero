@@ -102,7 +102,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             this._ppRepo.BeginTransaction(true);
             Praxis p      = this._verifyPraxis(pp);
             UnsafeCharacter c   = this._verifyCharacter(pp);
-            Era activeEra = this._eraReg.GetActiveEra();
+            UnsafeEra activeEra = this._eraReg.GetActiveEra();
                             this._verifyLevel(c, activeEra, p);
                             this._verifyPraxisCount(c, activeEra);
             int count     = this._verifyPPCount(pp, c, activeEra);
@@ -152,7 +152,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             }
         }
 
-        private void _verifyLevel(UnsafeCharacter c, Era activeEra, Praxis p)
+        private void _verifyLevel(UnsafeCharacter c, UnsafeEra activeEra, Praxis p)
         {
             int bufferedLevel = c.EraLevel.Get + activeEra.TaskLevelBuffer.Get;
             int reqLevel;
@@ -173,7 +173,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             }
         }
 
-        private void _verifyPraxisCount(UnsafeCharacter c, Era activeEra)
+        private void _verifyPraxisCount(UnsafeCharacter c, UnsafeEra activeEra)
         {
             int praxisCount = this._ppRepo
                 .GetPraxisCount(c.Id, this._praxisLiveStatuses);
@@ -188,7 +188,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
         private int _verifyPPCount(
             PraxisParticipant pp,
             UnsafeCharacter c,
-            Era activeEra
+            UnsafeEra activeEra
         )
         {
             int nextCount =

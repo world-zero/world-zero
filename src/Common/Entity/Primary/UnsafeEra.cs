@@ -1,4 +1,5 @@
 using WorldZero.Common.Interface.Entity.Generic.Primary;
+using WorldZero.Common.Interface.Entity.Marker;
 using WorldZero.Common.ValueObject.General;
 using System;
 
@@ -8,9 +9,9 @@ namespace WorldZero.Common.Entity.Primary
     /// An Era is a configuration file for the game at any given time. If a
     /// start date is not supplied, time of initialization will be used.
     /// </summary>
-    public class Era : INamedEntity
+    public class UnsafeEra : INamedEntity, IUnsafeEntity
     {
-        public Era(
+        public UnsafeEra(
             Name name,
             Level taskLevelDelta=null,
             int maxPraxises=20,
@@ -32,7 +33,7 @@ namespace WorldZero.Common.Entity.Primary
             this.MaxTasks = maxTasks;
         }
 
-        internal Era(
+        internal UnsafeEra(
             string name,
             int taskLevelDelta,
             int maxPraxises,
@@ -53,7 +54,7 @@ namespace WorldZero.Common.Entity.Primary
 
         public override IEntity<Name, string> Clone()
         {
-            return new Era(
+            return new UnsafeEra(
                 this.Id,
                 this.TaskLevelBuffer,
                 this.MaxPraxises,

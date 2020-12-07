@@ -13,12 +13,12 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
     {
         private DummyRAMEraRepo _eraRepo;
         private EraReg _eraReg;
-        private Era _e;
+        private UnsafeEra _e;
 
         [SetUp]
         public void Setup()
         {
-            this._e = new Era(new Name("master"));
+            this._e = new UnsafeEra(new Name("master"));
             this._eraRepo = new DummyRAMEraRepo();
             this._eraReg = new EraReg(this._eraRepo);
             this._eraReg.Register(this._e);
@@ -50,7 +50,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         [Test]
         public void TestGetActiveEraHappy()
         {
-            var e = new Era(new Name("test"));
+            var e = new UnsafeEra(new Name("test"));
             this._eraReg.Register(e);
             var actual = this._eraReg.GetActiveEra();
             Assert.AreEqual(e.Id, actual.Id);
@@ -71,7 +71,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             Assert.Throws<ArgumentNullException>(()=>this._eraReg.Register(null));
 
             PastDate badExpected = new PastDate(new DateTime(2000, 1, 1));
-            Era e = new Era(
+            UnsafeEra e = new UnsafeEra(
                 new Name("first"),
                 null,
                 10,
@@ -80,33 +80,33 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                 badExpected,
                 new PastDate(DateTime.UtcNow)
             );
-            Era result = this._eraReg.Register(e);
+            UnsafeEra result = this._eraReg.Register(e);
             Assert.AreEqual(e.Id, result.Id);
             Assert.AreNotEqual(badExpected, result.StartDate);
             Assert.IsNull(result.EndDate);
 
-            Era r = new Era(new Name("second"), startDate: badExpected);
+            UnsafeEra r = new UnsafeEra(new Name("second"), startDate: badExpected);
             result = this._eraReg.Register(r);
             Assert.AreEqual(r.Id, result.Id);
             Assert.AreNotEqual(badExpected, result.StartDate);
             Assert.IsNull(result.EndDate);
-            Era oldE = this._eraRepo.GetById(e.Id);
+            UnsafeEra oldE = this._eraRepo.GetById(e.Id);
             Assert.IsNotNull(oldE.EndDate);
             Assert.AreEqual(oldE.EndDate, r.StartDate);
 
-            Era a = new Era(new Name("third"), startDate: badExpected);
+            UnsafeEra a = new UnsafeEra(new Name("third"), startDate: badExpected);
             result = this._eraReg.Register(a);
             Assert.AreEqual(a.Id, result.Id);
             Assert.AreNotEqual(badExpected, result.StartDate);
             Assert.IsNull(result.EndDate);
-            Era oldR = this._eraRepo.GetById(r.Id);
+            UnsafeEra oldR = this._eraRepo.GetById(r.Id);
             Assert.IsNotNull(oldR.EndDate);
             Assert.AreEqual(oldR.EndDate, a.StartDate);
         }
     }
 
     public class DummyRAMEraRepo
-        : RAMEraRepo
+        : RAMUnsafeEraRepo
     {
         public DummyRAMEraRepo()
             : base()

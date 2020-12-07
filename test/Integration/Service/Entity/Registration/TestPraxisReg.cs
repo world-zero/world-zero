@@ -34,7 +34,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         private PraxisParticipant _pp;
         private List<PraxisParticipant> _pps;
         private Faction _f;
-        private IEraRepo _eraRepo;
+        private IUnsafeEraRepo _eraRepo;
         private EraReg _eraReg;
 
         [SetUp]
@@ -42,7 +42,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         {
             this._pt = new PointTotal(2);
             this._factionRepo = new RAMFactionRepo();
-            this._eraRepo = new RAMEraRepo();
+            this._eraRepo = new RAMUnsafeEraRepo();
             this._eraReg = new EraReg(this._eraRepo);
             this._ppRepo = new DummyRAMPraxisParticipantRepo();
             this._charRepo = new RAMUnsafeCharacterRepo();

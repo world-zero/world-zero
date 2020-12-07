@@ -26,7 +26,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         private RAMMetaTaskRepo _mtRepo;
         private VoteReg _voteReg;
         private PraxisParticipantReg _ppReg;
-        private RAMEraRepo _eraRepo;
+        private RAMUnsafeEraRepo _eraRepo;
         private EraReg _eraReg;
 
         [SetUp]
@@ -38,7 +38,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             this._id4 = new Id(4);
             this._factionRepo = new RAMFactionRepo();
             this._taskRepo = new RAMTaskRepo();
-            this._eraRepo = new RAMEraRepo();
+            this._eraRepo = new RAMUnsafeEraRepo();
             this._eraReg = new EraReg(this._eraRepo);
             this._voteRepo = new RAMVoteRepo();
             this._charRepo = new RAMUnsafeCharacterRepo();
@@ -128,7 +128,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             var taskReg = new TaskReg(taskRepo);
             taskReg.Register(task);
 
-            var eraRepo = new RAMEraRepo();
+            var eraRepo = new RAMUnsafeEraRepo();
             var eraReg = new EraReg(eraRepo);
 
             var pt = new PointTotal(2);

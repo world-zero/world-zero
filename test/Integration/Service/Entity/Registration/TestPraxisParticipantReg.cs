@@ -22,7 +22,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         private DummyRAMCharacterRepo _charRepo;
         private DummyRAMMetaTaskRepo _mtRepo;
         private PraxisParticipantReg _ppReg;
-        private RAMEraRepo _eraRepo;
+        private RAMUnsafeEraRepo _eraRepo;
         private EraReg _eraReg;
         private UnsafeCharacter _c0;
         private UnsafeCharacter _c1;
@@ -33,14 +33,14 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         private PraxisParticipant _pp;
         private Faction _f;
         private Id _tId;
-        private Era _e;
+        private UnsafeEra _e;
 
         [SetUp]
         public void Setup()
         {
             this._taskRepo = new RAMTaskRepo();
-            this._eraRepo = new RAMEraRepo();
-            this._e = new Era(
+            this._eraRepo = new RAMUnsafeEraRepo();
+            this._e = new UnsafeEra(
                 new Name("Testing"),
                 maxTasks: 1,
                 maxTasksReiterator: 2
@@ -174,7 +174,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         [Test]
         public void TestRegisterTooManyPraxises()
         {
-            this._eraReg.Register(new Era(
+            this._eraReg.Register(new UnsafeEra(
                 new Name("few praxises allowed"),
                 maxPraxises: 1
             ));
