@@ -14,11 +14,11 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         private IUnsafeCharacterRepo _characterRepo;
         private IUnsafeFactionRepo _factionRepo;
         private IPlayerRepo _playerRepo;
-        private ILocationRepo _locationRepo;
+        private IUnsafeLocationRepo _locationRepo;
         private CharacterReg _registration;
         private Player _player0;
         private UnsafeFaction _faction0;
-        private Location _location0;
+        private UnsafeLocation _location0;
 
         [SetUp]
         public void Setup()
@@ -43,7 +43,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             );
             this._factionRepo.Insert(this._faction0);
             this._factionRepo.Save();
-            this._location0 = new Location(
+            this._location0 = new UnsafeLocation(
                 new Name("oc"),
                 new Name("or"),
                 new Name("hell"),
@@ -264,7 +264,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
     }
 
     public class DummyRAMLocationRepo
-        : RAMLocationRepo
+        : RAMUnsafeLocationRepo
     {
         public void ResetNextIdValue() { _nextIdValue = 1; }
     }

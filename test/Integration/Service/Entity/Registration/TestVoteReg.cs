@@ -93,7 +93,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             playerReg.Register(player);
 
             var factionRepo = new RAMUnsafeFactionRepo();
-            var locationRepo = new RAMLocationRepo();
+            var locationRepo = new RAMUnsafeLocationRepo();
             var character = new UnsafeCharacter(
                 new Name("Stinky"),
                 player.Id,

@@ -98,14 +98,14 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
             Assert.Throws<ArgumentException>(()=>
                 this._charRepo.GetByLocationId(new Id(9000)));
 
-            var locRepo = new RAMLocationRepo();
-            var loc0 = new Location(
+            var locRepo = new RAMUnsafeLocationRepo();
+            var loc0 = new UnsafeLocation(
                 new Name("Oregon City"),
                 new Name("Oregon"),
                 new Name("USA"),
                 new Name("97045")
             );
-            var loc1 = new Location(
+            var loc1 = new UnsafeLocation(
                 new Name("Portland"),
                 new Name("Oregon"),
                 new Name("USA"),

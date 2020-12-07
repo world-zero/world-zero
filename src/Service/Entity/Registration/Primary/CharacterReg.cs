@@ -71,7 +71,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
 
         protected readonly IPlayerRepo _playerRepo;
         protected readonly IUnsafeFactionRepo _factionRepo;
-        protected readonly ILocationRepo _locationRepo;
+        protected readonly IUnsafeLocationRepo _locationRepo;
 
         protected IUnsafeCharacterRepo _characterRepo
         { get { return (IUnsafeCharacterRepo) this._repo; } }
@@ -80,7 +80,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
             IUnsafeCharacterRepo characterRepo,
             IPlayerRepo playerRepo,
             IUnsafeFactionRepo factionRepo,
-            ILocationRepo locationRepo
+            IUnsafeLocationRepo locationRepo
         )
             : base(characterRepo)
         {

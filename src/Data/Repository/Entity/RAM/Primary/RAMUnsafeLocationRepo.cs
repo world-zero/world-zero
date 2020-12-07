@@ -5,14 +5,14 @@ using WorldZero.Data.Interface.Repository.Entity.RAM.Generic;
 
 namespace WorldZero.Data.Repository.Entity.RAM.Primary
 {
-    /// <inheritdoc cref="ILocationRepo"/>
-    public class RAMLocationRepo
-        : IRAMIdEntityRepo<Location>,
-        ILocationRepo
+    /// <inheritdoc cref="IUnsafeLocationRepo"/>
+    public class RAMUnsafeLocationRepo
+        : IRAMIdEntityRepo<UnsafeLocation>,
+        IUnsafeLocationRepo
     {
         protected override int GetRuleCount()
         {
-            var a = new Location(
+            var a = new UnsafeLocation(
                 new Name("x"),
                 new Name("or"),
                 new Name("s"),

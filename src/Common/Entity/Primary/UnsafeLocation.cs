@@ -12,9 +12,14 @@ namespace WorldZero.Common.Entity.Primary
     /// Repos are responsible for ensuring that every combination of cities,
     /// states, countries, and zips are unique.
     /// </remarks>
-    public class Location : IIdEntity, IOptionalEntity
+    public class UnsafeLocation : IIdEntity, IOptionalEntity, IUnsafeEntity
     {
-        public Location(Name city, Name state, Name country, Name zip)
+        public UnsafeLocation(
+            Name city,
+            Name state,
+            Name country,
+            Name zip
+        )
             : base()
         {
             this._setup(
@@ -25,7 +30,13 @@ namespace WorldZero.Common.Entity.Primary
             );
         }
 
-        public Location(Id id, Name city, Name state, Name country, Name zip)
+        public UnsafeLocation(
+            Id id,
+            Name city,
+            Name state,
+            Name country,
+            Name zip
+        )
             : base(id)
         {
             this._setup(
@@ -36,7 +47,13 @@ namespace WorldZero.Common.Entity.Primary
             );
         }
 
-        internal Location(int id, string city, string state, string country, string zip)
+        internal UnsafeLocation(
+            int id,
+            string city,
+            string state,
+            string country,
+            string zip
+        )
             : base(new Id(id))
         {
             this._setup(
@@ -57,7 +74,7 @@ namespace WorldZero.Common.Entity.Primary
 
         public override IEntity<Id, int> Clone()
         {
-            return new Location(
+            return new UnsafeLocation(
                 this.Id,
                 this.City,
                 this.State,

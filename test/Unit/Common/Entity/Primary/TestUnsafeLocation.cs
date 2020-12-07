@@ -6,9 +6,9 @@ using NUnit.Framework;
 namespace WorldZero.Test.Unit.Common.Entity.Primary
 {
     [TestFixture]
-    public class TestLocation
+    public class TestUnsafeLocation
     {
-        private Location _l;
+        private UnsafeLocation _l;
         private Id _id;
         private Name _city;
         private Name _state;
@@ -24,7 +24,7 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
             this._country = new Name("USA");
             this._zip = new Name("97045");
 
-            this._l = new Location(
+            this._l = new UnsafeLocation(
                 this._id,
                 this._city,
                 this._state,
@@ -36,7 +36,7 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
         [Test]
         public void TestDefaultValues()
         {
-            var l = new Location(
+            var l = new UnsafeLocation(
                 this._city,
                 this._state,
                 this._country,
