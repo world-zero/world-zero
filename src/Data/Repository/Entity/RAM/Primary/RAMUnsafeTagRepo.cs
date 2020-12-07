@@ -5,14 +5,14 @@ using WorldZero.Data.Interface.Repository.Entity.RAM.Generic;
 
 namespace WorldZero.Data.Repository.Entity.RAM.Primary
 {
-    /// <inheritdoc cref="ITagRepo"/>
-    public class RAMTagRepo
-        : IRAMNamedEntityRepo<Tag>,
-        ITagRepo
+    /// <inheritdoc cref="IUnsafeTagRepo"/>
+    public class RAMUnsafeTagRepo
+        : IRAMNamedEntityRepo<UnsafeTag>,
+        IUnsafeTagRepo
     {
         protected override int GetRuleCount()
         {
-            var a = new Tag(new Name("good"));
+            var a = new UnsafeTag(new Name("good"));
             return a.GetUniqueRules().Count;
         }
     }

@@ -44,7 +44,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
         [Test]
         public void TestDeleteSad()
         {
-            Tag t = null;
+            UnsafeTag t = null;
             Name n = null;
             Assert.Throws<ArgumentNullException>(()=>
                 this._del.DeleteByTag(t));

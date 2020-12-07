@@ -1,3 +1,4 @@
+using WorldZero.Common.Interface.Entity.Marker;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Common.ValueObject.General;
 
@@ -6,15 +7,15 @@ namespace WorldZero.Common.Entity.Primary
     /// <summary>
     /// Flag is a entity for a tuple of the Flag table.
     /// </summary>
-    public class Tag : INamedEntity
+    public class UnsafeTag : INamedEntity, IUnsafeEntity
     {
         // This does not have a description parameter since that would make the
         // two constructors ambiguous.
-        public Tag(Name name)
+        public UnsafeTag(Name name)
             : base(name)
         { }
 
-        internal Tag(string name, string description)
+        internal UnsafeTag(string name, string description)
             : base(new Name(name))
         {
             this.Description = description;
@@ -22,7 +23,7 @@ namespace WorldZero.Common.Entity.Primary
 
         public override IEntity<Name, string> Clone()
         {
-            var t = new Tag(this.Id);
+            var t = new UnsafeTag(this.Id);
             t.Description = this.Description;
             return t;
         }

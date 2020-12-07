@@ -7,12 +7,12 @@ namespace WorldZero.Service.Entity.Registration.Primary
 {
     /// <inheritdoc cref="IEntityReg"/>
     public class TagReg
-        : IEntityReg<Tag, Name, string>
+        : IEntityReg<UnsafeTag, Name, string>
     {
-        protected ITagRepo _tagRepo
-        { get { return (ITagRepo) this._repo; } }
+        protected IUnsafeTagRepo _tagRepo
+        { get { return (IUnsafeTagRepo) this._repo; } }
 
-        public TagReg(ITagRepo tagRepo)
+        public TagReg(IUnsafeTagRepo tagRepo)
             : base(tagRepo)
         { }
     }

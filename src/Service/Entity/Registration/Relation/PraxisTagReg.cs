@@ -16,7 +16,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             UnsafePraxis,
             Id,
             int,
-            Tag,
+            UnsafeTag,
             Name,
             string,
             RelationDTO<Id, int, Name, string>
@@ -28,13 +28,13 @@ namespace WorldZero.Service.Entity.Registration.Relation
         protected IUnsafePraxisRepo _praxisRepo
         { get { return (IUnsafePraxisRepo) this._leftRepo; } }
 
-        protected ITagRepo _tagRepo
-        { get { return (ITagRepo) this._rightRepo; } }
+        protected IUnsafeTagRepo _tagRepo
+        { get { return (IUnsafeTagRepo) this._rightRepo; } }
 
         public PraxisTagReg(
             IPraxisTagRepo praxisTagRepo,
             IUnsafePraxisRepo praxisRepo,
-            ITagRepo tagRepo
+            IUnsafeTagRepo tagRepo
         )
             : base(praxisTagRepo, praxisRepo, tagRepo)
         { }

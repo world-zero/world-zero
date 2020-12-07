@@ -23,7 +23,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
         TLeftEntity,
         TLeftId,
         TLeftBuiltIn,
-        Tag,
+        UnsafeTag,
         Name,
         string,
         TRelationDTO
@@ -51,7 +51,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
         /// <remarks>
         /// This is just a wrapper for `DeleteByRightId()`.
         /// </remarks>
-        public void DeleteByTag(Tag tag)
+        public void DeleteByTag(UnsafeTag tag)
         {
             this.AssertNotNull(tag, "tag");
             this.DeleteByRight(tag.Id);
@@ -69,7 +69,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
         /// <remarks>
         /// This is just a wrapper for `DeleteByRightIdAsync()`.
         /// </remarks>
-        public async System.Threading.Tasks.Task DeleteByTagAsync(Tag tag)
+        public async System.Threading.Tasks.Task DeleteByTagAsync(UnsafeTag tag)
         {
             this.AssertNotNull(tag, "tag");
             await System.Threading.Tasks.Task.Run(() =>

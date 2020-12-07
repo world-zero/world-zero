@@ -16,7 +16,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             Task,
             Id,
             int,
-            Tag,
+            UnsafeTag,
             Name,
             string,
             RelationDTO<Id, int, Name, string>
@@ -28,13 +28,13 @@ namespace WorldZero.Service.Entity.Registration.Relation
         protected ITaskRepo _taskRepo
         { get { return (ITaskRepo) this._leftRepo; } }
 
-        protected ITagRepo _tagRepo
-        { get { return (ITagRepo) this._rightRepo; } }
+        protected IUnsafeTagRepo _tagRepo
+        { get { return (IUnsafeTagRepo) this._rightRepo; } }
 
         public TaskTagReg(
             ITaskTagRepo tagTagRepo,
             ITaskRepo taskRepo,
-            ITagRepo tagRepo
+            IUnsafeTagRepo tagRepo
         )
             : base(tagTagRepo, taskRepo, tagRepo)
         { }

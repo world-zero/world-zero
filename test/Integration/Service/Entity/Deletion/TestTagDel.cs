@@ -14,9 +14,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
     [TestFixture]
     public class TestTagDel
     {
-        private Tag _t0;
-        private Tag _t1;
-        private RAMTagRepo _tagRepo;
+        private UnsafeTag _t0;
+        private UnsafeTag _t1;
+        private RAMUnsafeTagRepo _tagRepo;
         private RAMTaskTagRepo _taskTagRepo;
         private RAMMetaTaskTagRepo _mtTagRepo;
         private RAMPraxisTagRepo _praxisTagRepo;
@@ -28,10 +28,10 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         [SetUp]
         public void Setup()
         {
-            this._t0 = new Tag(new Name("#valid"));
-            this._t1 = new Tag(new Name("#invalid"));
+            this._t0 = new UnsafeTag(new Name("#valid"));
+            this._t1 = new UnsafeTag(new Name("#invalid"));
 
-            this._tagRepo = new RAMTagRepo();
+            this._tagRepo = new RAMUnsafeTagRepo();
             this._tagRepo.Insert(this._t0);
             this._tagRepo.Insert(this._t1);
             this._tagRepo.Save();
@@ -80,7 +80,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         [Test]
         public void TestDeleteSad()
         {
-            Tag t = null;
+            UnsafeTag t = null;
             Name n = null;
             Assert.Throws<ArgumentNullException>(()=>this._del.Delete(t));
             Assert.Throws<ArgumentNullException>(()=>this._del.Delete(n));
