@@ -17,28 +17,28 @@ using WorldZero.Data.Repository.Entity.RAM.Primary;
 namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Relation
 {
     [TestFixture]
-    public class TestRAMPraxisParticipantRepoFirst
+    public class TestRAMUnsafePraxisParticipantRepoFirst
     {
-        private RAMPraxisParticipantRepo _repo;
+        private RAMUnsafePraxisParticipantRepo _repo;
         private Id _pId0;
         private Id _pId1;
         private Id _cId0;
         private Id _cId1;
-        private PraxisParticipant _pp0;
-        private PraxisParticipant _pp1;
-        private PraxisParticipant _ppAlt;
+        private UnsafePraxisParticipant _pp0;
+        private UnsafePraxisParticipant _pp1;
+        private UnsafePraxisParticipant _ppAlt;
 
         [SetUp]
         public void Setup()
         {
-            this._repo = new RAMPraxisParticipantRepo();
+            this._repo = new RAMUnsafePraxisParticipantRepo();
             this._pId0 = new Id(1);
             this._pId1 = new Id(2);
             this._cId0 = new Id(3);
             this._cId1 = new Id(4);
-            this._pp0 = new PraxisParticipant(this._pId0, this._cId0);
-            this._pp1 = new PraxisParticipant(this._pId0, this._cId1);
-            this._ppAlt = new PraxisParticipant(this._pId1, this._cId0);
+            this._pp0 = new UnsafePraxisParticipant(this._pId0, this._cId0);
+            this._pp1 = new UnsafePraxisParticipant(this._pId0, this._cId1);
+            this._ppAlt = new UnsafePraxisParticipant(this._pId1, this._cId0);
         }
 
         [TearDown]
@@ -156,10 +156,10 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Relation
         private UnsafePraxis _p0;
         private UnsafePraxis _p1;
         private UnsafePraxis _p2;
-        private PraxisParticipant _pp0;
-        private PraxisParticipant _pp1;
-        private PraxisParticipant _pp2;
-        private PraxisParticipant _pp3;
+        private UnsafePraxisParticipant _pp0;
+        private UnsafePraxisParticipant _pp1;
+        private UnsafePraxisParticipant _pp2;
+        private UnsafePraxisParticipant _pp3;
         private Id _charId0;
         private Id _charId1;
         private Id _charIdUnused;
@@ -188,10 +188,10 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Relation
             this._charId0 = new Id(1);
             this._charId1 = new Id(2);
             this._charIdUnused = new Id(3);
-            this._pp0 = new PraxisParticipant(this._p0.Id, this._charId0);
-            this._pp1 = new PraxisParticipant(this._p0.Id, this._charId1);
-            this._pp2 = new PraxisParticipant(this._p1.Id, this._charId0);
-            this._pp3 = new PraxisParticipant(this._p2.Id, this._charId0);
+            this._pp0 = new UnsafePraxisParticipant(this._p0.Id, this._charId0);
+            this._pp1 = new UnsafePraxisParticipant(this._p0.Id, this._charId1);
+            this._pp2 = new UnsafePraxisParticipant(this._p1.Id, this._charId0);
+            this._pp3 = new UnsafePraxisParticipant(this._p2.Id, this._charId0);
             this._ppRepo.Insert(this._pp0);
             this._ppRepo.Insert(this._pp1);
             this._ppRepo.Insert(this._pp2);
@@ -283,7 +283,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Relation
             var id = new Id(2);
             var set = new HashSet<Name>();
             set.Add(new Name("x"));
-            this._ppRepo.Data.Remove(typeof(PraxisParticipant).FullName);
+            this._ppRepo.Data.Remove(typeof(UnsafePraxisParticipant).FullName);
             Assert.AreEqual(0, this._ppRepo.GetPraxisCount(id, set));
         }
 
@@ -399,7 +399,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Relation
         }
 
         public class TestPraxisParticipantRepoExposedData
-            : RAMPraxisParticipantRepo
+            : RAMUnsafePraxisParticipantRepo
         {
             public Dictionary<string, EntityData> Data { get { return _data; } }
         }

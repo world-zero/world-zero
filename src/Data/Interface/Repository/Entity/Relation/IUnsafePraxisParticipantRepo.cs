@@ -8,10 +8,10 @@ using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
 
 namespace WorldZero.Data.Interface.Repository.Entity.Relation
 {
-    public interface IPraxisParticipantRepo
+    public interface IUnsafePraxisParticipantRepo
         : IEntityRelationRepo
           <
-            PraxisParticipant,
+            UnsafePraxisParticipant,
             Id,
             int,
             Id,
@@ -38,7 +38,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.Relation
 
         /// <summary>
         /// This is extremely similar to <see cref=
-        /// "IPraxisParticipantRepo.GetCharacterSubmissionCount(Id, Id)"/>,
+        /// "IUnsafePraxisParticipantRepo.GetCharacterSubmissionCount(Id, Id)"/>,
         /// but this method will take a praxisId as the first argument and
         /// determine the corresponding taskId as an intermediary step.
         /// </summary>
@@ -48,8 +48,8 @@ namespace WorldZero.Data.Interface.Repository.Entity.Relation
             Id charId
         );
 
-        IEnumerable<PraxisParticipant> GetByPraxisId(Id praxisId);
-        IEnumerable<PraxisParticipant> GetByCharacterId(Id characterId);
+        IEnumerable<UnsafePraxisParticipant> GetByPraxisId(Id praxisId);
+        IEnumerable<UnsafePraxisParticipant> GetByCharacterId(Id characterId);
 
         /// <summary>
         /// Get a collection of PraxisParticipant IDs that are participants of
@@ -99,7 +99,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.Relation
         /// </summary>
         /// <remarks>
         /// Basically, this is an iterable version (that takes a character ID)
-        /// of <see cref="WorldZero.Data.Interface.Repository.Entity.Relation.IPraxisParticipantRepo.GetParticipantCountViaPraxisId(Id)"/>.
+        /// of <see cref="WorldZero.Data.Interface.Repository.Entity.Relation.IUnsafePraxisParticipantRepo.GetParticipantCountViaPraxisId(Id)"/>.
         /// </remarks>
         IEnumerable<CountingDTO<Id>> GetParticipantCountsViaCharId(Id characterId);
 

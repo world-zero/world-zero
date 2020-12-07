@@ -31,8 +31,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         private UnsafeCharacter _c;
         private UnsafePraxis _p;
         private UnsafeMetaTask _mt;
-        private PraxisParticipant _pp;
-        private List<PraxisParticipant> _pps;
+        private UnsafePraxisParticipant _pp;
+        private List<UnsafePraxisParticipant> _pps;
         private UnsafeFaction _f;
         private IUnsafeEraRepo _eraRepo;
         private EraReg _eraReg;
@@ -108,8 +108,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                 StatusReg.Active.Id,
                 this._mt.Id
             );
-            this._pp = new PraxisParticipant(this._c.Id);
-            this._pps = new List<PraxisParticipant>();
+            this._pp = new UnsafePraxisParticipant(this._c.Id);
+            this._pps = new List<UnsafePraxisParticipant>();
             this._pps.Add(this._pp);
             var c = new UnsafeCharacter(
                 new Name("alt"),
@@ -119,7 +119,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             );
             this._charRepo.Insert(c);
             this._charRepo.Save();
-            this._pps.Add(new PraxisParticipant(c.Id));
+            this._pps.Add(new UnsafePraxisParticipant(c.Id));
         }
 
         [TearDown]
@@ -167,7 +167,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         [Test]
         public void TestRegisterNullPraxisParticipant()
         {
-            PraxisParticipant pp = null;
+            UnsafePraxisParticipant pp = null;
             Assert.Throws<ArgumentNullException>(
                 ()=>this._registration.Register(null, pp));
         }
@@ -236,7 +236,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         [Test]
         public void TestRegisterEmptyList()
         {
-            var pps = new List<PraxisParticipant>();
+            var pps = new List<UnsafePraxisParticipant>();
             Assert.Throws<ArgumentException>(
                 ()=>this._registration.Register(this._p, pps));
         }
@@ -246,7 +246,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         {
             this._registration.Register(this._p, this._pps);
             Assert.AreEqual(2, this._ppRepo.Saved.Count);
-            foreach (PraxisParticipant pp in this._pps)
+            foreach (UnsafePraxisParticipant pp in this._pps)
                 Assert.IsNotNull(this._ppRepo.GetById(pp.Id));
         }
 
@@ -255,7 +255,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         {
             int expected = this._ppRepo.Saved.Count;
 
-            var ppBad = new PraxisParticipant(new Id(666));
+            var ppBad = new UnsafePraxisParticipant(new Id(666));
             this._pps.Add(ppBad);
             Assert.Throws<ArgumentException>(
                 ()=>this._registration.Register(this._p, this._pps));

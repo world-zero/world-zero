@@ -5,18 +5,18 @@ using NUnit.Framework;
 namespace WorldZero.Test.Unit.Common.Entity.Relation
 {
     [TestFixture]
-    public class TestPraxisParticipant
+    public class TestUnsafePraxisParticipant
     {
         private Id _id0;
         private Id _id1;
-        private PraxisParticipant _pp;
+        private UnsafePraxisParticipant _pp;
 
         [SetUp]
         public void Setup()
         {
             this._id0 = new Id(3);
             this._id1 = new Id(5);
-            this._pp = new PraxisParticipant(this._id0, this._id1);
+            this._pp = new UnsafePraxisParticipant(this._id0, this._id1);
         }
 
         [Test]
@@ -40,7 +40,7 @@ namespace WorldZero.Test.Unit.Common.Entity.Relation
         [Test]
         public void TestSpecialConstructor()
         {
-            var pp = new PraxisParticipant(new Id(2));
+            var pp = new UnsafePraxisParticipant(new Id(2));
             Assert.AreEqual(null, pp.PraxisId);
             Assert.AreEqual(new Id(0), pp.LeftId);
         }

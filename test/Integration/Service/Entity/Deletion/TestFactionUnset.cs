@@ -36,7 +36,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             Assert.AreEqual(actualEntity.Id, e.Id);
         }
 
-        private RAMPraxisParticipantRepo _ppRepo;
+        private RAMUnsafePraxisParticipantRepo _ppRepo;
         private PraxisParticipantDel _ppDel;
         private RAMUnsafeVoteRepo _voteRepo;
         private VoteDel _voteDel;
@@ -88,7 +88,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._commentDel = new CommentDel(this._commentRepo);
             this._voteRepo = new RAMUnsafeVoteRepo();
             this._voteDel = new VoteDel(this._voteRepo);
-            this._ppRepo = new RAMPraxisParticipantRepo();
+            this._ppRepo = new RAMUnsafePraxisParticipantRepo();
             this._ppDel = new PraxisParticipantDel(
                 this._ppRepo,
                 this._praxisRepo,

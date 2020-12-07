@@ -33,7 +33,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
     /// </remarks>
     public class PraxisParticipantDel : IEntityRelationDel
     <
-        PraxisParticipant,
+        UnsafePraxisParticipant,
         UnsafePraxis,
         Id,
         int,
@@ -43,14 +43,14 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         RelationDTO<Id, int, Id, int>
     >
     {
-        protected IPraxisParticipantRepo _ppRepo
-        { get { return (IPraxisParticipantRepo) this._relRepo; } }
+        protected IUnsafePraxisParticipantRepo _ppRepo
+        { get { return (IUnsafePraxisParticipantRepo) this._relRepo; } }
 
         protected readonly IUnsafePraxisRepo _praxisRepo;
         protected readonly VoteDel _voteDel;
 
         public PraxisParticipantDel(
-            IPraxisParticipantRepo repo,
+            IUnsafePraxisParticipantRepo repo,
             IUnsafePraxisRepo praxisRepo,
             VoteDel voteDel
         )
@@ -97,11 +97,11 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         {
             void f(Id id)
             {
-                IEnumerable<PraxisParticipant> pps;
+                IEnumerable<UnsafePraxisParticipant> pps;
                 try
                 {
                     pps = this._ppRepo.GetByPraxisId(id);
-                    foreach (PraxisParticipant pp in pps)
+                    foreach (UnsafePraxisParticipant pp in pps)
                         this._delete(pp.Id, false);
                 }
                 catch (ArgumentException)
@@ -263,7 +263,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
 
             if (endCount == 1)
             {
-                PraxisParticipant pp;
+                UnsafePraxisParticipant pp;
                 try
                 { pp = this._ppRepo.GetById(ppId); }
                 catch (ArgumentException)

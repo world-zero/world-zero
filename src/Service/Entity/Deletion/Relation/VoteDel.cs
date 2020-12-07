@@ -45,7 +45,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
                 this.DeleteByCharacter(id));
         }
 
-        public void DeleteByPraxisParticipant(PraxisParticipant pp)
+        public void DeleteByPraxisParticipant(UnsafePraxisParticipant pp)
         {
             this.AssertNotNull(pp, "pp");
             this.DeleteByPraxisParticipant(pp.Id);
@@ -53,7 +53,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
 
         public async
         System.Threading.Tasks.Task DeleteByPraxisParticipantAsync(
-            PraxisParticipant pp
+            UnsafePraxisParticipant pp
         )
         {
             this.AssertNotNull(pp, "pp");

@@ -22,7 +22,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         private RAMUnsafeVoteRepo _voteRepo;
         private RAMUnsafeCharacterRepo _charRepo;
         private RAMUnsafePraxisRepo _praxisRepo;
-        private RAMPraxisParticipantRepo _ppRepo;
+        private RAMUnsafePraxisParticipantRepo _ppRepo;
         private RAMUnsafeMetaTaskRepo _mtRepo;
         private VoteReg _voteReg;
         private PraxisParticipantReg _ppReg;
@@ -44,7 +44,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             this._charRepo = new RAMUnsafeCharacterRepo();
             this._praxisRepo = new RAMUnsafePraxisRepo();
             this._mtRepo = new RAMUnsafeMetaTaskRepo();
-            this._ppRepo = new RAMPraxisParticipantRepo();
+            this._ppRepo = new RAMUnsafePraxisParticipantRepo();
             this._ppReg = new PraxisParticipantReg(
                 this._ppRepo,
                 this._praxisRepo,
@@ -141,7 +141,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                 statusRepo,
                 this._ppReg
             );
-            var pp = new PraxisParticipant(character.Id);
+            var pp = new UnsafePraxisParticipant(character.Id);
             praxisReg.Register(praxis, pp);
 
             v.PraxisParticipantId = pp.Id;
@@ -167,7 +167,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                 new PointTotal(40000)
             );
             charReg.Register(newChar);
-            var newPP = new PraxisParticipant(praxis.Id, altChar.Id);
+            var newPP = new UnsafePraxisParticipant(praxis.Id, altChar.Id);
             this._ppRepo.Insert(newPP);
             this._ppRepo.Save();
             var ptOld = altChar.VotePointsLeft.Get;

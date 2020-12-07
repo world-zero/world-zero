@@ -27,7 +27,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             UnsafeCharacter,
             Id,
             int,
-            PraxisParticipant,
+            UnsafePraxisParticipant,
             Id,
             int,
             RelationDTO<Id, int, Id, int>
@@ -39,15 +39,15 @@ namespace WorldZero.Service.Entity.Registration.Relation
         protected IUnsafeCharacterRepo _characterRepo
         { get { return (IUnsafeCharacterRepo) this._leftRepo; } }
 
-        protected IPraxisParticipantRepo _ppRepo
-        { get { return (IPraxisParticipantRepo) this._rightRepo; } }
+        protected IUnsafePraxisParticipantRepo _ppRepo
+        { get { return (IUnsafePraxisParticipantRepo) this._rightRepo; } }
 
         protected readonly IUnsafePraxisRepo _praxisRepo;
 
         public VoteReg(
             IUnsafeVoteRepo voteRepo,
             IUnsafeCharacterRepo characterRepo,
-            IPraxisParticipantRepo praxisParticipantRepo,
+            IUnsafePraxisParticipantRepo praxisParticipantRepo,
             IUnsafePraxisRepo praxisRepo
         )
             : base(voteRepo, characterRepo, praxisParticipantRepo)
@@ -118,7 +118,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             }
         }
 
-        private UnsafePraxis _regGetPraxis(PraxisParticipant pp)
+        private UnsafePraxis _regGetPraxis(UnsafePraxisParticipant pp)
         {
             try
             {
@@ -131,7 +131,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             }
         }
 
-        private PraxisParticipant _regGetPP(UnsafeVote v)
+        private UnsafePraxisParticipant _regGetPP(UnsafeVote v)
         {
             try
             {
@@ -144,7 +144,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             }
         }
 
-        private UnsafeCharacter _regGetRecChar(PraxisParticipant pp)
+        private UnsafeCharacter _regGetRecChar(UnsafePraxisParticipant pp)
         {
             try
             {
@@ -201,7 +201,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
         /// <remarks>
         /// This can stand to be optimized - see the code for more.
         /// </remarks>
-        private List<Id> _regGetPraxisVoters(PraxisParticipant pp)
+        private List<Id> _regGetPraxisVoters(UnsafePraxisParticipant pp)
         {
             List<Id> voterIds = null;
             try

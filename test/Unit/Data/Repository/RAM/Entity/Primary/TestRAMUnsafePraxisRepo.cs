@@ -25,10 +25,10 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
         private UnsafePraxis _p0;
         private UnsafePraxis _p1;
         private UnsafePraxis _p2;
-        private PraxisParticipant _pp0;
-        private PraxisParticipant _pp1;
-        private PraxisParticipant _pp2;
-        private PraxisParticipant _pp3;
+        private UnsafePraxisParticipant _pp0;
+        private UnsafePraxisParticipant _pp1;
+        private UnsafePraxisParticipant _pp2;
+        private UnsafePraxisParticipant _pp3;
         private Id _charId0;
         private Id _charId1;
         private Id _charIdUnused;
@@ -57,10 +57,10 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
             this._charId0 = new Id(1);
             this._charId1 = new Id(2);
             this._charIdUnused = new Id(3);
-            this._pp0 = new PraxisParticipant(this._p0.Id, this._charId0);
-            this._pp1 = new PraxisParticipant(this._p0.Id, this._charId1);
-            this._pp2 = new PraxisParticipant(this._p1.Id, this._charId0);
-            this._pp3 = new PraxisParticipant(this._p2.Id, this._charId0);
+            this._pp0 = new UnsafePraxisParticipant(this._p0.Id, this._charId0);
+            this._pp1 = new UnsafePraxisParticipant(this._p0.Id, this._charId1);
+            this._pp2 = new UnsafePraxisParticipant(this._p1.Id, this._charId0);
+            this._pp3 = new UnsafePraxisParticipant(this._p2.Id, this._charId0);
             this._ppRepo.Insert(this._pp0);
             this._ppRepo.Insert(this._pp1);
             this._ppRepo.Insert(this._pp2);
@@ -165,7 +165,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
     }
 
     public class TestPraxisParticipantRepoExposedData
-        : RAMPraxisParticipantRepo
+        : RAMUnsafePraxisParticipantRepo
     {
         public Dictionary<string, EntityData> Data { get { return _data; } }
     }

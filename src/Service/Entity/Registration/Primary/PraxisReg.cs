@@ -74,15 +74,15 @@ namespace WorldZero.Service.Entity.Registration.Primary
             throw new ArgumentException("You must supply participant(s).");
         }
 
-        public UnsafePraxis Register(UnsafePraxis p, PraxisParticipant pp)
+        public UnsafePraxis Register(UnsafePraxis p, UnsafePraxisParticipant pp)
         {
             this.AssertNotNull(pp, "pp");
-            var pps = new List<PraxisParticipant>();
+            var pps = new List<UnsafePraxisParticipant>();
             pps.Add(pp);
             return this.Register(p, pps);
         }
 
-        public UnsafePraxis Register(UnsafePraxis p, List<PraxisParticipant> pps)
+        public UnsafePraxis Register(UnsafePraxis p, List<UnsafePraxisParticipant> pps)
         {
             this.AssertNotNull(p, "p");
             this.AssertNotNull(pps, "pps");
@@ -92,7 +92,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
             if ( (p.AreDueling) && (pps.Count != 2)  )
                 throw new ArgumentException("The praxis thinks the participants are dueling but there are not two participants exactly.");
 
-            foreach (PraxisParticipant pp in pps)
+            foreach (UnsafePraxisParticipant pp in pps)
             {
                 if (pp.PraxisId != null)
                     throw new ArgumentException("The praxis participant is already associated with a praxis, which cannot be the supplied praxis since it has an unset ID.");
@@ -104,7 +104,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
                 UnsafeMetaTask mt = this._verifyMetaTask(p);
                 this._praxisRepo.Insert(p);
                 this._praxisRepo.Save();
-                foreach (PraxisParticipant pp in pps)
+                foreach (UnsafePraxisParticipant pp in pps)
                 {
                     pp.PraxisId = p.Id;
                     this._ppReg.Register(pp);

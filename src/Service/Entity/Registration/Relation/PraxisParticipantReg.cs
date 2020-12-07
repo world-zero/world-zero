@@ -46,7 +46,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
     public class PraxisParticipantReg
         : IEntityRelationReg
         <
-            PraxisParticipant,
+            UnsafePraxisParticipant,
             UnsafePraxis,
             Id,
             int,
@@ -56,8 +56,8 @@ namespace WorldZero.Service.Entity.Registration.Relation
             RelationDTO<Id, int, Id, int>
         >
     {
-        protected IPraxisParticipantRepo _ppRepo
-        { get { return (IPraxisParticipantRepo) this._repo; } }
+        protected IUnsafePraxisParticipantRepo _ppRepo
+        { get { return (IUnsafePraxisParticipantRepo) this._repo; } }
 
         protected IUnsafePraxisRepo _praxisRepo
         { get { return (IUnsafePraxisRepo) this._leftRepo; } }
@@ -72,7 +72,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
         protected ISet<Name> _praxisLiveStatuses;
 
         public PraxisParticipantReg(
-            IPraxisParticipantRepo praxisParticipantRepo,
+            IUnsafePraxisParticipantRepo praxisParticipantRepo,
             IUnsafePraxisRepo praxisRepo,
             IUnsafeCharacterRepo characterRepo,
             IUnsafeMetaTaskRepo mtRepo,
@@ -96,7 +96,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             this._praxisLiveStatuses.Add(StatusReg.Active.Id);
         }
 
-        public override PraxisParticipant Register(PraxisParticipant pp)
+        public override UnsafePraxisParticipant Register(UnsafePraxisParticipant pp)
         {
             this.AssertNotNull(pp, "pp");
             this._ppRepo.BeginTransaction(true);
@@ -114,7 +114,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             return r;
         }
 
-        private UnsafePraxis _verifyPraxis(PraxisParticipant pp)
+        private UnsafePraxis _verifyPraxis(UnsafePraxisParticipant pp)
         {
             UnsafePraxis p;
             try
@@ -137,7 +137,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             return p;
         }
 
-        private UnsafeCharacter _verifyCharacter(PraxisParticipant pp)
+        private UnsafeCharacter _verifyCharacter(UnsafePraxisParticipant pp)
         {
             UnsafeCharacter c;
             try
@@ -186,7 +186,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
         }
 
         private int _verifyPPCount(
-            PraxisParticipant pp,
+            UnsafePraxisParticipant pp,
             UnsafeCharacter c,
             UnsafeEra activeEra
         )

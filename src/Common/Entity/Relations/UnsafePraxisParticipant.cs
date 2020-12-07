@@ -1,5 +1,6 @@
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Common.ValueObject.General;
+using WorldZero.Common.Interface.Entity.Marker;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Common.Interface.Entity.Generic.Relation;
 
@@ -25,7 +26,7 @@ namespace WorldZero.Common.Entity.Relation
     /// return null. This will not apply to `LeftId`, it will contain
     /// `new Id(0)` like normal.
     /// </remarks>
-    public class PraxisParticipant : IIdIdRelation
+    public class UnsafePraxisParticipant : IIdIdRelation, IUnsafeEntity
     {
         /// <summary>
         /// PraxisId wraps LeftId, which is the ID of the related Praxis.
@@ -63,15 +64,15 @@ namespace WorldZero.Common.Entity.Relation
             set { this.RightId = value; }
         }
 
-        public PraxisParticipant(Id characterId)
+        public UnsafePraxisParticipant(Id characterId)
             : base(new Id(0), characterId)
         { }
 
-        public PraxisParticipant(Id praxisId, Id characterId)
+        public UnsafePraxisParticipant(Id praxisId, Id characterId)
             : base(praxisId, characterId)
         { }
 
-        public PraxisParticipant(
+        public UnsafePraxisParticipant(
             Id id,
             Id praxisId,
             Id characterId
@@ -79,15 +80,15 @@ namespace WorldZero.Common.Entity.Relation
             : base(id, praxisId, characterId)
         { }
 
-        public PraxisParticipant(RelationDTO<Id, int, Id, int> dto)
+        public UnsafePraxisParticipant(RelationDTO<Id, int, Id, int> dto)
             : base(dto.LeftId, dto.RightId)
         { }
 
-        public PraxisParticipant(Id id, RelationDTO<Id, int, Id, int> dto)
+        public UnsafePraxisParticipant(Id id, RelationDTO<Id, int, Id, int> dto)
             : base(id, dto.LeftId, dto.RightId)
         { }
 
-        internal PraxisParticipant(
+        internal UnsafePraxisParticipant(
             int id,
             int praxisId,
             int characterId
@@ -97,7 +98,7 @@ namespace WorldZero.Common.Entity.Relation
 
         public override IEntity<Id, int> Clone()
         {
-            return new PraxisParticipant(
+            return new UnsafePraxisParticipant(
                 this.Id,
                 this.LeftId,
                 this.RightId

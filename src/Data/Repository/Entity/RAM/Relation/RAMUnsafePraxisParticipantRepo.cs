@@ -12,25 +12,25 @@ using WorldZero.Common.Entity.Relation;
 
 namespace WorldZero.Data.Repository.Entity.RAM.Relation
 {
-    /// <inheritdoc cref="IPraxisParticipantRepo"/>
-    public class RAMPraxisParticipantRepo
+    /// <inheritdoc cref="IUnsafePraxisParticipantRepo"/>
+    public class RAMUnsafePraxisParticipantRepo
         : IRAMEntityRelationRepo
           <
-            PraxisParticipant,
+            UnsafePraxisParticipant,
             Id,
             int,
             Id,
             int,
             RelationDTO<Id, int, Id, int>
           >,
-          IPraxisParticipantRepo
+          IUnsafePraxisParticipantRepo
     {
-        public IEnumerable<PraxisParticipant> GetByPraxisId(Id praxisId)
+        public IEnumerable<UnsafePraxisParticipant> GetByPraxisId(Id praxisId)
         {
             return this.GetByLeftId(praxisId);
         }
 
-        public IEnumerable<PraxisParticipant> GetByCharacterId(Id charId)
+        public IEnumerable<UnsafePraxisParticipant> GetByCharacterId(Id charId)
         {
             return this.GetByRightId(charId);
         }
@@ -69,7 +69,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
             if (characterId == null)
                 throw new ArgumentNullException("characterId");
 
-            IEnumerable<PraxisParticipant> participants =
+            IEnumerable<UnsafePraxisParticipant> participants =
                 from ppTemp in this._saved.Values
                 let pp = this.TEntityCast(ppTemp)
                 where pp.PraxisId == praxisId
@@ -92,7 +92,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
             if (praxisId == null)
                 throw new ArgumentNullException("praxisId");
 
-            IEnumerable<PraxisParticipant> participants =
+            IEnumerable<UnsafePraxisParticipant> participants =
                 from ppTemp in this._saved.Values
                 let pp = this.TEntityCast(ppTemp)
                 where pp.PraxisId == praxisId
@@ -170,7 +170,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
 
         protected override int GetRuleCount()
         {
-            var a = new PraxisParticipant(new Id(3), new Id(2));
+            var a = new UnsafePraxisParticipant(new Id(3), new Id(2));
             return a.GetUniqueRules().Count;
         }
 
