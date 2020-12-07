@@ -1,5 +1,6 @@
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
+using WorldZero.Common.Interface.Entity.Marker;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Common.Interface.Entity.Generic.Relation;
 
@@ -13,7 +14,7 @@ namespace WorldZero.Common.Entity.Relation
     /// <br />
     /// Right relation: `FlagId`
     /// </summary>
-    public class TaskFlag : IFlaggedEntity<Id, int>
+    public class UnsafeTaskFlag : IFlaggedEntity<Id, int>, IUnsafeEntity
     {
         /// <summary>
         /// TaskId is a wrapper for LeftId.
@@ -24,29 +25,29 @@ namespace WorldZero.Common.Entity.Relation
             set { this.LeftId = value; }
         }
 
-        public TaskFlag(Id taskId, Name flagId)
+        public UnsafeTaskFlag(Id taskId, Name flagId)
             : base(taskId, flagId)
         { }
 
-        public TaskFlag(Id id, Id taskId, Name flagId)
+        public UnsafeTaskFlag(Id id, Id taskId, Name flagId)
             : base(id, taskId, flagId)
         { }
 
-        public TaskFlag(RelationDTO<Id, int, Name, string> dto)
+        public UnsafeTaskFlag(RelationDTO<Id, int, Name, string> dto)
             : base(dto.LeftId, dto.RightId)
         { }
 
-        public TaskFlag(Id id, RelationDTO<Id, int, Name, string> dto)
+        public UnsafeTaskFlag(Id id, RelationDTO<Id, int, Name, string> dto)
             : base(id, dto.LeftId, dto.RightId)
         { }
 
-        internal TaskFlag(int id, int taskId, string flagId)
+        internal UnsafeTaskFlag(int id, int taskId, string flagId)
             : base(new Id(id), new Id(taskId), new Name(flagId))
         { }
 
         public override IEntity<Id, int> Clone()
         {
-            return new TaskFlag(
+            return new UnsafeTaskFlag(
                 this.Id,
                 this.LeftId,
                 this.RightId

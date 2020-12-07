@@ -17,7 +17,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private UnsafeFlag _f0;
         private UnsafeFlag _t1;
         private RAMUnsafeFlagRepo _flagRepo;
-        private RAMTaskFlagRepo _taskFlagRepo;
+        private RAMUnsafeTaskFlagRepo _taskFlagRepo;
         private RAMUnsafeMetaTaskFlagRepo _mtFlagRepo;
         private RAMUnsafePraxisFlagRepo _praxisFlagRepo;
         private TaskFlagDel _taskFlagDel;
@@ -36,10 +36,10 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._flagRepo.Insert(this._t1);
             this._flagRepo.Save();
 
-            this._taskFlagRepo = new RAMTaskFlagRepo();
-            this._taskFlagRepo.Insert(new TaskFlag(new Id(100), this._f0.Id));
-            this._taskFlagRepo.Insert(new TaskFlag(new Id(200), this._f0.Id));
-            this._taskFlagRepo.Insert(new TaskFlag(new Id(300), this._t1.Id));
+            this._taskFlagRepo = new RAMUnsafeTaskFlagRepo();
+            this._taskFlagRepo.Insert(new UnsafeTaskFlag(new Id(100), this._f0.Id));
+            this._taskFlagRepo.Insert(new UnsafeTaskFlag(new Id(200), this._f0.Id));
+            this._taskFlagRepo.Insert(new UnsafeTaskFlag(new Id(300), this._t1.Id));
             this._taskFlagRepo.Save();
 
             this._mtFlagRepo = new RAMUnsafeMetaTaskFlagRepo();

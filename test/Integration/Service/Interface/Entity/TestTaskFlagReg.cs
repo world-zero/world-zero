@@ -15,7 +15,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
     [TestFixture]
     public class TestTaskFlagReg
     {
-        private ITaskFlagRepo _tfRepo;
+        private IUnsafeTaskFlagRepo _tfRepo;
         private IUnsafeTaskRepo _taskRepo;
         private IUnsafeFlagRepo _flagRepo;
         private TaskFlagReg _reg;
@@ -26,7 +26,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
         [SetUp]
         public void Setup()
         {
-            this._tfRepo = new RAMTaskFlagRepo();
+            this._tfRepo = new RAMUnsafeTaskFlagRepo();
             this._taskRepo = new RAMUnsafeTaskRepo();
             this._flagRepo = new RAMUnsafeFlagRepo();
             this._reg = new TaskFlagReg(
@@ -67,16 +67,16 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
         public void TestRegisterSad()
         {
             Assert.Throws<ArgumentNullException>(()=>this._reg.Register(null));
-            var tf = new TaskFlag(new Id(100), this._f.Id);
+            var tf = new UnsafeTaskFlag(new Id(100), this._f.Id);
             Assert.Throws<ArgumentException>(()=>this._reg.Register(tf));
-            tf = new TaskFlag(this._t.Id, new Name("fake"));
+            tf = new UnsafeTaskFlag(this._t.Id, new Name("fake"));
             Assert.Throws<ArgumentException>(()=>this._reg.Register(tf));
         }
 
         [Test]
         public void TestReigsterHappy()
         {
-            var tf = new TaskFlag(this._t.Id, this._f.Id);
+            var tf = new UnsafeTaskFlag(this._t.Id, this._f.Id);
             Assert.IsFalse(tf.IsIdSet());
             this._reg.Register(tf);
             Assert.IsTrue(tf.IsIdSet());
