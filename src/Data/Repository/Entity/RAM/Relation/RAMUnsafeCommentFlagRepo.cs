@@ -7,20 +7,20 @@ using WorldZero.Common.Entity.Relation;
 
 namespace WorldZero.Data.Repository.Entity.RAM.Relation
 {
-    /// <inheritdoc cref="ICommentFlagRepo"/>
-    public class RAMCommentFlagRepo
+    /// <inheritdoc cref="IUnsafeCommentFlagRepo"/>
+    public class RAMUnsafeCommentFlagRepo
         : IRAMFlaggedEntityRepo
           <
-            CommentFlag,
+            UnsafeCommentFlag,
             Id,
             int,
             RelationDTO<Id, int, Name, string>
           >,
-          ICommentFlagRepo
+          IUnsafeCommentFlagRepo
     {
         protected override int GetRuleCount()
         {
-            var a = new CommentFlag(new Id(1), new Name("fasdff"));
+            var a = new UnsafeCommentFlag(new Id(1), new Name("fasdff"));
             return a.GetUniqueRules().Count;
         }
 

@@ -12,7 +12,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
     public class CommentFlagReg
         : IEntityRelateRelationalReg
         <
-            CommentFlag,
+            UnsafeCommentFlag,
 
             UnsafeComment, Id, int,
                 UnsafeComment, Id, int, Id, int,
@@ -23,8 +23,8 @@ namespace WorldZero.Service.Entity.Registration.Relation
             RelationDTO<Id, int, Name, string>
         >
     {
-        protected ICommentFlagRepo _commentFlagRepo
-        { get { return (ICommentFlagRepo) this._repo; } }
+        protected IUnsafeCommentFlagRepo _commentFlagRepo
+        { get { return (IUnsafeCommentFlagRepo) this._repo; } }
 
         protected IUnsafeCommentRepo _commentRepo
         { get { return (IUnsafeCommentRepo) this._leftRepo; } }
@@ -33,7 +33,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
         { get { return (IUnsafeFlagRepo) this._rightRepo; } }
 
         public CommentFlagReg(
-            ICommentFlagRepo commentFlagRepo,
+            IUnsafeCommentFlagRepo commentFlagRepo,
             IUnsafeCommentRepo commentRepo,
             IUnsafeFlagRepo flagRepo
         )

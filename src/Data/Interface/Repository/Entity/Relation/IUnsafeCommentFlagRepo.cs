@@ -6,10 +6,10 @@ using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
 
 namespace WorldZero.Data.Interface.Repository.Entity.Relation
 {
-    public interface ICommentFlagRepo
+    public interface IUnsafeCommentFlagRepo
         : IFlaggedEntityRepo
           <
-            CommentFlag,
+            UnsafeCommentFlag,
             Id,
             int,
             RelationDTO<Id, int, Name, string>
