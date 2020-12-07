@@ -43,9 +43,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._absentt<Friend, Id, int>(this._friend00_01, this._friendRepo.GetById);
             this._absentt<Friend, Id, int>(this._friend10_01, this._friendRepo.GetById);
             this._absentt<Friend, Id, int>(this._friend00_10, this._friendRepo.GetById);
-            this._absentt<Foe, Id, int>(this._foe00_01, this._foeRepo.GetById);
-            this._absentt<Foe, Id, int>(this._foe10_01, this._foeRepo.GetById);
-            this._absentt<Foe, Id, int>(this._foe00_10, this._foeRepo.GetById);
+            this._absentt<UnsafeFoe, Id, int>(this._foe00_01, this._foeRepo.GetById);
+            this._absentt<UnsafeFoe, Id, int>(this._foe10_01, this._foeRepo.GetById);
+            this._absentt<UnsafeFoe, Id, int>(this._foe00_10, this._foeRepo.GetById);
             this._absentt<UnsafePraxis, Id, int>(this._praxis00_10, this._praxisRepo.GetById);
             this._absentt<UnsafePraxis, Id, int>(this._praxis00, this._praxisRepo.GetById);
             this._absentt<UnsafePraxis, Id, int>(this._praxis01, this._praxisRepo.GetById);
@@ -74,9 +74,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._present<Friend, Id, int>(this._friend00_01, this._friendRepo.GetById);
             this._present<Friend, Id, int>(this._friend10_01, this._friendRepo.GetById);
             this._present<Friend, Id, int>(this._friend00_10, this._friendRepo.GetById);
-            this._present<Foe, Id, int>(this._foe00_01, this._foeRepo.GetById);
-            this._present<Foe, Id, int>(this._foe10_01, this._foeRepo.GetById);
-            this._present<Foe, Id, int>(this._foe00_10, this._foeRepo.GetById);
+            this._present<UnsafeFoe, Id, int>(this._foe00_01, this._foeRepo.GetById);
+            this._present<UnsafeFoe, Id, int>(this._foe10_01, this._foeRepo.GetById);
+            this._present<UnsafeFoe, Id, int>(this._foe00_10, this._foeRepo.GetById);
             this._present<UnsafePraxis, Id, int>(this._praxis00_10, this._praxisRepo.GetById);
             this._present<UnsafePraxis, Id, int>(this._praxis00, this._praxisRepo.GetById);
             this._present<UnsafePraxis, Id, int>(this._praxis01, this._praxisRepo.GetById);
@@ -105,9 +105,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private Friend _friend00_01;
         private Friend _friend10_01;
         private Friend _friend00_10;
-        private Foe _foe00_01;
-        private Foe _foe10_01;
-        private Foe _foe00_10;
+        private UnsafeFoe _foe00_01;
+        private UnsafeFoe _foe10_01;
+        private UnsafeFoe _foe00_10;
         private UnsafePraxis _praxis00_10;
         private UnsafePraxis _praxis00;
         private UnsafePraxis _praxis01;
@@ -130,7 +130,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private RAMUnsafeCharacterRepo _repo;
         private RAMFriendRepo _friendRepo;
         private FriendDel _friendDel;
-        private RAMFoeRepo _foeRepo;
+        private RAMUnsafeFoeRepo _foeRepo;
         private FoeDel _foeDel;
         private CharacterDel _del;
         private RAMUnsafePraxisRepo _praxisRepo;
@@ -152,7 +152,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._repo = new RAMUnsafeCharacterRepo();
             this._friendRepo = new RAMFriendRepo();
             this._friendDel = new FriendDel(this._friendRepo);
-            this._foeRepo = new RAMFoeRepo();
+            this._foeRepo = new RAMUnsafeFoeRepo();
             this._foeDel = new FoeDel(this._foeRepo);
 
             this._praxisRepo = new RAMUnsafePraxisRepo();
@@ -206,9 +206,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._friendRepo.Insert(this._friend10_01);
             this._friendRepo.Save();
 
-            this._foe00_01 = new Foe(this._c0_0.Id, this._c0_1.Id);
-            this._foe10_01 = new Foe(this._c1_0.Id, this._c0_1.Id);
-            this._foe00_10 = new Foe(this._c0_0.Id, this._c1_0.Id);
+            this._foe00_01 = new UnsafeFoe(this._c0_0.Id, this._c0_1.Id);
+            this._foe10_01 = new UnsafeFoe(this._c1_0.Id, this._c0_1.Id);
+            this._foe00_10 = new UnsafeFoe(this._c0_0.Id, this._c1_0.Id);
             this._foeRepo.Insert(this._foe00_01);
             this._foeRepo.Insert(this._foe00_10);
             this._foeRepo.Insert(this._foe10_01);
@@ -294,9 +294,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._absentt<Friend, Id, int>(this._friend00_01, this._friendRepo.GetById);
             this._present<Friend, Id, int>(this._friend10_01, this._friendRepo.GetById);
             this._absentt<Friend, Id, int>(this._friend00_10, this._friendRepo.GetById);
-            this._absentt<Foe, Id, int>(this._foe00_01, this._foeRepo.GetById);
-            this._present<Foe, Id, int>(this._foe10_01, this._foeRepo.GetById);
-            this._absentt<Foe, Id, int>(this._foe00_10, this._foeRepo.GetById);
+            this._absentt<UnsafeFoe, Id, int>(this._foe00_01, this._foeRepo.GetById);
+            this._present<UnsafeFoe, Id, int>(this._foe10_01, this._foeRepo.GetById);
+            this._absentt<UnsafeFoe, Id, int>(this._foe00_10, this._foeRepo.GetById);
             this._present<UnsafePraxis, Id, int>(this._praxis00_10, this._praxisRepo.GetById);
             this._absentt<UnsafePraxis, Id, int>(this._praxis00, this._praxisRepo.GetById);
             this._present<UnsafePraxis, Id, int>(this._praxis01, this._praxisRepo.GetById);
@@ -341,9 +341,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._absentt<Friend, Id, int>(this._friend00_01, this._friendRepo.GetById);
             this._absentt<Friend, Id, int>(this._friend10_01, this._friendRepo.GetById);
             this._absentt<Friend, Id, int>(this._friend00_10, this._friendRepo.GetById);
-            this._absentt<Foe, Id, int>(this._foe00_01, this._foeRepo.GetById);
-            this._absentt<Foe, Id, int>(this._foe10_01, this._foeRepo.GetById);
-            this._absentt<Foe, Id, int>(this._foe00_10, this._foeRepo.GetById);
+            this._absentt<UnsafeFoe, Id, int>(this._foe00_01, this._foeRepo.GetById);
+            this._absentt<UnsafeFoe, Id, int>(this._foe10_01, this._foeRepo.GetById);
+            this._absentt<UnsafeFoe, Id, int>(this._foe00_10, this._foeRepo.GetById);
             this._present<UnsafePraxis, Id, int>(this._praxis00_10, this._praxisRepo.GetById);
             this._absentt<UnsafePraxis, Id, int>(this._praxis00, this._praxisRepo.GetById);
             this._absentt<UnsafePraxis, Id, int>(this._praxis01, this._praxisRepo.GetById);

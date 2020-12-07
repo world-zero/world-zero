@@ -19,7 +19,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         private Id _id4;
         private IFriendRepo _friendRepo;
         private IUnsafeCharacterRepo _characterRepo;
-        private IFoeRepo _foeRepo;
+        private IUnsafeFoeRepo _foeRepo;
         private FriendReg _friendReg;
 
         [SetUp]
@@ -81,7 +81,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                 new Name("second"), new Id(43)
             ));
             this._characterRepo.Save();
-            var foe0 = new Foe(this._id1, this._id2);
+            var foe0 = new UnsafeFoe(this._id1, this._id2);
             this._foeRepo.Insert(foe0);
             this._foeRepo.Save();
 

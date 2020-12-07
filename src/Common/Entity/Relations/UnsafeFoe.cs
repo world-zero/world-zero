@@ -13,7 +13,7 @@ namespace WorldZero.Common.Entity.Relation
     /// <br />
     /// Right relation: `SecondCharacterId`
     /// </summary>
-    public class Foe : IEntitySelfRelation<Id, int>
+    public class UnsafeFoe : IEntitySelfRelation<Id, int>
     {
         public override RelationDTO<Id, int, Id, int> GetDTO()
         {
@@ -41,23 +41,23 @@ namespace WorldZero.Common.Entity.Relation
             set { this.RightId = value; }
         }
 
-        public Foe(Id firstCharacterId, Id secondCharacterId)
+        public UnsafeFoe(Id firstCharacterId, Id secondCharacterId)
             : base(firstCharacterId, secondCharacterId)
         { }
 
-        public Foe(Id id, Id firstCharacterId, Id secondCharacterId)
+        public UnsafeFoe(Id id, Id firstCharacterId, Id secondCharacterId)
             : base(id, firstCharacterId, secondCharacterId)
         { }
 
-        public Foe(RelationDTO<Id, int, Id, int> dto)
+        public UnsafeFoe(RelationDTO<Id, int, Id, int> dto)
             : base(dto.LeftId, dto.RightId)
         { }
 
-        public Foe(Id id, RelationDTO<Id, int, Id, int> dto)
+        public UnsafeFoe(Id id, RelationDTO<Id, int, Id, int> dto)
             : base(id, dto.LeftId, dto.RightId)
         { }
 
-        internal Foe(int id, int firstCharacterId, int secondCharacterId)
+        internal UnsafeFoe(int id, int firstCharacterId, int secondCharacterId)
             : base
             (
                 new Id(id),
@@ -68,7 +68,7 @@ namespace WorldZero.Common.Entity.Relation
 
         public override IEntity<Id, int> Clone()
         {
-            return new Foe(
+            return new UnsafeFoe(
                 this.Id,
                 this.LeftId,
                 this.RightId

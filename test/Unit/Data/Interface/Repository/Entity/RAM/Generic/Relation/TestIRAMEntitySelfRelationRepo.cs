@@ -16,10 +16,10 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
         private Id _id1;
         private Id _id2;
         private Id _id3;
-        private Foe _f0;
-        private Foe _f1;
-        private Foe _f2;
-        private RAMFoeRepo _repo;
+        private UnsafeFoe _f0;
+        private UnsafeFoe _f1;
+        private UnsafeFoe _f2;
+        private RAMUnsafeFoeRepo _repo;
 
         [SetUp]
         public void Setup()
@@ -29,11 +29,11 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
             this._id2 = new Id(3);
             this._id3 = new Id(4);
 
-            this._f0 = new Foe(this._id0, this._id1);
-            this._f1 = new Foe(this._id2, this._id0);
-            this._f2 = new Foe(this._id1, this._id3);
+            this._f0 = new UnsafeFoe(this._id0, this._id1);
+            this._f1 = new UnsafeFoe(this._id2, this._id0);
+            this._f2 = new UnsafeFoe(this._id1, this._id3);
 
-            this._repo = new RAMFoeRepo();
+            this._repo = new RAMUnsafeFoeRepo();
             this._repo.Insert(this._f0);
             this._repo.Insert(this._f1);
             this._repo.Insert(this._f2);
@@ -80,11 +80,11 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
     }
 
     public class TestEntitySelfRelationRepo : IRAMEntitySelfRelationRepo
-    <Foe, Id, int, RelationDTO<Id, int, Id, int>>
+    <UnsafeFoe, Id, int, RelationDTO<Id, int, Id, int>>
     {
         protected override int GetRuleCount()
         {
-            var a = new Foe(new Id(1), new Id(2));
+            var a = new UnsafeFoe(new Id(1), new Id(2));
             return a.GetUniqueRules().Count();
         }
     }

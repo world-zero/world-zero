@@ -21,7 +21,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         private Id _id4;
         private IFriendRepo _friendRepo;
         private IUnsafeCharacterRepo _characterRepo;
-        private IFoeRepo _foeRepo;
+        private IUnsafeFoeRepo _foeRepo;
         private FoeReg _foeReg;
 
         [SetUp]
@@ -65,7 +65,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                 new Name("second"), new Id(43)
             ));
             this._characterRepo.Save();
-            var f0 = new Foe(this._id1, this._id2);
+            var f0 = new UnsafeFoe(this._id1, this._id2);
             this._foeReg.Register(f0);
             var f1 = this._foeRepo.GetByDTO(
                 new RelationDTO<Id, int, Id, int>(this._id1, this._id2));
@@ -88,9 +88,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             this._friendRepo.Save();
 
             Assert.Throws<ArgumentException>(()=>
-                this._foeReg.Register(new Foe(this._id1, this._id2)));
+                this._foeReg.Register(new UnsafeFoe(this._id1, this._id2)));
             Assert.Throws<ArgumentException>(()=>
-                this._foeReg.Register(new Foe(this._id2, this._id1)));
+                this._foeReg.Register(new UnsafeFoe(this._id2, this._id1)));
         }
     }
 
@@ -105,7 +105,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
     }
 
     public class DummyRAMFoeRepo
-        : RAMFoeRepo
+        : RAMUnsafeFoeRepo
     {
         public DummyRAMFoeRepo()
             : base()
