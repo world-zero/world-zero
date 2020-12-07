@@ -7,19 +7,19 @@ namespace WorldZero.Service.Entity.Registration.Primary
 {
     /// <inheritdoc cref="IEntityReg"/>
     public class FlagReg
-        : IEntityReg<Flag, Name, string>
+        : IEntityReg<UnsafeFlag, Name, string>
     {
-        public static readonly Flag Duplicate =
-            new Flag(new Name("Duplicate"));
-        public static readonly Flag Dangerous =
-            new Flag(new Name("Dangerous"));
-        public static readonly Flag Inappropriate =
-            new Flag(new Name("Inappropriate"));
+        public static readonly UnsafeFlag Duplicate =
+            new UnsafeFlag(new Name("Duplicate"));
+        public static readonly UnsafeFlag Dangerous =
+            new UnsafeFlag(new Name("Dangerous"));
+        public static readonly UnsafeFlag Inappropriate =
+            new UnsafeFlag(new Name("Inappropriate"));
 
-        protected IFlagRepo _flagRepo
-        { get { return (IFlagRepo) this._repo; } }
+        protected IUnsafeFlagRepo _flagRepo
+        { get { return (IUnsafeFlagRepo) this._repo; } }
 
-        public FlagReg(IFlagRepo flagRepo)
+        public FlagReg(IUnsafeFlagRepo flagRepo)
             : base(flagRepo)
         {
             this.EnsureExists(FlagReg.Duplicate);

@@ -6,13 +6,13 @@ using NUnit.Framework;
 namespace WorldZero.Test.Unit.Common.Entity.Primary
 {
     [TestFixture]
-    public class TestFlag
+    public class TestUnsafeFlag
     {
         private Name _flagId;
         private string _desc;
         private PointTotal _penalty;
         private bool _isFlatPenalty;
-        private Flag _f;
+        private UnsafeFlag _f;
 
         [SetUp]
         public void Setup()
@@ -22,13 +22,13 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
             this._penalty = new PointTotal(50);
             this._isFlatPenalty = true;
 
-            this._f = new Flag(this._flagId, this._desc, this._penalty, this._isFlatPenalty);
+            this._f = new UnsafeFlag(this._flagId, this._desc, this._penalty, this._isFlatPenalty);
         }
 
         [Test]
         public void TestDefaultValues()
         {
-            var f = new Flag(new Name("x"));
+            var f = new UnsafeFlag(new Name("x"));
             Assert.AreEqual(new Name("x"), f.Id);
             Assert.IsNull(f.Description);
             Assert.AreEqual(new PointTotal(0.1), f.Penalty);

@@ -14,9 +14,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
     [TestFixture]
     public class TestFlagDel
     {
-        private Flag _f0;
-        private Flag _t1;
-        private RAMFlagRepo _flagRepo;
+        private UnsafeFlag _f0;
+        private UnsafeFlag _t1;
+        private RAMUnsafeFlagRepo _flagRepo;
         private RAMTaskFlagRepo _taskFlagRepo;
         private RAMMetaTaskFlagRepo _mtFlagRepo;
         private RAMPraxisFlagRepo _praxisFlagRepo;
@@ -28,10 +28,10 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         [SetUp]
         public void Setup()
         {
-            this._f0 = new Flag(new Name("#valid"));
-            this._t1 = new Flag(new Name("#invalid"));
+            this._f0 = new UnsafeFlag(new Name("#valid"));
+            this._t1 = new UnsafeFlag(new Name("#invalid"));
 
-            this._flagRepo = new RAMFlagRepo();
+            this._flagRepo = new RAMUnsafeFlagRepo();
             this._flagRepo.Insert(this._f0);
             this._flagRepo.Insert(this._t1);
             this._flagRepo.Save();
@@ -80,7 +80,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         [Test]
         public void TestDeleteSad()
         {
-            Flag t = null;
+            UnsafeFlag t = null;
             Name n = null;
             Assert.Throws<ArgumentNullException>(()=>this._del.Delete(t));
             Assert.Throws<ArgumentNullException>(()=>this._del.Delete(n));

@@ -4,7 +4,7 @@ using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
 namespace WorldZero.Data.Interface.Repository.Entity.Primary
 {
     /// <inheritdoc cref="INamedEntityRepo"/>
-    public interface IFlagRepo
-        : INamedEntityRepo<Flag>
+    public interface IUnsafeFlagRepo
+        : INamedEntityRepo<UnsafeFlag>
     { }
 }

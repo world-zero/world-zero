@@ -5,14 +5,14 @@ using WorldZero.Data.Interface.Repository.Entity.RAM.Generic;
 
 namespace WorldZero.Data.Repository.Entity.RAM.Primary
 {
-    /// <inheritdoc cref="IFlagRepo"/>
-    public class RAMFlagRepo
-        : IRAMNamedEntityRepo<Flag>,
-        IFlagRepo
+    /// <inheritdoc cref="IUnsafeFlagRepo"/>
+    public class RAMUnsafeFlagRepo
+        : IRAMNamedEntityRepo<UnsafeFlag>,
+        IUnsafeFlagRepo
     {
         protected override int GetRuleCount()
         {
-            var a = new Flag(new Name("d"));
+            var a = new UnsafeFlag(new Name("d"));
             return a.GetUniqueRules().Count;
         }
     }

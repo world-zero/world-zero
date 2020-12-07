@@ -100,13 +100,13 @@ namespace WorldZero.Port.Admin
 
         private void _setupFlags()
         {
-            new Flag(new Name("Misogynistic"));
-            new Flag(new Name("Racist"));
-            new Flag(new Name("Homophobic"));
-            new Flag(new Name("Transphobic"));
-            new Flag(new Name("LGBT+ -phobic"));
-            new Flag(new Name("Classist"));
-            new Flag(new Name("Fatphobic"));
+            new UnsafeFlag(new Name("Misogynistic"));
+            new UnsafeFlag(new Name("Racist"));
+            new UnsafeFlag(new Name("Homophobic"));
+            new UnsafeFlag(new Name("Transphobic"));
+            new UnsafeFlag(new Name("LGBT+ -phobic"));
+            new UnsafeFlag(new Name("Classist"));
+            new UnsafeFlag(new Name("Fatphobic"));
         }
 
         /// <remarks>

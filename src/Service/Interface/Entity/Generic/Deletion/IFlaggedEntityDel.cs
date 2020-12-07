@@ -23,7 +23,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
         TLeftEntity,
         TLeftId,
         TLeftBuiltIn,
-        Flag,
+        UnsafeFlag,
         Name,
         string,
         TRelationDTO
@@ -51,7 +51,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
         /// <remarks>
         /// This is just a wrapper for `DeleteByRightId()`.
         /// </remarks>
-        public void DeleteByFlag(Flag flag)
+        public void DeleteByFlag(UnsafeFlag flag)
         {
             this.AssertNotNull(flag, "flag");
             this.DeleteByRight(flag.Id);
@@ -69,7 +69,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
         /// <remarks>
         /// This is just a wrapper for `DeleteByRightIdAsync()`.
         /// </remarks>
-        public async System.Threading.Tasks.Task DeleteByFlagAsync(Flag flag)
+        public async System.Threading.Tasks.Task DeleteByFlagAsync(UnsafeFlag flag)
         {
             this.AssertNotNull(flag, "flag");
             await System.Threading.Tasks.Task.Run(() =>

@@ -17,7 +17,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             MetaTask,
             Id,
             int,
-            Flag,
+            UnsafeFlag,
             Name,
             string,
             RelationDTO<Id, int, Name, string>
@@ -29,13 +29,13 @@ namespace WorldZero.Service.Entity.Registration.Relation
         protected IMetaTaskRepo _metaTaskRepo
         { get { return (IMetaTaskRepo) this._leftRepo; } }
 
-        protected IFlagRepo _flagRepo
-        { get { return (IFlagRepo) this._rightRepo; } }
+        protected IUnsafeFlagRepo _flagRepo
+        { get { return (IUnsafeFlagRepo) this._rightRepo; } }
 
         public MetaTaskFlagReg(
             IMetaTaskFlagRepo metaTaskFlagRepo,
             IMetaTaskRepo metaTaskRepo,
-            IFlagRepo flagRepo
+            IUnsafeFlagRepo flagRepo
         )
             : base(metaTaskFlagRepo, metaTaskRepo, flagRepo)
         { }
@@ -48,7 +48,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             // right before the entities are implemented.
             this.AssertNotNull(e, "e");
             MetaTask mt;
-            Flag f;
+            UnsafeFlag f;
             this._metaTaskFlagRepo.BeginTransaction(true);
             try
             {
