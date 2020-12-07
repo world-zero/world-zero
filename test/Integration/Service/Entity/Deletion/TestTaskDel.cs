@@ -48,7 +48,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private TaskFlagDel _taskFlagDel;
         private IPraxisParticipantRepo _ppRepo;
         private IUnsafePraxisRepo _praxisRepo;
-        private ICommentRepo _commentRepo;
+        private IUnsafeCommentRepo _commentRepo;
         private CommentDel _commentDel;
         private IPraxisTagRepo _praxisTagRepo;
         private PraxisTagDel _praxisTagDel;
@@ -115,7 +115,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
 
             // We don't care about using these repos, we just need them for
             // PraxisDel.
-            this._commentRepo = new RAMCommentRepo();
+            this._commentRepo = new RAMUnsafeCommentRepo();
             this._commentDel = new CommentDel(this._commentRepo);
             this._praxisTagRepo = new RAMPraxisTagRepo();
             this._praxisTagDel = new PraxisTagDel(this._praxisTagRepo);

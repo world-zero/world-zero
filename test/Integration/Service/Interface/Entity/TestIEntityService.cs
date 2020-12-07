@@ -41,7 +41,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
             Assert.Throws<ArgumentNullException>(()=>
                 new TestEntityService(null));
 
-            var repo = new RAMCommentRepo();
+            var repo = new RAMUnsafeCommentRepo();
             var service = new TestEntityService(repo);
             Assert.IsNotNull(service.Repo);
             Assert.AreEqual(repo, service.Repo);
@@ -50,7 +50,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
         [Test]
         public void TestEnsureExists()
         {
-            var c = new Comment(new Id(3), new Id(432), "fds");
+            var c = new UnsafeComment(new Id(3), new Id(432), "fds");
             Assert.Throws<ArgumentException>(()=>this._repo.GetById(c.Id));
             this._service.EnsureExists(c);
             Assert.IsNotNull(this._repo.GetById(c.Id));
@@ -86,10 +86,10 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
                 var id0 = new Id(1);
                 var id1 = new Id(2);
                 var id2 = new Id(3);
-                this._repo.Insert(new Comment(id0, id1, "f"));
-                this._repo.Insert(new Comment(id1, id2, "f"));
+                this._repo.Insert(new UnsafeComment(id0, id1, "f"));
+                this._repo.Insert(new UnsafeComment(id1, id2, "f"));
                 this._repo.Save();
-                this._repo.Insert(new Comment(id0, id1, "f"));
+                this._repo.Insert(new UnsafeComment(id0, id1, "f"));
                 throw new ArgumentException("sdfasdf");
             }
 
@@ -108,10 +108,10 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
                 var id0 = new Id(1);
                 var id1 = new Id(2);
                 var id2 = new Id(3);
-                this._repo.Insert(new Comment(id0, id1, "f"));
-                this._repo.Insert(new Comment(id1, id2, "f"));
+                this._repo.Insert(new UnsafeComment(id0, id1, "f"));
+                this._repo.Insert(new UnsafeComment(id1, id2, "f"));
                 this._repo.Save();
-                this._repo.Insert(new Comment(id0, id1, "f"));
+                this._repo.Insert(new UnsafeComment(id0, id1, "f"));
                 throw new InvalidOperationException("sdfasdf");
             }
 
@@ -130,12 +130,12 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
             // will catch that exception and throw it's own.
 
             this._repo.CleanAll();
-            this._repo.Insert(new Comment(new Id(1), new Id(2), "fd"));
+            this._repo.Insert(new UnsafeComment(new Id(1), new Id(2), "fd"));
             this._repo.Save();
 
             void F(int x)
             {
-                this._repo.Insert(new Comment(new Id(1), new Id(2), "fd"));
+                this._repo.Insert(new UnsafeComment(new Id(1), new Id(2), "fd"));
             }
 
             Assert.Throws<ArgumentException>(()=>
@@ -143,23 +143,23 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
         }
     }
 
-    public class DummyRAMCommentRepo : RAMCommentRepo
+    public class DummyRAMCommentRepo : RAMUnsafeCommentRepo
     {
         public int SavedCount { get { return this._saved.Count; } }
         public int StagedCount { get { return this._staged.Count; } }
     }
 
     public class TestEntityService
-        : IEntityService<Comment, Id, int>
+        : IEntityService<UnsafeComment, Id, int>
     {
-        public TestEntityService(ICommentRepo commentRepo)
+        public TestEntityService(IUnsafeCommentRepo commentRepo)
             : base(commentRepo)
         { }
 
-        public IEntityRepo<Comment, Id, int> Repo
+        public IEntityRepo<UnsafeComment, Id, int> Repo
         { get { return this._repo; } }
 
-        public new void EnsureExists(Comment c)
+        public new void EnsureExists(UnsafeComment c)
         {
             base.EnsureExists(c);
         }

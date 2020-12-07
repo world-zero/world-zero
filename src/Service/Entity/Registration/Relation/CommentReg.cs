@@ -12,7 +12,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
     public class CommentReg
         : IEntityRelationReg
         <
-            Comment,
+            UnsafeComment,
             UnsafePraxis,
             Id,
             int,
@@ -22,8 +22,8 @@ namespace WorldZero.Service.Entity.Registration.Relation
             CntRelationDTO<Id, int, Id, int>
         >
     {
-        protected ICommentRepo _commentRepo
-        { get { return (ICommentRepo) this._repo; } }
+        protected IUnsafeCommentRepo _commentRepo
+        { get { return (IUnsafeCommentRepo) this._repo; } }
 
         protected IUnsafePraxisRepo _praxisRepo
         { get { return (IUnsafePraxisRepo) this._leftRepo; } }
@@ -32,7 +32,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
         { get { return (IUnsafeCharacterRepo) this._rightRepo; } }
 
         public CommentReg(
-            ICommentRepo commentRepo,
+            IUnsafeCommentRepo commentRepo,
             IUnsafePraxisRepo praxisRepo,
             IUnsafeCharacterRepo characterRepo
         )

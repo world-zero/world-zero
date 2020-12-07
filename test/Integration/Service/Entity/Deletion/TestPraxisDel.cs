@@ -42,9 +42,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         {
             this._absentt<UnsafePraxis, Id, int>(this._p0, this._praxisRepo.GetById);
             this._absentt<UnsafePraxis, Id, int>(this._p1, this._praxisRepo.GetById);
-            this._absentt<Comment, Id, int>(this._comment0_0, this._commentRepo.GetById);
-            this._absentt<Comment, Id, int>(this._comment0_1, this._commentRepo.GetById);
-            this._absentt<Comment, Id, int>(this._comment1_0, this._commentRepo.GetById);
+            this._absentt<UnsafeComment, Id, int>(this._comment0_0, this._commentRepo.GetById);
+            this._absentt<UnsafeComment, Id, int>(this._comment0_1, this._commentRepo.GetById);
+            this._absentt<UnsafeComment, Id, int>(this._comment1_0, this._commentRepo.GetById);
             this._absentt<PraxisTag, Id, int>(this._pTag0_0, this._pTagRepo.GetById);
             this._absentt<PraxisTag, Id, int>(this._pTag0_1, this._pTagRepo.GetById);
             this._absentt<PraxisTag, Id, int>(this._pTag1_0, this._pTagRepo.GetById);
@@ -63,9 +63,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         {
             this._present<UnsafePraxis, Id, int>(this._p0, this._praxisRepo.GetById);
             this._present<UnsafePraxis, Id, int>(this._p1, this._praxisRepo.GetById);
-            this._present<Comment, Id, int>(this._comment0_0, this._commentRepo.GetById);
-            this._present<Comment, Id, int>(this._comment0_1, this._commentRepo.GetById);
-            this._present<Comment, Id, int>(this._comment1_0, this._commentRepo.GetById);
+            this._present<UnsafeComment, Id, int>(this._comment0_0, this._commentRepo.GetById);
+            this._present<UnsafeComment, Id, int>(this._comment0_1, this._commentRepo.GetById);
+            this._present<UnsafeComment, Id, int>(this._comment1_0, this._commentRepo.GetById);
             this._present<PraxisTag, Id, int>(this._pTag0_0, this._pTagRepo.GetById);
             this._present<PraxisTag, Id, int>(this._pTag0_1, this._pTagRepo.GetById);
             this._present<PraxisTag, Id, int>(this._pTag1_0, this._pTagRepo.GetById);
@@ -83,7 +83,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private RAMUnsafePraxisRepo _praxisRepo;
         private RAMPraxisParticipantRepo _ppRepo;
         private PraxisParticipantDel _ppDel;
-        private RAMCommentRepo _commentRepo;
+        private RAMUnsafeCommentRepo _commentRepo;
         private CommentDel _commentDel;
         private RAMVoteRepo _voteRepo;
         private VoteDel _voteDel;
@@ -99,9 +99,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private Name _statusId1;
         private UnsafePraxis _p0;
         private UnsafePraxis _p1;
-        private Comment _comment0_0;
-        private Comment _comment0_1;
-        private Comment _comment1_0;
+        private UnsafeComment _comment0_0;
+        private UnsafeComment _comment0_1;
+        private UnsafeComment _comment1_0;
         private PraxisTag _pTag0_0;
         private PraxisTag _pTag0_1;
         private PraxisTag _pTag1_0;
@@ -121,7 +121,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         {
             this._praxisRepo = new RAMUnsafePraxisRepo();
             this._ppRepo = new RAMPraxisParticipantRepo();;
-            this._commentRepo = new RAMCommentRepo();;
+            this._commentRepo = new RAMUnsafeCommentRepo();;
             this._commentDel = new CommentDel(this._commentRepo);
             this._pTagRepo = new RAMPraxisTagRepo();
             this._pTagDel = new PraxisTagDel(this._pTagRepo);
@@ -140,9 +140,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._praxisRepo.Insert(this._p0);
             this._praxisRepo.Insert(this._p1);
             this._praxisRepo.Save();
-            this._comment0_0 = new Comment(this._p0.Id, this._next(), "f");
-            this._comment0_1 = new Comment(this._p0.Id, this._next(), "f f");
-            this._comment1_0 = new Comment(this._p1.Id, this._next(), "x");
+            this._comment0_0 = new UnsafeComment(this._p0.Id, this._next(), "f");
+            this._comment0_1 = new UnsafeComment(this._p0.Id, this._next(), "f f");
+            this._comment1_0 = new UnsafeComment(this._p1.Id, this._next(), "x");
             this._commentRepo.Insert(this._comment0_0);
             this._commentRepo.Insert(this._comment0_1);
             this._commentRepo.Insert(this._comment1_0);
@@ -215,9 +215,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._del.Delete(this._p0);
             this._absentt<UnsafePraxis, Id, int>(this._p0, this._praxisRepo.GetById);
             this._present<UnsafePraxis, Id, int>(this._p1, this._praxisRepo.GetById);
-            this._absentt<Comment, Id, int>(this._comment0_0, this._commentRepo.GetById);
-            this._absentt<Comment, Id, int>(this._comment0_1, this._commentRepo.GetById);
-            this._present<Comment, Id, int>(this._comment1_0, this._commentRepo.GetById);
+            this._absentt<UnsafeComment, Id, int>(this._comment0_0, this._commentRepo.GetById);
+            this._absentt<UnsafeComment, Id, int>(this._comment0_1, this._commentRepo.GetById);
+            this._present<UnsafeComment, Id, int>(this._comment1_0, this._commentRepo.GetById);
             this._absentt<PraxisTag, Id, int>(this._pTag0_0, this._pTagRepo.GetById);
             this._absentt<PraxisTag, Id, int>(this._pTag0_1, this._pTagRepo.GetById);
             this._present<PraxisTag, Id, int>(this._pTag1_0, this._pTagRepo.GetById);
@@ -238,9 +238,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._del.Delete(this._p1);
             this._present<UnsafePraxis, Id, int>(this._p0, this._praxisRepo.GetById);
             this._absentt<UnsafePraxis, Id, int>(this._p1, this._praxisRepo.GetById);
-            this._present<Comment, Id, int>(this._comment0_0, this._commentRepo.GetById);
-            this._present<Comment, Id, int>(this._comment0_1, this._commentRepo.GetById);
-            this._absentt<Comment, Id, int>(this._comment1_0, this._commentRepo.GetById);
+            this._present<UnsafeComment, Id, int>(this._comment0_0, this._commentRepo.GetById);
+            this._present<UnsafeComment, Id, int>(this._comment0_1, this._commentRepo.GetById);
+            this._absentt<UnsafeComment, Id, int>(this._comment1_0, this._commentRepo.GetById);
             this._present<PraxisTag, Id, int>(this._pTag0_0, this._pTagRepo.GetById);
             this._present<PraxisTag, Id, int>(this._pTag0_1, this._pTagRepo.GetById);
             this._absentt<PraxisTag, Id, int>(this._pTag1_0, this._pTagRepo.GetById);
@@ -295,9 +295,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._del.DeleteByTask(this._p0.TaskId);
             this._absentt<UnsafePraxis, Id, int>(this._p0, this._praxisRepo.GetById);
             this._present<UnsafePraxis, Id, int>(this._p1, this._praxisRepo.GetById);
-            this._absentt<Comment, Id, int>(this._comment0_0, this._commentRepo.GetById);
-            this._absentt<Comment, Id, int>(this._comment0_1, this._commentRepo.GetById);
-            this._present<Comment, Id, int>(this._comment1_0, this._commentRepo.GetById);
+            this._absentt<UnsafeComment, Id, int>(this._comment0_0, this._commentRepo.GetById);
+            this._absentt<UnsafeComment, Id, int>(this._comment0_1, this._commentRepo.GetById);
+            this._present<UnsafeComment, Id, int>(this._comment1_0, this._commentRepo.GetById);
             this._absentt<PraxisTag, Id, int>(this._pTag0_0, this._pTagRepo.GetById);
             this._absentt<PraxisTag, Id, int>(this._pTag0_1, this._pTagRepo.GetById);
             this._present<PraxisTag, Id, int>(this._pTag1_0, this._pTagRepo.GetById);
@@ -318,9 +318,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._del.DeleteByTask(this._p1.TaskId);
             this._present<UnsafePraxis, Id, int>(this._p0, this._praxisRepo.GetById);
             this._absentt<UnsafePraxis, Id, int>(this._p1, this._praxisRepo.GetById);
-            this._present<Comment, Id, int>(this._comment0_0, this._commentRepo.GetById);
-            this._present<Comment, Id, int>(this._comment0_1, this._commentRepo.GetById);
-            this._absentt<Comment, Id, int>(this._comment1_0, this._commentRepo.GetById);
+            this._present<UnsafeComment, Id, int>(this._comment0_0, this._commentRepo.GetById);
+            this._present<UnsafeComment, Id, int>(this._comment0_1, this._commentRepo.GetById);
+            this._absentt<UnsafeComment, Id, int>(this._comment1_0, this._commentRepo.GetById);
             this._present<PraxisTag, Id, int>(this._pTag0_0, this._pTagRepo.GetById);
             this._present<PraxisTag, Id, int>(this._pTag0_1, this._pTagRepo.GetById);
             this._absentt<PraxisTag, Id, int>(this._pTag1_0, this._pTagRepo.GetById);
@@ -341,9 +341,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._del.DeleteByStatus(this._p0.StatusId);
             this._absentt<UnsafePraxis, Id, int>(this._p0, this._praxisRepo.GetById);
             this._present<UnsafePraxis, Id, int>(this._p1, this._praxisRepo.GetById);
-            this._absentt<Comment, Id, int>(this._comment0_0, this._commentRepo.GetById);
-            this._absentt<Comment, Id, int>(this._comment0_1, this._commentRepo.GetById);
-            this._present<Comment, Id, int>(this._comment1_0, this._commentRepo.GetById);
+            this._absentt<UnsafeComment, Id, int>(this._comment0_0, this._commentRepo.GetById);
+            this._absentt<UnsafeComment, Id, int>(this._comment0_1, this._commentRepo.GetById);
+            this._present<UnsafeComment, Id, int>(this._comment1_0, this._commentRepo.GetById);
             this._absentt<PraxisTag, Id, int>(this._pTag0_0, this._pTagRepo.GetById);
             this._absentt<PraxisTag, Id, int>(this._pTag0_1, this._pTagRepo.GetById);
             this._present<PraxisTag, Id, int>(this._pTag1_0, this._pTagRepo.GetById);

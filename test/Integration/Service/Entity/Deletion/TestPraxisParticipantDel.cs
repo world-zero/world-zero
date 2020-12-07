@@ -85,7 +85,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         [Test]
         public void TestSudoDeleteByCharacter()
         {
-            var commentRepo = new RAMCommentRepo();
+            var commentRepo = new RAMUnsafeCommentRepo();
             var commentDel = new CommentDel(commentRepo);
             var praxisTagRepo = new RAMPraxisTagRepo();
             var praxisTagDel = new PraxisTagDel(praxisTagRepo);
@@ -135,7 +135,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         [Test]
         public void TestSudoDeleteByCharacterDueling()
         {
-            var commentRepo = new RAMCommentRepo();
+            var commentRepo = new RAMUnsafeCommentRepo();
             var commentDel = new CommentDel(commentRepo);
             var praxisTagRepo = new RAMPraxisTagRepo();
             var praxisTagDel = new PraxisTagDel(praxisTagRepo);

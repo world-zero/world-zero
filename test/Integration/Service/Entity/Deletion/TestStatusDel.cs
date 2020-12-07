@@ -42,7 +42,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private VoteDel _voteDel;
         private IUnsafeTaskRepo _taskRepo;
         private TaskDel _taskDel;
-        private ICommentRepo _commentRepo;
+        private IUnsafeCommentRepo _commentRepo;
         private CommentDel _commentDel;
         private IPraxisTagRepo _praxisTagRepo;
         private PraxisTagDel _praxisTagDel;
@@ -72,7 +72,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void Setup()
         {
             this._statusRepo = new RAMUnsafeStatusRepo();
-            this._commentRepo = new RAMCommentRepo();
+            this._commentRepo = new RAMUnsafeCommentRepo();
             this._commentDel = new CommentDel(this._commentRepo);
             this._praxisTagRepo = new RAMPraxisTagRepo();
             this._praxisTagDel = new PraxisTagDel(this._praxisTagRepo);

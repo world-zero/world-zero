@@ -1,5 +1,6 @@
 using System;
 using WorldZero.Common.ValueObject.General;
+using WorldZero.Common.Interface.Entity.Marker;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Common.Interface.Entity.Generic.Relation;
@@ -15,7 +16,7 @@ namespace WorldZero.Common.Entity.Relation
     /// <br />
     /// Right relation: `CharacterId`
     /// </summary>
-    public class Comment : IIdIdCntRelation
+    public class UnsafeComment : IIdIdCntRelation, IUnsafeEntity
     {
         /// <summary>
         /// PraxisId wraps LeftId, which is the ID of the related Praxis.
@@ -35,7 +36,7 @@ namespace WorldZero.Common.Entity.Relation
             set { this.RightId = value; }
         }
 
-        public Comment(
+        public UnsafeComment(
             Id praxisId,
             Id characterId,
             string comment,
@@ -46,7 +47,7 @@ namespace WorldZero.Common.Entity.Relation
             this.Value = comment;
         }
 
-        public Comment(
+        public UnsafeComment(
             Id id,
             Id praxisId,
             Id characterId,
@@ -58,7 +59,7 @@ namespace WorldZero.Common.Entity.Relation
             this.Value = comment;
         }
 
-        public Comment(
+        public UnsafeComment(
             CntRelationDTO<Id, int, Id, int> dto,
             string comment
         )
@@ -67,7 +68,7 @@ namespace WorldZero.Common.Entity.Relation
             this.Value = comment;
         }
 
-        public Comment(
+        public UnsafeComment(
             Id id,
             CntRelationDTO<Id, int, Id, int> dto,
             string comment
@@ -77,7 +78,7 @@ namespace WorldZero.Common.Entity.Relation
             this.Value = comment;
         }
 
-        internal Comment(
+        internal UnsafeComment(
             int id,
             int praxisId,
             int characterId,
@@ -92,7 +93,7 @@ namespace WorldZero.Common.Entity.Relation
 
         public override IEntity<Id, int> Clone()
         {
-            return new Comment(
+            return new UnsafeComment(
                 this.Id,
                 this.LeftId,
                 this.RightId,
