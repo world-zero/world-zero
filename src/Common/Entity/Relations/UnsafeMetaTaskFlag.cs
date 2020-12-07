@@ -1,5 +1,6 @@
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
+using WorldZero.Common.Interface.Entity.Marker;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Common.Interface.Entity.Generic.Relation;
 
@@ -13,7 +14,7 @@ namespace WorldZero.Common.Entity.Relation
     /// <br />
     /// Right relation: `FlagId`
     /// </summary>
-    public class MetaTaskFlag : IFlaggedEntity<Id, int>
+    public class UnsafeMetaTaskFlag : IFlaggedEntity<Id, int>, IUnsafeEntity
     {
         /// <summary>
         /// MetaTaskId is a wrapper for LeftId.
@@ -24,29 +25,29 @@ namespace WorldZero.Common.Entity.Relation
             set { this.LeftId = value; }
         }
 
-        public MetaTaskFlag(Id metaTaskId, Name flagId)
+        public UnsafeMetaTaskFlag(Id metaTaskId, Name flagId)
             : base(metaTaskId, flagId)
         { }
 
-        public MetaTaskFlag(Id id, Id metaTaskId, Name flagId)
+        public UnsafeMetaTaskFlag(Id id, Id metaTaskId, Name flagId)
             : base(id, metaTaskId, flagId)
         { }
 
-        public MetaTaskFlag(RelationDTO<Id, int, Name, string> dto)
+        public UnsafeMetaTaskFlag(RelationDTO<Id, int, Name, string> dto)
             : base(dto.LeftId, dto.RightId)
         { }
 
-        public MetaTaskFlag(Id id, RelationDTO<Id, int, Name, string> dto)
+        public UnsafeMetaTaskFlag(Id id, RelationDTO<Id, int, Name, string> dto)
             : base(dto.LeftId, dto.RightId)
         { }
 
-        internal MetaTaskFlag(int id, int metaTaskId, string flagId)
+        internal UnsafeMetaTaskFlag(int id, int metaTaskId, string flagId)
             : base(new Id(id), new Id(metaTaskId), new Name(flagId))
         { }
 
         public override IEntity<Id, int> Clone()
         {
-            return new MetaTaskFlag(
+            return new UnsafeMetaTaskFlag(
                 this.Id,
                 this.LeftId,
                 this.RightId

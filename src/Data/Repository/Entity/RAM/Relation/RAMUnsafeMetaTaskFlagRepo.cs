@@ -7,20 +7,20 @@ using WorldZero.Common.Entity.Relation;
 
 namespace WorldZero.Data.Repository.Entity.RAM.Relation
 {
-    /// <inheritdoc cref="IMetaTaskFlagRepo"/>
-    public class RAMMetaTaskFlagRepo
+    /// <inheritdoc cref="IUnsafeMetaTaskFlagRepo"/>
+    public class RAMUnsafeMetaTaskFlagRepo
         : IRAMFlaggedEntityRepo
           <
-            MetaTaskFlag,
+            UnsafeMetaTaskFlag,
             Id,
             int,
             RelationDTO<Id, int, Name, string>
           >,
-          IMetaTaskFlagRepo
+          IUnsafeMetaTaskFlagRepo
     {
         protected override int GetRuleCount()
         {
-            var a = new MetaTaskFlag(new Id(3), new Name("sdf"));
+            var a = new UnsafeMetaTaskFlag(new Id(3), new Name("sdf"));
             return a.GetUniqueRules().Count;
         }
 

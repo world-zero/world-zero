@@ -13,7 +13,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
     public class MetaTaskFlagReg
         : IEntityRelationReg
         <
-            MetaTaskFlag,
+            UnsafeMetaTaskFlag,
             UnsafeMetaTask,
             Id,
             int,
@@ -23,8 +23,8 @@ namespace WorldZero.Service.Entity.Registration.Relation
             RelationDTO<Id, int, Name, string>
         >
     {
-        protected IMetaTaskFlagRepo _metaTaskFlagRepo
-        { get { return (IMetaTaskFlagRepo) this._repo; } }
+        protected IUnsafeMetaTaskFlagRepo _metaTaskFlagRepo
+        { get { return (IUnsafeMetaTaskFlagRepo) this._repo; } }
 
         protected IUnsafeMetaTaskRepo _metaTaskRepo
         { get { return (IUnsafeMetaTaskRepo) this._leftRepo; } }
@@ -33,14 +33,14 @@ namespace WorldZero.Service.Entity.Registration.Relation
         { get { return (IUnsafeFlagRepo) this._rightRepo; } }
 
         public MetaTaskFlagReg(
-            IMetaTaskFlagRepo metaTaskFlagRepo,
+            IUnsafeMetaTaskFlagRepo metaTaskFlagRepo,
             IUnsafeMetaTaskRepo metaTaskRepo,
             IUnsafeFlagRepo flagRepo
         )
             : base(metaTaskFlagRepo, metaTaskRepo, flagRepo)
         { }
 
-        public override MetaTaskFlag Register(MetaTaskFlag e)
+        public override UnsafeMetaTaskFlag Register(UnsafeMetaTaskFlag e)
         {
             // NOTE: This code exists in TaskFlagReg.Register(),
             // MetaTaskFlagReg.Register(), and PraxisFlagReg.Register()

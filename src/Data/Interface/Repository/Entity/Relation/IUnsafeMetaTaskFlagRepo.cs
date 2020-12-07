@@ -6,10 +6,10 @@ using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
 
 namespace WorldZero.Data.Interface.Repository.Entity.Relation
 {
-    public interface IMetaTaskFlagRepo
+    public interface IUnsafeMetaTaskFlagRepo
         : IFlaggedEntityRepo
           <
-            MetaTaskFlag,
+            UnsafeMetaTaskFlag,
             Id,
             int,
             RelationDTO<Id, int, Name, string>
