@@ -7,20 +7,20 @@ using WorldZero.Common.Entity.Relation;
 
 namespace WorldZero.Data.Repository.Entity.RAM.Relation
 {
-    /// <inheritdoc cref="ITaskTagRepo"/>
-    public class RAMTaskTagRepo
+    /// <inheritdoc cref="IUnsafeTaskTagRepo"/>
+    public class RAMUnsafeTaskTagRepo
         : IRAMTaggedEntityRepo
           <
-            TaskTag,
+            UnsafeTaskTag,
             Id,
             int,
             RelationDTO<Id, int, Name, string>
           >,
-          ITaskTagRepo
+          IUnsafeTaskTagRepo
     {
         protected override int GetRuleCount()
         {
-            var a = new TaskTag(new Id(3), new Name("d"));
+            var a = new UnsafeTaskTag(new Id(3), new Name("d"));
             return a.GetUniqueRules().Count;
         }
 

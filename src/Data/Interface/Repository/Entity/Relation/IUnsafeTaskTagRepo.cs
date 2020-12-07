@@ -6,10 +6,10 @@ using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
 
 namespace WorldZero.Data.Interface.Repository.Entity.Relation
 {
-    public interface ITaskTagRepo
+    public interface IUnsafeTaskTagRepo
         : ITaggedEntityRepo
           <
-            TaskTag,
+            UnsafeTaskTag,
             Id,
             int,
             RelationDTO<Id, int, Name, string>

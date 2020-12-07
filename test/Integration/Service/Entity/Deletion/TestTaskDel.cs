@@ -42,7 +42,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private RAMUnsafeVoteRepo _voteRepo;
         private VoteDel _voteDel;
         private RAMUnsafeTaskRepo _taskRepo;
-        private ITaskTagRepo _taskTagRepo;
+        private IUnsafeTaskTagRepo _taskTagRepo;
         private TaskTagDel _taskTagDel;
         private IUnsafeTaskFlagRepo _taskFlagRepo;
         private TaskFlagDel _taskFlagDel;
@@ -62,9 +62,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private UnsafeTask _t0;
         private UnsafeTask _t1;
         private UnsafeTask _t2;
-        private TaskTag _tTag0_0;
-        private TaskTag _tTag0_1;
-        private TaskTag _tTag1_0;
+        private UnsafeTaskTag _tTag0_0;
+        private UnsafeTaskTag _tTag0_1;
+        private UnsafeTaskTag _tTag1_0;
         private UnsafeTaskFlag _tFlag0_0;
         private UnsafeTaskFlag _tFlag1_0;
         private UnsafeTaskFlag _tFlag1_1;
@@ -93,11 +93,11 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._taskRepo.Insert(this._t2);
             this._taskRepo.Save();
 
-            this._taskTagRepo = new RAMTaskTagRepo();
+            this._taskTagRepo = new RAMUnsafeTaskTagRepo();
             this._taskTagDel = new TaskTagDel(this._taskTagRepo);
-            this._tTag0_0 = new TaskTag(this._t0.Id, new Name("x"));
-            this._tTag0_1 = new TaskTag(this._t0.Id, new Name("y"));
-            this._tTag1_0 = new TaskTag(this._t1.Id, new Name("x"));
+            this._tTag0_0 = new UnsafeTaskTag(this._t0.Id, new Name("x"));
+            this._tTag0_1 = new UnsafeTaskTag(this._t0.Id, new Name("y"));
+            this._tTag1_0 = new UnsafeTaskTag(this._t1.Id, new Name("x"));
             this._taskTagRepo.Insert(this._tTag0_0);
             this._taskTagRepo.Insert(this._tTag0_1);
             this._taskTagRepo.Insert(this._tTag1_0);
@@ -188,9 +188,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestDelete_t0()
         {
             this._del.Delete(this._t0);
-            this._absentt<TaskTag, Id, int>(this._tTag0_0, this._taskTagRepo.GetById);
-            this._absentt<TaskTag, Id, int>(this._tTag0_1, this._taskTagRepo.GetById);
-            this._present<TaskTag, Id, int>(this._tTag1_0, this._taskTagRepo.GetById);
+            this._absentt<UnsafeTaskTag, Id, int>(this._tTag0_0, this._taskTagRepo.GetById);
+            this._absentt<UnsafeTaskTag, Id, int>(this._tTag0_1, this._taskTagRepo.GetById);
+            this._present<UnsafeTaskTag, Id, int>(this._tTag1_0, this._taskTagRepo.GetById);
             this._absentt<UnsafeTaskFlag, Id, int>(this._tFlag0_0, this._taskFlagRepo.GetById);
             this._present<UnsafeTaskFlag, Id, int>(this._tFlag1_0, this._taskFlagRepo.GetById);
             this._present<UnsafeTaskFlag, Id, int>(this._tFlag1_1, this._taskFlagRepo.GetById);
@@ -205,9 +205,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestDelete_t1()
         {
             this._del.Delete(this._t1);
-            this._present<TaskTag, Id, int>(this._tTag0_0, this._taskTagRepo.GetById);
-            this._present<TaskTag, Id, int>(this._tTag0_1, this._taskTagRepo.GetById);
-            this._absentt<TaskTag, Id, int>(this._tTag1_0, this._taskTagRepo.GetById);
+            this._present<UnsafeTaskTag, Id, int>(this._tTag0_0, this._taskTagRepo.GetById);
+            this._present<UnsafeTaskTag, Id, int>(this._tTag0_1, this._taskTagRepo.GetById);
+            this._absentt<UnsafeTaskTag, Id, int>(this._tTag1_0, this._taskTagRepo.GetById);
             this._present<UnsafeTaskFlag, Id, int>(this._tFlag0_0, this._taskFlagRepo.GetById);
             this._absentt<UnsafeTaskFlag, Id, int>(this._tFlag1_0, this._taskFlagRepo.GetById);
             this._absentt<UnsafeTaskFlag, Id, int>(this._tFlag1_1, this._taskFlagRepo.GetById);
@@ -227,9 +227,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._absentt<UnsafePraxisParticipant, Id, int>(this._pp0_0, this._ppRepo.GetById);
 
             this._del.Delete(this._t0);
-            this._absentt<TaskTag, Id, int>(this._tTag0_0, this._taskTagRepo.GetById);
-            this._absentt<TaskTag, Id, int>(this._tTag0_1, this._taskTagRepo.GetById);
-            this._present<TaskTag, Id, int>(this._tTag1_0, this._taskTagRepo.GetById);
+            this._absentt<UnsafeTaskTag, Id, int>(this._tTag0_0, this._taskTagRepo.GetById);
+            this._absentt<UnsafeTaskTag, Id, int>(this._tTag0_1, this._taskTagRepo.GetById);
+            this._present<UnsafeTaskTag, Id, int>(this._tTag1_0, this._taskTagRepo.GetById);
             this._absentt<UnsafeTaskFlag, Id, int>(this._tFlag0_0, this._taskFlagRepo.GetById);
             this._present<UnsafeTaskFlag, Id, int>(this._tFlag1_0, this._taskFlagRepo.GetById);
             this._present<UnsafeTaskFlag, Id, int>(this._tFlag1_1, this._taskFlagRepo.GetById);

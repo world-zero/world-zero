@@ -12,7 +12,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
     public class TaskTagReg
         : IEntityRelationReg
         <
-            TaskTag,
+            UnsafeTaskTag,
             UnsafeTask,
             Id,
             int,
@@ -22,8 +22,8 @@ namespace WorldZero.Service.Entity.Registration.Relation
             RelationDTO<Id, int, Name, string>
         >
     {
-        protected ITaskTagRepo _taskTagRepo
-        { get { return (ITaskTagRepo) this._repo; } }
+        protected IUnsafeTaskTagRepo _taskTagRepo
+        { get { return (IUnsafeTaskTagRepo) this._repo; } }
 
         protected IUnsafeTaskRepo _taskRepo
         { get { return (IUnsafeTaskRepo) this._leftRepo; } }
@@ -32,7 +32,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
         { get { return (IUnsafeTagRepo) this._rightRepo; } }
 
         public TaskTagReg(
-            ITaskTagRepo tagTagRepo,
+            IUnsafeTaskTagRepo tagTagRepo,
             IUnsafeTaskRepo taskRepo,
             IUnsafeTagRepo tagRepo
         )

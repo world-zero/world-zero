@@ -46,7 +46,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private RAMUnsafePraxisRepo _praxisRepo;
         private RAMUnsafeTaskRepo _taskRepo;
         private MetaTaskUnset _mtUnset;
-        private RAMTaskTagRepo _taskTagRepo;
+        private RAMUnsafeTaskTagRepo _taskTagRepo;
         private TaskTagDel _taskTagDel;
         private RAMUnsafeTaskFlagRepo _taskFlagRepo;
         private TaskFlagDel _taskFlagDel;
@@ -101,7 +101,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
                 this._praxisTagDel,
                 this._praxisFlagDel
             );
-            this._taskTagRepo = new RAMTaskTagRepo();
+            this._taskTagRepo = new RAMUnsafeTaskTagRepo();
             this._taskTagDel = new TaskTagDel(this._taskTagRepo);
             this._taskFlagRepo = new RAMUnsafeTaskFlagRepo();
             this._taskFlagDel = new TaskFlagDel(this._taskFlagRepo);
