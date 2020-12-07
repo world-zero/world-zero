@@ -8,16 +8,16 @@ namespace WorldZero.Service.Entity.Registration.Primary
 {
     /// <inheritdoc cref="IEntityReg"/>
     public class MetaTaskReg
-        : IEntityReg<MetaTask, Id, int>
+        : IEntityReg<UnsafeMetaTask, Id, int>
     {
-        protected IMetaTaskRepo _metaTaskRepo
-        { get { return (IMetaTaskRepo) this._repo; } }
+        protected IUnsafeMetaTaskRepo _metaTaskRepo
+        { get { return (IUnsafeMetaTaskRepo) this._repo; } }
 
         protected readonly IUnsafeFactionRepo _factionRepo;
         protected readonly IStatusRepo _statusRepo;
 
         public MetaTaskReg(
-            IMetaTaskRepo metaTaskRepo,
+            IUnsafeMetaTaskRepo metaTaskRepo,
             IUnsafeFactionRepo factionRepo,
             IStatusRepo statusRepo
         )
@@ -33,7 +33,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
         /// Create the meta task and save them. This will ensure that the
         /// meta task has a valid faction ID and status ID.
         /// </summary>
-        public override MetaTask Register(MetaTask mt)
+        public override UnsafeMetaTask Register(UnsafeMetaTask mt)
         {
             this.AssertNotNull(mt, "mt");
             if (   (mt.StatusId != StatusReg.InProgress.Id)

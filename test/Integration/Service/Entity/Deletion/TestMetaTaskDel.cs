@@ -40,19 +40,19 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             Assert.AreEqual(actualEntity.Id, e.Id);
         }
 
-        private RAMMetaTaskRepo _repo;
+        private RAMUnsafeMetaTaskRepo _repo;
         private RAMPraxisRepo _praxisRepo;
         private MetaTaskUnset _unset;
         private UnsafeFaction _faction0;
         private UnsafeFaction _faction1;
-        private MetaTask _mt0_0;
-        private MetaTask _mt0_1;
-        private MetaTask _mt1_0;
+        private UnsafeMetaTask _mt0_0;
+        private UnsafeMetaTask _mt0_1;
+        private UnsafeMetaTask _mt1_0;
 
         [SetUp]
         public void Setup()
         {
-            this._repo = new RAMMetaTaskRepo();
+            this._repo = new RAMUnsafeMetaTaskRepo();
             this._praxisRepo = new RAMPraxisRepo();
             this._unset = new MetaTaskUnset(
                 this._repo,
@@ -63,9 +63,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             var pt = new PointTotal(2);
             this._faction0 = new UnsafeFaction(new Name("0"));
             this._faction1 = new UnsafeFaction(new Name("1"));
-            this._mt0_0 = new MetaTask(this._faction0.Id, s, "x", pt);
-            this._mt0_1 = new MetaTask(this._faction0.Id, s, "x", pt);
-            this._mt1_0 = new MetaTask(this._faction1.Id, s, "x", pt);
+            this._mt0_0 = new UnsafeMetaTask(this._faction0.Id, s, "x", pt);
+            this._mt0_1 = new UnsafeMetaTask(this._faction0.Id, s, "x", pt);
+            this._mt1_0 = new UnsafeMetaTask(this._faction1.Id, s, "x", pt);
             this._repo.Insert(this._mt0_0);
             this._repo.Insert(this._mt0_1);
             this._repo.Insert(this._mt1_0);
@@ -99,18 +99,18 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestDeleteByFaction_faction0()
         {
             this._unset.DeleteByFaction(this._faction0);
-            this._absentt<MetaTask, Id, int>(this._mt0_0, this._repo.GetById);
-            this._absentt<MetaTask, Id, int>(this._mt0_1, this._repo.GetById);
-            this._present<MetaTask, Id, int>(this._mt1_0, this._repo.GetById);
+            this._absentt<UnsafeMetaTask, Id, int>(this._mt0_0, this._repo.GetById);
+            this._absentt<UnsafeMetaTask, Id, int>(this._mt0_1, this._repo.GetById);
+            this._present<UnsafeMetaTask, Id, int>(this._mt1_0, this._repo.GetById);
         }
 
         [Test]
         public void TestDeleteByFaction_faction1()
         {
             this._unset.DeleteByFaction(this._faction1);
-            this._present<MetaTask, Id, int>(this._mt0_0, this._repo.GetById);
-            this._present<MetaTask, Id, int>(this._mt0_1, this._repo.GetById);
-            this._absentt<MetaTask, Id, int>(this._mt1_0, this._repo.GetById);
+            this._present<UnsafeMetaTask, Id, int>(this._mt0_0, this._repo.GetById);
+            this._present<UnsafeMetaTask, Id, int>(this._mt0_1, this._repo.GetById);
+            this._absentt<UnsafeMetaTask, Id, int>(this._mt1_0, this._repo.GetById);
         }
 
         [Test]

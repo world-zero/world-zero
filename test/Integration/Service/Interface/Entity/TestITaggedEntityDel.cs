@@ -56,7 +56,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
     public class TestTaggedEntityDel : ITaggedEntityDel
     <
         MetaTaskTag,
-        MetaTask,
+        UnsafeMetaTask,
         Id,
         int,
         RelationDTO<Id, int, Name, string>

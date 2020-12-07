@@ -317,15 +317,15 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Relation
             Assert.Throws<ArgumentException>(()=>
                 this._praxisRepo.GetByMetaTaskId(new Id(32423)));
 
-            var mtRepo = new RAMMetaTaskRepo();
-            var mt0 = new MetaTask(
+            var mtRepo = new RAMUnsafeMetaTaskRepo();
+            var mt0 = new UnsafeMetaTask(
                 new Name("x"),
                 new Name("y"),
                 "q",
                 new PointTotal(20),
                 true
             );
-            var mt1 = new MetaTask(
+            var mt1 = new UnsafeMetaTask(
                 new Name("q"),
                 new Name("0"),
                 "x",

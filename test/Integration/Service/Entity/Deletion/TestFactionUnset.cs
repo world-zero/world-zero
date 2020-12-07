@@ -41,7 +41,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private RAMVoteRepo _voteRepo;
         private VoteDel _voteDel;
         private RAMUnsafeFactionRepo _factionRepo;
-        private RAMMetaTaskRepo _mtRepo;
+        private RAMUnsafeMetaTaskRepo _mtRepo;
         private RAMUnsafeCharacterRepo _charRepo;
         private RAMPraxisRepo _praxisRepo;
         private RAMTaskRepo _taskRepo;
@@ -61,9 +61,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private FactionUnset _unset;
         private UnsafeFaction _faction0;
         private UnsafeFaction _faction1;
-        private MetaTask _mt0_0;
-        private MetaTask _mt0_1;
-        private MetaTask _mt1_0;
+        private UnsafeMetaTask _mt0_0;
+        private UnsafeMetaTask _mt0_1;
+        private UnsafeMetaTask _mt1_0;
         private Task _t0_0;
         private Task _t1_0;
         private Task _t1_1;
@@ -72,7 +72,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void Setup()
         {
             this._factionRepo = new RAMUnsafeFactionRepo();
-            this._mtRepo = new RAMMetaTaskRepo();
+            this._mtRepo = new RAMUnsafeMetaTaskRepo();
             this._praxisRepo = new RAMPraxisRepo();
             this._charRepo = new RAMUnsafeCharacterRepo();
             this._taskRepo = new RAMTaskRepo();
@@ -128,9 +128,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._factionRepo.Insert(this._faction1);
             this._factionRepo.Save();
 
-            this._mt0_0 = new MetaTask(this._faction0.Id, s, "x", pt);
-            this._mt0_1 = new MetaTask(this._faction0.Id, s, "x", pt);
-            this._mt1_0 = new MetaTask(this._faction1.Id, s, "x", pt);
+            this._mt0_0 = new UnsafeMetaTask(this._faction0.Id, s, "x", pt);
+            this._mt0_1 = new UnsafeMetaTask(this._faction0.Id, s, "x", pt);
+            this._mt1_0 = new UnsafeMetaTask(this._faction1.Id, s, "x", pt);
             this._mtRepo.Insert(this._mt0_0);
             this._mtRepo.Insert(this._mt0_1);
             this._mtRepo.Insert(this._mt1_0);
@@ -172,9 +172,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestDelete_faction0()
         {
             this._unset.Delete(this._faction0);
-            this._absentt<MetaTask, Id, int>(this._mt0_0, this._mtRepo.GetById);
-            this._absentt<MetaTask, Id, int>(this._mt0_1, this._mtRepo.GetById);
-            this._present<MetaTask, Id, int>(this._mt1_0, this._mtRepo.GetById);
+            this._absentt<UnsafeMetaTask, Id, int>(this._mt0_0, this._mtRepo.GetById);
+            this._absentt<UnsafeMetaTask, Id, int>(this._mt0_1, this._mtRepo.GetById);
+            this._present<UnsafeMetaTask, Id, int>(this._mt1_0, this._mtRepo.GetById);
             this._absentt<Task, Id, int>(this._t0_0, this._taskRepo.GetById);
             this._present<Task, Id, int>(this._t1_0, this._taskRepo.GetById);
             this._present<Task, Id, int>(this._t1_1, this._taskRepo.GetById);
@@ -184,9 +184,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestDelete_faction1()
         {
             this._unset.Delete(this._faction1);
-            this._present<MetaTask, Id, int>(this._mt0_0, this._mtRepo.GetById);
-            this._present<MetaTask, Id, int>(this._mt0_1, this._mtRepo.GetById);
-            this._absentt<MetaTask, Id, int>(this._mt1_0, this._mtRepo.GetById);
+            this._present<UnsafeMetaTask, Id, int>(this._mt0_0, this._mtRepo.GetById);
+            this._present<UnsafeMetaTask, Id, int>(this._mt0_1, this._mtRepo.GetById);
+            this._absentt<UnsafeMetaTask, Id, int>(this._mt1_0, this._mtRepo.GetById);
             this._present<Task, Id, int>(this._t0_0, this._taskRepo.GetById);
             this._absentt<Task, Id, int>(this._t1_0, this._taskRepo.GetById);
             this._absentt<Task, Id, int>(this._t1_1, this._taskRepo.GetById);

@@ -14,7 +14,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
         : IEntityRelationReg
         <
             MetaTaskFlag,
-            MetaTask,
+            UnsafeMetaTask,
             Id,
             int,
             UnsafeFlag,
@@ -26,15 +26,15 @@ namespace WorldZero.Service.Entity.Registration.Relation
         protected IMetaTaskFlagRepo _metaTaskFlagRepo
         { get { return (IMetaTaskFlagRepo) this._repo; } }
 
-        protected IMetaTaskRepo _metaTaskRepo
-        { get { return (IMetaTaskRepo) this._leftRepo; } }
+        protected IUnsafeMetaTaskRepo _metaTaskRepo
+        { get { return (IUnsafeMetaTaskRepo) this._leftRepo; } }
 
         protected IUnsafeFlagRepo _flagRepo
         { get { return (IUnsafeFlagRepo) this._rightRepo; } }
 
         public MetaTaskFlagReg(
             IMetaTaskFlagRepo metaTaskFlagRepo,
-            IMetaTaskRepo metaTaskRepo,
+            IUnsafeMetaTaskRepo metaTaskRepo,
             IUnsafeFlagRepo flagRepo
         )
             : base(metaTaskFlagRepo, metaTaskRepo, flagRepo)
@@ -47,7 +47,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             // because of the weird non-generic abstract classes that exist
             // right before the entities are implemented.
             this.AssertNotNull(e, "e");
-            MetaTask mt;
+            UnsafeMetaTask mt;
             UnsafeFlag f;
             this._metaTaskFlagRepo.BeginTransaction(true);
             try

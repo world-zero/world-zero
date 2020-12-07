@@ -6,13 +6,13 @@ using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
 namespace WorldZero.Data.Interface.Repository.Entity.Primary
 {
     /// <inheritdoc cref="IIdEntityRepo"/>
-    public interface IMetaTaskRepo
-        : IIdStatusedEntityRepo<MetaTask>
+    public interface IUnsafeMetaTaskRepo
+        : IIdStatusedEntityRepo<UnsafeMetaTask>
     {
         /// <summary>
         /// Return a collection of tasks that are owned by the corresponding
         /// faction. If none exist, an exception is thrown.
         /// </summary>
-        IEnumerable<MetaTask> GetByFactionId(Name factionId);
+        IEnumerable<UnsafeMetaTask> GetByFactionId(Name factionId);
     }
 }

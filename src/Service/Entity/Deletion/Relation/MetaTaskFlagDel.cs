@@ -11,7 +11,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
     public class MetaTaskFlagDel : IFlaggedEntityDel
     <
         MetaTaskFlag,
-        MetaTask,
+        UnsafeMetaTask,
         Id,
         int,
         RelationDTO<Id, int, Name, string>
@@ -24,7 +24,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         /// <remarks>
         /// This is just a wrapper for `DeleteByLeftId()`.
         /// </remarks>
-        public void DeleteByMetaTask(MetaTask metaTask)
+        public void DeleteByMetaTask(UnsafeMetaTask metaTask)
         {
             this.AssertNotNull(metaTask, "metaTask");
             this.DeleteByLeft(metaTask.Id);
@@ -43,7 +43,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         /// This is just a wrapper for `DeleteByLeftIdAsync()`.
         /// </remarks>
         public async
-        System.Threading.Tasks.Task DeleteByMetaTaskAsync(MetaTask metaTask)
+        System.Threading.Tasks.Task DeleteByMetaTaskAsync(UnsafeMetaTask metaTask)
         {
             this.AssertNotNull(metaTask, "metaTask");
             await System.Threading.Tasks.Task.Run(() =>

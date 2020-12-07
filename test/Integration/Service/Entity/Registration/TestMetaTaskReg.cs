@@ -11,7 +11,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
     [TestFixture]
     public class TestMetaTaskReg
     {
-        private IMetaTaskRepo _metaTaskRepo;
+        private IUnsafeMetaTaskRepo _metaTaskRepo;
         private IUnsafeFactionRepo _factionRepo;
         private IStatusRepo _statusRepo;
         private MetaTaskReg _registration;
@@ -22,7 +22,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         [SetUp]
         public void Setup()
         {
-            this._metaTaskRepo = new RAMMetaTaskRepo();
+            this._metaTaskRepo = new RAMUnsafeMetaTaskRepo();
             this._factionRepo = new RAMUnsafeFactionRepo();
             this._statusRepo = new RAMStatusRepo();
             this._registration = new MetaTaskReg(
@@ -57,7 +57,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         [Test]
         public void TestRegisterHappy()
         {
-            var mt = new MetaTask(
+            var mt = new UnsafeMetaTask(
                 this._faction0.Id,
                 StatusReg.Active.Id,
                 "something",
@@ -71,7 +71,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         [Test]
         public void TestRegisterSad()
         {
-            var mt = new MetaTask(
+            var mt = new UnsafeMetaTask(
                 new Name("fake"),
                 new Name("extra fake"),
                 "something",
@@ -80,7 +80,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                 ()=>this._registration.Register(mt)
             );
 
-            mt = new MetaTask(
+            mt = new UnsafeMetaTask(
                 new Name("fake"),
                 this._status0.Id,
                 "something",
@@ -89,7 +89,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                 ()=>this._registration.Register(mt)
             );
 
-            mt = new MetaTask(
+            mt = new UnsafeMetaTask(
                 this._faction0.Id,
                 new Name("ya basic"),
                 "something",

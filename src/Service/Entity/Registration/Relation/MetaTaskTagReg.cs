@@ -13,7 +13,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
         : IEntityRelationReg
         <
             MetaTaskTag,
-            MetaTask,
+            UnsafeMetaTask,
             Id,
             int,
             Tag,
@@ -25,15 +25,15 @@ namespace WorldZero.Service.Entity.Registration.Relation
         protected IMetaTaskTagRepo _metaTaskTagRepo
         { get { return (IMetaTaskTagRepo) this._repo; } }
 
-        protected IMetaTaskRepo _metaTaskRepo
-        { get { return (IMetaTaskRepo) this._leftRepo; } }
+        protected IUnsafeMetaTaskRepo _metaTaskRepo
+        { get { return (IUnsafeMetaTaskRepo) this._leftRepo; } }
 
         protected ITagRepo _tagRepo
         { get { return (ITagRepo) this._rightRepo; } }
 
         public MetaTaskTagReg(
             IMetaTaskTagRepo metaTaskTagRepo,
-            IMetaTaskRepo metaTaskRepo,
+            IUnsafeMetaTaskRepo metaTaskRepo,
             ITagRepo tagRepo
         )
             : base(metaTaskTagRepo, metaTaskRepo, tagRepo)

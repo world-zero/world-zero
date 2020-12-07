@@ -22,7 +22,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         private DummyRAMPraxisRepo _praxisRepo;
         private PraxisParticipantReg _ppReg;
         private ITaskRepo _taskRepo;
-        private IMetaTaskRepo _mtRepo;
+        private IUnsafeMetaTaskRepo _mtRepo;
         private IStatusRepo _statusRepo;
         private PraxisReg _registration;
         private Status _status0;
@@ -30,7 +30,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         private Task _t;
         private UnsafeCharacter _c;
         private Praxis _p;
-        private MetaTask _mt;
+        private UnsafeMetaTask _mt;
         private PraxisParticipant _pp;
         private List<PraxisParticipant> _pps;
         private UnsafeFaction _f;
@@ -47,7 +47,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             this._ppRepo = new DummyRAMPraxisParticipantRepo();
             this._charRepo = new RAMUnsafeCharacterRepo();
             this._praxisRepo = new DummyRAMPraxisRepo();
-            this._mtRepo = new RAMMetaTaskRepo();
+            this._mtRepo = new RAMUnsafeMetaTaskRepo();
             this._taskRepo = new RAMTaskRepo();
             this._ppReg = new PraxisParticipantReg(
                 this._ppRepo,
@@ -94,7 +94,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             this._charRepo.Insert(this._c);
             this._charRepo.Save();
 
-            this._mt = new MetaTask(
+            this._mt = new UnsafeMetaTask(
                 this._f.Id,
                 StatusReg.Active.Id,
                 "x",

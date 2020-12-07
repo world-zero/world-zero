@@ -29,7 +29,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         private UnsafeCharacter _c2;
         private Praxis _p0;
         private Praxis _p1;
-        private MetaTask _mt;
+        private UnsafeMetaTask _mt;
         private PraxisParticipant _pp;
         private UnsafeFaction _f;
         private Id _tId;
@@ -99,7 +99,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             this._charRepo.Insert(this._c2);
             this._charRepo.Save();
 
-            this._mt = new MetaTask(
+            this._mt = new UnsafeMetaTask(
                 this._f.Id,
                 StatusReg.Active.Id,
                 "x",
@@ -403,7 +403,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
     }
 
     public class DummyRAMMetaTaskRepo
-        : RAMMetaTaskRepo
+        : RAMUnsafeMetaTaskRepo
     {
         public DummyRAMMetaTaskRepo()
             : base()

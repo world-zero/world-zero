@@ -65,7 +65,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
         protected IUnsafeCharacterRepo _characterRepo
         { get { return (IUnsafeCharacterRepo) this._rightRepo; } }
 
-        protected readonly IMetaTaskRepo _mtRepo;
+        protected readonly IUnsafeMetaTaskRepo _mtRepo;
         protected readonly ITaskRepo _taskRepo;
         protected readonly IUnsafeFactionRepo _factionRepo;
         protected readonly EraReg _eraReg;
@@ -75,7 +75,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             IPraxisParticipantRepo praxisParticipantRepo,
             IPraxisRepo praxisRepo,
             IUnsafeCharacterRepo characterRepo,
-            IMetaTaskRepo mtRepo,
+            IUnsafeMetaTaskRepo mtRepo,
             ITaskRepo taskRepo,
             IUnsafeFactionRepo factionRepo,
             EraReg eraReg
@@ -106,7 +106,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
                             this._verifyLevel(c, activeEra, p);
                             this._verifyPraxisCount(c, activeEra);
             int count     = this._verifyPPCount(pp, c, activeEra);
-            MetaTask mt   = this._getMetaTask(p);
+            UnsafeMetaTask mt   = this._getMetaTask(p);
                             this._verifyFactionsMatch(c, mt);
                             this._verifyDuel(p);
             var r         = base.Register(pp);
@@ -236,7 +236,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
         /// A `MetaTask` is not required for a `Praxis`, so this can return
         /// `null`.
         /// </remarks>
-        private MetaTask _getMetaTask(Praxis p)
+        private UnsafeMetaTask _getMetaTask(Praxis p)
         {
             if (p.MetaTaskId == null)
                 return null;
@@ -251,7 +251,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             }
         }
 
-        private void _verifyFactionsMatch(UnsafeCharacter c, MetaTask mt)
+        private void _verifyFactionsMatch(UnsafeCharacter c, UnsafeMetaTask mt)
         {
             if (mt == null)
                 return;

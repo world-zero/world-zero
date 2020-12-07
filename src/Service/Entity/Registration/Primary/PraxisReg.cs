@@ -41,14 +41,14 @@ namespace WorldZero.Service.Entity.Registration.Primary
         { get { return (IPraxisRepo) this._repo; } }
 
         protected readonly ITaskRepo _taskRepo;
-        protected readonly IMetaTaskRepo _mtRepo;
+        protected readonly IUnsafeMetaTaskRepo _mtRepo;
         protected readonly IStatusRepo _statusRepo;
         protected readonly PraxisParticipantReg _ppReg;
 
         public PraxisReg(
             IPraxisRepo praxisRepo,
             ITaskRepo taskRepo,
-            IMetaTaskRepo mtRepo,
+            IUnsafeMetaTaskRepo mtRepo,
             IStatusRepo statusRepo,
             PraxisParticipantReg ppReg
         )
@@ -101,7 +101,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
             try
             {
                 Task t = this._verifyTask(p);
-                MetaTask mt = this._verifyMetaTask(p);
+                UnsafeMetaTask mt = this._verifyMetaTask(p);
                 this._praxisRepo.Insert(p);
                 this._praxisRepo.Save();
                 foreach (PraxisParticipant pp in pps)
@@ -148,9 +148,9 @@ namespace WorldZero.Service.Entity.Registration.Primary
         /// A `MetaTask` is not required for a `Praxis`, so this can return
         /// `null`.
         /// </remarks>
-        private MetaTask _verifyMetaTask(Praxis p)
+        private UnsafeMetaTask _verifyMetaTask(Praxis p)
         {
-            MetaTask mt = null;
+            UnsafeMetaTask mt = null;
             try
             {
                 if (p.MetaTaskId != null)

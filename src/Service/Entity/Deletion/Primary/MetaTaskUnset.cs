@@ -13,25 +13,25 @@ namespace WorldZero.Service.Entity.Deletion.Primary
     /// definitely a little smelly, but eh.
     /// </remarks>
     public class MetaTaskUnset
-        : IEntityUnset<MetaTask, Id, int, Praxis, Id, int>
+        : IEntityUnset<UnsafeMetaTask, Id, int, Praxis, Id, int>
     {
         protected class StatusedMTDel
-            : IIdStatusedEntityDel<MetaTask>
+            : IIdStatusedEntityDel<UnsafeMetaTask>
         {
-            public StatusedMTDel(IMetaTaskRepo mtRepo)
+            public StatusedMTDel(IUnsafeMetaTaskRepo mtRepo)
                 : base(mtRepo)
             { }
         }
 
         protected StatusedMTDel _statusedMTDel;
 
-        protected IMetaTaskRepo _mtRepo
-        { get { return (IMetaTaskRepo) this._repo; } }
+        protected IUnsafeMetaTaskRepo _mtRepo
+        { get { return (IUnsafeMetaTaskRepo) this._repo; } }
 
         protected IPraxisRepo _praxisRepo
         { get { return (IPraxisRepo) this._otherRepo; } }
 
-        public MetaTaskUnset(IMetaTaskRepo repo, IPraxisRepo praxisRepo)
+        public MetaTaskUnset(IUnsafeMetaTaskRepo repo, IPraxisRepo praxisRepo)
             : base(repo, praxisRepo)
         {
             this._statusedMTDel = new StatusedMTDel(this._mtRepo);
@@ -105,13 +105,13 @@ namespace WorldZero.Service.Entity.Deletion.Primary
         {
             void f(Name factionName)
             {
-                IEnumerable<MetaTask> mts;
+                IEnumerable<UnsafeMetaTask> mts;
                 try
                 { mts = this._mtRepo.GetByFactionId(factionName); }
                 catch (ArgumentException)
                 { return; }
 
-                foreach (MetaTask mt in mts)
+                foreach (UnsafeMetaTask mt in mts)
                     this.Delete(mt);
             }
 

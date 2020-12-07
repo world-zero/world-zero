@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace WorldZero.Test.Unit.Common.Entity.Primary
 {
     [TestFixture]
-    public class TestMetaTask
+    public class TestUnsafeMetaTask
     {
         private Id _metaTaskId;
         private string _desc;
@@ -14,7 +14,7 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
         private bool _isFlatBonus;
         private Name _factionId;
         private Name _statusId;
-        private MetaTask _mt;
+        private UnsafeMetaTask _mt;
 
         [SetUp]
         public void Setup()
@@ -26,7 +26,7 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
             this._factionId = new Name("a faction");
             this._statusId = new Name("valid");
 
-            this._mt = new MetaTask(this._metaTaskId, this._factionId, this._statusId, this._desc, this._bonus, this._isFlatBonus);
+            this._mt = new UnsafeMetaTask(this._metaTaskId, this._factionId, this._statusId, this._desc, this._bonus, this._isFlatBonus);
         }
 
         [Test]
