@@ -1,5 +1,6 @@
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
+using WorldZero.Common.Interface.Entity.Marker;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Common.Interface.Entity.Generic.Relation;
 
@@ -13,7 +14,7 @@ namespace WorldZero.Common.Entity.Relation
     /// <br />
     /// Right relation: `TagId`
     /// </summary>
-    public class PraxisTag : ITaggedEntity<Id, int>
+    public class UnsafePraxisTag : ITaggedEntity<Id, int>, IUnsafeEntity
     {
         /// <summary>
         /// PraxisId is a wrapper for LeftId.
@@ -24,29 +25,29 @@ namespace WorldZero.Common.Entity.Relation
             set { this.LeftId = value; }
         }
 
-        public PraxisTag(Id PraxisId, Name tagId)
+        public UnsafePraxisTag(Id PraxisId, Name tagId)
             : base(PraxisId, tagId)
         { }
 
-        public PraxisTag(Id id, Id PraxisId, Name tagId)
+        public UnsafePraxisTag(Id id, Id PraxisId, Name tagId)
             : base(id, PraxisId, tagId)
         { }
 
-        public PraxisTag(RelationDTO<Id, int, Name, string> dto)
+        public UnsafePraxisTag(RelationDTO<Id, int, Name, string> dto)
             : base(dto.LeftId, dto.RightId)
         { }
 
-        public PraxisTag(Id id, RelationDTO<Id, int, Name, string> dto)
+        public UnsafePraxisTag(Id id, RelationDTO<Id, int, Name, string> dto)
             : base(id, dto.LeftId, dto.RightId)
         { }
 
-        internal PraxisTag(int id, int praxisId, string tagId)
+        internal UnsafePraxisTag(int id, int praxisId, string tagId)
             : base(new Id(id), new Id(praxisId), new Name(tagId))
         { }
 
         public override IEntity<Id, int> Clone()
         {
-            return new PraxisTag(
+            return new UnsafePraxisTag(
                 this.Id,
                 this.LeftId,
                 this.RightId

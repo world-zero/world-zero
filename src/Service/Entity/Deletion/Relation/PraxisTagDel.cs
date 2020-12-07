@@ -10,14 +10,14 @@ namespace WorldZero.Service.Entity.Deletion.Relation
     /// <inheritdoc cref="IEntityDel"/>
     public class PraxisTagDel : ITaggedEntityDel
     <
-        PraxisTag,
+        UnsafePraxisTag,
         UnsafePraxis,
         Id,
         int,
         RelationDTO<Id, int, Name, string>
     >
     {
-        public PraxisTagDel(IPraxisTagRepo repo)
+        public PraxisTagDel(IUnsafePraxisTagRepo repo)
             : base(repo)
         { }
 

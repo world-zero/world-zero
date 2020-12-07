@@ -7,20 +7,20 @@ using WorldZero.Common.Entity.Relation;
 
 namespace WorldZero.Data.Repository.Entity.RAM.Relation
 {
-    /// <inheritdoc cref="IPraxisTagRepo"/>
-    public class RAMPraxisTagRepo
+    /// <inheritdoc cref="IUnsafePraxisTagRepo"/>
+    public class RAMUnsafePraxisTagRepo
         : IRAMTaggedEntityRepo
           <
-            PraxisTag,
+            UnsafePraxisTag,
             Id,
             int,
             RelationDTO<Id, int, Name, string>
           >,
-          IPraxisTagRepo
+          IUnsafePraxisTagRepo
     {
         protected override int GetRuleCount()
         {
-            var a = new PraxisTag(new Id(3), new Name("d"));
+            var a = new UnsafePraxisTag(new Id(3), new Name("d"));
             return a.GetUniqueRules().Count;
         }
 

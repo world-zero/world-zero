@@ -44,7 +44,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private TaskDel _taskDel;
         private IUnsafeCommentRepo _commentRepo;
         private CommentDel _commentDel;
-        private IPraxisTagRepo _praxisTagRepo;
+        private IUnsafePraxisTagRepo _praxisTagRepo;
         private PraxisTagDel _praxisTagDel;
         private IUnsafePraxisFlagRepo _praxisFlagRepo;
         private PraxisFlagDel _praxisFlagDel;
@@ -74,7 +74,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._statusRepo = new RAMUnsafeStatusRepo();
             this._commentRepo = new RAMUnsafeCommentRepo();
             this._commentDel = new CommentDel(this._commentRepo);
-            this._praxisTagRepo = new RAMPraxisTagRepo();
+            this._praxisTagRepo = new RAMUnsafePraxisTagRepo();
             this._praxisTagDel = new PraxisTagDel(this._praxisTagRepo);
             this._praxisFlagRepo = new RAMUnsafePraxisFlagRepo();
             this._praxisFlagDel = new PraxisFlagDel(this._praxisFlagRepo);

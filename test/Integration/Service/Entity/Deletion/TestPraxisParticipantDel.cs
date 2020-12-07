@@ -87,7 +87,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         {
             var commentRepo = new RAMUnsafeCommentRepo();
             var commentDel = new CommentDel(commentRepo);
-            var praxisTagRepo = new RAMPraxisTagRepo();
+            var praxisTagRepo = new RAMUnsafePraxisTagRepo();
             var praxisTagDel = new PraxisTagDel(praxisTagRepo);
             var praxisFlagRepo = new RAMUnsafePraxisFlagRepo();
             var praxisFlagDel = new PraxisFlagDel(praxisFlagRepo);
@@ -137,7 +137,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         {
             var commentRepo = new RAMUnsafeCommentRepo();
             var commentDel = new CommentDel(commentRepo);
-            var praxisTagRepo = new RAMPraxisTagRepo();
+            var praxisTagRepo = new RAMUnsafePraxisTagRepo();
             var praxisTagDel = new PraxisTagDel(praxisTagRepo);
             var praxisFlagRepo = new RAMUnsafePraxisFlagRepo();
             var praxisFlagDel = new PraxisFlagDel(praxisFlagRepo);

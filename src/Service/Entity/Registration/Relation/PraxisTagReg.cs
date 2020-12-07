@@ -12,7 +12,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
     public class PraxisTagReg
         : IEntityRelationReg
         <
-            PraxisTag,
+            UnsafePraxisTag,
             UnsafePraxis,
             Id,
             int,
@@ -22,8 +22,8 @@ namespace WorldZero.Service.Entity.Registration.Relation
             RelationDTO<Id, int, Name, string>
         >
     {
-        protected IPraxisTagRepo _praxisTagRepo
-        { get { return (IPraxisTagRepo) this._repo; } }
+        protected IUnsafePraxisTagRepo _praxisTagRepo
+        { get { return (IUnsafePraxisTagRepo) this._repo; } }
 
         protected IUnsafePraxisRepo _praxisRepo
         { get { return (IUnsafePraxisRepo) this._leftRepo; } }
@@ -32,7 +32,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
         { get { return (IUnsafeTagRepo) this._rightRepo; } }
 
         public PraxisTagReg(
-            IPraxisTagRepo praxisTagRepo,
+            IUnsafePraxisTagRepo praxisTagRepo,
             IUnsafePraxisRepo praxisRepo,
             IUnsafeTagRepo tagRepo
         )
