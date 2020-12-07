@@ -6,20 +6,20 @@ using NUnit.Framework;
 namespace WorldZero.Test.Unit.Common.Entity.Relation
 {
     [TestFixture]
-    public class TestVote
+    public class TesUnsafeVote
     {
         private Id _id0;
         private Id _id1;
         private PointTotal _pt;
-        private Vote _vote;
+        private UnsafeVote _vote;
 
         [OneTimeSetUp]
         public void FirstSetup()
         {
             // Shift them up one to make sure I can savely test both ends
             // without enraging PointTotal.
-            Vote.MaxPoints = new PointTotal(Vote.MaxPoints.Get+1);
-            Vote.MinPoints = new PointTotal(Vote.MinPoints.Get+1);
+            UnsafeVote.MaxPoints = new PointTotal(UnsafeVote.MaxPoints.Get+1);
+            UnsafeVote.MinPoints = new PointTotal(UnsafeVote.MinPoints.Get+1);
         }
 
         [SetUp]
@@ -27,20 +27,20 @@ namespace WorldZero.Test.Unit.Common.Entity.Relation
         {
             this._id0 = new Id(3);
             this._id1 = new Id(5);
-            this._pt = new PointTotal(Vote.MinPoints.Get+1);
-            this._vote = new Vote(this._id0, this._id1, new Id(100), this._pt);
+            this._pt = new PointTotal(UnsafeVote.MinPoints.Get+1);
+            this._vote = new UnsafeVote(this._id0, this._id1, new Id(100), this._pt);
         }
 
         [Test]
         public void TestStaticMembers()
         {
-            Assert.Throws<ArgumentNullException>(()=>Vote.MinPoints = null);
-            Assert.Throws<ArgumentNullException>(()=>Vote.MaxPoints = null);
+            Assert.Throws<ArgumentNullException>(()=>UnsafeVote.MinPoints = null);
+            Assert.Throws<ArgumentNullException>(()=>UnsafeVote.MaxPoints = null);
 
             Assert.Throws<ArgumentException>(
-                ()=>Vote.MinPoints = new PointTotal(Vote.MaxPoints.Get+1));
+                ()=>UnsafeVote.MinPoints = new PointTotal(UnsafeVote.MaxPoints.Get+1));
             Assert.Throws<ArgumentException>(
-                ()=>Vote.MaxPoints = new PointTotal(Vote.MinPoints.Get-1));
+                ()=>UnsafeVote.MaxPoints = new PointTotal(UnsafeVote.MinPoints.Get-1));
         }
 
         [Test]
@@ -48,9 +48,9 @@ namespace WorldZero.Test.Unit.Common.Entity.Relation
         {
             Assert.Throws<ArgumentNullException>(()=>this._vote.Points = null);
             Assert.Throws<ArgumentException>(
-                ()=>this._vote.Points = new PointTotal(Vote.MinPoints.Get-1));
+                ()=>this._vote.Points = new PointTotal(UnsafeVote.MinPoints.Get-1));
             Assert.Throws<ArgumentException>(
-                ()=>this._vote.Points = new PointTotal(Vote.MaxPoints.Get+1));
+                ()=>this._vote.Points = new PointTotal(UnsafeVote.MaxPoints.Get+1));
         }
     }
 }

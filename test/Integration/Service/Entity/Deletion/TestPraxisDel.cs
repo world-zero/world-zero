@@ -54,9 +54,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._absentt<PraxisParticipant, Id, int>(this._pp0_0, this._ppRepo.GetById);
             this._absentt<PraxisParticipant, Id, int>(this._pp0_1, this._ppRepo.GetById);
             this._absentt<PraxisParticipant, Id, int>(this._pp1_0, this._ppRepo.GetById);
-            this._absentt<Vote, Id, int>(this._v0_0, this._voteRepo.GetById);
-            this._absentt<Vote, Id, int>(this._v0_1, this._voteRepo.GetById);
-            this._absentt<Vote, Id, int>(this._v1_0, this._voteRepo.GetById);
+            this._absentt<UnsafeVote, Id, int>(this._v0_0, this._voteRepo.GetById);
+            this._absentt<UnsafeVote, Id, int>(this._v0_1, this._voteRepo.GetById);
+            this._absentt<UnsafeVote, Id, int>(this._v1_0, this._voteRepo.GetById);
         }
 
         private void _allPresent()
@@ -75,9 +75,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._present<PraxisParticipant, Id, int>(this._pp0_0, this._ppRepo.GetById);
             this._present<PraxisParticipant, Id, int>(this._pp0_1, this._ppRepo.GetById);
             this._present<PraxisParticipant, Id, int>(this._pp1_0, this._ppRepo.GetById);
-            this._present<Vote, Id, int>(this._v0_0, this._voteRepo.GetById);
-            this._present<Vote, Id, int>(this._v0_1, this._voteRepo.GetById);
-            this._present<Vote, Id, int>(this._v1_0, this._voteRepo.GetById);
+            this._present<UnsafeVote, Id, int>(this._v0_0, this._voteRepo.GetById);
+            this._present<UnsafeVote, Id, int>(this._v0_1, this._voteRepo.GetById);
+            this._present<UnsafeVote, Id, int>(this._v1_0, this._voteRepo.GetById);
         }
 
         private RAMUnsafePraxisRepo _praxisRepo;
@@ -85,7 +85,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private PraxisParticipantDel _ppDel;
         private RAMUnsafeCommentRepo _commentRepo;
         private CommentDel _commentDel;
-        private RAMVoteRepo _voteRepo;
+        private RAMUnsafeVoteRepo _voteRepo;
         private VoteDel _voteDel;
         private RAMPraxisTagRepo _pTagRepo;
         private PraxisTagDel _pTagDel;
@@ -112,9 +112,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private PraxisParticipant _pp0_1;
         private PraxisParticipant _pp1_0;
         // Votes are tested as well to ensure that the PP deletion is cascaded.
-        private Vote _v0_0;
-        private Vote _v0_1;
-        private Vote _v1_0;
+        private UnsafeVote _v0_0;
+        private UnsafeVote _v0_1;
+        private UnsafeVote _v1_0;
 
         [SetUp]
         public void Setup()
@@ -172,11 +172,11 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._ppRepo.Insert(this._pp1_0);
             this._ppRepo.Save();
 
-            this._voteRepo = new RAMVoteRepo();
+            this._voteRepo = new RAMUnsafeVoteRepo();
             this._voteDel = new VoteDel(this._voteRepo);
-            this._v0_0 = new Vote(this._next(), this._pp0_0.Id, pt);
-            this._v0_1 = new Vote(this._next(), this._pp0_1.Id, pt);
-            this._v1_0 = new Vote(this._next(), this._pp1_0.Id, pt);
+            this._v0_0 = new UnsafeVote(this._next(), this._pp0_0.Id, pt);
+            this._v0_1 = new UnsafeVote(this._next(), this._pp0_1.Id, pt);
+            this._v1_0 = new UnsafeVote(this._next(), this._pp1_0.Id, pt);
             this._voteRepo.Insert(this._v0_0);
             this._voteRepo.Insert(this._v0_1);
             this._voteRepo.Insert(this._v1_0);
@@ -227,9 +227,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._absentt<PraxisParticipant, Id, int>(this._pp0_0, this._ppRepo.GetById);
             this._absentt<PraxisParticipant, Id, int>(this._pp0_1, this._ppRepo.GetById);
             this._present<PraxisParticipant, Id, int>(this._pp1_0, this._ppRepo.GetById);
-            this._absentt<Vote, Id, int>(this._v0_0, this._voteRepo.GetById);
-            this._absentt<Vote, Id, int>(this._v0_1, this._voteRepo.GetById);
-            this._present<Vote, Id, int>(this._v1_0, this._voteRepo.GetById);
+            this._absentt<UnsafeVote, Id, int>(this._v0_0, this._voteRepo.GetById);
+            this._absentt<UnsafeVote, Id, int>(this._v0_1, this._voteRepo.GetById);
+            this._present<UnsafeVote, Id, int>(this._v1_0, this._voteRepo.GetById);
         }
 
         [Test]
@@ -250,9 +250,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._present<PraxisParticipant, Id, int>(this._pp0_0, this._ppRepo.GetById);
             this._present<PraxisParticipant, Id, int>(this._pp0_1, this._ppRepo.GetById);
             this._absentt<PraxisParticipant, Id, int>(this._pp1_0, this._ppRepo.GetById);
-            this._present<Vote, Id, int>(this._v0_0, this._voteRepo.GetById);
-            this._present<Vote, Id, int>(this._v0_1, this._voteRepo.GetById);
-            this._absentt<Vote, Id, int>(this._v1_0, this._voteRepo.GetById);
+            this._present<UnsafeVote, Id, int>(this._v0_0, this._voteRepo.GetById);
+            this._present<UnsafeVote, Id, int>(this._v0_1, this._voteRepo.GetById);
+            this._absentt<UnsafeVote, Id, int>(this._v1_0, this._voteRepo.GetById);
         }
 
         [Test]
@@ -307,9 +307,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._absentt<PraxisParticipant, Id, int>(this._pp0_0, this._ppRepo.GetById);
             this._absentt<PraxisParticipant, Id, int>(this._pp0_1, this._ppRepo.GetById);
             this._present<PraxisParticipant, Id, int>(this._pp1_0, this._ppRepo.GetById);
-            this._absentt<Vote, Id, int>(this._v0_0, this._voteRepo.GetById);
-            this._absentt<Vote, Id, int>(this._v0_1, this._voteRepo.GetById);
-            this._present<Vote, Id, int>(this._v1_0, this._voteRepo.GetById);
+            this._absentt<UnsafeVote, Id, int>(this._v0_0, this._voteRepo.GetById);
+            this._absentt<UnsafeVote, Id, int>(this._v0_1, this._voteRepo.GetById);
+            this._present<UnsafeVote, Id, int>(this._v1_0, this._voteRepo.GetById);
         }
 
         [Test]
@@ -330,9 +330,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._present<PraxisParticipant, Id, int>(this._pp0_0, this._ppRepo.GetById);
             this._present<PraxisParticipant, Id, int>(this._pp0_1, this._ppRepo.GetById);
             this._absentt<PraxisParticipant, Id, int>(this._pp1_0, this._ppRepo.GetById);
-            this._present<Vote, Id, int>(this._v0_0, this._voteRepo.GetById);
-            this._present<Vote, Id, int>(this._v0_1, this._voteRepo.GetById);
-            this._absentt<Vote, Id, int>(this._v1_0, this._voteRepo.GetById);
+            this._present<UnsafeVote, Id, int>(this._v0_0, this._voteRepo.GetById);
+            this._present<UnsafeVote, Id, int>(this._v0_1, this._voteRepo.GetById);
+            this._absentt<UnsafeVote, Id, int>(this._v1_0, this._voteRepo.GetById);
         }
 
         [Test]
@@ -353,9 +353,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._absentt<PraxisParticipant, Id, int>(this._pp0_0, this._ppRepo.GetById);
             this._absentt<PraxisParticipant, Id, int>(this._pp0_1, this._ppRepo.GetById);
             this._present<PraxisParticipant, Id, int>(this._pp1_0, this._ppRepo.GetById);
-            this._absentt<Vote, Id, int>(this._v0_0, this._voteRepo.GetById);
-            this._absentt<Vote, Id, int>(this._v0_1, this._voteRepo.GetById);
-            this._present<Vote, Id, int>(this._v1_0, this._voteRepo.GetById);
+            this._absentt<UnsafeVote, Id, int>(this._v0_0, this._voteRepo.GetById);
+            this._absentt<UnsafeVote, Id, int>(this._v0_1, this._voteRepo.GetById);
+            this._present<UnsafeVote, Id, int>(this._v1_0, this._voteRepo.GetById);
             this._del.DeleteByStatus(this._p0.StatusId);
         }
 

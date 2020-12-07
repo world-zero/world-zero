@@ -9,28 +9,28 @@ using NUnit.Framework;
 namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Relation
 {
     [TestFixture]
-    public class TestRAMVoteRepo
+    public class TestRAMUnsafeVoteRepo
     {
-        private RAMVoteRepo _repo;
+        private RAMUnsafeVoteRepo _repo;
         private Id _ppId0;
         private Id _ppId1;
         private Id _cId0;
         private Id _cId1;
-        private Vote _v0;
-        private Vote _v1;
-        private Vote _vAlt;
+        private UnsafeVote _v0;
+        private UnsafeVote _v1;
+        private UnsafeVote _vAlt;
 
         [SetUp]
         public void Setup()
         {
-            this._repo = new RAMVoteRepo();
+            this._repo = new RAMUnsafeVoteRepo();
             this._ppId0 = new Id(1);
             this._ppId1 = new Id(2);
             this._cId0 = new Id(3);
             this._cId1 = new Id(4);
-            this._v0 = new Vote(this._cId0, this._ppId0, new PointTotal(3));
-            this._v1 = new Vote(this._cId1, this._ppId0, new PointTotal(3));
-            this._vAlt = new Vote(this._cId0, this._ppId1, new PointTotal(3));
+            this._v0 = new UnsafeVote(this._cId0, this._ppId0, new PointTotal(3));
+            this._v1 = new UnsafeVote(this._cId1, this._ppId0, new PointTotal(3));
+            this._vAlt = new UnsafeVote(this._cId0, this._ppId1, new PointTotal(3));
             this._repo.Insert(this._v0);
             this._repo.Insert(this._v1);
             this._repo.Insert(this._vAlt);

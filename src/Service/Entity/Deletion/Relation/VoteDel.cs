@@ -9,12 +9,12 @@ namespace WorldZero.Service.Entity.Deletion.Relation
     /// <remarks>
     /// This will not refund the vote points used.
     /// </remarks>
-    public class VoteDel : IEntityDel<Vote, Id, int>
+    public class VoteDel : IEntityDel<UnsafeVote, Id, int>
     {
-        protected IVoteRepo _voteRepo
-        { get { return (IVoteRepo) this._repo; } }
+        protected IUnsafeVoteRepo _voteRepo
+        { get { return (IUnsafeVoteRepo) this._repo; } }
 
-        public VoteDel(IVoteRepo repo)
+        public VoteDel(IUnsafeVoteRepo repo)
             : base(repo)
         { }
 

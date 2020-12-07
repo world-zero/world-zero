@@ -15,7 +15,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
     public class TestPraxisParticipatDel
     {
         private RAMUnsafePraxisRepo _praxisRepo;
-        private RAMVoteRepo _voteRepo;
+        private RAMUnsafeVoteRepo _voteRepo;
         private VoteDel _voteDel;
         private RAMPraxisParticipantRepo _repo;
         private PraxisParticipantDel _del;
@@ -26,7 +26,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void Setup()
         {
             this._praxisRepo = new RAMUnsafePraxisRepo();
-            this._voteRepo = new RAMVoteRepo();
+            this._voteRepo = new RAMUnsafeVoteRepo();
             this._voteDel = new VoteDel(this._voteRepo);
             this._repo = new RAMPraxisParticipantRepo();
             this._del = new PraxisParticipantDel(
@@ -190,9 +190,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._repo.Insert(ppY);
             this._repo.Save();
 
-            var voteX0 = new Vote(new Id(1000), ppX.Id, new PointTotal(2));
-            var voteX1 = new Vote(new Id(3200), ppX.Id, new PointTotal(2));
-            var voteY0 = new Vote(new Id(1003), ppY.Id, new PointTotal(2));
+            var voteX0 = new UnsafeVote(new Id(1000), ppX.Id, new PointTotal(2));
+            var voteX1 = new UnsafeVote(new Id(3200), ppX.Id, new PointTotal(2));
+            var voteY0 = new UnsafeVote(new Id(1003), ppY.Id, new PointTotal(2));
             this._voteRepo.Insert(voteX0);
             this._voteRepo.Insert(voteX1);
             this._voteRepo.Insert(voteY0);
@@ -244,9 +244,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._repo.Insert(ppY);
             this._repo.Save();
 
-            var voteX0 = new Vote(new Id(1000), ppX.Id, new PointTotal(2));
-            var voteX1 = new Vote(new Id(3200), ppX.Id, new PointTotal(2));
-            var voteY0 = new Vote(new Id(1003), ppY.Id, new PointTotal(2));
+            var voteX0 = new UnsafeVote(new Id(1000), ppX.Id, new PointTotal(2));
+            var voteX1 = new UnsafeVote(new Id(3200), ppX.Id, new PointTotal(2));
+            var voteY0 = new UnsafeVote(new Id(1003), ppY.Id, new PointTotal(2));
             this._voteRepo.Insert(voteX0);
             this._voteRepo.Insert(voteX1);
             this._voteRepo.Insert(voteY0);

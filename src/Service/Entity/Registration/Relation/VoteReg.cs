@@ -23,7 +23,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
     public class VoteReg
         : IEntityRelationReg
         <
-            Vote,
+            UnsafeVote,
             UnsafeCharacter,
             Id,
             int,
@@ -33,8 +33,8 @@ namespace WorldZero.Service.Entity.Registration.Relation
             RelationDTO<Id, int, Id, int>
         >
     {
-        protected IVoteRepo _voteRepo
-        { get { return (IVoteRepo) this._repo; } }
+        protected IUnsafeVoteRepo _voteRepo
+        { get { return (IUnsafeVoteRepo) this._repo; } }
 
         protected IUnsafeCharacterRepo _characterRepo
         { get { return (IUnsafeCharacterRepo) this._leftRepo; } }
@@ -45,7 +45,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
         protected readonly IUnsafePraxisRepo _praxisRepo;
 
         public VoteReg(
-            IVoteRepo voteRepo,
+            IUnsafeVoteRepo voteRepo,
             IUnsafeCharacterRepo characterRepo,
             IPraxisParticipantRepo praxisParticipantRepo,
             IUnsafePraxisRepo praxisRepo
@@ -56,7 +56,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             this._praxisRepo = praxisRepo;
         }
 
-        public override Vote Register(Vote v)
+        public override UnsafeVote Register(UnsafeVote v)
         {
             // This does not use base.PreRegisterChecks() as querying the two
             // repositories twice each would be extremely costly for a DB repo.
@@ -105,7 +105,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
         /// <summary>
         /// Return the voting character associated with the supplied vote.
         /// </summary>
-        private UnsafeCharacter _regGetCharacter(Vote v)
+        private UnsafeCharacter _regGetCharacter(UnsafeVote v)
         {
             try
             {
@@ -131,7 +131,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             }
         }
 
-        private PraxisParticipant _regGetPP(Vote v)
+        private PraxisParticipant _regGetPP(UnsafeVote v)
         {
             try
             {

@@ -1,6 +1,7 @@
 using System;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Common.ValueObject.General;
+using WorldZero.Common.Interface.Entity.Marker;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Common.Interface.Entity.Generic.Relation;
 
@@ -19,7 +20,7 @@ namespace WorldZero.Common.Entity.Relation
     /// requires knowing all of the player's character IDs, which is firmly the
     /// responsiblity of VoteReg.
     /// </remarks>
-    public class Vote : IIdIdRelation
+    public class UnsafeVote : IIdIdRelation, IUnsafeEntity
     {
         /// <remarks>
         /// Changing this will NOT check existing instances of Vote to make
@@ -80,7 +81,7 @@ namespace WorldZero.Common.Entity.Relation
             set { this.RightId = value; }
         }
 
-        public Vote(
+        public UnsafeVote(
             Id characterId,
             Id praxisParticipantId,
             PointTotal points
@@ -90,7 +91,7 @@ namespace WorldZero.Common.Entity.Relation
             this.Points = points;
         }
 
-        public Vote(
+        public UnsafeVote(
             Id id,
             Id characterId,
             Id praxisParticipantId,
@@ -101,7 +102,7 @@ namespace WorldZero.Common.Entity.Relation
             this.Points = points;
         }
 
-        public Vote(
+        public UnsafeVote(
             RelationDTO<Id, int, Id, int> dto,
             PointTotal points
         )
@@ -110,7 +111,7 @@ namespace WorldZero.Common.Entity.Relation
             this.Points = points;
         }
 
-        public Vote(
+        public UnsafeVote(
             Id id,
             RelationDTO<Id, int, Id, int> dto,
             PointTotal points
@@ -120,7 +121,7 @@ namespace WorldZero.Common.Entity.Relation
             this.Points = points;
         }
 
-        internal Vote(
+        internal UnsafeVote(
             int id,
             int characterId,
             int praxisParticipantId,
@@ -144,7 +145,7 @@ namespace WorldZero.Common.Entity.Relation
 
         public override IEntity<Id, int> Clone()
         {
-            return new Vote(
+            return new UnsafeVote(
                 this.Id,
                 this.LeftId,
                 this.RightId,

@@ -39,7 +39,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         }
 
         private PraxisParticipantDel _ppDel;
-        private RAMVoteRepo _voteRepo;
+        private RAMUnsafeVoteRepo _voteRepo;
         private VoteDel _voteDel;
         private RAMUnsafeTaskRepo _taskRepo;
         private ITaskTagRepo _taskTagRepo;
@@ -139,7 +139,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._ppRepo.Insert(this._pp1_0);
             this._ppRepo.Save();
 
-            this._voteRepo = new RAMVoteRepo();
+            this._voteRepo = new RAMUnsafeVoteRepo();
             this._voteDel = new VoteDel(this._voteRepo);
             this._ppRepo = new RAMPraxisParticipantRepo();
             this._ppDel = new PraxisParticipantDel(

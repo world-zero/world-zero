@@ -7,10 +7,10 @@ using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
 
 namespace WorldZero.Data.Interface.Repository.Entity.Relation
 {
-    public interface IVoteRepo
+    public interface IUnsafeVoteRepo
         : IEntityRelationRepo
           <
-            Vote,
+            UnsafeVote,
             Id,
             int,
             Id,

@@ -10,18 +10,18 @@ using WorldZero.Common.ValueObject.General;
 
 namespace WorldZero.Data.Repository.Entity.RAM.Relation
 {
-    /// <inheritdoc cref="IVoteRepo"/>
-    public class RAMVoteRepo
+    /// <inheritdoc cref="IUnsafeVoteRepo"/>
+    public class RAMUnsafeVoteRepo
         : IRAMEntityRelationRepo
           <
-            Vote,
+            UnsafeVote,
             Id,
             int,
             Id,
             int,
             RelationDTO<Id, int, Id, int>
           >,
-          IVoteRepo
+          IUnsafeVoteRepo
     {
         public IEnumerable<Id> GetIdsByCharacterId(Id charId)
         {
@@ -65,7 +65,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
         protected override int GetRuleCount()
         {
             var a =
-                new Vote(new Id(2), new Id(2), new Id(3), new PointTotal(3));
+                new UnsafeVote(new Id(2), new Id(2), new Id(3), new PointTotal(3));
             return a.GetUniqueRules().Count;
         }
 

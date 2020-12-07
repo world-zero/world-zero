@@ -61,9 +61,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._absentt<UnsafeComment, Id, int>(this._commentBy01on10Again, this._commentRepo.GetById);
             this._absentt<UnsafeComment, Id, int>(this._commentBy10on00, this._commentRepo.GetById);
             this._absentt<UnsafeComment, Id, int>(this._commentBy10on00Again, this._commentRepo.GetById);
-            this._absentt<Vote, Id, int>(this._voteBy00on10, this._voteRepo.GetById);
-            this._absentt<Vote, Id, int>(this._voteBy01on10, this._voteRepo.GetById);
-            this._absentt<Vote, Id, int>(this._voteBy10on00, this._voteRepo.GetById);
+            this._absentt<UnsafeVote, Id, int>(this._voteBy00on10, this._voteRepo.GetById);
+            this._absentt<UnsafeVote, Id, int>(this._voteBy01on10, this._voteRepo.GetById);
+            this._absentt<UnsafeVote, Id, int>(this._voteBy10on00, this._voteRepo.GetById);
         }
 
         private void _allPresent()
@@ -92,9 +92,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._present<UnsafeComment, Id, int>(this._commentBy01on10Again, this._commentRepo.GetById);
             this._present<UnsafeComment, Id, int>(this._commentBy10on00, this._commentRepo.GetById);
             this._present<UnsafeComment, Id, int>(this._commentBy10on00Again, this._commentRepo.GetById);
-            this._present<Vote, Id, int>(this._voteBy00on10, this._voteRepo.GetById);
-            this._present<Vote, Id, int>(this._voteBy01on10, this._voteRepo.GetById);
-            this._present<Vote, Id, int>(this._voteBy10on00, this._voteRepo.GetById);
+            this._present<UnsafeVote, Id, int>(this._voteBy00on10, this._voteRepo.GetById);
+            this._present<UnsafeVote, Id, int>(this._voteBy01on10, this._voteRepo.GetById);
+            this._present<UnsafeVote, Id, int>(this._voteBy10on00, this._voteRepo.GetById);
         }
 
         private Id _pId0;
@@ -123,9 +123,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private UnsafeComment _commentBy01on10Again;
         private UnsafeComment _commentBy10on00;
         private UnsafeComment _commentBy10on00Again;
-        private Vote _voteBy00on10;
-        private Vote _voteBy01on10;
-        private Vote _voteBy10on00;
+        private UnsafeVote _voteBy00on10;
+        private UnsafeVote _voteBy01on10;
+        private UnsafeVote _voteBy10on00;
 
         private RAMUnsafeCharacterRepo _repo;
         private RAMFriendRepo _friendRepo;
@@ -138,7 +138,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private PraxisParticipantDel _ppDel;
         private RAMUnsafeCommentRepo _commentRepo;
         private CommentDel _commentDel;
-        private RAMVoteRepo _voteRepo;
+        private RAMUnsafeVoteRepo _voteRepo;
         private VoteDel _voteDel;
         private RAMPraxisTagRepo _pTagRepo;
         private PraxisTagDel _pTagDel;
@@ -163,7 +163,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._pTagDel = new PraxisTagDel(this._pTagRepo);
             this._pFlagRepo = new RAMPraxisFlagRepo();
             this._pFlagDel = new PraxisFlagDel(this._pFlagRepo);
-            this._voteRepo = new RAMVoteRepo();
+            this._voteRepo = new RAMUnsafeVoteRepo();
             this._voteDel = new VoteDel(this._voteRepo);
 
             this._ppDel = new PraxisParticipantDel(
@@ -253,9 +253,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._commentRepo.Insert(this._commentBy10on00Again);
             this._commentRepo.Save();
 
-            this._voteBy00on10 = new Vote(this._c0_0.Id, this._pp10.Id, pt);
-            this._voteBy01on10 = new Vote(this._c0_1.Id, this._pp10.Id, pt);
-            this._voteBy10on00 = new Vote(this._c1_0.Id, this._pp00.Id, pt);
+            this._voteBy00on10 = new UnsafeVote(this._c0_0.Id, this._pp10.Id, pt);
+            this._voteBy01on10 = new UnsafeVote(this._c0_1.Id, this._pp10.Id, pt);
+            this._voteBy10on00 = new UnsafeVote(this._c1_0.Id, this._pp00.Id, pt);
             this._voteRepo.Insert(this._voteBy00on10);
             this._voteRepo.Insert(this._voteBy01on10);
             this._voteRepo.Insert(this._voteBy10on00);
@@ -312,9 +312,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._present<UnsafeComment, Id, int>(this._commentBy01on10Again, this._commentRepo.GetById);
             this._absentt<UnsafeComment, Id, int>(this._commentBy10on00, this._commentRepo.GetById);
             this._absentt<UnsafeComment, Id, int>(this._commentBy10on00Again, this._commentRepo.GetById);
-            this._absentt<Vote, Id, int>(this._voteBy00on10, this._voteRepo.GetById);
-            this._present<Vote, Id, int>(this._voteBy01on10, this._voteRepo.GetById);
-            this._absentt<Vote, Id, int>(this._voteBy10on00, this._voteRepo.GetById);
+            this._absentt<UnsafeVote, Id, int>(this._voteBy00on10, this._voteRepo.GetById);
+            this._present<UnsafeVote, Id, int>(this._voteBy01on10, this._voteRepo.GetById);
+            this._absentt<UnsafeVote, Id, int>(this._voteBy10on00, this._voteRepo.GetById);
             Assert.AreEqual(1, this._ppRepo.GetParticipantCountViaPraxisId(this._praxis00_10.Id));
             var praxis00_10 = this._praxisRepo.GetById(this._praxis00_10.Id);
             Assert.IsFalse(praxis00_10.AreDueling);
@@ -359,9 +359,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._absentt<UnsafeComment, Id, int>(this._commentBy01on10Again, this._commentRepo.GetById);
             this._absentt<UnsafeComment, Id, int>(this._commentBy10on00, this._commentRepo.GetById);
             this._absentt<UnsafeComment, Id, int>(this._commentBy10on00Again, this._commentRepo.GetById);
-            this._absentt<Vote, Id, int>(this._voteBy00on10, this._voteRepo.GetById);
-            this._absentt<Vote, Id, int>(this._voteBy01on10, this._voteRepo.GetById);
-            this._absentt<Vote, Id, int>(this._voteBy10on00, this._voteRepo.GetById);
+            this._absentt<UnsafeVote, Id, int>(this._voteBy00on10, this._voteRepo.GetById);
+            this._absentt<UnsafeVote, Id, int>(this._voteBy01on10, this._voteRepo.GetById);
+            this._absentt<UnsafeVote, Id, int>(this._voteBy10on00, this._voteRepo.GetById);
             Assert.AreEqual(1, this._ppRepo.GetParticipantCountViaPraxisId(this._praxis00_10.Id));
             var praxis00_10 = this._praxisRepo.GetById(this._praxis00_10.Id);
             Assert.IsFalse(praxis00_10.AreDueling);

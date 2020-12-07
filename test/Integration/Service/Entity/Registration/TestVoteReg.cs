@@ -19,7 +19,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         private Id _id4;
         private RAMUnsafeFactionRepo _factionRepo;
         private RAMUnsafeTaskRepo _taskRepo;
-        private RAMVoteRepo _voteRepo;
+        private RAMUnsafeVoteRepo _voteRepo;
         private RAMUnsafeCharacterRepo _charRepo;
         private RAMUnsafePraxisRepo _praxisRepo;
         private RAMPraxisParticipantRepo _ppRepo;
@@ -40,7 +40,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             this._taskRepo = new RAMUnsafeTaskRepo();
             this._eraRepo = new RAMUnsafeEraRepo();
             this._eraReg = new EraReg(this._eraRepo);
-            this._voteRepo = new RAMVoteRepo();
+            this._voteRepo = new RAMUnsafeVoteRepo();
             this._charRepo = new RAMUnsafeCharacterRepo();
             this._praxisRepo = new RAMUnsafePraxisRepo();
             this._mtRepo = new RAMUnsafeMetaTaskRepo();
@@ -80,8 +80,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                 this._voteReg.Register(null));
 
             // Invalid left id.
-            Vote v =
-                new Vote(new Id(0), new Id(0), new PointTotal(3));
+            UnsafeVote v =
+                new UnsafeVote(new Id(0), new Id(0), new PointTotal(3));
             Assert.Throws<ArgumentException>(()=>
                 this._voteReg.Register(v));
 
@@ -151,7 +151,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             var altChar = new UnsafeCharacter(new Name("Hal"), player.Id);
             charReg.Register(altChar);
             v.CharacterId = altChar.Id;
-            v = new Vote(altChar.Id, pp.Id, new PointTotal(1));
+            v = new UnsafeVote(altChar.Id, pp.Id, new PointTotal(1));
             Assert.Throws<ArgumentException>(()=>this._voteReg.Register(v));
 
             // A happy case!
@@ -172,7 +172,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             this._ppRepo.Save();
             var ptOld = altChar.VotePointsLeft.Get;
             var newVote =
-                new Vote(newChar.Id, newPP.Id, new PointTotal(2));
+                new UnsafeVote(newChar.Id, newPP.Id, new PointTotal(2));
             this._voteReg.Register(newVote);
             var expectedPtNew = newVote.Points.Get + ptOld;
             var refreshAltChar = this._charRepo.GetById(altChar.Id);
@@ -184,7 +184,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                 new Name("Monster Hunter"),
                 newPlayer.Id
             );
-            var newNewVote = new Vote(
+            var newNewVote = new UnsafeVote(
                 newNewChar.Id,
                 newPP.Id,
                 new PointTotal(2)
