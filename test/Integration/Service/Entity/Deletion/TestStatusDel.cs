@@ -36,7 +36,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             Assert.AreEqual(actualEntity.Id, e.Id);
         }
 
-        private IStatusRepo _statusRepo;
+        private IUnsafeStatusRepo _statusRepo;
         private PraxisParticipantDel _ppDel;
         private RAMVoteRepo _voteRepo;
         private VoteDel _voteDel;
@@ -59,8 +59,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private MetaTaskUnset _mtUnset;
         private StatusDel _statusDel;
 
-        private Status _s0;
-        private Status _s1;
+        private UnsafeStatus _s0;
+        private UnsafeStatus _s1;
         private Task _t0;
         private Task _t1;
         private UnsafeMetaTask _mt0;
@@ -71,7 +71,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         [SetUp]
         public void Setup()
         {
-            this._statusRepo = new RAMStatusRepo();
+            this._statusRepo = new RAMUnsafeStatusRepo();
             this._commentRepo = new RAMCommentRepo();
             this._commentDel = new CommentDel(this._commentRepo);
             this._praxisTagRepo = new RAMPraxisTagRepo();
@@ -119,8 +119,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             );
 
             var pt = new PointTotal(2);
-            this._s0 = new Status(new Name("0"));
-            this._s1 = new Status(new Name("1"));
+            this._s0 = new UnsafeStatus(new Name("0"));
+            this._s1 = new UnsafeStatus(new Name("1"));
             this._statusRepo.Insert(this._s0);
             this._statusRepo.Insert(this._s1);
             this._statusRepo.Save();
@@ -161,7 +161,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestDeleteSad()
         {
             Name name = null;
-            Status s = null;
+            UnsafeStatus s = null;
             Assert.Throws<ArgumentNullException>(()=>this._statusDel.Delete(name));
             Assert.Throws<ArgumentNullException>(()=>this._statusDel.Delete(s));
             this._statusDel.Delete(new Name("faaaaakeeee"));
@@ -171,8 +171,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestDelete()
         {
             this._statusDel.Delete(this._s0);
-            this._absentt<Status, Name, string>(this._s0, this._statusRepo.GetById);
-            this._present<Status, Name, string>(this._s1, this._statusRepo.GetById);
+            this._absentt<UnsafeStatus, Name, string>(this._s0, this._statusRepo.GetById);
+            this._present<UnsafeStatus, Name, string>(this._s1, this._statusRepo.GetById);
             this._absentt<Task, Id, int>(this._t0, this._taskRepo.GetById);
             this._present<Task, Id, int>(this._t1, this._taskRepo.GetById);
             this._absentt<UnsafeMetaTask, Id, int>(this._mt0, this._mtRepo.GetById);
@@ -188,8 +188,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._praxisDel.Delete(this._praxis0);
             this._praxisDel.Delete(this._praxis1);
             this._statusDel.Delete(this._s0);
-            this._absentt<Status, Name, string>(this._s0, this._statusRepo.GetById);
-            this._present<Status, Name, string>(this._s1, this._statusRepo.GetById);
+            this._absentt<UnsafeStatus, Name, string>(this._s0, this._statusRepo.GetById);
+            this._present<UnsafeStatus, Name, string>(this._s1, this._statusRepo.GetById);
             this._absentt<Task, Id, int>(this._t0, this._taskRepo.GetById);
             this._present<Task, Id, int>(this._t1, this._taskRepo.GetById);
             this._absentt<UnsafeMetaTask, Id, int>(this._mt0, this._mtRepo.GetById);
@@ -205,8 +205,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._taskDel.Delete(this._t0);
             this._taskDel.Delete(this._t1);
             this._statusDel.Delete(this._s0);
-            this._absentt<Status, Name, string>(this._s0, this._statusRepo.GetById);
-            this._present<Status, Name, string>(this._s1, this._statusRepo.GetById);
+            this._absentt<UnsafeStatus, Name, string>(this._s0, this._statusRepo.GetById);
+            this._present<UnsafeStatus, Name, string>(this._s1, this._statusRepo.GetById);
             this._absentt<Task, Id, int>(this._t0, this._taskRepo.GetById);
             this._absentt<Task, Id, int>(this._t1, this._taskRepo.GetById);
             this._absentt<UnsafeMetaTask, Id, int>(this._mt0, this._mtRepo.GetById);
@@ -222,8 +222,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._mtUnset.Delete(this._mt0);
             this._mtUnset.Delete(this._mt1);
             this._statusDel.Delete(this._s0);
-            this._absentt<Status, Name, string>(this._s0, this._statusRepo.GetById);
-            this._present<Status, Name, string>(this._s1, this._statusRepo.GetById);
+            this._absentt<UnsafeStatus, Name, string>(this._s0, this._statusRepo.GetById);
+            this._present<UnsafeStatus, Name, string>(this._s1, this._statusRepo.GetById);
             this._absentt<Task, Id, int>(this._t0, this._taskRepo.GetById);
             this._present<Task, Id, int>(this._t1, this._taskRepo.GetById);
             this._absentt<UnsafeMetaTask, Id, int>(this._mt0, this._mtRepo.GetById);

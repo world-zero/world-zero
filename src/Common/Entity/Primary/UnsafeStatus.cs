@@ -1,3 +1,4 @@
+using WorldZero.Common.Interface.Entity.Marker;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Common.ValueObject.General;
 
@@ -6,15 +7,15 @@ namespace WorldZero.Common.Entity.Primary
     /// <summary>
     /// Status is a entity for a tuple of the Status table.
     /// </summary>
-    public class Status : INamedEntity
+    public class UnsafeStatus : INamedEntity, IUnsafeEntity
     {
-        public Status(Name id, string description=null)
+        public UnsafeStatus(Name id, string description=null)
             : base(id)
         {
             this.Description = description;
         }
 
-        internal Status(string id, string description)
+        internal UnsafeStatus(string id, string description)
             : base(new Name(id))
         {
             this.Description = description;
@@ -22,7 +23,7 @@ namespace WorldZero.Common.Entity.Primary
 
         public override IEntity<Name, string> Clone()
         {
-            return new Status(
+            return new UnsafeStatus(
                 this.Id,
                 this.Description
             );

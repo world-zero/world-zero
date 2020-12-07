@@ -13,10 +13,10 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
     {
         private IUnsafeMetaTaskRepo _metaTaskRepo;
         private IUnsafeFactionRepo _factionRepo;
-        private IStatusRepo _statusRepo;
+        private IUnsafeStatusRepo _statusRepo;
         private MetaTaskReg _registration;
-        private Status _status0;
-        private Status _status1;
+        private UnsafeStatus _status0;
+        private UnsafeStatus _status1;
         private UnsafeFaction _faction0;
 
         [SetUp]
@@ -24,14 +24,14 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         {
             this._metaTaskRepo = new RAMUnsafeMetaTaskRepo();
             this._factionRepo = new RAMUnsafeFactionRepo();
-            this._statusRepo = new RAMStatusRepo();
+            this._statusRepo = new RAMUnsafeStatusRepo();
             this._registration = new MetaTaskReg(
                 this._metaTaskRepo,
                 this._factionRepo,
                 this._statusRepo
             );
-            this._status0 = new Status(new Name("INVALID"));
-            this._status1 = new Status(new Name("VALID"));
+            this._status0 = new UnsafeStatus(new Name("INVALID"));
+            this._status1 = new UnsafeStatus(new Name("VALID"));
             this._statusRepo.Insert(this._status0);
             this._statusRepo.Insert(this._status1);
             this._statusRepo.Save();

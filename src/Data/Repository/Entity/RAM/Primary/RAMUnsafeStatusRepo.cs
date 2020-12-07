@@ -5,14 +5,14 @@ using WorldZero.Data.Interface.Repository.Entity.RAM.Generic;
 
 namespace WorldZero.Data.Repository.Entity.RAM.Primary
 {
-    /// <inheritdoc cref="IStatusRepo"/>
-    public class RAMStatusRepo
-        : IRAMNamedEntityRepo<Status>,
-        IStatusRepo
+    /// <inheritdoc cref="IUnsafeStatusRepo"/>
+    public class RAMUnsafeStatusRepo
+        : IRAMNamedEntityRepo<UnsafeStatus>,
+        IUnsafeStatusRepo
     {
         protected override int GetRuleCount()
         {
-            var a = new Status(new Name("good"));
+            var a = new UnsafeStatus(new Name("good"));
             return a.GetUniqueRules().Count;
         }
     }

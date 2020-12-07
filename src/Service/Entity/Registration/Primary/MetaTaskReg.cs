@@ -14,12 +14,12 @@ namespace WorldZero.Service.Entity.Registration.Primary
         { get { return (IUnsafeMetaTaskRepo) this._repo; } }
 
         protected readonly IUnsafeFactionRepo _factionRepo;
-        protected readonly IStatusRepo _statusRepo;
+        protected readonly IUnsafeStatusRepo _statusRepo;
 
         public MetaTaskReg(
             IUnsafeMetaTaskRepo metaTaskRepo,
             IUnsafeFactionRepo factionRepo,
-            IStatusRepo statusRepo
+            IUnsafeStatusRepo statusRepo
         )
             : base(metaTaskRepo)
         {

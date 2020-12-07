@@ -7,21 +7,21 @@ namespace WorldZero.Service.Entity.Registration.Primary
 {
     /// <inheritdoc cref="IEntityReg"/>
     public class StatusReg
-        : IEntityReg<Status, Name, string>
+        : IEntityReg<UnsafeStatus, Name, string>
     {
-        public static readonly Status Proposed =
-            new Status(new Name("Proposed"));
-        public static readonly Status Active =
-            new Status(new Name("Active"));
-        public static readonly Status InProgress =
-            new Status(new Name("In Progress"));
-        public static readonly Status Retired =
-            new Status(new Name("Retired"));
+        public static readonly UnsafeStatus Proposed =
+            new UnsafeStatus(new Name("Proposed"));
+        public static readonly UnsafeStatus Active =
+            new UnsafeStatus(new Name("Active"));
+        public static readonly UnsafeStatus InProgress =
+            new UnsafeStatus(new Name("In Progress"));
+        public static readonly UnsafeStatus Retired =
+            new UnsafeStatus(new Name("Retired"));
 
-        protected IStatusRepo _statusRepo
-        { get { return (IStatusRepo) this._repo; } }
+        protected IUnsafeStatusRepo _statusRepo
+        { get { return (IUnsafeStatusRepo) this._repo; } }
 
-        public StatusReg(IStatusRepo statusRepo)
+        public StatusReg(IUnsafeStatusRepo statusRepo)
             : base(statusRepo)
         {
             this.EnsureExists(StatusReg.Proposed);

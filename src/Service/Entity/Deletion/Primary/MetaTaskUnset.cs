@@ -37,7 +37,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
             this._statusedMTDel = new StatusedMTDel(this._mtRepo);
         }
 
-        public void DeleteByStatus(Status s)
+        public void DeleteByStatus(UnsafeStatus s)
         {
             this._statusedMTDel.DeleteByStatus(s);
         }
@@ -48,7 +48,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
         }
 
         public async
-        System.Threading.Tasks.Task DeleteByStatusAsync(Status s)
+        System.Threading.Tasks.Task DeleteByStatusAsync(UnsafeStatus s)
         {
             this.AssertNotNull(s, "s");
             await System.Threading.Tasks.Task.Run(() =>

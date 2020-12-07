@@ -27,7 +27,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
             : base(repo)
         { }
 
-        public void DeleteByStatus(Status s)
+        public void DeleteByStatus(UnsafeStatus s)
         {
             this.AssertNotNull(s, "s");
             this.DeleteByStatus(s.Id);
@@ -54,7 +54,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
         }
 
         public async
-        System.Threading.Tasks.Task DeleteByStatusAsync(Status s)
+        System.Threading.Tasks.Task DeleteByStatusAsync(UnsafeStatus s)
         {
             this.AssertNotNull(s, "s");
             await System.Threading.Tasks.Task.Run(() =>

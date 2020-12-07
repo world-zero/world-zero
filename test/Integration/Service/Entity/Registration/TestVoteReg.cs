@@ -112,8 +112,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
 
             // Someone is voting on their own PP with the same character, so we
             // need a praxis, so we need a task and status too.
-            var status = new Status(new Name("Active"));
-            var statusRepo = new RAMStatusRepo();
+            var status = new UnsafeStatus(new Name("Active"));
+            var statusRepo = new RAMUnsafeStatusRepo();
             var statusReg = new StatusReg(statusRepo);
             statusReg.Register(status);
 

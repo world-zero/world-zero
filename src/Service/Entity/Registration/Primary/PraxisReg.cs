@@ -42,14 +42,14 @@ namespace WorldZero.Service.Entity.Registration.Primary
 
         protected readonly ITaskRepo _taskRepo;
         protected readonly IUnsafeMetaTaskRepo _mtRepo;
-        protected readonly IStatusRepo _statusRepo;
+        protected readonly IUnsafeStatusRepo _statusRepo;
         protected readonly PraxisParticipantReg _ppReg;
 
         public PraxisReg(
             IUnsafePraxisRepo praxisRepo,
             ITaskRepo taskRepo,
             IUnsafeMetaTaskRepo mtRepo,
-            IStatusRepo statusRepo,
+            IUnsafeStatusRepo statusRepo,
             PraxisParticipantReg ppReg
         )
             : base(praxisRepo)

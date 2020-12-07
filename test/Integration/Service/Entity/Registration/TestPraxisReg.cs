@@ -23,10 +23,10 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         private PraxisParticipantReg _ppReg;
         private ITaskRepo _taskRepo;
         private IUnsafeMetaTaskRepo _mtRepo;
-        private IStatusRepo _statusRepo;
+        private IUnsafeStatusRepo _statusRepo;
         private PraxisReg _registration;
-        private Status _status0;
-        private Status _status1;
+        private UnsafeStatus _status0;
+        private UnsafeStatus _status1;
         private Task _t;
         private UnsafeCharacter _c;
         private UnsafePraxis _p;
@@ -58,7 +58,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                 this._factionRepo,
                 this._eraReg
             );
-            this._statusRepo = new RAMStatusRepo();
+            this._statusRepo = new RAMUnsafeStatusRepo();
             this._registration = new PraxisReg(
                 this._praxisRepo,
                 this._taskRepo,
