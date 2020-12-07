@@ -7,20 +7,20 @@ using WorldZero.Common.Entity.Relation;
 
 namespace WorldZero.Data.Repository.Entity.RAM.Relation
 {
-    /// <inheritdoc cref="IFriendRepo"/>
-    public class RAMFriendRepo
+    /// <inheritdoc cref="IUnsafeFriendRepo"/>
+    public class RAMUnsafeFriendRepo
         : IRAMEntitySelfRelationRepo
           <
-            Friend,
+            UnsafeFriend,
             Id,
             int,
             RelationDTO<Id, int, Id, int>
           >,
-          IFriendRepo
+          IUnsafeFriendRepo
     {
         protected override int GetRuleCount()
         {
-            var a = new Friend(new Id(3), new Id(2));
+            var a = new UnsafeFriend(new Id(3), new Id(2));
             return a.GetUniqueRules().Count;
         }
 

@@ -19,7 +19,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         private Id _id2;
         private Id _id3;
         private Id _id4;
-        private IFriendRepo _friendRepo;
+        private IUnsafeFriendRepo _friendRepo;
         private IUnsafeCharacterRepo _characterRepo;
         private IUnsafeFoeRepo _foeRepo;
         private FoeReg _foeReg;
@@ -83,7 +83,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                 new Name("second"), new Id(43)
             ));
             this._characterRepo.Save();
-            var friend0 = new Friend(this._id1, this._id2);
+            var friend0 = new UnsafeFriend(this._id1, this._id2);
             this._friendRepo.Insert(friend0);
             this._friendRepo.Save();
 
@@ -95,7 +95,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
     }
 
     public class DummyRAMFriendRepo
-        : RAMFriendRepo
+        : RAMUnsafeFriendRepo
     {
         public DummyRAMFriendRepo()
             : base()

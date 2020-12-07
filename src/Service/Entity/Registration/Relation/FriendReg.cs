@@ -16,7 +16,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
     public class FriendReg
         : IEntityRelationReg
         <
-            Friend,
+            UnsafeFriend,
             UnsafeCharacter,
             Id,
             int,
@@ -26,13 +26,13 @@ namespace WorldZero.Service.Entity.Registration.Relation
             RelationDTO<Id, int, Id, int>
         >
     {
-        protected IFriendRepo _friendRepo
-        { get { return (IFriendRepo) this._repo; } }
+        protected IUnsafeFriendRepo _friendRepo
+        { get { return (IUnsafeFriendRepo) this._repo; } }
 
         protected readonly IUnsafeFoeRepo _foeRepo;
 
         public FriendReg(
-            IFriendRepo friendRepo,
+            IUnsafeFriendRepo friendRepo,
             IUnsafeCharacterRepo characterRepo,
             IUnsafeFoeRepo foeRepo
         )
@@ -41,9 +41,9 @@ namespace WorldZero.Service.Entity.Registration.Relation
             this._foeRepo = foeRepo;
         }
 
-        public override Friend Register(Friend f)
+        public override UnsafeFriend Register(UnsafeFriend f)
         {
-            Friend inverseF = new Friend(f.Id, f.RightId, f.LeftId);
+            UnsafeFriend inverseF = new UnsafeFriend(f.Id, f.RightId, f.LeftId);
 
             UnsafeFoe fMatch = null;
             UnsafeFoe inverseFMatch = null;

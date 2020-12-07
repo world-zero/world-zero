@@ -1,5 +1,6 @@
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
+using WorldZero.Common.Interface.Entity.Marker;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Common.Interface.Entity.Generic.Relation;
 
@@ -13,7 +14,7 @@ namespace WorldZero.Common.Entity.Relation
     /// <br />
     /// Right relation: `SecondCharacterId`
     /// </summary>
-    public class Friend : IEntitySelfRelation<Id, int>
+    public class UnsafeFriend : IEntitySelfRelation<Id, int>, IUnsafeEntity
     {
         public override RelationDTO<Id, int, Id, int> GetDTO()
         {
@@ -41,23 +42,23 @@ namespace WorldZero.Common.Entity.Relation
             set { this.RightId = value; }
         }
 
-        public Friend(Id firstCharacterId, Id secondCharacterId)
+        public UnsafeFriend(Id firstCharacterId, Id secondCharacterId)
             : base(firstCharacterId, secondCharacterId)
         { }
 
-        public Friend(Id id, Id firstCharacterId, Id secondCharacterId)
+        public UnsafeFriend(Id id, Id firstCharacterId, Id secondCharacterId)
             : base(id, firstCharacterId, secondCharacterId)
         { }
 
-        public Friend(RelationDTO<Id, int, Id, int> dto)
+        public UnsafeFriend(RelationDTO<Id, int, Id, int> dto)
             : base(dto.LeftId, dto.RightId)
         { }
 
-        public Friend(Id id, RelationDTO<Id, int, Id, int> dto)
+        public UnsafeFriend(Id id, RelationDTO<Id, int, Id, int> dto)
             : base(id, dto.LeftId, dto.RightId)
         { }
 
-        internal Friend(int id, int firstCharacterId, int secondCharacterId)
+        internal UnsafeFriend(int id, int firstCharacterId, int secondCharacterId)
             : base(
                 new Id(id),
                 new Id(firstCharacterId),
@@ -67,7 +68,7 @@ namespace WorldZero.Common.Entity.Relation
 
         public override IEntity<Id, int> Clone()
         {
-            return new Friend(
+            return new UnsafeFriend(
                 this.Id,
                 this.LeftId,
                 this.RightId

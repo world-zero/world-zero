@@ -29,12 +29,12 @@ namespace WorldZero.Service.Entity.Registration.Relation
         protected IUnsafeFoeRepo _foeRepo
         { get { return (IUnsafeFoeRepo) this._repo; } }
 
-        protected readonly IFriendRepo _friendRepo;
+        protected readonly IUnsafeFriendRepo _friendRepo;
 
         public FoeReg(
             IUnsafeFoeRepo foeRepo,
             IUnsafeCharacterRepo characterRepo,
-            IFriendRepo friendRepo
+            IUnsafeFriendRepo friendRepo
         )
             : base(foeRepo, characterRepo, characterRepo)
         {
@@ -47,8 +47,8 @@ namespace WorldZero.Service.Entity.Registration.Relation
             this.AssertNotNull(f, "f");
             UnsafeFoe inverseF = new UnsafeFoe(f.Id, f.RightId, f.LeftId);
 
-            Friend fMatch = null;
-            Friend inverseFMatch = null;
+            UnsafeFriend fMatch = null;
+            UnsafeFriend inverseFMatch = null;
 
             this._friendRepo.BeginTransaction(true);
             try

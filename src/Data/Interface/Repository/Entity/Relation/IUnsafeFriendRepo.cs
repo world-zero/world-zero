@@ -6,10 +6,10 @@ using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
 
 namespace WorldZero.Data.Interface.Repository.Entity.Relation
 {
-    public interface IFriendRepo
+    public interface IUnsafeFriendRepo
         : IEntitySelfRelationRepo
           <
-            Friend,
+            UnsafeFriend,
             Id,
             int,
             RelationDTO<Id, int, Id, int>

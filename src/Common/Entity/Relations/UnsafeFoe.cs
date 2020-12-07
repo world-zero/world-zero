@@ -1,5 +1,6 @@
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
+using WorldZero.Common.Interface.Entity.Marker;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Common.Interface.Entity.Generic.Relation;
 
@@ -13,7 +14,7 @@ namespace WorldZero.Common.Entity.Relation
     /// <br />
     /// Right relation: `SecondCharacterId`
     /// </summary>
-    public class UnsafeFoe : IEntitySelfRelation<Id, int>
+    public class UnsafeFoe : IEntitySelfRelation<Id, int>, IUnsafeEntity
     {
         public override RelationDTO<Id, int, Id, int> GetDTO()
         {

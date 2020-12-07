@@ -51,7 +51,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
 
         private RAMUnsafePlayerRepo _playerRepo;
         private RAMUnsafeCharacterRepo _charRepo;
-        private RAMFriendRepo _friendRepo;
+        private RAMUnsafeFriendRepo _friendRepo;
         private FriendDel _friendDel;
         private RAMUnsafeFoeRepo _foeRepo;
         private FoeDel _foeDel;
@@ -80,7 +80,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void Setup()
         {
             this._charRepo = new RAMUnsafeCharacterRepo();
-            this._friendRepo = new RAMFriendRepo();
+            this._friendRepo = new RAMUnsafeFriendRepo();
             this._friendDel = new FriendDel(this._friendRepo);
             this._foeRepo = new RAMUnsafeFoeRepo();
             this._foeDel = new FoeDel(this._foeRepo);
