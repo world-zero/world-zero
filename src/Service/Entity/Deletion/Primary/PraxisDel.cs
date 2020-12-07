@@ -85,13 +85,13 @@ namespace WorldZero.Service.Entity.Deletion.Primary
             this.Transaction<Id>(op, taskId, true);
         }
 
-        public void DeleteByTask(Task task)
+        public void DeleteByTask(UnsafeTask task)
         {
             this.AssertNotNull(task, "task");
             this.DeleteByTask(task.Id);
         }
 
-        public async System.Threading.Tasks.Task DeleteByTaskasync(Task task)
+        public async System.Threading.Tasks.Task DeleteByTaskasync(UnsafeTask task)
         {
             this.AssertNotNull(task, "task");
             await System.Threading.Tasks.Task.Run(() =>

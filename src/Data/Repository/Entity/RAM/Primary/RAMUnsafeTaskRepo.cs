@@ -8,17 +8,17 @@ using WorldZero.Data.Interface.Repository.Entity.RAM.Generic;
 
 namespace WorldZero.Data.Repository.Entity.RAM.Primary
 {
-    /// <inheritdoc cref="ITaskRepo"/>
-    public class RAMTaskRepo
-        : IRAMIdStatusedEntityRepo<Task>,
-        ITaskRepo
+    /// <inheritdoc cref="IUnsafeTaskRepo"/>
+    public class RAMUnsafeTaskRepo
+        : IRAMIdStatusedEntityRepo<UnsafeTask>,
+        IUnsafeTaskRepo
     {
-        public IEnumerable<Task> GetByFactionId(Name factionId)
+        public IEnumerable<UnsafeTask> GetByFactionId(Name factionId)
         {
             if (factionId == null)
                 throw new ArgumentNullException("factionId");
             
-            IEnumerable<Task> tasks =
+            IEnumerable<UnsafeTask> tasks =
                 from taskTemp in this._saved.Values
                 let t = this.TEntityCast(taskTemp)
                 where t.FactionId == factionId
@@ -32,7 +32,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Primary
 
         protected override int GetRuleCount()
         {
-            var a = new Task(
+            var a = new UnsafeTask(
                 new Name("x"),
                 new Name("f"),
                 "x",

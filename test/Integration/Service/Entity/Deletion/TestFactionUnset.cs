@@ -44,7 +44,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private RAMUnsafeMetaTaskRepo _mtRepo;
         private RAMUnsafeCharacterRepo _charRepo;
         private RAMUnsafePraxisRepo _praxisRepo;
-        private RAMTaskRepo _taskRepo;
+        private RAMUnsafeTaskRepo _taskRepo;
         private MetaTaskUnset _mtUnset;
         private RAMTaskTagRepo _taskTagRepo;
         private TaskTagDel _taskTagDel;
@@ -64,9 +64,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private UnsafeMetaTask _mt0_0;
         private UnsafeMetaTask _mt0_1;
         private UnsafeMetaTask _mt1_0;
-        private Task _t0_0;
-        private Task _t1_0;
-        private Task _t1_1;
+        private UnsafeTask _t0_0;
+        private UnsafeTask _t1_0;
+        private UnsafeTask _t1_1;
 
         [SetUp]
         public void Setup()
@@ -75,7 +75,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._mtRepo = new RAMUnsafeMetaTaskRepo();
             this._praxisRepo = new RAMUnsafePraxisRepo();
             this._charRepo = new RAMUnsafeCharacterRepo();
-            this._taskRepo = new RAMTaskRepo();
+            this._taskRepo = new RAMUnsafeTaskRepo();
             this._mtUnset = new MetaTaskUnset(
                 this._mtRepo,
                 this._praxisRepo
@@ -136,9 +136,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._mtRepo.Insert(this._mt1_0);
             this._mtRepo.Save();
 
-            this._t0_0 = new Task(this._faction0.Id, s, "x", pt, level);
-            this._t1_0 = new Task(this._faction1.Id, s, "x", pt, level);
-            this._t1_1 = new Task(this._faction1.Id, s, "x", pt, level);
+            this._t0_0 = new UnsafeTask(this._faction0.Id, s, "x", pt, level);
+            this._t1_0 = new UnsafeTask(this._faction1.Id, s, "x", pt, level);
+            this._t1_1 = new UnsafeTask(this._faction1.Id, s, "x", pt, level);
             this._taskRepo.Insert(this._t0_0);
             this._taskRepo.Insert(this._t1_0);
             this._taskRepo.Insert(this._t1_1);
@@ -175,9 +175,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._absentt<UnsafeMetaTask, Id, int>(this._mt0_0, this._mtRepo.GetById);
             this._absentt<UnsafeMetaTask, Id, int>(this._mt0_1, this._mtRepo.GetById);
             this._present<UnsafeMetaTask, Id, int>(this._mt1_0, this._mtRepo.GetById);
-            this._absentt<Task, Id, int>(this._t0_0, this._taskRepo.GetById);
-            this._present<Task, Id, int>(this._t1_0, this._taskRepo.GetById);
-            this._present<Task, Id, int>(this._t1_1, this._taskRepo.GetById);
+            this._absentt<UnsafeTask, Id, int>(this._t0_0, this._taskRepo.GetById);
+            this._present<UnsafeTask, Id, int>(this._t1_0, this._taskRepo.GetById);
+            this._present<UnsafeTask, Id, int>(this._t1_1, this._taskRepo.GetById);
         }
 
         [Test]
@@ -187,9 +187,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._present<UnsafeMetaTask, Id, int>(this._mt0_0, this._mtRepo.GetById);
             this._present<UnsafeMetaTask, Id, int>(this._mt0_1, this._mtRepo.GetById);
             this._absentt<UnsafeMetaTask, Id, int>(this._mt1_0, this._mtRepo.GetById);
-            this._present<Task, Id, int>(this._t0_0, this._taskRepo.GetById);
-            this._absentt<Task, Id, int>(this._t1_0, this._taskRepo.GetById);
-            this._absentt<Task, Id, int>(this._t1_1, this._taskRepo.GetById);
+            this._present<UnsafeTask, Id, int>(this._t0_0, this._taskRepo.GetById);
+            this._absentt<UnsafeTask, Id, int>(this._t1_0, this._taskRepo.GetById);
+            this._absentt<UnsafeTask, Id, int>(this._t1_1, this._taskRepo.GetById);
         }
 
         [Test]

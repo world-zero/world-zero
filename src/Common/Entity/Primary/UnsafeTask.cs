@@ -1,4 +1,5 @@
 using System;
+using WorldZero.Common.Interface.Entity.Marker;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Common.ValueObject.General;
 
@@ -7,9 +8,9 @@ namespace WorldZero.Common.Entity.Primary
     /// <summary>
     /// Task is a entity for a tuple of the Task table.
     /// </summary>
-    public class Task : IIdStatusedEntity
+    public class UnsafeTask : IIdStatusedEntity, IUnsafeEntity
     {
-        public Task(
+        public UnsafeTask(
             Name factionId,
             Name statusId,
             string summary,
@@ -30,7 +31,7 @@ namespace WorldZero.Common.Entity.Primary
             );
         }
 
-        public Task(
+        public UnsafeTask(
             Id id,
             Name factionId,
             Name statusId,
@@ -52,7 +53,7 @@ namespace WorldZero.Common.Entity.Primary
             );
         }
 
-        internal Task(
+        internal UnsafeTask(
             int id,
             string factionId,
             string statusId,
@@ -94,7 +95,7 @@ namespace WorldZero.Common.Entity.Primary
 
         public override IEntity<Id, int> Clone()
         {
-            return new Task(
+            return new UnsafeTask(
                 this.Id,
                 this.FactionId,
                 this.StatusId,

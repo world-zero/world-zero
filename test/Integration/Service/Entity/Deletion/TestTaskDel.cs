@@ -41,7 +41,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private PraxisParticipantDel _ppDel;
         private RAMVoteRepo _voteRepo;
         private VoteDel _voteDel;
-        private RAMTaskRepo _taskRepo;
+        private RAMUnsafeTaskRepo _taskRepo;
         private ITaskTagRepo _taskTagRepo;
         private TaskTagDel _taskTagDel;
         private ITaskFlagRepo _taskFlagRepo;
@@ -59,9 +59,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
 
         private UnsafeFaction _faction0;
         private UnsafeFaction _faction1;
-        private Task _t0;
-        private Task _t1;
-        private Task _t2;
+        private UnsafeTask _t0;
+        private UnsafeTask _t1;
+        private UnsafeTask _t2;
         private TaskTag _tTag0_0;
         private TaskTag _tTag0_1;
         private TaskTag _tTag1_0;
@@ -83,11 +83,11 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             var level = new Level(1);
             this._faction0 = new UnsafeFaction(new Name("a"));
             this._faction1 = new UnsafeFaction(new Name("b"));
-            this._t0 = new Task(this._faction0.Id, status, "x", pt, level);
-            this._t1 = new Task(this._faction0.Id, status, "x", pt, level);
-            this._t2 = new Task(this._faction1.Id, status, "x", pt, level);
+            this._t0 = new UnsafeTask(this._faction0.Id, status, "x", pt, level);
+            this._t1 = new UnsafeTask(this._faction0.Id, status, "x", pt, level);
+            this._t2 = new UnsafeTask(this._faction1.Id, status, "x", pt, level);
 
-            this._taskRepo = new RAMTaskRepo();
+            this._taskRepo = new RAMUnsafeTaskRepo();
             this._taskRepo.Insert(this._t0);
             this._taskRepo.Insert(this._t1);
             this._taskRepo.Insert(this._t2);
@@ -177,7 +177,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         [Test]
         public void TestDeleteSad()
         {
-            Task t = null;
+            UnsafeTask t = null;
             Id id = null;
             Assert.Throws<ArgumentNullException>(()=>this._del.Delete(t));
             Assert.Throws<ArgumentNullException>(()=>this._del.Delete(id));
@@ -252,18 +252,18 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestDeleteByFaction_faction0()
         {
             this._del.DeleteByFaction(this._faction0);
-            this._absentt<Task, Id, int>(this._t0, this._taskRepo.GetById);
-            this._absentt<Task, Id, int>(this._t1, this._taskRepo.GetById);
-            this._present<Task, Id, int>(this._t2, this._taskRepo.GetById);
+            this._absentt<UnsafeTask, Id, int>(this._t0, this._taskRepo.GetById);
+            this._absentt<UnsafeTask, Id, int>(this._t1, this._taskRepo.GetById);
+            this._present<UnsafeTask, Id, int>(this._t2, this._taskRepo.GetById);
         }
 
         [Test]
         public void TestDeleteByFaction_faction1()
         {
             this._del.DeleteByFaction(this._faction1);
-            this._present<Task, Id, int>(this._t0, this._taskRepo.GetById);
-            this._present<Task, Id, int>(this._t1, this._taskRepo.GetById);
-            this._absentt<Task, Id, int>(this._t2, this._taskRepo.GetById);
+            this._present<UnsafeTask, Id, int>(this._t0, this._taskRepo.GetById);
+            this._present<UnsafeTask, Id, int>(this._t1, this._taskRepo.GetById);
+            this._absentt<UnsafeTask, Id, int>(this._t2, this._taskRepo.GetById);
         }
 
         [Test]

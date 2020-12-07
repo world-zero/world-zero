@@ -21,13 +21,13 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         private IUnsafeCharacterRepo _charRepo;
         private DummyRAMPraxisRepo _praxisRepo;
         private PraxisParticipantReg _ppReg;
-        private ITaskRepo _taskRepo;
+        private IUnsafeTaskRepo _taskRepo;
         private IUnsafeMetaTaskRepo _mtRepo;
         private IUnsafeStatusRepo _statusRepo;
         private PraxisReg _registration;
         private UnsafeStatus _status0;
         private UnsafeStatus _status1;
-        private Task _t;
+        private UnsafeTask _t;
         private UnsafeCharacter _c;
         private UnsafePraxis _p;
         private UnsafeMetaTask _mt;
@@ -48,7 +48,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             this._charRepo = new RAMUnsafeCharacterRepo();
             this._praxisRepo = new DummyRAMPraxisRepo();
             this._mtRepo = new RAMUnsafeMetaTaskRepo();
-            this._taskRepo = new RAMTaskRepo();
+            this._taskRepo = new RAMUnsafeTaskRepo();
             this._ppReg = new PraxisParticipantReg(
                 this._ppRepo,
                 this._praxisRepo,
@@ -71,7 +71,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             this._statusRepo.Insert(this._status0);
             this._statusRepo.Insert(this._status1);
             this._statusRepo.Save();
-            this._t = new Task(
+            this._t = new UnsafeTask(
                 new Name("Legion of DIO"),
                 this._status0.Id,
                 "DIO's minions.",

@@ -8,27 +8,27 @@ using NUnit.Framework;
 namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
 {
     [TestFixture]
-    public class TestRAMTaskRepo
+    public class TestRAMUnsafeTaskRepo
     {
-        private RAMTaskRepo _taskRepo;
+        private RAMUnsafeTaskRepo _taskRepo;
         private Name _f0;
         private Name _f1;
-        private Task _t0_0;
-        private Task _t0_1;
-        private Task _t1_0;
+        private UnsafeTask _t0_0;
+        private UnsafeTask _t0_1;
+        private UnsafeTask _t1_0;
 
         [SetUp]
         public void Setup()
         {
-            this._taskRepo = new RAMTaskRepo();
+            this._taskRepo = new RAMUnsafeTaskRepo();
             var status = new Name("x");
             var pt = new PointTotal(2);
             var level = new Level(2);
             this._f0 = new Name("first");
             this._f1 = new Name("second");
-            this._t0_0 = new Task(this._f0, status, "x", pt, level);
-            this._t0_1 = new Task(this._f0, status, "a", pt, level);
-            this._t1_0 = new Task(this._f1, status, "y", pt, level);
+            this._t0_0 = new UnsafeTask(this._f0, status, "x", pt, level);
+            this._t0_1 = new UnsafeTask(this._f0, status, "a", pt, level);
+            this._t1_0 = new UnsafeTask(this._f1, status, "y", pt, level);
             this._taskRepo.Insert(this._t0_0);
             this._taskRepo.Insert(this._t0_1);
             this._taskRepo.Insert(this._t1_0);

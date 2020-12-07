@@ -14,17 +14,17 @@ namespace WorldZero.Service.Entity.Deletion.Primary
     /// Praxises on that task - this involves using those corresponding
     /// deletion service classes.
     /// </summary>
-    public class TaskDel : IIdStatusedEntityDel<Task>
+    public class TaskDel : IIdStatusedEntityDel<UnsafeTask>
     {
-        protected ITaskRepo _taskRepo
-        { get { return (ITaskRepo) this._repo; } }
+        protected IUnsafeTaskRepo _taskRepo
+        { get { return (IUnsafeTaskRepo) this._repo; } }
 
         protected readonly TaskTagDel _taskTagDel;
         protected readonly TaskFlagDel _taskFlagDel;
         protected readonly PraxisDel _praxisDel;
 
         public TaskDel(
-            ITaskRepo taskRepo,
+            IUnsafeTaskRepo taskRepo,
             TaskTagDel taskTagDel,
             TaskFlagDel taskFlagDel,
             PraxisDel praxisDel
@@ -63,13 +63,13 @@ namespace WorldZero.Service.Entity.Deletion.Primary
         {
             void f(Name factionName)
             {
-                IEnumerable<Task> tasks;
+                IEnumerable<UnsafeTask> tasks;
                 try
                 { tasks = this._taskRepo.GetByFactionId(factionName); }
                 catch (ArgumentException)
                 { return; }
 
-                foreach (Task t in tasks)
+                foreach (UnsafeTask t in tasks)
                     this.Delete(t);
             }
 

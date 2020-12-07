@@ -16,18 +16,18 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
     public class TestTaskFlagReg
     {
         private ITaskFlagRepo _tfRepo;
-        private ITaskRepo _taskRepo;
+        private IUnsafeTaskRepo _taskRepo;
         private IUnsafeFlagRepo _flagRepo;
         private TaskFlagReg _reg;
         private UnsafeFlag _f;
         private PointTotal _pt;
-        private Task _t;
+        private UnsafeTask _t;
 
         [SetUp]
         public void Setup()
         {
             this._tfRepo = new RAMTaskFlagRepo();
-            this._taskRepo = new RAMTaskRepo();
+            this._taskRepo = new RAMUnsafeTaskRepo();
             this._flagRepo = new RAMUnsafeFlagRepo();
             this._reg = new TaskFlagReg(
                 this._tfRepo,
@@ -41,7 +41,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
             this._flagRepo.Save();
 
             this._pt = new PointTotal(100);
-            this._t = new Task(
+            this._t = new UnsafeTask(
                 new Name("faction"),
                 StatusReg.Active.Id,
                 "summary",

@@ -6,7 +6,7 @@ using System;
 namespace WorldZero.Test.Unit.Common.Entity.Primary
 {
     [TestFixture]
-    public class TestTask
+    public class TestUnsafeTask
     {
         private Id _taskId;
         private string _summary;
@@ -15,7 +15,7 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
         private Level _minLevel;
         private Name _factionId;
         private Name _statusId;
-        private Task _t;
+        private UnsafeTask _t;
 
         [SetUp]
         public void Setup()
@@ -28,7 +28,7 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
             this._factionId = new Name("foo");
             this._statusId = new Name("bar");
 
-            this._t = new Task(
+            this._t = new UnsafeTask(
                 this._taskId,
                 this._factionId,
                 this._statusId,
@@ -42,7 +42,7 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
         [Test]
         public void TestDefaultValues()
         {
-            var t = new Task(
+            var t = new UnsafeTask(
                 this._factionId,
                 this._statusId,
                 this._summary,
@@ -57,7 +57,7 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
             Assert.AreEqual(this._level, t.Level);
             Assert.AreEqual(new Level(0), t.MinLevel);
 
-            t = new Task(
+            t = new UnsafeTask(
                 this._factionId,
                 this._statusId,
                 this._summary,

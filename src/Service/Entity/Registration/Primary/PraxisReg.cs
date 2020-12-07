@@ -40,14 +40,14 @@ namespace WorldZero.Service.Entity.Registration.Primary
         protected IUnsafePraxisRepo _praxisRepo
         { get { return (IUnsafePraxisRepo) this._repo; } }
 
-        protected readonly ITaskRepo _taskRepo;
+        protected readonly IUnsafeTaskRepo _taskRepo;
         protected readonly IUnsafeMetaTaskRepo _mtRepo;
         protected readonly IUnsafeStatusRepo _statusRepo;
         protected readonly PraxisParticipantReg _ppReg;
 
         public PraxisReg(
             IUnsafePraxisRepo praxisRepo,
-            ITaskRepo taskRepo,
+            IUnsafeTaskRepo taskRepo,
             IUnsafeMetaTaskRepo mtRepo,
             IUnsafeStatusRepo statusRepo,
             PraxisParticipantReg ppReg
@@ -100,7 +100,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
             this._praxisRepo.BeginTransaction(true);
             try
             {
-                Task t = this._verifyTask(p);
+                UnsafeTask t = this._verifyTask(p);
                 UnsafeMetaTask mt = this._verifyMetaTask(p);
                 this._praxisRepo.Insert(p);
                 this._praxisRepo.Save();
@@ -128,9 +128,9 @@ namespace WorldZero.Service.Entity.Registration.Primary
             }
         }
 
-        private Task _verifyTask(UnsafePraxis p)
+        private UnsafeTask _verifyTask(UnsafePraxis p)
         {
-            Task t;
+            UnsafeTask t;
             try
             {
                 t = this._taskRepo.GetById(p.TaskId);

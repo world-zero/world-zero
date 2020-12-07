@@ -15,7 +15,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
     public class TestPraxisParticipantReg
     {
         private PointTotal _pt;
-        private RAMTaskRepo _taskRepo;
+        private RAMUnsafeTaskRepo _taskRepo;
         private RAMUnsafeFactionRepo _factionRepo;
         private DummyRAMPraxisParticipantRepo _ppRepo;
         private DummyRAMPraxisRepo _praxisRepo;
@@ -38,7 +38,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         [SetUp]
         public void Setup()
         {
-            this._taskRepo = new RAMTaskRepo();
+            this._taskRepo = new RAMUnsafeTaskRepo();
             this._eraRepo = new RAMUnsafeEraRepo();
             this._e = new UnsafeEra(
                 new Name("Testing"),
@@ -63,7 +63,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                 this._eraReg
             );
 
-            var task = new Task(
+            var task = new UnsafeTask(
                 new Name("x"),
                 StatusReg.Active.Id,
                 "z",

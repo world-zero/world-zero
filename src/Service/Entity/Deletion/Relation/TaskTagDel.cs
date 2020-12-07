@@ -11,7 +11,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
     public class TaskTagDel : ITaggedEntityDel
     <
         TaskTag,
-        Task,
+        UnsafeTask,
         Id,
         int,
         RelationDTO<Id, int, Name, string>
@@ -24,7 +24,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         /// <remarks>
         /// This is just a wrapper for `DeleteByLeftId()`.
         /// </remarks>
-        public void DeleteByTask(Task task)
+        public void DeleteByTask(UnsafeTask task)
         {
             this.AssertNotNull(task, "task");
             this.DeleteByLeft(task.Id);
@@ -43,7 +43,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         /// This is just a wrapper for `DeleteByLeftIdAsync()`.
         /// </remarks>
         public async
-        System.Threading.Tasks.Task DeleteByTaskAsync(Task task)
+        System.Threading.Tasks.Task DeleteByTaskAsync(UnsafeTask task)
         {
             this.AssertNotNull(task, "task");
             await System.Threading.Tasks.Task.Run(() =>

@@ -277,7 +277,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestDeleteByTaskSadBad()
         {
             Id id = null;
-            Task t = null;
+            UnsafeTask t = null;
             Assert.Throws<ArgumentNullException>(()=>
                 this._del.DeleteByTask(id));
             Assert.Throws<ArgumentNullException>(()=>

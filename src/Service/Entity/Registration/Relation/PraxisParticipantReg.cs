@@ -66,7 +66,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
         { get { return (IUnsafeCharacterRepo) this._rightRepo; } }
 
         protected readonly IUnsafeMetaTaskRepo _mtRepo;
-        protected readonly ITaskRepo _taskRepo;
+        protected readonly IUnsafeTaskRepo _taskRepo;
         protected readonly IUnsafeFactionRepo _factionRepo;
         protected readonly EraReg _eraReg;
         protected ISet<Name> _praxisLiveStatuses;
@@ -76,7 +76,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             IUnsafePraxisRepo praxisRepo,
             IUnsafeCharacterRepo characterRepo,
             IUnsafeMetaTaskRepo mtRepo,
-            ITaskRepo taskRepo,
+            IUnsafeTaskRepo taskRepo,
             IUnsafeFactionRepo factionRepo,
             EraReg eraReg
         )
