@@ -42,9 +42,9 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
             Assert.Throws<ArgumentException>(()=>
                 this._factionRepo.GetByAbilityId(new Name("fds")));
 
-            var abilityRepo = new RAMAbilityRepo();
-            var ability0 = new Ability(new Name("a0"), "vxk");
-            var ability1 = new Ability(new Name("a1"), "fdsf");
+            var abilityRepo = new RAMUnsafeAbilityRepo();
+            var ability0 = new UnsafeAbility(new Name("a0"), "vxk");
+            var ability1 = new UnsafeAbility(new Name("a1"), "fdsf");
             abilityRepo.Insert(ability0);
             abilityRepo.Insert(ability1);
             abilityRepo.Save();

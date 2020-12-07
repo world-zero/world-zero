@@ -12,21 +12,21 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
     public class TestFactionReg
     {
         private IFactionRepo _factionRepo;
-        private IAbilityRepo _abilityRepo;
+        private IUnsafeAbilityRepo _abilityRepo;
         private FactionReg _registration;
         private Faction _faction0;
-        private Ability _ability0;
+        private UnsafeAbility _ability0;
 
         [SetUp]
         public void Setup()
         {
             this._factionRepo = new RAMFactionRepo();
-            this._abilityRepo = new RAMAbilityRepo();
+            this._abilityRepo = new RAMUnsafeAbilityRepo();
             this._registration = new FactionReg(
                 this._factionRepo,
                 this._abilityRepo
             );
-            this._ability0 = new Ability(new Name("Ze Worldo"), "Stop time for 5 seconds.");
+            this._ability0 = new UnsafeAbility(new Name("Ze Worldo"), "Stop time for 5 seconds.");
             this._abilityRepo.Insert(this._ability0);
             this._abilityRepo.Save();
             this._faction0 = new Faction(

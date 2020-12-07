@@ -118,9 +118,9 @@ namespace WorldZero.Port.Admin
         private void _setupAbilitiesFactions()
         {
             PastDate now = new PastDate(DateTime.UtcNow);
-            Ability ability;
+            UnsafeAbility ability;
 
-            ability = new Ability(
+            ability = new UnsafeAbility(
                 new Name("Beginner's Bonus"), 
                 String.Join(" ",
                     "You get 100% points on all tasks you do. You can sign up",
@@ -135,7 +135,7 @@ namespace WorldZero.Port.Admin
                 new Name("UA"), now, null, ability.Id
             ));
 
-            ability = new Ability(
+            ability = new UnsafeAbility(
                 new Name("Jack of all Trades"),
                 "You complete tasks for all factions at 80% of the points."
             );
@@ -144,7 +144,7 @@ namespace WorldZero.Port.Admin
                 new Name("UA Masters"), now, null, ability.Id
             ));
 
-            ability = new Ability(
+            ability = new UnsafeAbility(
                 new Name("Competitor"), 
                 "You will receive an extra 10% of points from duels."
             );
@@ -153,7 +153,7 @@ namespace WorldZero.Port.Admin
                 new Name("Snide"), now, null, ability.Id
             ));
 
-            ability = new Ability(
+            ability = new UnsafeAbility(
                 new Name("Collaborator"), 
                 String.Join(" ",
                     "If you complete a task for your group, you receive 110%",
@@ -166,7 +166,7 @@ namespace WorldZero.Port.Admin
                 new Name("Gestalt"), now, null, ability.Id
             ));
 
-            ability = new Ability(
+            ability = new UnsafeAbility(
                 new Name("Historian"),
                 "You may sign up for approved pretired / retired tasks."
             );
@@ -175,7 +175,7 @@ namespace WorldZero.Port.Admin
                 new Name("Journeymen"), now, null, ability.Id
             ));
 
-            ability = new Ability(
+            ability = new UnsafeAbility(
                 new Name("Reiterator"), 
                 String.Join(" ",
                     "You may complete one task of each level a certain",
@@ -191,7 +191,7 @@ namespace WorldZero.Port.Admin
                 new Name("Singularity"), now
             ));
 
-            ability = new Ability(
+            ability = new UnsafeAbility(
                 new Name("Open Season"), 
                 String.Join(" ",
                     "You may complete any task with any meta task(s) from any",

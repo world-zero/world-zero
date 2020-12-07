@@ -7,10 +7,10 @@ namespace WorldZero.Service.Entity.Registration.Primary
 {
     /// <inheritdoc cref="IEntityReg"/>
     public class AbilityReg
-        : IEntityReg<Ability, Name, string>
+        : IEntityReg<UnsafeAbility, Name, string>
     {
-        public static readonly Ability Reiterator =
-            new Ability(
+        public static readonly UnsafeAbility Reiterator =
+            new UnsafeAbility(
                 new Name("Reiterator"),
                 string.Join("",
                     "This ability allows characters to complete tasks more ",
@@ -18,10 +18,10 @@ namespace WorldZero.Service.Entity.Registration.Primary
                 )
             );
 
-        protected IAbilityRepo _abilityRepo
-        { get { return (IAbilityRepo) this._repo; } }
+        protected IUnsafeAbilityRepo _abilityRepo
+        { get { return (IUnsafeAbilityRepo) this._repo; } }
 
-        public AbilityReg(IAbilityRepo abilityRepo)
+        public AbilityReg(IUnsafeAbilityRepo abilityRepo)
             : base(abilityRepo)
         {
             this.EnsureExists(Reiterator);
