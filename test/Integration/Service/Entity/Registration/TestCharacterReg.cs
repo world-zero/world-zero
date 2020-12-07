@@ -13,10 +13,10 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
     {
         private IUnsafeCharacterRepo _characterRepo;
         private IUnsafeFactionRepo _factionRepo;
-        private IPlayerRepo _playerRepo;
+        private IUnsafePlayerRepo _playerRepo;
         private IUnsafeLocationRepo _locationRepo;
         private CharacterReg _registration;
-        private Player _player0;
+        private UnsafePlayer _player0;
         private UnsafeFaction _faction0;
         private UnsafeLocation _location0;
 
@@ -34,7 +34,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                 this._factionRepo,
                 this._locationRepo
             );
-            this._player0 = new Player(new Name("Johnothan Jostar"));
+            this._player0 = new UnsafePlayer(new Name("Johnothan Jostar"));
             this._playerRepo.Insert(this._player0);
             this._playerRepo.Save();
             this._faction0 = new UnsafeFaction(
@@ -210,14 +210,14 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         public void TestCanRegCharacterNullChecks()
         {
             Assert.Throws<ArgumentNullException>(()=>
-                this._registration.CanRegCharacter((Player) null));
+                this._registration.CanRegCharacter((UnsafePlayer) null));
             Assert.Throws<ArgumentNullException>(()=>
                 this._registration.CanRegCharacter((Id) null));
 
             Level old = CharacterReg.MinLevelToRegister;
             CharacterReg.MinLevelToRegister = null;
             Assert.Throws<ArgumentException>(()=>
-                this._registration.CanRegCharacter(new Player(new Name("f"))));
+                this._registration.CanRegCharacter(new UnsafePlayer(new Name("f"))));
             Assert.Throws<ArgumentException>(()=>
                 this._registration.CanRegCharacter(new Id(234)));
             CharacterReg.MinLevelToRegister = old;
@@ -227,7 +227,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         public void TestCanRegCharacterNoAssociatedPlayerId()
         {
             Assert.IsTrue(this._registration.CanRegCharacter(
-                new Player(new Id(342), new Name("f"))));
+                new UnsafePlayer(new Id(342), new Name("f"))));
             Assert.IsTrue(this._registration.CanRegCharacter(new Id(342)));
         }
 
@@ -258,7 +258,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
     }
 
     public class DummyRAMPlayerRepo
-        : RAMPlayerRepo
+        : RAMUnsafePlayerRepo
     {
         public void ResetNextIdValue() { _nextIdValue = 1; }
     }

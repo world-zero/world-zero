@@ -34,7 +34,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
         /// character(s) with the highest era or total level, the larger of
         /// which is used for the player level.
         /// </remarks>
-        public bool CanRegCharacter(Player p)
+        public bool CanRegCharacter(UnsafePlayer p)
         {
             if (p == null)
                 throw new ArgumentNullException("p");
@@ -69,7 +69,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
             return true;
         }
 
-        protected readonly IPlayerRepo _playerRepo;
+        protected readonly IUnsafePlayerRepo _playerRepo;
         protected readonly IUnsafeFactionRepo _factionRepo;
         protected readonly IUnsafeLocationRepo _locationRepo;
 
@@ -78,7 +78,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
 
         public CharacterReg(
             IUnsafeCharacterRepo characterRepo,
-            IPlayerRepo playerRepo,
+            IUnsafePlayerRepo playerRepo,
             IUnsafeFactionRepo factionRepo,
             IUnsafeLocationRepo locationRepo
         )
@@ -120,7 +120,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
             bool shouldCrash = false;
             try
             {
-                Player p = this._playerRepo.GetById(c.PlayerId);
+                UnsafePlayer p = this._playerRepo.GetById(c.PlayerId);
                 if (!this.CanRegCharacter(p))
                     shouldCrash = true;
             }

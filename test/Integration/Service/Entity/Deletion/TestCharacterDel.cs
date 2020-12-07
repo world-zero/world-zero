@@ -324,7 +324,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestDeleteByPlayerSad()
         {
             Id id = null;
-            Player p = null;
+            UnsafePlayer p = null;
             Assert.Throws<ArgumentNullException>(()=>
                 this._del.DeleteByPlayer(id));
             Assert.Throws<ArgumentNullException>(()=>

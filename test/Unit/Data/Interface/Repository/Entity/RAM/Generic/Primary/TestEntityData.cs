@@ -163,7 +163,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
         [Test]
         public void TestCloneNonEmptyED()
         {
-            this._data.Saved.Add(3, new Player(new Name("foo")));
+            this._data.Saved.Add(3, new UnsafePlayer(new Name("foo")));
             this._data.SavedRules[0].Add(new W0Set<object>(), 0);
             this._data.Staged.Add(9, null);
             this._data.StagedRules[1].Add(new W0Set<object>(), 9);

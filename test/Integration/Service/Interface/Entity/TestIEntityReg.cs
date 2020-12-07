@@ -11,13 +11,13 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
     [TestFixture]
     public class TestIEntityReg
     {
-        private IPlayerRepo _repo;
+        private IUnsafePlayerRepo _repo;
         private TestEntityReg _registration;
 
         [SetUp]
         public void Setup()
         {
-            this._repo = new RAMPlayerRepo();
+            this._repo = new RAMUnsafePlayerRepo();
             this._registration = new TestEntityReg(this._repo);
         }
 
@@ -43,19 +43,19 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
         {
             Assert.Throws<ArgumentNullException>(()=>this._registration.Register(null));
 
-            var p = new Player(new Name("Hal"));
+            var p = new UnsafePlayer(new Name("Hal"));
             Assert.IsFalse(p.IsIdSet());
             var l = this._registration.Register(p);
             Assert.IsTrue(p.IsIdSet());
             Assert.AreEqual(p.Id, l.Id);
 
-            var a = new Player(new Name("Jack"));
+            var a = new UnsafePlayer(new Name("Jack"));
             Assert.IsFalse(a.IsIdSet());
             var y = this._registration.Register(a);
             Assert.IsTrue(a.IsIdSet());
             Assert.AreEqual(a.Id, y.Id);
 
-            var e = new Player(new Name("Sierra"));
+            var e = new UnsafePlayer(new Name("Sierra"));
             Assert.IsFalse(e.IsIdSet());
             var r = this._registration.Register(e);
             Assert.IsTrue(e.IsIdSet());
@@ -64,9 +64,9 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
     }
 
     public class TestEntityReg
-        : IEntityReg<Player, Id, int>
+        : IEntityReg<UnsafePlayer, Id, int>
     {
-        public TestEntityReg(IPlayerRepo repo)
+        public TestEntityReg(IUnsafePlayerRepo repo)
             : base(repo)
         { }
     }

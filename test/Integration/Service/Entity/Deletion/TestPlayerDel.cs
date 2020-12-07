@@ -33,8 +33,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
 
         private void _allAbsentt()
         {
-            this._absentt<Player, Id, int>(this._player0, this._playerRepo.GetById);
-            this._absentt<Player, Id, int>(this._player1, this._playerRepo.GetById);
+            this._absentt<UnsafePlayer, Id, int>(this._player0, this._playerRepo.GetById);
+            this._absentt<UnsafePlayer, Id, int>(this._player1, this._playerRepo.GetById);
             this._absentt<UnsafeCharacter, Id, int>(this._char0_0, this._charRepo.GetById);
             this._absentt<UnsafeCharacter, Id, int>(this._char0_1, this._charRepo.GetById);
             this._absentt<UnsafeCharacter, Id, int>(this._char1_0, this._charRepo.GetById);
@@ -42,14 +42,14 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
 
         private void _allPresent()
         {
-            this._present<Player, Id, int>(this._player0, this._playerRepo.GetById);
-            this._present<Player, Id, int>(this._player1, this._playerRepo.GetById);
+            this._present<UnsafePlayer, Id, int>(this._player0, this._playerRepo.GetById);
+            this._present<UnsafePlayer, Id, int>(this._player1, this._playerRepo.GetById);
             this._present<UnsafeCharacter, Id, int>(this._char0_0, this._charRepo.GetById);
             this._present<UnsafeCharacter, Id, int>(this._char0_1, this._charRepo.GetById);
             this._present<UnsafeCharacter, Id, int>(this._char1_0, this._charRepo.GetById);
         }
 
-        private RAMPlayerRepo _playerRepo;
+        private RAMUnsafePlayerRepo _playerRepo;
         private RAMUnsafeCharacterRepo _charRepo;
         private RAMFriendRepo _friendRepo;
         private FriendDel _friendDel;
@@ -70,8 +70,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private PraxisFlagDel _pFlagDel;
         private PraxisDel _pDel;
 
-        private Player _player0;
-        private Player _player1;
+        private UnsafePlayer _player0;
+        private UnsafePlayer _player1;
         private UnsafeCharacter _char0_0;
         private UnsafeCharacter _char0_1;
         private UnsafeCharacter _char1_0;
@@ -117,11 +117,11 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
                 this._pDel,
                 this._ppDel
             );
-            this._playerRepo = new RAMPlayerRepo();
+            this._playerRepo = new RAMUnsafePlayerRepo();
             this._del = new PlayerDel(this._playerRepo, this._charDel);
 
-            this._player0 = new Player(new Name("x"));
-            this._player1 = new Player(new Name("f"));
+            this._player0 = new UnsafePlayer(new Name("x"));
+            this._player1 = new UnsafePlayer(new Name("f"));
             this._playerRepo.Insert(this._player0);
             this._playerRepo.Insert(this._player1);
             this._playerRepo.Save();
@@ -152,7 +152,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestDeleteSad()
         {
             Id id = null;
-            Player p = null;
+            UnsafePlayer p = null;
             Assert.Throws<ArgumentNullException>(()=>this._del.Delete(id));
             Assert.Throws<ArgumentNullException>(()=>this._del.Delete(p));
         }
@@ -161,8 +161,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestDelete()
         {
             this._del.Delete(this._player0);
-            this._absentt<Player, Id, int>(this._player0, this._playerRepo.GetById);
-            this._present<Player, Id, int>(this._player1, this._playerRepo.GetById);
+            this._absentt<UnsafePlayer, Id, int>(this._player0, this._playerRepo.GetById);
+            this._present<UnsafePlayer, Id, int>(this._player1, this._playerRepo.GetById);
             this._absentt<UnsafeCharacter, Id, int>(this._char0_0, this._charRepo.GetById);
             this._absentt<UnsafeCharacter, Id, int>(this._char0_1, this._charRepo.GetById);
             this._present<UnsafeCharacter, Id, int>(this._char1_0, this._charRepo.GetById);

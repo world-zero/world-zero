@@ -37,9 +37,9 @@ namespace WorldZero.Data.Interface.Repository.Entity.Primary
         /// throw an ArgumentException if the supplied playerId is not
         /// associated with any characters.
         /// </remarks>
-        Level FindHighestLevel(Player player);
+        Level FindHighestLevel(UnsafePlayer player);
         Level FindHighestLevel(Id playerId);
-        Task<Level> FindHighestLevelAsync(Player player);
+        Task<Level> FindHighestLevelAsync(UnsafePlayer player);
         Task<Level> FindHighestLevelAsync(Id playerId);
     }
 }

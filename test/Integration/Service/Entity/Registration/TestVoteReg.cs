@@ -87,8 +87,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
 
             // Invalid right id.
             // This requires registering a character, which needs a player.
-            var player = new Player(new Name("Jack"));
-            var playerRepo = new RAMPlayerRepo();
+            var player = new UnsafePlayer(new Name("Jack"));
+            var playerRepo = new RAMUnsafePlayerRepo();
             var playerReg = new PlayerReg(playerRepo);
             playerReg.Register(player);
 
@@ -156,7 +156,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
 
             // A happy case!
             // Create a new player/character, and vote on the existing PP.
-            var newPlayer = new Player(new Name("Hal"));
+            var newPlayer = new UnsafePlayer(new Name("Hal"));
             playerReg.Register(newPlayer);
             var newChar = new UnsafeCharacter(
                 new Name("Inmost"),

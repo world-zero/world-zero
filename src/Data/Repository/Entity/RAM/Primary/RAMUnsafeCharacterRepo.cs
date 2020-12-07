@@ -67,14 +67,14 @@ namespace WorldZero.Data.Repository.Entity.RAM.Primary
                 return chars;
         }
 
-        public Level FindHighestLevel(Player player)
+        public Level FindHighestLevel(UnsafePlayer player)
         {
             if (player == null)
                 throw new ArgumentNullException("player");
             return this.FindHighestLevel(player.Id);
         }
 
-        public async Task<Level> FindHighestLevelAsync(Player player)
+        public async Task<Level> FindHighestLevelAsync(UnsafePlayer player)
         {
             return this.FindHighestLevel(player);
         }

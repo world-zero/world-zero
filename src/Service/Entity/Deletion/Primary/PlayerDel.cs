@@ -6,14 +6,14 @@ using WorldZero.Service.Interface.Entity.Generic.Deletion;
 namespace WorldZero.Service.Entity.Deletion.Primary
 {
     /// <inheritdoc cref="IEntityDel"/>
-    public class PlayerDel : IEntityDel<Player, Id, int>
+    public class PlayerDel : IEntityDel<UnsafePlayer, Id, int>
     {
-        protected IPlayerRepo _playerRepo
-        { get { return  (IPlayerRepo) this._repo; } }
+        protected IUnsafePlayerRepo _playerRepo
+        { get { return  (IUnsafePlayerRepo) this._repo; } }
 
         protected readonly CharacterDel _charDel;
 
-        public PlayerDel(IPlayerRepo playerRepo, CharacterDel charDel)
+        public PlayerDel(IUnsafePlayerRepo playerRepo, CharacterDel charDel)
             : base(playerRepo)
         {
             this.AssertNotNull(charDel, "charDel");

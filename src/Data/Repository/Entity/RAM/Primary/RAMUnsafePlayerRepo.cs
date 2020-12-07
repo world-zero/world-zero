@@ -5,14 +5,14 @@ using WorldZero.Data.Interface.Repository.Entity.RAM.Generic;
 
 namespace WorldZero.Data.Repository.Entity.RAM.Primary
 {
-    /// <inheritdoc cref="IPlayerRepo"/>
-    public class RAMPlayerRepo
-        : IRAMIdNamedEntityRepo<Player>,
-        IPlayerRepo
+    /// <inheritdoc cref="IUnsafePlayerRepo"/>
+    public class RAMUnsafePlayerRepo
+        : IRAMIdNamedEntityRepo<UnsafePlayer>,
+        IUnsafePlayerRepo
     {
         protected override int GetRuleCount()
         {
-            var a = new Player(new Name("Hal"));
+            var a = new UnsafePlayer(new Name("Hal"));
             return a.GetUniqueRules().Count;
         }
     }

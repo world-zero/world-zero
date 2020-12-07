@@ -63,7 +63,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
             this.Transaction<Id>(op, charId, true);
         }
 
-        public void DeleteByPlayer(Player p)
+        public void DeleteByPlayer(UnsafePlayer p)
         {
             this.AssertNotNull(p, "p");
             this.DeleteByPlayer(p.Id);
@@ -94,7 +94,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
         }
  
         public async
-        System.Threading.Tasks.Task DeleteByPlayerAsync(Player p)
+        System.Threading.Tasks.Task DeleteByPlayerAsync(UnsafePlayer p)
         {
             this.AssertNotNull(p, "p");
             await System.Threading.Tasks.Task.Run(() =>

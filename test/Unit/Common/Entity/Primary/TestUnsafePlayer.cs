@@ -5,12 +5,12 @@ using NUnit.Framework;
 namespace WorldZero.Test.Unit.Common.Entity.Primary
 {
     [TestFixture]
-    public class TestPlayer
+    public class TestUnsafePlayer
     {
         private Id _playerId;
         private Name _name;
         private bool _isBlocked;
-        private Player _p;
+        private UnsafePlayer _p;
 
         [SetUp]
         public void Setup()
@@ -19,14 +19,14 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
             this._name = new Name("Jack");
             this._isBlocked = true;
 
-            this._p = new Player(this._playerId, this._name, this._isBlocked);
+            this._p = new UnsafePlayer(this._playerId, this._name, this._isBlocked);
         }
 
         [Test]
         public void TestDefaultValues()
         {
             var name = new Name("Hal");
-            var p = new Player(name);
+            var p = new UnsafePlayer(name);
             Assert.AreEqual(new Id(0), p.Id);
             Assert.AreEqual(name, p.Name);
             Assert.AreEqual(false, p.IsBlocked);

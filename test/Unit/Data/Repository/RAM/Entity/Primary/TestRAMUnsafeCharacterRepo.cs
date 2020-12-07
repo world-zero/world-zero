@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
 {
     [TestFixture]
-    public class TestRAMCharacterRepo
+    public class TestRAMUnsafeCharacterRepo
     {
         private void _assertCharsEqual(UnsafeCharacter expected, UnsafeCharacter actual)
         {
@@ -192,14 +192,14 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
             Level actual = this._charRepo.FindHighestLevel(new Id(2));
             Assert.AreEqual(this._c2.TotalLevel, actual);
             actual = this._charRepo.FindHighestLevel(
-                new Player(new Id(2), new Name("Czar"))
+                new UnsafePlayer(new Id(2), new Name("Czar"))
             );
             Assert.AreEqual(this._c2.TotalLevel, actual);
 
             actual = this._charRepo.FindHighestLevel(new Id(1));
             Assert.AreEqual(this._c0.EraLevel, actual);
             actual = this._charRepo.FindHighestLevel(
-                new Player(new Id(1), new Name("King"))
+                new UnsafePlayer(new Id(1), new Name("King"))
             );
             Assert.AreEqual(this._c0.EraLevel, actual);
         }
