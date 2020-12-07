@@ -10,14 +10,14 @@ namespace WorldZero.Service.Entity.Deletion.Relation
     /// <inheritdoc cref="IEntityDel"/>
     public class MetaTaskTagDel : ITaggedEntityDel
     <
-        MetaTaskTag,
+        UnsafeMetaTaskTag,
         UnsafeMetaTask,
         Id,
         int,
         RelationDTO<Id, int, Name, string>
     >
     {
-        public MetaTaskTagDel(IMetaTaskTagRepo repo)
+        public MetaTaskTagDel(IUnsafeMetaTaskTagRepo repo)
             : base(repo)
         { }
 
