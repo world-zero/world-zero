@@ -13,7 +13,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
     public class PraxisFlagReg
         : IEntityRelationReg
         <
-            PraxisFlag,
+            UnsafePraxisFlag,
             UnsafePraxis,
             Id,
             int,
@@ -23,8 +23,8 @@ namespace WorldZero.Service.Entity.Registration.Relation
             RelationDTO<Id, int, Name, string>
         >
     {
-        protected IPraxisFlagRepo _praxisFlagRepo
-        { get { return (IPraxisFlagRepo) this._repo; } }
+        protected IUnsafePraxisFlagRepo _praxisFlagRepo
+        { get { return (IUnsafePraxisFlagRepo) this._repo; } }
 
         protected IUnsafePraxisRepo _praxisRepo
         { get { return (IUnsafePraxisRepo) this._leftRepo; } }
@@ -33,14 +33,14 @@ namespace WorldZero.Service.Entity.Registration.Relation
         { get { return (IUnsafeFlagRepo) this._rightRepo; } }
 
         public PraxisFlagReg(
-            IPraxisFlagRepo praxisFlagRepo,
+            IUnsafePraxisFlagRepo praxisFlagRepo,
             IUnsafePraxisRepo praxisRepo,
             IUnsafeFlagRepo flagRepo
         )
             : base(praxisFlagRepo, praxisRepo, flagRepo)
         { }
 
-        public override PraxisFlag Register(PraxisFlag e)
+        public override UnsafePraxisFlag Register(UnsafePraxisFlag e)
         {
             // NOTE: This code exists in PraxisFlagReg.Register(),
             // MetaPraxisFlagReg.Register(), and PraxisFlagReg.Register()

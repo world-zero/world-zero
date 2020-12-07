@@ -19,7 +19,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private RAMUnsafeFlagRepo _flagRepo;
         private RAMTaskFlagRepo _taskFlagRepo;
         private RAMUnsafeMetaTaskFlagRepo _mtFlagRepo;
-        private RAMPraxisFlagRepo _praxisFlagRepo;
+        private RAMUnsafePraxisFlagRepo _praxisFlagRepo;
         private TaskFlagDel _taskFlagDel;
         private MetaTaskFlagDel _mtFlagDel;
         private PraxisFlagDel _praxisFlagDel;
@@ -48,10 +48,10 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._mtFlagRepo.Insert(new UnsafeMetaTaskFlag(new Id(600), this._t1.Id));
             this._mtFlagRepo.Save();
 
-            this._praxisFlagRepo = new RAMPraxisFlagRepo();
-            this._praxisFlagRepo.Insert(new PraxisFlag(new Id(70), this._f0.Id));
-            this._praxisFlagRepo.Insert(new PraxisFlag(new Id(80), this._t1.Id));
-            this._praxisFlagRepo.Insert(new PraxisFlag(new Id(90), this._t1.Id));
+            this._praxisFlagRepo = new RAMUnsafePraxisFlagRepo();
+            this._praxisFlagRepo.Insert(new UnsafePraxisFlag(new Id(70), this._f0.Id));
+            this._praxisFlagRepo.Insert(new UnsafePraxisFlag(new Id(80), this._t1.Id));
+            this._praxisFlagRepo.Insert(new UnsafePraxisFlag(new Id(90), this._t1.Id));
             this._praxisFlagRepo.Save();
 
             this._taskFlagDel = new TaskFlagDel(this._taskFlagRepo);

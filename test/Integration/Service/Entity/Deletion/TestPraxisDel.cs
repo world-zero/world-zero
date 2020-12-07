@@ -48,9 +48,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._absentt<PraxisTag, Id, int>(this._pTag0_0, this._pTagRepo.GetById);
             this._absentt<PraxisTag, Id, int>(this._pTag0_1, this._pTagRepo.GetById);
             this._absentt<PraxisTag, Id, int>(this._pTag1_0, this._pTagRepo.GetById);
-            this._absentt<PraxisFlag, Id, int>(this._pFlag0_0, this._pFlagRepo.GetById);
-            this._absentt<PraxisFlag, Id, int>(this._pFlag1_0, this._pFlagRepo.GetById);
-            this._absentt<PraxisFlag, Id, int>(this._pFlag1_1, this._pFlagRepo.GetById);
+            this._absentt<UnsafePraxisFlag, Id, int>(this._pFlag0_0, this._pFlagRepo.GetById);
+            this._absentt<UnsafePraxisFlag, Id, int>(this._pFlag1_0, this._pFlagRepo.GetById);
+            this._absentt<UnsafePraxisFlag, Id, int>(this._pFlag1_1, this._pFlagRepo.GetById);
             this._absentt<PraxisParticipant, Id, int>(this._pp0_0, this._ppRepo.GetById);
             this._absentt<PraxisParticipant, Id, int>(this._pp0_1, this._ppRepo.GetById);
             this._absentt<PraxisParticipant, Id, int>(this._pp1_0, this._ppRepo.GetById);
@@ -69,9 +69,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._present<PraxisTag, Id, int>(this._pTag0_0, this._pTagRepo.GetById);
             this._present<PraxisTag, Id, int>(this._pTag0_1, this._pTagRepo.GetById);
             this._present<PraxisTag, Id, int>(this._pTag1_0, this._pTagRepo.GetById);
-            this._present<PraxisFlag, Id, int>(this._pFlag0_0, this._pFlagRepo.GetById);
-            this._present<PraxisFlag, Id, int>(this._pFlag1_0, this._pFlagRepo.GetById);
-            this._present<PraxisFlag, Id, int>(this._pFlag1_1, this._pFlagRepo.GetById);
+            this._present<UnsafePraxisFlag, Id, int>(this._pFlag0_0, this._pFlagRepo.GetById);
+            this._present<UnsafePraxisFlag, Id, int>(this._pFlag1_0, this._pFlagRepo.GetById);
+            this._present<UnsafePraxisFlag, Id, int>(this._pFlag1_1, this._pFlagRepo.GetById);
             this._present<PraxisParticipant, Id, int>(this._pp0_0, this._ppRepo.GetById);
             this._present<PraxisParticipant, Id, int>(this._pp0_1, this._ppRepo.GetById);
             this._present<PraxisParticipant, Id, int>(this._pp1_0, this._ppRepo.GetById);
@@ -89,7 +89,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private VoteDel _voteDel;
         private RAMPraxisTagRepo _pTagRepo;
         private PraxisTagDel _pTagDel;
-        private RAMPraxisFlagRepo _pFlagRepo;
+        private RAMUnsafePraxisFlagRepo _pFlagRepo;
         private PraxisFlagDel _pFlagDel;
         private PraxisDel _del;
 
@@ -105,9 +105,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private PraxisTag _pTag0_0;
         private PraxisTag _pTag0_1;
         private PraxisTag _pTag1_0;
-        private PraxisFlag _pFlag0_0;
-        private PraxisFlag _pFlag1_0;
-        private PraxisFlag _pFlag1_1;
+        private UnsafePraxisFlag _pFlag0_0;
+        private UnsafePraxisFlag _pFlag1_0;
+        private UnsafePraxisFlag _pFlag1_1;
         private PraxisParticipant _pp0_0;
         private PraxisParticipant _pp0_1;
         private PraxisParticipant _pp1_0;
@@ -125,7 +125,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._commentDel = new CommentDel(this._commentRepo);
             this._pTagRepo = new RAMPraxisTagRepo();
             this._pTagDel = new PraxisTagDel(this._pTagRepo);
-            this._pFlagRepo = new RAMPraxisFlagRepo();
+            this._pFlagRepo = new RAMUnsafePraxisFlagRepo();
             this._pFlagDel = new PraxisFlagDel(this._pFlagRepo);
 
             // Now we build two praxises, each with comments, votes,
@@ -156,9 +156,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._pTagRepo.Insert(this._pTag1_0);
             this._pTagRepo.Save();
 
-            this._pFlag0_0 = new PraxisFlag(this._p0.Id, new Name("hawt"));
-            this._pFlag1_0 = new PraxisFlag(this._p1.Id, new Name("tasty"));
-            this._pFlag1_1 = new PraxisFlag(this._p1.Id, new Name("beef"));
+            this._pFlag0_0 = new UnsafePraxisFlag(this._p0.Id, new Name("hawt"));
+            this._pFlag1_0 = new UnsafePraxisFlag(this._p1.Id, new Name("tasty"));
+            this._pFlag1_1 = new UnsafePraxisFlag(this._p1.Id, new Name("beef"));
             this._pFlagRepo.Insert(this._pFlag0_0);
             this._pFlagRepo.Insert(this._pFlag1_0);
             this._pFlagRepo.Insert(this._pFlag1_1);
@@ -221,9 +221,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._absentt<PraxisTag, Id, int>(this._pTag0_0, this._pTagRepo.GetById);
             this._absentt<PraxisTag, Id, int>(this._pTag0_1, this._pTagRepo.GetById);
             this._present<PraxisTag, Id, int>(this._pTag1_0, this._pTagRepo.GetById);
-            this._absentt<PraxisFlag, Id, int>(this._pFlag0_0, this._pFlagRepo.GetById);
-            this._present<PraxisFlag, Id, int>(this._pFlag1_0, this._pFlagRepo.GetById);
-            this._present<PraxisFlag, Id, int>(this._pFlag1_1, this._pFlagRepo.GetById);
+            this._absentt<UnsafePraxisFlag, Id, int>(this._pFlag0_0, this._pFlagRepo.GetById);
+            this._present<UnsafePraxisFlag, Id, int>(this._pFlag1_0, this._pFlagRepo.GetById);
+            this._present<UnsafePraxisFlag, Id, int>(this._pFlag1_1, this._pFlagRepo.GetById);
             this._absentt<PraxisParticipant, Id, int>(this._pp0_0, this._ppRepo.GetById);
             this._absentt<PraxisParticipant, Id, int>(this._pp0_1, this._ppRepo.GetById);
             this._present<PraxisParticipant, Id, int>(this._pp1_0, this._ppRepo.GetById);
@@ -244,9 +244,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._present<PraxisTag, Id, int>(this._pTag0_0, this._pTagRepo.GetById);
             this._present<PraxisTag, Id, int>(this._pTag0_1, this._pTagRepo.GetById);
             this._absentt<PraxisTag, Id, int>(this._pTag1_0, this._pTagRepo.GetById);
-            this._present<PraxisFlag, Id, int>(this._pFlag0_0, this._pFlagRepo.GetById);
-            this._absentt<PraxisFlag, Id, int>(this._pFlag1_0, this._pFlagRepo.GetById);
-            this._absentt<PraxisFlag, Id, int>(this._pFlag1_1, this._pFlagRepo.GetById);
+            this._present<UnsafePraxisFlag, Id, int>(this._pFlag0_0, this._pFlagRepo.GetById);
+            this._absentt<UnsafePraxisFlag, Id, int>(this._pFlag1_0, this._pFlagRepo.GetById);
+            this._absentt<UnsafePraxisFlag, Id, int>(this._pFlag1_1, this._pFlagRepo.GetById);
             this._present<PraxisParticipant, Id, int>(this._pp0_0, this._ppRepo.GetById);
             this._present<PraxisParticipant, Id, int>(this._pp0_1, this._ppRepo.GetById);
             this._absentt<PraxisParticipant, Id, int>(this._pp1_0, this._ppRepo.GetById);
@@ -301,9 +301,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._absentt<PraxisTag, Id, int>(this._pTag0_0, this._pTagRepo.GetById);
             this._absentt<PraxisTag, Id, int>(this._pTag0_1, this._pTagRepo.GetById);
             this._present<PraxisTag, Id, int>(this._pTag1_0, this._pTagRepo.GetById);
-            this._absentt<PraxisFlag, Id, int>(this._pFlag0_0, this._pFlagRepo.GetById);
-            this._present<PraxisFlag, Id, int>(this._pFlag1_0, this._pFlagRepo.GetById);
-            this._present<PraxisFlag, Id, int>(this._pFlag1_1, this._pFlagRepo.GetById);
+            this._absentt<UnsafePraxisFlag, Id, int>(this._pFlag0_0, this._pFlagRepo.GetById);
+            this._present<UnsafePraxisFlag, Id, int>(this._pFlag1_0, this._pFlagRepo.GetById);
+            this._present<UnsafePraxisFlag, Id, int>(this._pFlag1_1, this._pFlagRepo.GetById);
             this._absentt<PraxisParticipant, Id, int>(this._pp0_0, this._ppRepo.GetById);
             this._absentt<PraxisParticipant, Id, int>(this._pp0_1, this._ppRepo.GetById);
             this._present<PraxisParticipant, Id, int>(this._pp1_0, this._ppRepo.GetById);
@@ -324,9 +324,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._present<PraxisTag, Id, int>(this._pTag0_0, this._pTagRepo.GetById);
             this._present<PraxisTag, Id, int>(this._pTag0_1, this._pTagRepo.GetById);
             this._absentt<PraxisTag, Id, int>(this._pTag1_0, this._pTagRepo.GetById);
-            this._present<PraxisFlag, Id, int>(this._pFlag0_0, this._pFlagRepo.GetById);
-            this._absentt<PraxisFlag, Id, int>(this._pFlag1_0, this._pFlagRepo.GetById);
-            this._absentt<PraxisFlag, Id, int>(this._pFlag1_1, this._pFlagRepo.GetById);
+            this._present<UnsafePraxisFlag, Id, int>(this._pFlag0_0, this._pFlagRepo.GetById);
+            this._absentt<UnsafePraxisFlag, Id, int>(this._pFlag1_0, this._pFlagRepo.GetById);
+            this._absentt<UnsafePraxisFlag, Id, int>(this._pFlag1_1, this._pFlagRepo.GetById);
             this._present<PraxisParticipant, Id, int>(this._pp0_0, this._ppRepo.GetById);
             this._present<PraxisParticipant, Id, int>(this._pp0_1, this._ppRepo.GetById);
             this._absentt<PraxisParticipant, Id, int>(this._pp1_0, this._ppRepo.GetById);
@@ -347,9 +347,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._absentt<PraxisTag, Id, int>(this._pTag0_0, this._pTagRepo.GetById);
             this._absentt<PraxisTag, Id, int>(this._pTag0_1, this._pTagRepo.GetById);
             this._present<PraxisTag, Id, int>(this._pTag1_0, this._pTagRepo.GetById);
-            this._absentt<PraxisFlag, Id, int>(this._pFlag0_0, this._pFlagRepo.GetById);
-            this._present<PraxisFlag, Id, int>(this._pFlag1_0, this._pFlagRepo.GetById);
-            this._present<PraxisFlag, Id, int>(this._pFlag1_1, this._pFlagRepo.GetById);
+            this._absentt<UnsafePraxisFlag, Id, int>(this._pFlag0_0, this._pFlagRepo.GetById);
+            this._present<UnsafePraxisFlag, Id, int>(this._pFlag1_0, this._pFlagRepo.GetById);
+            this._present<UnsafePraxisFlag, Id, int>(this._pFlag1_1, this._pFlagRepo.GetById);
             this._absentt<PraxisParticipant, Id, int>(this._pp0_0, this._ppRepo.GetById);
             this._absentt<PraxisParticipant, Id, int>(this._pp0_1, this._ppRepo.GetById);
             this._present<PraxisParticipant, Id, int>(this._pp1_0, this._ppRepo.GetById);

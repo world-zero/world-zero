@@ -1,5 +1,6 @@
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
+using WorldZero.Common.Interface.Entity.Marker;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Common.Interface.Entity.Generic.Relation;
 
@@ -13,7 +14,7 @@ namespace WorldZero.Common.Entity.Relation
     /// <br />
     /// Right relation: `FlagId`
     /// </summary>
-    public class PraxisFlag : IFlaggedEntity<Id, int>
+    public class UnsafePraxisFlag : IFlaggedEntity<Id, int>, IUnsafeEntity
     {
         /// <summary>
         /// PraxisId is a wrapper for LeftId.
@@ -24,29 +25,29 @@ namespace WorldZero.Common.Entity.Relation
             set { this.LeftId = value; }
         }
 
-        public PraxisFlag(Id praxisId, Name flagId)
+        public UnsafePraxisFlag(Id praxisId, Name flagId)
             : base(praxisId, flagId)
         { }
 
-        public PraxisFlag(Id id, Id praxisId, Name flagId)
+        public UnsafePraxisFlag(Id id, Id praxisId, Name flagId)
             : base(id, praxisId, flagId)
         { }
 
-        public PraxisFlag(RelationDTO<Id, int, Name, string> dto)
+        public UnsafePraxisFlag(RelationDTO<Id, int, Name, string> dto)
             : base(dto.LeftId, dto.RightId)
         { }
 
-        public PraxisFlag(Id id, RelationDTO<Id, int, Name, string> dto)
+        public UnsafePraxisFlag(Id id, RelationDTO<Id, int, Name, string> dto)
             : base(id, dto.LeftId, dto.RightId)
         { }
 
-        internal PraxisFlag(int id, int praxisId, string flagId)
+        internal UnsafePraxisFlag(int id, int praxisId, string flagId)
             : base(new Id(id), new Id(praxisId), new Name(flagId))
         { }
 
         public override IEntity<Id, int> Clone()
         {
-            return new PraxisFlag(
+            return new UnsafePraxisFlag(
                 this.Id,
                 this.LeftId,
                 this.RightId

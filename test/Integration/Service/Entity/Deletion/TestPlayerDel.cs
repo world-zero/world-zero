@@ -66,7 +66,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private VoteDel _voteDel;
         private RAMPraxisTagRepo _pTagRepo;
         private PraxisTagDel _pTagDel;
-        private RAMPraxisFlagRepo _pFlagRepo;
+        private RAMUnsafePraxisFlagRepo _pFlagRepo;
         private PraxisFlagDel _pFlagDel;
         private PraxisDel _pDel;
 
@@ -91,7 +91,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._commentDel = new CommentDel(this._commentRepo);
             this._pTagRepo = new RAMPraxisTagRepo();
             this._pTagDel = new PraxisTagDel(this._pTagRepo);
-            this._pFlagRepo = new RAMPraxisFlagRepo();
+            this._pFlagRepo = new RAMUnsafePraxisFlagRepo();
             this._pFlagDel = new PraxisFlagDel(this._pFlagRepo);
             this._voteRepo = new RAMUnsafeVoteRepo();
             this._voteDel = new VoteDel(this._voteRepo);
