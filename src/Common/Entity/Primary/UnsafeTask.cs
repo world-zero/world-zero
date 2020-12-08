@@ -8,7 +8,7 @@ namespace WorldZero.Common.Entity.Primary
     /// <summary>
     /// Task is a entity for a tuple of the Task table.
     /// </summary>
-    public class UnsafeTask : ABCIdStatusedEntity, IUnsafeEntity
+    public class UnsafeTask : UnsafeIIdStatusedEntity, IUnsafeEntity
     {
         public UnsafeTask(
             Name factionId,
@@ -93,7 +93,7 @@ namespace WorldZero.Common.Entity.Primary
             this.FactionId = factionId;
         }
 
-        public override ABCEntity<Id, int> Clone()
+        public override IEntity<Id, int> Clone()
         {
             return new UnsafeTask(
                 this.Id,

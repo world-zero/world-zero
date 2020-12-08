@@ -14,11 +14,11 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
     /// <summary>
     /// This service class will handle deleting entities. For more, <see cref=
     /// "IEntityRepo.Delete()"/>, <see cref="IEntityRepo.Save()"/>, and <see
-    /// cref="ABCIdStatusedEntity"/>.
+    /// cref="UnsafeIIdStatusedEntity"/>.
     /// </summary>
     public abstract class IIdStatusedEntityDel<TEntity>
         : IEntityDel<TEntity, Id, int>
-        where TEntity : ABCIdStatusedEntity
+        where TEntity : UnsafeIIdStatusedEntity
     {
         protected IIdStatusedEntityRepo<TEntity> _statusedRepo
         { get { return (IIdStatusedEntityRepo<TEntity>) this._repo; } }

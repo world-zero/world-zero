@@ -13,7 +13,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
           <TEntityRelation, TId, TBuiltIn, TId, TBuiltIn, TRelationDTO>,
           IEntitySelfRelationRepo<TEntityRelation, TId, TBuiltIn, TRelationDTO>
         where TId : ISingleValueObject<TBuiltIn>
-        where TEntityRelation : ABCEntitySelfRelation
+        where TEntityRelation : UnsafeIEntitySelfRelation
             <TId, TBuiltIn>
         where TRelationDTO : RelationDTO
             <TId, TBuiltIn, TId, TBuiltIn>

@@ -921,7 +921,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
     /// class contains two unique rules, one single and one double.
     /// </summary>
     public class DummyEntity
-        : ABCNamedEntity
+        : UnsafeINamedEntity
     {
         public int Unique { get; set; }
         public int Combo0 { get; set; }
@@ -951,7 +951,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
             return r;
         }
 
-        public override ABCEntity<Name, string> Clone()
+        public override IEntity<Name, string> Clone()
         {
             return new DummyEntity(
                 this.Id,
@@ -1007,7 +1007,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
     /// This is a dummy entity to use with testRepoAlt
     /// </summary>
     public class DummyEntityAlt
-        : ABCNamedEntity
+        : UnsafeINamedEntity
     {
         public int Unique { get; set; }
         public int Combo0 { get; set; }
@@ -1042,7 +1042,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
             return r;
         }
 
-        public override ABCEntity<Name, string> Clone()
+        public override IEntity<Name, string> Clone()
         {
             return new DummyEntityAlt(
                 this.Id,

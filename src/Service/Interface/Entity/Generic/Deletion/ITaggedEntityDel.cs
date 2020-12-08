@@ -28,9 +28,9 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
         string,
         TRelationDTO
     >
-        where TEntityRelation : ABCTaggedEntity
+        where TEntityRelation : UnsafeITaggedEntity
             <TLeftId, TLeftBuiltIn>
-        where TLeftEntity : ABCEntity<TLeftId, TLeftBuiltIn>
+        where TLeftEntity : UnsafeIEntity<TLeftId, TLeftBuiltIn>
         where TLeftId  : ISingleValueObject<TLeftBuiltIn>
         where TRelationDTO : RelationDTO
             <TLeftId, TLeftBuiltIn, Name, string>

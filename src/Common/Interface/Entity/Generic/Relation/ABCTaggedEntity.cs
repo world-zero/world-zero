@@ -9,15 +9,15 @@ namespace WorldZero.Common.Interface.Entity.Generic.Relation
     /// This will configure the right ID to be a Name, intended to be used as a
     /// relation to a Tag.
     /// </remarks>
-    public abstract class ABCTaggedEntity<TLeftId, TLeftBuiltIn>
-        : ABCEntityRelation<TLeftId, TLeftBuiltIn, Name, string>
+    public abstract class UnsafeITaggedEntity<TLeftId, TLeftBuiltIn>
+        : UnsafeIEntityRelation<TLeftId, TLeftBuiltIn, Name, string>
         where TLeftId  : ISingleValueObject<TLeftBuiltIn>
     {
-        public ABCTaggedEntity(TLeftId leftId, Name tagId)
+        public UnsafeITaggedEntity(TLeftId leftId, Name tagId)
             : base(leftId, tagId)
         { }
 
-        public ABCTaggedEntity(Id id, TLeftId leftId, Name tagId)
+        public UnsafeITaggedEntity(Id id, TLeftId leftId, Name tagId)
             : base(id, leftId, tagId)
         { }
 

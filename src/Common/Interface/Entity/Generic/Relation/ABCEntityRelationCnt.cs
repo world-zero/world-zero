@@ -5,7 +5,7 @@ using WorldZero.Common.Interface.General.Generic;
 
 namespace WorldZero.Common.Interface.Entity.Generic.Relation
 {
-    /// <inheritdoc cref="ABCEntityRelation"/>
+    /// <inheritdoc cref="UnsafeIEntityRelation"/>
     /// <summary>
     /// This extends IEntityRelation by adding a counter to the combo-unique
     /// rule of left ID + right ID.
@@ -16,15 +16,15 @@ namespace WorldZero.Common.Interface.Entity.Generic.Relation
     /// the creation service classes are responsible for ensuring that the
     /// entity's Count is reasonable.
     /// </remarks>
-    public abstract class ABCEntityRelationCnt
+    public abstract class UnsafeIEntityRelationCnt
         <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
-        : ABCEntityRelation<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
+        : UnsafeIEntityRelation<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
         where TLeftId  : ISingleValueObject<TLeftBuiltIn>
         where TRightId : ISingleValueObject<TRightBuiltIn>
     {
         // NOTE: IEntity.Clone() is still not implemmented.
 
-        public ABCEntityRelationCnt(
+        public UnsafeIEntityRelationCnt(
             TLeftId leftId, TRightId rightId, int count=1
         )
             : base(leftId, rightId)
@@ -32,7 +32,7 @@ namespace WorldZero.Common.Interface.Entity.Generic.Relation
             this.Count = count;
         }
 
-        public ABCEntityRelationCnt(
+        public UnsafeIEntityRelationCnt(
             Id id, TLeftId leftId, TRightId rightId, int count=1
         )
             : base(id, leftId, rightId)
@@ -57,7 +57,7 @@ namespace WorldZero.Common.Interface.Entity.Generic.Relation
             if ( (obj == null) || (obj.GetType() != this.GetType()) )
                 return false;
 
-            ABCEntityRelationCnt
+            UnsafeIEntityRelationCnt
             <
                 TLeftId,
                 TLeftBuiltIn,
@@ -66,7 +66,7 @@ namespace WorldZero.Common.Interface.Entity.Generic.Relation
             > other;
             try
             {
-                other = (ABCEntityRelationCnt
+                other = (UnsafeIEntityRelationCnt
                 <
                     TLeftId,
                     TLeftBuiltIn,

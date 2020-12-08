@@ -9,6 +9,6 @@ namespace WorldZero.Data.Interface.Repository.Entity.Primary.Generic
     /// </summary>
     public interface INamedEntityRepo<TNamedEntity>
         : IEntityRepo<TNamedEntity, Name, string>
-        where TNamedEntity : ABCNamedEntity
+        where TNamedEntity : UnsafeINamedEntity
     { }
 }

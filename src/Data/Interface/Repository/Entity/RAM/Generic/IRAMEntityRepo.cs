@@ -221,7 +221,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
     {
         // This exists here because a repo has a variety of types, which make
         // casting to it dynamically extremely unpleasant. This way, we can
-        // cast down to this parent ABC and have polymorphism save us from all
+        // cast down to this parent UnsafeI and have polymorphism save us from all
         // that nasty typing and reflection headache.
         public abstract void Save();
 
@@ -304,7 +304,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
     public abstract class IRAMEntityRepo<TEntity, TId, TIdBuiltIn>
         : IStaticRAMEntityRepo,
           IEntityRepo<TEntity, TId, TIdBuiltIn>
-        where TEntity : ABCEntity<TId, TIdBuiltIn>
+        where TEntity : UnsafeIEntity<TId, TIdBuiltIn>
         where TId : ISingleValueObject<TIdBuiltIn>
     {
         /// <summary>

@@ -33,9 +33,9 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
             TBuiltIn,
             TRelationDTO
         >
-        where TEntityRelation : ABCEntitySelfRelation
+        where TEntityRelation : UnsafeIEntitySelfRelation
             <TId, TBuiltIn>
-        where TEntity : ABCEntity<TId, TBuiltIn>
+        where TEntity : UnsafeIEntity<TId, TBuiltIn>
         where TId  : ISingleValueObject<TBuiltIn>
         where TRelationDTO : RelationDTO
             <TId, TBuiltIn, TId, TBuiltIn>

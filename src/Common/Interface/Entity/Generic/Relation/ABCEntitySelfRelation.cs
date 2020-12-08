@@ -3,17 +3,17 @@ using WorldZero.Common.Interface.General.Generic;
 
 namespace WorldZero.Common.Interface.Entity.Generic.Relation
 {
-    /// <inheritdoc cref="ABCEntityRelation"/>
+    /// <inheritdoc cref="UnsafeIEntityRelation"/>
     /// </remarks>
-    public abstract class ABCEntitySelfRelation<TId, TBuiltIn>
-        : ABCEntityRelation<TId, TBuiltIn, TId, TBuiltIn>
+    public abstract class UnsafeIEntitySelfRelation<TId, TBuiltIn>
+        : UnsafeIEntityRelation<TId, TBuiltIn, TId, TBuiltIn>
         where TId : ISingleValueObject<TBuiltIn>
     {
-        public ABCEntitySelfRelation(TId leftId, TId rightId)
+        public UnsafeIEntitySelfRelation(TId leftId, TId rightId)
             : base(leftId, rightId)
         { }
 
-        public ABCEntitySelfRelation(Id id, TId leftId, TId rightId)
+        public UnsafeIEntitySelfRelation(Id id, TId leftId, TId rightId)
             : base(id, leftId, rightId)
         { }
     }

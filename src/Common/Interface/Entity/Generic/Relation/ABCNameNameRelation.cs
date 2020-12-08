@@ -3,15 +3,15 @@ using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 
 namespace WorldZero.Common.Interface.Entity.Generic.Relation
 {
-    /// <inheritdoc cref="ABCEntityRelation"/>
-    public abstract class ABCNameNameRelation
-        : ABCEntityRelation<Name, string, Name, string>
+    /// <inheritdoc cref="UnsafeIEntityRelation"/>
+    public abstract class UnsafeINameNameRelation
+        : UnsafeIEntityRelation<Name, string, Name, string>
     {
-        public ABCNameNameRelation(Name leftId, Name rightId)
+        public UnsafeINameNameRelation(Name leftId, Name rightId)
             : base(leftId, rightId)
         { }
 
-        public ABCNameNameRelation(Id id, Name leftId, Name rightId)
+        public UnsafeINameNameRelation(Id id, Name leftId, Name rightId)
             : base(id, leftId, rightId)
         { }
 

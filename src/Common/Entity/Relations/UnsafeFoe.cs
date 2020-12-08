@@ -14,7 +14,7 @@ namespace WorldZero.Common.Entity.Relation
     /// <br />
     /// Right relation: `SecondCharacterId`
     /// </summary>
-    public class UnsafeFoe : ABCEntitySelfRelation<Id, int>, IUnsafeEntity
+    public class UnsafeFoe : UnsafeIEntitySelfRelation<Id, int>, IUnsafeEntity
     {
         public override RelationDTO<Id, int, Id, int> GetDTO()
         {
@@ -67,7 +67,7 @@ namespace WorldZero.Common.Entity.Relation
             )
         { }
 
-        public override ABCEntity<Id, int> Clone()
+        public override IEntity<Id, int> Clone()
         {
             return new UnsafeFoe(
                 this.Id,

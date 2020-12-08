@@ -21,7 +21,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.Primary.Generic
         : IEntityRelationRepo
             <TEntityRelation, TId, TBuiltIn, TId, TBuiltIn, TRelationDTO>
         where TId : ISingleValueObject<TBuiltIn>
-        where TEntityRelation : ABCEntitySelfRelation
+        where TEntityRelation : UnsafeIEntitySelfRelation
             <TId, TBuiltIn>
         where TRelationDTO : RelationDTO
             <TId, TBuiltIn, TId, TBuiltIn>

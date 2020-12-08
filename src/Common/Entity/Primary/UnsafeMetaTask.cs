@@ -9,7 +9,7 @@ namespace WorldZero.Common.Entity.Primary
     /// MetaTask is a entity for a tuple of the MetaTask table.
     /// </summary>
     public class UnsafeMetaTask :
-        ABCIdStatusedEntity,
+        UnsafeIIdStatusedEntity,
         IOptionalEntity,
         IUnsafeEntity
     {
@@ -79,7 +79,7 @@ namespace WorldZero.Common.Entity.Primary
             this.IsFlatBonus = isFlatBonus;
         }
 
-        public override ABCEntity<Id, int> Clone()
+        public override IEntity<Id, int> Clone()
         {
             return new UnsafeMetaTask(
                 this.Id,

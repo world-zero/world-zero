@@ -31,22 +31,22 @@ namespace WorldZero.Common.Interface.Entity.Generic.Relation
     /// It is recommended that children add more descriptive wrapper properties
     /// for LeftId and RightId.
     /// </remarks>
-    public abstract class ABCEntityRelation
+    public abstract class UnsafeIEntityRelation
         <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
-        : ABCIdEntity
+        : UnsafeIIdEntity
         where TLeftId  : ISingleValueObject<TLeftBuiltIn>
         where TRightId : ISingleValueObject<TRightBuiltIn>
     {
         // NOTE: IEntity.Clone() is still not implemmented.
 
-        public ABCEntityRelation(TLeftId leftId, TRightId rightId)
+        public UnsafeIEntityRelation(TLeftId leftId, TRightId rightId)
             : base()
         {
             this.LeftId = leftId;
             this.RightId = rightId;
         }
 
-        public ABCEntityRelation(Id id, TLeftId leftId, TRightId rightId)
+        public UnsafeIEntityRelation(Id id, TLeftId leftId, TRightId rightId)
             : base(id)
         {
             this.LeftId = leftId;
@@ -86,7 +86,7 @@ namespace WorldZero.Common.Interface.Entity.Generic.Relation
             if ( (obj == null) || (obj.GetType() != this.GetType()) )
                 return false;
 
-            ABCEntityRelation
+            UnsafeIEntityRelation
             <
                 TLeftId,
                 TLeftBuiltIn,
@@ -95,7 +95,7 @@ namespace WorldZero.Common.Interface.Entity.Generic.Relation
             > other;
             try
             {
-                other = (ABCEntityRelation
+                other = (UnsafeIEntityRelation
                 <
                     TLeftId,
                     TLeftBuiltIn,

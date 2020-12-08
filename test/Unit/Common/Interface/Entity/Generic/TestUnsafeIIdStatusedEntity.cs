@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
 {
     [TestFixture]
-    public class TestABCIdStatusedEntity
+    public class TestUnsafeIIdStatusedEntity
     {
         [Test]
         public void TestStatusId()
@@ -22,7 +22,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
         }
     }
 
-    public class TestIdStatusedEntity : ABCIdStatusedEntity
+    public class TestIdStatusedEntity : UnsafeIIdStatusedEntity
     {
         public TestIdStatusedEntity(Id id, Name statusId)
             : base(id, statusId)
@@ -32,7 +32,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
             : base(statusId)
         { }
 
-        public override ABCEntity<Id, int> Clone()
+        public override IEntity<Id, int> Clone()
         {
             return null;
         }

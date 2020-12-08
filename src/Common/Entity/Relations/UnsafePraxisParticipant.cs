@@ -26,7 +26,7 @@ namespace WorldZero.Common.Entity.Relation
     /// return null. This will not apply to `LeftId`, it will contain
     /// `new Id(0)` like normal.
     /// </remarks>
-    public class UnsafePraxisParticipant : ABCIdIdRelation, IUnsafeEntity
+    public class UnsafePraxisParticipant : UnsafeIIdIdRelation, IUnsafeEntity
     {
         /// <summary>
         /// PraxisId wraps LeftId, which is the ID of the related Praxis.
@@ -96,7 +96,7 @@ namespace WorldZero.Common.Entity.Relation
             : base(new Id(id), new Id(praxisId), new Id(characterId))
         { }
 
-        public override ABCEntity<Id, int> Clone()
+        public override IEntity<Id, int> Clone()
         {
             return new UnsafePraxisParticipant(
                 this.Id,

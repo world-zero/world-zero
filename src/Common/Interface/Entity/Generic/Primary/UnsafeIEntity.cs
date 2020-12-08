@@ -2,6 +2,7 @@ using System.Runtime.CompilerServices;
 using System;
 using WorldZero.Common.Collections.Generic;
 using WorldZero.Common.Interface.General.Generic;
+using WorldZero.Common.Interface.Entity.Marker;
 
 // This is necessary for the Dapper-compatible constructors, which will need to
 // be utilized in Data.
@@ -11,10 +12,8 @@ using WorldZero.Common.Interface.General.Generic;
 
 namespace WorldZero.Common.Interface.Entity.Generic.Primary
 {
-    /// <summary>
-    /// This is the interface for an Entity, complete with an Id.
-    /// </summary>
-    public abstract class ABCEntity<TSingleValObj, TValObj>
+    public abstract class UnsafeIEntity<TSingleValObj, TValObj>
+        : IEntity<TSingleValObj, TValObj>, IUnsafeEntity
         where TSingleValObj : ISingleValueObject<TValObj>
     {
         public bool IsIdSet()
@@ -42,15 +41,8 @@ namespace WorldZero.Common.Interface.Entity.Generic.Primary
             return r;
         }
 
-        abstract public ABCEntity<TSingleValObj, TValObj> Clone();
+        abstract public IEntity<TSingleValObj, TValObj> Clone();
 
-        /// <summary>
-        /// This is the Id for an entity - it is a value object with a single
-        /// (or primary) value. This cannot be changed after being set.
-        /// </summary>
-        /// <exception cref="ArgumentException">
-        /// This is thrown if a set Id is attempted to be changed.
-        /// </exception>
         public TSingleValObj Id
         {
             get { return this._id; }
@@ -67,15 +59,13 @@ namespace WorldZero.Common.Interface.Entity.Generic.Primary
         }
         private TSingleValObj _id;
 
-        // This is functionally a readonly member, but my IDE was having none
-        // of that, so here we are.
         /// <summary>
         /// An ID with this value is considered unset, and can still be
         /// changed.
         /// </summary>
-        public TSingleValObj UnsetIdValue { get; private set; }
+        protected readonly TSingleValObj UnsetIdValue;
 
-        public ABCEntity(TSingleValObj unsetValue)
+        public UnsafeIEntity(TSingleValObj unsetValue)
         {
             this.UnsetIdValue = unsetValue;
             this._id = this.UnsetIdValue;

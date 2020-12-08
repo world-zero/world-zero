@@ -4,20 +4,20 @@ using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 
 namespace WorldZero.Common.Interface.Entity.Generic.Relation
 {
-    /// <inheritdoc cref="ABCEntityRelation"/>
+    /// <inheritdoc cref="UnsafeIEntityRelation"/>
     /// <remarks>
     /// This will configure the right ID to be a Name, intended to be used as a
     /// relation to a Flag.
     /// </remarks>
-    public abstract class ABCFlaggedEntity<TLeftId, TLeftBuiltIn>
-        : ABCEntityRelation<TLeftId, TLeftBuiltIn, Name, string>
+    public abstract class UnsafeIFlaggedEntity<TLeftId, TLeftBuiltIn>
+        : UnsafeIEntityRelation<TLeftId, TLeftBuiltIn, Name, string>
         where TLeftId  : ISingleValueObject<TLeftBuiltIn>
     {
-        public ABCFlaggedEntity(TLeftId leftId, Name tagId)
+        public UnsafeIFlaggedEntity(TLeftId leftId, Name tagId)
             : base(leftId, tagId)
         { }
 
-        public ABCFlaggedEntity(Id id, TLeftId leftId, Name tagId)
+        public UnsafeIFlaggedEntity(Id id, TLeftId leftId, Name tagId)
             : base(id, leftId, tagId)
         { }
 

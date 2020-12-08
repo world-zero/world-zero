@@ -7,7 +7,7 @@ namespace WorldZero.Common.Entity.Primary
     /// <summary>
     /// Flag is a entity for a tuple of the Flag table.
     /// </summary>
-    public class UnsafeTag : ABCNamedEntity, IUnsafeEntity
+    public class UnsafeTag : UnsafeINamedEntity, IUnsafeEntity
     {
         // This does not have a description parameter since that would make the
         // two constructors ambiguous.
@@ -21,7 +21,7 @@ namespace WorldZero.Common.Entity.Primary
             this.Description = description;
         }
 
-        public override ABCEntity<Name, string> Clone()
+        public override IEntity<Name, string> Clone()
         {
             var t = new UnsafeTag(this.Id);
             t.Description = this.Description;
