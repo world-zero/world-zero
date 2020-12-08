@@ -11,8 +11,9 @@ namespace WorldZero.Common.Interface.Entity.Marker
     /// implementation.
     /// </summary>
     /// <remarks>
-    /// This is the inverse of marker <see
-    /// cref="WorldZero.Common.Interface.Entity.Marker.ISafeEntity"/>.
+    /// There is no `IUnsafeMarker` since the base interface for the entities
+    /// is safe by default, but the proxied implementations are the unsafe
+    /// classes by increasing the accesss beyond what the interface specifies.
     /// </remarks>
     public interface IUnsafeEntity
     { }
