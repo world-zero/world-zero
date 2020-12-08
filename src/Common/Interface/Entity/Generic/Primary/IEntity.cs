@@ -11,8 +11,8 @@ namespace WorldZero.Common.Interface.Entity.Generic.Primary
     /// that these properties will throw an `ArgumentNullException` when
     /// appropriate.
     /// </remarks>
-    public interface IEntity<TSingleValObj, TValObj>
-        where TSingleValObj : ISingleValueObject<TValObj>
+    public interface IEntity<TId, TBuiltIn>
+        where TId : ISingleValueObject<TBuiltIn>
     {
         /// <summary>
         /// This is the Id for an entity - it is a value object with a single
@@ -21,10 +21,10 @@ namespace WorldZero.Common.Interface.Entity.Generic.Primary
         /// <exception cref="ArgumentException">
         /// This is thrown if a set Id is attempted to be changed.
         /// </exception>
-        TSingleValObj Id { get; }
+        TId Id { get; }
 
         bool IsIdSet();
 
-        IEntity<TSingleValObj, TValObj> Clone();
+        IEntity<TId, TBuiltIn> Clone();
     }
 }

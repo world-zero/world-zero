@@ -12,9 +12,9 @@ using WorldZero.Common.Interface.Entity.Marker;
 
 namespace WorldZero.Common.Interface.Entity.Generic.Primary
 {
-    public abstract class UnsafeIEntity<TSingleValObj, TValObj>
-        : IEntity<TSingleValObj, TValObj>, IUnsafeEntity
-        where TSingleValObj : ISingleValueObject<TValObj>
+    public abstract class UnsafeIEntity<TId, TBuiltIn>
+        : IEntity<TId, TBuiltIn>, IUnsafeEntity
+        where TId : ISingleValueObject<TBuiltIn>
     {
         public bool IsIdSet()
         {
@@ -41,9 +41,9 @@ namespace WorldZero.Common.Interface.Entity.Generic.Primary
             return r;
         }
 
-        abstract public IEntity<TSingleValObj, TValObj> Clone();
+        abstract public IEntity<TId, TBuiltIn> Clone();
 
-        public TSingleValObj Id
+        public TId Id
         {
             get { return this._id; }
             set
@@ -57,15 +57,15 @@ namespace WorldZero.Common.Interface.Entity.Generic.Primary
                 this._id = value;
             }
         }
-        private TSingleValObj _id;
+        private TId _id;
 
         /// <summary>
         /// An ID with this value is considered unset, and can still be
         /// changed.
         /// </summary>
-        protected readonly TSingleValObj UnsetIdValue;
+        protected readonly TId UnsetIdValue;
 
-        public UnsafeIEntity(TSingleValObj unsetValue)
+        public UnsafeIEntity(TId unsetValue)
         {
             this.UnsetIdValue = unsetValue;
             this._id = this.UnsetIdValue;
