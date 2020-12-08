@@ -16,7 +16,7 @@ namespace WorldZero.Common.Entity.Relation
     /// <br />
     /// Right relation: `CharacterId`
     /// </summary>
-    public class UnsafeComment : IIdIdCntRelation, IUnsafeEntity
+    public class UnsafeComment : ABCIdIdCntRelation, IUnsafeEntity
     {
         /// <summary>
         /// PraxisId wraps LeftId, which is the ID of the related Praxis.
@@ -91,7 +91,7 @@ namespace WorldZero.Common.Entity.Relation
             this.Count = count;
         }
 
-        public override IEntity<Id, int> Clone()
+        public override ABCEntity<Id, int> Clone()
         {
             return new UnsafeComment(
                 this.Id,

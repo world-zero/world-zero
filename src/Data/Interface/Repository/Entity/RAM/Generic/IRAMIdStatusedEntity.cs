@@ -11,7 +11,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
     public abstract class IRAMIdStatusedEntityRepo<TEntity>
         : IRAMIdEntityRepo<TEntity>,
           IIdStatusedEntityRepo<TEntity>
-        where TEntity : IIdStatusedEntity
+        where TEntity : ABCIdStatusedEntity
     {
         public IRAMIdStatusedEntityRepo()
             : base()

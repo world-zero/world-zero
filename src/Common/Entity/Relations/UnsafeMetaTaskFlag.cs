@@ -14,7 +14,7 @@ namespace WorldZero.Common.Entity.Relation
     /// <br />
     /// Right relation: `FlagId`
     /// </summary>
-    public class UnsafeMetaTaskFlag : IFlaggedEntity<Id, int>, IUnsafeEntity
+    public class UnsafeMetaTaskFlag : ABCFlaggedEntity<Id, int>, IUnsafeEntity
     {
         /// <summary>
         /// MetaTaskId is a wrapper for LeftId.
@@ -45,7 +45,7 @@ namespace WorldZero.Common.Entity.Relation
             : base(new Id(id), new Id(metaTaskId), new Name(flagId))
         { }
 
-        public override IEntity<Id, int> Clone()
+        public override ABCEntity<Id, int> Clone()
         {
             return new UnsafeMetaTaskFlag(
                 this.Id,

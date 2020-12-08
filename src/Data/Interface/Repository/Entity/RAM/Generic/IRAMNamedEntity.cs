@@ -8,6 +8,6 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
     public abstract class IRAMNamedEntityRepo<TEntity>
         : IRAMEntityRepo<TEntity, Name, string>,
           INamedEntityRepo<TEntity>
-        where TEntity : INamedEntity
+        where TEntity : ABCNamedEntity
     { }
 }

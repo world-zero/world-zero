@@ -6,12 +6,12 @@ using WorldZero.Common.Interface.Entity.Generic.Primary;
 namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
 {
     [TestFixture]
-    public class TestITaggedEntity
+    public class TestABCFlaggedEntity
     {
         private Id _id0;
         private Id _id1;
         private Name _name;
-        private TestTaggedEntity _e;
+        private TestFlaggedEntity _e;
 
         [SetUp]
         public void Setup()
@@ -19,34 +19,34 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
             this._id0 = new Id(320);
             this._id1 = new Id(30);
             this._name = new Name("#Foo");
-            this._e = new TestTaggedEntity(this._id0, this._id1, this._name);
+            this._e = new TestFlaggedEntity(this._id0, this._id1, this._name);
         }
 
         [Test]
-        public void TestTagId()
+        public void TestFlagId()
         {
             Assert.AreEqual(this._name, this._e.RightId);
-            Assert.AreEqual(this._name, this._e.TagId);
+            Assert.AreEqual(this._name, this._e.FlagId);
             var newName = new Name("#new");
-            this._e.TagId = newName;
-            Assert.AreEqual(newName, this._e.TagId);
-            Assert.AreEqual(this._e.RightId, this._e.TagId);
+            this._e.FlagId = newName;
+            Assert.AreEqual(newName, this._e.FlagId);
+            Assert.AreEqual(this._e.RightId, this._e.FlagId);
         }
     }
 
-    public class TestTaggedEntity : ITaggedEntity<Id, int>
+    public class TestFlaggedEntity : ABCFlaggedEntity<Id, int>
     {
-        public TestTaggedEntity(Id leftId, Name tagId)
+        public TestFlaggedEntity(Id leftId, Name tagId)
             : base(leftId, tagId)
         { }
 
-        public TestTaggedEntity(Id id, Id leftId, Name tagId)
+        public TestFlaggedEntity(Id id, Id leftId, Name tagId)
             : base(id, leftId, tagId)
         { }
 
-        public override IEntity<Id, int> Clone()
+        public override ABCEntity<Id, int> Clone()
         {
-            return new TestTaggedEntity(this.Id, this.LeftId, this.RightId);
+            return new TestFlaggedEntity(this.Id, this.LeftId, this.RightId);
         }
     }
 }

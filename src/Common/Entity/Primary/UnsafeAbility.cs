@@ -9,7 +9,7 @@ namespace WorldZero.Common.Entity.Primary
     /// An ability is something that faction(s) can have to give them some
     /// bonus.
     /// </summary>
-    public class UnsafeAbility : INamedEntity, IOptionalEntity, IUnsafeEntity
+    public class UnsafeAbility : ABCNamedEntity, IOptionalEntity, IUnsafeEntity
     {
         public UnsafeAbility(Name name, string description)
             : base(name)
@@ -35,7 +35,7 @@ namespace WorldZero.Common.Entity.Primary
         }
         private string _desc;
 
-        public override IEntity<Name, string> Clone()
+        public override ABCEntity<Name, string> Clone()
         {
             return new UnsafeAbility(
                 this.Id,

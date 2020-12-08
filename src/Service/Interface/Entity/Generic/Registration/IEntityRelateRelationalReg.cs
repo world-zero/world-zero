@@ -49,19 +49,19 @@ namespace WorldZero.Service.Interface.Entity.Registration
         TRightBuiltIn,
         TRelationDTO
     >
-        where TEntityRelation : IEntityRelation
+        where TEntityRelation : ABCEntityRelation
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
-        where TLeftEntity : IEntity<TLeftId, TLeftBuiltIn>
+        where TLeftEntity : ABCEntity<TLeftId, TLeftBuiltIn>
         where TLeftId  : ISingleValueObject<TLeftBuiltIn>
 
-        where TLEntityRelation : IEntityRelation
+        where TLEntityRelation : ABCEntityRelation
             <TLLeftId, TLLeftBuiltIn, TLRightId, TLRightBuiltIn>
         where TLLeftId  : ISingleValueObject<TLLeftBuiltIn>
         where TLRightId : ISingleValueObject<TLRightBuiltIn>
         where TLRelationDTO : RelationDTO
             <TLLeftId, TLLeftBuiltIn, TLRightId, TLRightBuiltIn>
 
-        where TRightEntity : IEntity<TRightId, TRightBuiltIn>
+        where TRightEntity : ABCEntity<TRightId, TRightBuiltIn>
         where TRightId : ISingleValueObject<TRightBuiltIn>
         where TRelationDTO : RelationDTO
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>

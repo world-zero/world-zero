@@ -9,7 +9,7 @@ namespace WorldZero.Common.Entity.Primary
     /// Faction is a entity for a tuple of the Faction table.
     /// </summary>
     public class UnsafeFaction :
-        INamedEntity,
+        ABCNamedEntity,
         IOptionalEntity,
         IEntityHasOptional,
         IUnsafeEntity
@@ -62,7 +62,7 @@ namespace WorldZero.Common.Entity.Primary
             this.AbilityId = abilityName;
         }
 
-        public override IEntity<Name, string> Clone()
+        public override ABCEntity<Name, string> Clone()
         {
             return new UnsafeFaction(
                 this.Id,

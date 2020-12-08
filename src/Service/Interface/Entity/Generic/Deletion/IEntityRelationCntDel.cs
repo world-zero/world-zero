@@ -30,11 +30,11 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
             TRightBuiltIn,
             TRelationDTO
         >
-        where TEntityRelationCnt : IEntityRelationCnt
+        where TEntityRelationCnt : ABCEntityRelationCnt
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
-        where TLeftEntity : IEntity<TLeftId, TLeftBuiltIn>
+        where TLeftEntity : ABCEntity<TLeftId, TLeftBuiltIn>
         where TLeftId  : ISingleValueObject<TLeftBuiltIn>
-        where TRightEntity : IEntity<TRightId, TRightBuiltIn>
+        where TRightEntity : ABCEntity<TRightId, TRightBuiltIn>
         where TRightId : ISingleValueObject<TRightBuiltIn>
         where TRelationDTO : CntRelationDTO
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>

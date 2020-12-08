@@ -3,20 +3,20 @@ using WorldZero.Common.ValueObject.General;
 
 namespace WorldZero.Common.Interface.Entity.Generic.Primary
 {
-    /// <inheritdoc cref="IIdEntity"/>
+    /// <inheritdoc cref="ABCIdEntity"/>
     /// <summary>
     /// This derivation contains a `StatusId`, which is a name denoting the
     /// concrete entity's status.
     /// </summary>
-    public abstract class IIdStatusedEntity : IIdEntity
+    public abstract class ABCIdStatusedEntity : ABCIdEntity
     {
-        public IIdStatusedEntity(Name statusId)
+        public ABCIdStatusedEntity(Name statusId)
             : base()
         {
             this.StatusId = statusId;
         }
 
-        public IIdStatusedEntity(Id id, Name statusId)
+        public ABCIdStatusedEntity(Id id, Name statusId)
             : base(id)
         {
             this.StatusId = statusId;

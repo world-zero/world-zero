@@ -12,7 +12,7 @@ namespace WorldZero.Common.Entity.Primary
     /// Repos are responsible for ensuring that every combination of cities,
     /// states, countries, and zips are unique.
     /// </remarks>
-    public class UnsafeLocation : IIdEntity, IOptionalEntity, IUnsafeEntity
+    public class UnsafeLocation : ABCIdEntity, IOptionalEntity, IUnsafeEntity
     {
         public UnsafeLocation(
             Name city,
@@ -72,7 +72,7 @@ namespace WorldZero.Common.Entity.Primary
             this.Zip = zip;
         }
 
-        public override IEntity<Id, int> Clone()
+        public override ABCEntity<Id, int> Clone()
         {
             return new UnsafeLocation(
                 this.Id,

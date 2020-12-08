@@ -9,7 +9,7 @@ namespace WorldZero.Common.Entity.Primary
     /// An Era is a configuration file for the game at any given time. If a
     /// start date is not supplied, time of initialization will be used.
     /// </summary>
-    public class UnsafeEra : INamedEntity, IUnsafeEntity
+    public class UnsafeEra : ABCNamedEntity, IUnsafeEntity
     {
         public UnsafeEra(
             Name name,
@@ -52,7 +52,7 @@ namespace WorldZero.Common.Entity.Primary
             this.MaxTasksReiterator = maxTasksReiterator;
         }
 
-        public override IEntity<Name, string> Clone()
+        public override ABCEntity<Name, string> Clone()
         {
             return new UnsafeEra(
                 this.Id,

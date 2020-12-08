@@ -2,19 +2,19 @@ using WorldZero.Common.ValueObject.General;
 
 namespace WorldZero.Common.Interface.Entity.Generic.Primary
 {
-    /// <inheritdoc cref="IEntity"/>
+    /// <inheritdoc cref="ABCEntity"/>
     /// <summary>
     /// This class is used for entities that have a `Name` primary key. This
     /// can be either null for unset, or set.
     /// </summary>
-    public abstract class INamedEntity : IEntity<Name, string>
+    public abstract class ABCNamedEntity : ABCEntity<Name, string>
     {
-        public INamedEntity()
+        public ABCNamedEntity()
             : base(null)
         {
         }
 
-        public INamedEntity(Name name)
+        public ABCNamedEntity(Name name)
             : base(null)
         {
             this.Id = name;

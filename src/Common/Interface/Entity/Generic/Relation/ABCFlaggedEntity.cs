@@ -4,27 +4,27 @@ using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 
 namespace WorldZero.Common.Interface.Entity.Generic.Relation
 {
-    /// <inheritdoc cref="IEntityRelation"/>
+    /// <inheritdoc cref="ABCEntityRelation"/>
     /// <remarks>
     /// This will configure the right ID to be a Name, intended to be used as a
-    /// relation to a Tag.
+    /// relation to a Flag.
     /// </remarks>
-    public abstract class ITaggedEntity<TLeftId, TLeftBuiltIn>
-        : IEntityRelation<TLeftId, TLeftBuiltIn, Name, string>
+    public abstract class ABCFlaggedEntity<TLeftId, TLeftBuiltIn>
+        : ABCEntityRelation<TLeftId, TLeftBuiltIn, Name, string>
         where TLeftId  : ISingleValueObject<TLeftBuiltIn>
     {
-        public ITaggedEntity(TLeftId leftId, Name tagId)
+        public ABCFlaggedEntity(TLeftId leftId, Name tagId)
             : base(leftId, tagId)
         { }
 
-        public ITaggedEntity(Id id, TLeftId leftId, Name tagId)
+        public ABCFlaggedEntity(Id id, TLeftId leftId, Name tagId)
             : base(id, leftId, tagId)
         { }
 
         /// <summary>
-        /// TagId is a wrapper for RightId.
+        /// FlagId is a wrapper for RightId.
         /// </summary>
-        public Name TagId
+        public Name FlagId
         {
             get { return this.RightId; }
             set { this.RightId = value; }

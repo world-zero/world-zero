@@ -7,7 +7,7 @@ namespace WorldZero.Common.Entity.Primary
     /// <summary>
     /// Status is a entity for a tuple of the Status table.
     /// </summary>
-    public class UnsafeStatus : INamedEntity, IUnsafeEntity
+    public class UnsafeStatus : ABCNamedEntity, IUnsafeEntity
     {
         public UnsafeStatus(Name id, string description=null)
             : base(id)
@@ -21,7 +21,7 @@ namespace WorldZero.Common.Entity.Primary
             this.Description = description;
         }
 
-        public override IEntity<Name, string> Clone()
+        public override ABCEntity<Name, string> Clone()
         {
             return new UnsafeStatus(
                 this.Id,

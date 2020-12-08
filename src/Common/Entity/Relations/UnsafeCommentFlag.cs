@@ -14,7 +14,7 @@ namespace WorldZero.Common.Entity.Relation
     /// <br />
     /// Right relation: `FlagId`
     /// </summary>
-    public class UnsafeCommentFlag : IIdNameRelation, IUnsafeEntity
+    public class UnsafeCommentFlag : ABCIdNameRelation, IUnsafeEntity
     {
         /// <summary>
         /// CommentId wraps LeftId, which is the ID of the related Comment.
@@ -54,7 +54,7 @@ namespace WorldZero.Common.Entity.Relation
             : base(new Id(id), new Id(commentId), new Name(flagId))
         { }
 
-        public override IEntity<Id, int> Clone()
+        public override ABCEntity<Id, int> Clone()
         {
             return new UnsafeCommentFlag(
                 this.Id,

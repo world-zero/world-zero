@@ -8,7 +8,7 @@ namespace WorldZero.Common.Entity.Primary
     /// <summary>
     /// Flag is a entity for a tuple of the Flag table.
     /// </summary>
-    public class UnsafeFlag : INamedEntity, IUnsafeEntity
+    public class UnsafeFlag : ABCNamedEntity, IUnsafeEntity
     {
         // This does not have a description parameter since that would make the
         // two constructors ambiguous.
@@ -40,7 +40,7 @@ namespace WorldZero.Common.Entity.Primary
             this.IsFlatPenalty = isFlatPenalty;
         }
 
-        public override IEntity<Name, string> Clone()
+        public override ABCEntity<Name, string> Clone()
         { 
             return new UnsafeFlag(
                 this.Id

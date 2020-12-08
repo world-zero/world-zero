@@ -7,7 +7,7 @@ namespace WorldZero.Common.Entity.Primary
     /// <summary>
     /// Player is a entity for a tuple of the Player table.
     /// </summary>
-    public class UnsafePlayer : IIdNamedEntity, IUnsafeEntity
+    public class UnsafePlayer : ABCIdNamedEntity, IUnsafeEntity
     {
         public UnsafePlayer(Name name, bool isBlocked=false)
             : base (name)
@@ -27,7 +27,7 @@ namespace WorldZero.Common.Entity.Primary
             this.IsBlocked = isBlocked;
         }
 
-        public override IEntity<Id, int> Clone()
+        public override ABCEntity<Id, int> Clone()
         {
             return new UnsafePlayer(
                 this.Id,

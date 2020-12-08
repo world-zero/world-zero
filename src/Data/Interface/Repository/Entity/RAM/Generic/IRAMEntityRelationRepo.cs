@@ -31,7 +31,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
           >
         where TLeftId : ISingleValueObject<TLeftBuiltIn>
         where TRightId : ISingleValueObject<TRightBuiltIn>
-        where TEntityRelation : IEntityRelation
+        where TEntityRelation : ABCEntityRelation
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
         where TRelationDTO : RelationDTO
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>

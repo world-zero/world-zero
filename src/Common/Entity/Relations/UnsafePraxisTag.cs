@@ -14,7 +14,7 @@ namespace WorldZero.Common.Entity.Relation
     /// <br />
     /// Right relation: `TagId`
     /// </summary>
-    public class UnsafePraxisTag : ITaggedEntity<Id, int>, IUnsafeEntity
+    public class UnsafePraxisTag : ABCTaggedEntity<Id, int>, IUnsafeEntity
     {
         /// <summary>
         /// PraxisId is a wrapper for LeftId.
@@ -45,7 +45,7 @@ namespace WorldZero.Common.Entity.Relation
             : base(new Id(id), new Id(praxisId), new Name(tagId))
         { }
 
-        public override IEntity<Id, int> Clone()
+        public override ABCEntity<Id, int> Clone()
         {
             return new UnsafePraxisTag(
                 this.Id,

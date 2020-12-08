@@ -14,7 +14,7 @@ namespace WorldZero.Common.Interface.Entity.Generic.Primary
     /// <summary>
     /// This is the interface for an Entity, complete with an Id.
     /// </summary>
-    public abstract class IEntity<TSingleValObj, TValObj>
+    public abstract class ABCEntity<TSingleValObj, TValObj>
         where TSingleValObj : ISingleValueObject<TValObj>
     {
         public bool IsIdSet()
@@ -42,7 +42,7 @@ namespace WorldZero.Common.Interface.Entity.Generic.Primary
             return r;
         }
 
-        abstract public IEntity<TSingleValObj, TValObj> Clone();
+        abstract public ABCEntity<TSingleValObj, TValObj> Clone();
 
         /// <summary>
         /// This is the Id for an entity - it is a value object with a single
@@ -75,7 +75,7 @@ namespace WorldZero.Common.Interface.Entity.Generic.Primary
         /// </summary>
         public TSingleValObj UnsetIdValue { get; private set; }
 
-        public IEntity(TSingleValObj unsetValue)
+        public ABCEntity(TSingleValObj unsetValue)
         {
             this.UnsetIdValue = unsetValue;
             this._id = this.UnsetIdValue;

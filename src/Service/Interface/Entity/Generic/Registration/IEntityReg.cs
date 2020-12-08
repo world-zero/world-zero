@@ -12,7 +12,7 @@ namespace WorldZero.Service.Interface.Entity.Registration
     /// </summary>
     public abstract class IEntityReg<TEntity, TId, TBuiltIn>
         : IEntityService<TEntity, TId, TBuiltIn>
-        where TEntity : IEntity<TId, TBuiltIn>
+        where TEntity : ABCEntity<TId, TBuiltIn>
         where TId : ISingleValueObject<TBuiltIn>
     {
         public IEntityReg(IEntityRepo<TEntity, TId, TBuiltIn> repo)

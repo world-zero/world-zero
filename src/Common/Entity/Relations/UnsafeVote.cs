@@ -20,7 +20,7 @@ namespace WorldZero.Common.Entity.Relation
     /// requires knowing all of the player's character IDs, which is firmly the
     /// responsiblity of VoteReg.
     /// </remarks>
-    public class UnsafeVote : IIdIdRelation, IUnsafeEntity
+    public class UnsafeVote : ABCIdIdRelation, IUnsafeEntity
     {
         /// <remarks>
         /// Changing this will NOT check existing instances of Vote to make
@@ -143,7 +143,7 @@ namespace WorldZero.Common.Entity.Relation
             }
         }
 
-        public override IEntity<Id, int> Clone()
+        public override ABCEntity<Id, int> Clone()
         {
             return new UnsafeVote(
                 this.Id,

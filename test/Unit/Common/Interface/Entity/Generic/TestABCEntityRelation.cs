@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
 {
     [TestFixture]
-    public class TestIEntityRelation
+    public class TestABCEntityRelation
     {
         private Id _leftId;
         private Id _rightId;
@@ -90,7 +90,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
         }
     }
 
-    public class TestIdIdRelation : IEntityRelation<Id, int, Id, int>
+    public class TestIdIdRelation : ABCEntityRelation<Id, int, Id, int>
     {
         public TestIdIdRelation(Id leftId, Id rightId)
             : base(leftId, rightId)
@@ -100,7 +100,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
             : base(id, leftId, rightId)
         { }
 
-        public override IEntity<Id, int> Clone()
+        public override ABCEntity<Id, int> Clone()
         {
             return new TestIdIdRelation(
                 this.Id,
@@ -115,7 +115,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
         }
     }
 
-    public class TestIdNameRelation : IEntityRelation<Id, int, Name, string>
+    public class TestIdNameRelation : ABCEntityRelation<Id, int, Name, string>
     {
         public TestIdNameRelation(Id leftId, Name rightId)
             : base(leftId, rightId)
@@ -125,7 +125,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
             : base(id, leftId, rightId)
         { }
 
-        public override IEntity<Id, int> Clone()
+        public override ABCEntity<Id, int> Clone()
         {
             return new TestIdNameRelation(
                 this.Id,
@@ -140,7 +140,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
         }
     }
 
-    public class TestNameIdRelation : IEntityRelation<Name, string, Id, int>
+    public class TestNameIdRelation : ABCEntityRelation<Name, string, Id, int>
     {
         public TestNameIdRelation(Name leftId, Id rightId)
             : base(leftId, rightId)
@@ -150,7 +150,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
             : base(id, leftId, rightId)
         { }
 
-        public override IEntity<Id, int> Clone()
+        public override ABCEntity<Id, int> Clone()
         {
             return new TestNameIdRelation(
                 this.Id,
@@ -165,7 +165,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
         }
     }
 
-    public class TestNameNameRelation : IEntityRelation<Name, string, Name, string>
+    public class TestNameNameRelation : ABCEntityRelation<Name, string, Name, string>
     {
         public TestNameNameRelation(Name leftId, Name rightId)
             : base(leftId, rightId)
@@ -175,7 +175,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
             : base(id, leftId, rightId)
         { }
 
-        public override IEntity<Id, int> Clone()
+        public override ABCEntity<Id, int> Clone()
         {
             return new TestNameNameRelation(
                 this.Id,

@@ -5,7 +5,7 @@ using WorldZero.Common.Interface.General.Generic;
 
 namespace WorldZero.Common.Interface.Entity.Generic.Relation
 {
-    /// <inheritdoc cref="IEntityRelation"/>
+    /// <inheritdoc cref="ABCEntityRelation"/>
     /// <summary>
     /// This extends IEntityRelation by adding a counter to the combo-unique
     /// rule of left ID + right ID.
@@ -16,15 +16,15 @@ namespace WorldZero.Common.Interface.Entity.Generic.Relation
     /// the creation service classes are responsible for ensuring that the
     /// entity's Count is reasonable.
     /// </remarks>
-    public abstract class IEntityRelationCnt
+    public abstract class ABCEntityRelationCnt
         <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
-        : IEntityRelation<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
+        : ABCEntityRelation<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
         where TLeftId  : ISingleValueObject<TLeftBuiltIn>
         where TRightId : ISingleValueObject<TRightBuiltIn>
     {
         // NOTE: IEntity.Clone() is still not implemmented.
 
-        public IEntityRelationCnt(
+        public ABCEntityRelationCnt(
             TLeftId leftId, TRightId rightId, int count=1
         )
             : base(leftId, rightId)
@@ -32,7 +32,7 @@ namespace WorldZero.Common.Interface.Entity.Generic.Relation
             this.Count = count;
         }
 
-        public IEntityRelationCnt(
+        public ABCEntityRelationCnt(
             Id id, TLeftId leftId, TRightId rightId, int count=1
         )
             : base(id, leftId, rightId)
@@ -57,7 +57,7 @@ namespace WorldZero.Common.Interface.Entity.Generic.Relation
             if ( (obj == null) || (obj.GetType() != this.GetType()) )
                 return false;
 
-            IEntityRelationCnt
+            ABCEntityRelationCnt
             <
                 TLeftId,
                 TLeftBuiltIn,
@@ -66,7 +66,7 @@ namespace WorldZero.Common.Interface.Entity.Generic.Relation
             > other;
             try
             {
-                other = (IEntityRelationCnt
+                other = (ABCEntityRelationCnt
                 <
                     TLeftId,
                     TLeftBuiltIn,

@@ -22,14 +22,14 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private Id _next() => new Id(this._nxt++);
 
         private void _absentt<TEntity, TId, TBuiltIn>(TEntity e, Func<TId, TEntity> getById)
-            where TEntity : IEntity<TId, TBuiltIn>
+            where TEntity : ABCEntity<TId, TBuiltIn>
             where TId : ISingleValueObject<TBuiltIn>
         {
             Assert.Throws<ArgumentException>(()=>getById(e.Id));
         }
 
         private void _present<TEntity, TId, TBuiltIn>(TEntity e, Func<TId, TEntity> GetById)
-            where TEntity : IEntity<TId, TBuiltIn>
+            where TEntity : ABCEntity<TId, TBuiltIn>
             where TId : ISingleValueObject<TBuiltIn>
         {
             var actualEntity = GetById(e.Id);

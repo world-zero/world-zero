@@ -8,7 +8,7 @@ namespace WorldZero.Common.Entity.Primary
     /// <summary>
     /// Character is a entity for a tuple of the Character table.
     /// </summary>
-    public class UnsafeCharacter : IIdNamedEntity, IEntityHasOptional, IUnsafeEntity
+    public class UnsafeCharacter : ABCIdNamedEntity, IEntityHasOptional, IUnsafeEntity
     {
         /// <summary>
         /// Determine the level based off the number of points supplied.
@@ -168,7 +168,7 @@ namespace WorldZero.Common.Entity.Primary
             this.HasProfilePic = hasProfilePic;
         }
 
-        public override IEntity<Id, int> Clone()
+        public override ABCEntity<Id, int> Clone()
         {
             return new UnsafeCharacter(
                 this.Id,

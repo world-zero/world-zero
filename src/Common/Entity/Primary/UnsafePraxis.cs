@@ -13,7 +13,7 @@ namespace WorldZero.Common.Entity.Primary
     /// registration class.
     /// </remarks>
     public class UnsafePraxis :
-        IIdStatusedEntity,
+        ABCIdStatusedEntity,
         IEntityHasOptional,
         IUnsafeEntity
     {
@@ -70,7 +70,7 @@ namespace WorldZero.Common.Entity.Primary
             );
         }
 
-        public override IEntity<Id, int> Clone()
+        public override ABCEntity<Id, int> Clone()
         {
             return new UnsafePraxis(
                 this.Id,

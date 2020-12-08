@@ -44,9 +44,9 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
     public abstract class IEntityUnset
     <TEntity, TId, TBuiltIn, TTEntity, TTId, TTBuiltIn>
         : IEntityDel<TEntity, TId, TBuiltIn>
-        where TEntity : IEntity<TId, TBuiltIn>, IOptionalEntity
+        where TEntity : ABCEntity<TId, TBuiltIn>, IOptionalEntity
         where TId : ISingleValueObject<TBuiltIn>
-        where TTEntity : IEntity<TTId, TTBuiltIn>, IEntityHasOptional
+        where TTEntity : ABCEntity<TTId, TTBuiltIn>, IEntityHasOptional
         where TTId : ISingleValueObject<TTBuiltIn>
     {
         protected readonly IEntityRepo<TTEntity, TTId, TTBuiltIn> _otherRepo;

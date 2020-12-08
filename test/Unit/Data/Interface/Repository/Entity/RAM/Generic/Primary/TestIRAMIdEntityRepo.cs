@@ -300,7 +300,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
             this.Unique = unique;
         }
 
-        public override IEntity<Id, int> Clone()
+        public override ABCEntity<Id, int> Clone()
         {
             return new TestTask(
                 this.Id,
