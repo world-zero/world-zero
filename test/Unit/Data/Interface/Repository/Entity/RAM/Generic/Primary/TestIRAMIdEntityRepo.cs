@@ -311,7 +311,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
                 this.Level,
                 this.Unique,
                 this.MinLevel,
-                this.isHistorianable
+                this.IsHistorianable
             );
         }
 

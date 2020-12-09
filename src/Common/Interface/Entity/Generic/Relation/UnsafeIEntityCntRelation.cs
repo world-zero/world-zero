@@ -5,26 +5,17 @@ using WorldZero.Common.Interface.General.Generic;
 
 namespace WorldZero.Common.Interface.Entity.Generic.Relation
 {
-    /// <inheritdoc cref="UnsafeIEntityRelation"/>
-    /// <summary>
-    /// This extends IEntityRelation by adding a counter to the combo-unique
-    /// rule of left ID + right ID.
-    /// </summary>
-    /// </remarks>
-    /// Repositories of these entities are responsible for ensuring that there
-    /// is a triple uniqueness on left ID, right ID, and the count, whereas
-    /// the creation service classes are responsible for ensuring that the
-    /// entity's Count is reasonable.
-    /// </remarks>
-    public abstract class UnsafeIEntityRelationCnt
+    /// <inheritdoc cref="IEntityCntRelation"/>
+    public abstract class UnsafeIEntityCntRelation
         <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
-        : UnsafeIEntityRelation<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
+        : UnsafeIEntityRelation<TLeftId,TLeftBuiltIn,TRightId,TRightBuiltIn>,
+          IEntityCntRelation<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
         where TLeftId  : ISingleValueObject<TLeftBuiltIn>
         where TRightId : ISingleValueObject<TRightBuiltIn>
     {
         // NOTE: IEntity.Clone() is still not implemmented.
 
-        public UnsafeIEntityRelationCnt(
+        public UnsafeIEntityCntRelation(
             TLeftId leftId, TRightId rightId, int count=1
         )
             : base(leftId, rightId)
@@ -32,7 +23,7 @@ namespace WorldZero.Common.Interface.Entity.Generic.Relation
             this.Count = count;
         }
 
-        public UnsafeIEntityRelationCnt(
+        public UnsafeIEntityCntRelation(
             Id id, TLeftId leftId, TRightId rightId, int count=1
         )
             : base(id, leftId, rightId)
@@ -57,7 +48,7 @@ namespace WorldZero.Common.Interface.Entity.Generic.Relation
             if ( (obj == null) || (obj.GetType() != this.GetType()) )
                 return false;
 
-            UnsafeIEntityRelationCnt
+            UnsafeIEntityCntRelation
             <
                 TLeftId,
                 TLeftBuiltIn,
@@ -66,7 +57,7 @@ namespace WorldZero.Common.Interface.Entity.Generic.Relation
             > other;
             try
             {
-                other = (UnsafeIEntityRelationCnt
+                other = (UnsafeIEntityCntRelation
                 <
                     TLeftId,
                     TLeftBuiltIn,

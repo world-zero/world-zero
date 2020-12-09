@@ -14,6 +14,9 @@ namespace WorldZero.Common.Interface.Entity.Marker
     /// There is no `ISafeMarker` since the base interface for the entities
     /// is safe by default, but the proxied implementations are the unsafe
     /// classes by increasing the accesss beyond what the interface specifies.
+    /// <br />
+    /// If you do not know what about the Proxy design pattern, that is very
+    /// relevant information.
     /// </remarks>
     public interface IUnsafeEntity
     { }

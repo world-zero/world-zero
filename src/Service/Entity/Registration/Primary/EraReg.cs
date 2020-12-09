@@ -57,10 +57,10 @@ namespace WorldZero.Service.Entity.Registration.Primary
         /// This method will end the previous era and begin the supplied era.
         /// This will set newEra's start date to now and set the end date to
         /// null.
-        /// 
-        /// This will not effect anything outside of the supplied era repo.
         /// </summary>
         /// <remarks>
+        /// This will not effect anything outside of the supplied era repo.
+        /// <br />
         /// Changing the outlined date controlling may result in a corruptable
         /// Era repository as these are the only safeguards in place to prevent
         /// non-overlapping eras and no more than one era being active at once.

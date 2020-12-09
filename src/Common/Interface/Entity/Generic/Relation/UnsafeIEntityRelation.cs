@@ -7,33 +7,11 @@ using WorldZero.Common.Interface.General.Generic;
 
 namespace WorldZero.Common.Interface.Entity.Generic.Relation
 {
-    /// <summary>
-    /// This entity represents a many-to-many mapping between two entities by
-    /// containing their IDs. Equality is determined by the keys of the two
-    /// entities. If these keys are the same type, then either order will be
-    /// considered the same. If the keys are of a different type, then order
-    /// will be considered, meaning a child with an `Id` LeftId and a `Name`
-    /// RightId will not be considered equal to a child with a `Name` LeftId
-    /// and an `Id` RightId, even if the corresponding properties have the same
-    /// values.
-    /// Additionally, validatation of IDs falls to the repository and service
-    /// class(es), as necessary.
-    /// </summary>
-    /// <remarks>
-    /// As usual, enforcing that the combination of the left and right is the
-    /// responsiblity of the repo.  
-    /// When making an implementation, please have the class name match the
-    /// order of the enitites (ie: an implementation that maps left entity
-    /// `Praxis` and right entity `Flag` should be named something like
-    /// `PraxisFlag`). An exception to this rule is for self-referencial
-    /// relations.
-    /// It is worth noting that == and != are not overloaded, just .Equals().
-    /// It is recommended that children add more descriptive wrapper properties
-    /// for LeftId and RightId.
-    /// </remarks>
+    /// <inheritdoc cref="IEntityRelation"/>
     public abstract class UnsafeIEntityRelation
         <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
-        : UnsafeIIdEntity
+        : UnsafeIIdEntity,
+          IEntityRelation<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
         where TLeftId  : ISingleValueObject<TLeftBuiltIn>
         where TRightId : ISingleValueObject<TRightBuiltIn>
     {

@@ -1,13 +1,11 @@
-using WorldZero.Common.Interface.Entity.Marker;
+using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Common.ValueObject.General;
 
 namespace WorldZero.Common.Entity.Primary
 {
-    /// <summary>
-    /// Status is a entity for a tuple of the Status table.
-    /// </summary>
-    public class UnsafeStatus : UnsafeINamedEntity, IUnsafeEntity
+    /// <inheritdoc cref="INamedEntity"/>
+    public class UnsafeStatus : UnsafeINamedEntity, IStatus
     {
         public UnsafeStatus(Name id, string description=null)
             : base(id)
@@ -29,9 +27,6 @@ namespace WorldZero.Common.Entity.Primary
             );
         }
 
-        /// <summary>
-        /// Description is a description of the tag. This is optional.
-        /// </summary>
         public string Description { get; set; }
     }
 }

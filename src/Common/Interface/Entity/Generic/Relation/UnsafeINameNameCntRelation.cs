@@ -3,9 +3,10 @@ using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 
 namespace WorldZero.Common.Interface.Entity.Generic.Relation
 {
-    /// <inheritdoc cref="UnsafeIEntityRelation"/>
+    /// <inheritdoc cref="INameNameCntRelation"/>
     public abstract class UnsafeINameNameCntRelation
-        : UnsafeIEntityRelationCnt<Name, string, Name, string>
+        : UnsafeIEntityCntRelation<Name, string, Name, string>,
+          INameNameCntRelation
     {
         public UnsafeINameNameCntRelation(Name leftId, Name rightId, int cnt=1)
             : base(leftId, rightId, cnt)

@@ -2,7 +2,7 @@ using WorldZero.Common.ValueObject.General;
 
 namespace WorldZero.Common.Interface.Entity.Generic.Primary
 {
-    /// <inheritdoc cref="IEntity"/>
+    /// <inheritdoc cref="WorldZero.Common.Interface.Entity.Generic.Primary.IEntity{TId, TBuiltIn}"/>
     /// <summary>
     /// This class is used for entities that have a `Id` primary key.
     /// </summary>

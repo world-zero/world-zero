@@ -1,20 +1,13 @@
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
-using WorldZero.Common.Interface.Entity.Marker;
+using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Common.Interface.Entity.Generic.Relation;
 
 namespace WorldZero.Common.Entity.Relation
 {
-    /// <summary>
-    /// This relation maps a character's ID to another character's ID,
-    /// signifying that they are foes.
-    /// <br />
-    /// Left relation: `FirstCharacterId`
-    /// <br />
-    /// Right relation: `SecondCharacterId`
-    /// </summary>
-    public class UnsafeFoe : UnsafeIEntitySelfRelation<Id, int>, IUnsafeEntity
+    /// <inheritdoc cref="IFoe"/>
+    public class UnsafeFoe : UnsafeIEntitySelfRelation<Id, int>, IFoe
     {
         public override RelationDTO<Id, int, Id, int> GetDTO()
         {
@@ -24,18 +17,12 @@ namespace WorldZero.Common.Entity.Relation
             );
         }
 
-        /// <summary>
-        /// FirstCharacterId is a wrapper for LeftId.
-        /// </summary>
         public Id FirstCharacterId
         {
             get { return this.LeftId; }
             set { this.LeftId = value; }
         }
 
-        /// <summary>
-        /// SecondCharacterId is a wrapper for RightId.
-        /// </summary>
         public Id SecondCharacterId
         {
             get { return this.RightId; }
@@ -59,8 +46,7 @@ namespace WorldZero.Common.Entity.Relation
         { }
 
         internal UnsafeFoe(int id, int firstCharacterId, int secondCharacterId)
-            : base
-            (
+            : base(
                 new Id(id),
                 new Id(firstCharacterId),
                 new Id(secondCharacterId)

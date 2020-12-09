@@ -1,17 +1,13 @@
 using System;
-using WorldZero.Common.Interface.Entity.Marker;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
+using WorldZero.Common.Interface.Entity.Primary;
 
 namespace WorldZero.Common.Entity.Primary
 {
-    /// <summary>
-    /// Flag is a entity for a tuple of the Flag table.
-    /// </summary>
-    public class UnsafeFlag : UnsafeINamedEntity, IUnsafeEntity
+    /// <inheritdoc cref="IFlag"/>
+    public class UnsafeFlag : UnsafeINamedEntity, IFlag
     {
-        // This does not have a description parameter since that would make the
-        // two constructors ambiguous.
         public UnsafeFlag(
             Name name,
             string description=null,
@@ -47,20 +43,8 @@ namespace WorldZero.Common.Entity.Primary
             );
         }
 
-        /// <summary>
-        /// Description is a description of the tag. This is optional.
-        /// </summary>
         public string Description { get; set; }
 
-        /// <summary>
-        /// Penalty is a PointTotal that can be either a flag point
-        /// penalty or a point percentage modifier. For more, see
-        /// <see cref="UnsafeFlag.IsFlatPenalty"/>.
-        /// </summary>
-        /// <remarks>
-        /// If `IsFlatPenalty` is false, then this will act as the percentage
-        /// of the point total to deduct.
-        /// </remarks>
         public PointTotal Penalty
         {
             get { return this._penalty; }
@@ -73,10 +57,6 @@ namespace WorldZero.Common.Entity.Primary
         }
         private PointTotal _penalty;
 
-        /// <summary>
-        /// IsFlatPenalty determines whether <c>Penalty</c> is a flat penalty point
-        /// addition or if it is a point percentage modifier.
-        /// </summary>
         public bool IsFlatPenalty { get; set; }
     }
 }

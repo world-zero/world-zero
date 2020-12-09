@@ -30,7 +30,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
             TRightBuiltIn,
             TRelationDTO
         >
-        where TEntityRelationCnt : UnsafeIEntityRelationCnt
+        where TEntityRelationCnt : UnsafeIEntityCntRelation
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
         where TLeftEntity : UnsafeIEntity<TLeftId, TLeftBuiltIn>
         where TLeftId  : ISingleValueObject<TLeftBuiltIn>

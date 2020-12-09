@@ -1,17 +1,12 @@
 using System;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.Interface.Entity.Marker;
+using WorldZero.Common.Interface.Entity.Primary;
 
 namespace WorldZero.Common.Entity.Primary
 {
-    /// <summary>
-    /// MetaTask is a entity for a tuple of the MetaTask table.
-    /// </summary>
-    public class UnsafeMetaTask :
-        UnsafeIIdStatusedEntity,
-        IOptionalEntity,
-        IUnsafeEntity
+    /// <inheritdoc cref="IMetaTask"/>
+    public class UnsafeMetaTask : UnsafeIIdStatusedEntity, IMetaTask
     {
         public UnsafeMetaTask(
             Name factionId,
@@ -103,15 +98,6 @@ namespace WorldZero.Common.Entity.Primary
         }
         private string _description;
 
-        /// <summary>
-        /// Bonus is a PointTotal that can be either a flag point
-        /// bonus or a point percentage modifier. For more, see
-        /// <see cref="UnsafeMetaTask.IsFlatBonus"/>.
-        /// </summary>
-        /// <remarks>
-        /// If `IsFlatBonus` is false, then this will act as the percentage
-        /// of the point total to add.
-        /// </remarks>
         public PointTotal Bonus
         {
             get { return this._bonus; }
@@ -124,10 +110,6 @@ namespace WorldZero.Common.Entity.Primary
         }
         private PointTotal _bonus;
 
-        /// <summary>
-        /// IsFlatBonus determines whether <c>Bonus</c> is a flat bonus point
-        /// addition or if it is a point percentage modifier.
-        /// </summary>
         public bool IsFlatBonus { get; set; }
 
         public Name FactionId

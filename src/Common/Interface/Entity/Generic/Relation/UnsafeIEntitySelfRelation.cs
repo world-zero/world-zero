@@ -3,10 +3,10 @@ using WorldZero.Common.Interface.General.Generic;
 
 namespace WorldZero.Common.Interface.Entity.Generic.Relation
 {
-    /// <inheritdoc cref="UnsafeIEntityRelation"/>
-    /// </remarks>
+    /// <inheritdoc cref="IEntitySelfRelation"/>
     public abstract class UnsafeIEntitySelfRelation<TId, TBuiltIn>
-        : UnsafeIEntityRelation<TId, TBuiltIn, TId, TBuiltIn>
+        : UnsafeIEntityRelation<TId, TBuiltIn, TId, TBuiltIn>,
+          IEntitySelfRelation<TId, TBuiltIn>
         where TId : ISingleValueObject<TBuiltIn>
     {
         public UnsafeIEntitySelfRelation(TId leftId, TId rightId)

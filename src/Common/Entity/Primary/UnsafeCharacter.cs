@@ -1,21 +1,14 @@
 using System;
+using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.Interface.Entity.Marker;
 
 namespace WorldZero.Common.Entity.Primary
 {
-    /// <summary>
-    /// Character is a entity for a tuple of the Character table.
-    /// </summary>
-    public class UnsafeCharacter : UnsafeIIdNamedEntity, IEntityHasOptional, IUnsafeEntity
+    /// <inheritdoc cref="ICharacter"/>
+    public class UnsafeCharacter : UnsafeIIdNamedEntity, ICharacter
     {
-        /// <summary>
-        /// Determine the level based off the number of points supplied.
-        /// </summary>
-        /// <param name="points">The points to calculate the level of.</param>
-        /// <returns><c>Level</c> corresponding to the <c>points</c>.</returns>
-        public static Level CalculateLevel(PointTotal points)
+        public Level CalculateLevel(PointTotal points)
         {
             if (points == null)
                 throw new ArgumentNullException("points");
@@ -184,15 +177,8 @@ namespace WorldZero.Common.Entity.Primary
             );
         }
 
-        /// <summary>
-        /// HasBio is used to record if a character has a bio or not.
-        /// </summary>
         public bool HasBio { get; set; }
 
-        /// <summary>
-        /// HasProfilePic is used to record if a character has a profile
-        /// picture or not.
-        /// </summary>
         public bool HasProfilePic { get; set; }
 
         public Id PlayerId

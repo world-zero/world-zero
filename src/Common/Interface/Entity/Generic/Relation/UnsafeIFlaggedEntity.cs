@@ -4,13 +4,10 @@ using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 
 namespace WorldZero.Common.Interface.Entity.Generic.Relation
 {
-    /// <inheritdoc cref="UnsafeIEntityRelation"/>
-    /// <remarks>
-    /// This will configure the right ID to be a Name, intended to be used as a
-    /// relation to a Flag.
-    /// </remarks>
+    /// <inheritdoc cref="IFlaggedEntity"/>
     public abstract class UnsafeIFlaggedEntity<TLeftId, TLeftBuiltIn>
-        : UnsafeIEntityRelation<TLeftId, TLeftBuiltIn, Name, string>
+        : UnsafeIEntityRelation<TLeftId, TLeftBuiltIn, Name, string>,
+          IFlaggedEntity<TLeftId, TLeftBuiltIn>
         where TLeftId  : ISingleValueObject<TLeftBuiltIn>
     {
         public UnsafeIFlaggedEntity(TLeftId leftId, Name tagId)
@@ -21,9 +18,6 @@ namespace WorldZero.Common.Interface.Entity.Generic.Relation
             : base(id, leftId, tagId)
         { }
 
-        /// <summary>
-        /// FlagId is a wrapper for RightId.
-        /// </summary>
         public Name FlagId
         {
             get { return this.RightId; }

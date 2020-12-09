@@ -10,6 +10,12 @@ namespace WorldZero.Common.Interface.Entity.Generic.Primary
     /// Unless a reference-type property states that it can store null, assume
     /// that these properties will throw an `ArgumentNullException` when
     /// appropriate.
+    /// <br />
+    /// These interfaces tend to be just getters for a reason:
+    /// compiler-enforced safety against updating entities without the use of a
+    /// service updating class. This is relevant as the system-wide logic is
+    /// enforced there. For more, see <see
+    /// cref="WorldZero.Common.Interface.Entity.Marker.IUnsafeEntity"/>.
     /// </remarks>
     public interface IEntity<TId, TBuiltIn>
         where TId : ISingleValueObject<TBuiltIn>

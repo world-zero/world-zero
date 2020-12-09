@@ -1,18 +1,12 @@
 using System;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.Interface.Entity.Marker;
+using WorldZero.Common.Interface.Entity.Primary;
 
 namespace WorldZero.Common.Entity.Primary
 {
-    /// <summary>
-    /// Location is a entity for a tuple of the Location table.
-    /// </summary>
-    /// <remarks>
-    /// Repos are responsible for ensuring that every combination of cities,
-    /// states, countries, and zips are unique.
-    /// </remarks>
-    public class UnsafeLocation : UnsafeIIdEntity, IOptionalEntity, IUnsafeEntity
+    /// <inheritdoc cref="ILocation"/>
+    public class UnsafeLocation : UnsafeIIdEntity, ILocation
     {
         public UnsafeLocation(
             Name city,

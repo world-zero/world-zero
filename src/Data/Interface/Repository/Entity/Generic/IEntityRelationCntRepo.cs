@@ -31,7 +31,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.Primary.Generic
           >
         where TLeftId : ISingleValueObject<TLeftBuiltIn>
         where TRightId : ISingleValueObject<TRightBuiltIn>
-        where TEntityRelation : UnsafeIEntityRelationCnt
+        where TEntityRelation : UnsafeIEntityCntRelation
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
         where TRelationDTO : CntRelationDTO
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>

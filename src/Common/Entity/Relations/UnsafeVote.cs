@@ -1,31 +1,15 @@
 using System;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.Interface.Entity.Marker;
+using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Common.Interface.Entity.Generic.Relation;
 
 namespace WorldZero.Common.Entity.Relation
 {
-    /// <summary>
-    /// This relation applies a vote from the supplied character to the
-    /// corresponding praxis participant.
-    /// <br />
-    /// Left relation: `CharacterId` of the character submitting the vote.
-    /// <br />
-    /// Right relation: `PraxisParticipantId`
-    /// </summary>
-    /// <remarks>
-    /// While making sure that a player isn't voting on their own character
-    /// requires knowing all of the player's character IDs, which is firmly the
-    /// responsiblity of VoteReg.
-    /// </remarks>
-    public class UnsafeVote : UnsafeIIdIdRelation, IUnsafeEntity
+    /// <inheritdoc cref="IVote"/>
+    public class UnsafeVote : UnsafeIIdIdRelation, IVote
     {
-        /// <remarks>
-        /// Changing this will NOT check existing instances of Vote to make
-        /// sure that none of them do not step out of the new bounds.
-        /// </remarks>
         public static PointTotal MinPoints
         {
             get { return _minPoints; }
@@ -40,10 +24,6 @@ namespace WorldZero.Common.Entity.Relation
         }
         private static PointTotal _minPoints = new PointTotal(1);
 
-        /// <remarks>
-        /// Changing this will NOT check existing instances of Vote to make
-        /// sure that none of them do not step out of the new bounds.
-        /// </remarks>
         public static PointTotal MaxPoints
         {
             get { return _maxPoints; }
@@ -58,9 +38,9 @@ namespace WorldZero.Common.Entity.Relation
         }
         private static PointTotal _maxPoints = new PointTotal(5);
 
-        /// <summary>
-        /// CharacterId is a wrapper for LeftId.
-        /// </summary>
+        public PointTotal StaticMinPoints { get { return MinPoints; } }
+        public PointTotal StaticMaxPoints { get { return MaxPoints; } }
+
         public Id CharacterId
         {
             get { return this.LeftId; }
@@ -72,9 +52,6 @@ namespace WorldZero.Common.Entity.Relation
             }
         }
 
-        /// <summary>
-        /// PraxisParticipantId is a wrapper for RightId.
-        /// </summary>
         public Id PraxisParticipantId
         {
             get { return this.RightId; }

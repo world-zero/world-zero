@@ -1,24 +1,15 @@
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
-using WorldZero.Common.Interface.Entity.Marker;
+using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Common.Interface.Entity.Generic.Relation;
 
 namespace WorldZero.Common.Entity.Relation
 {
-    /// <summary>
-    /// This relation maps a Praxis's ID to a Tag's ID,
-    /// signifying that the praxis has tag X.
-    /// <br />
-    /// Left relation: `PraxisId`
-    /// <br />
-    /// Right relation: `TagId`
-    /// </summary>
-    public class UnsafePraxisTag : UnsafeITaggedEntity<Id, int>, IUnsafeEntity
+    /// <inheritdoc cref="IPraxisTag"/>
+    public class UnsafePraxisTag
+        : UnsafeITaggedEntity<Id, int>, IPraxisTag
     {
-        /// <summary>
-        /// PraxisId is a wrapper for LeftId.
-        /// </summary>
         public Id PraxisId
         {
             get { return this.LeftId; }

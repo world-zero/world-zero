@@ -1,15 +1,12 @@
+using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
-using WorldZero.Common.Interface.Entity.Marker;
 using WorldZero.Common.ValueObject.General;
 using System;
 
 namespace WorldZero.Common.Entity.Primary
 {
-    /// <summary>
-    /// An Era is a configuration file for the game at any given time. If a
-    /// start date is not supplied, time of initialization will be used.
-    /// </summary>
-    public class UnsafeEra : UnsafeINamedEntity, IUnsafeEntity
+    /// <inheritdoc cref="IEra"/>
+    public class UnsafeEra : UnsafeINamedEntity, IEra
     {
         public UnsafeEra(
             Name name,
@@ -90,38 +87,22 @@ namespace WorldZero.Common.Entity.Primary
         }
         private PastDate _endDate;
 
-        /// <summary>
-        /// This is the number of levels someone can be under for a task to be
-        /// allowed to submit a praxis for it.
-        /// </summary>
         /// <value>
         /// If null is supplied, this set the field to `new Level(2)`.
         /// </value>
-        /// <remarks>
-        /// An example of this would be how a character of level 3 would be
-        /// able to submit a praxis for a task of level 5 if `TaskLevelBuffer`
-        /// is 2.
-        /// </remarks>
         public Level TaskLevelBuffer
         {
-            get { return this._taskLevelDelta; }
+            get { return this._taskLevelBuffer; }
             set
             {
                 if (value == null)
-                    this._taskLevelDelta = new Level(2);
+                    this._taskLevelBuffer = new Level(2);
                 else
-                    this._taskLevelDelta = value;
+                    this._taskLevelBuffer = value;
             }
         }
-        private Level _taskLevelDelta;
+        private Level _taskLevelBuffer;
 
-        /// <summary>
-        /// This is the max number of praxises a character can have in progress
-        /// and active, cummulative.
-        /// </summary>
-        /// <value>
-        /// This must be at least 1.
-        /// </value>
         public int MaxPraxises
         {
             get { return this._maxPraxises; }
@@ -134,13 +115,6 @@ namespace WorldZero.Common.Entity.Primary
         }
         private int _maxPraxises;
 
-        /// <summary>
-        /// This is the max number of times a character can complete any given
-        /// task.
-        /// </summary>
-        /// <value>
-        /// This must be at least 1 and no larger than `MaxTasksReiterator`.
-        /// </value>
         public int MaxTasks
         {
             get { return this._maxTasks; }
@@ -155,13 +129,6 @@ namespace WorldZero.Common.Entity.Primary
         }
         private int _maxTasks = 1;
 
-        /// <summary>
-        /// This is the max number of times a character can complete any given
-        /// task iff they have the Reiterator ability.
-        /// </summary>
-        /// <value>
-        /// This must be at least 1 and at least as large as `MaxTasks`.
-        /// </value>
         public int MaxTasksReiterator
         {
             get { return this._maxTasksReiterator; }

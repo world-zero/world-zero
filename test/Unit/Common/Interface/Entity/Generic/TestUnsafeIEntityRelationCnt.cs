@@ -82,7 +82,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
         }
     }
 
-    public class TestIdIdRelationCnt : UnsafeIEntityRelationCnt<Id, int, Id, int>
+    public class TestIdIdRelationCnt : UnsafeIEntityCntRelation<Id, int, Id, int>
     {
         public TestIdIdRelationCnt(Id leftId, Id rightId, int cnt=1)
             : base(leftId, rightId, cnt)

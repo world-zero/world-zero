@@ -1,35 +1,21 @@
 using System;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.Interface.Entity.Marker;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Common.Interface.Entity.Generic.Relation;
+using WorldZero.Common.Interface.Entity.Relation;
 
 namespace WorldZero.Common.Entity.Relation
 {
-    /// <summary>
-    /// This relation maps a praxis' ID to a character's ID, as well as
-    /// containing the content of the comment they are leaving on the related
-    /// praxis.
-    /// <br />
-    /// Left relation: `PraxisId`
-    /// <br />
-    /// Right relation: `CharacterId`
-    /// </summary>
-    public class UnsafeComment : UnsafeIIdIdCntRelation, IUnsafeEntity
+    /// <inheritdoc cref="IComment"/>
+    public class UnsafeComment : UnsafeIIdIdCntRelation, IComment
     {
-        /// <summary>
-        /// PraxisId wraps LeftId, which is the ID of the related Praxis.
-        /// </summary>
         public Id PraxisId
         {
             get { return this.LeftId; }
             set { this.LeftId = value; }
         }
 
-        /// <summary>
-        /// CharacterId wraps RightId, which is the ID of the related Character.
-        /// </summary>
         public Id CharacterId
         {
             get { return this.RightId; }

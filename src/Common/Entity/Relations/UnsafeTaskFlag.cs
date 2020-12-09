@@ -1,24 +1,15 @@
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
-using WorldZero.Common.Interface.Entity.Marker;
+using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Common.Interface.Entity.Generic.Relation;
 
 namespace WorldZero.Common.Entity.Relation
 {
-    /// <summary>
-    /// This relation maps a Task's ID to a Flag's ID,
-    /// signifying that the task has flag X.
-    /// <br />
-    /// Left relation: `TaskId`
-    /// <br />
-    /// Right relation: `FlagId`
-    /// </summary>
-    public class UnsafeTaskFlag : UnsafeIFlaggedEntity<Id, int>, IUnsafeEntity
+    /// <inheritdoc cref="ITaskFlag"/>
+    public class UnsafeTaskFlag
+        : UnsafeIFlaggedEntity<Id, int>, ITaskFlag
     {
-        /// <summary>
-        /// TaskId is a wrapper for LeftId.
-        /// </summary>
         public Id TaskId
         {
             get { return this.LeftId; }

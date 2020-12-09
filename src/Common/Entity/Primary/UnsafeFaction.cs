@@ -1,18 +1,12 @@
+using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.Interface.Entity.Marker;
 using System;
 
 namespace WorldZero.Common.Entity.Primary
 {
-    /// <summary>
-    /// Faction is a entity for a tuple of the Faction table.
-    /// </summary>
-    public class UnsafeFaction :
-        UnsafeINamedEntity,
-        IOptionalEntity,
-        IEntityHasOptional,
-        IUnsafeEntity
+    /// <inheritdoc cref="IFaction"/>
+    public class UnsafeFaction : UnsafeINamedEntity, IFaction
     {
         /// <summary>
         /// Initialize a new Faction. There is no requirement for any optional

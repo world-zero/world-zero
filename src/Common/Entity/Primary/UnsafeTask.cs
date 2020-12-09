@@ -1,14 +1,12 @@
 using System;
-using WorldZero.Common.Interface.Entity.Marker;
+using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Common.ValueObject.General;
 
 namespace WorldZero.Common.Entity.Primary
 {
-    /// <summary>
-    /// Task is a entity for a tuple of the Task table.
-    /// </summary>
-    public class UnsafeTask : UnsafeIIdStatusedEntity, IUnsafeEntity
+    /// <inheritdoc cref="ITask"/>
+    public class UnsafeTask : UnsafeIIdStatusedEntity, ITask
     {
         public UnsafeTask(
             Name factionId,
@@ -89,7 +87,7 @@ namespace WorldZero.Common.Entity.Primary
             if (minLevel == null) this.MinLevel = new Level(0);
             else                  this.MinLevel = minLevel;
             this.Points = points;
-            this.isHistorianable = isHistorianable;
+            this.IsHistorianable = isHistorianable;
             this.FactionId = factionId;
         }
 
@@ -103,7 +101,7 @@ namespace WorldZero.Common.Entity.Primary
                 this.Points,
                 this.Level,
                 this.MinLevel,
-                this.isHistorianable
+                this.IsHistorianable
             );
         }
 
@@ -171,11 +169,7 @@ namespace WorldZero.Common.Entity.Primary
             }
         }
 
-        /// <summary>
-        /// This auto-property controls whether or not the Historian ability
-        /// can be used on this task.
-        /// </summary>
-        public bool isHistorianable { get; set; }
+        public bool IsHistorianable { get; set; }
 
         public Name FactionId
         {

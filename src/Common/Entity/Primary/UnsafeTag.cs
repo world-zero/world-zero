@@ -1,13 +1,11 @@
-using WorldZero.Common.Interface.Entity.Marker;
+using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Common.ValueObject.General;
 
 namespace WorldZero.Common.Entity.Primary
 {
-    /// <summary>
-    /// Flag is a entity for a tuple of the Flag table.
-    /// </summary>
-    public class UnsafeTag : UnsafeINamedEntity, IUnsafeEntity
+    /// <inheritdoc cref="ITag"/>
+    public class UnsafeTag : UnsafeINamedEntity, ITag
     {
         // This does not have a description parameter since that would make the
         // two constructors ambiguous.

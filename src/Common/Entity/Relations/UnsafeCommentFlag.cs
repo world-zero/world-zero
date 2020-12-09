@@ -1,37 +1,19 @@
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
-using WorldZero.Common.Interface.Entity.Marker;
+using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Common.Interface.Entity.Generic.Relation;
 
 namespace WorldZero.Common.Entity.Relation
 {
-    /// <summary>
-    /// This relation maps a comment's ID to a Flag's ID,
-    /// signifying that the comment has flag X.
-    /// <br />
-    /// Left relation: `CommentId`
-    /// <br />
-    /// Right relation: `FlagId`
-    /// </summary>
-    public class UnsafeCommentFlag : UnsafeIIdNameRelation, IUnsafeEntity
+    /// <inheritdoc cref="ICommentFlag"/>
+    public class UnsafeCommentFlag
+        : UnsafeIFlaggedEntity<Id, int>, ICommentFlag
     {
-        /// <summary>
-        /// CommentId wraps LeftId, which is the ID of the related Comment.
-        /// </summary>
         public Id CommentId
         {
             get { return this.LeftId; }
             set { this.LeftId = value; }
-        }
-
-        /// <summary>
-        /// FlagId wraps RightId, which is the ID of the related Flag.
-        /// </summary>
-        public Name FlagId
-        {
-            get { return this.RightId; }
-            set { this.RightId = value; }
         }
 
         public UnsafeCommentFlag(Id commentId, Name flagId)
