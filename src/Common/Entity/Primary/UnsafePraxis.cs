@@ -1,15 +1,14 @@
 using System;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.Interface.Entity.Marker;
+using WorldZero.Common.Interface.Entity.Primary;
 
 namespace WorldZero.Common.Entity.Primary
 {
     /// <inheritdoc cref="IPraxis"/>
     public class UnsafePraxis :
         UnsafeIIdStatusedEntity,
-        IEntityHasOptional,
-        IUnsafeEntity
+        IPraxis
     {
         public UnsafePraxis(
             Id taskId,
