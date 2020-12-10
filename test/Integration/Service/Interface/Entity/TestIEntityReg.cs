@@ -3,7 +3,7 @@ using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Data.Repository.Entity.RAM.Primary;
-using WorldZero.Service.Interface.Entity.Registration;
+using WorldZero.Service.Interface.Entity.Generic.Registration;
 using NUnit.Framework;
 
 namespace WorldZero.Test.Integration.Service.Interface.Entity

@@ -4,7 +4,7 @@ using WorldZero.Common.Interface.General.Generic;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
 
-namespace WorldZero.Service.Interface.Entity
+namespace WorldZero.Service.Interface.Entity.Generic
 {
     /// <summary>
     /// This is a generic interface for entity service classes.

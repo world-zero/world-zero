@@ -6,7 +6,7 @@ using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
-using WorldZero.Service.Interface.Entity.Registration;
+using WorldZero.Service.Interface.Entity.Generic.Registration;
 using WorldZero.Service.Entity.Registration.Primary;
 
 namespace WorldZero.Service.Entity.Registration.Relation

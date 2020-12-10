@@ -1,4 +1,4 @@
-using WorldZero.Service.Interface.Entity.Registration;
+using WorldZero.Service.Interface.Entity.Generic.Registration;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Common.Entity.Primary;

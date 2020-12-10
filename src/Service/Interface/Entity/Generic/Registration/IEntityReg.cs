@@ -3,8 +3,9 @@ using System.Threading.Tasks;
 using WorldZero.Common.Interface.General.Generic;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
+using WorldZero.Service.Interface.Entity.Generic;
 
-namespace WorldZero.Service.Interface.Entity.Registration
+namespace WorldZero.Service.Interface.Entity.Generic.Registration
 {
     /// <summary>
     /// This service class will handle inserting entities. For more, <see cref=

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using WorldZero.Service.Entity.Registration.Relation;
-using WorldZero.Service.Interface.Entity.Registration;
+using WorldZero.Service.Interface.Entity.Generic.Registration;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.Entity.Relation;

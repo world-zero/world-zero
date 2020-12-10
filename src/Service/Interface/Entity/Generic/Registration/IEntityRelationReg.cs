@@ -7,7 +7,7 @@ using WorldZero.Common.Interface.Entity.Generic.Primary;
 using System.Threading.Tasks;
 using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
 
-namespace WorldZero.Service.Interface.Entity.Registration
+namespace WorldZero.Service.Interface.Entity.Generic.Registration
 {
     /// <inheritdoc cref="IEntityReg"/>
     /// <summary>

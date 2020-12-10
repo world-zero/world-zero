@@ -7,7 +7,7 @@ using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Data.Repository.Entity.RAM.Primary;
 using WorldZero.Data.Repository.Entity.RAM.Relation;
-using WorldZero.Service.Interface.Entity.Registration;
+using WorldZero.Service.Interface.Entity.Generic.Registration;
 using NUnit.Framework;
 
 namespace WorldZero.Test.Integration.Service.Interface.Entity
