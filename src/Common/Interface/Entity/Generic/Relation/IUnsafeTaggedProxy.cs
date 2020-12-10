@@ -15,5 +15,7 @@ namespace WorldZero.Common.Interface.Entity.Generic.Relation
         public IUnsafeTaggedProxy(TEntity e)
             : base(e)
         { }
+
+        public Name TagId => this._unsafeEntity.TagId;
     }
 }

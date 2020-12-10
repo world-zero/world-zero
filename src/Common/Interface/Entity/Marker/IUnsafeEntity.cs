@@ -11,6 +11,9 @@ namespace WorldZero.Common.Interface.Entity.Marker
     /// implementation.
     /// </summary>
     /// <remarks>
+    /// The use of safe and unsafe entities limits the ability of people to
+    /// edit an entity without the entity's updating service class.
+    /// <br />
     /// There is no `ISafeMarker` since the base interface for the entities
     /// is safe by default, but the proxied implementations are the unsafe
     /// classes by increasing the accesss beyond what the interface specifies.

@@ -15,5 +15,7 @@ namespace WorldZero.Common.Interface.Entity.Generic.Relation
         public IUnsafeFlaggedProxy(TEntity e)
             : base(e)
         { }
+
+        public Name FlagId => this._unsafeEntity.FlagId;
     }
 }

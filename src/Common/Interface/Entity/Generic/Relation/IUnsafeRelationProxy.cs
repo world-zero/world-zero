@@ -7,7 +7,7 @@ namespace WorldZero.Common.Interface.Entity.Generic.Relation
 {
     public abstract class IUnsafeRelationProxy
         <TEntity, TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
-        : IIdUnsafeProxy<TEntity>
+        : IUnsafeIdProxy<TEntity>
         where TEntity : class, IUnsafeEntity, IEntityRelation
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
         where TLeftId  : ISingleValueObject<TLeftBuiltIn>

@@ -20,10 +20,6 @@ namespace WorldZero.Common.Interface.Entity.Generic.Primary
     /// <br />
     /// Classes that implement this should be sure to connect the inherited
     /// property getters to `_unsafeEntity`'s corresponding properties.
-    /// <br />
-    /// Clone() will just need to supply _unsafeEntity to the constructor
-    /// of the to-be-returned proxy instance since the constructor clones the
-    /// unsafe entity.
     /// </remarks>
     public abstract class IUnsafeProxy<TEntity, TId, TBuiltIn>
         : IEntity<TId, TBuiltIn>
@@ -48,6 +44,11 @@ namespace WorldZero.Common.Interface.Entity.Generic.Primary
             return (TEntity) this._unsafeEntity.Clone();
         }
 
+        /// <remarks>
+        /// Dev note: Clone() will just need to supply _unsafeEntity to the
+        /// constructor of the to-be-returned proxy instance since the
+        /// constructor already clones the unsafe entity.
+        /// </remarks>
         public abstract IEntity<TId, TBuiltIn> Clone();
 
         public bool IsIdSet() => this._unsafeEntity.IsIdSet();

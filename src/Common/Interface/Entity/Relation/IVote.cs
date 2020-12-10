@@ -1,4 +1,3 @@
-using System.Drawing;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface.Entity.Generic.Relation;
 

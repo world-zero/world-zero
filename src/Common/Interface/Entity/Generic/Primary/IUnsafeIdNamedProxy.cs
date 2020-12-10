@@ -4,7 +4,7 @@ using WorldZero.Common.ValueObject.General;
 namespace WorldZero.Common.Interface.Entity.Generic.Primary
 {
     public abstract class IUnsafeIdNamedProxy<TEntity>
-        : IIdUnsafeProxy<TEntity>
+        : IUnsafeIdProxy<TEntity>
         where TEntity : class, IUnsafeEntity, IIdNamedEntity
     {
         public IUnsafeIdNamedProxy(TEntity e)

@@ -3,11 +3,11 @@ using WorldZero.Common.ValueObject.General;
 
 namespace WorldZero.Common.Interface.Entity.Generic.Primary
 {
-    public abstract class INamedUnsafeProxy<TEntity>
+    public abstract class IUnsafeNamedProxy<TEntity>
         : IUnsafeProxy<TEntity, Name, string>
         where TEntity : class, IUnsafeEntity, INamedEntity
     {
-        public INamedUnsafeProxy(TEntity e)
+        public IUnsafeNamedProxy(TEntity e)
             : base(e)
         { }
     }
