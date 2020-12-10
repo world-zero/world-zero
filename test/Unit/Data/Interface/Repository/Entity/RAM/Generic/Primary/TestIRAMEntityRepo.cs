@@ -921,7 +921,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
     /// class contains two unique rules, one single and one double.
     /// </summary>
     public class DummyEntity
-        : UnsafeINamedEntity
+        : IUnsafeNamedEntity
     {
         public int Unique { get; set; }
         public int Combo0 { get; set; }
@@ -1007,7 +1007,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
     /// This is a dummy entity to use with testRepoAlt
     /// </summary>
     public class DummyEntityAlt
-        : UnsafeINamedEntity
+        : IUnsafeNamedEntity
     {
         public int Unique { get; set; }
         public int Combo0 { get; set; }

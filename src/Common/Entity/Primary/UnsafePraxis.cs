@@ -7,7 +7,7 @@ namespace WorldZero.Common.Entity.Primary
 {
     /// <inheritdoc cref="IPraxis"/>
     public class UnsafePraxis :
-        UnsafeIIdStatusedEntity,
+        IUnsafeIdStatusedEntity,
         IPraxis
     {
         public UnsafePraxis(

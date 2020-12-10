@@ -12,7 +12,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.Primary.Generic
     /// </remarks>
     public interface IEntityRepo<TEntity, TId, TIdBuiltIn>
         : IGenericRepo<TEntity, TId>
-        where TEntity : UnsafeIEntity<TId, TIdBuiltIn>
+        where TEntity : IUnsafeEntity<TId, TIdBuiltIn>
         where TId : ISingleValueObject<TIdBuiltIn>
     {
         /// <summary>

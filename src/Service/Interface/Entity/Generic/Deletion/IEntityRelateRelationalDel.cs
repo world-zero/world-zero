@@ -53,7 +53,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
     >
         where TEntityRelation : UnsafeIEntityRelation
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
-        where TLeftEntity : UnsafeIEntity<TLeftId, TLeftBuiltIn>
+        where TLeftEntity : IUnsafeEntity<TLeftId, TLeftBuiltIn>
         where TLeftId  : ISingleValueObject<TLeftBuiltIn>
 
         where TLEntityRelation : UnsafeIEntityRelation
@@ -63,7 +63,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
         where TLRelationDTO : RelationDTO
             <TLLeftId, TLLeftBuiltIn, TLRightId, TLRightBuiltIn>
 
-        where TRightEntity : UnsafeIEntity<TRightId, TRightBuiltIn>
+        where TRightEntity : IUnsafeEntity<TRightId, TRightBuiltIn>
         where TRightId : ISingleValueObject<TRightBuiltIn>
         where TRelationDTO : RelationDTO
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>

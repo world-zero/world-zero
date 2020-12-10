@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
 {
     [TestFixture]
-    public class TestUnsafeIEntityRelationCnt
+    public class TestIUnsafeEntityRelationCnt
     {
         private Id _leftId;
         private Id _rightId;
@@ -82,7 +82,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
         }
     }
 
-    public class TestIdIdRelationCnt : UnsafeIEntityCntRelation<Id, int, Id, int>
+    public class TestIdIdRelationCnt : IUnsafeEntityCntRelation<Id, int, Id, int>
     {
         public TestIdIdRelationCnt(Id leftId, Id rightId, int cnt=1)
             : base(leftId, rightId, cnt)

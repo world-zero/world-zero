@@ -9,7 +9,7 @@ namespace WorldZero.Common.Interface.Entity.Generic.Primary
     /// unique. As with this type of rule, uniqueness should be enforced by the
     /// repo. This name can only be valid.
     /// </remarks>
-    public interface IIdNamedEntity : IEntity<Id, int>
+    public interface IIdNamedEntity : IIdEntity
     {
         /// <summary>
         /// This is a `Name` that is not an ID of an entity, but rather is a

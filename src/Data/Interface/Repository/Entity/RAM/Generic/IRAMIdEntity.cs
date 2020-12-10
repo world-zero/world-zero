@@ -12,7 +12,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
     public abstract class IRAMIdEntityRepo<TEntity>
         : IRAMEntityRepo<TEntity, Id, int>,
           IIdEntityRepo<TEntity>
-        where TEntity : UnsafeIIdEntity
+        where TEntity : IUnsafeIdEntity
     {
         // This is set to 1 to mimic the default first value of
         // auto-generated database int IDs.

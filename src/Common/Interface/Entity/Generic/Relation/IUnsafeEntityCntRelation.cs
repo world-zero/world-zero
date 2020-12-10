@@ -6,7 +6,7 @@ using WorldZero.Common.Interface.General.Generic;
 namespace WorldZero.Common.Interface.Entity.Generic.Relation
 {
     /// <inheritdoc cref="IEntityCntRelation"/>
-    public abstract class UnsafeIEntityCntRelation
+    public abstract class IUnsafeEntityCntRelation
         <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
         : UnsafeIEntityRelation<TLeftId,TLeftBuiltIn,TRightId,TRightBuiltIn>,
           IEntityCntRelation<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
@@ -15,7 +15,7 @@ namespace WorldZero.Common.Interface.Entity.Generic.Relation
     {
         // NOTE: IEntity.Clone() is still not implemmented.
 
-        public UnsafeIEntityCntRelation(
+        public IUnsafeEntityCntRelation(
             TLeftId leftId, TRightId rightId, int count=1
         )
             : base(leftId, rightId)
@@ -23,7 +23,7 @@ namespace WorldZero.Common.Interface.Entity.Generic.Relation
             this.Count = count;
         }
 
-        public UnsafeIEntityCntRelation(
+        public IUnsafeEntityCntRelation(
             Id id, TLeftId leftId, TRightId rightId, int count=1
         )
             : base(id, leftId, rightId)
@@ -48,7 +48,7 @@ namespace WorldZero.Common.Interface.Entity.Generic.Relation
             if ( (obj == null) || (obj.GetType() != this.GetType()) )
                 return false;
 
-            UnsafeIEntityCntRelation
+            IUnsafeEntityCntRelation
             <
                 TLeftId,
                 TLeftBuiltIn,
@@ -57,7 +57,7 @@ namespace WorldZero.Common.Interface.Entity.Generic.Relation
             > other;
             try
             {
-                other = (UnsafeIEntityCntRelation
+                other = (IUnsafeEntityCntRelation
                 <
                     TLeftId,
                     TLeftBuiltIn,

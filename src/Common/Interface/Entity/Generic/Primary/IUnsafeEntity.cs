@@ -12,7 +12,7 @@ using WorldZero.Common.Interface.Entity.Marker;
 
 namespace WorldZero.Common.Interface.Entity.Generic.Primary
 {
-    public abstract class UnsafeIEntity<TId, TBuiltIn>
+    public abstract class IUnsafeEntity<TId, TBuiltIn>
         : IEntity<TId, TBuiltIn>, IUnsafeEntity
         where TId : ISingleValueObject<TBuiltIn>
     {
@@ -65,7 +65,7 @@ namespace WorldZero.Common.Interface.Entity.Generic.Primary
         /// </summary>
         protected readonly TId UnsetIdValue;
 
-        public UnsafeIEntity(TId unsetValue)
+        public IUnsafeEntity(TId unsetValue)
         {
             this.UnsetIdValue = unsetValue;
             this._id = this.UnsetIdValue;

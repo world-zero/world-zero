@@ -7,7 +7,7 @@ using WorldZero.Common.Interface.Entity.Generic.Relation;
 namespace WorldZero.Common.Entity.Relation
 {
     /// <inheritdoc cref="IFriend"/>
-    public class UnsafeFriend : UnsafeIEntitySelfRelation<Id, int>, IFriend
+    public class UnsafeFriend : IUnsafeEntitySelfRelation<Id, int>, IFriend
     {
         public override RelationDTO<Id, int, Id, int> GetDTO()
         {

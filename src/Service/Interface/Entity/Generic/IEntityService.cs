@@ -28,7 +28,7 @@ namespace WorldZero.Service.Interface.Entity
     /// </code>
     /// </remarks>
     public abstract class IEntityService<TEntity, TId, TBuiltIn>
-        where TEntity : UnsafeIEntity<TId, TBuiltIn>
+        where TEntity : IUnsafeEntity<TId, TBuiltIn>
         where TId : ISingleValueObject<TBuiltIn>
     {
         protected readonly IEntityRepo<TEntity, TId, TBuiltIn> _repo;

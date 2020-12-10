@@ -5,7 +5,7 @@ using WorldZero.Common.Interface.Entity.Primary;
 namespace WorldZero.Common.Entity.Primary
 {
     /// <inheritdoc cref="IPlayer"/>
-    public class UnsafePlayer : UnsafeIIdNamedEntity, IPlayer
+    public class UnsafePlayer : IUnsafeIdNamedEntity, IPlayer
     {
         public UnsafePlayer(Name name, bool isBlocked=false)
             : base (name)

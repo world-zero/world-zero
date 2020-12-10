@@ -8,7 +8,7 @@ using WorldZero.Common.Interface.Entity.Relation;
 namespace WorldZero.Common.Entity.Relation
 {
     /// <inheritdoc cref="IComment"/>
-    public class UnsafeComment : UnsafeIIdIdCntRelation, IComment
+    public class UnsafeComment : IUnsafeIdIdCntRelation, IComment
     {
         public Id PraxisId
         {

@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
 {
     [TestFixture]
-    public class TestUnsafeIEntity
+    public class TestIUnsafeEntity
     {
         [Test]
         public void TestId()
@@ -43,7 +43,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
         }
     }
 
-    public class TestEntity : UnsafeIEntity<Id, int>
+    public class TestEntity : IUnsafeEntity<Id, int>
     {
         public TestEntity()
             : base(new Id(0))

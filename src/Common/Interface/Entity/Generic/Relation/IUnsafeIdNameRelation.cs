@@ -4,15 +4,15 @@ using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 namespace WorldZero.Common.Interface.Entity.Generic.Relation
 {
     /// <inheritdoc cref="IIdNameRelation"/>
-    public abstract class UnsafeIIdNameRelation
+    public abstract class IUnsafeIdNameRelation
         : UnsafeIEntityRelation<Id, int, Name, string>,
           IIdNameRelation
     {
-        public UnsafeIIdNameRelation(Id leftId, Name rightId)
+        public IUnsafeIdNameRelation(Id leftId, Name rightId)
             : base(leftId, rightId)
         { }
 
-        public UnsafeIIdNameRelation(Id id, Id leftId, Name rightId)
+        public IUnsafeIdNameRelation(Id id, Id leftId, Name rightId)
             : base(id, leftId, rightId)
         { }
 

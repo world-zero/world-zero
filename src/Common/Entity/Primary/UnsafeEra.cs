@@ -6,7 +6,7 @@ using System;
 namespace WorldZero.Common.Entity.Primary
 {
     /// <inheritdoc cref="IEra"/>
-    public class UnsafeEra : UnsafeINamedEntity, IEra
+    public class UnsafeEra : IUnsafeNamedEntity, IEra
     {
         public UnsafeEra(
             Name name,

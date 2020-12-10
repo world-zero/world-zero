@@ -6,7 +6,7 @@ using System;
 namespace WorldZero.Common.Entity.Primary
 {
     /// <inheritdoc cref="IFaction"/>
-    public class UnsafeFaction : UnsafeINamedEntity, IFaction
+    public class UnsafeFaction : IUnsafeNamedEntity, IFaction
     {
         /// <summary>
         /// Initialize a new Faction. There is no requirement for any optional

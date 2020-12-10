@@ -5,7 +5,7 @@ using WorldZero.Common.ValueObject.General;
 namespace WorldZero.Common.Entity.Primary
 {
     /// <inheritdoc cref="INamedEntity"/>
-    public class UnsafeStatus : UnsafeINamedEntity, IStatus
+    public class UnsafeStatus : IUnsafeNamedEntity, IStatus
     {
         public UnsafeStatus(Name id, string description=null)
             : base(id)

@@ -8,7 +8,7 @@ using WorldZero.Common.Interface.Entity.Generic.Relation;
 namespace WorldZero.Common.Entity.Relation
 {
     /// <inheritdoc cref="IVote"/>
-    public class UnsafeVote : UnsafeIIdIdRelation, IVote
+    public class UnsafeVote : IUnsafeIdIdRelation, IVote
     {
         public static PointTotal MinPoints
         {

@@ -4,24 +4,21 @@ using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 
 namespace WorldZero.Common.Interface.Entity.Generic.Relation
 {
-    /// <inheritdoc cref="ITaggedEntity"/>
-    public abstract class UnsafeITaggedEntity<TLeftId, TLeftBuiltIn>
+    /// <inheritdoc cref="IFlaggedEntity"/>
+    public abstract class IUnsafeFlaggedEntity<TLeftId, TLeftBuiltIn>
         : UnsafeIEntityRelation<TLeftId, TLeftBuiltIn, Name, string>,
-          ITaggedEntity<TLeftId, TLeftBuiltIn>
+          IFlaggedEntity<TLeftId, TLeftBuiltIn>
         where TLeftId  : ISingleValueObject<TLeftBuiltIn>
     {
-        public UnsafeITaggedEntity(TLeftId leftId, Name tagId)
+        public IUnsafeFlaggedEntity(TLeftId leftId, Name tagId)
             : base(leftId, tagId)
         { }
 
-        public UnsafeITaggedEntity(Id id, TLeftId leftId, Name tagId)
+        public IUnsafeFlaggedEntity(Id id, TLeftId leftId, Name tagId)
             : base(id, leftId, tagId)
         { }
 
-        /// <summary>
-        /// TagId is a wrapper for RightId.
-        /// </summary>
-        public Name TagId
+        public Name FlagId
         {
             get { return this.RightId; }
             set { this.RightId = value; }

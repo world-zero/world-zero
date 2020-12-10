@@ -17,14 +17,14 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
     public class TestPlayerDel
     {
         private void _absentt<TEntity, TId, TBuiltIn>(TEntity e, Func<TId, TEntity> getById)
-            where TEntity : UnsafeIEntity<TId, TBuiltIn>
+            where TEntity : IUnsafeEntity<TId, TBuiltIn>
             where TId : ISingleValueObject<TBuiltIn>
         {
             Assert.Throws<ArgumentException>(()=>getById(e.Id));
         }
 
         private void _present<TEntity, TId, TBuiltIn>(TEntity e, Func<TId, TEntity> GetById)
-            where TEntity : UnsafeIEntity<TId, TBuiltIn>
+            where TEntity : IUnsafeEntity<TId, TBuiltIn>
             where TId : ISingleValueObject<TBuiltIn>
         {
             var actualEntity = GetById(e.Id);

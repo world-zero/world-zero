@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
 {
     [TestFixture]
-    public class TestUnsafeINamedEntity
+    public class TestIUnsafeNamedEntity
     {
         private string _sName;
         private TestNamedEntity _nameSupplied;
@@ -38,7 +38,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
         }
     }
 
-    public class TestNamedEntity : UnsafeINamedEntity
+    public class TestNamedEntity : IUnsafeNamedEntity
     {
         public TestNamedEntity()
             : base()

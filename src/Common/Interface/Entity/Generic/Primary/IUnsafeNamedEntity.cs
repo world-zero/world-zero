@@ -2,15 +2,14 @@ using WorldZero.Common.ValueObject.General;
 
 namespace WorldZero.Common.Interface.Entity.Generic.Primary
 {
-    public abstract class UnsafeINamedEntity
-        : UnsafeIEntity<Name, string>, INamedEntity
+    public abstract class IUnsafeNamedEntity
+        : IUnsafeEntity<Name, string>, INamedEntity
     {
-        public UnsafeINamedEntity()
+        public IUnsafeNamedEntity()
             : base(null)
-        {
-        }
+        { }
 
-        public UnsafeINamedEntity(Name name)
+        public IUnsafeNamedEntity(Name name)
             : base(null)
         {
             this.Id = name;

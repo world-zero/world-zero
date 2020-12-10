@@ -10,7 +10,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.Primary.Generic
     /// </summary>
     public interface IIdStatusedEntityRepo<TEntity>
         : IIdEntityRepo<TEntity>
-        where TEntity : UnsafeIIdStatusedEntity
+        where TEntity : IUnsafeIdStatusedEntity
     {
         /// <summary>
         /// Get a collection of entities with the supplied status ID. If none

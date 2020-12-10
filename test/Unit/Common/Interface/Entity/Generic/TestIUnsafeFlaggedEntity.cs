@@ -6,7 +6,7 @@ using WorldZero.Common.Interface.Entity.Generic.Primary;
 namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
 {
     [TestFixture]
-    public class TestUnsafeIFlaggedEntity
+    public class TestIUnsafeFlaggedEntity
     {
         private Id _id0;
         private Id _id1;
@@ -34,7 +34,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
         }
     }
 
-    public class TestFlaggedEntity : UnsafeIFlaggedEntity<Id, int>
+    public class TestFlaggedEntity : IUnsafeFlaggedEntity<Id, int>
     {
         public TestFlaggedEntity(Id leftId, Name tagId)
             : base(leftId, tagId)

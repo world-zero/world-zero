@@ -304,7 +304,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
     public abstract class IRAMEntityRepo<TEntity, TId, TIdBuiltIn>
         : IStaticRAMEntityRepo,
           IEntityRepo<TEntity, TId, TIdBuiltIn>
-        where TEntity : UnsafeIEntity<TId, TIdBuiltIn>
+        where TEntity : IUnsafeEntity<TId, TIdBuiltIn>
         where TId : ISingleValueObject<TIdBuiltIn>
     {
         /// <summary>

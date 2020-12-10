@@ -3,15 +3,15 @@ using WorldZero.Common.ValueObject.General;
 
 namespace WorldZero.Common.Interface.Entity.Generic.Primary
 {
-    public abstract class UnsafeIIdStatusedEntity : UnsafeIIdEntity, IIdEntity
+    public abstract class IUnsafeIdStatusedEntity : IUnsafeIdEntity, IIdEntity
     {
-        public UnsafeIIdStatusedEntity(Name statusId)
+        public IUnsafeIdStatusedEntity(Name statusId)
             : base()
         {
             this.StatusId = statusId;
         }
 
-        public UnsafeIIdStatusedEntity(Id id, Name statusId)
+        public IUnsafeIdStatusedEntity(Id id, Name statusId)
             : base(id)
         {
             this.StatusId = statusId;

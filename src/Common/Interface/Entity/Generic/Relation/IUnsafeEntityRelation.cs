@@ -10,7 +10,7 @@ namespace WorldZero.Common.Interface.Entity.Generic.Relation
     /// <inheritdoc cref="IEntityRelation"/>
     public abstract class UnsafeIEntityRelation
         <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
-        : UnsafeIIdEntity,
+        : IUnsafeIdEntity,
           IEntityRelation<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
         where TLeftId  : ISingleValueObject<TLeftBuiltIn>
         where TRightId : ISingleValueObject<TRightBuiltIn>

@@ -6,7 +6,7 @@ using WorldZero.Common.Interface.Entity.Primary;
 namespace WorldZero.Common.Entity.Primary
 {
     /// <inheritdoc cref="IMetaTask"/>
-    public class UnsafeMetaTask : UnsafeIIdStatusedEntity, IMetaTask
+    public class UnsafeMetaTask : IUnsafeIdStatusedEntity, IMetaTask
     {
         public UnsafeMetaTask(
             Name factionId,

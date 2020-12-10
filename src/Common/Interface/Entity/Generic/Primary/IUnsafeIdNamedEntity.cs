@@ -4,7 +4,7 @@ using WorldZero.Common.Collections.Generic;
 
 namespace WorldZero.Common.Interface.Entity.Generic.Primary
 {
-    public abstract class UnsafeIIdNamedEntity : UnsafeIIdEntity,IIdNamedEntity
+    public abstract class IUnsafeIdNamedEntity : IUnsafeIdEntity,IIdNamedEntity
     {
         public Name Name
         {
@@ -19,13 +19,13 @@ namespace WorldZero.Common.Interface.Entity.Generic.Primary
         }
         private Name _name;
 
-        public UnsafeIIdNamedEntity(Name name)
+        public IUnsafeIdNamedEntity(Name name)
             : base()
         {
             this.Name = name;
         }
 
-        public UnsafeIIdNamedEntity(Id id, Name name)
+        public IUnsafeIdNamedEntity(Id id, Name name)
             : base(id)
         {
             this.Name = name;
