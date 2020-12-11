@@ -921,7 +921,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
     /// class contains two unique rules, one single and one double.
     /// </summary>
     public class DummyEntity
-        : IUnsafeNamedEntity
+        : ABCNamedEntity
     {
         public int Unique { get; set; }
         public int Combo0 { get; set; }
@@ -938,7 +938,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
             this.Other = other;
         }
 
-        internal override W0List<W0Set<object>> GetUniqueRules()
+        public override W0List<W0Set<object>> GetUniqueRules()
         {
             var r = base.GetUniqueRules();
             var rule0 = new W0Set<object>();
@@ -1007,7 +1007,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
     /// This is a dummy entity to use with testRepoAlt
     /// </summary>
     public class DummyEntityAlt
-        : IUnsafeNamedEntity
+        : ABCNamedEntity
     {
         public int Unique { get; set; }
         public int Combo0 { get; set; }
@@ -1029,7 +1029,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
             this.Other = other;
         }
 
-        internal override W0List<W0Set<object>> GetUniqueRules()
+        public override W0List<W0Set<object>> GetUniqueRules()
         {
             var r = base.GetUniqueRules();
             var rule0 = new W0Set<object>();

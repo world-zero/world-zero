@@ -12,7 +12,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
     public abstract class IRAMIdNamedEntityRepo<TEntity>
         : IRAMIdEntityRepo<TEntity>,
           IIdNamedEntityRepo<TEntity>
-        where TEntity : IUnsafeIdNamedEntity
+        where TEntity : class, IIdNamedEntity
     {
         public IRAMIdNamedEntityRepo()
             : base()

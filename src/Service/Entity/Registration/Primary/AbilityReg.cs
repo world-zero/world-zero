@@ -18,10 +18,10 @@ namespace WorldZero.Service.Entity.Registration.Primary
                 )
             );
 
-        protected IUnsafeAbilityRepo _abilityRepo
-        { get { return (IUnsafeAbilityRepo) this._repo; } }
+        protected IAbilityRepo _abilityRepo
+        { get { return (IAbilityRepo) this._repo; } }
 
-        public AbilityReg(IUnsafeAbilityRepo abilityRepo)
+        public AbilityReg(IAbilityRepo abilityRepo)
             : base(abilityRepo)
         {
             this.EnsureExists(Reiterator);

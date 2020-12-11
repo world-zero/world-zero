@@ -16,15 +16,15 @@ namespace WorldZero.Service.Entity.Deletion.Primary
     /// </summary>
     public class TaskDel : IIdStatusedEntityDel<UnsafeTask>
     {
-        protected IUnsafeTaskRepo _taskRepo
-        { get { return (IUnsafeTaskRepo) this._repo; } }
+        protected ITaskRepo _taskRepo
+        { get { return (ITaskRepo) this._repo; } }
 
         protected readonly TaskTagDel _taskTagDel;
         protected readonly TaskFlagDel _taskFlagDel;
         protected readonly PraxisDel _praxisDel;
 
         public TaskDel(
-            IUnsafeTaskRepo taskRepo,
+            ITaskRepo taskRepo,
             TaskTagDel taskTagDel,
             TaskFlagDel taskFlagDel,
             PraxisDel praxisDel

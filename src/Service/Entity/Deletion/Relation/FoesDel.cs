@@ -11,10 +11,10 @@ namespace WorldZero.Service.Entity.Deletion.Relation
     public class FoeDel : IEntitySelfRelationDel
         <UnsafeFoe, UnsafeCharacter, Id, int, RelationDTO<Id, int, Id, int>>
     {
-        protected IUnsafeFoeRepo _foeRepo
-        { get { return (IUnsafeFoeRepo) this._relRepo; } }
+        protected IFoeRepo _foeRepo
+        { get { return (IFoeRepo) this._relRepo; } }
 
-        public FoeDel(IUnsafeFoeRepo repo)
+        public FoeDel(IFoeRepo repo)
             : base(repo)
         { }
 

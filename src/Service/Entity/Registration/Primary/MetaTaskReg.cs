@@ -10,16 +10,16 @@ namespace WorldZero.Service.Entity.Registration.Primary
     public class MetaTaskReg
         : IEntityReg<UnsafeMetaTask, Id, int>
     {
-        protected IUnsafeMetaTaskRepo _metaTaskRepo
-        { get { return (IUnsafeMetaTaskRepo) this._repo; } }
+        protected IMetaTaskRepo _metaTaskRepo
+        { get { return (IMetaTaskRepo) this._repo; } }
 
-        protected readonly IUnsafeFactionRepo _factionRepo;
-        protected readonly IUnsafeStatusRepo _statusRepo;
+        protected readonly IFactionRepo _factionRepo;
+        protected readonly IStatusRepo _statusRepo;
 
         public MetaTaskReg(
-            IUnsafeMetaTaskRepo metaTaskRepo,
-            IUnsafeFactionRepo factionRepo,
-            IUnsafeStatusRepo statusRepo
+            IMetaTaskRepo metaTaskRepo,
+            IFactionRepo factionRepo,
+            IStatusRepo statusRepo
         )
             : base(metaTaskRepo)
         {

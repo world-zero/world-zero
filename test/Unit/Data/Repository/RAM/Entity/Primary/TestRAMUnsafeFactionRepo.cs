@@ -8,9 +8,9 @@ using NUnit.Framework;
 namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
 {
     [TestFixture]
-    public class TestRAMUnsafeFactionRepo
+    public class TestRAMFactionRepo
     {
-        private RAMUnsafeFactionRepo _factionRepo;
+        private RAMFactionRepo _factionRepo;
         private UnsafeFaction _f0;
         private UnsafeFaction _f1;
         private UnsafeFaction _f2;
@@ -18,7 +18,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
         [SetUp]
         public void Setup()
         {
-            this._factionRepo = new RAMUnsafeFactionRepo();
+            this._factionRepo = new RAMFactionRepo();
             this._f0 = new UnsafeFaction(new Name("f0"));
             this._f1 = new UnsafeFaction(new Name("f1"));
             this._f2 = new UnsafeFaction(new Name("f2"));
@@ -42,7 +42,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
             Assert.Throws<ArgumentException>(()=>
                 this._factionRepo.GetByAbilityId(new Name("fds")));
 
-            var abilityRepo = new RAMUnsafeAbilityRepo();
+            var abilityRepo = new RAMAbilityRepo();
             var ability0 = new UnsafeAbility(new Name("a0"), "vxk");
             var ability1 = new UnsafeAbility(new Name("a1"), "fdsf");
             abilityRepo.Insert(ability0);

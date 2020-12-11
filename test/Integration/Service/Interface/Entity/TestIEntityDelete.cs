@@ -11,13 +11,13 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
     [TestFixture]
     public class TestIEntityDel
     {
-        private IUnsafePlayerRepo _repo;
+        private IPlayerRepo _repo;
         private TestEntityDelete _del;
 
         [SetUp]
         public void Setup()
         {
-            this._repo = new RAMUnsafePlayerRepo();
+            this._repo = new RAMPlayerRepo();
             this._del = new TestEntityDelete(this._repo);
         }
 
@@ -59,7 +59,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
     public class TestEntityDelete
         : IEntityDel<UnsafePlayer, Id, int>
     {
-        public TestEntityDelete(IUnsafePlayerRepo repo)
+        public TestEntityDelete(IPlayerRepo repo)
             : base(repo)
         { }
     }

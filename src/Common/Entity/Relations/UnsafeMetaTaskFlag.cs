@@ -8,7 +8,7 @@ namespace WorldZero.Common.Entity.Relation
 {
     /// <inheritdoc cref="IMetaTaskFlag"/>
     public class UnsafeMetaTaskFlag
-        : IUnsafeFlaggedEntity<Id, int>,
+        : ABCFlaggedEntity<Id, int>,
           IMetaTaskFlag
     {
         public Id MetaTaskId

@@ -8,7 +8,7 @@ namespace WorldZero.Common.Entity.Relation
 {
     /// <inheritdoc cref="IPraxisParticipant"/>
     public class UnsafePraxisParticipant
-        : IUnsafeIdIdRelation, IPraxisParticipant
+        : ABCIdIdRelation, IPraxisParticipant
     {
         public Id PraxisId
         {

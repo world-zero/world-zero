@@ -17,7 +17,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         RelationDTO<Id, int, Name, string>
     >
     {
-        public PraxisFlagDel(IUnsafePraxisFlagRepo repo)
+        public PraxisFlagDel(IPraxisFlagRepo repo)
             : base(repo)
         { }
 

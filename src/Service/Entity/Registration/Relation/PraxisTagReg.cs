@@ -22,19 +22,19 @@ namespace WorldZero.Service.Entity.Registration.Relation
             RelationDTO<Id, int, Name, string>
         >
     {
-        protected IUnsafePraxisTagRepo _praxisTagRepo
-        { get { return (IUnsafePraxisTagRepo) this._repo; } }
+        protected IPraxisTagRepo _praxisTagRepo
+        { get { return (IPraxisTagRepo) this._repo; } }
 
-        protected IUnsafePraxisRepo _praxisRepo
-        { get { return (IUnsafePraxisRepo) this._leftRepo; } }
+        protected IPraxisRepo _praxisRepo
+        { get { return (IPraxisRepo) this._leftRepo; } }
 
-        protected IUnsafeTagRepo _tagRepo
-        { get { return (IUnsafeTagRepo) this._rightRepo; } }
+        protected ITagRepo _tagRepo
+        { get { return (ITagRepo) this._rightRepo; } }
 
         public PraxisTagReg(
-            IUnsafePraxisTagRepo praxisTagRepo,
-            IUnsafePraxisRepo praxisRepo,
-            IUnsafeTagRepo tagRepo
+            IPraxisTagRepo praxisTagRepo,
+            IPraxisRepo praxisRepo,
+            ITagRepo tagRepo
         )
             : base(praxisTagRepo, praxisRepo, tagRepo)
         { }

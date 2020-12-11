@@ -17,14 +17,14 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
     public class TestPlayerDel
     {
         private void _absentt<TEntity, TId, TBuiltIn>(TEntity e, Func<TId, TEntity> getById)
-            where TEntity : IUnsafeEntity<TId, TBuiltIn>
+            where TEntity : ABCEntity<TId, TBuiltIn>
             where TId : ISingleValueObject<TBuiltIn>
         {
             Assert.Throws<ArgumentException>(()=>getById(e.Id));
         }
 
         private void _present<TEntity, TId, TBuiltIn>(TEntity e, Func<TId, TEntity> GetById)
-            where TEntity : IUnsafeEntity<TId, TBuiltIn>
+            where TEntity : ABCEntity<TId, TBuiltIn>
             where TId : ISingleValueObject<TBuiltIn>
         {
             var actualEntity = GetById(e.Id);
@@ -49,24 +49,24 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._present<UnsafeCharacter, Id, int>(this._char1_0, this._charRepo.GetById);
         }
 
-        private RAMUnsafePlayerRepo _playerRepo;
-        private RAMUnsafeCharacterRepo _charRepo;
-        private RAMUnsafeFriendRepo _friendRepo;
+        private RAMPlayerRepo _playerRepo;
+        private RAMCharacterRepo _charRepo;
+        private RAMFriendRepo _friendRepo;
         private FriendDel _friendDel;
-        private RAMUnsafeFoeRepo _foeRepo;
+        private RAMFoeRepo _foeRepo;
         private FoeDel _foeDel;
         private CharacterDel _charDel;
         private PlayerDel _del;
-        private RAMUnsafePraxisRepo _praxisRepo;
-        private RAMUnsafePraxisParticipantRepo _ppRepo;
+        private RAMPraxisRepo _praxisRepo;
+        private RAMPraxisParticipantRepo _ppRepo;
         private PraxisParticipantDel _ppDel;
-        private RAMUnsafeCommentRepo _commentRepo;
+        private RAMCommentRepo _commentRepo;
         private CommentDel _commentDel;
-        private RAMUnsafeVoteRepo _voteRepo;
+        private RAMVoteRepo _voteRepo;
         private VoteDel _voteDel;
-        private RAMUnsafePraxisTagRepo _pTagRepo;
+        private RAMPraxisTagRepo _pTagRepo;
         private PraxisTagDel _pTagDel;
-        private RAMUnsafePraxisFlagRepo _pFlagRepo;
+        private RAMPraxisFlagRepo _pFlagRepo;
         private PraxisFlagDel _pFlagDel;
         private PraxisDel _pDel;
 
@@ -79,21 +79,21 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         [SetUp]
         public void Setup()
         {
-            this._charRepo = new RAMUnsafeCharacterRepo();
-            this._friendRepo = new RAMUnsafeFriendRepo();
+            this._charRepo = new RAMCharacterRepo();
+            this._friendRepo = new RAMFriendRepo();
             this._friendDel = new FriendDel(this._friendRepo);
-            this._foeRepo = new RAMUnsafeFoeRepo();
+            this._foeRepo = new RAMFoeRepo();
             this._foeDel = new FoeDel(this._foeRepo);
 
-            this._praxisRepo = new RAMUnsafePraxisRepo();
-            this._ppRepo = new RAMUnsafePraxisParticipantRepo();;
-            this._commentRepo = new RAMUnsafeCommentRepo();;
+            this._praxisRepo = new RAMPraxisRepo();
+            this._ppRepo = new RAMPraxisParticipantRepo();;
+            this._commentRepo = new RAMCommentRepo();;
             this._commentDel = new CommentDel(this._commentRepo);
-            this._pTagRepo = new RAMUnsafePraxisTagRepo();
+            this._pTagRepo = new RAMPraxisTagRepo();
             this._pTagDel = new PraxisTagDel(this._pTagRepo);
-            this._pFlagRepo = new RAMUnsafePraxisFlagRepo();
+            this._pFlagRepo = new RAMPraxisFlagRepo();
             this._pFlagDel = new PraxisFlagDel(this._pFlagRepo);
-            this._voteRepo = new RAMUnsafeVoteRepo();
+            this._voteRepo = new RAMVoteRepo();
             this._voteDel = new VoteDel(this._voteRepo);
 
             this._ppDel = new PraxisParticipantDel(
@@ -117,7 +117,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
                 this._pDel,
                 this._ppDel
             );
-            this._playerRepo = new RAMUnsafePlayerRepo();
+            this._playerRepo = new RAMPlayerRepo();
             this._del = new PlayerDel(this._playerRepo, this._charDel);
 
             this._player0 = new UnsafePlayer(new Name("x"));

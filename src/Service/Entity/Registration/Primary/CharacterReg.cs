@@ -69,18 +69,18 @@ namespace WorldZero.Service.Entity.Registration.Primary
             return true;
         }
 
-        protected readonly IUnsafePlayerRepo _playerRepo;
-        protected readonly IUnsafeFactionRepo _factionRepo;
-        protected readonly IUnsafeLocationRepo _locationRepo;
+        protected readonly IPlayerRepo _playerRepo;
+        protected readonly IFactionRepo _factionRepo;
+        protected readonly ILocationRepo _locationRepo;
 
-        protected IUnsafeCharacterRepo _characterRepo
-        { get { return (IUnsafeCharacterRepo) this._repo; } }
+        protected ICharacterRepo _characterRepo
+        { get { return (ICharacterRepo) this._repo; } }
 
         public CharacterReg(
-            IUnsafeCharacterRepo characterRepo,
-            IUnsafePlayerRepo playerRepo,
-            IUnsafeFactionRepo factionRepo,
-            IUnsafeLocationRepo locationRepo
+            ICharacterRepo characterRepo,
+            IPlayerRepo playerRepo,
+            IFactionRepo factionRepo,
+            ILocationRepo locationRepo
         )
             : base(characterRepo)
         {

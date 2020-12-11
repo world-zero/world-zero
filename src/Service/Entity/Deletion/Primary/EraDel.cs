@@ -13,7 +13,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
     /// </summary>
     public sealed class EraDel : IEntityDel<UnsafeEra, Name, string>
     {
-        public EraDel(IUnsafeEraRepo eraRepo)
+        public EraDel(IEraRepo eraRepo)
             : base(eraRepo)
         {
             throw new NotImplementedException("EraDel cannot be instantiated; use EraReg instead.");

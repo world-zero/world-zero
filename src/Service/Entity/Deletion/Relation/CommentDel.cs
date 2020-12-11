@@ -9,10 +9,10 @@ namespace WorldZero.Service.Entity.Deletion.Relation
     /// <inheritdoc cref="IEntityDel"/>
     public class CommentDel : IEntityDel<UnsafeComment, Id, int>
     {
-        protected IUnsafeCommentRepo _commentRepo
-        { get { return (IUnsafeCommentRepo) this._repo; } }
+        protected ICommentRepo _commentRepo
+        { get { return (ICommentRepo) this._repo; } }
 
-        public CommentDel(IUnsafeCommentRepo repo)
+        public CommentDel(ICommentRepo repo)
             : base(repo)
         { }
 

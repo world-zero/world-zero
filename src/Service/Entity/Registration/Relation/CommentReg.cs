@@ -22,19 +22,19 @@ namespace WorldZero.Service.Entity.Registration.Relation
             CntRelationDTO<Id, int, Id, int>
         >
     {
-        protected IUnsafeCommentRepo _commentRepo
-        { get { return (IUnsafeCommentRepo) this._repo; } }
+        protected ICommentRepo _commentRepo
+        { get { return (ICommentRepo) this._repo; } }
 
-        protected IUnsafePraxisRepo _praxisRepo
-        { get { return (IUnsafePraxisRepo) this._leftRepo; } }
+        protected IPraxisRepo _praxisRepo
+        { get { return (IPraxisRepo) this._leftRepo; } }
 
-        protected IUnsafeCharacterRepo _characterRepo
-        { get { return (IUnsafeCharacterRepo) this._rightRepo; } }
+        protected ICharacterRepo _characterRepo
+        { get { return (ICharacterRepo) this._rightRepo; } }
 
         public CommentReg(
-            IUnsafeCommentRepo commentRepo,
-            IUnsafePraxisRepo praxisRepo,
-            IUnsafeCharacterRepo characterRepo
+            ICommentRepo commentRepo,
+            IPraxisRepo praxisRepo,
+            ICharacterRepo characterRepo
         )
             : base(commentRepo, praxisRepo, characterRepo)
         { }

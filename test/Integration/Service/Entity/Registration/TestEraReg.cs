@@ -106,7 +106,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
     }
 
     public class DummyRAMEraRepo
-        : RAMUnsafeEraRepo
+        : RAMEraRepo
     {
         public DummyRAMEraRepo()
             : base()

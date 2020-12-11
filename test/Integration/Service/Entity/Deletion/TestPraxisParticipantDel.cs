@@ -14,10 +14,10 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
     [TestFixture]
     public class TestPraxisParticipatDel
     {
-        private RAMUnsafePraxisRepo _praxisRepo;
-        private RAMUnsafeVoteRepo _voteRepo;
+        private RAMPraxisRepo _praxisRepo;
+        private RAMVoteRepo _voteRepo;
         private VoteDel _voteDel;
-        private RAMUnsafePraxisParticipantRepo _repo;
+        private RAMPraxisParticipantRepo _repo;
         private PraxisParticipantDel _del;
         private UnsafePraxis _p0;
         private UnsafePraxis _p1;
@@ -25,10 +25,10 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         [SetUp]
         public void Setup()
         {
-            this._praxisRepo = new RAMUnsafePraxisRepo();
-            this._voteRepo = new RAMUnsafeVoteRepo();
+            this._praxisRepo = new RAMPraxisRepo();
+            this._voteRepo = new RAMVoteRepo();
             this._voteDel = new VoteDel(this._voteRepo);
-            this._repo = new RAMUnsafePraxisParticipantRepo();
+            this._repo = new RAMPraxisParticipantRepo();
             this._del = new PraxisParticipantDel(
                 this._repo,
                 this._praxisRepo,
@@ -85,11 +85,11 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         [Test]
         public void TestSudoDeleteByCharacter()
         {
-            var commentRepo = new RAMUnsafeCommentRepo();
+            var commentRepo = new RAMCommentRepo();
             var commentDel = new CommentDel(commentRepo);
-            var praxisTagRepo = new RAMUnsafePraxisTagRepo();
+            var praxisTagRepo = new RAMPraxisTagRepo();
             var praxisTagDel = new PraxisTagDel(praxisTagRepo);
-            var praxisFlagRepo = new RAMUnsafePraxisFlagRepo();
+            var praxisFlagRepo = new RAMPraxisFlagRepo();
             var praxisFlagDel = new PraxisFlagDel(praxisFlagRepo);
             var praxisDel = new PraxisDel(
                 this._praxisRepo,
@@ -135,11 +135,11 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         [Test]
         public void TestSudoDeleteByCharacterDueling()
         {
-            var commentRepo = new RAMUnsafeCommentRepo();
+            var commentRepo = new RAMCommentRepo();
             var commentDel = new CommentDel(commentRepo);
-            var praxisTagRepo = new RAMUnsafePraxisTagRepo();
+            var praxisTagRepo = new RAMPraxisTagRepo();
             var praxisTagDel = new PraxisTagDel(praxisTagRepo);
-            var praxisFlagRepo = new RAMUnsafePraxisFlagRepo();
+            var praxisFlagRepo = new RAMPraxisFlagRepo();
             var praxisFlagDel = new PraxisFlagDel(praxisFlagRepo);
             var praxisDel = new PraxisDel(
                 this._praxisRepo,

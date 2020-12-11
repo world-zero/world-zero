@@ -37,19 +37,19 @@ namespace WorldZero.Service.Entity.Registration.Primary
     public class PraxisReg
         : IEntityReg<UnsafePraxis, Id, int>
     {
-        protected IUnsafePraxisRepo _praxisRepo
-        { get { return (IUnsafePraxisRepo) this._repo; } }
+        protected IPraxisRepo _praxisRepo
+        { get { return (IPraxisRepo) this._repo; } }
 
-        protected readonly IUnsafeTaskRepo _taskRepo;
-        protected readonly IUnsafeMetaTaskRepo _mtRepo;
-        protected readonly IUnsafeStatusRepo _statusRepo;
+        protected readonly ITaskRepo _taskRepo;
+        protected readonly IMetaTaskRepo _mtRepo;
+        protected readonly IStatusRepo _statusRepo;
         protected readonly PraxisParticipantReg _ppReg;
 
         public PraxisReg(
-            IUnsafePraxisRepo praxisRepo,
-            IUnsafeTaskRepo taskRepo,
-            IUnsafeMetaTaskRepo mtRepo,
-            IUnsafeStatusRepo statusRepo,
+            IPraxisRepo praxisRepo,
+            ITaskRepo taskRepo,
+            IMetaTaskRepo mtRepo,
+            IStatusRepo statusRepo,
             PraxisParticipantReg ppReg
         )
             : base(praxisRepo)

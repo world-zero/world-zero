@@ -18,10 +18,10 @@ namespace WorldZero.Service.Entity.Registration.Primary
         public static readonly UnsafeStatus Retired =
             new UnsafeStatus(new Name("Retired"));
 
-        protected IUnsafeStatusRepo _statusRepo
-        { get { return (IUnsafeStatusRepo) this._repo; } }
+        protected IStatusRepo _statusRepo
+        { get { return (IStatusRepo) this._repo; } }
 
-        public StatusReg(IUnsafeStatusRepo statusRepo)
+        public StatusReg(IStatusRepo statusRepo)
             : base(statusRepo)
         {
             this.EnsureExists(StatusReg.Proposed);

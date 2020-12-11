@@ -9,10 +9,10 @@ namespace WorldZero.Service.Entity.Registration.Primary
     public class TaskReg
         : IEntityReg<UnsafeTask, Id, int>
     {
-        protected IUnsafeTaskRepo _taskRepo
-        { get { return (IUnsafeTaskRepo) this._repo; } }
+        protected ITaskRepo _taskRepo
+        { get { return (ITaskRepo) this._repo; } }
 
-        public TaskReg(IUnsafeTaskRepo taskRepo)
+        public TaskReg(ITaskRepo taskRepo)
             : base(taskRepo)
         { }
     }

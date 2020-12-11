@@ -11,8 +11,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
     [TestFixture]
     public class TestFactionReg
     {
-        private IUnsafeFactionRepo _factionRepo;
-        private IUnsafeAbilityRepo _abilityRepo;
+        private IFactionRepo _factionRepo;
+        private IAbilityRepo _abilityRepo;
         private FactionReg _registration;
         private UnsafeFaction _faction0;
         private UnsafeAbility _ability0;
@@ -20,8 +20,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         [SetUp]
         public void Setup()
         {
-            this._factionRepo = new RAMUnsafeFactionRepo();
-            this._abilityRepo = new RAMUnsafeAbilityRepo();
+            this._factionRepo = new RAMFactionRepo();
+            this._abilityRepo = new RAMAbilityRepo();
             this._registration = new FactionReg(
                 this._factionRepo,
                 this._abilityRepo

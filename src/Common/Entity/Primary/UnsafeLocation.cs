@@ -6,7 +6,7 @@ using WorldZero.Common.Interface.Entity.Primary;
 namespace WorldZero.Common.Entity.Primary
 {
     /// <inheritdoc cref="ILocation"/>
-    public class UnsafeLocation : IUnsafeIdEntity, ILocation
+    public class UnsafeLocation : ABCIdEntity, ILocation
     {
         public UnsafeLocation(
             Name city,

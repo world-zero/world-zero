@@ -13,13 +13,13 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
     [TestFixture]
     public class TestITaggedEntityDel
     {
-        private IUnsafeMetaTaskTagRepo _repo;
+        private IMetaTaskTagRepo _repo;
         private TestTaggedEntityDel _del;
 
         [SetUp]
         public void Setup()
         {
-            this._repo = new RAMUnsafeMetaTaskTagRepo();
+            this._repo = new RAMMetaTaskTagRepo();
             this._del = new TestTaggedEntityDel(this._repo);
         }
 
@@ -62,7 +62,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
         RelationDTO<Id, int, Name, string>
     >
     {
-        public TestTaggedEntityDel(IUnsafeMetaTaskTagRepo repo)
+        public TestTaggedEntityDel(IMetaTaskTagRepo repo)
             : base(repo)
         { }
     }

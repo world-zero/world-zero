@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
 {
     [TestFixture]
-    public class TestRAMUnsafeCharacterRepo
+    public class TestRAMCharacterRepo
     {
         private void _assertCharsEqual(UnsafeCharacter expected, UnsafeCharacter actual)
         {
@@ -98,7 +98,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
             Assert.Throws<ArgumentException>(()=>
                 this._charRepo.GetByLocationId(new Id(9000)));
 
-            var locRepo = new RAMUnsafeLocationRepo();
+            var locRepo = new RAMLocationRepo();
             var loc0 = new UnsafeLocation(
                 new Name("Oregon City"),
                 new Name("Oregon"),
@@ -151,7 +151,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
             Assert.Throws<ArgumentException>(()=>
                 this._charRepo.GetByFactionId(new Name("xcvs")));
 
-            var factionRepo = new RAMUnsafeFactionRepo();
+            var factionRepo = new RAMFactionRepo();
             var f0 = new UnsafeFaction(new Name("F0"));
             var f1 = new UnsafeFaction(new Name("F1"));
             factionRepo.Insert(f0);
@@ -206,7 +206,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
     }
 
     public class DummyRAMCharacterRepo
-        : RAMUnsafeCharacterRepo
+        : RAMCharacterRepo
     {
         public void ResetNextIdValue() { _nextIdValue = 1; }
     }

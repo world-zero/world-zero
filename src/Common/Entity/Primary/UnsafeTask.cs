@@ -6,7 +6,7 @@ using WorldZero.Common.ValueObject.General;
 namespace WorldZero.Common.Entity.Primary
 {
     /// <inheritdoc cref="ITask"/>
-    public class UnsafeTask : IUnsafeIdStatusedEntity, ITask
+    public class UnsafeTask : ABCIdStatusedEntity, ITask
     {
         public UnsafeTask(
             Name factionId,

@@ -317,7 +317,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
 
         public int Unique { get; set; }
 
-        internal override W0List<W0Set<object>> GetUniqueRules()
+        public override W0List<W0Set<object>> GetUniqueRules()
         {
             var r = base.GetUniqueRules();
             var n = new W0Set<object>();

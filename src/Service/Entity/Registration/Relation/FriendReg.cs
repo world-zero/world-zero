@@ -26,15 +26,15 @@ namespace WorldZero.Service.Entity.Registration.Relation
             RelationDTO<Id, int, Id, int>
         >
     {
-        protected IUnsafeFriendRepo _friendRepo
-        { get { return (IUnsafeFriendRepo) this._repo; } }
+        protected IFriendRepo _friendRepo
+        { get { return (IFriendRepo) this._repo; } }
 
-        protected readonly IUnsafeFoeRepo _foeRepo;
+        protected readonly IFoeRepo _foeRepo;
 
         public FriendReg(
-            IUnsafeFriendRepo friendRepo,
-            IUnsafeCharacterRepo characterRepo,
-            IUnsafeFoeRepo foeRepo
+            IFriendRepo friendRepo,
+            ICharacterRepo characterRepo,
+            IFoeRepo foeRepo
         )
             : base(friendRepo, characterRepo, characterRepo)
         {

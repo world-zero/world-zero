@@ -22,19 +22,19 @@ namespace WorldZero.Service.Entity.Registration.Relation
             RelationDTO<Id, int, Name, string>
         >
     {
-        protected IUnsafeTaskTagRepo _taskTagRepo
-        { get { return (IUnsafeTaskTagRepo) this._repo; } }
+        protected ITaskTagRepo _taskTagRepo
+        { get { return (ITaskTagRepo) this._repo; } }
 
-        protected IUnsafeTaskRepo _taskRepo
-        { get { return (IUnsafeTaskRepo) this._leftRepo; } }
+        protected ITaskRepo _taskRepo
+        { get { return (ITaskRepo) this._leftRepo; } }
 
-        protected IUnsafeTagRepo _tagRepo
-        { get { return (IUnsafeTagRepo) this._rightRepo; } }
+        protected ITagRepo _tagRepo
+        { get { return (ITagRepo) this._rightRepo; } }
 
         public TaskTagReg(
-            IUnsafeTaskTagRepo tagTagRepo,
-            IUnsafeTaskRepo taskRepo,
-            IUnsafeTagRepo tagRepo
+            ITaskTagRepo tagTagRepo,
+            ITaskRepo taskRepo,
+            ITagRepo tagRepo
         )
             : base(tagTagRepo, taskRepo, tagRepo)
         { }

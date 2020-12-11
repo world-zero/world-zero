@@ -9,10 +9,10 @@ namespace WorldZero.Service.Entity.Registration.Primary
     public class PlayerReg
         : IEntityReg<UnsafePlayer, Id, int>
     {
-        protected IUnsafePlayerRepo _playerRepo
-        { get { return (IUnsafePlayerRepo) this._repo; } }
+        protected IPlayerRepo _playerRepo
+        { get { return (IPlayerRepo) this._repo; } }
 
-        public PlayerReg(IUnsafePlayerRepo playerRepo)
+        public PlayerReg(IPlayerRepo playerRepo)
             : base(playerRepo)
         { }
     }

@@ -9,10 +9,10 @@ namespace WorldZero.Service.Entity.Registration.Primary
     public class TagReg
         : IEntityReg<UnsafeTag, Name, string>
     {
-        protected IUnsafeTagRepo _tagRepo
-        { get { return (IUnsafeTagRepo) this._repo; } }
+        protected ITagRepo _tagRepo
+        { get { return (ITagRepo) this._repo; } }
 
-        public TagReg(IUnsafeTagRepo tagRepo)
+        public TagReg(ITagRepo tagRepo)
             : base(tagRepo)
         { }
     }

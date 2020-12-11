@@ -10,7 +10,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.Primary.Generic
     /// </summary>
     public interface IIdNamedEntityRepo<TIdNamedEntity>
         : IIdEntityRepo<TIdNamedEntity>
-        where TIdNamedEntity : IUnsafeIdEntity
+        where TIdNamedEntity : class, IIdEntity
     {
         /// <summary>
         /// Get the entity with the supplied name. If none exists, an exception

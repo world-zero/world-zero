@@ -6,7 +6,7 @@ using WorldZero.Common.Interface.Entity.Primary;
 namespace WorldZero.Common.Entity.Primary
 {
     /// <inheritdoc cref="IFlag"/>
-    public class UnsafeFlag : IUnsafeNamedEntity, IFlag
+    public class UnsafeFlag : ABCNamedEntity, IFlag
     {
         public UnsafeFlag(
             Name name,

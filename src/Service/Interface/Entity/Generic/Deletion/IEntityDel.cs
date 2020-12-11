@@ -11,7 +11,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
     /// </summary>
     public abstract class IEntityDel<TEntity, TId, TBuiltIn>
         : IEntityService<TEntity, TId, TBuiltIn>
-        where TEntity : IUnsafeEntity<TId, TBuiltIn>
+        where TEntity : class, IEntity<TId, TBuiltIn>
         where TId : ISingleValueObject<TBuiltIn>
     {
         public IEntityDel(IEntityRepo<TEntity, TId, TBuiltIn> repo)

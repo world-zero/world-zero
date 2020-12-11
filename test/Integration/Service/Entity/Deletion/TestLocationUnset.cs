@@ -15,8 +15,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
     [TestFixture]
     public class TestLocationUnset
     {
-        private IUnsafeLocationRepo _localRepo;
-        private IUnsafeCharacterRepo _charRepo;
+        private ILocationRepo _localRepo;
+        private ICharacterRepo _charRepo;
         private LocationUnset _unset;
         private UnsafeLocation _l;
         private LocationReg _reg;
@@ -24,8 +24,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         [SetUp]
         public void Setup()
         {
-            this._localRepo = new RAMUnsafeLocationRepo();
-            this._charRepo = new RAMUnsafeCharacterRepo();
+            this._localRepo = new RAMLocationRepo();
+            this._charRepo = new RAMCharacterRepo();
             this._unset = new LocationUnset(
                 this._localRepo,
                 this._charRepo

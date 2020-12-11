@@ -5,7 +5,7 @@ using WorldZero.Common.ValueObject.General;
 namespace WorldZero.Common.Entity.Primary
 {
     /// <inheritdoc cref="ITag"/>
-    public class UnsafeTag : IUnsafeNamedEntity, ITag
+    public class UnsafeTag : ABCNamedEntity, ITag
     {
         // This does not have a description parameter since that would make the
         // two constructors ambiguous.

@@ -6,7 +6,7 @@ using WorldZero.Common.ValueObject.General;
 namespace WorldZero.Common.Entity.Primary
 {
     /// <inheritdoc cref="ICharacter"/>
-    public class UnsafeCharacter : IUnsafeIdNamedEntity, ICharacter
+    public class UnsafeCharacter : ABCIdNamedEntity, ICharacter
     {
         public Level CalculateLevel(PointTotal points)
         {

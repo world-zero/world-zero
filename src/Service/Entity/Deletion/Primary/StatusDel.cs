@@ -14,7 +14,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
         protected readonly MetaTaskUnset _mtUnset;
 
         public StatusDel(
-            IUnsafeStatusRepo repo,
+            IStatusRepo repo,
             PraxisDel praxisDel,
             TaskDel taskDel,
             MetaTaskUnset mtUnset

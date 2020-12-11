@@ -9,9 +9,9 @@ using NUnit.Framework;
 namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Relation
 {
     [TestFixture]
-    public class TestRAMUnsafeVoteRepo
+    public class TestRAMVoteRepo
     {
-        private RAMUnsafeVoteRepo _repo;
+        private RAMVoteRepo _repo;
         private Id _ppId0;
         private Id _ppId1;
         private Id _cId0;
@@ -23,7 +23,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Relation
         [SetUp]
         public void Setup()
         {
-            this._repo = new RAMUnsafeVoteRepo();
+            this._repo = new RAMVoteRepo();
             this._ppId0 = new Id(1);
             this._ppId1 = new Id(2);
             this._cId0 = new Id(3);

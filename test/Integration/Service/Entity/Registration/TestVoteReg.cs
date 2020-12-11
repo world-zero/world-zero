@@ -17,16 +17,16 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         private Id _id2;
         private Id _id3;
         private Id _id4;
-        private RAMUnsafeFactionRepo _factionRepo;
-        private RAMUnsafeTaskRepo _taskRepo;
-        private RAMUnsafeVoteRepo _voteRepo;
-        private RAMUnsafeCharacterRepo _charRepo;
-        private RAMUnsafePraxisRepo _praxisRepo;
-        private RAMUnsafePraxisParticipantRepo _ppRepo;
-        private RAMUnsafeMetaTaskRepo _mtRepo;
+        private RAMFactionRepo _factionRepo;
+        private RAMTaskRepo _taskRepo;
+        private RAMVoteRepo _voteRepo;
+        private RAMCharacterRepo _charRepo;
+        private RAMPraxisRepo _praxisRepo;
+        private RAMPraxisParticipantRepo _ppRepo;
+        private RAMMetaTaskRepo _mtRepo;
         private VoteReg _voteReg;
         private PraxisParticipantReg _ppReg;
-        private RAMUnsafeEraRepo _eraRepo;
+        private RAMEraRepo _eraRepo;
         private EraReg _eraReg;
 
         [SetUp]
@@ -36,15 +36,15 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             this._id2 = new Id(2);
             this._id3 = new Id(3);
             this._id4 = new Id(4);
-            this._factionRepo = new RAMUnsafeFactionRepo();
-            this._taskRepo = new RAMUnsafeTaskRepo();
-            this._eraRepo = new RAMUnsafeEraRepo();
+            this._factionRepo = new RAMFactionRepo();
+            this._taskRepo = new RAMTaskRepo();
+            this._eraRepo = new RAMEraRepo();
             this._eraReg = new EraReg(this._eraRepo);
-            this._voteRepo = new RAMUnsafeVoteRepo();
-            this._charRepo = new RAMUnsafeCharacterRepo();
-            this._praxisRepo = new RAMUnsafePraxisRepo();
-            this._mtRepo = new RAMUnsafeMetaTaskRepo();
-            this._ppRepo = new RAMUnsafePraxisParticipantRepo();
+            this._voteRepo = new RAMVoteRepo();
+            this._charRepo = new RAMCharacterRepo();
+            this._praxisRepo = new RAMPraxisRepo();
+            this._mtRepo = new RAMMetaTaskRepo();
+            this._ppRepo = new RAMPraxisParticipantRepo();
             this._ppReg = new PraxisParticipantReg(
                 this._ppRepo,
                 this._praxisRepo,
@@ -88,12 +88,12 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             // Invalid right id.
             // This requires registering a character, which needs a player.
             var player = new UnsafePlayer(new Name("Jack"));
-            var playerRepo = new RAMUnsafePlayerRepo();
+            var playerRepo = new RAMPlayerRepo();
             var playerReg = new PlayerReg(playerRepo);
             playerReg.Register(player);
 
-            var factionRepo = new RAMUnsafeFactionRepo();
-            var locationRepo = new RAMUnsafeLocationRepo();
+            var factionRepo = new RAMFactionRepo();
+            var locationRepo = new RAMLocationRepo();
             var character = new UnsafeCharacter(
                 new Name("Stinky"),
                 player.Id,
@@ -113,7 +113,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             // Someone is voting on their own PP with the same character, so we
             // need a praxis, so we need a task and status too.
             var status = new UnsafeStatus(new Name("Active"));
-            var statusRepo = new RAMUnsafeStatusRepo();
+            var statusRepo = new RAMStatusRepo();
             var statusReg = new StatusReg(statusRepo);
             statusReg.Register(status);
 
@@ -124,16 +124,16 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                 new PointTotal(20),
                 new Level(1)
             );
-            var taskRepo = new RAMUnsafeTaskRepo();
+            var taskRepo = new RAMTaskRepo();
             var taskReg = new TaskReg(taskRepo);
             taskReg.Register(task);
 
-            var eraRepo = new RAMUnsafeEraRepo();
+            var eraRepo = new RAMEraRepo();
             var eraReg = new EraReg(eraRepo);
 
             var pt = new PointTotal(2);
             var praxis = new UnsafePraxis(task.Id, pt, status.Id);
-            var mtRepo = new RAMUnsafeMetaTaskRepo();
+            var mtRepo = new RAMMetaTaskRepo();
             var praxisReg = new PraxisReg(
                 this._praxisRepo,
                 taskRepo,

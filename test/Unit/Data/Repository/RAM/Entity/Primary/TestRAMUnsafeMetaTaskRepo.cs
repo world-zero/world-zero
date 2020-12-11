@@ -8,9 +8,9 @@ using NUnit.Framework;
 namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
 {
     [TestFixture]
-    public class TestRAMUnsafeMetaTaskRepo
+    public class TestRAMMetaTaskRepo
     {
-        private RAMUnsafeMetaTaskRepo _mtRepo;
+        private RAMMetaTaskRepo _mtRepo;
         private Name _f0;
         private Name _f1;
         private UnsafeMetaTask _mt0_0;
@@ -20,7 +20,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
         [SetUp]
         public void Setup()
         {
-            this._mtRepo = new RAMUnsafeMetaTaskRepo();
+            this._mtRepo = new RAMMetaTaskRepo();
             var status = new Name("x");
             var pt = new PointTotal(2);
             this._f0 = new Name("first");

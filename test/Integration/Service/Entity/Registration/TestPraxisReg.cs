@@ -16,14 +16,14 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
     public class TestPraxisReg
     {
         private PointTotal _pt;
-        private IUnsafeFactionRepo _factionRepo;
+        private IFactionRepo _factionRepo;
         private DummyRAMPraxisParticipantRepo _ppRepo;
-        private IUnsafeCharacterRepo _charRepo;
+        private ICharacterRepo _charRepo;
         private DummyRAMPraxisRepo _praxisRepo;
         private PraxisParticipantReg _ppReg;
-        private IUnsafeTaskRepo _taskRepo;
-        private IUnsafeMetaTaskRepo _mtRepo;
-        private IUnsafeStatusRepo _statusRepo;
+        private ITaskRepo _taskRepo;
+        private IMetaTaskRepo _mtRepo;
+        private IStatusRepo _statusRepo;
         private PraxisReg _registration;
         private UnsafeStatus _status0;
         private UnsafeStatus _status1;
@@ -34,21 +34,21 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         private UnsafePraxisParticipant _pp;
         private List<UnsafePraxisParticipant> _pps;
         private UnsafeFaction _f;
-        private IUnsafeEraRepo _eraRepo;
+        private IEraRepo _eraRepo;
         private EraReg _eraReg;
 
         [SetUp]
         public void Setup()
         {
             this._pt = new PointTotal(2);
-            this._factionRepo = new RAMUnsafeFactionRepo();
-            this._eraRepo = new RAMUnsafeEraRepo();
+            this._factionRepo = new RAMFactionRepo();
+            this._eraRepo = new RAMEraRepo();
             this._eraReg = new EraReg(this._eraRepo);
             this._ppRepo = new DummyRAMPraxisParticipantRepo();
-            this._charRepo = new RAMUnsafeCharacterRepo();
+            this._charRepo = new RAMCharacterRepo();
             this._praxisRepo = new DummyRAMPraxisRepo();
-            this._mtRepo = new RAMUnsafeMetaTaskRepo();
-            this._taskRepo = new RAMUnsafeTaskRepo();
+            this._mtRepo = new RAMMetaTaskRepo();
+            this._taskRepo = new RAMTaskRepo();
             this._ppReg = new PraxisParticipantReg(
                 this._ppRepo,
                 this._praxisRepo,
@@ -58,7 +58,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                 this._factionRepo,
                 this._eraReg
             );
-            this._statusRepo = new RAMUnsafeStatusRepo();
+            this._statusRepo = new RAMStatusRepo();
             this._registration = new PraxisReg(
                 this._praxisRepo,
                 this._taskRepo,

@@ -7,14 +7,14 @@ using NUnit.Framework;
 namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
 {
     [TestFixture]
-    public class TestRAMUnsafeEraRepo
+    public class TestRAMEraRepo
     {
-        private RAMUnsafeEraRepo _repo;
+        private RAMEraRepo _repo;
 
         [SetUp]
         public void Setup()
         {
-            this._repo = new RAMUnsafeEraRepo();
+            this._repo = new RAMEraRepo();
         }
 
         [TearDown]

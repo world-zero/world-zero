@@ -15,14 +15,14 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
     public class TestPraxisParticipantReg
     {
         private PointTotal _pt;
-        private RAMUnsafeTaskRepo _taskRepo;
-        private RAMUnsafeFactionRepo _factionRepo;
+        private RAMTaskRepo _taskRepo;
+        private RAMFactionRepo _factionRepo;
         private DummyRAMPraxisParticipantRepo _ppRepo;
         private DummyRAMPraxisRepo _praxisRepo;
         private DummyRAMCharacterRepo _charRepo;
         private DummyRAMMetaTaskRepo _mtRepo;
         private PraxisParticipantReg _ppReg;
-        private RAMUnsafeEraRepo _eraRepo;
+        private RAMEraRepo _eraRepo;
         private EraReg _eraReg;
         private UnsafeCharacter _c0;
         private UnsafeCharacter _c1;
@@ -38,8 +38,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         [SetUp]
         public void Setup()
         {
-            this._taskRepo = new RAMUnsafeTaskRepo();
-            this._eraRepo = new RAMUnsafeEraRepo();
+            this._taskRepo = new RAMTaskRepo();
+            this._eraRepo = new RAMEraRepo();
             this._e = new UnsafeEra(
                 new Name("Testing"),
                 maxTasks: 1,
@@ -52,7 +52,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             this._praxisRepo = new DummyRAMPraxisRepo();
             this._charRepo = new DummyRAMCharacterRepo();
             this._mtRepo = new DummyRAMMetaTaskRepo();
-            this._factionRepo = new RAMUnsafeFactionRepo();
+            this._factionRepo = new RAMFactionRepo();
             this._ppReg = new PraxisParticipantReg(
                 this._ppRepo,
                 this._praxisRepo,
@@ -377,7 +377,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
     }
 
     public class DummyRAMPraxisParticipantRepo
-        : RAMUnsafePraxisParticipantRepo
+        : RAMPraxisParticipantRepo
     {
         public DummyRAMPraxisParticipantRepo()
             : base()
@@ -390,7 +390,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
     }
 
     public class DummyRAMPraxisRepo
-        : RAMUnsafePraxisRepo
+        : RAMPraxisRepo
     {
         public DummyRAMPraxisRepo()
             : base()
@@ -403,7 +403,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
     }
 
     public class DummyRAMMetaTaskRepo
-        : RAMUnsafeMetaTaskRepo
+        : RAMMetaTaskRepo
     {
         public DummyRAMMetaTaskRepo()
             : base()

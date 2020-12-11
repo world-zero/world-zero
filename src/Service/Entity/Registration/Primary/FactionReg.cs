@@ -10,14 +10,14 @@ namespace WorldZero.Service.Entity.Registration.Primary
     public class FactionReg
         : IEntityReg<UnsafeFaction, Name, string>
     {
-        protected readonly IUnsafeAbilityRepo _abilityRepo;
+        protected readonly IAbilityRepo _abilityRepo;
 
-        protected IUnsafeFactionRepo _factionRepo
-        { get { return (IUnsafeFactionRepo) this._repo; } }
+        protected IFactionRepo _factionRepo
+        { get { return (IFactionRepo) this._repo; } }
 
         public FactionReg(
-            IUnsafeFactionRepo factionRepo,
-            IUnsafeAbilityRepo abilityRepo
+            IFactionRepo factionRepo,
+            IAbilityRepo abilityRepo
         )
             : base(factionRepo)
         {

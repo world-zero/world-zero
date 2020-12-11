@@ -25,8 +25,8 @@ namespace WorldZero.Service.Entity.Deletion.Primary
     /// </remarks>
     public class PraxisDel : IIdStatusedEntityDel<UnsafePraxis>
     {
-        protected IUnsafePraxisRepo _praxisRepo
-        { get { return (IUnsafePraxisRepo) this._repo; } }
+        protected IPraxisRepo _praxisRepo
+        { get { return (IPraxisRepo) this._repo; } }
 
         protected readonly PraxisParticipantDel _ppDel;
         protected readonly CommentDel _commentDel;
@@ -34,7 +34,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
         protected readonly PraxisFlagDel _praxisFlagDel;
 
         public PraxisDel(
-            IUnsafePraxisRepo praxisRepo,
+            IPraxisRepo praxisRepo,
             PraxisParticipantDel ppDel,
             CommentDel commentDel,
             PraxisTagDel praxisTagDel,

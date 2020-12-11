@@ -16,10 +16,10 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
     {
         private UnsafeFlag _f0;
         private UnsafeFlag _t1;
-        private RAMUnsafeFlagRepo _flagRepo;
-        private RAMUnsafeTaskFlagRepo _taskFlagRepo;
-        private RAMUnsafeMetaTaskFlagRepo _mtFlagRepo;
-        private RAMUnsafePraxisFlagRepo _praxisFlagRepo;
+        private RAMFlagRepo _flagRepo;
+        private RAMTaskFlagRepo _taskFlagRepo;
+        private RAMMetaTaskFlagRepo _mtFlagRepo;
+        private RAMPraxisFlagRepo _praxisFlagRepo;
         private TaskFlagDel _taskFlagDel;
         private MetaTaskFlagDel _mtFlagDel;
         private PraxisFlagDel _praxisFlagDel;
@@ -31,24 +31,24 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._f0 = new UnsafeFlag(new Name("#valid"));
             this._t1 = new UnsafeFlag(new Name("#invalid"));
 
-            this._flagRepo = new RAMUnsafeFlagRepo();
+            this._flagRepo = new RAMFlagRepo();
             this._flagRepo.Insert(this._f0);
             this._flagRepo.Insert(this._t1);
             this._flagRepo.Save();
 
-            this._taskFlagRepo = new RAMUnsafeTaskFlagRepo();
+            this._taskFlagRepo = new RAMTaskFlagRepo();
             this._taskFlagRepo.Insert(new UnsafeTaskFlag(new Id(100), this._f0.Id));
             this._taskFlagRepo.Insert(new UnsafeTaskFlag(new Id(200), this._f0.Id));
             this._taskFlagRepo.Insert(new UnsafeTaskFlag(new Id(300), this._t1.Id));
             this._taskFlagRepo.Save();
 
-            this._mtFlagRepo = new RAMUnsafeMetaTaskFlagRepo();
+            this._mtFlagRepo = new RAMMetaTaskFlagRepo();
             this._mtFlagRepo.Insert(new UnsafeMetaTaskFlag(new Id(400), this._f0.Id));
             this._mtFlagRepo.Insert(new UnsafeMetaTaskFlag(new Id(500), this._t1.Id));
             this._mtFlagRepo.Insert(new UnsafeMetaTaskFlag(new Id(600), this._t1.Id));
             this._mtFlagRepo.Save();
 
-            this._praxisFlagRepo = new RAMUnsafePraxisFlagRepo();
+            this._praxisFlagRepo = new RAMPraxisFlagRepo();
             this._praxisFlagRepo.Insert(new UnsafePraxisFlag(new Id(70), this._f0.Id));
             this._praxisFlagRepo.Insert(new UnsafePraxisFlag(new Id(80), this._t1.Id));
             this._praxisFlagRepo.Insert(new UnsafePraxisFlag(new Id(90), this._t1.Id));

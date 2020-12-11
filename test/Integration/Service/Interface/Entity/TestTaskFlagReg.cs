@@ -15,9 +15,9 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
     [TestFixture]
     public class TestTaskFlagReg
     {
-        private IUnsafeTaskFlagRepo _tfRepo;
-        private IUnsafeTaskRepo _taskRepo;
-        private IUnsafeFlagRepo _flagRepo;
+        private ITaskFlagRepo _tfRepo;
+        private ITaskRepo _taskRepo;
+        private IFlagRepo _flagRepo;
         private TaskFlagReg _reg;
         private UnsafeFlag _f;
         private PointTotal _pt;
@@ -26,9 +26,9 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
         [SetUp]
         public void Setup()
         {
-            this._tfRepo = new RAMUnsafeTaskFlagRepo();
-            this._taskRepo = new RAMUnsafeTaskRepo();
-            this._flagRepo = new RAMUnsafeFlagRepo();
+            this._tfRepo = new RAMTaskFlagRepo();
+            this._taskRepo = new RAMTaskRepo();
+            this._flagRepo = new RAMFlagRepo();
             this._reg = new TaskFlagReg(
                 this._tfRepo,
                 this._taskRepo,

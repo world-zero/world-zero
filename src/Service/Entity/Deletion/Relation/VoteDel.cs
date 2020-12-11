@@ -11,10 +11,10 @@ namespace WorldZero.Service.Entity.Deletion.Relation
     /// </remarks>
     public class VoteDel : IEntityDel<UnsafeVote, Id, int>
     {
-        protected IUnsafeVoteRepo _voteRepo
-        { get { return (IUnsafeVoteRepo) this._repo; } }
+        protected IVoteRepo _voteRepo
+        { get { return (IVoteRepo) this._repo; } }
 
-        public VoteDel(IUnsafeVoteRepo repo)
+        public VoteDel(IVoteRepo repo)
             : base(repo)
         { }
 

@@ -33,22 +33,22 @@ namespace WorldZero.Service.Entity.Registration.Relation
             RelationDTO<Id, int, Id, int>
         >
     {
-        protected IUnsafeVoteRepo _voteRepo
-        { get { return (IUnsafeVoteRepo) this._repo; } }
+        protected IVoteRepo _voteRepo
+        { get { return (IVoteRepo) this._repo; } }
 
-        protected IUnsafeCharacterRepo _characterRepo
-        { get { return (IUnsafeCharacterRepo) this._leftRepo; } }
+        protected ICharacterRepo _characterRepo
+        { get { return (ICharacterRepo) this._leftRepo; } }
 
-        protected IUnsafePraxisParticipantRepo _ppRepo
-        { get { return (IUnsafePraxisParticipantRepo) this._rightRepo; } }
+        protected IPraxisParticipantRepo _ppRepo
+        { get { return (IPraxisParticipantRepo) this._rightRepo; } }
 
-        protected readonly IUnsafePraxisRepo _praxisRepo;
+        protected readonly IPraxisRepo _praxisRepo;
 
         public VoteReg(
-            IUnsafeVoteRepo voteRepo,
-            IUnsafeCharacterRepo characterRepo,
-            IUnsafePraxisParticipantRepo praxisParticipantRepo,
-            IUnsafePraxisRepo praxisRepo
+            IVoteRepo voteRepo,
+            ICharacterRepo characterRepo,
+            IPraxisParticipantRepo praxisParticipantRepo,
+            IPraxisRepo praxisRepo
         )
             : base(voteRepo, characterRepo, praxisParticipantRepo)
         {

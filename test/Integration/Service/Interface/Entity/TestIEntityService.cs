@@ -41,7 +41,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
             Assert.Throws<ArgumentNullException>(()=>
                 new TestEntityService(null));
 
-            var repo = new RAMUnsafeCommentRepo();
+            var repo = new RAMCommentRepo();
             var service = new TestEntityService(repo);
             Assert.IsNotNull(service.Repo);
             Assert.AreEqual(repo, service.Repo);
@@ -143,7 +143,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
         }
     }
 
-    public class DummyRAMCommentRepo : RAMUnsafeCommentRepo
+    public class DummyRAMCommentRepo : RAMCommentRepo
     {
         public int SavedCount { get { return this._saved.Count; } }
         public int StagedCount { get { return this._staged.Count; } }
@@ -152,7 +152,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
     public class TestEntityService
         : IEntityService<UnsafeComment, Id, int>
     {
-        public TestEntityService(IUnsafeCommentRepo commentRepo)
+        public TestEntityService(ICommentRepo commentRepo)
             : base(commentRepo)
         { }
 

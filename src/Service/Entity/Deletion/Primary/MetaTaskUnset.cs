@@ -18,20 +18,20 @@ namespace WorldZero.Service.Entity.Deletion.Primary
         protected class StatusedMTDel
             : IIdStatusedEntityDel<UnsafeMetaTask>
         {
-            public StatusedMTDel(IUnsafeMetaTaskRepo mtRepo)
+            public StatusedMTDel(IMetaTaskRepo mtRepo)
                 : base(mtRepo)
             { }
         }
 
         protected StatusedMTDel _statusedMTDel;
 
-        protected IUnsafeMetaTaskRepo _mtRepo
-        { get { return (IUnsafeMetaTaskRepo) this._repo; } }
+        protected IMetaTaskRepo _mtRepo
+        { get { return (IMetaTaskRepo) this._repo; } }
 
-        protected IUnsafePraxisRepo _praxisRepo
-        { get { return (IUnsafePraxisRepo) this._otherRepo; } }
+        protected IPraxisRepo _praxisRepo
+        { get { return (IPraxisRepo) this._otherRepo; } }
 
-        public MetaTaskUnset(IUnsafeMetaTaskRepo repo, IUnsafePraxisRepo praxisRepo)
+        public MetaTaskUnset(IMetaTaskRepo repo, IPraxisRepo praxisRepo)
             : base(repo, praxisRepo)
         {
             this._statusedMTDel = new StatusedMTDel(this._mtRepo);

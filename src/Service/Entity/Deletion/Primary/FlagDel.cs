@@ -15,7 +15,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
         protected readonly PraxisFlagDel _praxisFlagDel;
 
         public FlagDel(
-            IUnsafeFlagRepo flagRepo,
+            IFlagRepo flagRepo,
             TaskFlagDel taskFlagDel,
             MetaTaskFlagDel mtFlagDel,
             PraxisFlagDel praxisFlagDel

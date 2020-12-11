@@ -11,10 +11,10 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
     [TestFixture]
     public class TestCharacterReg
     {
-        private IUnsafeCharacterRepo _characterRepo;
-        private IUnsafeFactionRepo _factionRepo;
-        private IUnsafePlayerRepo _playerRepo;
-        private IUnsafeLocationRepo _locationRepo;
+        private ICharacterRepo _characterRepo;
+        private IFactionRepo _factionRepo;
+        private IPlayerRepo _playerRepo;
+        private ILocationRepo _locationRepo;
         private CharacterReg _registration;
         private UnsafePlayer _player0;
         private UnsafeFaction _faction0;
@@ -24,8 +24,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         public void Setup()
         {
             CharacterReg.MinLevelToRegister = new Level(3);
-            this._characterRepo = new RAMUnsafeCharacterRepo();
-            this._factionRepo = new RAMUnsafeFactionRepo();
+            this._characterRepo = new RAMCharacterRepo();
+            this._factionRepo = new RAMFactionRepo();
             this._playerRepo = new DummyRAMPlayerRepo();
             this._locationRepo = new DummyRAMLocationRepo();
             this._registration = new CharacterReg(
@@ -258,13 +258,13 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
     }
 
     public class DummyRAMPlayerRepo
-        : RAMUnsafePlayerRepo
+        : RAMPlayerRepo
     {
         public void ResetNextIdValue() { _nextIdValue = 1; }
     }
 
     public class DummyRAMLocationRepo
-        : RAMUnsafeLocationRepo
+        : RAMLocationRepo
     {
         public void ResetNextIdValue() { _nextIdValue = 1; }
     }

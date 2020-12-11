@@ -17,9 +17,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         private Id _id2;
         private Id _id3;
         private Id _id4;
-        private IUnsafeFriendRepo _friendRepo;
-        private IUnsafeCharacterRepo _characterRepo;
-        private IUnsafeFoeRepo _foeRepo;
+        private IFriendRepo _friendRepo;
+        private ICharacterRepo _characterRepo;
+        private IFoeRepo _foeRepo;
         private FriendReg _friendReg;
 
         [SetUp]

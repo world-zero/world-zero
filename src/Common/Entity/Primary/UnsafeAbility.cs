@@ -6,7 +6,7 @@ using WorldZero.Common.Interface.Entity.Generic.Primary;
 namespace WorldZero.Common.Entity.Primary
 {
     /// <inheritdoc cref="IAbility"/>
-    public class UnsafeAbility : IUnsafeNamedEntity, IAbility
+    public class UnsafeAbility : ABCNamedEntity, IAbility
     {
         public UnsafeAbility(Name name, string description)
             : base(name)

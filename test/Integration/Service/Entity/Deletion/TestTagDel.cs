@@ -16,10 +16,10 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
     {
         private UnsafeTag _t0;
         private UnsafeTag _t1;
-        private RAMUnsafeTagRepo _tagRepo;
-        private RAMUnsafeTaskTagRepo _taskTagRepo;
-        private RAMUnsafeMetaTaskTagRepo _mtTagRepo;
-        private RAMUnsafePraxisTagRepo _praxisTagRepo;
+        private RAMTagRepo _tagRepo;
+        private RAMTaskTagRepo _taskTagRepo;
+        private RAMMetaTaskTagRepo _mtTagRepo;
+        private RAMPraxisTagRepo _praxisTagRepo;
         private TaskTagDel _taskTagDel;
         private MetaTaskTagDel _mtTagDel;
         private PraxisTagDel _praxisTagDel;
@@ -31,24 +31,24 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._t0 = new UnsafeTag(new Name("#valid"));
             this._t1 = new UnsafeTag(new Name("#invalid"));
 
-            this._tagRepo = new RAMUnsafeTagRepo();
+            this._tagRepo = new RAMTagRepo();
             this._tagRepo.Insert(this._t0);
             this._tagRepo.Insert(this._t1);
             this._tagRepo.Save();
 
-            this._taskTagRepo = new RAMUnsafeTaskTagRepo();
+            this._taskTagRepo = new RAMTaskTagRepo();
             this._taskTagRepo.Insert(new UnsafeTaskTag(new Id(100), this._t0.Id));
             this._taskTagRepo.Insert(new UnsafeTaskTag(new Id(200), this._t0.Id));
             this._taskTagRepo.Insert(new UnsafeTaskTag(new Id(300), this._t1.Id));
             this._taskTagRepo.Save();
 
-            this._mtTagRepo = new RAMUnsafeMetaTaskTagRepo();
+            this._mtTagRepo = new RAMMetaTaskTagRepo();
             this._mtTagRepo.Insert(new UnsafeMetaTaskTag(new Id(400), this._t0.Id));
             this._mtTagRepo.Insert(new UnsafeMetaTaskTag(new Id(500), this._t1.Id));
             this._mtTagRepo.Insert(new UnsafeMetaTaskTag(new Id(600), this._t1.Id));
             this._mtTagRepo.Save();
 
-            this._praxisTagRepo = new RAMUnsafePraxisTagRepo();
+            this._praxisTagRepo = new RAMPraxisTagRepo();
             this._praxisTagRepo.Insert(new UnsafePraxisTag(new Id(70), this._t0.Id));
             this._praxisTagRepo.Insert(new UnsafePraxisTag(new Id(80), this._t1.Id));
             this._praxisTagRepo.Insert(new UnsafePraxisTag(new Id(90), this._t1.Id));

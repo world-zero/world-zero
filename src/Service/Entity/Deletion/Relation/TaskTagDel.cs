@@ -17,7 +17,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         RelationDTO<Id, int, Name, string>
     >
     {
-        public TaskTagDel(IUnsafeTaskTagRepo repo)
+        public TaskTagDel(ITaskTagRepo repo)
             : base(repo)
         { }
 

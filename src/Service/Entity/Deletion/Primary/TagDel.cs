@@ -15,7 +15,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
         protected readonly PraxisTagDel _praxisTagDel;
 
         public TagDel(
-            IUnsafeTagRepo tagRepo,
+            ITagRepo tagRepo,
             TaskTagDel taskTagDel,
             MetaTaskTagDel mtTagDel,
             PraxisTagDel praxisTagDel

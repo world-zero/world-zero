@@ -12,9 +12,9 @@ using NUnit.Framework;
 namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
 {
     [TestFixture]
-    public class TestRAMUnsafePraxisRepo
+    public class TestRAMPraxisRepo
     {
-        private RAMUnsafePraxisRepo _praxisRepo;
+        private RAMPraxisRepo _praxisRepo;
         private TestPraxisParticipantRepoExposedData _ppRepo;
         private HashSet<Name> _goodStatuses;
         private Id _taskId0;
@@ -37,7 +37,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
         [SetUp]
         public void Setup()
         {
-            this._praxisRepo = new RAMUnsafePraxisRepo();
+            this._praxisRepo = new RAMPraxisRepo();
             this._ppRepo = new TestPraxisParticipantRepoExposedData();
             this._goodStatus = new Name("good");
             this._otherGoodStatus = new Name("other good");
@@ -82,7 +82,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
             Assert.Throws<ArgumentException>(()=>
                 this._praxisRepo.GetByMetaTaskId(new Id(32423)));
 
-            var mtRepo = new RAMUnsafeMetaTaskRepo();
+            var mtRepo = new RAMMetaTaskRepo();
             var mt0 = new UnsafeMetaTask(
                 new Name("x"),
                 new Name("y"),
@@ -165,7 +165,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
     }
 
     public class TestPraxisParticipantRepoExposedData
-        : RAMUnsafePraxisParticipantRepo
+        : RAMPraxisParticipantRepo
     {
         public Dictionary<string, EntityData> Data { get { return _data; } }
     }

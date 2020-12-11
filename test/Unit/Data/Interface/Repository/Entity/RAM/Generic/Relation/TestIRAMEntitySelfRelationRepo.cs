@@ -19,7 +19,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
         private UnsafeFoe _f0;
         private UnsafeFoe _f1;
         private UnsafeFoe _f2;
-        private RAMUnsafeFoeRepo _repo;
+        private RAMFoeRepo _repo;
 
         [SetUp]
         public void Setup()
@@ -33,7 +33,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
             this._f1 = new UnsafeFoe(this._id2, this._id0);
             this._f2 = new UnsafeFoe(this._id1, this._id3);
 
-            this._repo = new RAMUnsafeFoeRepo();
+            this._repo = new RAMFoeRepo();
             this._repo.Insert(this._f0);
             this._repo.Insert(this._f1);
             this._repo.Insert(this._f2);

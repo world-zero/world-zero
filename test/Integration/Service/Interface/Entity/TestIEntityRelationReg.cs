@@ -15,17 +15,17 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
     [TestFixture]
     public class TestIEntityRelationReg
     {
-        private IUnsafeVoteRepo _voteRepo;
-        private IUnsafeCharacterRepo _characterRepo;
-        private IUnsafePraxisParticipantRepo _ppRepo;
+        private IVoteRepo _voteRepo;
+        private ICharacterRepo _characterRepo;
+        private IPraxisParticipantRepo _ppRepo;
         private TestEntityRelationReg _reg;
 
         [SetUp]
         public void Setup()
         {
-            this._voteRepo = new RAMUnsafeVoteRepo();
-            this._characterRepo = new RAMUnsafeCharacterRepo();
-            this._ppRepo = new RAMUnsafePraxisParticipantRepo();
+            this._voteRepo = new RAMVoteRepo();
+            this._characterRepo = new RAMCharacterRepo();
+            this._ppRepo = new RAMPraxisParticipantRepo();
             this._reg = new TestEntityRelationReg(
                 this._voteRepo,
                 this._characterRepo,
@@ -107,9 +107,9 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
         >
     {
         public TestEntityRelationReg(
-            IUnsafeVoteRepo repo,
-            IUnsafeCharacterRepo characterRepo,
-            IUnsafePraxisParticipantRepo praxisRepo
+            IVoteRepo repo,
+            ICharacterRepo characterRepo,
+            IPraxisParticipantRepo praxisRepo
         )
             : base(repo, characterRepo, praxisRepo)
         { }

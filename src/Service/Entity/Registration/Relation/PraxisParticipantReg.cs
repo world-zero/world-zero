@@ -56,28 +56,28 @@ namespace WorldZero.Service.Entity.Registration.Relation
             RelationDTO<Id, int, Id, int>
         >
     {
-        protected IUnsafePraxisParticipantRepo _ppRepo
-        { get { return (IUnsafePraxisParticipantRepo) this._repo; } }
+        protected IPraxisParticipantRepo _ppRepo
+        { get { return (IPraxisParticipantRepo) this._repo; } }
 
-        protected IUnsafePraxisRepo _praxisRepo
-        { get { return (IUnsafePraxisRepo) this._leftRepo; } }
+        protected IPraxisRepo _praxisRepo
+        { get { return (IPraxisRepo) this._leftRepo; } }
 
-        protected IUnsafeCharacterRepo _characterRepo
-        { get { return (IUnsafeCharacterRepo) this._rightRepo; } }
+        protected ICharacterRepo _characterRepo
+        { get { return (ICharacterRepo) this._rightRepo; } }
 
-        protected readonly IUnsafeMetaTaskRepo _mtRepo;
-        protected readonly IUnsafeTaskRepo _taskRepo;
-        protected readonly IUnsafeFactionRepo _factionRepo;
+        protected readonly IMetaTaskRepo _mtRepo;
+        protected readonly ITaskRepo _taskRepo;
+        protected readonly IFactionRepo _factionRepo;
         protected readonly EraReg _eraReg;
         protected ISet<Name> _praxisLiveStatuses;
 
         public PraxisParticipantReg(
-            IUnsafePraxisParticipantRepo praxisParticipantRepo,
-            IUnsafePraxisRepo praxisRepo,
-            IUnsafeCharacterRepo characterRepo,
-            IUnsafeMetaTaskRepo mtRepo,
-            IUnsafeTaskRepo taskRepo,
-            IUnsafeFactionRepo factionRepo,
+            IPraxisParticipantRepo praxisParticipantRepo,
+            IPraxisRepo praxisRepo,
+            ICharacterRepo characterRepo,
+            IMetaTaskRepo mtRepo,
+            ITaskRepo taskRepo,
+            IFactionRepo factionRepo,
             EraReg eraReg
         )
             : base(praxisParticipantRepo, praxisRepo, characterRepo)

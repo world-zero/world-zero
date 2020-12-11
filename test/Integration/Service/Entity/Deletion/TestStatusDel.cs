@@ -22,40 +22,40 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private Id _next() => new Id(this._nxt++);
 
         private void _absentt<TEntity, TId, TBuiltIn>(TEntity e, Func<TId, TEntity> getById)
-            where TEntity : IUnsafeEntity<TId, TBuiltIn>
+            where TEntity : ABCEntity<TId, TBuiltIn>
             where TId : ISingleValueObject<TBuiltIn>
         {
             Assert.Throws<ArgumentException>(()=>getById(e.Id));
         }
 
         private void _present<TEntity, TId, TBuiltIn>(TEntity e, Func<TId, TEntity> GetById)
-            where TEntity : IUnsafeEntity<TId, TBuiltIn>
+            where TEntity : ABCEntity<TId, TBuiltIn>
             where TId : ISingleValueObject<TBuiltIn>
         {
             var actualEntity = GetById(e.Id);
             Assert.AreEqual(actualEntity.Id, e.Id);
         }
 
-        private IUnsafeStatusRepo _statusRepo;
+        private IStatusRepo _statusRepo;
         private PraxisParticipantDel _ppDel;
-        private RAMUnsafeVoteRepo _voteRepo;
+        private RAMVoteRepo _voteRepo;
         private VoteDel _voteDel;
-        private IUnsafeTaskRepo _taskRepo;
+        private ITaskRepo _taskRepo;
         private TaskDel _taskDel;
-        private IUnsafeCommentRepo _commentRepo;
+        private ICommentRepo _commentRepo;
         private CommentDel _commentDel;
-        private IUnsafePraxisTagRepo _praxisTagRepo;
+        private IPraxisTagRepo _praxisTagRepo;
         private PraxisTagDel _praxisTagDel;
-        private IUnsafePraxisFlagRepo _praxisFlagRepo;
+        private IPraxisFlagRepo _praxisFlagRepo;
         private PraxisFlagDel _praxisFlagDel;
-        private IUnsafePraxisRepo _praxisRepo;
-        private IUnsafePraxisParticipantRepo _ppRepo;
+        private IPraxisRepo _praxisRepo;
+        private IPraxisParticipantRepo _ppRepo;
         private PraxisDel _praxisDel;
-        private IUnsafeTaskTagRepo _taskTagRepo;
+        private ITaskTagRepo _taskTagRepo;
         private TaskTagDel _taskTagDel;
-        private IUnsafeTaskFlagRepo _taskFlagRepo;
+        private ITaskFlagRepo _taskFlagRepo;
         private TaskFlagDel _taskFlagDel;
-        private IUnsafeMetaTaskRepo _mtRepo;
+        private IMetaTaskRepo _mtRepo;
         private MetaTaskUnset _mtUnset;
         private StatusDel _statusDel;
 
@@ -71,18 +71,18 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         [SetUp]
         public void Setup()
         {
-            this._statusRepo = new RAMUnsafeStatusRepo();
-            this._commentRepo = new RAMUnsafeCommentRepo();
+            this._statusRepo = new RAMStatusRepo();
+            this._commentRepo = new RAMCommentRepo();
             this._commentDel = new CommentDel(this._commentRepo);
-            this._praxisTagRepo = new RAMUnsafePraxisTagRepo();
+            this._praxisTagRepo = new RAMPraxisTagRepo();
             this._praxisTagDel = new PraxisTagDel(this._praxisTagRepo);
-            this._praxisFlagRepo = new RAMUnsafePraxisFlagRepo();
+            this._praxisFlagRepo = new RAMPraxisFlagRepo();
             this._praxisFlagDel = new PraxisFlagDel(this._praxisFlagRepo);
-            this._praxisRepo = new RAMUnsafePraxisRepo();
-            this._ppRepo = new RAMUnsafePraxisParticipantRepo();
-            this._voteRepo = new RAMUnsafeVoteRepo();
+            this._praxisRepo = new RAMPraxisRepo();
+            this._ppRepo = new RAMPraxisParticipantRepo();
+            this._voteRepo = new RAMVoteRepo();
             this._voteDel = new VoteDel(this._voteRepo);
-            this._ppRepo = new RAMUnsafePraxisParticipantRepo();
+            this._ppRepo = new RAMPraxisParticipantRepo();
             this._ppDel = new PraxisParticipantDel(
                 this._ppRepo,
                 this._praxisRepo,
@@ -95,10 +95,10 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
                 this._praxisTagDel,
                 this._praxisFlagDel
             );
-            this._taskRepo = new RAMUnsafeTaskRepo();
-            this._taskTagRepo = new RAMUnsafeTaskTagRepo();
+            this._taskRepo = new RAMTaskRepo();
+            this._taskTagRepo = new RAMTaskTagRepo();
             this._taskTagDel = new TaskTagDel(this._taskTagRepo);
-            this._taskFlagRepo = new RAMUnsafeTaskFlagRepo();
+            this._taskFlagRepo = new RAMTaskFlagRepo();
             this._taskFlagDel = new TaskFlagDel(this._taskFlagRepo);
             this._taskDel = new TaskDel(
                 this._taskRepo,
@@ -106,7 +106,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
                 this._taskFlagDel,
                 this._praxisDel
             );
-            this._mtRepo = new RAMUnsafeMetaTaskRepo();
+            this._mtRepo = new RAMMetaTaskRepo();
             this._mtUnset = new MetaTaskUnset(
                 this._mtRepo,
                 this._praxisRepo

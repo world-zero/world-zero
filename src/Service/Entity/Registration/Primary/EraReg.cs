@@ -36,7 +36,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
     public class EraReg
         : IEntityReg<UnsafeEra, Name, string>
     {
-        public EraReg(IUnsafeEraRepo eraRepo)
+        public EraReg(IEraRepo eraRepo)
             : base(eraRepo)
         {
             this._eraRepo.BeginTransaction(true);
@@ -51,7 +51,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
             this._eraRepo.DiscardTransaction();
         }
 
-        protected IUnsafeEraRepo _eraRepo { get { return (IUnsafeEraRepo) this._repo; } }
+        protected IEraRepo _eraRepo { get { return (IEraRepo) this._repo; } }
 
         /// <summary>
         /// This method will end the previous era and begin the supplied era.
@@ -111,7 +111,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
         // and I will move it later.
         /// <summary>
         /// Return the current era. For more, <see
-        /// cref="WorldZero.Data.Interface.Repository.Entity.Primary.IUnsafeEraRepo.GetActiveEra()"/>.
+        /// cref="WorldZero.Data.Interface.Repository.Entity.Primary.IEraRepo.GetActiveEra()"/>.
         /// </summary>
         /// <remarks>
         /// That said, `EraReg` will not allow a null era to be returned as

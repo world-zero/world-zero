@@ -1,4 +1,5 @@
 using System;
+using WorldZero.Common.Collections.Generic;
 using WorldZero.Common.Interface.General.Generic;
 
 namespace WorldZero.Common.Interface.Entity.Generic.Primary
@@ -14,8 +15,13 @@ namespace WorldZero.Common.Interface.Entity.Generic.Primary
     /// These interfaces tend to be just getters for a reason:
     /// compiler-enforced safety against updating entities without the use of a
     /// service updating class. This is relevant as the system-wide logic is
-    /// enforced there. For more, see <see
-    /// cref="WorldZero.Common.Interface.Entity.Marker.IUnsafeEntity"/>.
+    /// enforced there. Additionally, in order to ensure that entities are not
+    /// being created erroneously, the non-generic concrete entities will exist
+    /// within the corresponding non-generic IEntityService class. This will
+    /// allow for the searching and creation entity service classes to act as
+    /// factories, circumventing the vulnerability of having an entity be
+    /// created to be almost identical to another entity but with an "update"
+    /// applied via any changed properties.
     /// </remarks>
     public interface IEntity<TId, TBuiltIn>
         where TId : ISingleValueObject<TBuiltIn>
@@ -27,10 +33,27 @@ namespace WorldZero.Common.Interface.Entity.Generic.Primary
         /// <exception cref="ArgumentException">
         /// This is thrown if a set Id is attempted to be changed.
         /// </exception>
-        TId Id { get; }
+        TId Id { get; set; }
 
         bool IsIdSet();
 
         IEntity<TId, TBuiltIn> Clone();
+
+        /// <summary>
+        /// Unless you are implementing a whole new entity or you are working
+        /// on the RAMEntityRepos, you can safely ignore this method.
+        /// <br />
+        /// This method will return a list of sets, each of which contains
+        /// at least one member that a repository should ensure are unique as a
+        /// combiniation, per set. This does not include the Id of an entity.
+        /// </summary>
+        /// <returns>
+        /// A list of HashSets of ISingleValueObjects and/or built in types
+        /// that repos must consider treat as unique for a specific instance.
+        /// These types will be able to cast to object and have .Equals work
+        /// appropriately. This will never return null, but it can return an
+        /// empty list.
+        /// </returns>
+        W0List<W0Set<object>> GetUniqueRules();
     }
 }

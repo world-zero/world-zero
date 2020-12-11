@@ -8,7 +8,7 @@ namespace WorldZero.Common.Entity.Relation
 {
     /// <inheritdoc cref="IPraxisFlag"/>
     public class UnsafePraxisFlag
-        : IUnsafeFlaggedEntity<Id, int>, IPraxisFlag
+        : ABCFlaggedEntity<Id, int>, IPraxisFlag
     {
         public Id PraxisId
         {

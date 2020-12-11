@@ -7,7 +7,7 @@ using WorldZero.Common.Interface.Entity.Generic.Relation;
 namespace WorldZero.Common.Entity.Relation
 {
     /// <inheritdoc cref="ITaskTag"/>
-    public class UnsafeTaskTag : IUnsafeTaggedEntity<Id, int>, ITaskTag
+    public class UnsafeTaskTag : ABCTaggedEntity<Id, int>, ITaskTag
     {
         public Id TaskId
         {

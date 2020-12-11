@@ -11,15 +11,15 @@ namespace WorldZero.Service.Entity.Deletion.Primary
     public class FactionUnset
         : IEntityUnset<UnsafeFaction, Name, string, UnsafeCharacter, Id, int>
     {
-        protected IUnsafeCharacterRepo _charRepo
-        { get { return (IUnsafeCharacterRepo) this._otherRepo; } }
+        protected ICharacterRepo _charRepo
+        { get { return (ICharacterRepo) this._otherRepo; } }
 
         protected readonly TaskDel _taskDel;
         protected readonly MetaTaskUnset _mtUnset;
 
         public FactionUnset(
-            IUnsafeFactionRepo repo,
-            IUnsafeCharacterRepo charRepo,
+            IFactionRepo repo,
+            ICharacterRepo charRepo,
             TaskDel taskDel,
             MetaTaskUnset mtUnset
         )

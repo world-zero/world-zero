@@ -9,10 +9,10 @@ namespace WorldZero.Service.Entity.Registration.Primary
     public class LocationReg
         : IEntityReg<UnsafeLocation, Id, int>
     {
-        protected IUnsafeLocationRepo _locationRepo
-        { get { return (IUnsafeLocationRepo) this._repo; } }
+        protected ILocationRepo _locationRepo
+        { get { return (ILocationRepo) this._repo; } }
 
-        public LocationReg(IUnsafeLocationRepo locationRepo)
+        public LocationReg(ILocationRepo locationRepo)
             : base(locationRepo)
         { }
     }

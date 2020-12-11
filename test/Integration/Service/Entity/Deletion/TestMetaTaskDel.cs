@@ -26,22 +26,22 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private Id _next() => new Id(this._nxt++);
 
         private void _absentt<TEntity, TId, TBuiltIn>(TEntity e, Func<TId, TEntity> getById)
-            where TEntity : IUnsafeEntity<TId, TBuiltIn>
+            where TEntity : ABCEntity<TId, TBuiltIn>
             where TId : ISingleValueObject<TBuiltIn>
         {
             Assert.Throws<ArgumentException>(()=>getById(e.Id));
         }
 
         private void _present<TEntity, TId, TBuiltIn>(TEntity e, Func<TId, TEntity> GetById)
-            where TEntity : IUnsafeEntity<TId, TBuiltIn>
+            where TEntity : ABCEntity<TId, TBuiltIn>
             where TId : ISingleValueObject<TBuiltIn>
         {
             var actualEntity = GetById(e.Id);
             Assert.AreEqual(actualEntity.Id, e.Id);
         }
 
-        private RAMUnsafeMetaTaskRepo _repo;
-        private RAMUnsafePraxisRepo _praxisRepo;
+        private RAMMetaTaskRepo _repo;
+        private RAMPraxisRepo _praxisRepo;
         private MetaTaskUnset _unset;
         private UnsafeFaction _faction0;
         private UnsafeFaction _faction1;
@@ -52,8 +52,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         [SetUp]
         public void Setup()
         {
-            this._repo = new RAMUnsafeMetaTaskRepo();
-            this._praxisRepo = new RAMUnsafePraxisRepo();
+            this._repo = new RAMMetaTaskRepo();
+            this._praxisRepo = new RAMPraxisRepo();
             this._unset = new MetaTaskUnset(
                 this._repo,
                 this._praxisRepo

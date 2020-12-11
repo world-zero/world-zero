@@ -11,10 +11,10 @@ namespace WorldZero.Service.Entity.Deletion.Primary
     public class LocationUnset
         : IEntityUnset<UnsafeLocation, Id, int, UnsafeCharacter, Id, int>
     {
-        protected IUnsafeCharacterRepo _charRepo
-        { get { return (IUnsafeCharacterRepo) this._otherRepo; } }
+        protected ICharacterRepo _charRepo
+        { get { return (ICharacterRepo) this._otherRepo; } }
 
-        public LocationUnset(IUnsafeLocationRepo repo, IUnsafeCharacterRepo charRepo)
+        public LocationUnset(ILocationRepo repo, ICharacterRepo charRepo)
             : base(repo, charRepo)
         { }
 

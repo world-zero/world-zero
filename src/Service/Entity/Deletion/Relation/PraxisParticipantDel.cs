@@ -43,15 +43,15 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         RelationDTO<Id, int, Id, int>
     >
     {
-        protected IUnsafePraxisParticipantRepo _ppRepo
-        { get { return (IUnsafePraxisParticipantRepo) this._relRepo; } }
+        protected IPraxisParticipantRepo _ppRepo
+        { get { return (IPraxisParticipantRepo) this._relRepo; } }
 
-        protected readonly IUnsafePraxisRepo _praxisRepo;
+        protected readonly IPraxisRepo _praxisRepo;
         protected readonly VoteDel _voteDel;
 
         public PraxisParticipantDel(
-            IUnsafePraxisParticipantRepo repo,
-            IUnsafePraxisRepo praxisRepo,
+            IPraxisParticipantRepo repo,
+            IPraxisRepo praxisRepo,
             VoteDel voteDel
         )
             : base(repo)

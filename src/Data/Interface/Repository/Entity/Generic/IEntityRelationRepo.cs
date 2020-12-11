@@ -23,7 +23,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.Primary.Generic
         : IIdEntityRepo<TEntityRelation>
         where TLeftId : ISingleValueObject<TLeftBuiltIn>
         where TRightId : ISingleValueObject<TRightBuiltIn>
-        where TEntityRelation : IUnsafeEntityRelation
+        where TEntityRelation : class, IEntityRelation
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
         where TRelationDTO : RelationDTO
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>

@@ -11,9 +11,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
     [TestFixture]
     public class TestMetaTaskReg
     {
-        private IUnsafeMetaTaskRepo _metaTaskRepo;
-        private IUnsafeFactionRepo _factionRepo;
-        private IUnsafeStatusRepo _statusRepo;
+        private IMetaTaskRepo _metaTaskRepo;
+        private IFactionRepo _factionRepo;
+        private IStatusRepo _statusRepo;
         private MetaTaskReg _registration;
         private UnsafeStatus _status0;
         private UnsafeStatus _status1;
@@ -22,9 +22,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         [SetUp]
         public void Setup()
         {
-            this._metaTaskRepo = new RAMUnsafeMetaTaskRepo();
-            this._factionRepo = new RAMUnsafeFactionRepo();
-            this._statusRepo = new RAMUnsafeStatusRepo();
+            this._metaTaskRepo = new RAMMetaTaskRepo();
+            this._factionRepo = new RAMFactionRepo();
+            this._statusRepo = new RAMStatusRepo();
             this._registration = new MetaTaskReg(
                 this._metaTaskRepo,
                 this._factionRepo,

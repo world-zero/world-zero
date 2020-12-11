@@ -16,10 +16,10 @@ namespace WorldZero.Service.Entity.Registration.Primary
         public static readonly UnsafeFlag Inappropriate =
             new UnsafeFlag(new Name("Inappropriate"));
 
-        protected IUnsafeFlagRepo _flagRepo
-        { get { return (IUnsafeFlagRepo) this._repo; } }
+        protected IFlagRepo _flagRepo
+        { get { return (IFlagRepo) this._repo; } }
 
-        public FlagReg(IUnsafeFlagRepo flagRepo)
+        public FlagReg(IFlagRepo flagRepo)
             : base(flagRepo)
         {
             this.EnsureExists(FlagReg.Duplicate);

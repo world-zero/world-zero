@@ -17,7 +17,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         RelationDTO<Id, int, Name, string>
     >
     {
-        public TaskFlagDel(IUnsafeTaskFlagRepo repo)
+        public TaskFlagDel(ITaskFlagRepo repo)
             : base(repo)
         { }
 

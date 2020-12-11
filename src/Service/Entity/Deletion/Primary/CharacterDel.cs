@@ -12,8 +12,8 @@ namespace WorldZero.Service.Entity.Deletion.Primary
     /// <inheritdoc cref="IEntityDel"/>
     public class CharacterDel : IEntityDel<UnsafeCharacter, Id, int>
     {
-        protected IUnsafeCharacterRepo _charRepo
-        { get { return (IUnsafeCharacterRepo) this._repo; } }
+        protected ICharacterRepo _charRepo
+        { get { return (ICharacterRepo) this._repo; } }
 
         protected readonly FriendDel _friendDel;
         protected readonly FoeDel _foeDel;
@@ -23,7 +23,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
         protected readonly PraxisParticipantDel _ppDel;
 
         public CharacterDel(
-            IUnsafeCharacterRepo charRepo,
+            ICharacterRepo charRepo,
             FriendDel friendDel,
             FoeDel foeDel,
             CommentDel commentDel,

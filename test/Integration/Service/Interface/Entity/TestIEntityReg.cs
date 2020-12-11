@@ -11,13 +11,13 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
     [TestFixture]
     public class TestIEntityReg
     {
-        private IUnsafePlayerRepo _repo;
+        private IPlayerRepo _repo;
         private TestEntityReg _registration;
 
         [SetUp]
         public void Setup()
         {
-            this._repo = new RAMUnsafePlayerRepo();
+            this._repo = new RAMPlayerRepo();
             this._registration = new TestEntityReg(this._repo);
         }
 
@@ -66,7 +66,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
     public class TestEntityReg
         : IEntityReg<UnsafePlayer, Id, int>
     {
-        public TestEntityReg(IUnsafePlayerRepo repo)
+        public TestEntityReg(IPlayerRepo repo)
             : base(repo)
         { }
     }

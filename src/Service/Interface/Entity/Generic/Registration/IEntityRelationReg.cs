@@ -64,11 +64,11 @@ namespace WorldZero.Service.Interface.Entity.Generic.Registration
         TRelationDTO
     >
         : IEntityReg<TEntityRelation, Id, int>
-        where TEntityRelation : IUnsafeEntityRelation
+        where TEntityRelation : class, IEntityRelation
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
-        where TLeftEntity : IUnsafeEntity<TLeftId, TLeftBuiltIn>
+        where TLeftEntity : class, IEntity<TLeftId, TLeftBuiltIn>
         where TLeftId  : ISingleValueObject<TLeftBuiltIn>
-        where TRightEntity : IUnsafeEntity<TRightId, TRightBuiltIn>
+        where TRightEntity : class, IEntity<TRightId, TRightBuiltIn>
         where TRightId : ISingleValueObject<TRightBuiltIn>
         where TRelationDTO : RelationDTO
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>

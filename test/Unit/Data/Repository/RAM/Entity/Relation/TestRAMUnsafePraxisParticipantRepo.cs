@@ -17,9 +17,9 @@ using WorldZero.Data.Repository.Entity.RAM.Primary;
 namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Relation
 {
     [TestFixture]
-    public class TestRAMUnsafePraxisParticipantRepoFirst
+    public class TestRAMPraxisParticipantRepoFirst
     {
-        private RAMUnsafePraxisParticipantRepo _repo;
+        private RAMPraxisParticipantRepo _repo;
         private Id _pId0;
         private Id _pId1;
         private Id _cId0;
@@ -31,7 +31,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Relation
         [SetUp]
         public void Setup()
         {
-            this._repo = new RAMUnsafePraxisParticipantRepo();
+            this._repo = new RAMPraxisParticipantRepo();
             this._pId0 = new Id(1);
             this._pId1 = new Id(2);
             this._cId0 = new Id(3);
@@ -145,7 +145,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Relation
     [TestFixture]
     public class TestRAMPraxisParticipantRepoSecond
     {
-        private RAMUnsafePraxisRepo _praxisRepo;
+        private RAMPraxisRepo _praxisRepo;
         private TestPraxisParticipantRepoExposedData _ppRepo;
         private HashSet<Name> _goodStatuses;
         private Id _taskId0;
@@ -168,7 +168,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Relation
         [SetUp]
         public void Setup()
         {
-            this._praxisRepo = new RAMUnsafePraxisRepo();
+            this._praxisRepo = new RAMPraxisRepo();
             this._ppRepo = new TestPraxisParticipantRepoExposedData();
             this._goodStatus = new Name("good");
             this._otherGoodStatus = new Name("other good");
@@ -317,7 +317,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Relation
             Assert.Throws<ArgumentException>(()=>
                 this._praxisRepo.GetByMetaTaskId(new Id(32423)));
 
-            var mtRepo = new RAMUnsafeMetaTaskRepo();
+            var mtRepo = new RAMMetaTaskRepo();
             var mt0 = new UnsafeMetaTask(
                 new Name("x"),
                 new Name("y"),
@@ -399,7 +399,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Relation
         }
 
         public class TestPraxisParticipantRepoExposedData
-            : RAMUnsafePraxisParticipantRepo
+            : RAMPraxisParticipantRepo
         {
             public Dictionary<string, EntityData> Data { get { return _data; } }
         }
