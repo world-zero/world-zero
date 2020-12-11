@@ -6,7 +6,7 @@ namespace WorldZero.Common.Interface.Entity.Generic.Relation
 {
     /// <inheritdoc cref="ITaggedEntity"/>
     public abstract class IUnsafeTaggedEntity<TLeftId, TLeftBuiltIn>
-        : UnsafeIEntityRelation<TLeftId, TLeftBuiltIn, Name, string>,
+        : IUnsafeEntityRelation<TLeftId, TLeftBuiltIn, Name, string>,
           ITaggedEntity<TLeftId, TLeftBuiltIn>
         where TLeftId  : ISingleValueObject<TLeftBuiltIn>
     {

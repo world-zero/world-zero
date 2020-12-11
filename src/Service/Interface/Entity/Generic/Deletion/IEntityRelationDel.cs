@@ -64,7 +64,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
         TRelationDTO
     >
         : IEntityDel<TEntityRelation, Id, int>
-        where TEntityRelation : UnsafeIEntityRelation
+        where TEntityRelation : IUnsafeEntityRelation
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
         where TLeftEntity : IUnsafeEntity<TLeftId, TLeftBuiltIn>
         where TLeftId  : ISingleValueObject<TLeftBuiltIn>

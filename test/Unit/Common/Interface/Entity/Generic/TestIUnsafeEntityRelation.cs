@@ -90,7 +90,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
         }
     }
 
-    public class TestIdIdRelation : UnsafeIEntityRelation<Id, int, Id, int>
+    public class TestIdIdRelation : IUnsafeEntityRelation<Id, int, Id, int>
     {
         public TestIdIdRelation(Id leftId, Id rightId)
             : base(leftId, rightId)
@@ -115,7 +115,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
         }
     }
 
-    public class TestIdNameRelation : UnsafeIEntityRelation<Id, int, Name, string>
+    public class TestIdNameRelation : IUnsafeEntityRelation<Id, int, Name, string>
     {
         public TestIdNameRelation(Id leftId, Name rightId)
             : base(leftId, rightId)
@@ -140,7 +140,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
         }
     }
 
-    public class TestNameIdRelation : UnsafeIEntityRelation<Name, string, Id, int>
+    public class TestNameIdRelation : IUnsafeEntityRelation<Name, string, Id, int>
     {
         public TestNameIdRelation(Name leftId, Id rightId)
             : base(leftId, rightId)
@@ -165,7 +165,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
         }
     }
 
-    public class TestNameNameRelation : UnsafeIEntityRelation<Name, string, Name, string>
+    public class TestNameNameRelation : IUnsafeEntityRelation<Name, string, Name, string>
     {
         public TestNameNameRelation(Name leftId, Name rightId)
             : base(leftId, rightId)

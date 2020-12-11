@@ -5,7 +5,7 @@ namespace WorldZero.Common.Interface.Entity.Generic.Relation
 {
     /// <inheritdoc cref="IEntitySelfRelation"/>
     public abstract class IUnsafeEntitySelfRelation<TId, TBuiltIn>
-        : UnsafeIEntityRelation<TId, TBuiltIn, TId, TBuiltIn>,
+        : IUnsafeEntityRelation<TId, TBuiltIn, TId, TBuiltIn>,
           IEntitySelfRelation<TId, TBuiltIn>
         where TId : ISingleValueObject<TBuiltIn>
     {

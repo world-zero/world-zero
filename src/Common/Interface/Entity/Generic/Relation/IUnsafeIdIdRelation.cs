@@ -5,7 +5,7 @@ namespace WorldZero.Common.Interface.Entity.Generic.Relation
 {
     /// <inheritdoc cref="IIdIdRelation"/>
     public abstract class IUnsafeIdIdRelation
-        : UnsafeIEntityRelation<Id, int, Id, int>,
+        : IUnsafeEntityRelation<Id, int, Id, int>,
           IIdIdRelation
     {
         public IUnsafeIdIdRelation(Id leftId, Id rightId)

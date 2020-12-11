@@ -49,12 +49,12 @@ namespace WorldZero.Service.Interface.Entity.Generic.Registration
         TRightBuiltIn,
         TRelationDTO
     >
-        where TEntityRelation : UnsafeIEntityRelation
+        where TEntityRelation : IUnsafeEntityRelation
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
         where TLeftEntity : IUnsafeEntity<TLeftId, TLeftBuiltIn>
         where TLeftId  : ISingleValueObject<TLeftBuiltIn>
 
-        where TLEntityRelation : UnsafeIEntityRelation
+        where TLEntityRelation : IUnsafeEntityRelation
             <TLLeftId, TLLeftBuiltIn, TLRightId, TLRightBuiltIn>
         where TLLeftId  : ISingleValueObject<TLLeftBuiltIn>
         where TLRightId : ISingleValueObject<TLRightBuiltIn>
