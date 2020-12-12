@@ -2,7 +2,7 @@ using System;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
-using WorldZero.Common.Interface.General.Generic;
+using WorldZero.Common.Interface.ValueObject;
 using WorldZero.Data.Repository.Entity.RAM.Primary;
 using WorldZero.Data.Repository.Entity.RAM.Relation;
 using WorldZero.Service.Entity.Deletion.Primary;

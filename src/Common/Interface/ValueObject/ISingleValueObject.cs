@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace WorldZero.Common.Interface.General.Generic
+namespace WorldZero.Common.Interface.ValueObject
 {
     /// <summary>
     /// This class will serve as a contract for single-value ValueObject. These

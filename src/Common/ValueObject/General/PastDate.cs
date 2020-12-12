@@ -1,4 +1,4 @@
-using WorldZero.Common.Interface.General.Generic;
+using WorldZero.Common.Interface.ValueObject;
 using System;
 
 namespace WorldZero.Common.ValueObject.General

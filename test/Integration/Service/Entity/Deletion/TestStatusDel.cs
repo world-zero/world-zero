@@ -8,7 +8,7 @@ using WorldZero.Data.Repository.Entity.RAM.Relation;
 using WorldZero.Service.Entity.Deletion.Primary;
 using WorldZero.Service.Entity.Deletion.Relation;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
-using WorldZero.Common.Interface.General.Generic;
+using WorldZero.Common.Interface.ValueObject;
 using NUnit.Framework;
 
 // NOTE: This file does not abide by the limit on a line's character count.
