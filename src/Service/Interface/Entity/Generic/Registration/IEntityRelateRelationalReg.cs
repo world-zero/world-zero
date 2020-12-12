@@ -2,23 +2,11 @@ using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Common.Interface.ValueObject;
 using WorldZero.Common.Interface.Entity.Generic.Relation;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
-using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
 
 namespace WorldZero.Service.Interface.Entity.Generic.Registration
 {
-    /// <inheritdoc cref="IEntityRelationReg"/>
-    /// <summary>
-    /// This class will is a relation entity registration where the left
-    /// ID maps to an entity that is also a relational entity.
-    /// </summary>
-    /// <remarks>
-    /// The generic types that start with `TL` and are followed by full words
-    /// are the types used in the left entity's repo.
-    /// <br/>
-    /// Yes I am aware that `TLEntityRelation` is just a duplicate of
-    /// `TLeftEntity`.
-    /// </remarks>
-    public abstract class IEntityRelateRelationalReg
+    /// <inheritdoc cref="IEntityRelationReg{TEntityRelation, TLeftEntity, TLeftId, TLeftBuiltIn, TRightEntity, TRightId, TRightBuiltIn, TRelationDTO"/>
+    public interface IEntityRelateRelationalReg
     <
         TEntityRelation,
 
@@ -65,63 +53,5 @@ namespace WorldZero.Service.Interface.Entity.Generic.Registration
         where TRightId : ISingleValueObject<TRightBuiltIn>
         where TRelationDTO : RelationDTO
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
-    {
-        protected new IEntityRelationRepo
-        <
-            TLEntityRelation,
-            TLLeftId,
-            TLLeftBuiltIn,
-            TLRightId,
-            TLRightBuiltIn,
-            TLRelationDTO
-        >
-        _leftRepo
-        {
-            get
-            {
-                return this._leftRepo;
-            }
-        }
-
-        public IEntityRelateRelationalReg(
-            IEntityRelationRepo
-            <
-                TEntityRelation,
-                TLeftId,
-                TLeftBuiltIn,
-                TRightId,
-                TRightBuiltIn,
-                TRelationDTO
-            >
-            repo,
-            IEntityRelationRepo
-            <
-                TLEntityRelation,
-                TLLeftId,
-                TLLeftBuiltIn,
-                TLRightId,
-                TLRightBuiltIn,
-                TLRelationDTO
-            >
-            leftRepo,
-            IEntityRepo
-            <
-                TRightEntity,
-                TRightId,
-                TRightBuiltIn
-            >
-            rightRepo
-        )
-            : base(
-                repo,
-                (IEntityRepo
-                <
-                    TLeftEntity,
-                    TLeftId,
-                    TLeftBuiltIn
-                >) leftRepo,
-                rightRepo
-            )
-        { }
-    }
+    { }
 }

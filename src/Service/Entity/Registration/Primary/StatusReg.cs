@@ -7,7 +7,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
 {
     /// <inheritdoc cref="IEntityReg"/>
     public class StatusReg
-        : IEntityReg<UnsafeStatus, Name, string>
+        : ABCEntityReg<UnsafeStatus, Name, string>
     {
         public static readonly UnsafeStatus Proposed =
             new UnsafeStatus(new Name("Proposed"));

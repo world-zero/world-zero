@@ -7,7 +7,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
 {
     /// <inheritdoc cref="IEntityReg"/>
     public class TaskReg
-        : IEntityReg<UnsafeTask, Id, int>
+        : ABCEntityReg<UnsafeTask, Id, int>
     {
         protected ITaskRepo _taskRepo
         { get { return (ITaskRepo) this._repo; } }

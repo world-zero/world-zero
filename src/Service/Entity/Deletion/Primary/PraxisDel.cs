@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
@@ -23,7 +24,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
     /// Dev note: shockingly, deleting a praxis has no special logic outside of
     /// cascading the deletion.
     /// </remarks>
-    public class PraxisDel : IIdStatusedEntityDel<UnsafePraxis>
+    public class PraxisDel : ABCIdStatusedEntityDel<UnsafePraxis>
     {
         protected IPraxisRepo _praxisRepo
         { get { return (IPraxisRepo) this._repo; } }
@@ -91,18 +92,16 @@ namespace WorldZero.Service.Entity.Deletion.Primary
             this.DeleteByTask(task.Id);
         }
 
-        public async System.Threading.Tasks.Task DeleteByTaskasync(UnsafeTask task)
+        public async Task DeleteByTaskasync(UnsafeTask task)
         {
             this.AssertNotNull(task, "task");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByTask(task));
+            await Task.Run(() => this.DeleteByTask(task));
         }
 
-        public async System.Threading.Tasks.Task DeleteByTaskasync(Id taskId)
+        public async Task DeleteByTaskasync(Id taskId)
         {
             this.AssertNotNull(taskId, "taskId");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByTask(taskId));
+            await Task.Run(() => this.DeleteByTask(taskId));
         }
     }
 }

@@ -7,7 +7,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
 {
     /// <inheritdoc cref="IEntityReg"/>
     public class AbilityReg
-        : IEntityReg<UnsafeAbility, Name, string>
+        : ABCEntityReg<UnsafeAbility, Name, string>
     {
         public static readonly UnsafeAbility Reiterator =
             new UnsafeAbility(

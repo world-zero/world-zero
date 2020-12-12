@@ -7,7 +7,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
 {
     /// <inheritdoc cref="IEntityReg"/>
     public class PlayerReg
-        : IEntityReg<UnsafePlayer, Id, int>
+        : ABCEntityReg<UnsafePlayer, Id, int>
     {
         protected IPlayerRepo _playerRepo
         { get { return (IPlayerRepo) this._repo; } }

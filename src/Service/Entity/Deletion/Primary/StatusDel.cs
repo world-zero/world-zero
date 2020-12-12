@@ -7,7 +7,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
 {
     /// <inheritdoc cref="IEntityUnset"/>
     public class StatusDel
-        : IEntityDel<UnsafeStatus, Name, string>
+        : ABCEntityDel<UnsafeStatus, Name, string>
     {
         protected readonly PraxisDel _praxisDel;
         protected readonly TaskDel _taskDel;

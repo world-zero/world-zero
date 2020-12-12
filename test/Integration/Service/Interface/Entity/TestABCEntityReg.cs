@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace WorldZero.Test.Integration.Service.Interface.Entity
 {
     [TestFixture]
-    public class TestIEntityReg
+    public class TestABCEntityReg
     {
         private IPlayerRepo _repo;
         private TestEntityReg _registration;
@@ -64,7 +64,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
     }
 
     public class TestEntityReg
-        : IEntityReg<UnsafePlayer, Id, int>
+        : ABCEntityReg<UnsafePlayer, Id, int>
     {
         public TestEntityReg(IPlayerRepo repo)
             : base(repo)

@@ -10,7 +10,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
 {
     /// <inheritdoc cref="IEntityRelationReg"/>
     public class PraxisTagReg
-        : IEntityRelationReg
+        : ABCEntityRelationReg
         <
             UnsafePraxisTag,
             UnsafePraxis,

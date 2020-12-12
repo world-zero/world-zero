@@ -5,11 +5,12 @@ using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
+using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
 
 namespace WorldZero.Service.Interface.Entity.Generic.Deletion
 {
-    /// <inheritdoc cref="IEntityRelationDel{TEntityRelation, TLeftEntity, TLeftId, TLeftBuiltIn, TRightEntity, TRightId, TRightBuiltIn, TRelationDTO}"/>
-    public interface ITaggedEntityDel
+    /// <inheritdoc cref="ITaggedEntityDel{TEntityRelation, TLeftEntity, TLeftId, TLeftBuiltIn, TRelationDTO}"/>
+    public abstract class ABCTaggedEntityDel
     <
         TEntityRelation,
         TLeftEntity,
@@ -17,7 +18,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
         TLeftBuiltIn,
         TRelationDTO
     >
-        : IEntityRelationDel
+        : ABCEntityRelationDel
         <
             TEntityRelation,
             TLeftEntity,
@@ -27,6 +28,14 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
             Name,
             string,
             TRelationDTO
+        >,
+        ITaggedEntityDel
+        <
+            TEntityRelation,
+            TLeftEntity,
+            TLeftId,
+            TLeftBuiltIn,
+            TRelationDTO
         >
         where TEntityRelation : class, ITaggedEntity
             <TLeftId, TLeftBuiltIn>
@@ -35,24 +44,53 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
         where TRelationDTO : RelationDTO
             <TLeftId, TLeftBuiltIn, Name, string>
     {
-        /// <remarks>
-        /// This is just a wrapper for `DeleteByRightId()`.
-        /// </remarks>
-        void DeleteByTag(ITag tag);
+        public ABCTaggedEntityDel(
+            ITaggedEntityRepo
+            <
+                TEntityRelation,
+                TLeftId,
+                TLeftBuiltIn,
+                TRelationDTO
+            >
+            repo
+        )
+            : base(repo)
+        { }
 
         /// <remarks>
         /// This is just a wrapper for `DeleteByRightId()`.
         /// </remarks>
-        void DeleteByTag(Name tagId);
+        public void DeleteByTag(ITag tag)
+        {
+            this.AssertNotNull(tag, "tag");
+            this.DeleteByRight(tag.Id);
+        }
+
+        /// <remarks>
+        /// This is just a wrapper for `DeleteByRightId()`.
+        /// </remarks>
+        public void DeleteByTag(Name tagId)
+        {
+            this.AssertNotNull(tagId, "tagId");
+            this.DeleteByRight(tagId);
+        }
 
         /// <remarks>
         /// This is just a wrapper for `DeleteByRightIdAsync()`.
         /// </remarks>
-        Task DeleteByTagAsync(ITag tag);
+        public async Task DeleteByTagAsync(ITag tag)
+        {
+            this.AssertNotNull(tag, "tag");
+            await Task.Run(() => this.DeleteByRight(tag.Id));
+        }
 
         /// <remarks>
         /// This is just a wrapper for `DeleteByRightIdAsync()`.
         /// </remarks>
-        Task DeleteByTagAsync(Name tagId);
+        public async Task DeleteByTagAsync(Name tagId)
+        {
+            this.AssertNotNull(tagId, "tagId");
+            await Task.Run(() => this.DeleteByRight(tagId));
+        }
     }
 }

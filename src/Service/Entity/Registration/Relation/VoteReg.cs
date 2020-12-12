@@ -21,7 +21,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
     /// several times on a praxis. Note that this describes a Player.
     /// </remarks>
     public class VoteReg
-        : IEntityRelationReg
+        : ABCEntityRelationReg
         <
             UnsafeVote,
             UnsafeCharacter,

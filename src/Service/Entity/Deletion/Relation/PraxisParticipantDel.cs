@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.Entity.Relation;
 using WorldZero.Common.ValueObject.General;
@@ -31,7 +32,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
     /// the voting character will receive a refund is up to <see
     /// cref="VoteDel"/>.
     /// </remarks>
-    public class PraxisParticipantDel : IEntityRelationDel
+    public class PraxisParticipantDel : ABCEntityRelationDel
     <
         UnsafePraxisParticipant,
         UnsafePraxis,
@@ -120,20 +121,16 @@ namespace WorldZero.Service.Entity.Deletion.Relation
             this.DeleteByLeft(id);
         }
 
-        public async
-        System.Threading.Tasks.Task DeleteByPraxisAsync(UnsafePraxis p)
+        public async Task DeleteByPraxisAsync(UnsafePraxis p)
         {
             this.AssertNotNull(p, "p");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByPraxis(p));
+            await Task.Run(() => this.DeleteByPraxis(p));
         }
 
-        public async
-        System.Threading.Tasks.Task DeleteByPraxisAsync(Id id)
+        public async Task DeleteByPraxisAsync(Id id)
         {
             this.AssertNotNull(id, "id");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByPraxis(id));
+            await Task.Run(() => this.DeleteByPraxis(id));
         }
 
         public void DeleteByCharacter(UnsafeCharacter c)
@@ -146,20 +143,16 @@ namespace WorldZero.Service.Entity.Deletion.Relation
             this.DeleteByRight(id);
         }
 
-        public async
-        System.Threading.Tasks.Task DeleteByCharacterAsync(UnsafeCharacter c)
+        public async Task DeleteByCharacterAsync(UnsafeCharacter c)
         {
             this.AssertNotNull(c, "c");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByCharacter(c));
+            await Task.Run(() => this.DeleteByCharacter(c));
         }
 
-        public async
-        System.Threading.Tasks.Task DeleteByCharacterAsync(Id id)
+        public async Task DeleteByCharacterAsync(Id id)
         {
             this.AssertNotNull(id, "id");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByCharacter(id));
+            await Task.Run(() => this.DeleteByCharacter(id));
         }
 
         public void SudoDeleteByCharacter(UnsafeCharacter c, PraxisDel praxisDel)
@@ -177,27 +170,25 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         }
 
         public async
-        System.Threading.Tasks.Task SudoDeleteByCharacterAsync(
+        Task SudoDeleteByCharacterAsync(
             UnsafeCharacter c,
             PraxisDel praxisDel
         )
         {
             this.AssertNotNull(c, "c");
             this.AssertNotNull(praxisDel, "praxisDel");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.SudoDeleteByCharacter(c, praxisDel));
+            await Task.Run(() => this.SudoDeleteByCharacter(c, praxisDel));
         }
 
         public async
-        System.Threading.Tasks.Task SudoDeleteByCharacterAsync(
+        Task SudoDeleteByCharacterAsync(
             Id id,
             PraxisDel praxisDel
         )
         {
             this.AssertNotNull(id, "id");
             this.AssertNotNull(praxisDel, "praxisDel");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.SudoDeleteByCharacter(id, praxisDel));
+            await Task.Run(() => this.SudoDeleteByCharacter(id, praxisDel));
         }
 
         /// <summary>

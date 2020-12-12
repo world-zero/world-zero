@@ -8,7 +8,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
 {
     /// <inheritdoc cref="IEntityReg"/>
     public class FactionReg
-        : IEntityReg<UnsafeFaction, Name, string>
+        : ABCEntityReg<UnsafeFaction, Name, string>
     {
         protected readonly IAbilityRepo _abilityRepo;
 

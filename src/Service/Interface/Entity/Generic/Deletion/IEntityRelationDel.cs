@@ -1,15 +1,13 @@
-using System;
+using System.Threading.Tasks;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface.ValueObject;
-using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
 using WorldZero.Common.Interface.Entity.Generic.Relation;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
-using System.Threading.Tasks;
 
 namespace WorldZero.Service.Interface.Entity.Generic.Deletion
 {
-    /// <inheritdoc cref="IEntityDel"/>
+    /// <inheritdoc cref="IEntityDel{TEntity, TId, TBuiltIn}"/>
     /// <summary>
     /// This is a generic interface for entity relation deletion service
     /// classes.
@@ -52,7 +50,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
     /// for the registration class itself - this is why there is no
     /// `IEntityRelationCntReg`.
     /// </remarks>
-    public abstract class IEntityRelationDel
+    public interface IEntityRelationDel
     <
         TEntityRelation,
         TLeftEntity,
@@ -73,101 +71,17 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
         where TRelationDTO : RelationDTO
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
     {
-        protected IEntityRelationRepo
-        <
-            TEntityRelation,
-            TLeftId,
-            TLeftBuiltIn,
-            TRightId,
-            TRightBuiltIn,
-            TRelationDTO
-        >
-        _relRepo
-        {
-            get
-            {
-                return (IEntityRelationRepo
-                    <
-                        TEntityRelation,
-                        TLeftId,
-                        TLeftBuiltIn,
-                        TRightId,
-                        TRightBuiltIn,
-                        TRelationDTO
-                    >) this._repo;
-            }
-        }
+        void DeleteByLeft(TLeftId id);
+        void DeleteByLeft(TLeftEntity e);
+        Task DeleteByLeftAsync(TLeftId id);
+        Task DeleteByLeftAsync(TLeftEntity e);
 
-        public IEntityRelationDel(
-            IEntityRelationRepo
-            <
-                TEntityRelation,
-                TLeftId,
-                TLeftBuiltIn,
-                TRightId,
-                TRightBuiltIn,
-                TRelationDTO
-            >
-            repo
-        )
-            : base(repo)
-        { }
+        void DeleteByRight(TRightId id);
+        void DeleteByRight(TRightEntity e);
+        Task DeleteByRightAsync(TRightId id);
+        Task DeleteByRightAsync(TRightEntity e);
 
-        public virtual void DeleteByLeft(TLeftId id)
-        {
-            this.Transaction<TLeftId>(this._relRepo.DeleteByLeftId, id);
-        }
-
-        public virtual void DeleteByLeft(TLeftEntity e)
-        {
-            this.AssertNotNull(e, "e");
-            this.DeleteByLeft(e.Id);
-        }
-
-        public virtual async Task DeleteByLeftAsync(TLeftEntity e)
-        {
-            this.AssertNotNull(e, "e");
-            await Task.Run(() => this.DeleteByLeftAsync(e.Id));
-        }
-
-        public virtual async Task DeleteByLeftAsync(TLeftId id)
-        {
-            this.AssertNotNull(id, "id");
-            await Task.Run(() => this.DeleteByLeft(id));
-        }
-
-        public virtual void DeleteByRight(TRightId id)
-        {
-            this.Transaction<TRightId>(this._relRepo.DeleteByRightId, id);
-        }
-
-        public virtual void DeleteByRight(TRightEntity e)
-        {
-            this.AssertNotNull(e, "e");
-            this.DeleteByRight(e.Id);
-        }
-
-        public virtual async Task DeleteByRightAsync(TRightEntity e)
-        {
-            this.AssertNotNull(e, "e");
-            await Task.Run(() => this.DeleteByRightAsync(e.Id));
-        }
-
-        public virtual async Task DeleteByRightAsync(TRightId id)
-        {
-            this.AssertNotNull(id, "id");
-            await Task.Run(() => this.DeleteByRight(id));
-        }
-
-        public virtual void DeleteByDTO(TRelationDTO dto)
-        {
-            this.Transaction<TRelationDTO>(this._relRepo.DeleteByDTO, dto);
-        }
-
-        public virtual async Task DeleteByDTOAsync(TRelationDTO dto)
-        {
-            this.AssertNotNull(dto, "dto");
-            await Task.Run(() => this.DeleteByDTO(dto));
-        }
+        void DeleteByDTO(TRelationDTO dto);
+        Task DeleteByDTOAsync(TRelationDTO dto);
     }
 }

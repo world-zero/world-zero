@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
@@ -29,7 +30,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Primary
                 throw new InvalidOperationException("There should not be more than one active era at a time, the repo as been populated incorrectly.");
         }
 
-        public async System.Threading.Tasks.Task<UnsafeEra> GetActiveEraAsync()
+        public async Task<UnsafeEra> GetActiveEraAsync()
         {
             return this.GetActiveEra();
         }

@@ -53,7 +53,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
         }
     }
 
-    public class TestTaggedEntityDel : ITaggedEntityDel
+    public class TestTaggedEntityDel : ABCTaggedEntityDel
     <
         UnsafeMetaTaskTag,
         UnsafeMetaTask,

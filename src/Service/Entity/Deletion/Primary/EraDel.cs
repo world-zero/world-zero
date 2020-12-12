@@ -11,7 +11,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
     /// The `EraDel` will not allow itself to be instantiated; this is because
     /// the process of rolling an era over is handled by `EraReg`.
     /// </summary>
-    public sealed class EraDel : IEntityDel<UnsafeEra, Name, string>
+    public sealed class EraDel : ABCEntityDel<UnsafeEra, Name, string>
     {
         public EraDel(IEraRepo eraRepo)
             : base(eraRepo)

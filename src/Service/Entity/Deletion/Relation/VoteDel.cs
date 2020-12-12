@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.Entity.Relation;
 using WorldZero.Common.ValueObject.General;
@@ -9,7 +10,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
     /// <remarks>
     /// This will not refund the vote points used.
     /// </remarks>
-    public class VoteDel : IEntityDel<UnsafeVote, Id, int>
+    public class VoteDel : ABCEntityDel<UnsafeVote, Id, int>
     {
         protected IVoteRepo _voteRepo
         { get { return (IVoteRepo) this._repo; } }
@@ -24,12 +25,10 @@ namespace WorldZero.Service.Entity.Deletion.Relation
             this.DeleteByCharacter(c.Id);
         }
 
-        public async
-        System.Threading.Tasks.Task DeleteByCharacterAsync(UnsafeCharacter c)
+        public async Task DeleteByCharacterAsync(UnsafeCharacter c)
         {
             this.AssertNotNull(c, "c");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByCharacter(c));
+            await Task.Run(() => this.DeleteByCharacter(c));
         }
 
         public void DeleteByCharacter(Id id)
@@ -37,12 +36,10 @@ namespace WorldZero.Service.Entity.Deletion.Relation
             this.Transaction<Id>(this._voteRepo.DeleteByCharacterId, id);
         }
 
-        public async
-        System.Threading.Tasks.Task DeleteByCharacterAsync(Id id)
+        public async Task DeleteByCharacterAsync(Id id)
         {
             this.AssertNotNull(id, "id");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByCharacter(id));
+            await Task.Run(() => this.DeleteByCharacter(id));
         }
 
         public void DeleteByPraxisParticipant(UnsafePraxisParticipant pp)
@@ -51,14 +48,12 @@ namespace WorldZero.Service.Entity.Deletion.Relation
             this.DeleteByPraxisParticipant(pp.Id);
         }
 
-        public async
-        System.Threading.Tasks.Task DeleteByPraxisParticipantAsync(
+        public async Task DeleteByPraxisParticipantAsync(
             UnsafePraxisParticipant pp
         )
         {
             this.AssertNotNull(pp, "pp");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByPraxisParticipant(pp));
+            await Task.Run(() => this.DeleteByPraxisParticipant(pp));
         }
 
         public void DeleteByPraxisParticipant(Id id)
@@ -69,12 +64,10 @@ namespace WorldZero.Service.Entity.Deletion.Relation
             );
         }
 
-        public async
-        System.Threading.Tasks.Task DeleteByPraxisParticipantAsync(Id id)
+        public async Task DeleteByPraxisParticipantAsync(Id id)
         {
             this.AssertNotNull(id, "id");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByPraxisParticipant(id));
+            await Task.Run(() => this.DeleteByPraxisParticipant(id));
         }
     }
 }

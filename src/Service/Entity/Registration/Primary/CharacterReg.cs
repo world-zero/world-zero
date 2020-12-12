@@ -8,7 +8,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
 {
     /// <inheritdoc cref="IEntityReg"/>
     public class CharacterReg
-        : IEntityReg<UnsafeCharacter, Id, int>
+        : ABCEntityReg<UnsafeCharacter, Id, int>
     {
         /// <summary>
         /// This level controls the minimum level at which a player can create

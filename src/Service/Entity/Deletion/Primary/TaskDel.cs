@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
@@ -14,7 +15,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
     /// Praxises on that task - this involves using those corresponding
     /// deletion service classes.
     /// </summary>
-    public class TaskDel : IIdStatusedEntityDel<UnsafeTask>
+    public class TaskDel : ABCIdStatusedEntityDel<UnsafeTask>
     {
         protected ITaskRepo _taskRepo
         { get { return (ITaskRepo) this._repo; } }
@@ -76,20 +77,16 @@ namespace WorldZero.Service.Entity.Deletion.Primary
             this.Transaction<Name>(f, factionId, true);
         }
 
-        public async
-        System.Threading.Tasks.Task DeleteByFactionAsync(UnsafeFaction f)
+        public async Task DeleteByFactionAsync(UnsafeFaction f)
         {
             this.AssertNotNull(f, "f");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByFaction(f));
+            await Task.Run(() => this.DeleteByFaction(f));
         }
 
-        public async
-        System.Threading.Tasks.Task DeleteByFactionAsync(Name factionId)
+        public async Task DeleteByFactionAsync(Name factionId)
         {
             this.AssertNotNull(factionId, "factionId");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByFaction(factionId));
+            await Task.Run(() => this.DeleteByFaction(factionId));
         }
     }
 }

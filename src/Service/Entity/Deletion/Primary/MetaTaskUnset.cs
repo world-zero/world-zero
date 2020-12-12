@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
@@ -13,10 +14,10 @@ namespace WorldZero.Service.Entity.Deletion.Primary
     /// definitely a little smelly, but eh.
     /// </remarks>
     public class MetaTaskUnset
-        : IEntityUnset<UnsafeMetaTask, Id, int, UnsafePraxis, Id, int>
+        : ABCEntityUnset<UnsafeMetaTask, Id, int, UnsafePraxis, Id, int>
     {
         protected class StatusedMTDel
-            : IIdStatusedEntityDel<UnsafeMetaTask>
+            : ABCIdStatusedEntityDel<UnsafeMetaTask>
         {
             public StatusedMTDel(IMetaTaskRepo mtRepo)
                 : base(mtRepo)
@@ -47,20 +48,16 @@ namespace WorldZero.Service.Entity.Deletion.Primary
             this._statusedMTDel.DeleteByStatus(statusId);
         }
 
-        public async
-        System.Threading.Tasks.Task DeleteByStatusAsync(UnsafeStatus s)
+        public async Task DeleteByStatusAsync(UnsafeStatus s)
         {
             this.AssertNotNull(s, "s");
-            await System.Threading.Tasks.Task.Run(() =>
-                this._statusedMTDel.DeleteByStatus(s));
+            await Task.Run(() => this._statusedMTDel.DeleteByStatus(s));
         }
 
-        public async
-        System.Threading.Tasks.Task DeleteByStatusAsync(Name statusId)
+        public async Task DeleteByStatusAsync(Name statusId)
         {
             this.AssertNotNull(statusId, "statusId");
-            await System.Threading.Tasks.Task.Run(() =>
-                this._statusedMTDel.DeleteByStatus(statusId));
+            await Task.Run(() => this._statusedMTDel.DeleteByStatus(statusId));
         }
 
         public override void Unset(Id metaTaskId)
@@ -118,20 +115,16 @@ namespace WorldZero.Service.Entity.Deletion.Primary
             this.Transaction<Name>(f, factionId, true);
         }
 
-        public async
-        System.Threading.Tasks.Task DeleteByFactionAsync(UnsafeFaction f)
+        public async Task DeleteByFactionAsync(UnsafeFaction f)
         {
             this.AssertNotNull(f, "f");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByFaction(f));
+            await Task.Run(() => this.DeleteByFaction(f));
         }
 
-        public async
-        System.Threading.Tasks.Task DeleteByFactionAsync(Name factionId)
+        public async Task DeleteByFactionAsync(Name factionId)
         {
             this.AssertNotNull(factionId, "factionId");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByFaction(factionId));
+            await Task.Run(() => this.DeleteByFaction(factionId));
         }
     }
 }

@@ -9,7 +9,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
 {
     /// <inheritdoc cref="IEntityUnset"/>
     public class FactionUnset
-        : IEntityUnset<UnsafeFaction, Name, string, UnsafeCharacter, Id, int>
+        : ABCEntityUnset<UnsafeFaction, Name, string, UnsafeCharacter, Id, int>
     {
         protected ICharacterRepo _charRepo
         { get { return (ICharacterRepo) this._otherRepo; } }

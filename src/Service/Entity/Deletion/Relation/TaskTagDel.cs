@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.Entity.Relation;
 using WorldZero.Common.ValueObject.General;
@@ -8,7 +9,7 @@ using WorldZero.Service.Interface.Entity.Generic.Deletion;
 namespace WorldZero.Service.Entity.Deletion.Relation
 {
     /// <inheritdoc cref="ITaggedEntityDel"/>
-    public class TaskTagDel : ITaggedEntityDel
+    public class TaskTagDel : ABCTaggedEntityDel
     <
         UnsafeTaskTag,
         UnsafeTask,
@@ -42,23 +43,19 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         /// <remarks>
         /// This is just a wrapper for `DeleteByLeftIdAsync()`.
         /// </remarks>
-        public async
-        System.Threading.Tasks.Task DeleteByTaskAsync(UnsafeTask task)
+        public async Task DeleteByTaskAsync(UnsafeTask task)
         {
             this.AssertNotNull(task, "task");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByLeft(task.Id));
+            await Task.Run(() => this.DeleteByLeft(task.Id));
         }
 
         /// <remarks>
         /// This is just a wrapper for `DeleteByLeftIdAsync()`.
         /// </remarks>
-        public async
-        System.Threading.Tasks.Task DeleteByTaskAsync(Id taskId)
+        public async Task DeleteByTaskAsync(Id taskId)
         {
             this.AssertNotNull(taskId, "taskId");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByLeft(taskId));
+            await Task.Run(() => this.DeleteByLeft(taskId));
         }
     }
 }

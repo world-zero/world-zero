@@ -34,7 +34,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
     /// smell is tolerable.
     /// </remarks>
     public class EraReg
-        : IEntityReg<UnsafeEra, Name, string>
+        : ABCEntityReg<UnsafeEra, Name, string>
     {
         public EraReg(IEraRepo eraRepo)
             : base(eraRepo)

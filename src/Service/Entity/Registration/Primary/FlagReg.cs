@@ -7,7 +7,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
 {
     /// <inheritdoc cref="IEntityReg"/>
     public class FlagReg
-        : IEntityReg<UnsafeFlag, Name, string>
+        : ABCEntityReg<UnsafeFlag, Name, string>
     {
         public static readonly UnsafeFlag Duplicate =
             new UnsafeFlag(new Name("Duplicate"));

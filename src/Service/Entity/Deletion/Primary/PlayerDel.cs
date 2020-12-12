@@ -6,7 +6,7 @@ using WorldZero.Service.Interface.Entity.Generic.Deletion;
 namespace WorldZero.Service.Entity.Deletion.Primary
 {
     /// <inheritdoc cref="IEntityDel"/>
-    public class PlayerDel : IEntityDel<UnsafePlayer, Id, int>
+    public class PlayerDel : ABCEntityDel<UnsafePlayer, Id, int>
     {
         protected IPlayerRepo _playerRepo
         { get { return  (IPlayerRepo) this._repo; } }

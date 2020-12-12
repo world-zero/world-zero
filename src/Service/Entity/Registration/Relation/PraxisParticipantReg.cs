@@ -44,7 +44,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
     /// fact.
     /// </remarks>
     public class PraxisParticipantReg
-        : IEntityRelationReg
+        : ABCEntityRelationReg
         <
             UnsafePraxisParticipant,
             UnsafePraxis,

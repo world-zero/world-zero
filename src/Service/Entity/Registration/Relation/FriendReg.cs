@@ -14,7 +14,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
     /// This will not allow friends to be foes.
     /// </remarks>
     public class FriendReg
-        : IEntityRelationReg
+        : ABCEntityRelationReg
         <
             UnsafeFriend,
             UnsafeCharacter,

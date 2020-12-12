@@ -152,7 +152,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
         }
 
         public async
-        System.Threading.Tasks.Task DeleteByPraxisIdAsync(Id praxisId)
+        Task DeleteByPraxisIdAsync(Id praxisId)
         {
             this.DeleteByPraxisId(praxisId);
         }
@@ -163,7 +163,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
         }
 
         public async
-        System.Threading.Tasks.Task DeleteByCharacterIdAsync(Id charId)
+        Task DeleteByCharacterIdAsync(Id charId)
         {
             this.DeleteByCharacterId(charId);
         }
@@ -202,7 +202,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
             return praxises.Count();
         }
 
-        public async System.Threading.Tasks.Task<int> GetPraxisCountAsync(
+        public async Task<int> GetPraxisCountAsync(
             Id characterId,
             ISet<Name> statuses
         )
@@ -234,7 +234,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
            return results.Count();
         }
 
-        public async System.Threading.Tasks.Task<int>
+        public async Task<int>
         GetCharacterSubmissionCountAsync(Id taskId, Id charId)
         {
             return this.GetCharacterSubmissionCount(taskId, charId);
@@ -266,7 +266,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
            return this.GetCharacterSubmissionCount(taskId.First(), charId);
         }
 
-        public async System.Threading.Tasks.Task<int>
+        public async Task<int>
         GetCharacterSubmissionCountViaPraxisIdAsync(Id praxisId, Id charId)
         {
             return this.GetCharacterSubmissionCountViaPraxisId(praxisId, charId);

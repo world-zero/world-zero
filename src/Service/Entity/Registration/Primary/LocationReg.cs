@@ -7,7 +7,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
 {
     /// <inheritdoc cref="IEntityReg"/>
     public class LocationReg
-        : IEntityReg<UnsafeLocation, Id, int>
+        : ABCEntityReg<UnsafeLocation, Id, int>
     {
         protected ILocationRepo _locationRepo
         { get { return (ILocationRepo) this._repo; } }

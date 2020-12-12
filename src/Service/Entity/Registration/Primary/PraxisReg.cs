@@ -35,7 +35,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
     /// fact.
     /// </remarks>
     public class PraxisReg
-        : IEntityReg<UnsafePraxis, Id, int>
+        : ABCEntityReg<UnsafePraxis, Id, int>
     {
         protected IPraxisRepo _praxisRepo
         { get { return (IPraxisRepo) this._repo; } }

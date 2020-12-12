@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.Entity.Relation;
 using WorldZero.Common.ValueObject.General;
@@ -8,7 +9,7 @@ using WorldZero.Service.Interface.Entity.Generic.Deletion;
 namespace WorldZero.Service.Entity.Deletion.Relation
 {
     /// <inheritdoc cref="IEntityDel"/>
-    public class PraxisTagDel : ITaggedEntityDel
+    public class PraxisTagDel : ABCTaggedEntityDel
     <
         UnsafePraxisTag,
         UnsafePraxis,
@@ -42,23 +43,19 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         /// <remarks>
         /// This is just a wrapper for `DeleteByLeftIdAsync()`.
         /// </remarks>
-        public async
-        System.Threading.Tasks.Task DeleteByPraxisAsync(UnsafePraxis praxis)
+        public async Task DeleteByPraxisAsync(UnsafePraxis praxis)
         {
             this.AssertNotNull(praxis, "praxis");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByLeft(praxis.Id));
+            await Task.Run(() => this.DeleteByLeft(praxis.Id));
         }
 
         /// <remarks>
         /// This is just a wrapper for `DeleteByLeftIdAsync()`.
         /// </remarks>
-        public async
-        System.Threading.Tasks.Task DeleteByPraxisAsync(Id praxisId)
+        public async Task DeleteByPraxisAsync(Id praxisId)
         {
             this.AssertNotNull(praxisId, "praxisId");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByLeft(praxisId));
+            await Task.Run(() => this.DeleteByLeft(praxisId));
         }
     }
 }

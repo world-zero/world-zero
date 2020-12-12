@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
@@ -10,7 +11,7 @@ using WorldZero.Service.Entity.Deletion.Relation;
 namespace WorldZero.Service.Entity.Deletion.Primary
 {
     /// <inheritdoc cref="IEntityDel"/>
-    public class CharacterDel : IEntityDel<UnsafeCharacter, Id, int>
+    public class CharacterDel : ABCEntityDel<UnsafeCharacter, Id, int>
     {
         protected ICharacterRepo _charRepo
         { get { return (ICharacterRepo) this._repo; } }
@@ -93,20 +94,16 @@ namespace WorldZero.Service.Entity.Deletion.Primary
             this.Transaction<Id>(f, playerId, true);
         }
  
-        public async
-        System.Threading.Tasks.Task DeleteByPlayerAsync(UnsafePlayer p)
+        public async Task DeleteByPlayerAsync(UnsafePlayer p)
         {
             this.AssertNotNull(p, "p");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByPlayer(p));
+            await Task.Run(() => this.DeleteByPlayer(p));
         }
 
-        public async
-        System.Threading.Tasks.Task DeleteByPlayerAsync(Id playerId)
+        public async Task DeleteByPlayerAsync(Id playerId)
         {
             this.AssertNotNull(playerId, "playerId");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByPlayer(playerId));
+            await Task.Run(() => this.DeleteByPlayer(playerId));
         }
    }
 }

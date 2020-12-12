@@ -57,7 +57,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
     }
 
     public class TestEntityDelete
-        : IEntityDel<UnsafePlayer, Id, int>
+        : ABCEntityDel<UnsafePlayer, Id, int>
     {
         public TestEntityDelete(IPlayerRepo repo)
             : base(repo)

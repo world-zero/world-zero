@@ -13,7 +13,7 @@ using NUnit.Framework;
 namespace WorldZero.Test.Integration.Service.Interface.Entity
 {
     [TestFixture]
-    public class TestIEntityRelationReg
+    public class TestABCEntityRelationReg
     {
         private IVoteRepo _voteRepo;
         private ICharacterRepo _characterRepo;
@@ -94,7 +94,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
     }
 
     public class TestEntityRelationReg
-        : IEntityRelationReg
+        : ABCEntityRelationReg
         <
             UnsafeVote,
             UnsafeCharacter,
