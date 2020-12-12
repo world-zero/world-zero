@@ -2,7 +2,6 @@ using System;
 using System.Threading.Tasks;
 using WorldZero.Common.Interface.ValueObject;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
-using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
 
 namespace WorldZero.Service.Interface.Entity.Generic
 {
@@ -27,18 +26,10 @@ namespace WorldZero.Service.Interface.Entity.Generic
     /// protected IEraRepo _eraRepo { get { return (IEraRepo) this._repo; } }
     /// </code>
     /// </remarks>
-    public abstract class IEntityService<TEntity, TId, TBuiltIn>
+    public interface IEntityService<TEntity, TId, TBuiltIn>
         where TEntity : class, IEntity<TId, TBuiltIn>
         where TId : ISingleValueObject<TBuiltIn>
     {
-        protected readonly IEntityRepo<TEntity, TId, TBuiltIn> _repo;
-
-        public IEntityService(IEntityRepo<TEntity, TId, TBuiltIn> repo)
-        {
-            this.AssertNotNull(repo, "repo");
-            this._repo = repo;
-        }
-
         /// <summary>
         /// This will, in order:
         /// <br />
@@ -71,34 +62,11 @@ namespace WorldZero.Service.Interface.Entity.Generic
         /// <typeparam name="TOperand">
         /// The type of the argument supplied to operation.
         /// </typeparam>
-        public void Transaction<TOperand>(
+        void Transaction<TOperand>(
             Action<TOperand> operation,
             TOperand operand,
             bool serialize=false
-        )
-        {
-            this.AssertNotNull(operation, "operation");
-            this.AssertNotNull(operand, "operand");
-            this.BeginTransaction(serialize);
-            try
-            { operation(operand); }
-            catch (ArgumentException e)
-            {
-                this.DiscardTransaction();
-                throw new ArgumentException("The operation failed.", e);
-            }
-            catch (InvalidOperationException e)
-            {
-                this.DiscardTransaction();
-                throw new InvalidOperationException("A bug has been found, discarding transaction.", e);
-            }
-            try
-            { this.EndTransaction(); }
-            catch (ArgumentException e)
-            { throw new ArgumentException("Could not complete the transaction.", e); }
-            catch (InvalidOperationException e)
-            { throw new InvalidOperationException("A bug has been found, discarding transaction.", e); }
-        }
+        );
 
         /// <summary>
         /// Begin a transaction.
@@ -106,10 +74,7 @@ namespace WorldZero.Service.Interface.Entity.Generic
         /// <remarks>
         /// For more, <see cref="IEntityRepo.BeginTransaction(bool)"/>
         /// </remarks>
-        public void BeginTransaction(bool serialize=false)
-        {
-            this._repo.BeginTransaction(serialize);
-        }
+        void BeginTransaction(bool serialize=false);
 
         /// <summary>
         /// Begin a transaction asynchronously.
@@ -117,10 +82,7 @@ namespace WorldZero.Service.Interface.Entity.Generic
         /// <remarks>
         /// For more, <see cref="IEntityRepo.BeginTransactionAsync(bool)"/>
         /// </remarks>
-        public async Task BeginTransactionAsync(bool serialize=false)
-        {
-            await this._repo.BeginTransactionAsync(serialize);
-        }
+        Task BeginTransactionAsync(bool serialize=false);
 
         /// <summary>
         /// End a transaction.
@@ -128,19 +90,15 @@ namespace WorldZero.Service.Interface.Entity.Generic
         /// <remarks>
         /// For more, <see cref="IEntityRepo.EndTransaction()"/>
         /// </remarks>
-        public void EndTransaction()
-        {
-            this._repo.EndTransaction();
-        }
+        void EndTransaction();
 
         /// <summary>
-        /// End a transaction asynchronously. /// </summary> /// <remarks>
+        /// End a transaction asynchronously.
+        /// </summary>
+        /// <remarks>
         /// For more, <see cref="IEntityRepo.EndTransactionAsync()"/>
         /// </remarks>
-        public async Task EndTransactionAsync()
-        {
-            await this._repo.EndTransactionAsync();
-        }
+        Task EndTransactionAsync();
 
         /// <summary>
         /// Discard a transaction.
@@ -148,10 +106,7 @@ namespace WorldZero.Service.Interface.Entity.Generic
         /// <remarks>
         /// For more, <see cref="IEntityRepo.DiscardTransaction()"/>
         /// </remarks>
-        public void DiscardTransaction()
-        {
-            this._repo.DiscardTransaction();
-        }
+        void DiscardTransaction();
 
         /// <summary>
         /// Discard a transaction asynchronously.
@@ -159,10 +114,7 @@ namespace WorldZero.Service.Interface.Entity.Generic
         /// <remarks>
         /// For more, <see cref="IEntityRepo.DiscardTransactionAsync()"/>
         /// </remarks>
-        public async Task DiscardTransactionAsync()
-        {
-            await this._repo.DiscardTransactionAsync();
-        }
+        Task DiscardTransactionAsync();
 
         /// <summary>
         /// Check if a transaction is active.
@@ -170,10 +122,7 @@ namespace WorldZero.Service.Interface.Entity.Generic
         /// <remarks>
         /// For more, <see cref="IEntityRepo.IsTransactionActive()"/>
         /// </remarks>
-        public bool IsTransactionActive()
-        {
-            return this._repo.IsTransactionActive();
-        }
+        bool IsTransactionActive();
 
         /// <summary>
         /// Check if a transaction is active, asynchronously.
@@ -181,31 +130,6 @@ namespace WorldZero.Service.Interface.Entity.Generic
         /// <remarks>
         /// For more, <see cref="IEntityRepo.IsTransactionActiveAsync()"/>
         /// </remarks>
-        public async Task<bool> IsTransactionActiveAsync()
-        {
-            return await this._repo.IsTransactionActiveAsync();
-        }
-
-        protected void AssertNotNull(object o, string name)
-        {
-            if (o == null)
-                throw new ArgumentNullException(name);
-        }
-
-        protected void EnsureExists(TEntity e)
-        {
-            try
-            {
-                this._repo.Insert(e);
-                this._repo.Save();
-            }
-            catch (ArgumentException) { }
-        }
-
-        protected async Task EnsureExistsAsync(TEntity e)
-        {
-            this.AssertNotNull(e, "e");
-            await Task.Run(() => this.EnsureExists(e));
-        }
+        Task<bool> IsTransactionActiveAsync();
     }
 }

@@ -10,7 +10,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
     /// "IEntityRepo.Delete()"/> and <see cref="IEntityRepo.Save()"/>.
     /// </summary>
     public abstract class IEntityDel<TEntity, TId, TBuiltIn>
-        : IEntityService<TEntity, TId, TBuiltIn>
+        : ABCEntityService<TEntity, TId, TBuiltIn>
         where TEntity : class, IEntity<TId, TBuiltIn>
         where TId : ISingleValueObject<TBuiltIn>
     {

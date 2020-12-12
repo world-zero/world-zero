@@ -150,7 +150,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
     }
 
     public class TestEntityService
-        : IEntityService<UnsafeComment, Id, int>
+        : ABCEntityService<UnsafeComment, Id, int>
     {
         public TestEntityService(ICommentRepo commentRepo)
             : base(commentRepo)

@@ -12,7 +12,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Registration
     /// "IEntityRepo.Insert()"/> and <see cref="IEntityRepo.Save()"/>.
     /// </summary>
     public abstract class IEntityReg<TEntity, TId, TBuiltIn>
-        : IEntityService<TEntity, TId, TBuiltIn>
+        : ABCEntityService<TEntity, TId, TBuiltIn>
         where TEntity : class, IEntity<TId, TBuiltIn>
         where TId : ISingleValueObject<TBuiltIn>
     {

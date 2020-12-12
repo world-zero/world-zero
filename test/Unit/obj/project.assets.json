@@ -1871,7 +1871,7 @@
       },
       "WorldZero.Common/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
+        "framework": ".NETStandard,Version=v2.1",
         "compile": {
           "bin/placeholder/WorldZero.Common.dll": {}
         },
@@ -1881,7 +1881,7 @@
       },
       "WorldZero.Data/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
+        "framework": ".NETStandard,Version=v2.1",
         "dependencies": {
           "WorldZero.Common": "1.0.0",
           "dapper": "2.0.35"
@@ -1895,7 +1895,7 @@
       },
       "WorldZero.Port/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
+        "framework": ".NETStandard,Version=v2.1",
         "dependencies": {
           "Microsoft.AspNetCore": "2.2.0",
           "WorldZero.Common": "1.0.0",
@@ -1910,7 +1910,7 @@
       },
       "WorldZero.Service/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
+        "framework": ".NETStandard,Version=v2.1",
         "dependencies": {
           "WorldZero.Common": "1.0.0",
           "WorldZero.Data": "1.0.0"
