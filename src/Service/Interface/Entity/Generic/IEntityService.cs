@@ -19,6 +19,18 @@ namespace WorldZero.Service.Interface.Entity.Generic
     /// This is the built-in type behind `IdType`.
     /// </typeparam>
     /// <remarks>
+    /// Each non-generic entity service should have a protected concrete
+    /// implementation of the corresponding entity. This will allow the various
+    /// entity service classes to be able to edit the entities without exposing
+    /// the setters or constructor to the outside world. This has two main
+    /// purposes. First, this will force the application to use an entity's
+    /// updating service class to change the data as the entity interfaces only
+    /// have getters. Second, as an entity will not have a publicly available
+    /// concrete implementation, the application will be forced to use an
+    /// entity's service classes as factories, which ensures that no one is
+    /// "updating" an entity by creating a very similar clone and sneaking that
+    /// corrupted version past the updating service classes.
+    /// <br />
     /// For ease of use, it is recommended to have a property similar to the
     /// below to easily and consistently cast up in children. This example is
     /// taken from CreateEra.
