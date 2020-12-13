@@ -1,10 +1,10 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Data.Interface.Repository.Entity.RAM.Generic;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
+using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.Entity.Relation;
 using WorldZero.Common.ValueObject.General;
 
@@ -14,7 +14,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
     public class RAMVoteRepo
         : IRAMEntityRelationRepo
           <
-            UnsafeVote,
+            IVote,
             Id,
             int,
             Id,
@@ -64,8 +64,11 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
 
         protected override int GetRuleCount()
         {
-            var a =
-                new UnsafeVote(new Id(2), new Id(2), new Id(3), new PointTotal(3));
+            var a = new UnsafeVote(
+                new Id(2),
+                new Id(2),
+                new Id(3),
+                new PointTotal(3));
             return a.GetUniqueRules().Count;
         }
 

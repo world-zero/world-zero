@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
@@ -10,15 +11,15 @@ namespace WorldZero.Data.Repository.Entity.RAM.Primary
 {
     /// <inheritdoc cref="IMetaTaskRepo"/>
     public class RAMMetaTaskRepo
-        : IRAMIdStatusedEntityRepo<UnsafeMetaTask>,
+        : IRAMIdStatusedEntityRepo<IMetaTask>,
         IMetaTaskRepo
     {
-        public IEnumerable<UnsafeMetaTask> GetByFactionId(Name factionId)
+        public IEnumerable<IMetaTask> GetByFactionId(Name factionId)
         {
             if (factionId == null)
                 throw new ArgumentNullException("factionId");
             
-            IEnumerable<UnsafeMetaTask> mts =
+            IEnumerable<IMetaTask> mts =
                 from mtTemp in this._saved.Values
                 let mt = this.TEntityCast(mtTemp)
                 where mt.FactionId == factionId

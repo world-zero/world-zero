@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.General.Generic;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
-using WorldZero.Common.Entity.Relation;
+using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
 
 namespace WorldZero.Data.Interface.Repository.Entity.Relation
@@ -11,7 +11,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.Relation
     public interface IPraxisParticipantRepo
         : IEntityRelationRepo
           <
-            UnsafePraxisParticipant,
+            IPraxisParticipant,
             Id,
             int,
             Id,
@@ -48,8 +48,8 @@ namespace WorldZero.Data.Interface.Repository.Entity.Relation
             Id charId
         );
 
-        IEnumerable<UnsafePraxisParticipant> GetByPraxisId(Id praxisId);
-        IEnumerable<UnsafePraxisParticipant> GetByCharacterId(Id characterId);
+        IEnumerable<IPraxisParticipant> GetByPraxisId(Id praxisId);
+        IEnumerable<IPraxisParticipant> GetByCharacterId(Id characterId);
 
         /// <summary>
         /// Get a collection of PraxisParticipant IDs that are participants of
