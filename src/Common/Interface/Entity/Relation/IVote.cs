@@ -36,6 +36,8 @@ namespace WorldZero.Common.Interface.Entity.Relation
         /// </summary>
         PointTotal Points { get; }
 
+        // TODO: put the static min/max here
+
         /// <remarks>
         /// Changing this will NOT check existing instances of Vote to make
         /// sure that none of them do not step out of the new bounds.

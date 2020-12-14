@@ -1,4 +1,4 @@
-using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
+using WorldZero.Data.Interface.Repository.Entity.Generic;
 using System;
 using System.Threading.Tasks;
 using System.Linq;

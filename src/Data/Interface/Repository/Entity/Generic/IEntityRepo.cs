@@ -3,7 +3,7 @@ using WorldZero.Common.Interface.General.Generic;
 using WorldZero.Common.Interface.ValueObject;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 
-namespace WorldZero.Data.Interface.Repository.Entity.Primary.Generic
+namespace WorldZero.Data.Interface.Repository.Entity.Generic
 {
     /// <summary>
     /// This is a generic repository for entities that includes CRUD methods.

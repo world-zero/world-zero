@@ -5,7 +5,7 @@ using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Data.Repository.Entity.RAM.Relation;
 using WorldZero.Service.Interface.Entity.Generic;
-using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
+using WorldZero.Data.Interface.Repository.Entity.Generic;
 
 namespace WorldZero.Test.Integration.Service.Interface.Entity
 {
@@ -153,7 +153,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
         : ABCEntityService<UnsafeComment, Id, int>
     {
         public TestEntityService(ICommentRepo commentRepo)
-            : base(commentRepo)
+            : base((IEntityRepo<UnsafeComment, Id, int>) commentRepo)
         { }
 
         public IEntityRepo<UnsafeComment, Id, int> Repo

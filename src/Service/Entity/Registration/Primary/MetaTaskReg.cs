@@ -1,14 +1,15 @@
 using System;
 using WorldZero.Service.Interface.Entity.Generic.Registration;
+using WorldZero.Service.Interface.Entity.Registration.Primary;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.Entity.Primary;
+using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 
 namespace WorldZero.Service.Entity.Registration.Primary
 {
-    /// <inheritdoc cref="IEntityReg"/>
+    /// <inheritdoc cref="IMetaTaskReg"/>
     public class MetaTaskReg
-        : ABCEntityReg<UnsafeMetaTask, Id, int>
+        : ABCEntityReg<IMetaTask, Id, int>, IMetaTaskReg
     {
         protected IMetaTaskRepo _metaTaskRepo
         { get { return (IMetaTaskRepo) this._repo; } }
@@ -33,11 +34,11 @@ namespace WorldZero.Service.Entity.Registration.Primary
         /// Create the meta task and save them. This will ensure that the
         /// meta task has a valid faction ID and status ID.
         /// </summary>
-        public override UnsafeMetaTask Register(UnsafeMetaTask mt)
+        public override IMetaTask Register(IMetaTask mt)
         {
             this.AssertNotNull(mt, "mt");
-            if (   (mt.StatusId != StatusReg.InProgress.Id)
-                && (mt.StatusId != StatusReg.Active.Id)   )
+            if (   (mt.StatusId != IStatusReg.InProgress.Id)
+                && (mt.StatusId != IStatusReg.Active.Id)   )
             {
                 throw new ArgumentException("A meta task can only be Active or In Progress");
             }

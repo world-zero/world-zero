@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using WorldZero.Common.Interface.Entity.Primary;
-using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
+using WorldZero.Data.Interface.Repository.Entity.Generic;
 
 namespace WorldZero.Data.Interface.Repository.Entity.Primary
 {

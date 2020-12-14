@@ -5,12 +5,13 @@ using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
+using WorldZero.Data.Interface.Repository.Entity.Generic;
 using WorldZero.Data.Repository.Entity.RAM.Primary;
 using WorldZero.Data.Repository.Entity.RAM.Relation;
 using WorldZero.Service.Interface.Entity.Generic.Registration;
 using NUnit.Framework;
 
-namespace WorldZero.Test.Integration.Service.Interface.Entity
+namespace WorldZero.Test.Integration.Service.Interface.Entity.Registration
 {
     [TestFixture]
     public class TestABCEntityRelationReg
@@ -109,9 +110,13 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
         public TestEntityRelationReg(
             IVoteRepo repo,
             ICharacterRepo characterRepo,
-            IPraxisParticipantRepo praxisRepo
+            IPraxisParticipantRepo ppRepo
         )
-            : base(repo, characterRepo, praxisRepo)
+            : base(
+                (IEntityRelationRepo<UnsafeVote, Id, int, Id, int, RelationDTO<Id, int, Id, int>>) repo,
+                (IEntityRepo<UnsafeCharacter, Id, int>) characterRepo,
+                (IEntityRelationRepo<UnsafePraxisParticipant, Id, int, Id, int, RelationDTO<Id, int, Id, int>>) ppRepo
+            )
         { }
     }
 }

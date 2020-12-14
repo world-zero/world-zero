@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
-using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
+using WorldZero.Data.Interface.Repository.Entity.Generic;
 using WorldZero.Common.Interface.Entity.Primary;
 
 // NOTE: `PraxisDel.DeleteByStatus()` is tested in place of

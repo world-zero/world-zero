@@ -2,59 +2,30 @@ using System;
 using System.Collections.Generic;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
-using WorldZero.Common.Entity.Primary;
-using WorldZero.Common.Entity.Relation;
+using WorldZero.Common.Interface.Entity.Primary;
+using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Service.Interface.Entity.Generic.Registration;
+using WorldZero.Service.Interface.Entity.Registration.Primary;
+using WorldZero.Service.Interface.Entity.Registration.Relation;
 using WorldZero.Service.Entity.Registration.Primary;
 
 namespace WorldZero.Service.Entity.Registration.Relation
 {
-    /// <inheritdoc cref="IEntityRelationReg"/>
-    /// <remarks>
-    /// A Praxis should always have at least one participant.
-    /// <br />
-    /// This class will ensure that a duel is between two characters.
-    /// <br />
-    /// This will ensure that one Player is not having several of their
-    /// characters participating on the same praxis.
-    /// <br />
-    /// This will set `PraxisParticipant.Count` on registration and validate it
-    /// against the active era's `MaxTasks` or `MaxTasksReiterator`, as
-    /// appropriate. If this is used in part of a series of registrations, this
-    /// will not revert a `PraxisParticipant`'s Count back to the
-    /// pre-registration value, it will be an artifact.
-    /// <br />
-    /// The character's level versus the task's level is computed here, as they
-    /// register with / on a praxis. This will allow someone to register as In
-    /// Progress for a praxis and still be able to complete it after an Era
-    /// roll-over. For example, if someone's EraLevel is X, and
-    /// `Era.TaskLevelBuffer` is Y, then someone can be a participant of tasks
-    /// of X+Y and below.
-    /// <br />
-    /// This will ensure that a character does not have more than the allowed
-    /// number of in progress / active praxises, as defined by the Era returned
-    /// by `EraReg.GetActiveEra()`. That said, if someone has X in progress
-    /// praxises and the new Era has the MaxPraxises of X-3, then they will
-    /// keep their in progress praxises despite being over the limit.
-    /// <br />
-    /// When furthering development, be mindful about how PraxisReg needs a
-    /// participant - both PraxisReg and PraxisParticipantReg rely on this
-    /// fact.
-    /// </remarks>
+    /// <inheritdoc cref="IPraxisParticipantReg"/>
     public class PraxisParticipantReg
         : ABCEntityRelationReg
         <
-            UnsafePraxisParticipant,
-            UnsafePraxis,
+            IPraxisParticipant,
+            IPraxis,
             Id,
             int,
-            UnsafeCharacter,
+            ICharacter,
             Id,
             int,
             RelationDTO<Id, int, Id, int>
-        >
+        >, IPraxisParticipantReg
     {
         protected IPraxisParticipantRepo _ppRepo
         { get { return (IPraxisParticipantRepo) this._repo; } }
@@ -92,21 +63,21 @@ namespace WorldZero.Service.Entity.Registration.Relation
             this._eraReg = eraReg;
 
             this._praxisLiveStatuses = new HashSet<Name>();
-            this._praxisLiveStatuses.Add(StatusReg.InProgress.Id);
-            this._praxisLiveStatuses.Add(StatusReg.Active.Id);
+            this._praxisLiveStatuses.Add(IStatusReg.InProgress.Id);
+            this._praxisLiveStatuses.Add(IStatusReg.Active.Id);
         }
 
-        public override UnsafePraxisParticipant Register(UnsafePraxisParticipant pp)
+        public override IPraxisParticipant Register(IPraxisParticipant pp)
         {
             this.AssertNotNull(pp, "pp");
             this._ppRepo.BeginTransaction(true);
-            UnsafePraxis p      = this._verifyPraxis(pp);
-            UnsafeCharacter c   = this._verifyCharacter(pp);
-            UnsafeEra activeEra = this._eraReg.GetActiveEra();
+            IPraxis p      = this._verifyPraxis(pp);
+            ICharacter c   = this._verifyCharacter(pp);
+            IEra activeEra = this._eraReg.GetActiveEra();
                             this._verifyLevel(c, activeEra, p);
                             this._verifyPraxisCount(c, activeEra);
             int count     = this._verifyPPCount(pp, c, activeEra);
-            UnsafeMetaTask mt   = this._getMetaTask(p);
+            IMetaTask mt   = this._getMetaTask(p);
                             this._verifyFactionsMatch(c, mt);
                             this._verifyDuel(p);
             var r         = base.Register(pp);
@@ -114,9 +85,9 @@ namespace WorldZero.Service.Entity.Registration.Relation
             return r;
         }
 
-        private UnsafePraxis _verifyPraxis(UnsafePraxisParticipant pp)
+        private IPraxis _verifyPraxis(IPraxisParticipant pp)
         {
-            UnsafePraxis p;
+            IPraxis p;
             try
             {
                 p = this._praxisRepo.GetById(pp.PraxisId);
@@ -127,8 +98,8 @@ namespace WorldZero.Service.Entity.Registration.Relation
                 throw new ArgumentException($"PraxisParticipant of ID {pp.Id.Get} has an invalid praxis ID of {pp.PraxisId.Get}.");
             }
 
-            if (   (p.StatusId != StatusReg.InProgress.Id)
-                && (p.StatusId != StatusReg.Active.Id)      )
+            if (   (p.StatusId != IStatusReg.InProgress.Id)
+                && (p.StatusId != IStatusReg.Active.Id)      )
             {
                 this._ppRepo.DiscardTransaction();
                 throw new ArgumentException("A participant can only be registered for an Active or In Progress task.");
@@ -137,9 +108,9 @@ namespace WorldZero.Service.Entity.Registration.Relation
             return p;
         }
 
-        private UnsafeCharacter _verifyCharacter(UnsafePraxisParticipant pp)
+        private ICharacter _verifyCharacter(IPraxisParticipant pp)
         {
-            UnsafeCharacter c;
+            ICharacter c;
             try
             {
                 c = this._characterRepo.GetById(pp.CharacterId);
@@ -152,7 +123,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             }
         }
 
-        private void _verifyLevel(UnsafeCharacter c, UnsafeEra activeEra, UnsafePraxis p)
+        private void _verifyLevel(ICharacter c, IEra activeEra, IPraxis p)
         {
             int bufferedLevel = c.EraLevel.Get + activeEra.TaskLevelBuffer.Get;
             int reqLevel;
@@ -173,7 +144,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             }
         }
 
-        private void _verifyPraxisCount(UnsafeCharacter c, UnsafeEra activeEra)
+        private void _verifyPraxisCount(ICharacter c, IEra activeEra)
         {
             int praxisCount = this._ppRepo
                 .GetPraxisCount(c.Id, this._praxisLiveStatuses);
@@ -186,9 +157,9 @@ namespace WorldZero.Service.Entity.Registration.Relation
         }
 
         private int _verifyPPCount(
-            UnsafePraxisParticipant pp,
-            UnsafeCharacter c,
-            UnsafeEra activeEra
+            IPraxisParticipant pp,
+            ICharacter c,
+            IEra activeEra
         )
         {
             int nextCount =
@@ -208,7 +179,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
                 throw new ArgumentException($"The character can only submit praxises for a task {activeEra.MaxTasks} time(s).");
             }
 
-            UnsafeFaction f;
+            IFaction f;
             try
             {
                 f = this._factionRepo.GetById(c.FactionId);
@@ -217,7 +188,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             { throw new InvalidOperationException("A character has a faction that does not exist, this should not be possible; only register entities via their registration class and update them via their updating class.", e); }
 
             if (   (f.AbilityId == null )
-                || (f.AbilityId != AbilityReg.Reiterator.Id))
+                || (f.AbilityId != IAbilityReg.Reiterator.Id))
             {
                 this._ppRepo.DiscardTransaction();
                 throw new ArgumentException($"The character can only submit praxises for a task {activeEra.MaxTasks} time(s).");
@@ -236,7 +207,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
         /// A `MetaTask` is not required for a `Praxis`, so this can return
         /// `null`.
         /// </remarks>
-        private UnsafeMetaTask _getMetaTask(UnsafePraxis p)
+        private IMetaTask _getMetaTask(IPraxis p)
         {
             if (p.MetaTaskId == null)
                 return null;
@@ -251,7 +222,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             }
         }
 
-        private void _verifyFactionsMatch(UnsafeCharacter c, UnsafeMetaTask mt)
+        private void _verifyFactionsMatch(ICharacter c, IMetaTask mt)
         {
             if (mt == null)
                 return;
@@ -262,7 +233,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
                 throw new ArgumentException("The meta task has a sponsoring faction but the participant is unaligned.");
             }
 
-            if (mt.StatusId != StatusReg.Active.Id)
+            if (mt.StatusId != IStatusReg.Active.Id)
             {
                 this._ppRepo.DiscardTransaction();
                 throw new ArgumentException("A participant cannot be submitted for a non-active meta task.");
@@ -284,7 +255,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
         /// PraxisReg would not allow a dueling praxis to be registered
         /// if it had the incorrect number of participants.
         /// </remarks>
-        private void _verifyDuel(UnsafePraxis p)
+        private void _verifyDuel(IPraxis p)
         {
             if (p.AreDueling)
             {

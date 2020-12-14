@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Repository.Entity.RAM.Primary;
@@ -53,7 +54,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
             this._factionRepo.Update(this._f0);
             this._factionRepo.Save();
             var factiones = this._factionRepo
-                .GetByAbilityId(ability0.Id).ToList<UnsafeFaction>();
+                .GetByAbilityId(ability0.Id).ToList<IFaction>();
             Assert.AreEqual(1, factiones.Count());
             foreach (UnsafeFaction f in factiones)
                 Assert.AreEqual(this._f0.Id, f.Id);
@@ -62,7 +63,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
             this._factionRepo.Update(this._f1);
             this._factionRepo.Save();
             factiones = this._factionRepo
-                .GetByAbilityId(ability0.Id).ToList<UnsafeFaction>();
+                .GetByAbilityId(ability0.Id).ToList<IFaction>();
             Assert.AreEqual(2, factiones.Count());
             Assert.AreEqual(this._f0.Id, factiones[0].Id);
             Assert.AreEqual(this._f1.Id, factiones[1].Id);
@@ -71,7 +72,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
             this._factionRepo.Update(this._f2);
             this._factionRepo.Save();
             factiones = this._factionRepo
-                .GetByAbilityId(ability1.Id).ToList<UnsafeFaction>();
+                .GetByAbilityId(ability1.Id).ToList<IFaction>();
             Assert.AreEqual(1, factiones.Count());
             foreach (UnsafeFaction f in factiones)
                 Assert.AreEqual(this._f2.Id, f.Id);

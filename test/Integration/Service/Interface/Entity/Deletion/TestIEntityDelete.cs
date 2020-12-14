@@ -6,7 +6,7 @@ using WorldZero.Data.Repository.Entity.RAM.Primary;
 using WorldZero.Service.Interface.Entity.Generic.Deletion;
 using NUnit.Framework;
 
-namespace WorldZero.Test.Integration.Service.Interface.Entity
+namespace WorldZero.Test.Integration.Service.Interface.Entity.Deletion
 {
     [TestFixture]
     public class TestIEntityDel

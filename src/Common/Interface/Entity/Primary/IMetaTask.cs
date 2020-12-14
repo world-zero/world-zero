@@ -28,5 +28,10 @@ namespace WorldZero.Common.Interface.Entity.Primary
         /// of the point total to add.
         /// </remarks>
         PointTotal Bonus { get; }
+
+        /// <summary>
+        /// This is the ID of the faction that sponsors this meta task.
+        /// </summary>
+        Name FactionId { get; }
     }
 }

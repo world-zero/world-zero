@@ -6,11 +6,11 @@ using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Data.Repository.Entity.RAM.Primary;
 using WorldZero.Data.Repository.Entity.RAM.Relation;
-using WorldZero.Service.Entity.Registration.Primary;
+using WorldZero.Service.Interface.Entity.Registration.Primary;
 using WorldZero.Service.Entity.Registration.Relation;
 using NUnit.Framework;
 
-namespace WorldZero.Test.Integration.Service.Interface.Entity
+namespace WorldZero.Test.Integration.Service.Entity
 {
     [TestFixture]
     public class TestTaskFlagReg
@@ -43,7 +43,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
             this._pt = new PointTotal(100);
             this._t = new UnsafeTask(
                 new Name("faction"),
-                StatusReg.Active.Id,
+                IStatusReg.Active.Id,
                 "summary",
                 this._pt,
                 new Level(1)

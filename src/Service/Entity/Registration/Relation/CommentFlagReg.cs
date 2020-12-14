@@ -1,27 +1,29 @@
 using WorldZero.Service.Interface.Entity.Generic.Registration;
+using WorldZero.Service.Interface.Entity.Registration.Relation;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
-using WorldZero.Common.Entity.Primary;
-using WorldZero.Common.Entity.Relation;
+using WorldZero.Common.Interface.Entity.Primary;
+using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 
 namespace WorldZero.Service.Entity.Registration.Relation
 {
-    /// <inheritdoc cref="IEntityRelateRelationalReg"/>
+    /// <inheritdoc cref="ICommentFlagReg"/>
     public class CommentFlagReg
         : ABCEntityRelateRelationalReg
         <
-            UnsafeCommentFlag,
+            ICommentFlag,
 
-            UnsafeComment, Id, int,
-                UnsafeComment, Id, int, Id, int,
+            IComment, Id, int,
+                IComment, Id, int, Id, int,
                 CntRelationDTO<Id, int, Id, int>,
 
-            UnsafeFlag, Name, string,
+            IFlag, Name, string,
 
             RelationDTO<Id, int, Name, string>
-        >
+        >,
+        ICommentFlagReg
     {
         protected ICommentFlagRepo _commentFlagRepo
         { get { return (ICommentFlagRepo) this._repo; } }

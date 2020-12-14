@@ -4,6 +4,7 @@ using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Data.Repository.Entity.RAM.Primary;
 using WorldZero.Service.Entity.Registration.Primary;
+using WorldZero.Service.Interface.Entity.Registration.Primary;
 using NUnit.Framework;
 
 namespace WorldZero.Test.Integration.Service.Entity.Registration
@@ -23,7 +24,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         [SetUp]
         public void Setup()
         {
-            CharacterReg.MinLevelToRegister = new Level(3);
+            ICharacterReg.MinLevelToRegister = new Level(3);
             this._characterRepo = new RAMCharacterRepo();
             this._factionRepo = new RAMFactionRepo();
             this._playerRepo = new DummyRAMPlayerRepo();
@@ -214,13 +215,13 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             Assert.Throws<ArgumentNullException>(()=>
                 this._registration.CanRegCharacter((Id) null));
 
-            Level old = CharacterReg.MinLevelToRegister;
-            CharacterReg.MinLevelToRegister = null;
+            Level old = ICharacterReg.MinLevelToRegister;
+            ICharacterReg.MinLevelToRegister = null;
             Assert.Throws<ArgumentException>(()=>
                 this._registration.CanRegCharacter(new UnsafePlayer(new Name("f"))));
             Assert.Throws<ArgumentException>(()=>
                 this._registration.CanRegCharacter(new Id(234)));
-            CharacterReg.MinLevelToRegister = old;
+            ICharacterReg.MinLevelToRegister = old;
         }
 
         [Test]

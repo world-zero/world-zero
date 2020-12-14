@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using WorldZero.Data.Interface.Repository.Entity.RAM.Generic;
+using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.Entity.Relation;
 using WorldZero.Common.ValueObject.General;
@@ -107,7 +108,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
             this._praxisRepo.Update(this._p0);
             this._praxisRepo.Save();
             var praxises = this._praxisRepo
-                .GetByMetaTaskId(mt0.Id).ToList<UnsafePraxis>();
+                .GetByMetaTaskId(mt0.Id).ToList<IPraxis>();
             Assert.AreEqual(1, praxises.Count());
             foreach (UnsafePraxis p in praxises)
                 Assert.AreEqual(this._p0.Id, p.Id);
@@ -116,7 +117,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
             this._praxisRepo.Update(this._p1);
             this._praxisRepo.Save();
             praxises = this._praxisRepo
-                .GetByMetaTaskId(mt0.Id).ToList<UnsafePraxis>();
+                .GetByMetaTaskId(mt0.Id).ToList<IPraxis>();
             Assert.AreEqual(2, praxises.Count());
             Assert.AreEqual(this._p0.Id, praxises[0].Id);
             Assert.AreEqual(this._p1.Id, praxises[1].Id);
@@ -125,7 +126,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
             this._praxisRepo.Update(this._p2);
             this._praxisRepo.Save();
             praxises = this._praxisRepo
-                .GetByMetaTaskId(mt1.Id).ToList<UnsafePraxis>();
+                .GetByMetaTaskId(mt1.Id).ToList<IPraxis>();
             Assert.AreEqual(1, praxises.Count());
             foreach (UnsafePraxis p in praxises)
                 Assert.AreEqual(this._p2.Id, p.Id);

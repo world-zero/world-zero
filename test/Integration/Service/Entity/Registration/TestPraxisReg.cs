@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.Entity.Relation;
+using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Data.Repository.Entity.RAM.Primary;
-using WorldZero.Data.Repository.Entity.RAM.Relation;
 using WorldZero.Service.Entity.Registration.Primary;
 using WorldZero.Service.Entity.Registration.Relation;
+using WorldZero.Service.Interface.Entity.Registration.Primary;
 using NUnit.Framework;
 
 namespace WorldZero.Test.Integration.Service.Entity.Registration
@@ -31,8 +32,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         private UnsafeCharacter _c;
         private UnsafePraxis _p;
         private UnsafeMetaTask _mt;
-        private UnsafePraxisParticipant _pp;
-        private List<UnsafePraxisParticipant> _pps;
+        private IPraxisParticipant _pp;
+        private List<IPraxisParticipant> _pps;
         private UnsafeFaction _f;
         private IEraRepo _eraRepo;
         private EraReg _eraReg;
@@ -66,8 +67,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                 this._statusRepo,
                 this._ppReg
             );
-            this._status0 = StatusReg.Active;
-            this._status1 = StatusReg.Retired;
+            this._status0 = IStatusReg.Active;
+            this._status1 = IStatusReg.Retired;
             this._statusRepo.Insert(this._status0);
             this._statusRepo.Insert(this._status1);
             this._statusRepo.Save();
@@ -96,7 +97,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
 
             this._mt = new UnsafeMetaTask(
                 this._f.Id,
-                StatusReg.Active.Id,
+                IStatusReg.Active.Id,
                 "x",
                 new PointTotal(2));
             this._mtRepo.Insert(this._mt);
@@ -105,11 +106,11 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             this._p = new UnsafePraxis(
                 this._t.Id,
                 this._pt,
-                StatusReg.Active.Id,
+                IStatusReg.Active.Id,
                 this._mt.Id
             );
             this._pp = new UnsafePraxisParticipant(this._c.Id);
-            this._pps = new List<UnsafePraxisParticipant>();
+            this._pps = new List<IPraxisParticipant>();
             this._pps.Add(this._pp);
             var c = new UnsafeCharacter(
                 new Name("alt"),
@@ -175,7 +176,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         [Test]
         public void TestRegisterBadPraxisStatus()
         {
-            this._p.StatusId = StatusReg.Retired.Id;
+            this._p.StatusId = IStatusReg.Retired.Id;
             Assert.Throws<ArgumentException>(
                 ()=>this._registration.Register(this._p, this._pp));
         }
@@ -183,7 +184,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         [Test]
         public void TestRegisterAlreadyRegisteredParticipant()
         {
-            this._pp.PraxisId = new Id(5);
+            ((UnsafePraxisParticipant) this._pp).PraxisId = new Id(5);
             Assert.Throws<ArgumentException>(
                 ()=>this._registration.Register(this._p, this._pp));
         }
@@ -199,7 +200,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         [Test]
         public void TestRegisterInactiveTask()
         {
-            this._t.StatusId = StatusReg.Retired.Id;
+            this._t.StatusId = IStatusReg.Retired.Id;
             this._taskRepo.Update(this._t);
             this._taskRepo.Save();
             Assert.Throws<ArgumentException>(
@@ -209,7 +210,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         [Test]
         public void TestRegisterPPRegisterFails()
         {
-            this._pp.CharacterId = new Id(10000);
+            ((UnsafePraxisParticipant) this._pp).CharacterId = new Id(10000);
             Assert.Throws<ArgumentException>(
                 ()=>this._registration.Register(this._p, this._pp));
             Assert.AreEqual(0, this._praxisRepo.Saved.Count);
@@ -226,7 +227,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         [Test]
         public void TestRegisterInactiveMetaTask()
         {
-            this._mt.StatusId = StatusReg.Retired.Id;
+            this._mt.StatusId = IStatusReg.Retired.Id;
             this._mtRepo.Update(this._mt);
             this._mtRepo.Save();
             Assert.Throws<ArgumentException>(
@@ -236,7 +237,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         [Test]
         public void TestRegisterEmptyList()
         {
-            var pps = new List<UnsafePraxisParticipant>();
+            var pps = new List<IPraxisParticipant>();
             Assert.Throws<ArgumentException>(
                 ()=>this._registration.Register(this._p, pps));
         }

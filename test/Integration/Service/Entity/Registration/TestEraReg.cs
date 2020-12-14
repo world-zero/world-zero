@@ -80,26 +80,26 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                 badExpected,
                 new PastDate(DateTime.UtcNow)
             );
-            UnsafeEra result = this._eraReg.Register(e);
+            UnsafeEra result = (UnsafeEra) this._eraReg.Register(e);
             Assert.AreEqual(e.Id, result.Id);
             Assert.AreNotEqual(badExpected, result.StartDate);
             Assert.IsNull(result.EndDate);
 
             UnsafeEra r = new UnsafeEra(new Name("second"), startDate: badExpected);
-            result = this._eraReg.Register(r);
+            result = (UnsafeEra) this._eraReg.Register(r);
             Assert.AreEqual(r.Id, result.Id);
             Assert.AreNotEqual(badExpected, result.StartDate);
             Assert.IsNull(result.EndDate);
-            UnsafeEra oldE = this._eraRepo.GetById(e.Id);
+            UnsafeEra oldE = (UnsafeEra) this._eraRepo.GetById(e.Id);
             Assert.IsNotNull(oldE.EndDate);
             Assert.AreEqual(oldE.EndDate, r.StartDate);
 
             UnsafeEra a = new UnsafeEra(new Name("third"), startDate: badExpected);
-            result = this._eraReg.Register(a);
+            result = (UnsafeEra) this._eraReg.Register(a);
             Assert.AreEqual(a.Id, result.Id);
             Assert.AreNotEqual(badExpected, result.StartDate);
             Assert.IsNull(result.EndDate);
-            UnsafeEra oldR = this._eraRepo.GetById(r.Id);
+            UnsafeEra oldR = (UnsafeEra) this._eraRepo.GetById(r.Id);
             Assert.IsNotNull(oldR.EndDate);
             Assert.AreEqual(oldR.EndDate, a.StartDate);
         }

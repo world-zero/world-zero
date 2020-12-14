@@ -1,67 +1,33 @@
 using System;
+using WorldZero.Service.Interface.Entity.Registration.Primary;
 using WorldZero.Service.Interface.Entity.Generic.Registration;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.Entity.Primary;
+using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 
 namespace WorldZero.Service.Entity.Registration.Primary
 {
-    /// <inheritdoc cref="IEntityReg"/>
+    /// <inheritdoc cref="ICharacterReg"/>
     public class CharacterReg
-        : ABCEntityReg<UnsafeCharacter, Id, int>
+        : ABCEntityReg<ICharacter, Id, int>, ICharacterReg
     {
-        /// <summary>
-        /// This level controls the minimum level at which a player can create
-        /// additional characters.
-        /// <summary>
-        /// </remarks>
-        /// Naturally, if a player has no characters, then they can register a
-        /// new character. Alternatively, a player's level is determined by
-        /// looping through each of their characters and finding the
-        /// character(s) with the highest era or total level, the larger of
-        /// which is used for the player level.
-        /// </remarks>
-        public static Level MinLevelToRegister = new Level(3);
-
-        /// <summary>
-        /// Determine if a player can register another character based off
-        /// MinLevelToRegister.
-        /// </summary>
-        /// </remarks>
-        /// Naturally, if a player has no characters, then they can register a
-        /// new character. Alternatively, a player's level is determined by
-        /// looping through each of their characters and finding the
-        /// character(s) with the highest era or total level, the larger of
-        /// which is used for the player level.
-        /// </remarks>
-        public bool CanRegCharacter(UnsafePlayer p)
+        public bool CanRegCharacter(IPlayer p)
         {
             if (p == null)
                 throw new ArgumentNullException("p");
             return CanRegCharacter(p.Id);
         }
-        /// <summary>
-        /// Determine if a player can register another character based off
-        /// MinLevelToRegister.
-        /// </summary>
-        /// </remarks>
-        /// Naturally, if a player has no characters, then they can register a
-        /// new character. Alternatively, a player's level is determined by
-        /// looping through each of their characters and finding the
-        /// character(s) with the highest era or total level, the larger of
-        /// which is used for the player level.
-        /// </remarks>
         public bool CanRegCharacter(Id playerId)
         {
             if (playerId == null)
                 throw new ArgumentNullException("playerId");
-            if (MinLevelToRegister == null)
+            if (ICharacterReg.MinLevelToRegister == null)
                 throw new ArgumentException("MinLevelToRegister is null, but it is needed for this method.");
 
             try
             {
                 Level l = this._characterRepo.FindHighestLevel(playerId);
-                if (l.Get < MinLevelToRegister.Get)
+                if (l.Get < ICharacterReg.MinLevelToRegister.Get)
                     return false;
             }
             catch (ArgumentException)
@@ -91,11 +57,8 @@ namespace WorldZero.Service.Entity.Registration.Primary
             this._factionRepo = factionRepo;
             this._locationRepo = locationRepo;
         }
-        /// <summary>
-        /// Create the character and save them. This will ensure that the
-        /// character has a valid player ID, and faction ID if set.
-        /// </summary>
-        public override UnsafeCharacter Register(UnsafeCharacter c)
+
+        public override ICharacter Register(ICharacter c)
         {
             this.AssertNotNull(c, "c");
             this._characterRepo.BeginTransaction(true);
@@ -115,12 +78,12 @@ namespace WorldZero.Service.Entity.Registration.Primary
             }
         }
 
-        private void _verifyPlayer(UnsafeCharacter c)
+        private void _verifyPlayer(ICharacter c)
         {
             bool shouldCrash = false;
             try
             {
-                UnsafePlayer p = this._playerRepo.GetById(c.PlayerId);
+                IPlayer p = this._playerRepo.GetById(c.PlayerId);
                 if (!this.CanRegCharacter(p))
                     shouldCrash = true;
             }
@@ -142,7 +105,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
             }
         }
 
-        private void _verifyFaction(UnsafeCharacter c)
+        private void _verifyFaction(ICharacter c)
         {
             try
             {
@@ -156,7 +119,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
             }
         }
 
-        private void _verifyLocation(UnsafeCharacter c)
+        private void _verifyLocation(ICharacter c)
         {
             try
             {
