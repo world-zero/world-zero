@@ -1,4 +1,5 @@
 using System;
+using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
@@ -65,10 +66,10 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity.Registration
     }
 
     public class TestEntityReg
-        : ABCEntityReg<UnsafePlayer, Id, int>
+        : ABCEntityReg<IPlayer, Id, int>
     {
         public TestEntityReg(IPlayerRepo repo)
-            : base((IEntityRepo<UnsafePlayer, Id, int>) repo)
+            : base((IEntityRepo<IPlayer, Id, int>) repo)
         { }
     }
 }

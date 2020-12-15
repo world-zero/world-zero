@@ -218,7 +218,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Relation
                 .GetCharacterSubmissionCount(badId, badId));
             Assert.AreEqual(0, this._ppRepo
                 .GetCharacterSubmissionCount(this._taskId1, this._charId1));
-            this._ppRepo.Data.Remove(typeof(UnsafePraxis).FullName);
+            this._ppRepo.Data.Remove(typeof(IPraxis).FullName);
             Assert.AreEqual(0, this._ppRepo
                 .GetCharacterSubmissionCount(this._taskId0, this._charId0));
         }
@@ -246,7 +246,7 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Relation
                     this._charIdUnused
                 )
             );
-            this._ppRepo.Data.Remove(typeof(UnsafePraxis).FullName);
+            this._ppRepo.Data.Remove(typeof(IPraxis).FullName);
             Assert.AreEqual(0, this._ppRepo
                 .GetCharacterSubmissionCountViaPraxisId(
                     this._p0.Id,

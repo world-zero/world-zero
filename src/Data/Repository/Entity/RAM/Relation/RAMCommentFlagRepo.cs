@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+using System.Collections.Generic;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Data.Interface.Repository.Entity.RAM.Generic;
@@ -25,14 +25,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
             return a.GetUniqueRules().Count;
         }
 
-        public void DeleteByCommentId(Id commentId)
-        {
-            this.DeleteByLeftId(commentId);
-        }
-
-        public async Task DeleteByCommentIdAsync(Id commentId)
-        {
-            this.DeleteByCommentId(commentId);
-        }
+        public IEnumerable<ICommentFlag> GetByCommentId(Id commentId)
+            => this.GetByLeftId(commentId);
     }
 }

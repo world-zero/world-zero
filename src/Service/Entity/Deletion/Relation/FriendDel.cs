@@ -1,16 +1,18 @@
 using System.Threading.Tasks;
-using WorldZero.Common.Entity.Primary;
-using WorldZero.Common.Entity.Relation;
+using WorldZero.Common.Interface.Entity.Primary;
+using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Service.Interface.Entity.Generic.Deletion;
+using WorldZero.Service.Interface.Entity.Deletion.Relation;
 
 namespace WorldZero.Service.Entity.Deletion.Relation
 {
-    /// <inheritdoc cref="IEntitySelfRelationDel"/>
+    /// <inheritdoc cref="IFriendDel"/>
     public class FriendDel : ABCEntitySelfRelationDel
-        <UnsafeFriend, UnsafeCharacter, Id, int, RelationDTO<Id, int, Id, int>>
+        <IFriend, ICharacter, Id, int, RelationDTO<Id, int, Id, int>>,
+        IFriendDel
     {
         protected IFriendRepo _friendRepo
         { get { return (IFriendRepo) this._relRepo; } }
@@ -19,7 +21,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
             : base(repo)
         { }
 
-        public void DeleteByCharacter(UnsafeCharacter c)
+        public void DeleteByCharacter(ICharacter c)
         {
             this.AssertNotNull(c, "c");
             this.DeleteByCharacter(c.Id);
@@ -33,7 +35,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
             );
         }
 
-        public async Task DeleteByCharacterAsync(UnsafeCharacter p)
+        public async Task DeleteByCharacterAsync(ICharacter p)
         {
             this.AssertNotNull(p, "P");
             await Task.Run(() => this.DeleteByCharacter(p));

@@ -1,12 +1,13 @@
-using WorldZero.Common.Entity.Primary;
+using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Service.Interface.Entity.Generic.Deletion;
+using WorldZero.Service.Interface.Entity.Deletion.Primary;
 
 namespace WorldZero.Service.Entity.Deletion.Primary
 {
-    /// <inheritdoc cref="IEntityDel"/>
-    public class PlayerDel : ABCEntityDel<UnsafePlayer, Id, int>
+    /// <inheritdoc cref="IPlayerDel"/>
+    public class PlayerDel : ABCEntityDel<IPlayer, Id, int>, IPlayerDel
     {
         protected IPlayerRepo _playerRepo
         { get { return  (IPlayerRepo) this._repo; } }
@@ -22,13 +23,12 @@ namespace WorldZero.Service.Entity.Deletion.Primary
 
         public override void Delete(Id playerId)
         {
-            this.AssertNotNull(playerId, "playerId");
             void f(Id id)
             {
                 this._charDel.DeleteByPlayer(id);
                 base.Delete(id);
             }
-            this.Transaction<Id>(f, playerId);
+            this.Transaction<Id>(f, playerId, true);
         }
     }
 }

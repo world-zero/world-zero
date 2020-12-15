@@ -7,7 +7,7 @@ using WorldZero.Data.Interface.Repository.Entity.Generic;
 namespace WorldZero.Data.Interface.Repository.Entity.Relation
 {
     public interface ICommentRepo
-        : IEntityRelationRepo
+        : IEntityRelationCntRepo
           <
             IComment,
             Id,

@@ -22,7 +22,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
             if (playerId == null)
                 throw new ArgumentNullException("playerId");
             if (ICharacterReg.MinLevelToRegister == null)
-                throw new ArgumentException("MinLevelToRegister is null, but it is needed for this method.");
+                throw new InvalidOperationException("MinLevelToRegister is null, but it is needed for this method.");
 
             try
             {

@@ -1,14 +1,14 @@
-using System;
-using WorldZero.Common.Entity.Primary;
+using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Service.Interface.Entity.Generic.Deletion;
+using WorldZero.Service.Interface.Entity.Deletion.Primary;
 using WorldZero.Service.Entity.Deletion.Relation;
 
 namespace WorldZero.Service.Entity.Deletion.Primary
 {
-    /// <inheritdoc cref="IEntityDel"/>
-    public class TagDel : ABCEntityDel<UnsafeTag, Name, string>
+    /// <inheritdoc cref="ITagDel"/>
+    public class TagDel : ABCEntityDel<ITag, Name, string>, ITagDel
     {
         protected readonly TaskTagDel _taskTagDel;
         protected readonly MetaTaskTagDel _mtTagDel;

@@ -10,7 +10,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
 {
     /// <inheritdoc cref="ICommentRepo"/>
     public class RAMCommentRepo
-        : IRAMEntityRelationRepo
+        : IRAMEntityRelationCntRepo
           <
             IComment,
             Id,

@@ -2,6 +2,7 @@ using System;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Common.Interface.ValueObject;
 using WorldZero.Common.ValueObject.General;
+using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Data.Repository.Entity.RAM.Primary;
 using WorldZero.Data.Repository.Entity.RAM.Relation;
@@ -17,14 +18,14 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
     public class TestPlayerDel
     {
         private void _absentt<TEntity, TId, TBuiltIn>(TEntity e, Func<TId, TEntity> getById)
-            where TEntity : ABCEntity<TId, TBuiltIn>
+            where TEntity : IEntity<TId, TBuiltIn>
             where TId : ISingleValueObject<TBuiltIn>
         {
             Assert.Throws<ArgumentException>(()=>getById(e.Id));
         }
 
         private void _present<TEntity, TId, TBuiltIn>(TEntity e, Func<TId, TEntity> GetById)
-            where TEntity : ABCEntity<TId, TBuiltIn>
+            where TEntity : IEntity<TId, TBuiltIn>
             where TId : ISingleValueObject<TBuiltIn>
         {
             var actualEntity = GetById(e.Id);
@@ -33,20 +34,20 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
 
         private void _allAbsentt()
         {
-            this._absentt<UnsafePlayer, Id, int>(this._player0, this._playerRepo.GetById);
-            this._absentt<UnsafePlayer, Id, int>(this._player1, this._playerRepo.GetById);
-            this._absentt<UnsafeCharacter, Id, int>(this._char0_0, this._charRepo.GetById);
-            this._absentt<UnsafeCharacter, Id, int>(this._char0_1, this._charRepo.GetById);
-            this._absentt<UnsafeCharacter, Id, int>(this._char1_0, this._charRepo.GetById);
+            this._absentt<IPlayer, Id, int>(this._player0, this._playerRepo.GetById);
+            this._absentt<IPlayer, Id, int>(this._player1, this._playerRepo.GetById);
+            this._absentt<ICharacter, Id, int>(this._char0_0, this._charRepo.GetById);
+            this._absentt<ICharacter, Id, int>(this._char0_1, this._charRepo.GetById);
+            this._absentt<ICharacter, Id, int>(this._char1_0, this._charRepo.GetById);
         }
 
         private void _allPresent()
         {
-            this._present<UnsafePlayer, Id, int>(this._player0, this._playerRepo.GetById);
-            this._present<UnsafePlayer, Id, int>(this._player1, this._playerRepo.GetById);
-            this._present<UnsafeCharacter, Id, int>(this._char0_0, this._charRepo.GetById);
-            this._present<UnsafeCharacter, Id, int>(this._char0_1, this._charRepo.GetById);
-            this._present<UnsafeCharacter, Id, int>(this._char1_0, this._charRepo.GetById);
+            this._present<IPlayer, Id, int>(this._player0, this._playerRepo.GetById);
+            this._present<IPlayer, Id, int>(this._player1, this._playerRepo.GetById);
+            this._present<ICharacter, Id, int>(this._char0_0, this._charRepo.GetById);
+            this._present<ICharacter, Id, int>(this._char0_1, this._charRepo.GetById);
+            this._present<ICharacter, Id, int>(this._char1_0, this._charRepo.GetById);
         }
 
         private RAMPlayerRepo _playerRepo;
@@ -88,7 +89,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._praxisRepo = new RAMPraxisRepo();
             this._ppRepo = new RAMPraxisParticipantRepo();;
             this._commentRepo = new RAMCommentRepo();;
-            this._commentDel = new CommentDel(this._commentRepo);
+            var cfDel = new CommentFlagDel(new RAMCommentFlagRepo());
+            this._commentDel = new CommentDel(this._commentRepo, cfDel);
             this._pTagRepo = new RAMPraxisTagRepo();
             this._pTagDel = new PraxisTagDel(this._pTagRepo);
             this._pFlagRepo = new RAMPraxisFlagRepo();
@@ -161,11 +163,11 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestDelete()
         {
             this._del.Delete(this._player0);
-            this._absentt<UnsafePlayer, Id, int>(this._player0, this._playerRepo.GetById);
-            this._present<UnsafePlayer, Id, int>(this._player1, this._playerRepo.GetById);
-            this._absentt<UnsafeCharacter, Id, int>(this._char0_0, this._charRepo.GetById);
-            this._absentt<UnsafeCharacter, Id, int>(this._char0_1, this._charRepo.GetById);
-            this._present<UnsafeCharacter, Id, int>(this._char1_0, this._charRepo.GetById);
+            this._absentt<IPlayer, Id, int>(this._player0, this._playerRepo.GetById);
+            this._present<IPlayer, Id, int>(this._player1, this._playerRepo.GetById);
+            this._absentt<ICharacter, Id, int>(this._char0_0, this._charRepo.GetById);
+            this._absentt<ICharacter, Id, int>(this._char0_1, this._charRepo.GetById);
+            this._present<ICharacter, Id, int>(this._char1_0, this._charRepo.GetById);
             this._del.Delete(this._player1);
             this._allAbsentt();
         }

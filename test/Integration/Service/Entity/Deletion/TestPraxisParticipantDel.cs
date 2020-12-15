@@ -1,6 +1,7 @@
 using System;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
+using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.Entity.Relation;
 using WorldZero.Data.Repository.Entity.RAM.Primary;
@@ -86,7 +87,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestSudoDeleteByCharacter()
         {
             var commentRepo = new RAMCommentRepo();
-            var commentDel = new CommentDel(commentRepo);
+            var cfDel = new CommentFlagDel(new RAMCommentFlagRepo());
+            var commentDel = new CommentDel(commentRepo, cfDel);
             var praxisTagRepo = new RAMPraxisTagRepo();
             var praxisTagDel = new PraxisTagDel(praxisTagRepo);
             var praxisFlagRepo = new RAMPraxisFlagRepo();
@@ -136,7 +138,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestSudoDeleteByCharacterDueling()
         {
             var commentRepo = new RAMCommentRepo();
-            var commentDel = new CommentDel(commentRepo);
+            var cfDel = new CommentFlagDel(new RAMCommentFlagRepo());
+            var commentDel = new CommentDel(commentRepo, cfDel);
             var praxisTagRepo = new RAMPraxisTagRepo();
             var praxisTagDel = new PraxisTagDel(praxisTagRepo);
             var praxisFlagRepo = new RAMPraxisFlagRepo();
@@ -149,7 +152,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
                 praxisFlagDel
             );
 
-            var p = new UnsafePraxis(
+            IPraxis p = new UnsafePraxis(
                 new Id(342),
                 new PointTotal(2),
                 new Name("x"),

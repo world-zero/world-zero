@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using NUnit.Framework;
+using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
@@ -86,7 +87,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._charRepo.Insert(c);
             this._charRepo.Save();
             var chars = this._charRepo
-                .GetByLocationId(this._l.Id).ToList<UnsafeCharacter>();
+                .GetByLocationId(this._l.Id).ToList<ICharacter>();
             Assert.AreEqual(1, chars.Count);
             Assert.AreEqual(c.Id, chars[0].Id);
             this._unset.Unset(this._l.Id);

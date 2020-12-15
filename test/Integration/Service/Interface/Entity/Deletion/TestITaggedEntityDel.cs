@@ -1,8 +1,10 @@
 using System;
 using WorldZero.Common.Entity.Primary;
-using WorldZero.Common.Entity.Relation;
+using WorldZero.Common.Interface.Entity.Primary;
+using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
+using WorldZero.Data.Interface.Repository.Entity.Generic;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Data.Repository.Entity.RAM.Relation;
 using WorldZero.Service.Interface.Entity.Generic.Deletion;
@@ -55,15 +57,15 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity.Deletion
 
     public class TestTaggedEntityDel : ABCTaggedEntityDel
     <
-        UnsafeMetaTaskTag,
-        UnsafeMetaTask,
+        IMetaTaskTag,
+        IMetaTask,
         Id,
         int,
         RelationDTO<Id, int, Name, string>
     >
     {
         public TestTaggedEntityDel(IMetaTaskTagRepo repo)
-            : base(repo)
+            : base((ITaggedEntityRepo<IMetaTaskTag, Id, int, RelationDTO<Id, int, Name, string>>) repo)
         { }
     }
 }

@@ -208,23 +208,6 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         }
 
         [Test]
-        public void TestCanRegCharacterNullChecks()
-        {
-            Assert.Throws<ArgumentNullException>(()=>
-                this._registration.CanRegCharacter((UnsafePlayer) null));
-            Assert.Throws<ArgumentNullException>(()=>
-                this._registration.CanRegCharacter((Id) null));
-
-            Level old = ICharacterReg.MinLevelToRegister;
-            ICharacterReg.MinLevelToRegister = null;
-            Assert.Throws<ArgumentException>(()=>
-                this._registration.CanRegCharacter(new UnsafePlayer(new Name("f"))));
-            Assert.Throws<ArgumentException>(()=>
-                this._registration.CanRegCharacter(new Id(234)));
-            ICharacterReg.MinLevelToRegister = old;
-        }
-
-        [Test]
         public void TestCanRegCharacterNoAssociatedPlayerId()
         {
             Assert.IsTrue(this._registration.CanRegCharacter(

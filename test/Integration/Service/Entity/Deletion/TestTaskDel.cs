@@ -1,6 +1,8 @@
 using System;
 using System.Linq;
 using WorldZero.Common.ValueObject.General;
+using WorldZero.Common.Interface.Entity.Primary;
+using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.Entity.Relation;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
@@ -24,14 +26,14 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private Id _next() => new Id(this._nxt++);
 
         private void _absentt<TEntity, TId, TBuiltIn>(TEntity e, Func<TId, TEntity> getById)
-            where TEntity : ABCEntity<TId, TBuiltIn>
+            where TEntity : IEntity<TId, TBuiltIn>
             where TId : ISingleValueObject<TBuiltIn>
         {
             Assert.Throws<ArgumentException>(()=>getById(e.Id));
         }
 
         private void _present<TEntity, TId, TBuiltIn>(TEntity e, Func<TId, TEntity> GetById)
-            where TEntity : ABCEntity<TId, TBuiltIn>
+            where TEntity : IEntity<TId, TBuiltIn>
             where TId : ISingleValueObject<TBuiltIn>
         {
             var actualEntity = GetById(e.Id);
@@ -116,7 +118,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             // We don't care about using these repos, we just need them for
             // PraxisDel.
             this._commentRepo = new RAMCommentRepo();
-            this._commentDel = new CommentDel(this._commentRepo);
+            var cfRepo = new RAMCommentFlagRepo();
+            var cfDel = new CommentFlagDel(cfRepo);
+            this._commentDel = new CommentDel(this._commentRepo, cfDel);
             this._praxisTagRepo = new RAMPraxisTagRepo();
             this._praxisTagDel = new PraxisTagDel(this._praxisTagRepo);
             this._praxisFlagRepo = new RAMPraxisFlagRepo();
@@ -188,60 +192,60 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestDelete_t0()
         {
             this._del.Delete(this._t0);
-            this._absentt<UnsafeTaskTag, Id, int>(this._tTag0_0, this._taskTagRepo.GetById);
-            this._absentt<UnsafeTaskTag, Id, int>(this._tTag0_1, this._taskTagRepo.GetById);
-            this._present<UnsafeTaskTag, Id, int>(this._tTag1_0, this._taskTagRepo.GetById);
-            this._absentt<UnsafeTaskFlag, Id, int>(this._tFlag0_0, this._taskFlagRepo.GetById);
-            this._present<UnsafeTaskFlag, Id, int>(this._tFlag1_0, this._taskFlagRepo.GetById);
-            this._present<UnsafeTaskFlag, Id, int>(this._tFlag1_1, this._taskFlagRepo.GetById);
-            this._absentt<UnsafePraxis, Id, int>(this._praxis0_0, this._praxisRepo.GetById);
-            this._absentt<UnsafePraxis, Id, int>(this._praxis0_1, this._praxisRepo.GetById);
-            this._present<UnsafePraxis, Id, int>(this._praxis1_0, this._praxisRepo.GetById);
-            this._absentt<UnsafePraxisParticipant, Id, int>(this._pp0_0, this._ppRepo.GetById);
-            this._present<UnsafePraxisParticipant, Id, int>(this._pp1_0, this._ppRepo.GetById);
+            this._absentt<ITaskTag, Id, int>(this._tTag0_0, this._taskTagRepo.GetById);
+            this._absentt<ITaskTag, Id, int>(this._tTag0_1, this._taskTagRepo.GetById);
+            this._present<ITaskTag, Id, int>(this._tTag1_0, this._taskTagRepo.GetById);
+            this._absentt<ITaskFlag, Id, int>(this._tFlag0_0, this._taskFlagRepo.GetById);
+            this._present<ITaskFlag, Id, int>(this._tFlag1_0, this._taskFlagRepo.GetById);
+            this._present<ITaskFlag, Id, int>(this._tFlag1_1, this._taskFlagRepo.GetById);
+            this._absentt<IPraxis, Id, int>(this._praxis0_0, this._praxisRepo.GetById);
+            this._absentt<IPraxis, Id, int>(this._praxis0_1, this._praxisRepo.GetById);
+            this._present<IPraxis, Id, int>(this._praxis1_0, this._praxisRepo.GetById);
+            this._absentt<IPraxisParticipant, Id, int>(this._pp0_0, this._ppRepo.GetById);
+            this._present<IPraxisParticipant, Id, int>(this._pp1_0, this._ppRepo.GetById);
         }
 
         [Test]
         public void TestDelete_t1()
         {
             this._del.Delete(this._t1);
-            this._present<UnsafeTaskTag, Id, int>(this._tTag0_0, this._taskTagRepo.GetById);
-            this._present<UnsafeTaskTag, Id, int>(this._tTag0_1, this._taskTagRepo.GetById);
-            this._absentt<UnsafeTaskTag, Id, int>(this._tTag1_0, this._taskTagRepo.GetById);
-            this._present<UnsafeTaskFlag, Id, int>(this._tFlag0_0, this._taskFlagRepo.GetById);
-            this._absentt<UnsafeTaskFlag, Id, int>(this._tFlag1_0, this._taskFlagRepo.GetById);
-            this._absentt<UnsafeTaskFlag, Id, int>(this._tFlag1_1, this._taskFlagRepo.GetById);
-            this._present<UnsafePraxis, Id, int>(this._praxis0_0, this._praxisRepo.GetById);
-            this._present<UnsafePraxis, Id, int>(this._praxis0_1, this._praxisRepo.GetById);
-            this._absentt<UnsafePraxis, Id, int>(this._praxis1_0, this._praxisRepo.GetById);
-            this._present<UnsafePraxisParticipant, Id, int>(this._pp0_0, this._ppRepo.GetById);
-            this._absentt<UnsafePraxisParticipant, Id, int>(this._pp1_0, this._ppRepo.GetById);
+            this._present<ITaskTag, Id, int>(this._tTag0_0, this._taskTagRepo.GetById);
+            this._present<ITaskTag, Id, int>(this._tTag0_1, this._taskTagRepo.GetById);
+            this._absentt<ITaskTag, Id, int>(this._tTag1_0, this._taskTagRepo.GetById);
+            this._present<ITaskFlag, Id, int>(this._tFlag0_0, this._taskFlagRepo.GetById);
+            this._absentt<ITaskFlag, Id, int>(this._tFlag1_0, this._taskFlagRepo.GetById);
+            this._absentt<ITaskFlag, Id, int>(this._tFlag1_1, this._taskFlagRepo.GetById);
+            this._present<IPraxis, Id, int>(this._praxis0_0, this._praxisRepo.GetById);
+            this._present<IPraxis, Id, int>(this._praxis0_1, this._praxisRepo.GetById);
+            this._absentt<IPraxis, Id, int>(this._praxis1_0, this._praxisRepo.GetById);
+            this._present<IPraxisParticipant, Id, int>(this._pp0_0, this._ppRepo.GetById);
+            this._absentt<IPraxisParticipant, Id, int>(this._pp1_0, this._ppRepo.GetById);
         }
 
         [Test]
         public void TestDeleteNoAssociatedPraxises()
         {
             this._praxisDel.DeleteByTask(this._t0);
-            this._absentt<UnsafePraxis, Id, int>(this._praxis0_0, this._praxisRepo.GetById);
-            this._absentt<UnsafePraxis, Id, int>(this._praxis0_1, this._praxisRepo.GetById);
-            this._absentt<UnsafePraxisParticipant, Id, int>(this._pp0_0, this._ppRepo.GetById);
+            this._absentt<IPraxis, Id, int>(this._praxis0_0, this._praxisRepo.GetById);
+            this._absentt<IPraxis, Id, int>(this._praxis0_1, this._praxisRepo.GetById);
+            this._absentt<IPraxisParticipant, Id, int>(this._pp0_0, this._ppRepo.GetById);
 
             this._del.Delete(this._t0);
-            this._absentt<UnsafeTaskTag, Id, int>(this._tTag0_0, this._taskTagRepo.GetById);
-            this._absentt<UnsafeTaskTag, Id, int>(this._tTag0_1, this._taskTagRepo.GetById);
-            this._present<UnsafeTaskTag, Id, int>(this._tTag1_0, this._taskTagRepo.GetById);
-            this._absentt<UnsafeTaskFlag, Id, int>(this._tFlag0_0, this._taskFlagRepo.GetById);
-            this._present<UnsafeTaskFlag, Id, int>(this._tFlag1_0, this._taskFlagRepo.GetById);
-            this._present<UnsafeTaskFlag, Id, int>(this._tFlag1_1, this._taskFlagRepo.GetById);
-            this._present<UnsafePraxis, Id, int>(this._praxis1_0, this._praxisRepo.GetById);
-            this._present<UnsafePraxisParticipant, Id, int>(this._pp1_0, this._ppRepo.GetById);
+            this._absentt<ITaskTag, Id, int>(this._tTag0_0, this._taskTagRepo.GetById);
+            this._absentt<ITaskTag, Id, int>(this._tTag0_1, this._taskTagRepo.GetById);
+            this._present<ITaskTag, Id, int>(this._tTag1_0, this._taskTagRepo.GetById);
+            this._absentt<ITaskFlag, Id, int>(this._tFlag0_0, this._taskFlagRepo.GetById);
+            this._present<ITaskFlag, Id, int>(this._tFlag1_0, this._taskFlagRepo.GetById);
+            this._present<ITaskFlag, Id, int>(this._tFlag1_1, this._taskFlagRepo.GetById);
+            this._present<IPraxis, Id, int>(this._praxis1_0, this._praxisRepo.GetById);
+            this._present<IPraxisParticipant, Id, int>(this._pp1_0, this._ppRepo.GetById);
         }
 
         [Test]
         public void TestDeleteByFactionSad()
         {
             Name name = null;
-            UnsafeFaction faction = null;
+            IFaction faction = null;
             Assert.Throws<ArgumentNullException>(()=>this._del.DeleteByFaction(name));
             Assert.Throws<ArgumentNullException>(()=>this._del.DeleteByFaction(faction));
 
@@ -252,18 +256,18 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestDeleteByFaction_faction0()
         {
             this._del.DeleteByFaction(this._faction0);
-            this._absentt<UnsafeTask, Id, int>(this._t0, this._taskRepo.GetById);
-            this._absentt<UnsafeTask, Id, int>(this._t1, this._taskRepo.GetById);
-            this._present<UnsafeTask, Id, int>(this._t2, this._taskRepo.GetById);
+            this._absentt<ITask, Id, int>(this._t0, this._taskRepo.GetById);
+            this._absentt<ITask, Id, int>(this._t1, this._taskRepo.GetById);
+            this._present<ITask, Id, int>(this._t2, this._taskRepo.GetById);
         }
 
         [Test]
         public void TestDeleteByFaction_faction1()
         {
             this._del.DeleteByFaction(this._faction1);
-            this._present<UnsafeTask, Id, int>(this._t0, this._taskRepo.GetById);
-            this._present<UnsafeTask, Id, int>(this._t1, this._taskRepo.GetById);
-            this._absentt<UnsafeTask, Id, int>(this._t2, this._taskRepo.GetById);
+            this._present<ITask, Id, int>(this._t0, this._taskRepo.GetById);
+            this._present<ITask, Id, int>(this._t1, this._taskRepo.GetById);
+            this._absentt<ITask, Id, int>(this._t2, this._taskRepo.GetById);
         }
 
         [Test]

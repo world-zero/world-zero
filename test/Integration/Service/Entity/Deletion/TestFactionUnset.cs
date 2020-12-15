@@ -1,5 +1,6 @@
 using System;
 using WorldZero.Common.ValueObject.General;
+using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Common.Interface.ValueObject;
@@ -22,14 +23,14 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private Id _next() => new Id(this._nxt++);
 
         private void _absentt<TEntity, TId, TBuiltIn>(TEntity e, Func<TId, TEntity> getById)
-            where TEntity : ABCEntity<TId, TBuiltIn>
+            where TEntity : IEntity<TId, TBuiltIn>
             where TId : ISingleValueObject<TBuiltIn>
         {
             Assert.Throws<ArgumentException>(()=>getById(e.Id));
         }
 
         private void _present<TEntity, TId, TBuiltIn>(TEntity e, Func<TId, TEntity> GetById)
-            where TEntity : ABCEntity<TId, TBuiltIn>
+            where TEntity : IEntity<TId, TBuiltIn>
             where TId : ISingleValueObject<TBuiltIn>
         {
             var actualEntity = GetById(e.Id);
@@ -85,7 +86,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._praxisFlagRepo = new RAMPraxisFlagRepo();
             this._praxisFlagDel = new PraxisFlagDel(this._praxisFlagRepo);
             this._commentRepo = new RAMCommentRepo();
-            this._commentDel = new CommentDel(this._commentRepo);
+            var cfDel = new CommentFlagDel(new RAMCommentFlagRepo());
+            this._commentDel = new CommentDel(this._commentRepo, cfDel);
             this._voteRepo = new RAMVoteRepo();
             this._voteDel = new VoteDel(this._voteRepo);
             this._ppRepo = new RAMPraxisParticipantRepo();
@@ -172,24 +174,24 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestDelete_faction0()
         {
             this._unset.Delete(this._faction0);
-            this._absentt<UnsafeMetaTask, Id, int>(this._mt0_0, this._mtRepo.GetById);
-            this._absentt<UnsafeMetaTask, Id, int>(this._mt0_1, this._mtRepo.GetById);
-            this._present<UnsafeMetaTask, Id, int>(this._mt1_0, this._mtRepo.GetById);
-            this._absentt<UnsafeTask, Id, int>(this._t0_0, this._taskRepo.GetById);
-            this._present<UnsafeTask, Id, int>(this._t1_0, this._taskRepo.GetById);
-            this._present<UnsafeTask, Id, int>(this._t1_1, this._taskRepo.GetById);
+            this._absentt<IMetaTask, Id, int>(this._mt0_0, this._mtRepo.GetById);
+            this._absentt<IMetaTask, Id, int>(this._mt0_1, this._mtRepo.GetById);
+            this._present<IMetaTask, Id, int>(this._mt1_0, this._mtRepo.GetById);
+            this._absentt<ITask, Id, int>(this._t0_0, this._taskRepo.GetById);
+            this._present<ITask, Id, int>(this._t1_0, this._taskRepo.GetById);
+            this._present<ITask, Id, int>(this._t1_1, this._taskRepo.GetById);
         }
 
         [Test]
         public void TestDelete_faction1()
         {
             this._unset.Delete(this._faction1);
-            this._present<UnsafeMetaTask, Id, int>(this._mt0_0, this._mtRepo.GetById);
-            this._present<UnsafeMetaTask, Id, int>(this._mt0_1, this._mtRepo.GetById);
-            this._absentt<UnsafeMetaTask, Id, int>(this._mt1_0, this._mtRepo.GetById);
-            this._present<UnsafeTask, Id, int>(this._t0_0, this._taskRepo.GetById);
-            this._absentt<UnsafeTask, Id, int>(this._t1_0, this._taskRepo.GetById);
-            this._absentt<UnsafeTask, Id, int>(this._t1_1, this._taskRepo.GetById);
+            this._present<IMetaTask, Id, int>(this._mt0_0, this._mtRepo.GetById);
+            this._present<IMetaTask, Id, int>(this._mt0_1, this._mtRepo.GetById);
+            this._absentt<IMetaTask, Id, int>(this._mt1_0, this._mtRepo.GetById);
+            this._present<ITask, Id, int>(this._t0_0, this._taskRepo.GetById);
+            this._absentt<ITask, Id, int>(this._t1_0, this._taskRepo.GetById);
+            this._absentt<ITask, Id, int>(this._t1_1, this._taskRepo.GetById);
         }
 
         [Test]

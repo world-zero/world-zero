@@ -1,4 +1,6 @@
 using System;
+using WorldZero.Common.Interface.Entity.Primary;
+using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.Entity.Relation;
 using WorldZero.Common.ValueObject.General;
@@ -97,11 +99,11 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity.Registration
     public class TestEntityRelationReg
         : ABCEntityRelationReg
         <
-            UnsafeVote,
-            UnsafeCharacter,
+            IVote,
+            ICharacter,
             Id,
             int,
-            UnsafePraxisParticipant,
+            IPraxisParticipant,
             Id,
             int,
             RelationDTO<Id, int, Id, int>
@@ -113,9 +115,9 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity.Registration
             IPraxisParticipantRepo ppRepo
         )
             : base(
-                (IEntityRelationRepo<UnsafeVote, Id, int, Id, int, RelationDTO<Id, int, Id, int>>) repo,
-                (IEntityRepo<UnsafeCharacter, Id, int>) characterRepo,
-                (IEntityRelationRepo<UnsafePraxisParticipant, Id, int, Id, int, RelationDTO<Id, int, Id, int>>) ppRepo
+                (IEntityRelationRepo<IVote, Id, int, Id, int, RelationDTO<Id, int, Id, int>>) repo,
+                (IEntityRepo<ICharacter, Id, int>) characterRepo,
+                (IEntityRelationRepo<IPraxisParticipant, Id, int, Id, int, RelationDTO<Id, int, Id, int>>) ppRepo
             )
         { }
     }

@@ -1,16 +1,12 @@
 using System;
-using System.Linq;
 using WorldZero.Common.ValueObject.General;
+using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Entity.Primary;
-using WorldZero.Common.Entity.Relation;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Common.Interface.ValueObject;
-using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Data.Repository.Entity.RAM.Primary;
-using WorldZero.Data.Repository.Entity.RAM.Relation;
 using WorldZero.Service.Entity.Deletion.Primary;
-using WorldZero.Service.Entity.Deletion.Relation;
 using NUnit.Framework;
 
 // NOTE: This file does not abide by the limit on a line's character count.
@@ -26,14 +22,14 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private Id _next() => new Id(this._nxt++);
 
         private void _absentt<TEntity, TId, TBuiltIn>(TEntity e, Func<TId, TEntity> getById)
-            where TEntity : ABCEntity<TId, TBuiltIn>
+            where TEntity : IEntity<TId, TBuiltIn>
             where TId : ISingleValueObject<TBuiltIn>
         {
             Assert.Throws<ArgumentException>(()=>getById(e.Id));
         }
 
         private void _present<TEntity, TId, TBuiltIn>(TEntity e, Func<TId, TEntity> GetById)
-            where TEntity : ABCEntity<TId, TBuiltIn>
+            where TEntity : IEntity<TId, TBuiltIn>
             where TId : ISingleValueObject<TBuiltIn>
         {
             var actualEntity = GetById(e.Id);
@@ -99,18 +95,18 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestDeleteByFaction_faction0()
         {
             this._unset.DeleteByFaction(this._faction0);
-            this._absentt<UnsafeMetaTask, Id, int>(this._mt0_0, this._repo.GetById);
-            this._absentt<UnsafeMetaTask, Id, int>(this._mt0_1, this._repo.GetById);
-            this._present<UnsafeMetaTask, Id, int>(this._mt1_0, this._repo.GetById);
+            this._absentt<IMetaTask, Id, int>(this._mt0_0, this._repo.GetById);
+            this._absentt<IMetaTask, Id, int>(this._mt0_1, this._repo.GetById);
+            this._present<IMetaTask, Id, int>(this._mt1_0, this._repo.GetById);
         }
 
         [Test]
         public void TestDeleteByFaction_faction1()
         {
             this._unset.DeleteByFaction(this._faction1);
-            this._present<UnsafeMetaTask, Id, int>(this._mt0_0, this._repo.GetById);
-            this._present<UnsafeMetaTask, Id, int>(this._mt0_1, this._repo.GetById);
-            this._absentt<UnsafeMetaTask, Id, int>(this._mt1_0, this._repo.GetById);
+            this._present<IMetaTask, Id, int>(this._mt0_0, this._repo.GetById);
+            this._present<IMetaTask, Id, int>(this._mt0_1, this._repo.GetById);
+            this._absentt<IMetaTask, Id, int>(this._mt1_0, this._repo.GetById);
         }
 
         [Test]

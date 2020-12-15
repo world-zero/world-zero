@@ -3,6 +3,8 @@ using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Common.Interface.ValueObject;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Entity.Primary;
+using WorldZero.Common.Interface.Entity.Primary;
+using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.Entity.Relation;
 using WorldZero.Data.Repository.Entity.RAM.Primary;
 using WorldZero.Data.Repository.Entity.RAM.Relation;
@@ -21,14 +23,14 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private Id _next() => new Id(this._nxt++);
 
         private void _absentt<TEntity, TId, TBuiltIn>(TEntity e, Func<TId, TEntity> getById)
-            where TEntity : ABCEntity<TId, TBuiltIn>
+            where TEntity : IEntity<TId, TBuiltIn>
             where TId : ISingleValueObject<TBuiltIn>
         {
             Assert.Throws<ArgumentException>(()=>getById(e.Id));
         }
 
         private void _present<TEntity, TId, TBuiltIn>(TEntity e, Func<TId, TEntity> GetById)
-            where TEntity : ABCEntity<TId, TBuiltIn>
+            where TEntity : IEntity<TId, TBuiltIn>
             where TId : ISingleValueObject<TBuiltIn>
         {
             var actualEntity = GetById(e.Id);
@@ -37,64 +39,64 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
 
         private void _allAbsentt()
         {
-            this._absentt<UnsafeCharacter, Id, int>(this._c0_0, this._repo.GetById);
-            this._absentt<UnsafeCharacter, Id, int>(this._c0_1, this._repo.GetById);
-            this._absentt<UnsafeCharacter, Id, int>(this._c1_0, this._repo.GetById);
-            this._absentt<UnsafeFriend, Id, int>(this._friend00_01, this._friendRepo.GetById);
-            this._absentt<UnsafeFriend, Id, int>(this._friend10_01, this._friendRepo.GetById);
-            this._absentt<UnsafeFriend, Id, int>(this._friend00_10, this._friendRepo.GetById);
-            this._absentt<UnsafeFoe, Id, int>(this._foe00_01, this._foeRepo.GetById);
-            this._absentt<UnsafeFoe, Id, int>(this._foe10_01, this._foeRepo.GetById);
-            this._absentt<UnsafeFoe, Id, int>(this._foe00_10, this._foeRepo.GetById);
-            this._absentt<UnsafePraxis, Id, int>(this._praxis00_10, this._praxisRepo.GetById);
-            this._absentt<UnsafePraxis, Id, int>(this._praxis00, this._praxisRepo.GetById);
-            this._absentt<UnsafePraxis, Id, int>(this._praxis01, this._praxisRepo.GetById);
-            this._absentt<UnsafePraxis, Id, int>(this._praxis10, this._praxisRepo.GetById);
-            this._absentt<UnsafePraxisParticipant, Id, int>(this._pp0010_00, this._ppRepo.GetById);
-            this._absentt<UnsafePraxisParticipant, Id, int>(this._pp0010_10, this._ppRepo.GetById);
-            this._absentt<UnsafePraxisParticipant, Id, int>(this._pp00, this._ppRepo.GetById);
-            this._absentt<UnsafePraxisParticipant, Id, int>(this._pp01, this._ppRepo.GetById);
-            this._absentt<UnsafePraxisParticipant, Id, int>(this._pp10, this._ppRepo.GetById);
-            this._absentt<UnsafeComment, Id, int>(this._commentBy00on10, this._commentRepo.GetById);
-            this._absentt<UnsafeComment, Id, int>(this._commentBy00on10Again, this._commentRepo.GetById);
-            this._absentt<UnsafeComment, Id, int>(this._commentBy01on10, this._commentRepo.GetById);
-            this._absentt<UnsafeComment, Id, int>(this._commentBy01on10Again, this._commentRepo.GetById);
-            this._absentt<UnsafeComment, Id, int>(this._commentBy10on00, this._commentRepo.GetById);
-            this._absentt<UnsafeComment, Id, int>(this._commentBy10on00Again, this._commentRepo.GetById);
-            this._absentt<UnsafeVote, Id, int>(this._voteBy00on10, this._voteRepo.GetById);
-            this._absentt<UnsafeVote, Id, int>(this._voteBy01on10, this._voteRepo.GetById);
-            this._absentt<UnsafeVote, Id, int>(this._voteBy10on00, this._voteRepo.GetById);
+            this._absentt<ICharacter, Id, int>(this._c0_0, this._repo.GetById);
+            this._absentt<ICharacter, Id, int>(this._c0_1, this._repo.GetById);
+            this._absentt<ICharacter, Id, int>(this._c1_0, this._repo.GetById);
+            this._absentt<IFriend, Id, int>(this._friend00_01, this._friendRepo.GetById);
+            this._absentt<IFriend, Id, int>(this._friend10_01, this._friendRepo.GetById);
+            this._absentt<IFriend, Id, int>(this._friend00_10, this._friendRepo.GetById);
+            this._absentt<IFoe, Id, int>(this._foe00_01, this._foeRepo.GetById);
+            this._absentt<IFoe, Id, int>(this._foe10_01, this._foeRepo.GetById);
+            this._absentt<IFoe, Id, int>(this._foe00_10, this._foeRepo.GetById);
+            this._absentt<IPraxis, Id, int>(this._praxis00_10, this._praxisRepo.GetById);
+            this._absentt<IPraxis, Id, int>(this._praxis00, this._praxisRepo.GetById);
+            this._absentt<IPraxis, Id, int>(this._praxis01, this._praxisRepo.GetById);
+            this._absentt<IPraxis, Id, int>(this._praxis10, this._praxisRepo.GetById);
+            this._absentt<IPraxisParticipant, Id, int>(this._pp0010_00, this._ppRepo.GetById);
+            this._absentt<IPraxisParticipant, Id, int>(this._pp0010_10, this._ppRepo.GetById);
+            this._absentt<IPraxisParticipant, Id, int>(this._pp00, this._ppRepo.GetById);
+            this._absentt<IPraxisParticipant, Id, int>(this._pp01, this._ppRepo.GetById);
+            this._absentt<IPraxisParticipant, Id, int>(this._pp10, this._ppRepo.GetById);
+            this._absentt<IComment, Id, int>(this._commentBy00on10, this._commentRepo.GetById);
+            this._absentt<IComment, Id, int>(this._commentBy00on10Again, this._commentRepo.GetById);
+            this._absentt<IComment, Id, int>(this._commentBy01on10, this._commentRepo.GetById);
+            this._absentt<IComment, Id, int>(this._commentBy01on10Again, this._commentRepo.GetById);
+            this._absentt<IComment, Id, int>(this._commentBy10on00, this._commentRepo.GetById);
+            this._absentt<IComment, Id, int>(this._commentBy10on00Again, this._commentRepo.GetById);
+            this._absentt<IVote, Id, int>(this._voteBy00on10, this._voteRepo.GetById);
+            this._absentt<IVote, Id, int>(this._voteBy01on10, this._voteRepo.GetById);
+            this._absentt<IVote, Id, int>(this._voteBy10on00, this._voteRepo.GetById);
         }
 
         private void _allPresent()
         {
-            this._present<UnsafeCharacter, Id, int>(this._c0_0, this._repo.GetById);
-            this._present<UnsafeCharacter, Id, int>(this._c0_1, this._repo.GetById);
-            this._present<UnsafeCharacter, Id, int>(this._c1_0, this._repo.GetById);
-            this._present<UnsafeFriend, Id, int>(this._friend00_01, this._friendRepo.GetById);
-            this._present<UnsafeFriend, Id, int>(this._friend10_01, this._friendRepo.GetById);
-            this._present<UnsafeFriend, Id, int>(this._friend00_10, this._friendRepo.GetById);
-            this._present<UnsafeFoe, Id, int>(this._foe00_01, this._foeRepo.GetById);
-            this._present<UnsafeFoe, Id, int>(this._foe10_01, this._foeRepo.GetById);
-            this._present<UnsafeFoe, Id, int>(this._foe00_10, this._foeRepo.GetById);
-            this._present<UnsafePraxis, Id, int>(this._praxis00_10, this._praxisRepo.GetById);
-            this._present<UnsafePraxis, Id, int>(this._praxis00, this._praxisRepo.GetById);
-            this._present<UnsafePraxis, Id, int>(this._praxis01, this._praxisRepo.GetById);
-            this._present<UnsafePraxis, Id, int>(this._praxis10, this._praxisRepo.GetById);
-            this._present<UnsafePraxisParticipant, Id, int>(this._pp0010_00, this._ppRepo.GetById);
-            this._present<UnsafePraxisParticipant, Id, int>(this._pp0010_10, this._ppRepo.GetById);
-            this._present<UnsafePraxisParticipant, Id, int>(this._pp00, this._ppRepo.GetById);
-            this._present<UnsafePraxisParticipant, Id, int>(this._pp01, this._ppRepo.GetById);
-            this._present<UnsafePraxisParticipant, Id, int>(this._pp10, this._ppRepo.GetById);
-            this._present<UnsafeComment, Id, int>(this._commentBy00on10, this._commentRepo.GetById);
-            this._present<UnsafeComment, Id, int>(this._commentBy00on10Again, this._commentRepo.GetById);
-            this._present<UnsafeComment, Id, int>(this._commentBy01on10, this._commentRepo.GetById);
-            this._present<UnsafeComment, Id, int>(this._commentBy01on10Again, this._commentRepo.GetById);
-            this._present<UnsafeComment, Id, int>(this._commentBy10on00, this._commentRepo.GetById);
-            this._present<UnsafeComment, Id, int>(this._commentBy10on00Again, this._commentRepo.GetById);
-            this._present<UnsafeVote, Id, int>(this._voteBy00on10, this._voteRepo.GetById);
-            this._present<UnsafeVote, Id, int>(this._voteBy01on10, this._voteRepo.GetById);
-            this._present<UnsafeVote, Id, int>(this._voteBy10on00, this._voteRepo.GetById);
+            this._present<ICharacter, Id, int>(this._c0_0, this._repo.GetById);
+            this._present<ICharacter, Id, int>(this._c0_1, this._repo.GetById);
+            this._present<ICharacter, Id, int>(this._c1_0, this._repo.GetById);
+            this._present<IFriend, Id, int>(this._friend00_01, this._friendRepo.GetById);
+            this._present<IFriend, Id, int>(this._friend10_01, this._friendRepo.GetById);
+            this._present<IFriend, Id, int>(this._friend00_10, this._friendRepo.GetById);
+            this._present<IFoe, Id, int>(this._foe00_01, this._foeRepo.GetById);
+            this._present<IFoe, Id, int>(this._foe10_01, this._foeRepo.GetById);
+            this._present<IFoe, Id, int>(this._foe00_10, this._foeRepo.GetById);
+            this._present<IPraxis, Id, int>(this._praxis00_10, this._praxisRepo.GetById);
+            this._present<IPraxis, Id, int>(this._praxis00, this._praxisRepo.GetById);
+            this._present<IPraxis, Id, int>(this._praxis01, this._praxisRepo.GetById);
+            this._present<IPraxis, Id, int>(this._praxis10, this._praxisRepo.GetById);
+            this._present<IPraxisParticipant, Id, int>(this._pp0010_00, this._ppRepo.GetById);
+            this._present<IPraxisParticipant, Id, int>(this._pp0010_10, this._ppRepo.GetById);
+            this._present<IPraxisParticipant, Id, int>(this._pp00, this._ppRepo.GetById);
+            this._present<IPraxisParticipant, Id, int>(this._pp01, this._ppRepo.GetById);
+            this._present<IPraxisParticipant, Id, int>(this._pp10, this._ppRepo.GetById);
+            this._present<IComment, Id, int>(this._commentBy00on10, this._commentRepo.GetById);
+            this._present<IComment, Id, int>(this._commentBy00on10Again, this._commentRepo.GetById);
+            this._present<IComment, Id, int>(this._commentBy01on10, this._commentRepo.GetById);
+            this._present<IComment, Id, int>(this._commentBy01on10Again, this._commentRepo.GetById);
+            this._present<IComment, Id, int>(this._commentBy10on00, this._commentRepo.GetById);
+            this._present<IComment, Id, int>(this._commentBy10on00Again, this._commentRepo.GetById);
+            this._present<IVote, Id, int>(this._voteBy00on10, this._voteRepo.GetById);
+            this._present<IVote, Id, int>(this._voteBy01on10, this._voteRepo.GetById);
+            this._present<IVote, Id, int>(this._voteBy10on00, this._voteRepo.GetById);
         }
 
         private Id _pId0;
@@ -158,7 +160,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._praxisRepo = new RAMPraxisRepo();
             this._ppRepo = new RAMPraxisParticipantRepo();;
             this._commentRepo = new RAMCommentRepo();;
-            this._commentDel = new CommentDel(this._commentRepo);
+            var cfDel = new CommentFlagDel(new RAMCommentFlagRepo());
+            this._commentDel = new CommentDel(this._commentRepo, cfDel);
             this._pTagRepo = new RAMPraxisTagRepo();
             this._pTagDel = new PraxisTagDel(this._pTagRepo);
             this._pFlagRepo = new RAMPraxisFlagRepo();
@@ -288,33 +291,33 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestDelete()
         {
             this._del.Delete(this._c0_0);
-            this._absentt<UnsafeCharacter, Id, int>(this._c0_0, this._repo.GetById);
-            this._present<UnsafeCharacter, Id, int>(this._c0_1, this._repo.GetById);
-            this._present<UnsafeCharacter, Id, int>(this._c1_0, this._repo.GetById);
-            this._absentt<UnsafeFriend, Id, int>(this._friend00_01, this._friendRepo.GetById);
-            this._present<UnsafeFriend, Id, int>(this._friend10_01, this._friendRepo.GetById);
-            this._absentt<UnsafeFriend, Id, int>(this._friend00_10, this._friendRepo.GetById);
-            this._absentt<UnsafeFoe, Id, int>(this._foe00_01, this._foeRepo.GetById);
-            this._present<UnsafeFoe, Id, int>(this._foe10_01, this._foeRepo.GetById);
-            this._absentt<UnsafeFoe, Id, int>(this._foe00_10, this._foeRepo.GetById);
-            this._present<UnsafePraxis, Id, int>(this._praxis00_10, this._praxisRepo.GetById);
-            this._absentt<UnsafePraxis, Id, int>(this._praxis00, this._praxisRepo.GetById);
-            this._present<UnsafePraxis, Id, int>(this._praxis01, this._praxisRepo.GetById);
-            this._present<UnsafePraxis, Id, int>(this._praxis10, this._praxisRepo.GetById);
-            this._absentt<UnsafePraxisParticipant, Id, int>(this._pp0010_00, this._ppRepo.GetById);
-            this._present<UnsafePraxisParticipant, Id, int>(this._pp0010_10, this._ppRepo.GetById);
-            this._absentt<UnsafePraxisParticipant, Id, int>(this._pp00, this._ppRepo.GetById);
-            this._present<UnsafePraxisParticipant, Id, int>(this._pp01, this._ppRepo.GetById);
-            this._present<UnsafePraxisParticipant, Id, int>(this._pp10, this._ppRepo.GetById);
-            this._absentt<UnsafeComment, Id, int>(this._commentBy00on10, this._commentRepo.GetById);
-            this._absentt<UnsafeComment, Id, int>(this._commentBy00on10Again, this._commentRepo.GetById);
-            this._present<UnsafeComment, Id, int>(this._commentBy01on10, this._commentRepo.GetById);
-            this._present<UnsafeComment, Id, int>(this._commentBy01on10Again, this._commentRepo.GetById);
-            this._absentt<UnsafeComment, Id, int>(this._commentBy10on00, this._commentRepo.GetById);
-            this._absentt<UnsafeComment, Id, int>(this._commentBy10on00Again, this._commentRepo.GetById);
-            this._absentt<UnsafeVote, Id, int>(this._voteBy00on10, this._voteRepo.GetById);
-            this._present<UnsafeVote, Id, int>(this._voteBy01on10, this._voteRepo.GetById);
-            this._absentt<UnsafeVote, Id, int>(this._voteBy10on00, this._voteRepo.GetById);
+            this._absentt<ICharacter, Id, int>(this._c0_0, this._repo.GetById);
+            this._present<ICharacter, Id, int>(this._c0_1, this._repo.GetById);
+            this._present<ICharacter, Id, int>(this._c1_0, this._repo.GetById);
+            this._absentt<IFriend, Id, int>(this._friend00_01, this._friendRepo.GetById);
+            this._present<IFriend, Id, int>(this._friend10_01, this._friendRepo.GetById);
+            this._absentt<IFriend, Id, int>(this._friend00_10, this._friendRepo.GetById);
+            this._absentt<IFoe, Id, int>(this._foe00_01, this._foeRepo.GetById);
+            this._present<IFoe, Id, int>(this._foe10_01, this._foeRepo.GetById);
+            this._absentt<IFoe, Id, int>(this._foe00_10, this._foeRepo.GetById);
+            this._present<IPraxis, Id, int>(this._praxis00_10, this._praxisRepo.GetById);
+            this._absentt<IPraxis, Id, int>(this._praxis00, this._praxisRepo.GetById);
+            this._present<IPraxis, Id, int>(this._praxis01, this._praxisRepo.GetById);
+            this._present<IPraxis, Id, int>(this._praxis10, this._praxisRepo.GetById);
+            this._absentt<IPraxisParticipant, Id, int>(this._pp0010_00, this._ppRepo.GetById);
+            this._present<IPraxisParticipant, Id, int>(this._pp0010_10, this._ppRepo.GetById);
+            this._absentt<IPraxisParticipant, Id, int>(this._pp00, this._ppRepo.GetById);
+            this._present<IPraxisParticipant, Id, int>(this._pp01, this._ppRepo.GetById);
+            this._present<IPraxisParticipant, Id, int>(this._pp10, this._ppRepo.GetById);
+            this._absentt<IComment, Id, int>(this._commentBy00on10, this._commentRepo.GetById);
+            this._absentt<IComment, Id, int>(this._commentBy00on10Again, this._commentRepo.GetById);
+            this._present<IComment, Id, int>(this._commentBy01on10, this._commentRepo.GetById);
+            this._present<IComment, Id, int>(this._commentBy01on10Again, this._commentRepo.GetById);
+            this._absentt<IComment, Id, int>(this._commentBy10on00, this._commentRepo.GetById);
+            this._absentt<IComment, Id, int>(this._commentBy10on00Again, this._commentRepo.GetById);
+            this._absentt<IVote, Id, int>(this._voteBy00on10, this._voteRepo.GetById);
+            this._present<IVote, Id, int>(this._voteBy01on10, this._voteRepo.GetById);
+            this._absentt<IVote, Id, int>(this._voteBy10on00, this._voteRepo.GetById);
             Assert.AreEqual(1, this._ppRepo.GetParticipantCountViaPraxisId(this._praxis00_10.Id));
             var praxis00_10 = this._praxisRepo.GetById(this._praxis00_10.Id);
             Assert.IsFalse(praxis00_10.AreDueling);
@@ -335,33 +338,33 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestDeleteByPlayer()
         {
             this._del.DeleteByPlayer(this._pId0);
-            this._absentt<UnsafeCharacter, Id, int>(this._c0_0, this._repo.GetById);
-            this._absentt<UnsafeCharacter, Id, int>(this._c0_1, this._repo.GetById);
-            this._present<UnsafeCharacter, Id, int>(this._c1_0, this._repo.GetById);
-            this._absentt<UnsafeFriend, Id, int>(this._friend00_01, this._friendRepo.GetById);
-            this._absentt<UnsafeFriend, Id, int>(this._friend10_01, this._friendRepo.GetById);
-            this._absentt<UnsafeFriend, Id, int>(this._friend00_10, this._friendRepo.GetById);
-            this._absentt<UnsafeFoe, Id, int>(this._foe00_01, this._foeRepo.GetById);
-            this._absentt<UnsafeFoe, Id, int>(this._foe10_01, this._foeRepo.GetById);
-            this._absentt<UnsafeFoe, Id, int>(this._foe00_10, this._foeRepo.GetById);
-            this._present<UnsafePraxis, Id, int>(this._praxis00_10, this._praxisRepo.GetById);
-            this._absentt<UnsafePraxis, Id, int>(this._praxis00, this._praxisRepo.GetById);
-            this._absentt<UnsafePraxis, Id, int>(this._praxis01, this._praxisRepo.GetById);
-            this._present<UnsafePraxis, Id, int>(this._praxis10, this._praxisRepo.GetById);
-            this._absentt<UnsafePraxisParticipant, Id, int>(this._pp0010_00, this._ppRepo.GetById);
-            this._present<UnsafePraxisParticipant, Id, int>(this._pp0010_10, this._ppRepo.GetById);
-            this._absentt<UnsafePraxisParticipant, Id, int>(this._pp00, this._ppRepo.GetById);
-            this._absentt<UnsafePraxisParticipant, Id, int>(this._pp01, this._ppRepo.GetById);
-            this._present<UnsafePraxisParticipant, Id, int>(this._pp10, this._ppRepo.GetById);
-            this._absentt<UnsafeComment, Id, int>(this._commentBy00on10, this._commentRepo.GetById);
-            this._absentt<UnsafeComment, Id, int>(this._commentBy00on10Again, this._commentRepo.GetById);
-            this._absentt<UnsafeComment, Id, int>(this._commentBy01on10, this._commentRepo.GetById);
-            this._absentt<UnsafeComment, Id, int>(this._commentBy01on10Again, this._commentRepo.GetById);
-            this._absentt<UnsafeComment, Id, int>(this._commentBy10on00, this._commentRepo.GetById);
-            this._absentt<UnsafeComment, Id, int>(this._commentBy10on00Again, this._commentRepo.GetById);
-            this._absentt<UnsafeVote, Id, int>(this._voteBy00on10, this._voteRepo.GetById);
-            this._absentt<UnsafeVote, Id, int>(this._voteBy01on10, this._voteRepo.GetById);
-            this._absentt<UnsafeVote, Id, int>(this._voteBy10on00, this._voteRepo.GetById);
+            this._absentt<ICharacter, Id, int>(this._c0_0, this._repo.GetById);
+            this._absentt<ICharacter, Id, int>(this._c0_1, this._repo.GetById);
+            this._present<ICharacter, Id, int>(this._c1_0, this._repo.GetById);
+            this._absentt<IFriend, Id, int>(this._friend00_01, this._friendRepo.GetById);
+            this._absentt<IFriend, Id, int>(this._friend10_01, this._friendRepo.GetById);
+            this._absentt<IFriend, Id, int>(this._friend00_10, this._friendRepo.GetById);
+            this._absentt<IFoe, Id, int>(this._foe00_01, this._foeRepo.GetById);
+            this._absentt<IFoe, Id, int>(this._foe10_01, this._foeRepo.GetById);
+            this._absentt<IFoe, Id, int>(this._foe00_10, this._foeRepo.GetById);
+            this._present<IPraxis, Id, int>(this._praxis00_10, this._praxisRepo.GetById);
+            this._absentt<IPraxis, Id, int>(this._praxis00, this._praxisRepo.GetById);
+            this._absentt<IPraxis, Id, int>(this._praxis01, this._praxisRepo.GetById);
+            this._present<IPraxis, Id, int>(this._praxis10, this._praxisRepo.GetById);
+            this._absentt<IPraxisParticipant, Id, int>(this._pp0010_00, this._ppRepo.GetById);
+            this._present<IPraxisParticipant, Id, int>(this._pp0010_10, this._ppRepo.GetById);
+            this._absentt<IPraxisParticipant, Id, int>(this._pp00, this._ppRepo.GetById);
+            this._absentt<IPraxisParticipant, Id, int>(this._pp01, this._ppRepo.GetById);
+            this._present<IPraxisParticipant, Id, int>(this._pp10, this._ppRepo.GetById);
+            this._absentt<IComment, Id, int>(this._commentBy00on10, this._commentRepo.GetById);
+            this._absentt<IComment, Id, int>(this._commentBy00on10Again, this._commentRepo.GetById);
+            this._absentt<IComment, Id, int>(this._commentBy01on10, this._commentRepo.GetById);
+            this._absentt<IComment, Id, int>(this._commentBy01on10Again, this._commentRepo.GetById);
+            this._absentt<IComment, Id, int>(this._commentBy10on00, this._commentRepo.GetById);
+            this._absentt<IComment, Id, int>(this._commentBy10on00Again, this._commentRepo.GetById);
+            this._absentt<IVote, Id, int>(this._voteBy00on10, this._voteRepo.GetById);
+            this._absentt<IVote, Id, int>(this._voteBy01on10, this._voteRepo.GetById);
+            this._absentt<IVote, Id, int>(this._voteBy10on00, this._voteRepo.GetById);
             Assert.AreEqual(1, this._ppRepo.GetParticipantCountViaPraxisId(this._praxis00_10.Id));
             var praxis00_10 = this._praxisRepo.GetById(this._praxis00_10.Id);
             Assert.IsFalse(praxis00_10.AreDueling);

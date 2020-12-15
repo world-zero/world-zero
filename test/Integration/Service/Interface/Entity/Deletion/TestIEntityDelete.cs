@@ -1,7 +1,9 @@
 using System;
+using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
+using WorldZero.Data.Interface.Repository.Entity.Generic;
 using WorldZero.Data.Repository.Entity.RAM.Primary;
 using WorldZero.Service.Interface.Entity.Generic.Deletion;
 using NUnit.Framework;
@@ -57,10 +59,10 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity.Deletion
     }
 
     public class TestEntityDelete
-        : ABCEntityDel<UnsafePlayer, Id, int>
+        : ABCEntityDel<IPlayer, Id, int>
     {
         public TestEntityDelete(IPlayerRepo repo)
-            : base(repo)
+            : base((IEntityRepo<IPlayer, Id, int>) repo)
         { }
     }
 }

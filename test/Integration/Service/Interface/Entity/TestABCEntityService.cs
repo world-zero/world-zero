@@ -1,5 +1,6 @@
 using System;
 using NUnit.Framework;
+using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.Entity.Relation;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
@@ -150,16 +151,16 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
     }
 
     public class TestEntityService
-        : ABCEntityService<UnsafeComment, Id, int>
+        : ABCEntityService<IComment, Id, int>
     {
         public TestEntityService(ICommentRepo commentRepo)
-            : base((IEntityRepo<UnsafeComment, Id, int>) commentRepo)
+            : base((IEntityRepo<IComment, Id, int>) commentRepo)
         { }
 
-        public IEntityRepo<UnsafeComment, Id, int> Repo
+        public IEntityRepo<IComment, Id, int> Repo
         { get { return this._repo; } }
 
-        public new void EnsureExists(UnsafeComment c)
+        public new void EnsureExists(IComment c)
         {
             base.EnsureExists(c);
         }
