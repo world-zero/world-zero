@@ -6,8 +6,8 @@ using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
+using WorldZero.Service.Constant.Entity.Primary;
 using WorldZero.Service.Interface.Entity.Generic.Registration;
-using WorldZero.Service.Interface.Entity.Registration.Primary;
 using WorldZero.Service.Interface.Entity.Registration.Relation;
 using WorldZero.Service.Entity.Registration.Primary;
 
@@ -63,8 +63,8 @@ namespace WorldZero.Service.Entity.Registration.Relation
             this._eraReg = eraReg;
 
             this._praxisLiveStatuses = new HashSet<Name>();
-            this._praxisLiveStatuses.Add(IStatusReg.InProgress.Id);
-            this._praxisLiveStatuses.Add(IStatusReg.Active.Id);
+            this._praxisLiveStatuses.Add(ConstantStatuses.InProgress.Id);
+            this._praxisLiveStatuses.Add(ConstantStatuses.Active.Id);
         }
 
         public override IPraxisParticipant Register(IPraxisParticipant pp)
@@ -98,8 +98,8 @@ namespace WorldZero.Service.Entity.Registration.Relation
                 throw new ArgumentException($"PraxisParticipant of ID {pp.Id.Get} has an invalid praxis ID of {pp.PraxisId.Get}.");
             }
 
-            if (   (p.StatusId != IStatusReg.InProgress.Id)
-                && (p.StatusId != IStatusReg.Active.Id)      )
+            if (   (p.StatusId != ConstantStatuses.InProgress.Id)
+                && (p.StatusId != ConstantStatuses.Active.Id)      )
             {
                 this._ppRepo.DiscardTransaction();
                 throw new ArgumentException("A participant can only be registered for an Active or In Progress task.");
@@ -188,7 +188,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             { throw new InvalidOperationException("A character has a faction that does not exist, this should not be possible; only register entities via their registration class and update them via their updating class.", e); }
 
             if (   (f.AbilityId == null )
-                || (f.AbilityId != IAbilityReg.Reiterator.Id))
+                || (f.AbilityId != ConstantAbilities.Reiterator.Id))
             {
                 this._ppRepo.DiscardTransaction();
                 throw new ArgumentException($"The character can only submit praxises for a task {activeEra.MaxTasks} time(s).");
@@ -233,7 +233,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
                 throw new ArgumentException("The meta task has a sponsoring faction but the participant is unaligned.");
             }
 
-            if (mt.StatusId != IStatusReg.Active.Id)
+            if (mt.StatusId != ConstantStatuses.Active.Id)
             {
                 this._ppRepo.DiscardTransaction();
                 throw new ArgumentException("A participant cannot be submitted for a non-active meta task.");

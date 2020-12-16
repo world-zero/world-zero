@@ -1,3 +1,4 @@
+using WorldZero.Service.Constant.Entity.Primary;
 using WorldZero.Service.Interface.Entity.Generic.Registration;
 using WorldZero.Service.Interface.Entity.Registration.Primary;
 using WorldZero.Common.ValueObject.General;
@@ -16,9 +17,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
         public FlagReg(IFlagRepo flagRepo)
             : base(flagRepo)
         {
-            this.EnsureExists(IFlagReg.Duplicate);
-            this.EnsureExists(IFlagReg.Dangerous);
-            this.EnsureExists(IFlagReg.Inappropriate);
+            new ConstantFlags(flagRepo).EnsureEntitiesExist();
         }
 
     }

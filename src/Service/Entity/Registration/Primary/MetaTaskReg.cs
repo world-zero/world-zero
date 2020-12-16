@@ -1,9 +1,10 @@
 using System;
-using WorldZero.Service.Interface.Entity.Generic.Registration;
-using WorldZero.Service.Interface.Entity.Registration.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
+using WorldZero.Service.Interface.Entity.Generic.Registration;
+using WorldZero.Service.Interface.Entity.Registration.Primary;
+using WorldZero.Service.Constant.Entity.Primary;
 
 namespace WorldZero.Service.Entity.Registration.Primary
 {
@@ -37,8 +38,8 @@ namespace WorldZero.Service.Entity.Registration.Primary
         public override IMetaTask Register(IMetaTask mt)
         {
             this.AssertNotNull(mt, "mt");
-            if (   (mt.StatusId != IStatusReg.InProgress.Id)
-                && (mt.StatusId != IStatusReg.Active.Id)   )
+            if (   (mt.StatusId != ConstantStatuses.InProgress.Id)
+                && (mt.StatusId != ConstantStatuses.Active.Id)   )
             {
                 throw new ArgumentException("A meta task can only be Active or In Progress");
             }

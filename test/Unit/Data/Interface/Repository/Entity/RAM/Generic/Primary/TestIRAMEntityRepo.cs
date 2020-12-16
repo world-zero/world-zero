@@ -173,6 +173,94 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
         }
 
         [Test]
+        public void TestTxnHappy()
+        {
+            int y = 0;
+            void F(int x)
+            {
+                y += x;
+            }
+
+            Assert.AreEqual(0, y);
+            this._repo.Transaction<int>(F, 2);
+            Assert.AreEqual(2, y);
+        }
+
+        [Test]
+        public void TestTxnNullDelegate()
+        {
+            Assert.Throws<ArgumentNullException>(()=>
+                this._repo.Transaction<int>(null, 3));
+        }
+
+        [Test]
+        public void TestTxnFThrowsArgException()
+        {
+            void ExcF(int x)
+            {
+                var name0 = new Name("1");
+                var name1 = new Name("2");
+                var name2 = new Name("3");
+                this._repo.Insert(new DummyEntity(name0, 1, 2, 3));
+                this._repo.Insert(new DummyEntity(name1, 0, 3, 9));
+                this._repo.Save();
+                this._repo.Insert(new DummyEntity(name0, 1, 2, 3));
+                throw new ArgumentException("sdfasdf");
+            }
+
+            this._repo.Clean();
+            Assert.Throws<ArgumentException>(()=>
+                this._repo.Transaction<int>(ExcF, 3));
+            Assert.AreEqual(0, this._repo.SavedCount);
+            Assert.AreEqual(0, this._repo.StagedCount);
+        }
+
+        [Test]
+        public void TestTxnFThrowsInvalidOpException()
+        {
+            void ExcF(int x)
+            {
+                var name0 = new Name("1");
+                var name1 = new Name("2");
+                var name2 = new Name("3");
+                this._repo.Insert(new DummyEntity(name0, 1, 2, 3));
+                this._repo.Insert(new DummyEntity(name1, 0, 3, 9));
+                this._repo.Save();
+                this._repo.Insert(new DummyEntity(name0, 1, 2, 3));
+                throw new InvalidOperationException("sdfasdf");
+            }
+
+            this._repo.Clean();
+            Assert.Throws<InvalidOperationException>(()=>
+                this._repo.Transaction<int>(ExcF, 3));
+            Assert.AreEqual(0, this._repo.SavedCount);
+            Assert.AreEqual(0, this._repo.StagedCount);
+        }
+
+        // NOTE: If this test fails to throw an exception but
+        // TestIRAMEntityRepo.TestInsertSaveSameEntity is failing, then this
+        // failure is just a symptome of that failure.
+        [Test]
+        public void TestTxnEndTransactionFails()
+        {
+            // This will insert an entity with an already saved ID, which will
+            // cause Save() to fail in EndTransaction(), all to test that Txn()
+            // will catch that exception and throw it's own.
+
+            this._repo.CleanAll();
+            this._repo.Insert(new DummyEntity(new Name("a"), 2, 3, 0));
+            this._repo.Save();
+
+            void F(int x)
+            {
+                this._repo.Insert(new DummyEntity(new Name("a"), 2, 3, 0));
+            }
+
+            Assert.Throws<ArgumentException>(()=>
+                this._repo.Transaction<int>(F, 3));
+        }
+
+        [Test]
         public void TestGetById()
         {
             this._repo.Insert(this._e);
@@ -980,6 +1068,9 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
         public TestRAMEntityRepo()
             : base()
         { }
+
+        public int SavedCount { get { return this._saved.Count; } }
+        public int StagedCount { get { return this._staged.Count; } }
 
         protected override int GetRuleCount()
         {

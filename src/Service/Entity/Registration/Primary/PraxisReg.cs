@@ -1,14 +1,15 @@
 using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using WorldZero.Service.Entity.Registration.Relation;
-using WorldZero.Service.Interface.Entity.Generic.Registration;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Relation;
-using WorldZero.Service.Interface.Entity.Registration.Primary;
 using WorldZero.Common.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
+using WorldZero.Service.Constant.Entity.Primary;
+using WorldZero.Service.Interface.Entity.Registration.Primary;
+using WorldZero.Service.Entity.Registration.Relation;
+using WorldZero.Service.Interface.Entity.Generic.Registration;
 
 namespace WorldZero.Service.Entity.Registration.Primary
 {
@@ -117,8 +118,8 @@ namespace WorldZero.Service.Entity.Registration.Primary
 
         private void _verifyStatus(IPraxis p)
         {
-            if (   (p.StatusId != IStatusReg.InProgress.Id)
-                && (p.StatusId != IStatusReg.Active.Id)   )
+            if (   (p.StatusId != ConstantStatuses.InProgress.Id)
+                && (p.StatusId != ConstantStatuses.Active.Id)   )
             {
                 throw new ArgumentException("A praxis can only be Active or In Progress");
             }
@@ -134,7 +135,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
             catch (ArgumentException)
             { throw new ArgumentException($"Praxis of ID {p.Id.Get} has an invalid task ID of {p.TaskId.Get}."); }
 
-            if (t.StatusId != IStatusReg.Active.Id)
+            if (t.StatusId != ConstantStatuses.Active.Id)
                 throw new ArgumentException("A praxis cannot be submitted for a non-active task.");
 
             return t;
@@ -156,7 +157,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
             { throw new ArgumentException($"Praxis of ID {p.Id.Get} has an invalid meta task ID of {p.MetaTaskId.Get}."); }
 
             if (   (mt != null)
-                && (mt.StatusId != IStatusReg.Active.Id)   )
+                && (mt.StatusId != ConstantStatuses.Active.Id)   )
             {
                 throw new ArgumentException("A praxis cannot be submitted for a non-active meta task.");
             }

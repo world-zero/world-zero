@@ -43,38 +43,18 @@ namespace WorldZero.Service.Interface.Entity.Generic
         where TId : ISingleValueObject<TBuiltIn>
     {
         /// <summary>
-        /// This will, in order:
-        /// <br />
-        /// - Verify that the supplied arg is not null.
-        /// <br />
-        /// - Begin a transaction (serialization depends on the corresponding
-        /// argument).
-        /// <br />
-        /// - Call the supplied `Action` being given `operand`; if the `Action`
-        /// throws an `ArgumentException`, this method will
-        /// `DiscardTransaction()` and throw a tracing `ArgumentException`.
-        /// <br />
-        /// - Attempt to `EndTransaction()`; if this throws an
-        /// `ArgumentException`, then this will throw a tracing
-        /// `ArgumentException`.
-        /// <br />
-        /// If an `InvalidOperationException` is thrown during the operation or
-        /// `EndTransaction`, then this will discard the transaction and trace
-        /// that exception.
+        /// Perform the supplied Action as a transaction.
         /// </summary>
-        /// <param name="operation">
-        /// The function to perform during the transaction with operand.
-        /// </param>
-        /// <param name="operand">
-        /// The argument to pass to operation during the transaction.
-        /// </param>
-        /// <param name="serialize">
-        /// This bool is supplied to `BeginTransaction(serialize)`.
-        /// </param>
-        /// <typeparam name="TOperand">
-        /// The type of the argument supplied to operation.
-        /// </typeparam>
+        /// <remarks>
+        /// For more, <see cref="WorldZero.Data.Interface.Repository.Entity.Generic.IEntityRepo{TEntity, TId, TIdBuiltIn}.Transaction{TOperand}(Action{TOperand}, TOperand, bool)"/>
+        /// </remarks>
         void Transaction<TOperand>(
+            Action<TOperand> operation,
+            TOperand operand,
+            bool serialize=false
+        );
+
+        Task TransactionAsync<TOperand>(
             Action<TOperand> operation,
             TOperand operand,
             bool serialize=false

@@ -1,3 +1,4 @@
+using WorldZero.Service.Constant.Entity.Primary;
 using WorldZero.Service.Interface.Entity.Registration.Primary;
 using WorldZero.Service.Interface.Entity.Generic.Registration;
 using WorldZero.Common.ValueObject.General;
@@ -16,7 +17,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
         public AbilityReg(IAbilityRepo abilityRepo)
             : base(abilityRepo)
         {
-            this.EnsureExists(IAbilityReg.Reiterator);
+            new ConstantAbilities(abilityRepo).EnsureEntitiesExist();
         }
     }
 }

@@ -6,6 +6,7 @@ using WorldZero.Common.Entity.Relation;
 using WorldZero.Data.Repository.Entity.RAM.Primary;
 using WorldZero.Data.Repository.Entity.RAM.Relation;
 using WorldZero.Service.Interface.Entity.Registration.Primary;
+using WorldZero.Service.Constant.Entity.Primary;
 using WorldZero.Service.Entity.Registration.Primary;
 using WorldZero.Service.Entity.Registration.Relation;
 using NUnit.Framework;
@@ -66,7 +67,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
 
             var task = new UnsafeTask(
                 new Name("x"),
-                IStatusReg.Active.Id,
+                ConstantStatuses.Active.Id,
                 "z",
                 new PointTotal(2),
                 new Level(3)
@@ -102,7 +103,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
 
             this._mt = new UnsafeMetaTask(
                 this._f.Id,
-                IStatusReg.Active.Id,
+                ConstantStatuses.Active.Id,
                 "x",
                 new PointTotal(2));
             this._mtRepo.Insert(this._mt);
@@ -111,13 +112,13 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             this._p0 = new UnsafePraxis(
                 this._tId,
                 this._pt,
-                IStatusReg.Active.Id,
+                ConstantStatuses.Active.Id,
                 this._mt.Id
             );
             this._p1 = new UnsafePraxis(
                 this._tId,
                 this._pt,
-                IStatusReg.Active.Id,
+                ConstantStatuses.Active.Id,
                 null,
                 true
             );
@@ -195,7 +196,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                 ()=>this._ppReg.Register(pp));
 
             // Praxis that isn't active or in progress.
-            var p = new UnsafePraxis(new Id(1), this._pt, IStatusReg.Proposed.Id);
+            var p = new UnsafePraxis(new Id(1), this._pt, ConstantStatuses.Proposed.Id);
             this._praxisRepo.Insert(p);
             this._praxisRepo.Save();
             pp = new UnsafePraxisParticipant(p.Id, this._c0.Id);
@@ -251,7 +252,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                 .GetCharacterSubmissionCountViaPraxisId(this._p1.Id, this._c0.Id));
 
             // Sad: exceeds submission count.
-            var p = new UnsafePraxis(this._tId, this._pt, IStatusReg.Active.Id);
+            var p = new UnsafePraxis(this._tId, this._pt, ConstantStatuses.Active.Id);
             this._praxisRepo.Insert(p);
             this._praxisRepo.Save();
             pp = new UnsafePraxisParticipant(p.Id, this._c0.Id);
@@ -260,7 +261,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
 
             // Happy: make the character's faction have Reiterator, and then
             // they should be able to submit again.
-            this._f.AbilityId = IAbilityReg.Reiterator.Id;
+            this._f.AbilityId = ConstantAbilities.Reiterator.Id;
             this._factionRepo.Update(this._f);
             this._factionRepo.Save();
             pp = new UnsafePraxisParticipant(p.Id, this._c0.Id);

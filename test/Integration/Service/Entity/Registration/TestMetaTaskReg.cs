@@ -3,8 +3,8 @@ using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Data.Repository.Entity.RAM.Primary;
+using WorldZero.Service.Constant.Entity.Primary;
 using WorldZero.Service.Entity.Registration.Primary;
-using WorldZero.Service.Interface.Entity.Registration.Primary;
 using NUnit.Framework;
 
 namespace WorldZero.Test.Integration.Service.Entity.Registration
@@ -60,7 +60,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         {
             var mt = new UnsafeMetaTask(
                 this._faction0.Id,
-                IStatusReg.Active.Id,
+                ConstantStatuses.Active.Id,
                 "something",
                 new PointTotal(33.4));
             Assert.IsFalse(mt.IsIdSet());

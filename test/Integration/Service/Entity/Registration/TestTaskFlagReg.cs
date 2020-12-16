@@ -6,7 +6,7 @@ using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Data.Repository.Entity.RAM.Primary;
 using WorldZero.Data.Repository.Entity.RAM.Relation;
-using WorldZero.Service.Interface.Entity.Registration.Primary;
+using WorldZero.Service.Constant.Entity.Primary;
 using WorldZero.Service.Entity.Registration.Relation;
 using NUnit.Framework;
 
@@ -43,7 +43,7 @@ namespace WorldZero.Test.Integration.Service.Entity
             this._pt = new PointTotal(100);
             this._t = new UnsafeTask(
                 new Name("faction"),
-                IStatusReg.Active.Id,
+                ConstantStatuses.Active.Id,
                 "summary",
                 this._pt,
                 new Level(1)

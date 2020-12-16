@@ -28,27 +28,21 @@ namespace WorldZero.Service.Interface.Entity.Generic
         {
             this.AssertNotNull(operation, "operation");
             this.AssertNotNull(operand, "operand");
-            this.BeginTransaction(serialize);
-            try
-            { operation(operand); }
-            catch (ArgumentException e)
-            {
-                this.DiscardTransaction();
-                throw new ArgumentException("The operation failed.", e);
-            }
-            catch (InvalidOperationException e)
-            {
-                this.DiscardTransaction();
-                throw new InvalidOperationException("A bug has been found, discarding transaction.", e);
-            }
-            try
-            { this.EndTransaction(); }
-            catch (ArgumentException e)
-            { throw new ArgumentException("Could not complete the transaction.", e); }
-            catch (InvalidOperationException e)
-            { throw new InvalidOperationException("A bug has been found, discarding transaction.", e); }
+            this._repo.Transaction<TOperand>(operation, operand, serialize);
         }
 
+        public async Task TransactionAsync<TOperand>(
+            Action<TOperand> operation,
+            TOperand operand,
+            bool serialize=false
+        )
+        {
+            this.AssertNotNull(operation, "operation");
+            this.AssertNotNull(operand, "operand");
+            await this._repo
+                .TransactionAsync<TOperand>(operation, operand, serialize);
+        }
+ 
         public void BeginTransaction(bool serialize=false)
         {
             this._repo.BeginTransaction(serialize);
@@ -93,22 +87,6 @@ namespace WorldZero.Service.Interface.Entity.Generic
         {
             if (o == null)
                 throw new ArgumentNullException(name);
-        }
-
-        protected void EnsureExists(TEntity e)
-        {
-            try
-            {
-                this._repo.Insert(e);
-                this._repo.Save();
-            }
-            catch (ArgumentException) { }
-        }
-
-        protected async Task EnsureExistsAsync(TEntity e)
-        {
-            this.AssertNotNull(e, "e");
-            await Task.Run(() => this.EnsureExists(e));
         }
     }
 }

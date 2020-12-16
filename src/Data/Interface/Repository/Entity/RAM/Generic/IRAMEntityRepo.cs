@@ -1073,6 +1073,44 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
             return old;
         }
 
+        public void Transaction<TOperand>(
+            Action<TOperand> operation,
+            TOperand operand,
+            bool serialize=false
+        )
+        {
+            if (operation == null) throw new ArgumentNullException("operation");
+            if (operand == null) throw new ArgumentNullException("operand");
+            this.BeginTransaction(serialize);
+            try
+            { operation(operand); }
+            catch (ArgumentException e)
+            {
+                this.DiscardTransaction();
+                throw new ArgumentException("The operation failed.", e);
+            }
+            catch (InvalidOperationException e)
+            {
+                this.DiscardTransaction();
+                throw new InvalidOperationException("A bug has been found, discarding transaction.", e);
+            }
+            try
+            { this.EndTransaction(); }
+            catch (ArgumentException e)
+            { throw new ArgumentException("Could not complete the transaction.", e); }
+            catch (InvalidOperationException e)
+            { throw new InvalidOperationException("A bug has been found, discarding transaction.", e); }
+        }
+
+        public async Task TransactionAsync<TOperand>(
+            Action<TOperand> operation,
+            TOperand operand,
+            bool serialize=false
+        )
+        {
+            this.Transaction<TOperand>(operation, operand, serialize);
+        }
+
         public void BeginTransaction(bool serializeLock=false)
         {
             if (_txnDepth++ == 0)
