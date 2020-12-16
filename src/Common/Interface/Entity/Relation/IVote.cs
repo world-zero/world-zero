@@ -43,7 +43,7 @@ namespace WorldZero.Common.Interface.Entity.Relation
         /// There will be a static property `MnPoints` that this will be a
         /// wrapper for.
         /// </remarks>
-        PointTotal StaticMinPoints { get; }
+        PointTotal MinPoints { get; }
 
         /// <remarks>
         /// Changing this will NOT check existing instances of Vote to make
@@ -52,6 +52,6 @@ namespace WorldZero.Common.Interface.Entity.Relation
         /// There will be a static property `MaxPoints` that this will be a
         /// wrapper for.
         /// </remarks>
-        PointTotal StaticMaxPoints { get; }
+        PointTotal MaxPoints { get; }
     }
 }

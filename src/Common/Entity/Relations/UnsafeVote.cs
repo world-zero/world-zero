@@ -10,36 +10,36 @@ namespace WorldZero.Common.Entity.Relation
     /// <inheritdoc cref="IVote"/>
     public class UnsafeVote : ABCIdIdRelation, IVote
     {
-        public static PointTotal MinPoints
+        public static PointTotal StaticMinPoints
         {
             get { return _minPoints; }
             set
             {
                 if (value == null)
                     throw new ArgumentNullException("MinPoints");
-                if (value.Get > MaxPoints.Get)
+                if (value.Get > StaticMaxPoints.Get)
                     throw new ArgumentException("MinPoints cannot be larger than MaxPoints.");
                 _minPoints = value;
             }
         }
         private static PointTotal _minPoints = new PointTotal(1);
 
-        public static PointTotal MaxPoints
+        public static PointTotal StaticMaxPoints
         {
             get { return _maxPoints; }
             set
             {
                 if (value == null)
                     throw new ArgumentNullException("MaxPoints");
-                if (value.Get < MinPoints.Get)
+                if (value.Get < StaticMinPoints.Get)
                     throw new ArgumentException("MaxPoints cannot be smaller than MinPoints.");
                 _maxPoints = value;
             }
         }
         private static PointTotal _maxPoints = new PointTotal(5);
 
-        public PointTotal StaticMinPoints { get { return MinPoints; } }
-        public PointTotal StaticMaxPoints { get { return MaxPoints; } }
+        public PointTotal MinPoints { get { return StaticMinPoints; } }
+        public PointTotal MaxPoints { get { return StaticMaxPoints; } }
 
         public Id CharacterId
         {
