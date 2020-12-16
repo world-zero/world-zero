@@ -19,15 +19,17 @@ namespace WorldZero.Service.Interface.Constant.Entity.Primary
     /// <br />
     /// These entities (should) also exist within the corresponding repo, but
     /// in an effort to not have a thousand costly queries, like
-    /// IAbility.GetReiterator() or IStatus.GetActive(), this just puts those
-    /// systemically significant entities into a class.
+    /// IAbility.GetReiterator() or IStatus.GetActive(), this just aggregates
+    /// those systemically significant entities into a class.
     /// <br />
     /// You may think that this is slightly unideal, and you would be correct.
     /// Since the various I{Entity}Service interfaces contain the concrete
     /// implementation for the corresponding I{Entity}, these methods are
-    /// carried along from that interface to hear. I could just have an
+    /// carried along from that interface to here. I could just have an
     /// interface that contains the concrete implementation and nothing else,
-    /// but that just feels a bit weird.
+    /// but that just feels a bit weird, and having the concrete
+    /// implementations be a part of a service just feels better, evn if it's a
+    /// little weird as well.
     /// <br />
     /// Currently, the constant's registration services will ensure that it
     /// exists via `EnsureEntitiesExist`. A possible improvement would be to
@@ -65,6 +67,9 @@ namespace WorldZero.Service.Interface.Constant.Entity.Primary
             foreach (TEntity e in this.GetEntities())
                 this.EnsureExists(e);
         }
+
+
+
 
         public void Transaction<TOperand>(
             Action<TOperand> operation,
