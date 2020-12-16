@@ -3,6 +3,7 @@ using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Data.Interface.Repository.Entity.RAM.Generic;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
+using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.Entity.Relation;
 
 namespace WorldZero.Data.Repository.Entity.RAM.Relation
@@ -11,7 +12,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
     public class RAMFoeRepo
         : IRAMEntitySelfRelationRepo
           <
-            Foe,
+            IFoe,
             Id,
             int,
             RelationDTO<Id, int, Id, int>
@@ -20,7 +21,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
     {
         protected override int GetRuleCount()
         {
-            var a = new Foe(new Id(3), new Id(2));
+            var a = new UnsafeFoe(new Id(3), new Id(2));
             return a.GetUniqueRules().Count;
         }
 

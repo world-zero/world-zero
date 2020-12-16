@@ -1,15 +1,18 @@
 using System;
 using System.Collections.Generic;
 using WorldZero.Common.Entity.Primary;
+using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Service.Interface.Entity.Generic.Deletion;
+using WorldZero.Service.Interface.Entity.Deletion.Primary;
 
 namespace WorldZero.Service.Entity.Deletion.Primary
 {
-    /// <inheritdoc cref="IEntityUnset"/>
+    /// <inheritdoc cref="IAbilityUnset"/>
     public class AbilityUnset
-        : IEntityUnset<Ability, Name, string, Faction, Name, string>
+        : ABCEntityUnset<IAbility, Name, string, IFaction, Name, string>,
+          IAbilityUnset
     {
         protected IFactionRepo _factionRepo
         { get { return (IFactionRepo) this._otherRepo; } }
@@ -23,7 +26,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
             this.AssertNotNull(factionId, "factionId");
             this.BeginTransaction();
 
-            IEnumerable<Faction> factions = null;
+            IEnumerable<IFaction> factions = null;
             try
             { factions = this._factionRepo.GetByAbilityId(factionId); }
             catch (ArgumentException e)
@@ -34,11 +37,11 @@ namespace WorldZero.Service.Entity.Deletion.Primary
 
             if (factions != null)
             {
-                foreach (Faction c in factions)
+                foreach (IFaction f in factions)
                 {
-                    c.AbilityId = null;
+                    ((UnsafeFaction) f).AbilityId = null;
                     try
-                    { this._factionRepo.Update(c); }
+                    { this._factionRepo.Update(f); }
                     catch (ArgumentException e)
                     {
                         this.DiscardTransaction();

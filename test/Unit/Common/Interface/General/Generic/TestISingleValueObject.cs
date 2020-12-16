@@ -1,5 +1,5 @@
 using System;
-using WorldZero.Common.Interface.General.Generic;
+using WorldZero.Common.Interface.ValueObject;
 using NUnit.Framework;
 
 namespace WorldZero.Test.Unit.Common.Interface.General.Generic

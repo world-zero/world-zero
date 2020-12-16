@@ -14,8 +14,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
     [TestFixture]
     public class TestFlagDel
     {
-        private Flag _f0;
-        private Flag _t1;
+        private UnsafeFlag _f0;
+        private UnsafeFlag _t1;
         private RAMFlagRepo _flagRepo;
         private RAMTaskFlagRepo _taskFlagRepo;
         private RAMMetaTaskFlagRepo _mtFlagRepo;
@@ -28,8 +28,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         [SetUp]
         public void Setup()
         {
-            this._f0 = new Flag(new Name("#valid"));
-            this._t1 = new Flag(new Name("#invalid"));
+            this._f0 = new UnsafeFlag(new Name("#valid"));
+            this._t1 = new UnsafeFlag(new Name("#invalid"));
 
             this._flagRepo = new RAMFlagRepo();
             this._flagRepo.Insert(this._f0);
@@ -37,21 +37,21 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._flagRepo.Save();
 
             this._taskFlagRepo = new RAMTaskFlagRepo();
-            this._taskFlagRepo.Insert(new TaskFlag(new Id(100), this._f0.Id));
-            this._taskFlagRepo.Insert(new TaskFlag(new Id(200), this._f0.Id));
-            this._taskFlagRepo.Insert(new TaskFlag(new Id(300), this._t1.Id));
+            this._taskFlagRepo.Insert(new UnsafeTaskFlag(new Id(100), this._f0.Id));
+            this._taskFlagRepo.Insert(new UnsafeTaskFlag(new Id(200), this._f0.Id));
+            this._taskFlagRepo.Insert(new UnsafeTaskFlag(new Id(300), this._t1.Id));
             this._taskFlagRepo.Save();
 
             this._mtFlagRepo = new RAMMetaTaskFlagRepo();
-            this._mtFlagRepo.Insert(new MetaTaskFlag(new Id(400), this._f0.Id));
-            this._mtFlagRepo.Insert(new MetaTaskFlag(new Id(500), this._t1.Id));
-            this._mtFlagRepo.Insert(new MetaTaskFlag(new Id(600), this._t1.Id));
+            this._mtFlagRepo.Insert(new UnsafeMetaTaskFlag(new Id(400), this._f0.Id));
+            this._mtFlagRepo.Insert(new UnsafeMetaTaskFlag(new Id(500), this._t1.Id));
+            this._mtFlagRepo.Insert(new UnsafeMetaTaskFlag(new Id(600), this._t1.Id));
             this._mtFlagRepo.Save();
 
             this._praxisFlagRepo = new RAMPraxisFlagRepo();
-            this._praxisFlagRepo.Insert(new PraxisFlag(new Id(70), this._f0.Id));
-            this._praxisFlagRepo.Insert(new PraxisFlag(new Id(80), this._t1.Id));
-            this._praxisFlagRepo.Insert(new PraxisFlag(new Id(90), this._t1.Id));
+            this._praxisFlagRepo.Insert(new UnsafePraxisFlag(new Id(70), this._f0.Id));
+            this._praxisFlagRepo.Insert(new UnsafePraxisFlag(new Id(80), this._t1.Id));
+            this._praxisFlagRepo.Insert(new UnsafePraxisFlag(new Id(90), this._t1.Id));
             this._praxisFlagRepo.Save();
 
             this._taskFlagDel = new TaskFlagDel(this._taskFlagRepo);
@@ -80,7 +80,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         [Test]
         public void TestDeleteSad()
         {
-            Flag t = null;
+            UnsafeFlag t = null;
             Name n = null;
             Assert.Throws<ArgumentNullException>(()=>this._del.Delete(t));
             Assert.Throws<ArgumentNullException>(()=>this._del.Delete(n));

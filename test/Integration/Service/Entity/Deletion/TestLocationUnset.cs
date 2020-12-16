@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using NUnit.Framework;
+using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
@@ -18,7 +19,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private ILocationRepo _localRepo;
         private ICharacterRepo _charRepo;
         private LocationUnset _unset;
-        private Location _l;
+        private UnsafeLocation _l;
         private LocationReg _reg;
 
         [SetUp]
@@ -30,7 +31,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
                 this._localRepo,
                 this._charRepo
             );
-            this._l = new Location(
+            this._l = new UnsafeLocation(
                 new Name("Oregon City"),
                 new Name("Oregon"),
                 new Name("USA"),
@@ -78,7 +79,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         [Test]
         public void TestUnsetHappy()
         {
-            var c = new Character(
+            var c = new UnsafeCharacter(
                 new Name("Jack"),
                 new Id(10000),
                 locationId: this._l.Id
@@ -86,7 +87,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._charRepo.Insert(c);
             this._charRepo.Save();
             var chars = this._charRepo
-                .GetByLocationId(this._l.Id).ToList<Character>();
+                .GetByLocationId(this._l.Id).ToList<ICharacter>();
             Assert.AreEqual(1, chars.Count);
             Assert.AreEqual(c.Id, chars[0].Id);
             this._unset.Unset(this._l.Id);
@@ -99,7 +100,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         [Test]
         public void TestDelete()
         {
-            var c = new Character(
+            var c = new UnsafeCharacter(
                 new Name("Jack"),
                 new Id(10000),
                 locationId: this._l.Id

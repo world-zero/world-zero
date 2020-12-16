@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
 using WorldZero.Common.Interface.Entity.Generic.Relation;
-using WorldZero.Common.Interface.General.Generic;
+using WorldZero.Common.Interface.ValueObject;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 
-namespace WorldZero.Data.Interface.Repository.Entity.Primary.Generic
+namespace WorldZero.Data.Interface.Repository.Entity.Generic
 {
     /// <inheritdoc cref="IEntityRelationRepo"/>
     /// <remarks>
@@ -21,7 +21,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.Primary.Generic
         : IEntityRelationRepo
             <TEntityRelation, TId, TBuiltIn, TId, TBuiltIn, TRelationDTO>
         where TId : ISingleValueObject<TBuiltIn>
-        where TEntityRelation : IEntitySelfRelation
+        where TEntityRelation : class, IEntitySelfRelation
             <TId, TBuiltIn>
         where TRelationDTO : RelationDTO
             <TId, TBuiltIn, TId, TBuiltIn>

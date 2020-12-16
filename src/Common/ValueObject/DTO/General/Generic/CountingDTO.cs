@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using WorldZero.Common.Interface.General.Generic;
+using WorldZero.Common.Interface.ValueObject;
 
 namespace WorldZero.Common.ValueObject.DTO.General.Generic
 {

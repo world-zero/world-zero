@@ -1,64 +1,50 @@
-using WorldZero.Common.Entity.Primary;
-using WorldZero.Common.Entity.Relation;
+using System.Threading.Tasks;
+using WorldZero.Common.Interface.Entity.Primary;
+using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Service.Interface.Entity.Generic.Deletion;
+using WorldZero.Service.Interface.Entity.Deletion.Relation;
 
 namespace WorldZero.Service.Entity.Deletion.Relation
 {
-    /// <inheritdoc cref="ITaggedEntityDel"/>
-    public class TaskTagDel : ITaggedEntityDel
+    /// <inheritdoc cref="ITaskTagDel"/>
+    public class TaskTagDel : ABCTaggedEntityDel
     <
-        TaskTag,
-        Task,
+        ITaskTag,
+        ITask,
         Id,
         int,
         RelationDTO<Id, int, Name, string>
-    >
+    >, ITaskTagDel
     {
         public TaskTagDel(ITaskTagRepo repo)
             : base(repo)
         { }
 
-        /// <remarks>
-        /// This is just a wrapper for `DeleteByLeftId()`.
-        /// </remarks>
-        public void DeleteByTask(Task task)
+        public void DeleteByTask(ITask task)
         {
             this.AssertNotNull(task, "task");
             this.DeleteByLeft(task.Id);
         }
 
-        /// <remarks>
-        /// This is just a wrapper for `DeleteByLeftId()`.
-        /// </remarks>
         public void DeleteByTask(Id taskId)
         {
             this.AssertNotNull(taskId, "taskId");
             this.DeleteByLeft(taskId);
         }
 
-        /// <remarks>
-        /// This is just a wrapper for `DeleteByLeftIdAsync()`.
-        /// </remarks>
-        public async
-        System.Threading.Tasks.Task DeleteByTaskAsync(Task task)
+        public async Task DeleteByTaskAsync(ITask task)
         {
             this.AssertNotNull(task, "task");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByLeft(task.Id));
+            await Task.Run(() => this.DeleteByLeft(task.Id));
         }
 
-        /// <remarks>
-        /// This is just a wrapper for `DeleteByLeftIdAsync()`.
-        /// </remarks>
-        public async
-        System.Threading.Tasks.Task DeleteByTaskAsync(Id taskId)
+        public async Task DeleteByTaskAsync(Id taskId)
         {
             this.AssertNotNull(taskId, "taskId");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByLeft(taskId));
+            await Task.Run(() => this.DeleteByLeft(taskId));
         }
     }
 }

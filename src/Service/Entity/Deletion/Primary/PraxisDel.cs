@@ -1,29 +1,19 @@
 using System;
 using System.Collections.Generic;
-using WorldZero.Common.Entity.Primary;
+using System.Threading.Tasks;
+using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Service.Interface.Entity.Generic.Deletion;
+using WorldZero.Service.Interface.Entity.Deletion.Primary;
 using WorldZero.Service.Entity.Deletion.Relation;
 
 // NOTE: This class is used in testing `IIdStatusedEntiyDel`.
 
 namespace WorldZero.Service.Entity.Deletion.Primary
 {
-    /// <inheritdoc cref="IEntityDel"/>
-    /// <summary>
-    /// As you migh expect, deleting a praxis will delete the Comments, Tags,
-    /// Flags, and Participants (and Votes by extension) on that praxis.
-    /// </summary>
-    /// <remarks>
-    /// This will also delete the participant's received votes. Whether or not
-    /// the voting character will receive a refund is up to <see
-    /// cref="VoteDel"/>.
-    /// <br />
-    /// Dev note: shockingly, deleting a praxis has no special logic outside of
-    /// cascading the deletion.
-    /// </remarks>
-    public class PraxisDel : IIdStatusedEntityDel<Praxis>
+    /// <inheritdoc cref="IPraxisDel"/>
+    public class PraxisDel : ABCIdStatusedEntityDel<IPraxis>, IPraxisDel
     {
         protected IPraxisRepo _praxisRepo
         { get { return (IPraxisRepo) this._repo; } }
@@ -71,11 +61,11 @@ namespace WorldZero.Service.Entity.Deletion.Primary
         {
             void op(Id id)
             {
-                IEnumerable<Praxis> praxises;
+                IEnumerable<IPraxis> praxises;
                 try
                 {
                     praxises = this._praxisRepo.GetByTaskId(taskId);
-                    foreach (Praxis p in praxises)
+                    foreach (IPraxis p in praxises)
                         this.Delete(p);
                 }
                 catch (ArgumentException)
@@ -85,24 +75,22 @@ namespace WorldZero.Service.Entity.Deletion.Primary
             this.Transaction<Id>(op, taskId, true);
         }
 
-        public void DeleteByTask(Task task)
+        public void DeleteByTask(ITask task)
         {
             this.AssertNotNull(task, "task");
             this.DeleteByTask(task.Id);
         }
 
-        public async System.Threading.Tasks.Task DeleteByTaskasync(Task task)
+        public async Task DeleteByTaskAsync(ITask task)
         {
             this.AssertNotNull(task, "task");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByTask(task));
+            await Task.Run(() => this.DeleteByTask(task));
         }
 
-        public async System.Threading.Tasks.Task DeleteByTaskasync(Id taskId)
+        public async Task DeleteByTaskAsync(Id taskId)
         {
             this.AssertNotNull(taskId, "taskId");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByTask(taskId));
+            await Task.Run(() => this.DeleteByTask(taskId));
         }
     }
 }

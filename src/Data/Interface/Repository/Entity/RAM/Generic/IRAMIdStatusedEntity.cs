@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
-using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
+using WorldZero.Data.Interface.Repository.Entity.Generic;
 
 namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
 {
@@ -11,7 +11,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
     public abstract class IRAMIdStatusedEntityRepo<TEntity>
         : IRAMIdEntityRepo<TEntity>,
           IIdStatusedEntityRepo<TEntity>
-        where TEntity : IIdStatusedEntity
+        where TEntity : class, IIdStatusedEntity
     {
         public IRAMIdStatusedEntityRepo()
             : base()

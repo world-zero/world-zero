@@ -2,11 +2,11 @@ using System;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
-using WorldZero.Common.Interface.General.Generic;
+using WorldZero.Common.Interface.ValueObject;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Common.Interface.Entity.Generic.Relation;
-using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
+using WorldZero.Data.Interface.Repository.Entity.Generic;
 
 namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
 {
@@ -34,7 +34,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
             TRelationDTO
         >
         where TLeftId : ISingleValueObject<TLeftBuiltIn>
-        where TEntityRelation : IEntityRelation
+        where TEntityRelation : class, IEntityRelation
             <TLeftId, TLeftBuiltIn, Name, string>
         where TRelationDTO : RelationDTO
             <TLeftId, TLeftBuiltIn, Name, string>

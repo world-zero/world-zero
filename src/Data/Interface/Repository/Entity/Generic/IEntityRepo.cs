@@ -1,8 +1,10 @@
+using System;
 using System.Threading.Tasks;
 using WorldZero.Common.Interface.General.Generic;
+using WorldZero.Common.Interface.ValueObject;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 
-namespace WorldZero.Data.Interface.Repository.Entity.Primary.Generic
+namespace WorldZero.Data.Interface.Repository.Entity.Generic
 {
     /// <summary>
     /// This is a generic repository for entities that includes CRUD methods.
@@ -12,7 +14,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.Primary.Generic
     /// </remarks>
     public interface IEntityRepo<TEntity, TId, TIdBuiltIn>
         : IGenericRepo<TEntity, TId>
-        where TEntity : IEntity<TId, TIdBuiltIn>
+        where TEntity : class, IEntity<TId, TIdBuiltIn>
         where TId : ISingleValueObject<TIdBuiltIn>
     {
         /// <summary>
@@ -20,6 +22,56 @@ namespace WorldZero.Data.Interface.Repository.Entity.Primary.Generic
         /// </summary>
         void CleanAll();
         Task CleanAllAsync();
+
+        /// <summary>
+        /// This will, in order:
+        /// <br />
+        /// - Verify that the supplied arg is not null.
+        /// <br />
+        /// - Begin a transaction (serialization depends on the corresponding
+        /// argument).
+        /// <br />
+        /// - Call the supplied `Action` being given `operand`; if the `Action`
+        /// throws an `ArgumentException`, this method will
+        /// `DiscardTransaction()` and throw a tracing `ArgumentException`.
+        /// <br />
+        /// - Attempt to `EndTransaction()`; if this throws an
+        /// `ArgumentException`, then this will throw a tracing
+        /// `ArgumentException`.
+        /// <br />
+        /// If an `InvalidOperationException` is thrown during the operation or
+        /// `EndTransaction`, then this will discard the transaction and trace
+        /// that exception.
+        /// </summary>
+        /// <param name="operation">
+        /// The function to perform during the transaction with operand.
+        /// </param>
+        /// <param name="operand">
+        /// The argument to pass to operation during the transaction.
+        /// </param>
+        /// <param name="serialize">
+        /// This bool is supplied to `BeginTransaction(serialize)`.
+        /// </param>
+        /// <typeparam name="TOperand">
+        /// The type of the argument supplied to operation.
+        /// </typeparam>
+        void Transaction<TOperand>(
+            Action<TOperand> operation,
+            TOperand operand,
+            bool serialize=false
+        );
+
+        /// <summary>
+        /// Perform the transaction asynchronously.
+        /// </summary>
+        /// <remarks>
+        /// For more, <see cref="WorldZero.Data.Interface.Repository.Entity.Generic.IEntityRepo{TEntity, TId, TIdBuiltIn}.Transaction{TOperand}(Action{TOperand}, TOperand, bool)"/>
+        /// </remarks>
+        Task TransactionAsync<TOperand>(
+            Action<TOperand> operation,
+            TOperand operand,
+            bool serialize=false
+        );
 
         /// <summary>
         /// This will create a transaction between all repositories, allowing

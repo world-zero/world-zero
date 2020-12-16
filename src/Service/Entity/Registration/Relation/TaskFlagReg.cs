@@ -1,27 +1,29 @@
 using System;
-using WorldZero.Service.Interface.Entity.Registration;
+using WorldZero.Service.Interface.Entity.Generic.Registration;
+using WorldZero.Service.Interface.Entity.Registration.Relation;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Common.Entity.Primary;
-using WorldZero.Common.Entity.Relation;
+using WorldZero.Common.Interface.Entity.Primary;
+using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 
 namespace WorldZero.Service.Entity.Registration.Relation
 {
-    /// <inheritdoc cref="IEntityRelationReg"/>
+    /// <inheritdoc cref="ITaskFlagReg"/>
     public class TaskFlagReg
-        : IEntityRelationReg
+        : ABCEntityRelationReg
         <
-            TaskFlag,
-            Task,
+            ITaskFlag,
+            ITask,
             Id,
             int,
-            Flag,
+            IFlag,
             Name,
             string,
             RelationDTO<Id, int, Name, string>
-        >
+        >, ITaskFlagReg
     {
         protected ITaskFlagRepo _taskFlagRepo
         { get { return (ITaskFlagRepo) this._repo; } }
@@ -40,15 +42,15 @@ namespace WorldZero.Service.Entity.Registration.Relation
             : base(taskFlagRepo, taskRepo, flagRepo)
         { }
 
-        public override TaskFlag Register(TaskFlag e)
+        public override ITaskFlag Register(ITaskFlag e)
         {
             // NOTE: This code exists in TaskFlagReg.Register(),
             // MetaTaskFlagReg.Register(), and PraxisFlagReg.Register()
             // because of the weird non-generic abstract classes that exist
             // right before the entities are implemented.
             this.AssertNotNull(e, "e");
-            Task t;
-            Flag f;
+            ITask t;
+            IFlag f;
             this._taskFlagRepo.BeginTransaction(true);
             try
             {
@@ -60,7 +62,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
                 throw new ArgumentException("Could not retrieve an associated entity.", exc);
             }
 
-            t.Points = PointTotal
+            ((UnsafeTask) t).Points = PointTotal
                 .ApplyPenalty(t.Points, f.Penalty, f.IsFlatPenalty);
 
             try

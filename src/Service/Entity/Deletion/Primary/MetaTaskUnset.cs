@@ -1,29 +1,28 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using WorldZero.Common.Entity.Primary;
+using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Service.Interface.Entity.Generic.Deletion;
+using WorldZero.Service.Interface.Entity.Deletion.Primary;
 
 namespace WorldZero.Service.Entity.Deletion.Primary
 {
-    /// <inheritdoc cref="IEntityUnset"/>
-    /// <remarks>
-    /// This can also perform `IIdStatusedEntityDel` operations. Sure, this is
-    /// definitely a little smelly, but eh.
-    /// </remarks>
+    /// <inheritdoc cref="IMetaTaskUnset"/>
     public class MetaTaskUnset
-        : IEntityUnset<MetaTask, Id, int, Praxis, Id, int>
+        : ABCEntityUnset<IMetaTask, Id, int, IPraxis, Id, int>, IMetaTaskUnset
     {
         protected class StatusedMTDel
-            : IIdStatusedEntityDel<MetaTask>
+            : ABCIdStatusedEntityDel<IMetaTask>
         {
             public StatusedMTDel(IMetaTaskRepo mtRepo)
                 : base(mtRepo)
             { }
         }
 
-        protected StatusedMTDel _statusedMTDel;
+        protected StatusedMTDel _twin;
 
         protected IMetaTaskRepo _mtRepo
         { get { return (IMetaTaskRepo) this._repo; } }
@@ -34,33 +33,29 @@ namespace WorldZero.Service.Entity.Deletion.Primary
         public MetaTaskUnset(IMetaTaskRepo repo, IPraxisRepo praxisRepo)
             : base(repo, praxisRepo)
         {
-            this._statusedMTDel = new StatusedMTDel(this._mtRepo);
+            this._twin = new StatusedMTDel(this._mtRepo);
         }
 
-        public void DeleteByStatus(Status s)
+        public void DeleteByStatus(IStatus s)
         {
-            this._statusedMTDel.DeleteByStatus(s);
+            this._twin.DeleteByStatus(s);
         }
 
         public void DeleteByStatus(Name statusId)
         {
-            this._statusedMTDel.DeleteByStatus(statusId);
+            this._twin.DeleteByStatus(statusId);
         }
 
-        public async
-        System.Threading.Tasks.Task DeleteByStatusAsync(Status s)
+        public async Task DeleteByStatusAsync(IStatus s)
         {
             this.AssertNotNull(s, "s");
-            await System.Threading.Tasks.Task.Run(() =>
-                this._statusedMTDel.DeleteByStatus(s));
+            await Task.Run(() => this._twin.DeleteByStatus(s));
         }
 
-        public async
-        System.Threading.Tasks.Task DeleteByStatusAsync(Name statusId)
+        public async Task DeleteByStatusAsync(Name statusId)
         {
             this.AssertNotNull(statusId, "statusId");
-            await System.Threading.Tasks.Task.Run(() =>
-                this._statusedMTDel.DeleteByStatus(statusId));
+            await Task.Run(() => this._twin.DeleteByStatus(statusId));
         }
 
         public override void Unset(Id metaTaskId)
@@ -68,7 +63,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
             this.AssertNotNull(metaTaskId, "metaTaskId");
             this.BeginTransaction();
 
-            IEnumerable<Praxis> praxises = null;
+            IEnumerable<IPraxis> praxises = null;
             try
             { praxises = this._praxisRepo.GetByMetaTaskId(metaTaskId); }
             catch (ArgumentException)
@@ -76,9 +71,9 @@ namespace WorldZero.Service.Entity.Deletion.Primary
 
             if (praxises != null)
             {
-                foreach (Praxis p in praxises)
+                foreach (IPraxis p in praxises)
                 {
-                    p.MetaTaskId = null;
+                    ((UnsafePraxis) p).MetaTaskId = null;
                     try
                     { this._praxisRepo.Update(p); }
                     catch (ArgumentException e)
@@ -95,7 +90,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
             { throw new InvalidOperationException("An error occurred during transaction end.", e); }
         }
 
-        public void DeleteByFaction(Faction f)
+        public void DeleteByFaction(IFaction f)
         {
             this.AssertNotNull(f, "f");
             this.DeleteByFaction(f.Id);
@@ -105,33 +100,29 @@ namespace WorldZero.Service.Entity.Deletion.Primary
         {
             void f(Name factionName)
             {
-                IEnumerable<MetaTask> mts;
+                IEnumerable<IMetaTask> mts;
                 try
                 { mts = this._mtRepo.GetByFactionId(factionName); }
                 catch (ArgumentException)
                 { return; }
 
-                foreach (MetaTask mt in mts)
+                foreach (IMetaTask mt in mts)
                     this.Delete(mt);
             }
 
             this.Transaction<Name>(f, factionId, true);
         }
 
-        public async
-        System.Threading.Tasks.Task DeleteByFactionAsync(Faction f)
+        public async Task DeleteByFactionAsync(IFaction f)
         {
             this.AssertNotNull(f, "f");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByFaction(f));
+            await Task.Run(() => this.DeleteByFaction(f));
         }
 
-        public async
-        System.Threading.Tasks.Task DeleteByFactionAsync(Name factionId)
+        public async Task DeleteByFactionAsync(Name factionId)
         {
             this.AssertNotNull(factionId, "factionId");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByFaction(factionId));
+            await Task.Run(() => this.DeleteByFaction(factionId));
         }
     }
 }

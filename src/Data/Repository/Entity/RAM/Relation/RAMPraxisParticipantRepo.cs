@@ -7,7 +7,8 @@ using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.RAM.Generic;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
-using WorldZero.Common.Entity.Primary;
+using WorldZero.Common.Interface.Entity.Primary;
+using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.Entity.Relation;
 
 namespace WorldZero.Data.Repository.Entity.RAM.Relation
@@ -16,7 +17,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
     public class RAMPraxisParticipantRepo
         : IRAMEntityRelationRepo
           <
-            PraxisParticipant,
+            IPraxisParticipant,
             Id,
             int,
             Id,
@@ -25,12 +26,12 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
           >,
           IPraxisParticipantRepo
     {
-        public IEnumerable<PraxisParticipant> GetByPraxisId(Id praxisId)
+        public IEnumerable<IPraxisParticipant> GetByPraxisId(Id praxisId)
         {
             return this.GetByLeftId(praxisId);
         }
 
-        public IEnumerable<PraxisParticipant> GetByCharacterId(Id charId)
+        public IEnumerable<IPraxisParticipant> GetByCharacterId(Id charId)
         {
             return this.GetByRightId(charId);
         }
@@ -69,7 +70,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
             if (characterId == null)
                 throw new ArgumentNullException("characterId");
 
-            IEnumerable<PraxisParticipant> participants =
+            IEnumerable<IPraxisParticipant> participants =
                 from ppTemp in this._saved.Values
                 let pp = this.TEntityCast(ppTemp)
                 where pp.PraxisId == praxisId
@@ -92,7 +93,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
             if (praxisId == null)
                 throw new ArgumentNullException("praxisId");
 
-            IEnumerable<PraxisParticipant> participants =
+            IEnumerable<IPraxisParticipant> participants =
                 from ppTemp in this._saved.Values
                 let pp = this.TEntityCast(ppTemp)
                 where pp.PraxisId == praxisId
@@ -152,7 +153,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
         }
 
         public async
-        System.Threading.Tasks.Task DeleteByPraxisIdAsync(Id praxisId)
+        Task DeleteByPraxisIdAsync(Id praxisId)
         {
             this.DeleteByPraxisId(praxisId);
         }
@@ -163,14 +164,14 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
         }
 
         public async
-        System.Threading.Tasks.Task DeleteByCharacterIdAsync(Id charId)
+        Task DeleteByCharacterIdAsync(Id charId)
         {
             this.DeleteByCharacterId(charId);
         }
 
         protected override int GetRuleCount()
         {
-            var a = new PraxisParticipant(new Id(3), new Id(2));
+            var a = new UnsafePraxisParticipant(new Id(3), new Id(2));
             return a.GetUniqueRules().Count;
         }
 
@@ -183,13 +184,13 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
             if (statuses.Count == 0)
                 return 0;
 
-            string praxisName = typeof(Praxis).FullName;
+            string praxisName = typeof(IPraxis).FullName;
             if (!_data.ContainsKey(praxisName))
                 return 0;
 
-            IEnumerable<Praxis> praxises =
+            IEnumerable<IPraxis> praxises =
                 from pTemp in _data[praxisName].Saved.Values
-                let p = (Praxis) pTemp
+                let p = (IPraxis) pTemp
                 where statuses.Contains(p.StatusId)
 
                 from ppTemp in this._saved.Values
@@ -202,7 +203,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
             return praxises.Count();
         }
 
-        public async System.Threading.Tasks.Task<int> GetPraxisCountAsync(
+        public async Task<int> GetPraxisCountAsync(
             Id characterId,
             ISet<Name> statuses
         )
@@ -217,13 +218,13 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
             if (charId == null)
                 throw new ArgumentNullException("charId");
 
-            if (!_data.ContainsKey(typeof(Praxis).FullName))
+            if (!_data.ContainsKey(typeof(IPraxis).FullName))
                 return 0;
 
-            var pEntityData = _data[typeof(Praxis).FullName];
+            var pEntityData = _data[typeof(IPraxis).FullName];
             IEnumerable<Id> results =
                 from pTemp in pEntityData.Saved.Values
-                let p = (Praxis) pTemp
+                let p = (IPraxis) pTemp
                 where p.TaskId == taskId
                 from ppTemp in this._saved.Values
                 let pp = this.TEntityCast(ppTemp)
@@ -234,7 +235,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
            return results.Count();
         }
 
-        public async System.Threading.Tasks.Task<int>
+        public async Task<int>
         GetCharacterSubmissionCountAsync(Id taskId, Id charId)
         {
             return this.GetCharacterSubmissionCount(taskId, charId);
@@ -247,13 +248,13 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
             if (charId == null)
                 throw new ArgumentNullException("charId");
 
-            if (!_data.ContainsKey(typeof(Praxis).FullName))
+            if (!_data.ContainsKey(typeof(IPraxis).FullName))
                 return 0;
 
-            var pEntityData = _data[typeof(Praxis).FullName];
+            var pEntityData = _data[typeof(IPraxis).FullName];
             IEnumerable<Id> taskId =
                 from pTemp in pEntityData.Saved.Values
-                let p = (Praxis) pTemp
+                let p = (IPraxis) pTemp
                 where p.Id == praxisId
                 select p.TaskId;
 
@@ -266,7 +267,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
            return this.GetCharacterSubmissionCount(taskId.First(), charId);
         }
 
-        public async System.Threading.Tasks.Task<int>
+        public async Task<int>
         GetCharacterSubmissionCountViaPraxisIdAsync(Id praxisId, Id charId)
         {
             return this.GetCharacterSubmissionCountViaPraxisId(praxisId, charId);

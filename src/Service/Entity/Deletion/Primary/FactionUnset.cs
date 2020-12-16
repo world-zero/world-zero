@@ -1,15 +1,18 @@
 using System;
 using System.Collections.Generic;
 using WorldZero.Common.Entity.Primary;
+using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Service.Interface.Entity.Generic.Deletion;
+using WorldZero.Service.Interface.Entity.Deletion.Primary;
 
 namespace WorldZero.Service.Entity.Deletion.Primary
 {
-    /// <inheritdoc cref="IEntityUnset"/>
+    /// <inheritdoc cref="IFactionUnset"/>
     public class FactionUnset
-        : IEntityUnset<Faction, Name, string, Character, Id, int>
+        : ABCEntityUnset<IFaction, Name, string, ICharacter, Id, int>,
+          IFactionUnset
     {
         protected ICharacterRepo _charRepo
         { get { return (ICharacterRepo) this._otherRepo; } }
@@ -49,7 +52,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
             this.AssertNotNull(factionId, "factionId");
             this.BeginTransaction();
 
-            IEnumerable<Character> chars = null;
+            IEnumerable<ICharacter> chars = null;
             try
             { chars = this._charRepo.GetByFactionId(factionId); }
             catch (ArgumentException)
@@ -57,9 +60,9 @@ namespace WorldZero.Service.Entity.Deletion.Primary
 
             if (chars != null)
             {
-                foreach (Character c in chars)
+                foreach (ICharacter c in chars)
                 {
-                    c.FactionId = null;
+                    ((UnsafeCharacter) c).FactionId = null;
                     try
                     { this._charRepo.Update(c); }
                     catch (ArgumentException e)

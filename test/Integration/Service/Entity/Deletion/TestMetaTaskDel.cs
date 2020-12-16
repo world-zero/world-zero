@@ -1,16 +1,12 @@
 using System;
-using System.Linq;
 using WorldZero.Common.ValueObject.General;
+using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Entity.Primary;
-using WorldZero.Common.Entity.Relation;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
-using WorldZero.Common.Interface.General.Generic;
-using WorldZero.Data.Interface.Repository.Entity.Primary;
+using WorldZero.Common.Interface.ValueObject;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Data.Repository.Entity.RAM.Primary;
-using WorldZero.Data.Repository.Entity.RAM.Relation;
 using WorldZero.Service.Entity.Deletion.Primary;
-using WorldZero.Service.Entity.Deletion.Relation;
 using NUnit.Framework;
 
 // NOTE: This file does not abide by the limit on a line's character count.
@@ -43,11 +39,11 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private RAMMetaTaskRepo _repo;
         private RAMPraxisRepo _praxisRepo;
         private MetaTaskUnset _unset;
-        private Faction _faction0;
-        private Faction _faction1;
-        private MetaTask _mt0_0;
-        private MetaTask _mt0_1;
-        private MetaTask _mt1_0;
+        private UnsafeFaction _faction0;
+        private UnsafeFaction _faction1;
+        private UnsafeMetaTask _mt0_0;
+        private UnsafeMetaTask _mt0_1;
+        private UnsafeMetaTask _mt1_0;
 
         [SetUp]
         public void Setup()
@@ -61,11 +57,11 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
 
             var s = new Name("status");
             var pt = new PointTotal(2);
-            this._faction0 = new Faction(new Name("0"));
-            this._faction1 = new Faction(new Name("1"));
-            this._mt0_0 = new MetaTask(this._faction0.Id, s, "x", pt);
-            this._mt0_1 = new MetaTask(this._faction0.Id, s, "x", pt);
-            this._mt1_0 = new MetaTask(this._faction1.Id, s, "x", pt);
+            this._faction0 = new UnsafeFaction(new Name("0"));
+            this._faction1 = new UnsafeFaction(new Name("1"));
+            this._mt0_0 = new UnsafeMetaTask(this._faction0.Id, s, "x", pt);
+            this._mt0_1 = new UnsafeMetaTask(this._faction0.Id, s, "x", pt);
+            this._mt1_0 = new UnsafeMetaTask(this._faction1.Id, s, "x", pt);
             this._repo.Insert(this._mt0_0);
             this._repo.Insert(this._mt0_1);
             this._repo.Insert(this._mt1_0);
@@ -88,7 +84,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestDeleteByFactionSad()
         {
             Name name = null;
-            Faction faction = null;
+            UnsafeFaction faction = null;
             Assert.Throws<ArgumentNullException>(()=>this._unset.DeleteByFaction(name));
             Assert.Throws<ArgumentNullException>(()=>this._unset.DeleteByFaction(faction));
 
@@ -99,18 +95,18 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestDeleteByFaction_faction0()
         {
             this._unset.DeleteByFaction(this._faction0);
-            this._absentt<MetaTask, Id, int>(this._mt0_0, this._repo.GetById);
-            this._absentt<MetaTask, Id, int>(this._mt0_1, this._repo.GetById);
-            this._present<MetaTask, Id, int>(this._mt1_0, this._repo.GetById);
+            this._absentt<IMetaTask, Id, int>(this._mt0_0, this._repo.GetById);
+            this._absentt<IMetaTask, Id, int>(this._mt0_1, this._repo.GetById);
+            this._present<IMetaTask, Id, int>(this._mt1_0, this._repo.GetById);
         }
 
         [Test]
         public void TestDeleteByFaction_faction1()
         {
             this._unset.DeleteByFaction(this._faction1);
-            this._present<MetaTask, Id, int>(this._mt0_0, this._repo.GetById);
-            this._present<MetaTask, Id, int>(this._mt0_1, this._repo.GetById);
-            this._absentt<MetaTask, Id, int>(this._mt1_0, this._repo.GetById);
+            this._present<IMetaTask, Id, int>(this._mt0_0, this._repo.GetById);
+            this._present<IMetaTask, Id, int>(this._mt0_1, this._repo.GetById);
+            this._absentt<IMetaTask, Id, int>(this._mt1_0, this._repo.GetById);
         }
 
         [Test]

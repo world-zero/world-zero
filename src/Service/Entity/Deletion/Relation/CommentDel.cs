@@ -1,22 +1,47 @@
-using WorldZero.Common.Entity.Primary;
-using WorldZero.Common.Entity.Relation;
+using System.Threading.Tasks;
+using WorldZero.Common.Interface.Entity.Primary;
+using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.ValueObject.General;
+using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Service.Interface.Entity.Generic.Deletion;
+using WorldZero.Service.Interface.Entity.Deletion.Relation;
 
 namespace WorldZero.Service.Entity.Deletion.Relation
 {
-    /// <inheritdoc cref="IEntityDel"/>
-    public class CommentDel : IEntityDel<Comment, Id, int>
+    /// <inheritdoc cref="ICommentDel"/>
+    public class CommentDel :
+        ABCEntityRelationCntDel
+        <
+            IComment,
+            IPraxis, Id, int,
+            ICharacter, Id, int,
+            CntRelationDTO<Id, int, Id, int>
+        >, ICommentDel
     {
         protected ICommentRepo _commentRepo
         { get { return (ICommentRepo) this._repo; } }
 
-        public CommentDel(ICommentRepo repo)
-            : base(repo)
-        { }
+        protected readonly CommentFlagDel _cfDel;
 
-        public void DeleteByPraxis(Praxis p)
+        public CommentDel(ICommentRepo repo, CommentFlagDel cfDel)
+            : base(repo)
+        {
+            this.AssertNotNull(cfDel, "cfDel");
+            this._cfDel = cfDel;
+        }
+
+        public override void Delete(Id commentId)
+        {
+            void f(Id id)
+            {
+                this._cfDel.DeleteByComment(id);
+                base.Delete(id);
+            }
+            this.Transaction<Id>(f, commentId, true);
+        }
+
+        public void DeleteByPraxis(IPraxis p)
         {
             this.AssertNotNull(p, "p");
             this.DeleteByPraxis(p.Id);
@@ -27,22 +52,19 @@ namespace WorldZero.Service.Entity.Deletion.Relation
             this.Transaction<Id>(this._commentRepo.DeleteByPraxisId, praxisId);
         }
 
-        public async System.Threading.Tasks.Task DeleteByPraxisAsync(Praxis p)
+        public async Task DeleteByPraxisAsync(IPraxis p)
         {
             this.AssertNotNull(p, "P");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByPraxis(p));
+            await Task.Run(() => this.DeleteByPraxis(p));
         }
 
-        public async
-        System.Threading.Tasks.Task DeleteByPraxisAsync(Id praxisId)
+        public async Task DeleteByPraxisAsync(Id praxisId)
         {
             this.AssertNotNull(praxisId, "praxisId");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByPraxis(praxisId));
+            await Task.Run(() => this.DeleteByPraxis(praxisId));
         }
 
-        public void DeleteByCharacter(Character c)
+        public void DeleteByCharacter(ICharacter c)
         {
             this.AssertNotNull(c, "c");
             this.DeleteByCharacter(c.Id);
@@ -56,20 +78,16 @@ namespace WorldZero.Service.Entity.Deletion.Relation
             );
         }
 
-        public async
-        System.Threading.Tasks.Task DeleteByCharacterAsync(Character p)
+        public async Task DeleteByCharacterAsync(ICharacter c)
         {
-            this.AssertNotNull(p, "P");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByCharacter(p));
+            this.AssertNotNull(c, "c");
+            await Task.Run(() => this.DeleteByCharacter(c));
         }
 
-        public async
-        System.Threading.Tasks.Task DeleteByCharacterAsync(Id charId)
+        public async Task DeleteByCharacterAsync(Id charId)
         {
             this.AssertNotNull(charId, "charId");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByCharacter(charId));
+            await Task.Run(() => this.DeleteByCharacter(charId));
         }
     }
 }

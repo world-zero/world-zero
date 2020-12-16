@@ -1,15 +1,15 @@
-using WorldZero.Common.Interface.General.Generic;
+using System.Threading.Tasks;
+using WorldZero.Common.Interface.ValueObject;
 using WorldZero.Common.Interface.Entity.Generic.Relation;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
-using WorldZero.Common.Entity.Primary;
+using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
-using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
 
 namespace WorldZero.Service.Interface.Entity.Generic.Deletion
 {
-    /// <inheritdoc cref="IEntityRelationDel"/>
-    public abstract class IFlaggedEntityDel
+    /// <inheritdoc cref="IEntityRelationDel{TEntityRelation, TLeftEntity, TLeftId, TLeftBuiltIn, TRightEntity, TRightId, TRightBuiltIn, TRelationDTO}"/>
+    public interface IFlaggedEntityDel
     <
         TEntityRelation,
         TLeftEntity,
@@ -18,72 +18,41 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
         TRelationDTO
     >
         : IEntityRelationDel
-    <
-        TEntityRelation,
-        TLeftEntity,
-        TLeftId,
-        TLeftBuiltIn,
-        Flag,
-        Name,
-        string,
-        TRelationDTO
-    >
-        where TEntityRelation : IFlaggedEntity
+        <
+            TEntityRelation,
+            TLeftEntity,
+            TLeftId,
+            TLeftBuiltIn,
+            IFlag,
+            Name,
+            string,
+            TRelationDTO
+        >
+        where TEntityRelation : class, IFlaggedEntity
             <TLeftId, TLeftBuiltIn>
         where TLeftEntity : IEntity<TLeftId, TLeftBuiltIn>
         where TLeftId  : ISingleValueObject<TLeftBuiltIn>
         where TRelationDTO : RelationDTO
             <TLeftId, TLeftBuiltIn, Name, string>
     {
-        public IFlaggedEntityDel(
-            IFlaggedEntityRepo
-            <
-                TEntityRelation,
-                TLeftId,
-                TLeftBuiltIn,
-                TRelationDTO
-            >
-            repo
-        )
-            : base(repo)
-        { }
+        /// <remarks>
+        /// This is just a wrapper for `DeleteByRightId()`.
+        /// </remarks>
+        void DeleteByFlag(IFlag flag);
 
         /// <remarks>
         /// This is just a wrapper for `DeleteByRightId()`.
         /// </remarks>
-        public void DeleteByFlag(Flag flag)
-        {
-            this.AssertNotNull(flag, "flag");
-            this.DeleteByRight(flag.Id);
-        }
-
-        /// <remarks>
-        /// This is just a wrapper for `DeleteByRightId()`.
-        /// </remarks>
-        public void DeleteByFlag(Name flagId)
-        {
-            this.AssertNotNull(flagId, "flagId");
-            this.DeleteByRight(flagId);
-        }
+        void DeleteByFlag(Name flagId);
 
         /// <remarks>
         /// This is just a wrapper for `DeleteByRightIdAsync()`.
         /// </remarks>
-        public async System.Threading.Tasks.Task DeleteByFlagAsync(Flag flag)
-        {
-            this.AssertNotNull(flag, "flag");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByRight(flag.Id));
-        }
+        Task DeleteByFlagAsync(IFlag flag);
 
         /// <remarks>
         /// This is just a wrapper for `DeleteByRightIdAsync()`.
         /// </remarks>
-        public async System.Threading.Tasks.Task DeleteByFlagAsync(Name flagId)
-        {
-            this.AssertNotNull(flagId, "flagId");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByRight(flagId));
-        }
+        Task DeleteByFlagAsync(Name flagId);
     }
 }

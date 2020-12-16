@@ -16,14 +16,14 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
         private Id _id1;
         private Id _id2;
         private Id _id3;
-        private PraxisParticipant _pp0;
-        private PraxisParticipant _pp1;
-        private PraxisParticipant _pp2;
+        private UnsafePraxisParticipant _pp0;
+        private UnsafePraxisParticipant _pp1;
+        private UnsafePraxisParticipant _pp2;
         private TestRAMEntityRelationRepo _repo;
 
         private void _assertPraxisParticipantsEqual(
-            PraxisParticipant expected,
-            PraxisParticipant actual
+            UnsafePraxisParticipant expected,
+            UnsafePraxisParticipant actual
         )
         {
             Assert.AreEqual(expected.Id, actual.Id);
@@ -37,9 +37,9 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
             this._id1 = new Id(3);
             this._id2 = new Id(15);
             this._id3 = new Id(33);
-            this._pp0 = new PraxisParticipant(this._id0, this._id1);
-            this._pp1 = new PraxisParticipant(this._id2, this._id3);
-            this._pp2 = new PraxisParticipant(this._id0, this._id3);
+            this._pp0 = new UnsafePraxisParticipant(this._id0, this._id1);
+            this._pp1 = new UnsafePraxisParticipant(this._id2, this._id3);
+            this._pp2 = new UnsafePraxisParticipant(this._id0, this._id3);
             this._repo = new TestRAMEntityRelationRepo();
             this._repo.Insert(this._pp0);
             this._repo.Insert(this._pp1);
@@ -66,7 +66,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
             Assert.Throws<ArgumentException>(
                 ()=>this._repo.GetByLeftId(new Id(90000000)).FirstOrDefault());
 
-            var expected = new HashSet<PraxisParticipant>();
+            var expected = new HashSet<UnsafePraxisParticipant>();
             expected.Add(this._pp0);
             expected.Add(this._pp2);
             var results = this._repo.GetByLeftId(this._id0).ToHashSet();
@@ -81,7 +81,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
             Assert.Throws<ArgumentException>(()=>
                 this._repo.GetByRightId(new Id(90000000)).FirstOrDefault());
 
-            var expected = new HashSet<PraxisParticipant>();
+            var expected = new HashSet<UnsafePraxisParticipant>();
             expected.Add(this._pp1);
             expected.Add(this._pp2);
             var results = this._repo.GetByRightId(this._id3).ToHashSet();
@@ -136,7 +136,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
             Assert.Throws<ArgumentNullException>(()=>
                 this._repo.DeleteByLeftId(null));
 
-            this._repo.Insert(new PraxisParticipant(this._id0, this._id3));
+            this._repo.Insert(new UnsafePraxisParticipant(this._id0, this._id3));
             Assert.AreEqual(3, this._repo.SavedCount);
             Assert.AreEqual(1, this._repo.StagedCount);
             this._repo.DeleteByLeftId(this._id0);
@@ -154,7 +154,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
             Assert.Throws<ArgumentNullException>(()=>
                 this._repo.DeleteByRightId(null));
 
-            this._repo.Insert(new PraxisParticipant(this._id3));
+            this._repo.Insert(new UnsafePraxisParticipant(this._id3));
             Assert.AreEqual(3, this._repo.SavedCount);
             Assert.AreEqual(1, this._repo.StagedCount);
             this._repo.DeleteByRightId(this._id3);
@@ -183,7 +183,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
             Assert.Throws<ArgumentException>(()=>
                 this._repo.GetById(this._pp0.Id));
 
-            var pp = new PraxisParticipant(dto.LeftId, dto.RightId);
+            var pp = new UnsafePraxisParticipant(dto.LeftId, dto.RightId);
             this._repo.Insert(pp);
             Assert.AreEqual(2, this._repo.SavedCount);
             Assert.AreEqual(1, this._repo.StagedCount);
@@ -199,7 +199,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
     public class TestRAMEntityRelationRepo
         : IRAMEntityRelationRepo
           <
-            PraxisParticipant,
+            UnsafePraxisParticipant,
             Id,
             int,
             Id,
@@ -213,7 +213,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
 
         protected override int GetRuleCount()
         {
-            var a = new PraxisParticipant(new Id(2), new Id(93));
+            var a = new UnsafePraxisParticipant(new Id(2), new Id(93));
             return a.GetUniqueRules().Count;
         }
 

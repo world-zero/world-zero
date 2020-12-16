@@ -1,48 +1,35 @@
-using System.Reflection.Emit;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using WorldZero.Common.Entity.Primary;
-using WorldZero.Common.Entity.Relation;
+using WorldZero.Common.Interface.Entity.Primary;
+using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.General.Generic;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Service.Interface.Entity.Generic.Deletion;
-using WorldZero.Service.Entity.Deletion.Primary;
+using WorldZero.Service.Interface.Entity.Deletion.Primary;
+using WorldZero.Service.Interface.Entity.Deletion.Relation;
 
 using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("WorldZero.Test.Integration")]
 
 namespace WorldZero.Service.Entity.Deletion.Relation
 {
-    /// <inheritdoc cref="IEntityRelationDel"/>
-    /// <remarks>
-    /// A Praxis should always have at least one participant. As a result,
-    /// these methods will throw an exception if they are going to remove a
-    /// praxis' final participant. However, the methods beginning with `Sudo`
-    /// that take a `PraxisDel` class will delete the praxis if the last
-    /// participant is removed.
-    /// <br />
-    /// If a participant of a duel is deleted, then the praxis will be updated
-    /// to no longer be a duel. This does not use the praxis updating service
-    /// class.
-    /// <br />
-    /// This will also delete the participant's received votes. Whether or not
-    /// the voting character will receive a refund is up to <see
-    /// cref="VoteDel"/>.
-    /// </remarks>
-    public class PraxisParticipantDel : IEntityRelationDel
+    /// <inheritdoc cref="IPraxisParticipantDel"/>
+    public class PraxisParticipantDel : ABCEntityRelationDel
     <
-        PraxisParticipant,
-        Praxis,
+        IPraxisParticipant,
+        IPraxis,
         Id,
         int,
-        Character,
+        ICharacter,
         Id,
         int,
         RelationDTO<Id, int, Id, int>
-    >
+    >, IPraxisParticipantDel
     {
         protected IPraxisParticipantRepo _ppRepo
         { get { return (IPraxisParticipantRepo) this._relRepo; } }
@@ -76,7 +63,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         /// cref="WorldZero.Service.Entity.Deletion.Primary.PraxisDel"/> - use
         /// this anywhere else with extreme caution.
         /// </remarks>
-        internal void UNSAFE_DeleteByPraxis(Praxis p)
+        internal void UNSAFE_DeleteByPraxis(IPraxis p)
         {
             this.AssertNotNull(p, "p");
             this.UNSAFE_DeleteByPraxis(p.Id);
@@ -98,11 +85,11 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         {
             void f(Id id)
             {
-                IEnumerable<PraxisParticipant> pps;
+                IEnumerable<IPraxisParticipant> pps;
                 try
                 {
                     pps = this._ppRepo.GetByPraxisId(id);
-                    foreach (PraxisParticipant pp in pps)
+                    foreach (IPraxisParticipant pp in pps)
                         this._delete(pp.Id, false);
                 }
                 catch (ArgumentException)
@@ -111,7 +98,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
             this.Transaction<Id>(f, praxisId, true);
         }
 
-        public void DeleteByPraxis(Praxis p)
+        public void DeleteByPraxis(IPraxis p)
         {
             this.DeleteByLeft(p);
         }
@@ -121,23 +108,19 @@ namespace WorldZero.Service.Entity.Deletion.Relation
             this.DeleteByLeft(id);
         }
 
-        public async
-        System.Threading.Tasks.Task DeleteByPraxisAsync(Praxis p)
+        public async Task DeleteByPraxisAsync(IPraxis p)
         {
             this.AssertNotNull(p, "p");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByPraxis(p));
+            await Task.Run(() => this.DeleteByPraxis(p));
         }
 
-        public async
-        System.Threading.Tasks.Task DeleteByPraxisAsync(Id id)
+        public async Task DeleteByPraxisAsync(Id id)
         {
             this.AssertNotNull(id, "id");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByPraxis(id));
+            await Task.Run(() => this.DeleteByPraxis(id));
         }
 
-        public void DeleteByCharacter(Character c)
+        public void DeleteByCharacter(ICharacter c)
         {
             this.DeleteByRight(c);
         }
@@ -147,30 +130,26 @@ namespace WorldZero.Service.Entity.Deletion.Relation
             this.DeleteByRight(id);
         }
 
-        public async
-        System.Threading.Tasks.Task DeleteByCharacterAsync(Character c)
+        public async Task DeleteByCharacterAsync(ICharacter c)
         {
             this.AssertNotNull(c, "c");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByCharacter(c));
+            await Task.Run(() => this.DeleteByCharacter(c));
         }
 
-        public async
-        System.Threading.Tasks.Task DeleteByCharacterAsync(Id id)
+        public async Task DeleteByCharacterAsync(Id id)
         {
             this.AssertNotNull(id, "id");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByCharacter(id));
+            await Task.Run(() => this.DeleteByCharacter(id));
         }
 
-        public void SudoDeleteByCharacter(Character c, PraxisDel praxisDel)
+        public void SudoDeleteByCharacter(ICharacter c, IPraxisDel praxisDel)
         {
             this.AssertNotNull(c, "c");
             this.AssertNotNull(praxisDel, "praxisDel");
             this.SudoDeleteByCharacter(c.Id, praxisDel);
         }
 
-        public void SudoDeleteByCharacter(Id charId, PraxisDel praxisDel)
+        public void SudoDeleteByCharacter(Id charId, IPraxisDel praxisDel)
         {
             this.AssertNotNull(praxisDel, "praxisDel");
             void f(Id id0) => this._deleteByChar(id0, praxisDel);
@@ -178,27 +157,24 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         }
 
         public async
-        System.Threading.Tasks.Task SudoDeleteByCharacterAsync(
-            Character c,
-            PraxisDel praxisDel
+        Task SudoDeleteByCharacterAsync(
+            ICharacter c,
+            IPraxisDel praxisDel
         )
         {
             this.AssertNotNull(c, "c");
             this.AssertNotNull(praxisDel, "praxisDel");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.SudoDeleteByCharacter(c, praxisDel));
+            await Task.Run(() => this.SudoDeleteByCharacter(c, praxisDel));
         }
 
-        public async
-        System.Threading.Tasks.Task SudoDeleteByCharacterAsync(
+        public async Task SudoDeleteByCharacterAsync(
             Id id,
-            PraxisDel praxisDel
+            IPraxisDel praxisDel
         )
         {
             this.AssertNotNull(id, "id");
             this.AssertNotNull(praxisDel, "praxisDel");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.SudoDeleteByCharacter(id, praxisDel));
+            await Task.Run(() => this.SudoDeleteByCharacter(id, praxisDel));
         }
 
         /// <summary>
@@ -207,7 +183,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         /// Do not supply this with pDel unless the callee explicitally needs
         /// it.
         /// </summary>
-        private void _deleteByChar(Id charId, PraxisDel pDel)
+        private void _deleteByChar(Id charId, IPraxisDel pDel)
         {
             var dtos = this._ppRepo.GetParticipantCountsViaCharId(charId);
             foreach (CountingDTO<Id> dto in dtos)
@@ -231,7 +207,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         /// </summary>
         private void _unduel(Id praxisId)
         {
-            Praxis p;
+            IPraxis p;
             try
             {
                 p = this._praxisRepo.GetById(praxisId);
@@ -241,7 +217,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
 
             if (p.AreDueling)
             {
-                p.AreDueling = false;
+                ((UnsafePraxis) p).AreDueling = false;
                 this._praxisRepo.Update(p);
             }
         }
@@ -264,7 +240,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
 
             if (endCount == 1)
             {
-                PraxisParticipant pp;
+                IPraxisParticipant pp;
                 try
                 { pp = this._ppRepo.GetById(ppId); }
                 catch (ArgumentException)

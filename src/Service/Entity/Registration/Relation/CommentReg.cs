@@ -1,26 +1,27 @@
-using WorldZero.Service.Interface.Entity.Registration;
+using WorldZero.Service.Interface.Entity.Generic.Registration;
+using WorldZero.Service.Interface.Entity.Registration.Relation;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
-using WorldZero.Common.Entity.Primary;
-using WorldZero.Common.Entity.Relation;
+using WorldZero.Common.Interface.Entity.Primary;
+using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 
 namespace WorldZero.Service.Entity.Registration.Relation
 {
-    /// <inheritdoc cref="IEntityRelationReg"/>
+    /// <inheritdoc cref="ICommentReg"/>
     public class CommentReg
-        : IEntityRelationReg
+        : ABCEntityRelationReg
         <
-            Comment,
-            Praxis,
+            IComment,
+            IPraxis,
             Id,
             int,
-            Character,
+            ICharacter,
             Id,
             int,
             CntRelationDTO<Id, int, Id, int>
-        >
+        >, ICommentReg
     {
         protected ICommentRepo _commentRepo
         { get { return (ICommentRepo) this._repo; } }
