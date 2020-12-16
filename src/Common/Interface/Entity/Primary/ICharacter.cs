@@ -15,21 +15,6 @@ namespace WorldZero.Common.Interface.Entity.Primary
         /// </summary>
         /// <param name="points">The points to calculate the level of.</param>
         /// <returns><c>Level</c> corresponding to the <c>points</c>.</returns>
-        /// <remarks>
-        /// This should return values corresponding to the below.
-        /// <code>
-        /// int p = poinnts.AsInt;
-        /// if      (p < 10)   r = 0;
-        /// else if (p < 70)   r = 1;
-        /// else if (p < 170)  r = 2;
-        /// else if (p < 330)  r = 3;
-        /// else if (p < 610)  r = 4;
-        /// else if (p < 1090) r = 5;
-        /// else if (p < 1840) r = 6;
-        /// else if (p < 3040) r = 7;
-        /// else               r = 8;
-        /// </code>
-        /// </remarks>
         Level CalculateLevel(PointTotal points);
 
         /// <summary>
