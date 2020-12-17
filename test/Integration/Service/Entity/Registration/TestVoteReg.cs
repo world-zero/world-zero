@@ -17,6 +17,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         private Id _id2;
         private Id _id3;
         private Id _id4;
+        private UnsafeFaction _f0;
         private RAMFactionRepo _factionRepo;
         private RAMTaskRepo _taskRepo;
         private RAMVoteRepo _voteRepo;
@@ -36,7 +37,11 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             this._id2 = new Id(2);
             this._id3 = new Id(3);
             this._id4 = new Id(4);
+            this._f0 =
+                new UnsafeFaction(new Name("x"),new PastDate(DateTime.UtcNow));
             this._factionRepo = new RAMFactionRepo();
+            this._factionRepo.Insert(this._f0);
+            this._factionRepo.Save();
             this._taskRepo = new RAMTaskRepo();
             this._eraRepo = new RAMEraRepo();
             this._eraReg = new EraReg(this._eraRepo);
@@ -118,14 +123,14 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             statusReg.Register(status);
 
             var task = new UnsafeTask(
-                new Name("Factorio"),
+                this._f0.Id,
                 status.Id,
                 "sdf",
                 new PointTotal(20),
                 new Level(1)
             );
             var taskRepo = new RAMTaskRepo();
-            var taskReg = new TaskReg(taskRepo);
+            var taskReg = new TaskReg(taskRepo, this._factionRepo);
             taskReg.Register(task);
 
             var eraRepo = new RAMEraRepo();

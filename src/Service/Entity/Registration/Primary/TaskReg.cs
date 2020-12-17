@@ -1,3 +1,4 @@
+using System;
 using WorldZero.Service.Interface.Entity.Generic.Registration;
 using WorldZero.Service.Interface.Entity.Registration.Primary;
 using WorldZero.Common.ValueObject.General;
@@ -13,8 +14,32 @@ namespace WorldZero.Service.Entity.Registration.Primary
         protected ITaskRepo _taskRepo
         { get { return (ITaskRepo) this._repo; } }
 
-        public TaskReg(ITaskRepo taskRepo)
+        protected readonly IFactionRepo _factionRepo;
+
+        public TaskReg(ITaskRepo taskRepo, IFactionRepo factionRepo)
             : base(taskRepo)
-        { }
+        {
+            this.AssertNotNull(factionRepo, "factionRepo");
+            this._factionRepo = factionRepo;
+        }
+
+        public override ITask Register(ITask t)
+        {
+            this.AssertNotNull(t, "t");
+            this.BeginTransaction(true);
+            try
+            {
+                if (t.FactionId != null)
+                    this._factionRepo.GetById(t.FactionId);
+            }
+            catch (ArgumentException)
+            {
+                this.DiscardTransaction();
+                throw new ArgumentException($"Task of ID {t.Id.Get} has an invalid Faction ID of {t.FactionId.Get}.");
+            }
+            var r = base.Register(t);
+            this.EndTransaction();
+            return r;
+        }
     }
 }
