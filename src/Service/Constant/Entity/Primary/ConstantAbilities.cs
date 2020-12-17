@@ -22,6 +22,14 @@ namespace WorldZero.Service.Constant.Entity.Primary
                 )
             );
 
+        public static readonly IAbility Historian =
+            new UnsafeAbility(
+                new Name("Historian"),
+                string.Join("",
+                    "This ability allows characters to submit praxises for ",
+                    "approved retired and proposed tasks.")
+            );
+
         public ConstantAbilities(IAbilityRepo repo)
             : base(repo)
         { }
@@ -29,6 +37,7 @@ namespace WorldZero.Service.Constant.Entity.Primary
         public override IEnumerable<IAbility> GetEntities()
         {
             yield return Reiterator;
+            yield return Historian;
         }
     }
 }

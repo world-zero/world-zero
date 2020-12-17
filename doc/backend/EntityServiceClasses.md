@@ -16,7 +16,15 @@ Be aware that these two rules in particular are relied upon heavily:
 - A Praxis must have at least one PP.
 - A Player can only have a single Character per Praxis.
 
-Additionally, be mindful of Dueling (`Praxis.AreDueling`).
+Additionally, be mindful of Dueling (`Praxis.AreDueling`).  
+
+We do not want service classes to boot people out of things as a side effect of
+an operation. Consider the case where a task with `MinLevel` of 3 has several
+praxises from people who's level is also 3. If we changed the task's `MinLevel`
+to 4, then we would not want to revoke those praxises. The rule of thumb is
+that we do not want to cross-/re-validate after registration has completed,
+excluding the obvious cases where this rule is not absolute. In summary, we do
+not want to cascade an update, but we do want to cascade deletions.
 
 ### Constants
 

@@ -20,8 +20,8 @@ namespace WorldZero.Common.Interface.Entity.Primary
         Level MinLevel { get; }
 
         /// <summary>
-        /// This auto-property controls whether or not the Historian ability
-        /// can be used on this task.
+        /// This property controls whether or not the Historian ability can be
+        /// used on this task.
         /// </summary>
         bool IsHistorianable { get; }
     }
