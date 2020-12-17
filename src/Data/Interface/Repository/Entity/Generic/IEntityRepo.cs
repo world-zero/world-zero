@@ -11,6 +11,10 @@ namespace WorldZero.Data.Interface.Repository.Entity.Generic
     /// </summary>
     /// <remarks>
     /// On Save(), entities with an int ID will have that value be set.
+    /// <br />
+    /// When developing a new implementation, be very mindful of how a query
+    /// within a transaction should occur, especially if that transaction is
+    /// serialized.
     /// </remarks>
     public interface IEntityRepo<TEntity, TId, TIdBuiltIn>
         : IGenericRepo<TEntity, TId>

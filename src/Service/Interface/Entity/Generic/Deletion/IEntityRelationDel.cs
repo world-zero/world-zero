@@ -7,7 +7,6 @@ using WorldZero.Common.Interface.Entity.Generic.Primary;
 
 namespace WorldZero.Service.Interface.Entity.Generic.Deletion
 {
-    /// <inheritdoc cref="IEntityDel{TEntity, TId, TBuiltIn}"/>
     /// <summary>
     /// This is a generic interface for entity relation deletion service
     /// classes.
@@ -50,6 +49,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
     /// for the registration class itself - this is why there is no
     /// `IEntityRelationCntReg`.
     /// </remarks>
+    /// <inheritdoc cref="IEntityDel{TEntity, TId, TBuiltIn}"/>
     public interface IEntityRelationDel
     <
         TEntityRelation,

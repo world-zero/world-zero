@@ -11,13 +11,13 @@ namespace WorldZero.Common.Interface.Entity.Primary
     public interface IFaction
         : INamedEntity, IOptionalEntity, IEntityHasOptional
     {
+        string Description { get; }
+
         PastDate DateFounded { get; }
 
         /// <remarks>
         /// This can be `null`.
         /// </remarks>
         Name AbilityId { get; }
-
-        string Description { get; }
     }
 }
