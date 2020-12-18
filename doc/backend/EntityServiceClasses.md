@@ -30,3 +30,8 @@ not want to cascade an update, but we do want to cascade deletions.
 
 There are various constant entities that the system needs in order to operate.
 For more, see `IConstantEntities`.
+
+### Entity Updating Services
+
+The tests for these classes are going to be extremely similar to the tests for
+the hidden implementations.
