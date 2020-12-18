@@ -120,5 +120,11 @@ namespace WorldZero.Test.Integration.Service.Entity.Update.Primary
             this._update.AmendDescription(this._a.Id, this._desc);
             this._assertIsOld();
         }
+
+        [Test]
+        public void TestConstructor()
+        {
+            Assert.Throws<ArgumentNullException>(()=>new AbilityUpdate(null));
+        }
     }
 }
