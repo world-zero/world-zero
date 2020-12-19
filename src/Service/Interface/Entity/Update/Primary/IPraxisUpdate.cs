@@ -11,6 +11,10 @@ namespace WorldZero.Service.Interface.Entity.Update.Primary
     /// <br />
     /// This will not allow a praxis to become a duel if there is not exaclty
     /// two participants.
+    /// <br />
+    /// When moving a praxis from Active to Retired, points will be awarded to
+    /// the participant(s), and the bonus via the Praxis' Meta Task will be
+    /// awarded, if appropriate.
     /// </remarks>
     /// <inheritdoc cref="IIdStatusedEntityUpdate{TEntity}"/>
     public interface IPraxisUpdate : IIdStatusedEntityUpdate<IPraxis>
