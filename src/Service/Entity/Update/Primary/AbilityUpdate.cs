@@ -24,9 +24,17 @@ namespace WorldZero.Service.Entity.Update.Primary
             this.AssertNotNull(newDesc, "newDesc");
             void f<Id>(Id _)
             {
-                var ability = (UnsafeAbility) a;
+                UnsafeAbility ability;
                 try
-                { ability.Description = newDesc; }
+                {
+                    ability = (UnsafeAbility) a;
+                    ability.Description = newDesc;
+                }
+                catch (InvalidCastException e)
+                {
+                    this.DiscardTransaction();
+                    throw new InvalidOperationException("Could not cast, there is an outside implementation being supplied.", e);
+                }
                 catch (ArgumentException e)
                 {
                     throw new ArgumentException("Could not complete the amendment.", e);

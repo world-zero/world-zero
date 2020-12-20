@@ -24,9 +24,17 @@ namespace WorldZero.Service.Entity.Update.Relation
             this.AssertNotNull(newValue, "newValue");
             void f<Id>(Id _)
             {
-                var comment = (UnsafeComment) c;
+                UnsafeComment comment;
                 try
-                { comment.Value = newValue; }
+                {
+                    comment = (UnsafeComment) c;
+                    comment.Value = newValue;
+                }
+                catch (InvalidCastException e)
+                {
+                    this.DiscardTransaction();
+                    throw new InvalidOperationException("Could not cast, there is an outside implementation being supplied.", e);
+                }
                 catch (ArgumentException e)
                 {
                     throw new ArgumentException("Could not complete the amendment.", e);
