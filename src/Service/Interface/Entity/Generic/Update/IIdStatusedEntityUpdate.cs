@@ -11,8 +11,12 @@ namespace WorldZero.Service.Interface.Entity.Generic.Update
         where TEntity : class, IEntity<Id, int>
     {
         void AmendStatus(TEntity e, IStatus newStatus);
+        void AmendStatus(Id entityId, IStatus newStatus);
         void AmendStatus(TEntity e, Name newStatusId);
+        void AmendStatus(Id entityId, Name newStatusId);
         Task AmendStatusAsync(TEntity e, IStatus newStatus);
+        Task AmendStatusAsync(Id entityId, IStatus newStatus);
         Task AmendStatusAsync(TEntity e, Name newStatusId);
+        Task AmendStatusAsync(Id entityId, Name newStatusId);
     }
 }

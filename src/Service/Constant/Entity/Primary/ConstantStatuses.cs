@@ -36,5 +36,13 @@ namespace WorldZero.Service.Constant.Entity.Primary
             yield return InProgress;
             yield return Retired;
         }
+
+        public static IEnumerable<IStatus> StaticGetEntities()
+        {
+            yield return Proposed;
+            yield return Active;
+            yield return InProgress;
+            yield return Retired;
+        }
     }
 }

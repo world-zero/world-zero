@@ -22,38 +22,22 @@ namespace WorldZero.Service.Entity.Update.Primary
         {
             this.AssertNotNull(a, "a");
             this.AssertNotNull(newDesc, "newDesc");
-            void f<Id>(Id _)
+            void f()
             {
-                UnsafeAbility ability;
-                try
-                {
-                    ability = (UnsafeAbility) a;
-                    ability.Description = newDesc;
-                }
-                catch (InvalidCastException e)
-                {
-                    this.DiscardTransaction();
-                    throw new InvalidOperationException("Could not cast, there is an outside implementation being supplied.", e);
-                }
-                catch (ArgumentException e)
-                {
-                    throw new ArgumentException("Could not complete the amendment.", e);
-                }
-                this._repo.Update(ability);
+                ((UnsafeAbility) a).Description = newDesc;
             }
-
-            this.Transaction<Id>(f, new Id(0));
+            this.AmendHelper<IAbility>(f, a);
         }
 
         public void AmendDescription(Name abilityId, string newDesc)
         {
             this.AssertNotNull(abilityId, "abilityId");
             this.AssertNotNull(newDesc, "newDesc");
-            void f<Id>(Id _)
+            void f()
             {
                 this.AmendDescription(this._repo.GetById(abilityId), newDesc);
             }
-            this.Transaction<Id>(f, new Id(0), true);
+            this.Transaction(f, true);
         }
 
         public async Task AmendDescriptionAsync(IAbility a, string newDesc)

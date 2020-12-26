@@ -69,11 +69,39 @@ namespace WorldZero.Data.Interface.Repository.Entity.Generic
         /// Perform the transaction asynchronously.
         /// </summary>
         /// <remarks>
-        /// For more, <see cref="WorldZero.Data.Interface.Repository.Entity.Generic.IEntityRepo{TEntity, TId, TIdBuiltIn}.Transaction{TOperand}(Action{TOperand}, TOperand, bool)"/>
+        /// For more, <see cref="IEntityRepo{TEntity, TId, TIdBuiltIn}.Transaction{TOperand}(Action{TOperand}, TOperand, bool)"/>
         /// </remarks>
         Task TransactionAsync<TOperand>(
             Action<TOperand> operation,
             TOperand operand,
+            bool serialize=false
+        );
+
+        /// <summary>
+        /// This is the same as <see
+        /// cref="IEntityRepo{TEntity, TId, TIdBuiltIn}.Transaction{TOperand}(Action{TOperand}, TOperand, bool)"/>
+        /// except it does not need to supply an argument to the operation, so
+        /// it is not generic.
+        /// </summary>
+        /// <param name="operation">
+        /// The function to perform during the transaction.
+        /// </param>
+        /// <param name="serialize">
+        /// This bool is supplied to `BeginTransaction(serialize)`.
+        /// </param>
+        void Transaction(
+            Action operation,
+            bool serialize=false
+        );
+
+        /// <summary>
+        /// Perform the transaction asynchronously.
+        /// </summary>
+        /// <remarks>
+        /// For more, <see cref="IEntityRepo{TEntity, TId, TIdBuiltIn}.Transaction{TOperand}(Action{TOperand}, TOperand, bool)"/>
+        /// </remarks>
+        Task TransactionAsync(
+            Action operation,
             bool serialize=false
         );
 

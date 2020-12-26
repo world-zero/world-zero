@@ -21,25 +21,25 @@ namespace WorldZero.Service.Interface.Entity.Update.Primary
         Task AmendHasBioAsync(ICharacter c, bool newHasBio);
         Task AmendHasBioAsync(Id charId, bool newHasBio);
 
+        void AmendHasProfilePic(ICharacter c, bool newHasProfilePic);
+        void AmendHasProfilePic(Id charId, bool newHasProfilePic);
+        Task AmendHasProfilePicAsync(ICharacter c, bool newHasProfilePic);
+        Task AmendHasProfilePicAsync(Id charId, bool newHasProfilePic);
+
         void AmendVotePointsLeft(ICharacter c, PointTotal newVotePointsLeft);
         void AmendVotePointsLeft(Id charId, PointTotal newVotePointsLeft);
         Task AmendVotePointsLeftAsync(ICharacter c, PointTotal newVotePointsLeft);
         Task AmendVotePointsLeftAsync(Id charId, PointTotal newVotePointsLeft);
 
-        void AmendEraPointsLeft(ICharacter c, PointTotal newEraPointsLeft);
-        void AmendEraPointsLeft(Id charId, PointTotal newEraPointsLeft);
-        Task AmendEraPointsLeftAsync(ICharacter c, PointTotal newEraPointsLeft);
-        Task AmendEraPointsLeftAsync(Id charId, PointTotal newEraPointsLeft);
+        void AmendEraPoints(ICharacter c, PointTotal newEraPoints);
+        void AmendEraPoints(Id charId, PointTotal newEraPoints);
+        Task AmendEraPointsAsync(ICharacter c, PointTotal newEraPoints);
+        Task AmendEraPointsAsync(Id charId, PointTotal newEraPoints);
 
-        void AmendTotalPointsLeft(ICharacter c, PointTotal newTotalPointsLeft);
-        void AmendTotalPointsLeft(Id charId, PointTotal newTotalPointsLeft);
-        Task AmendTotalPointsLeftAsync(ICharacter c, PointTotal newTotalPointsLeft);
-        Task AmendTotalPointsLeftAsync(Id charId, PointTotal newTotalPointsLeft);
-
-        void AmendHasProfilePic(ICharacter c, bool newHasProfilePic);
-        void AmendHasProfilePic(Id charId, bool newHasProfilePic);
-        Task AmendHasProfilePicAsync(ICharacter c, bool newHasProfilePic);
-        Task AmendHasProfilePicAsync(Id charId, bool newHasProfilePic);
+        void AmendTotalPoints(ICharacter c, PointTotal newTotalPoints);
+        void AmendTotalPoints(Id charId, PointTotal newTotalPoints);
+        Task AmendTotalPointsAsync(ICharacter c, PointTotal newTotalPoints);
+        Task AmendTotalPointsAsync(Id charId, PointTotal newTotalPoints);
 
         void AmendFaction(ICharacter c, IFaction f);
         void AmendFaction(Id charId, IFaction f);

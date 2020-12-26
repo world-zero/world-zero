@@ -1,22 +1,25 @@
 using System;
+using System.Threading.Tasks;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Data.Repository.Entity.RAM.Primary;
-using WorldZero.Service.Entity.Update.Primary;
+using WorldZero.Data.Interface.Repository.Entity.Primary;
+using WorldZero.Service.Interface.Entity.Update.Primary;
+using WorldZero.Service.Interface.Entity.Generic.Update;
 using NUnit.Framework;
 
-namespace WorldZero.Test.Integration.Service.Entity.Update.Primary
+namespace WorldZero.Test.Integration.Service.Interface.Entity.Update.Primary
 {
     [TestFixture]
-    public class TestAbilityUpdate
+    public class TestABCEntityUpdate
     {
         private Name _name;
         private string _desc;
         private string _newDesc;
         private IAbility _a;
         private RAMAbilityRepo _repo;
-        private AbilityUpdate _update;
+        private TestEntityUpdate _update;
 
         private void _assertIsOld()
         {
@@ -42,7 +45,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Update.Primary
             this._repo = new RAMAbilityRepo();
             this._repo.Insert(this._a);
             this._repo.Save();
-            this._update = new AbilityUpdate(this._repo);
+            this._update = new TestEntityUpdate(this._repo);
             this._assertIsOld();
         }
 
@@ -124,7 +127,52 @@ namespace WorldZero.Test.Integration.Service.Entity.Update.Primary
         [Test]
         public void TestConstructor()
         {
-            Assert.Throws<ArgumentNullException>(()=>new AbilityUpdate(null));
+            Assert.Throws<ArgumentNullException>(()=>new TestEntityUpdate(null));
+        }
+    }
+
+    public class TestEntityUpdate
+        : ABCEntityUpdate<IAbility, Name, string>,
+        IAbilityUpdate
+    {
+        public TestEntityUpdate(IAbilityRepo repo)
+            : base(repo)
+        { }
+
+        public void AmendDescription(IAbility a, string newDesc)
+        {
+            this.AssertNotNull(a, "a");
+            this.AssertNotNull(newDesc, "newDesc");
+            void f()
+            {
+                ((UnsafeAbility) a).Description = newDesc;
+            }
+            this.AmendHelper<IAbility>(f, a, false);
+        }
+
+        public void AmendDescription(Name abilityId, string newDesc)
+        {
+            this.AssertNotNull(abilityId, "abilityId");
+            this.AssertNotNull(newDesc, "newDesc");
+            void f()
+            {
+                this.AmendDescription(this._repo.GetById(abilityId), newDesc);
+            }
+            this.Transaction(f, true);
+        }
+
+        public async Task AmendDescriptionAsync(IAbility a, string newDesc)
+        {
+            this.AssertNotNull(a, "a");
+            this.AssertNotNull(newDesc, "newDesc");
+            await Task.Run(() => this.AmendDescription(a, newDesc));
+        }
+
+        public async Task AmendDescriptionAsync(Name abilityId, string newDesc)
+        {
+            this.AssertNotNull(abilityId, "abilityId");
+            this.AssertNotNull(newDesc, "newDesc");
+            await Task.Run(() => this.AmendDescriptionAsync(abilityId, newDesc));
         }
     }
 }

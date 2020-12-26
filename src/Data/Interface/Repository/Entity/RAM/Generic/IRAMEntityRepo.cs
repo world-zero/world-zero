@@ -1111,6 +1111,41 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
             this.Transaction<TOperand>(operation, operand, serialize);
         }
 
+        public void Transaction(
+            Action operation,
+            bool serialize=false
+        )
+        {
+            if (operation == null) throw new ArgumentNullException("operation");
+            this.BeginTransaction(serialize);
+            try
+            { operation(); }
+            catch (ArgumentException e)
+            {
+                this.DiscardTransaction();
+                throw new ArgumentException("The operation failed.", e);
+            }
+            catch (InvalidOperationException e)
+            {
+                this.DiscardTransaction();
+                throw new InvalidOperationException("A bug has been found, discarding transaction.", e);
+            }
+            try
+            { this.EndTransaction(); }
+            catch (ArgumentException e)
+            { throw new ArgumentException("Could not complete the transaction.", e); }
+            catch (InvalidOperationException e)
+            { throw new InvalidOperationException("A bug has been found, discarding transaction.", e); }
+        }
+
+        public async Task TransactionAsync(
+            Action operation,
+            bool serialize=false
+        )
+        {
+            this.Transaction(operation, serialize);
+        }
+
         public void BeginTransaction(bool serializeLock=false)
         {
             if (_txnDepth++ == 0)

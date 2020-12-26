@@ -33,5 +33,7 @@ For more, see `IConstantEntities`.
 
 ### Entity Updating Services
 
-The tests for these classes are going to be extremely similar to the tests for
-the hidden implementations.
+Since the concrete classes all just use `ABCEntityService.AmendHelper()`, there
+is very little testing done for these classes. If it is decided that tests are
+necessary, godspeed. Also, these tests are extremely similar to the tests for
+the property they are wrapping, as well as adding sad paths for the wrapper.

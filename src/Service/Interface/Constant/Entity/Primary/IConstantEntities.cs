@@ -94,6 +94,24 @@ namespace WorldZero.Service.Interface.Constant.Entity.Primary
                 .TransactionAsync<TOperand>(operation, operand, serialize);
         }
 
+        public void Transaction(
+            Action operation,
+            bool serialize=false
+        )
+        {
+            this.AssertNotNull(operation, "operation");
+            this._repo.Transaction(operation, serialize);
+        }
+
+        public async Task TransactionAsync(
+            Action operation,
+            bool serialize=false
+        )
+        {
+            this.AssertNotNull(operation, "operation");
+            await this._repo.TransactionAsync(operation, serialize);
+        }
+
         public void BeginTransaction(bool serialize=false)
         {
             this._repo.BeginTransaction(serialize);

@@ -61,6 +61,22 @@ namespace WorldZero.Service.Interface.Entity.Generic
         );
 
         /// <summary>
+        /// Perform the supplied Action as a transaction.
+        /// </summary>
+        /// <remarks>
+        /// For more, <see cref="WorldZero.Data.Interface.Repository.Entity.Generic.IEntityRepo{TEntity, TId, TIdBuiltIn}.Transaction(Action, bool)"/>
+        /// </remarks>
+        void Transaction(
+            Action operation,
+            bool serialize=false
+        );
+
+        Task TransactionAsync(
+            Action operation,
+            bool serialize=false
+        );
+
+        /// <summary>
         /// Begin a transaction.
         /// </summary>
         /// <remarks>

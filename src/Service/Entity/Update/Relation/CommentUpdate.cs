@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using WorldZero.Common.Entity.Relation;
 using WorldZero.Common.Interface.Entity.Relation;
@@ -22,27 +21,12 @@ namespace WorldZero.Service.Entity.Update.Relation
         {
             this.AssertNotNull(c, "c");
             this.AssertNotNull(newValue, "newValue");
-            void f<Id>(Id _)
+            void f()
             {
-                UnsafeComment comment;
-                try
-                {
-                    comment = (UnsafeComment) c;
-                    comment.Value = newValue;
-                }
-                catch (InvalidCastException e)
-                {
-                    this.DiscardTransaction();
-                    throw new InvalidOperationException("Could not cast, there is an outside implementation being supplied.", e);
-                }
-                catch (ArgumentException e)
-                {
-                    throw new ArgumentException("Could not complete the amendment.", e);
-                }
-                this._repo.Update(comment);
+                ((UnsafeComment) c).Value = newValue;
             }
 
-            this.Transaction<Id>(f, new Id(0));
+            this.AmendHelper<IComment>(f, c);
         }
 
         public void AmendValue(Id commentId, string newValue)

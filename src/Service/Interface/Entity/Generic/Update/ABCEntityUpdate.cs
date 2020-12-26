@@ -1,3 +1,4 @@
+using System;
 using WorldZero.Common.Interface.ValueObject;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Data.Interface.Repository.Entity.Generic;
@@ -14,5 +15,59 @@ namespace WorldZero.Service.Interface.Entity.Generic.Update
         public ABCEntityUpdate(IEntityRepo<TEntity, TId, TBuiltIn> repo)
             : base(repo)
         { }
+
+        /// <summary>
+        /// This will handle the boilerplate exception handling and transaction
+        /// creating; the supplied `amend` is responsible for casting the
+        /// public-method-supplied entity to the protected implementation and
+        /// changing the value - and also doing any other validation as
+        /// necessary.
+        /// </summary>
+        /// <param name="amend">
+        /// The delegate containing the cast and amendment.
+        /// </param>
+        /// <param name="e">
+        /// The entity to update.
+        /// </param>
+        /// <param name="serialize">
+        /// Whether or not to have a Serialized transaction.
+        /// </param>
+        /// <typeparam name="TEntty">
+        /// The entity that is beign updated.
+        /// </typeparam>
+        /// <remarks>
+        /// For an example, check out
+        /// <see cref="AbilityUpdate.AmendDescription(IAbility, string)"/>.
+        /// </remarks>
+        protected void AmendHelper<TEntty>(
+            Action amend,
+            TEntity e,
+            bool serialize=false
+        )
+            where TEntty : class, IEntity<TId, TBuiltIn>
+        {
+            this.AssertNotNull(amend, "amend");
+            this.AssertNotNull(e, "e");
+
+            void f()
+            {
+                try
+                { amend(); }
+                catch (InvalidCastException e)
+                {
+                    this.DiscardTransaction();
+                    throw new InvalidOperationException("Could not cast, there is an outside implementation being supplied.", e);
+                }
+                catch (ArgumentException e)
+                {
+                    // This does not discard since Transaction will take care
+                    // of that when catching ArgExc's.
+                    throw new ArgumentException("Could not complete the amendment.", e);
+                }
+                this._repo.Update(e);
+            }
+
+            this.Transaction(f, serialize);
+        }
     }
 }
