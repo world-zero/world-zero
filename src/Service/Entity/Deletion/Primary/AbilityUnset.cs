@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Service.Interface.Entity.Generic.Deletion;
 using WorldZero.Service.Interface.Entity.Deletion.Primary;
+using WorldZero.Service.Interface.Entity.Update.Primary;
 
 namespace WorldZero.Service.Entity.Deletion.Primary
 {
@@ -17,8 +17,15 @@ namespace WorldZero.Service.Entity.Deletion.Primary
         protected IFactionRepo _factionRepo
         { get { return (IFactionRepo) this._otherRepo; } }
 
-        public AbilityUnset(IAbilityRepo repo, IFactionRepo factionRepo)
-            : base(repo, factionRepo)
+        protected IFactionUpdate _factionUpdate
+        { get { return (IFactionUpdate) this._otherUpdate; } }
+
+        public AbilityUnset(
+            IAbilityRepo repo,
+            IFactionRepo factionRepo,
+            IFactionUpdate factionUpdate
+        )
+            : base(repo, factionRepo, factionUpdate)
         { }
 
         public override void Unset(Name factionId)
@@ -37,17 +44,9 @@ namespace WorldZero.Service.Entity.Deletion.Primary
 
             if (factions != null)
             {
+                Name abilityId = null;
                 foreach (IFaction f in factions)
-                {
-                    ((UnsafeFaction) f).AbilityId = null;
-                    try
-                    { this._factionRepo.Update(f); }
-                    catch (ArgumentException e)
-                    {
-                        this.DiscardTransaction();
-                        throw new ArgumentException("Could not complete the unset.", e);
-                    }
-                }
+                    this._factionUpdate.AmendAbility(f, abilityId);
             }
 
             try

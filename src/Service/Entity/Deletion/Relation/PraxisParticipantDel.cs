@@ -12,6 +12,7 @@ using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Service.Interface.Entity.Generic.Deletion;
 using WorldZero.Service.Interface.Entity.Deletion.Primary;
 using WorldZero.Service.Interface.Entity.Deletion.Relation;
+using WorldZero.Service.Interface.Entity.Update.Primary;
 
 using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("WorldZero.Test.Integration")]
@@ -35,19 +36,23 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         { get { return (IPraxisParticipantRepo) this._relRepo; } }
 
         protected readonly IPraxisRepo _praxisRepo;
+        protected readonly IPraxisUpdate _praxisUpdate;
         protected readonly VoteDel _voteDel;
 
         public PraxisParticipantDel(
             IPraxisParticipantRepo repo,
             IPraxisRepo praxisRepo,
+            IPraxisUpdate praxisUpdate,
             VoteDel voteDel
         )
             : base(repo)
         {
             this.AssertNotNull(praxisRepo, "praxisRepo");
+            this.AssertNotNull(praxisUpdate, "praxisUpdate");
             this.AssertNotNull(voteDel, "voteDel");
 
             this._praxisRepo = praxisRepo;
+            this._praxisUpdate = praxisUpdate;
             this._voteDel = voteDel;
         }
 
@@ -216,10 +221,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
             { throw new InvalidOperationException("Could not un-duel a praxis, it is unclear how the supplied praxis ID is supposed to exist.", e); }
 
             if (p.AreDueling)
-            {
-                ((UnsafePraxis) p).AreDueling = false;
-                this._praxisRepo.Update(p);
-            }
+                this._praxisUpdate.AmendAreDueling(p, false);
         }
 
         /// <summary>

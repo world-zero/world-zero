@@ -8,6 +8,7 @@ using WorldZero.Data.Repository.Entity.RAM.Primary;
 using WorldZero.Data.Repository.Entity.RAM.Relation;
 using WorldZero.Service.Entity.Deletion.Primary;
 using WorldZero.Service.Entity.Deletion.Relation;
+using WorldZero.Service.Entity.Update.Primary;
 using NUnit.Framework;
 
 // NOTE: This file does not abide by the limit on a line's character count.
@@ -70,6 +71,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private RAMPraxisFlagRepo _pFlagRepo;
         private PraxisFlagDel _pFlagDel;
         private PraxisDel _pDel;
+        private RAMStatusRepo _statusRepo;
+        private RAMMetaTaskRepo _mtRepo;
+        private PraxisUpdate _praxisUpdate;
 
         private UnsafePlayer _player0;
         private UnsafePlayer _player1;
@@ -98,9 +102,18 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._voteRepo = new RAMVoteRepo();
             this._voteDel = new VoteDel(this._voteRepo);
 
+            this._statusRepo = new RAMStatusRepo();
+            this._mtRepo = new RAMMetaTaskRepo();
+            this._praxisUpdate = new PraxisUpdate(
+                this._praxisRepo,
+                this._ppRepo,
+                this._statusRepo,
+                this._mtRepo
+            );
             this._ppDel = new PraxisParticipantDel(
                 this._ppRepo,
                 this._praxisRepo,
+                this._praxisUpdate,
                 this._voteDel
             );
             this._pDel = new PraxisDel(

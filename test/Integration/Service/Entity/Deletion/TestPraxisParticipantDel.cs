@@ -8,6 +8,7 @@ using WorldZero.Data.Repository.Entity.RAM.Primary;
 using WorldZero.Data.Repository.Entity.RAM.Relation;
 using WorldZero.Service.Entity.Deletion.Primary;
 using WorldZero.Service.Entity.Deletion.Relation;
+using WorldZero.Service.Entity.Update.Primary;
 using NUnit.Framework;
 
 namespace WorldZero.Test.Integration.Service.Entity.Deletion
@@ -20,6 +21,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private VoteDel _voteDel;
         private RAMPraxisParticipantRepo _repo;
         private PraxisParticipantDel _del;
+        private RAMStatusRepo _statusRepo;
+        private RAMMetaTaskRepo _mtRepo;
+        private PraxisUpdate _praxisUpdate;
         private UnsafePraxis _p0;
         private UnsafePraxis _p1;
 
@@ -30,9 +34,18 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._voteRepo = new RAMVoteRepo();
             this._voteDel = new VoteDel(this._voteRepo);
             this._repo = new RAMPraxisParticipantRepo();
+            this._statusRepo = new RAMStatusRepo();
+            this._mtRepo = new RAMMetaTaskRepo();
+            this._praxisUpdate = new PraxisUpdate(
+                this._praxisRepo,
+                this._repo,
+                this._statusRepo,
+                this._mtRepo
+            );
             this._del = new PraxisParticipantDel(
                 this._repo,
                 this._praxisRepo,
+                this._praxisUpdate,
                 this._voteDel
             );
             this._p0 = new UnsafePraxis(new Id(1), new PointTotal(1), new Name("s"));
@@ -59,9 +72,11 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             new PraxisParticipantDel(
                 this._repo,
                 this._praxisRepo,
+                this._praxisUpdate,
                 this._voteDel
             );
             Assert.Throws<ArgumentNullException>(()=>new PraxisParticipantDel(
+                null,
                 null,
                 null,
                 null
@@ -69,16 +84,25 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             Assert.Throws<ArgumentNullException>(()=>new PraxisParticipantDel(
                 null,
                 this._praxisRepo,
+                this._praxisUpdate,
                 this._voteDel
             ));
             Assert.Throws<ArgumentNullException>(()=>new PraxisParticipantDel(
                 this._repo,
+                null,
+                this._praxisUpdate,
+                this._voteDel
+            ));
+            Assert.Throws<ArgumentNullException>(()=>new PraxisParticipantDel(
+                this._repo,
+                this._praxisRepo,
                 null,
                 this._voteDel
             ));
             Assert.Throws<ArgumentNullException>(()=>new PraxisParticipantDel(
                 this._repo,
                 this._praxisRepo,
+                this._praxisUpdate,
                 null
             ));
         }

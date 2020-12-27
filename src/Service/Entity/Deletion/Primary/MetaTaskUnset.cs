@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Service.Interface.Entity.Generic.Deletion;
+using WorldZero.Service.Interface.Entity.Update.Primary;
 using WorldZero.Service.Interface.Entity.Deletion.Primary;
 
 namespace WorldZero.Service.Entity.Deletion.Primary
@@ -24,14 +24,23 @@ namespace WorldZero.Service.Entity.Deletion.Primary
 
         protected StatusedMTDel _twin;
 
+
         protected IMetaTaskRepo _mtRepo
         { get { return (IMetaTaskRepo) this._repo; } }
 
         protected IPraxisRepo _praxisRepo
         { get { return (IPraxisRepo) this._otherRepo; } }
 
-        public MetaTaskUnset(IMetaTaskRepo repo, IPraxisRepo praxisRepo)
-            : base(repo, praxisRepo)
+        protected IPraxisUpdate _praxisUpdate
+        { get { return (IPraxisUpdate) this._otherUpdate; } }
+
+
+        public MetaTaskUnset(
+            IMetaTaskRepo repo,
+            IPraxisRepo praxisRepo,
+            IPraxisUpdate praxisUpdate
+        )
+            : base(repo, praxisRepo, praxisUpdate)
         {
             this._twin = new StatusedMTDel(this._mtRepo);
         }
@@ -71,17 +80,9 @@ namespace WorldZero.Service.Entity.Deletion.Primary
 
             if (praxises != null)
             {
+                Id mt = null;
                 foreach (IPraxis p in praxises)
-                {
-                    ((UnsafePraxis) p).MetaTaskId = null;
-                    try
-                    { this._praxisRepo.Update(p); }
-                    catch (ArgumentException e)
-                    {
-                        this.DiscardTransaction();
-                        throw new ArgumentException("Could not complete the unset.", e);
-                    }
-                }
+                    this._praxisUpdate.AmendMetaTask(p, mt);
             }
 
             try

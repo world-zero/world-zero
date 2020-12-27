@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using NUnit.Framework;
 using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
@@ -8,6 +7,8 @@ using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Data.Repository.Entity.RAM.Primary;
 using WorldZero.Service.Entity.Deletion.Primary;
 using WorldZero.Service.Entity.Registration.Primary;
+using WorldZero.Service.Entity.Update.Primary;
+using NUnit.Framework;
 
 // NOTE: This is the only class that tests `Unset()`.
 
@@ -18,6 +19,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
     {
         private ILocationRepo _localRepo;
         private ICharacterRepo _charRepo;
+        private IFactionRepo _factionRepo;
+        private CharacterUpdate _charUpdate;
         private LocationUnset _unset;
         private UnsafeLocation _l;
         private LocationReg _reg;
@@ -27,9 +30,16 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         {
             this._localRepo = new RAMLocationRepo();
             this._charRepo = new RAMCharacterRepo();
+            this._factionRepo = new RAMFactionRepo();
+            this._charUpdate = new CharacterUpdate(
+                this._charRepo,
+                this._factionRepo,
+                this._localRepo
+            );
             this._unset = new LocationUnset(
                 this._localRepo,
-                this._charRepo
+                this._charRepo,
+                this._charUpdate
             );
             this._l = new UnsafeLocation(
                 new Name("Oregon City"),
@@ -57,15 +67,18 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         {
             Assert.Throws<ArgumentNullException>(()=>new LocationUnset(
                 null,
-                null
+                this._charRepo,
+                this._charUpdate
             ));
             Assert.Throws<ArgumentNullException>(()=>new LocationUnset(
                 this._localRepo,
-                null
+                null,
+                this._charUpdate
             ));
             Assert.Throws<ArgumentNullException>(()=>new LocationUnset(
-                null,
-                this._charRepo
+                this._localRepo,
+                this._charRepo,
+                null
             ));
         }
 

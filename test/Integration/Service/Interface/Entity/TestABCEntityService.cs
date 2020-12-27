@@ -14,12 +14,10 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity
     {
         private DummyRAMCommentRepo _repo;
         private TestEntityService _service;
-        private int _x;
 
         [SetUp]
         public void Setup()
         {
-            this._x = 0;
             this._repo = new DummyRAMCommentRepo();
             this._service = new TestEntityService(this._repo);
         }

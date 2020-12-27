@@ -1,4 +1,6 @@
 using System;
+using WorldZero.Common.Interface.Entity.Generic.Primary;
+using WorldZero.Common.Interface.ValueObject;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Primary;
@@ -8,8 +10,7 @@ using WorldZero.Data.Repository.Entity.RAM.Primary;
 using WorldZero.Data.Repository.Entity.RAM.Relation;
 using WorldZero.Service.Entity.Deletion.Primary;
 using WorldZero.Service.Entity.Deletion.Relation;
-using WorldZero.Common.Interface.Entity.Generic.Primary;
-using WorldZero.Common.Interface.ValueObject;
+using WorldZero.Service.Entity.Update.Primary;
 using NUnit.Framework;
 
 // NOTE: This file does not abide by the limit on a line's character count.
@@ -59,6 +60,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private IMetaTaskRepo _mtRepo;
         private MetaTaskUnset _mtUnset;
         private StatusDel _statusDel;
+        private PraxisUpdate _praxisUpdate;
 
         private UnsafeStatus _s0;
         private UnsafeStatus _s1;
@@ -86,9 +88,18 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._voteRepo = new RAMVoteRepo();
             this._voteDel = new VoteDel(this._voteRepo);
             this._ppRepo = new RAMPraxisParticipantRepo();
+            this._statusRepo = new RAMStatusRepo();
+            this._mtRepo = new RAMMetaTaskRepo();
+            this._praxisUpdate = new PraxisUpdate(
+                this._praxisRepo,
+                this._ppRepo,
+                this._statusRepo,
+                this._mtRepo
+            );
             this._ppDel = new PraxisParticipantDel(
                 this._ppRepo,
                 this._praxisRepo,
+                this._praxisUpdate,
                 this._voteDel
             );
             this._praxisDel = new PraxisDel(
@@ -110,9 +121,16 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
                 this._praxisDel
             );
             this._mtRepo = new RAMMetaTaskRepo();
+            this._praxisUpdate = new PraxisUpdate(
+                this._praxisRepo,
+                this._ppRepo,
+                this._statusRepo,
+                this._mtRepo
+            );
             this._mtUnset = new MetaTaskUnset(
                 this._mtRepo,
-                this._praxisRepo
+                this._praxisRepo,
+                this._praxisUpdate
             );
             this._statusDel = new StatusDel(
                 this._statusRepo,

@@ -8,6 +8,7 @@ using WorldZero.Data.Repository.Entity.RAM.Primary;
 using WorldZero.Data.Repository.Entity.RAM.Relation;
 using WorldZero.Service.Entity.Deletion.Primary;
 using WorldZero.Service.Entity.Deletion.Relation;
+using WorldZero.Service.Entity.Update.Primary;
 using NUnit.Framework;
 
 // NOTE: This file does not abide by the limit on a line's character count.
@@ -45,6 +46,10 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private RAMMetaTaskRepo _mtRepo;
         private RAMCharacterRepo _charRepo;
         private RAMPraxisRepo _praxisRepo;
+        private RAMStatusRepo _statusRepo;
+        private RAMLocationRepo _locationRepo;
+        private CharacterUpdate _charUpdate;
+        private PraxisUpdate _praxisUpdate;
         private RAMTaskRepo _taskRepo;
         private MetaTaskUnset _mtUnset;
         private RAMTaskTagRepo _taskTagRepo;
@@ -77,9 +82,18 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._praxisRepo = new RAMPraxisRepo();
             this._charRepo = new RAMCharacterRepo();
             this._taskRepo = new RAMTaskRepo();
+            this._ppRepo = new RAMPraxisParticipantRepo();
+            this._statusRepo = new RAMStatusRepo();
+            this._praxisUpdate = new PraxisUpdate(
+                this._praxisRepo,
+                this._ppRepo,
+                this._statusRepo,
+                this._mtRepo
+            );
             this._mtUnset = new MetaTaskUnset(
                 this._mtRepo,
-                this._praxisRepo
+                this._praxisRepo,
+                this._praxisUpdate
             );
             this._praxisTagRepo = new RAMPraxisTagRepo();
             this._praxisTagDel = new PraxisTagDel(this._praxisTagRepo);
@@ -90,10 +104,18 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._commentDel = new CommentDel(this._commentRepo, cfDel);
             this._voteRepo = new RAMVoteRepo();
             this._voteDel = new VoteDel(this._voteRepo);
-            this._ppRepo = new RAMPraxisParticipantRepo();
+            this._statusRepo = new RAMStatusRepo();
+            this._mtRepo = new RAMMetaTaskRepo();
+            this._praxisUpdate = new PraxisUpdate(
+                this._praxisRepo,
+                this._ppRepo,
+                this._statusRepo,
+                this._mtRepo
+            );
             this._ppDel = new PraxisParticipantDel(
                 this._ppRepo,
                 this._praxisRepo,
+                this._praxisUpdate,
                 this._voteDel
             );
             this._praxisDel = new PraxisDel(
@@ -113,9 +135,16 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
                 this._taskFlagDel,
                 this._praxisDel
             );
+            this._locationRepo = new RAMLocationRepo();
+            this._charUpdate = new CharacterUpdate(
+                this._charRepo,
+                this._factionRepo,
+                this._locationRepo
+            );
             this._unset = new FactionUnset(
                 this._factionRepo,
                 this._charRepo,
+                this._charUpdate,
                 this._taskDel,
                 this._mtUnset
             );
@@ -158,7 +187,6 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._mtRepo.CleanAll();
         }
 
-
         [Test]
         public void TestDeleteSad()
         {
@@ -200,17 +228,27 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             new FactionUnset(
                 this._factionRepo,
                 this._charRepo,
+                this._charUpdate,
                 this._taskDel,
                 this._mtUnset
             );
             Assert.Throws<ArgumentNullException>(()=>new FactionUnset(
                 null,
                 this._charRepo,
+                this._charUpdate,
                 this._taskDel,
                 this._mtUnset
             ));
             Assert.Throws<ArgumentNullException>(()=>new FactionUnset(
                 this._factionRepo,
+                null,
+                this._charUpdate,
+                this._taskDel,
+                this._mtUnset
+            ));
+            Assert.Throws<ArgumentNullException>(()=>new FactionUnset(
+                this._factionRepo,
+                this._charRepo,
                 null,
                 this._taskDel,
                 this._mtUnset
@@ -218,6 +256,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             Assert.Throws<ArgumentNullException>(()=>new FactionUnset(
                 this._factionRepo,
                 this._charRepo,
+                this._charUpdate,
                 this._taskDel,
                 null
             ));

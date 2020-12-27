@@ -3,6 +3,7 @@ using WorldZero.Common.Interface.ValueObject;
 using WorldZero.Common.Interface.Entity.Marker;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Data.Interface.Repository.Entity.Generic;
+using WorldZero.Service.Interface.Entity.Generic.Update;
 
 namespace WorldZero.Service.Interface.Entity.Generic.Deletion
 {
@@ -17,17 +18,23 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
         where TTId : ISingleValueObject<TTBuiltIn>
     {
         protected readonly IEntityRepo<TTEntity, TTId, TTBuiltIn> _otherRepo;
+        protected readonly IEntityUpdate<TTEntity, TTId, TTBuiltIn> _otherUpdate;
 
         public ABCEntityUnset(
             IEntityRepo<TEntity, TId, TBuiltIn> repo,
-            IEntityRepo<TTEntity, TTId, TTBuiltIn> otherRepo
+            IEntityRepo<TTEntity, TTId, TTBuiltIn> otherRepo,
+            IEntityUpdate<TTEntity, TTId, TTBuiltIn> otherUpdate
         )
             : base(repo)
         {
             this.AssertNotNull(otherRepo, "otherRepo");
+            this.AssertNotNull(otherUpdate, "otherUpdate");
             this._otherRepo = otherRepo;
+            this._otherUpdate = otherUpdate;
         }
 
+        // TODO: Through some hideous helper with several delegates, this might
+        // be refactorable.
         public abstract void Unset(TId id);
         /* The following excerpt is taken from LocationUnset.cs
         public override void Unset(Id locationId)
@@ -43,17 +50,9 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
 
             if (chars != null)
             {
+                Id newId = null;
                 foreach (Character c in chars)
-                {
-                    c.LocationId = null;
-                    try
-                    { this._charRepo.Update(c); }
-                    catch (ArgumentException e)
-                    {
-                        this.DiscardTransaction();
-                        throw new ArgumentException("Could not complete the unset.", e);
-                    }
-                }
+                    this._otherUpdate.AmendLocation(c, newId);
             }
 
             try

@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Service.Interface.Entity.Generic.Deletion;
+using WorldZero.Service.Interface.Entity.Update.Primary;
 using WorldZero.Service.Interface.Entity.Deletion.Primary;
 
 namespace WorldZero.Service.Entity.Deletion.Primary
@@ -17,16 +17,20 @@ namespace WorldZero.Service.Entity.Deletion.Primary
         protected ICharacterRepo _charRepo
         { get { return (ICharacterRepo) this._otherRepo; } }
 
+        protected ICharacterUpdate _charUpdate
+        { get { return (ICharacterUpdate) this._otherUpdate; } }
+
         protected readonly TaskDel _taskDel;
         protected readonly MetaTaskUnset _mtUnset;
 
         public FactionUnset(
             IFactionRepo repo,
             ICharacterRepo charRepo,
+            ICharacterUpdate charUpdate,
             TaskDel taskDel,
             MetaTaskUnset mtUnset
         )
-            : base(repo, charRepo)
+            : base(repo, charRepo, charUpdate)
         {
             this.AssertNotNull(taskDel, "taskDel");
             this.AssertNotNull(mtUnset, "mtUnset");
@@ -60,17 +64,9 @@ namespace WorldZero.Service.Entity.Deletion.Primary
 
             if (chars != null)
             {
+                Name f = null;
                 foreach (ICharacter c in chars)
-                {
-                    ((UnsafeCharacter) c).FactionId = null;
-                    try
-                    { this._charRepo.Update(c); }
-                    catch (ArgumentException e)
-                    {
-                        this.DiscardTransaction();
-                        throw new ArgumentException("Could not complete the unset.", e);
-                    }
-                }
+                    this._charUpdate.AmendFaction(c, f);
             }
 
             try

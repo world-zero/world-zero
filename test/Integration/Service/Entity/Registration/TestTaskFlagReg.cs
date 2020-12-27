@@ -8,6 +8,8 @@ using WorldZero.Data.Repository.Entity.RAM.Primary;
 using WorldZero.Data.Repository.Entity.RAM.Relation;
 using WorldZero.Service.Constant.Entity.Primary;
 using WorldZero.Service.Entity.Registration.Relation;
+using WorldZero.Service.Interface.Entity.Update.Primary;
+using WorldZero.Service.Entity.Update.Primary;
 using NUnit.Framework;
 
 namespace WorldZero.Test.Integration.Service.Entity
@@ -18,6 +20,9 @@ namespace WorldZero.Test.Integration.Service.Entity
         private ITaskFlagRepo _tfRepo;
         private ITaskRepo _taskRepo;
         private IFlagRepo _flagRepo;
+        private IStatusRepo _statusRepo;
+        private IFactionRepo _factionRepo;
+        private ITaskUpdate _taskUpdate;
         private TaskFlagReg _reg;
         private UnsafeFlag _f;
         private PointTotal _pt;
@@ -29,9 +34,17 @@ namespace WorldZero.Test.Integration.Service.Entity
             this._tfRepo = new RAMTaskFlagRepo();
             this._taskRepo = new RAMTaskRepo();
             this._flagRepo = new RAMFlagRepo();
+            this._statusRepo = new RAMStatusRepo();
+            this._factionRepo = new RAMFactionRepo();
+            this._taskUpdate = new TaskUpdate(
+                this._taskRepo,
+                this._statusRepo,
+                this._factionRepo
+            );
             this._reg = new TaskFlagReg(
                 this._tfRepo,
                 this._taskRepo,
+                this._taskUpdate,
                 this._flagRepo
             );
 

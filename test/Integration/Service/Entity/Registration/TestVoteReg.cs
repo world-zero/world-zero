@@ -4,6 +4,7 @@ using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.Entity.Relation;
 using WorldZero.Data.Repository.Entity.RAM.Primary;
 using WorldZero.Data.Repository.Entity.RAM.Relation;
+using WorldZero.Service.Entity.Update.Primary;
 using WorldZero.Service.Entity.Registration.Primary;
 using WorldZero.Service.Entity.Registration.Relation;
 using NUnit.Framework;
@@ -29,6 +30,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         private PraxisParticipantReg _ppReg;
         private RAMEraRepo _eraRepo;
         private EraReg _eraReg;
+        private RAMLocationRepo _locationRepo;
+        private CharacterUpdate _charUpdate;
 
         [SetUp]
         public void Setup()
@@ -59,9 +62,14 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                 this._factionRepo,
                 this._eraReg
             );
+            this._locationRepo = new RAMLocationRepo();
+            this._charUpdate = new CharacterUpdate(
+                this._charRepo, this._factionRepo, this._locationRepo
+            );
             this._voteReg = new VoteReg(
                 this._voteRepo,
                 this._charRepo,
+                this._charUpdate,
                 this._ppRepo,
                 this._praxisRepo
             );

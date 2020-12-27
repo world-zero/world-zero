@@ -1,8 +1,6 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using WorldZero.Service.Interface.Entity.Registration.Relation;
-using WorldZero.Service.Interface.Entity.Generic.Registration;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Common.Entity.Primary;
@@ -10,6 +8,9 @@ using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
+using WorldZero.Service.Interface.Entity.Registration.Relation;
+using WorldZero.Service.Interface.Entity.Generic.Registration;
+using WorldZero.Service.Interface.Entity.Update.Primary;
 
 namespace WorldZero.Service.Entity.Registration.Relation
 {
@@ -33,6 +34,8 @@ namespace WorldZero.Service.Entity.Registration.Relation
         protected ICharacterRepo _characterRepo
         { get { return (ICharacterRepo) this._leftRepo; } }
 
+        protected readonly ICharacterUpdate _characterUpdate;
+
         protected IPraxisParticipantRepo _ppRepo
         { get { return (IPraxisParticipantRepo) this._rightRepo; } }
 
@@ -41,12 +44,15 @@ namespace WorldZero.Service.Entity.Registration.Relation
         public VoteReg(
             IVoteRepo voteRepo,
             ICharacterRepo characterRepo,
+            ICharacterUpdate characterUpdate,
             IPraxisParticipantRepo praxisParticipantRepo,
             IPraxisRepo praxisRepo
         )
             : base(voteRepo, characterRepo, praxisParticipantRepo)
         {
+            this.AssertNotNull(characterUpdate, "characterUpdate");
             this.AssertNotNull(praxisRepo, "praxisRepo");
+            this._characterUpdate = characterUpdate;
             this._praxisRepo = praxisRepo;
         }
 
@@ -79,8 +85,9 @@ namespace WorldZero.Service.Entity.Registration.Relation
                 throw new ArgumentException("A player is attempting to revote on a praxis.");
             }
 
-            ((UnsafeCharacter) recChar).VotePointsLeft = new PointTotal(
-                recChar.VotePointsLeft.Get + v.Points.Get
+            this._characterUpdate.AmendVotePointsLeft(
+                recChar,
+                new PointTotal(recChar.VotePointsLeft.Get + v.Points.Get)
             );
             try
             {

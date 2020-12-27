@@ -103,6 +103,8 @@ namespace WorldZero.Service.Entity.Registration.Primary
                 this._praxisRepo.Save();
                 foreach (UnsafePraxisParticipant pp in pps)
                 {
+                    // This cannot use the IPPUpdate since we do not want to be
+                    // able to edit relations.
                     pp.PraxisId = p.Id;
                     this._ppReg.Register(pp);
                 }

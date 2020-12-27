@@ -1,6 +1,4 @@
 using System;
-using WorldZero.Service.Interface.Entity.Generic.Registration;
-using WorldZero.Service.Interface.Entity.Registration.Relation;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Common.Entity.Primary;
@@ -8,6 +6,9 @@ using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
+using WorldZero.Service.Interface.Entity.Generic.Registration;
+using WorldZero.Service.Interface.Entity.Registration.Relation;
+using WorldZero.Service.Interface.Entity.Update.Primary;
 
 namespace WorldZero.Service.Entity.Registration.Relation
 {
@@ -31,16 +32,22 @@ namespace WorldZero.Service.Entity.Registration.Relation
         protected IPraxisRepo _praxisRepo
         { get { return (IPraxisRepo) this._leftRepo; } }
 
+        protected readonly IPraxisUpdate _praxisUpdate;
+
         protected IFlagRepo _flagRepo
         { get { return (IFlagRepo) this._rightRepo; } }
 
         public PraxisFlagReg(
             IPraxisFlagRepo praxisFlagRepo,
             IPraxisRepo praxisRepo,
+            IPraxisUpdate praxisUpdate,
             IFlagRepo flagRepo
         )
             : base(praxisFlagRepo, praxisRepo, flagRepo)
-        { }
+        {
+            this.AssertNotNull(praxisUpdate, "praxisUpdate");
+            this._praxisUpdate = praxisUpdate;
+        }
 
         public override IPraxisFlag Register(IPraxisFlag e)
         {
@@ -62,8 +69,10 @@ namespace WorldZero.Service.Entity.Registration.Relation
                 throw new ArgumentException("Could not retrieve an associated entity.", exc);
             }
 
-            ((UnsafePraxis) p).Points = PointTotal
-                .ApplyPenalty(p.Points, f.Penalty, f.IsFlatPenalty);
+            this._praxisUpdate.AmendPoints(
+                p,
+                PointTotal.ApplyPenalty(p.Points, f.Penalty, f.IsFlatPenalty)
+            );
 
             try
             {

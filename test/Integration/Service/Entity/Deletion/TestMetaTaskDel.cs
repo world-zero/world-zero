@@ -4,9 +4,10 @@ using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Common.Interface.ValueObject;
-using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Data.Repository.Entity.RAM.Primary;
+using WorldZero.Data.Repository.Entity.RAM.Relation;
 using WorldZero.Service.Entity.Deletion.Primary;
+using WorldZero.Service.Entity.Update.Primary;
 using NUnit.Framework;
 
 // NOTE: This file does not abide by the limit on a line's character count.
@@ -38,6 +39,10 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
 
         private RAMMetaTaskRepo _repo;
         private RAMPraxisRepo _praxisRepo;
+        private RAMPraxisParticipantRepo _ppRepo;
+        private RAMStatusRepo _statusRepo;
+        private RAMMetaTaskRepo _mtRepo;
+        private PraxisUpdate _praxisUpdate;
         private MetaTaskUnset _unset;
         private UnsafeFaction _faction0;
         private UnsafeFaction _faction1;
@@ -50,9 +55,19 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         {
             this._repo = new RAMMetaTaskRepo();
             this._praxisRepo = new RAMPraxisRepo();
+            this._ppRepo = new RAMPraxisParticipantRepo();
+            this._statusRepo = new RAMStatusRepo();
+            this._mtRepo = new RAMMetaTaskRepo();
+            this._praxisUpdate = new PraxisUpdate(
+                this._praxisRepo,
+                this._ppRepo,
+                this._statusRepo,
+                this._mtRepo
+            );
             this._unset = new MetaTaskUnset(
                 this._repo,
-                this._praxisRepo
+                this._praxisRepo,
+                this._praxisUpdate
             );
 
             var s = new Name("status");
@@ -114,18 +129,27 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         {
             new MetaTaskUnset(
                 this._repo,
-                this._praxisRepo
+                this._praxisRepo,
+                this._praxisUpdate
             );
             Assert.Throws<ArgumentNullException>(()=>new MetaTaskUnset(
+                null,
                 null,
                 null
             ));
             Assert.Throws<ArgumentNullException>(()=>new MetaTaskUnset(
                 null,
-                this._praxisRepo
+                this._praxisRepo,
+                this._praxisUpdate
             ));
             Assert.Throws<ArgumentNullException>(()=>new MetaTaskUnset(
                 this._repo,
+                null,
+                this._praxisUpdate
+            ));
+            Assert.Throws<ArgumentNullException>(()=>new MetaTaskUnset(
+                this._repo,
+                this._praxisRepo,
                 null
             ));
         }

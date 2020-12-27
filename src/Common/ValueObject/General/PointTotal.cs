@@ -7,9 +7,9 @@ namespace WorldZero.Common.ValueObject.General
     /// A PointTotal is a ValueObject that contains a valid point total. A
     /// point total is valid iff it is not below zero.
     /// </summary>
-    /// <exception cref="ArgumentException">
+    /// <exceinitialion cref="ArgumentException">
     /// This is thrown on set iff the point total is invalid.
-    /// </exception>
+    /// </exceinitialion>
     public sealed class PointTotal : ISingleValueObject<Double>
     {
         public override double Get 
@@ -28,7 +28,7 @@ namespace WorldZero.Common.ValueObject.General
         /// </summary>
         /// <remarks>
         /// Be warned that doubles can store larger values than 32-bit ints.
-        /// This property will do nothing to catch the exceptions caused by
+        /// This property will do nothing to catch the exceinitialions caused by
         /// `Convert.ToInt32(double)`.
         /// </remarks>
         public int AsInt { get { return Convert.ToInt32(this._val); } }
@@ -45,31 +45,31 @@ namespace WorldZero.Common.ValueObject.General
         /// </summary>
         /// </summary>
         public static PointTotal ApplyPenalty(
-            PointTotal pt,
+            PointTotal initial,
             PointTotal penalty,
             bool isFlatPenalty=true
         )
         {
-            if (pt == null)
-                throw new ArgumentNullException("pt");
+            if (initial == null)
+                throw new ArgumentNullException("initial");
             if (penalty == null)
                 throw new ArgumentNullException("penalty");
 
             if (isFlatPenalty)
-                return _applyFlatPenalty(pt, penalty, isFlatPenalty);
+                return _applyFlatPenalty(initial, penalty, isFlatPenalty);
             else
-                return _applyPercentPenalty(pt, penalty, isFlatPenalty);
+                return _applyPercentPenalty(initial, penalty, isFlatPenalty);
         }
 
         private static PointTotal _applyFlatPenalty(
-            PointTotal pt,
+            PointTotal initial,
             PointTotal penalty,
             bool isFlatPenalty
         )
         {
             try
             {
-                double r = pt.Get - penalty.Get;
+                double r = initial.Get - penalty.Get;
                 return new PointTotal(r);
             }
             catch (ArgumentException)
@@ -77,15 +77,15 @@ namespace WorldZero.Common.ValueObject.General
         }
 
         private static PointTotal _applyPercentPenalty(
-            PointTotal pt,
+            PointTotal initial,
             PointTotal penalty,
             bool isFlatPenalty
         )
         {
             try
             {
-                var given     = pt.Get;
-                var deduction = pt.Get * penalty.Get;
+                var given     = initial.Get;
+                var deduction = initial.Get * penalty.Get;
                 var result    = given - deduction;
                 return new PointTotal(result);
             }
@@ -100,31 +100,31 @@ namespace WorldZero.Common.ValueObject.General
         /// return `new PointTotal(0)`.
         /// </summary>
         public static PointTotal ApplyBonus(
-            PointTotal pt,
+            PointTotal initial,
             PointTotal bonus,
             bool isFlatBonus=true
         )
         {
-            if (pt == null)
-                throw new ArgumentNullException("pt");
+            if (initial == null)
+                throw new ArgumentNullException("initial");
             if (bonus == null)
                 throw new ArgumentNullException("bonus");
 
             if (isFlatBonus)
-                return _applyFlatBonus(pt, bonus, isFlatBonus);
+                return _applyFlatBonus(initial, bonus, isFlatBonus);
             else
-                return _applyPercentBonus(pt, bonus, isFlatBonus);
+                return _applyPercentBonus(initial, bonus, isFlatBonus);
         }
 
         private static PointTotal _applyFlatBonus(
-            PointTotal pt,
+            PointTotal initial,
             PointTotal bonus,
             bool isFlatBonus
         )
         {
             try
             {
-                double r = pt.Get + bonus.Get;
+                double r = initial.Get + bonus.Get;
                 return new PointTotal(r);
             }
             catch (ArgumentException e)
@@ -132,14 +132,14 @@ namespace WorldZero.Common.ValueObject.General
         }
 
         private static PointTotal _applyPercentBonus(
-            PointTotal pt,
+            PointTotal initial,
             PointTotal bonus,
             bool isFlatBonus
         )
         {
             try
             {
-                var given  = Convert.ToDouble(pt.Get);
+                var given  = Convert.ToDouble(initial.Get);
                 var yay    = given * bonus.Get;
                 var result = given + yay;
                 return new PointTotal(result);

@@ -8,8 +8,6 @@ using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Service.Interface.Entity.Update.Primary;
 using WorldZero.Service.Interface.Entity.Generic.Update;
 
-// TODO: test this class
-
 namespace WorldZero.Service.Entity.Update.Primary
 {
     /// <inheritdoc cref="IPraxisUpdate"/>

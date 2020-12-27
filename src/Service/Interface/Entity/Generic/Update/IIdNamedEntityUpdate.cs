@@ -6,7 +6,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Update
 {
     /// <inheritdoc cref="IEntityService{TEntity, TId, TBuiltIn}"/>
     public interface IIdNamedEntityUpdate<TEntity>
-        : IEntityService<TEntity, Id, int>
+        : IEntityUpdate<TEntity, Id, int>
         where TEntity : class, IIdNamedEntity
     {
         void AmendName(TEntity e, Name newName);
