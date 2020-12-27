@@ -17,8 +17,8 @@ namespace WorldZero.Service.Interface.Entity.Generic.Update
         { }
 
         /// <summary>
-        /// This will handle the boilerplate exception handling and transaction
-        /// creating; the supplied `amend` is responsible for casting the
+        /// This will handle the boilerplate transaction creating and exception
+        /// handling; the supplied `amend` is responsible for casting the
         /// public-method-supplied entity to the protected implementation and
         /// changing the value - and also doing any other validation as
         /// necessary.
@@ -32,19 +32,15 @@ namespace WorldZero.Service.Interface.Entity.Generic.Update
         /// <param name="serialize">
         /// Whether or not to have a Serialized transaction.
         /// </param>
-        /// <typeparam name="TEntty">
-        /// The entity that is beign updated.
-        /// </typeparam>
         /// <remarks>
         /// For an example, check out
         /// <see cref="AbilityUpdate.AmendDescription(IAbility, string)"/>.
         /// </remarks>
-        protected void AmendHelper<TEntty>(
+        protected void AmendHelper(
             Action amend,
             TEntity e,
             bool serialize=false
         )
-            where TEntty : class, IEntity<TId, TBuiltIn>
         {
             this.AssertNotNull(amend, "amend");
             this.AssertNotNull(e, "e");

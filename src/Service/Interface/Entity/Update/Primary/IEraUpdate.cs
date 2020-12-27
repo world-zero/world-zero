@@ -8,20 +8,14 @@ namespace WorldZero.Service.Interface.Entity.Update.Primary
     /// <remarks>
     /// It is extremely not recommended to expose this anywhere but for the
     /// <see cref="CzarConsole"/>.
+    /// <br />
+    /// This cannot edit end or start dates - use <see
+    /// cref="WorldZero.Service.Interface.Entity.Registration.Primary.IEraReg"/>
+    /// for that services.
     /// </remarks>
     /// <inheritdoc cref="IEntityUpdate{TEntity, TId, TBuiltIn}"/>
     public interface IEraUpdate : IEntityUpdate<IEra, Name, string>
     {
-        void AmendStartDate(IEra e, PastDate newStartDate);
-        void AmendStartDate(Name eraId, PastDate newStartDate);
-        Task AmendStartDateAsync(IEra e, PastDate newStartDate);
-        Task AmendStartDateAsync(Name eraId, PastDate newStartDate);
-
-        void AmendEndDate(IEra e, PastDate newEndDate);
-        void AmendEndDate(Name eraId, PastDate newEndDate);
-        Task AmendEndDateAsync(IEra e, PastDate newEndDate);
-        Task AmendEndDateAsync(Name eraId, PastDate newEndDate);
-
         void AmendTaskLevelBuffer(IEra e, Level newTaskLevelBuffer);
         void AmendTaskLevelBuffer(Name eraId, Level newTaskLevelBuffer);
         Task AmendTaskLevelBufferAsync(IEra e, Level newTaskLevelBuffer);

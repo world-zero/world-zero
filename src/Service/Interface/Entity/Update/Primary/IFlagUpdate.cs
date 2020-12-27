@@ -18,9 +18,9 @@ namespace WorldZero.Service.Interface.Entity.Update.Primary
         Task AmendPenaltyAsync(IFlag f, PointTotal newPenalty);
         Task AmendPenaltyAsync(Name flagId, PointTotal newPenalty);
 
-        void AmendIsFlagPenalty(IFlag f, bool newIsFlagPenalty);
-        void AmendIsFlagPenalty(Name flagId, bool newIsFlagPenalty);
-        Task AmendIsFlagPenaltyAsync(IFlag f, bool newIsFlagPenalty);
-        Task AmendIsFlagPenaltyAsync(Name flagId, bool newIsFlagPenalty);
+        void AmendIsFlatPenalty(IFlag f, bool newIsFlatPenalty);
+        void AmendIsFlatPenalty(Name flagId, bool newIsFlatPenalty);
+        Task AmendIsFlatPenaltyAsync(IFlag f, bool newIsFlatPenalty);
+        Task AmendIsFlatPenaltyAsync(Name flagId, bool newIsFlatPenalty);
     }
 }

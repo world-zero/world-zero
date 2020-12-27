@@ -108,6 +108,10 @@ namespace WorldZero.Data.Interface.Repository.Entity.Generic
         /// <summary>
         /// This will create a transaction between all repositories, allowing
         /// for nested transactions as described by the MS SQL Server docs.
+        /// <br />
+        /// It is the responsiblity of the caller to ensure that a transaction
+        /// is ended or discarded! As a result, it is recommended to use <see
+        /// cref="IEntityRepo{TEntity, TId, TBuiltin}.Transaction(Action, bool)"/>.
         /// </summary>
         /// <param name="serialize">
         /// If true, the transaction should act like
@@ -130,6 +134,10 @@ namespace WorldZero.Data.Interface.Repository.Entity.Generic
         /// <summary>
         /// This will end a transaction and save. The end of a transaction will
         /// save atomically, even between different repository instances.
+        /// <br />
+        /// It is the responsiblity of the caller to ensure that a transaction
+        /// is ended or discarded! As a result, it is recommended to use <see
+        /// cref="IEntityRepo{TEntity, TId, TBuiltin}.Transaction(Action, bool)"/>.
         /// </summary>
         /// <remarks>
         /// A database repository with different connections will not be able
@@ -148,6 +156,10 @@ namespace WorldZero.Data.Interface.Repository.Entity.Generic
         /// Discard all of the changes made, reverting to the state just before
         /// calling this method; no exception will be thrown when called
         /// without an active transaction.
+        /// <br />
+        /// It is the responsiblity of the caller to ensure that a transaction
+        /// is ended or discarded! As a result, it is recommended to use <see
+        /// cref="IEntityRepo{TEntity, TId, TBuiltin}.Transaction(Action, bool)"/>.
         /// </summary>
         /// <remarks>
         /// This will include reverting back to the saved and staged states

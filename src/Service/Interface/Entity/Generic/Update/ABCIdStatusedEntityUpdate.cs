@@ -57,7 +57,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Update
                 this._verifyStatus(newStatus);
                 this._updateEntity(e, newStatus.Id);
             }
-            this.AmendHelper<IIdNamedEntity>(f, e);
+            this.AmendHelper(f, e);
         }
 
         public void AmendStatus(Id entityId, IStatus newStatus)
@@ -80,7 +80,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Update
                 this._verifyStatus(newStatusId);
                 this._updateEntity(e, newStatusId);
             }
-            this.AmendHelper<IIdNamedEntity>(f, e);
+            this.AmendHelper(f, e);
         }
 
         public void AmendStatus(Id entityId, Name newStatusId)

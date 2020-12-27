@@ -26,7 +26,7 @@ namespace WorldZero.Service.Entity.Update.Relation
                 ((UnsafeComment) c).Value = newValue;
             }
 
-            this.AmendHelper<IComment>(f, c);
+            this.AmendHelper(f, c);
         }
 
         public void AmendValue(Id commentId, string newValue)

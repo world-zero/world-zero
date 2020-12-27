@@ -147,7 +147,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity.Update.Primary
             {
                 ((UnsafeAbility) a).Description = newDesc;
             }
-            this.AmendHelper<IAbility>(f, a, false);
+            this.AmendHelper(f, a, false);
         }
 
         public void AmendDescription(Name abilityId, string newDesc)

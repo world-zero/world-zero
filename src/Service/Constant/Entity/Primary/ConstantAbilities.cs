@@ -39,5 +39,11 @@ namespace WorldZero.Service.Constant.Entity.Primary
             yield return Reiterator;
             yield return Historian;
         }
+
+        public static IEnumerable<IAbility> StaticGetEntities()
+        {
+            yield return Reiterator;
+            yield return Historian;
+        }
     }
 }

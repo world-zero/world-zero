@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Primary;
@@ -26,7 +25,7 @@ namespace WorldZero.Service.Entity.Update.Primary
             {
                 ((UnsafeAbility) a).Description = newDesc;
             }
-            this.AmendHelper<IAbility>(f, a);
+            this.AmendHelper(f, a);
         }
 
         public void AmendDescription(Name abilityId, string newDesc)

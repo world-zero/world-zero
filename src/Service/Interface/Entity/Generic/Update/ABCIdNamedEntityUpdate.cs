@@ -24,7 +24,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Update
                 ABCIdNamedEntity n = (ABCIdNamedEntity) ((IIdNamedEntity) e);
                 n.Name = newName;
             }
-            this.AmendHelper<IIdNamedEntity>(f, e);
+            this.AmendHelper(f, e);
         }
 
         public void AmendName(Id entityId, Name newName)

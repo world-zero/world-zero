@@ -18,9 +18,9 @@ namespace WorldZero.Service.Interface.Entity.Update.Primary
         Task AmendBonusAsync(IMetaTask mt, PointTotal newBonus);
         Task AmendBonusAsync(Id mtId, PointTotal newBonus);
 
-        void AmendIsFlatBonus(IMetaTask mt, bool newIsMetaTaskBonus);
-        void AmendIsFlatBonus(Id mtId, bool newIsMetaTaskBonus);
-        Task AmendIsFlatBonusAsync(IMetaTask mt, bool newIsMetaTaskBonus);
-        Task AmendIsFlatBonusAsync(Id mtId, bool newIsMetaTaskBonus);
+        void AmendIsFlatBonus(IMetaTask mt, bool newIsFlatBonus);
+        void AmendIsFlatBonus(Id mtId, bool newIsFlatBonus);
+        Task AmendIsFlatBonusAsync(IMetaTask mt, bool newIsFlatBonus);
+        Task AmendIsFlatBonusAsync(Id mtId, bool newIsFlatBonus);
     }
 }
