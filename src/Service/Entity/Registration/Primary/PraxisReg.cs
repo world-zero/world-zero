@@ -1,41 +1,21 @@
 using System;
+using System.Threading.Tasks;
 using System.Collections.Generic;
-using WorldZero.Service.Entity.Registration.Relation;
-using WorldZero.Service.Interface.Entity.Registration;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.Entity.Primary;
+using WorldZero.Common.Interface.Entity.Primary;
+using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
+using WorldZero.Service.Constant.Entity.Primary;
+using WorldZero.Service.Interface.Entity.Registration.Primary;
+using WorldZero.Service.Entity.Registration.Relation;
+using WorldZero.Service.Interface.Entity.Generic.Registration;
 
 namespace WorldZero.Service.Entity.Registration.Primary
 {
-    /// <inheritdoc cref="IEntityReg"/>
-    /// <summary>
-    /// Register the praxis and supplied participants.
-    /// </summary>
-    /// <remarks>
-    /// When furthering development, be mindful about how Praxis needs a
-    /// participant - both PraxisReg and PraxisParticipantReg really
-    /// rely on this fact.
-    /// <br />
-    /// This class will ensure that a duel is between two characters.
-    /// <br />
-    /// A praxis can only be registered if it is Active or In Progress.
-    /// <br />
-    /// A praxis can only be registered if it has an Active task associated
-    /// with it.
-    /// <br />
-    /// A praxis can only be registered if it has an Active meta task
-    /// associated with it, if a meta task is supplied.
-    /// <br />
-    /// A praxis participant can only be registered if it's `PraxisId` is null.
-    /// <br />
-    /// When furthering development, be mindful about how PraxisReg needs a
-    /// participant - both PraxisReg and PraxisParticipantReg rely on this
-    /// fact.
-    /// </remarks>
+    /// <inheritdoc cref="IPraxisReg"/>
     public class PraxisReg
-        : IEntityReg<Praxis, Id, int>
+        : ABCEntityReg<IPraxis, Id, int>, IPraxisReg
     {
         protected IPraxisRepo _praxisRepo
         { get { return (IPraxisRepo) this._repo; } }
@@ -69,20 +49,37 @@ namespace WorldZero.Service.Entity.Registration.Primary
         /// Instead, use `PraxisReg.Register(Praxis, List<PraxisParticipant>)`
         /// or `PraxisReg.Register(Praxis, PraxisParticipant)`.
         /// </summary>
-        public override Praxis Register(Praxis p)
+        public override IPraxis Register(IPraxis p)
         {
             throw new ArgumentException("You must supply participant(s).");
         }
 
-        public Praxis Register(Praxis p, PraxisParticipant pp)
+        public async Task<IPraxis> RegisterAsync(IPraxis p, IPraxisParticipant pp)
+        {
+            this.AssertNotNull(p, "p");
+            this.AssertNotNull(pp, "pp");
+            this._verifyStatus(p);
+            return await Task.Run(() => this.Register(p, pp));
+        }
+
+        public async
+        Task<IPraxis> RegisterAsync(IPraxis p, List<IPraxisParticipant> pps)
+        {
+            this.AssertNotNull(p, "p");
+            this.AssertNotNull(pps, "pps");
+            this._verifyStatus(p);
+            return await Task.Run(() => this.Register(p, pps));
+        }
+
+        public IPraxis Register(IPraxis p, IPraxisParticipant pp)
         {
             this.AssertNotNull(pp, "pp");
-            var pps = new List<PraxisParticipant>();
+            var pps = new List<IPraxisParticipant>();
             pps.Add(pp);
             return this.Register(p, pps);
         }
 
-        public Praxis Register(Praxis p, List<PraxisParticipant> pps)
+        public IPraxis Register(IPraxis p, List<IPraxisParticipant> pps)
         {
             this.AssertNotNull(p, "p");
             this.AssertNotNull(pps, "pps");
@@ -92,7 +89,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
             if ( (p.AreDueling) && (pps.Count != 2)  )
                 throw new ArgumentException("The praxis thinks the participants are dueling but there are not two participants exactly.");
 
-            foreach (PraxisParticipant pp in pps)
+            foreach (IPraxisParticipant pp in pps)
             {
                 if (pp.PraxisId != null)
                     throw new ArgumentException("The praxis participant is already associated with a praxis, which cannot be the supplied praxis since it has an unset ID.");
@@ -100,12 +97,14 @@ namespace WorldZero.Service.Entity.Registration.Primary
             this._praxisRepo.BeginTransaction(true);
             try
             {
-                Task t = this._verifyTask(p);
-                MetaTask mt = this._verifyMetaTask(p);
+                ITask t = this._verifyTask(p);
+                IMetaTask mt = this._verifyMetaTask(p);
                 this._praxisRepo.Insert(p);
                 this._praxisRepo.Save();
-                foreach (PraxisParticipant pp in pps)
+                foreach (UnsafePraxisParticipant pp in pps)
                 {
+                    // This cannot use the IPPUpdate since we do not want to be
+                    // able to edit relations.
                     pp.PraxisId = p.Id;
                     this._ppReg.Register(pp);
                 }
@@ -119,18 +118,18 @@ namespace WorldZero.Service.Entity.Registration.Primary
             }
         }
 
-        private void _verifyStatus(Praxis p)
+        private void _verifyStatus(IPraxis p)
         {
-            if (   (p.StatusId != StatusReg.InProgress.Id)
-                && (p.StatusId != StatusReg.Active.Id)   )
+            if (   (p.StatusId != ConstantStatuses.InProgress.Id)
+                && (p.StatusId != ConstantStatuses.Active.Id)   )
             {
                 throw new ArgumentException("A praxis can only be Active or In Progress");
             }
         }
 
-        private Task _verifyTask(Praxis p)
+        private ITask _verifyTask(IPraxis p)
         {
-            Task t;
+            ITask t;
             try
             {
                 t = this._taskRepo.GetById(p.TaskId);
@@ -138,7 +137,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
             catch (ArgumentException)
             { throw new ArgumentException($"Praxis of ID {p.Id.Get} has an invalid task ID of {p.TaskId.Get}."); }
 
-            if (t.StatusId != StatusReg.Active.Id)
+            if (t.StatusId != ConstantStatuses.Active.Id)
                 throw new ArgumentException("A praxis cannot be submitted for a non-active task.");
 
             return t;
@@ -148,9 +147,9 @@ namespace WorldZero.Service.Entity.Registration.Primary
         /// A `MetaTask` is not required for a `Praxis`, so this can return
         /// `null`.
         /// </remarks>
-        private MetaTask _verifyMetaTask(Praxis p)
+        private IMetaTask _verifyMetaTask(IPraxis p)
         {
-            MetaTask mt = null;
+            IMetaTask mt = null;
             try
             {
                 if (p.MetaTaskId != null)
@@ -160,7 +159,7 @@ namespace WorldZero.Service.Entity.Registration.Primary
             { throw new ArgumentException($"Praxis of ID {p.Id.Get} has an invalid meta task ID of {p.MetaTaskId.Get}."); }
 
             if (   (mt != null)
-                && (mt.StatusId != StatusReg.Active.Id)   )
+                && (mt.StatusId != ConstantStatuses.Active.Id)   )
             {
                 throw new ArgumentException("A praxis cannot be submitted for a non-active meta task.");
             }

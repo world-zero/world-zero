@@ -1,30 +1,29 @@
 using System;
-using WorldZero.Service.Interface.Entity.Registration;
+using WorldZero.Service.Interface.Entity.Generic.Registration;
+using WorldZero.Service.Interface.Entity.Registration.Relation;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
-using WorldZero.Common.Entity.Primary;
+using WorldZero.Common.Interface.Entity.Primary;
+using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 
 namespace WorldZero.Service.Entity.Registration.Relation
 {
-    /// <inheritdoc cref="IEntityRelationReg"/>
-    /// <remarks>
-    /// This will not allow friends to be foes.
-    /// </remarks>
+    /// <inheritdoc cref="IFriendReg"/>
     public class FriendReg
-        : IEntityRelationReg
+        : ABCEntityRelationReg
         <
-            Friend,
-            Character,
+            IFriend,
+            ICharacter,
             Id,
             int,
-            Character,
+            ICharacter,
             Id,
             int,
             RelationDTO<Id, int, Id, int>
-        >
+        >, IFriendReg
     {
         protected IFriendRepo _friendRepo
         { get { return (IFriendRepo) this._repo; } }
@@ -41,12 +40,12 @@ namespace WorldZero.Service.Entity.Registration.Relation
             this._foeRepo = foeRepo;
         }
 
-        public override Friend Register(Friend f)
+        public override IFriend Register(IFriend f)
         {
-            Friend inverseF = new Friend(f.Id, f.RightId, f.LeftId);
+            IFriend inverseF = new UnsafeFriend(f.Id, f.RightId, f.LeftId);
 
-            Foe fMatch = null;
-            Foe inverseFMatch = null;
+            IFoe fMatch = null;
+            IFoe inverseFMatch = null;
 
             this._friendRepo.BeginTransaction(true);
             try

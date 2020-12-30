@@ -14,14 +14,14 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
         private Id _id1;
         private Id _id2;
         private Id _id3;
-        private Comment _c0;
-        private Comment _c1;
-        private Comment _c2;
+        private UnsafeComment _c0;
+        private UnsafeComment _c1;
+        private UnsafeComment _c2;
         private TestRAMEntityRelationCntRepo _repo;
 
         private void _assertCommentsEqual(
-            Comment expected,
-            Comment actual
+            UnsafeComment expected,
+            UnsafeComment actual
         )
         {
             Assert.AreEqual(expected.Id, actual.Id);
@@ -35,9 +35,9 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
             this._id1 = new Id(3);
             this._id2 = new Id(15);
             this._id3 = new Id(33);
-            this._c0 = new Comment(this._id0, this._id1, "x");
-            this._c1 = new Comment(this._id2, this._id3, "x");
-            this._c2 = new Comment(this._id0, this._id3, "x");
+            this._c0 = new UnsafeComment(this._id0, this._id1, "x");
+            this._c1 = new UnsafeComment(this._id2, this._id3, "x");
+            this._c2 = new UnsafeComment(this._id0, this._id3, "x");
             this._repo = new TestRAMEntityRelationCntRepo();
             this._repo.Insert(this._c0);
             this._repo.Insert(this._c1);
@@ -59,7 +59,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
         [Test]
         public void TestCountBad()
         {
-            var p = new Comment(this._id0, this._id1, "x");
+            var p = new UnsafeComment(this._id0, this._id1, "x");
             this._repo.Insert(p);
             Assert.Throws<ArgumentException>(()=>this._repo.Save());
         }
@@ -67,26 +67,26 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
         [Test]
         public void TestSequenceOfActions()
         {
-            var p1 = new Comment(new Id(1), new Id(2), "x", 1);
+            var p1 = new UnsafeComment(new Id(1), new Id(2), "x", 1);
             this._repo.Insert(p1);
             this._repo.Save();
 
-            var p2 = new Comment(new Id(1), new Id(2), "x", 2);
+            var p2 = new UnsafeComment(new Id(1), new Id(2), "x", 2);
             this._repo.Insert(p2);
             this._repo.Save();
 
-            var pBad = new Comment(new Id(1), new Id(2), "x", 2);
+            var pBad = new UnsafeComment(new Id(1), new Id(2), "x", 2);
             this._repo.Insert(pBad);
             Assert.Throws<ArgumentException>(()=>this._repo.Save());
 
             this._repo.Delete(p2.Id);
             this._repo.Save();
 
-            var p3 = new Comment(new Id(1), new Id(2), "x", 3);
+            var p3 = new UnsafeComment(new Id(1), new Id(2), "x", 3);
             this._repo.Insert(p3);
             this._repo.Save();
 
-            var p2again = new Comment(new Id(1), new Id(2), "x", 2);
+            var p2again = new UnsafeComment(new Id(1), new Id(2), "x", 2);
             this._repo.Insert(p2again);
             this._repo.Save();
         }
@@ -99,7 +99,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
             Assert.AreEqual(2, actual);
 
             this._repo.Insert(
-                new Comment(this._id0, this._id1, "x", actual));
+                new UnsafeComment(this._id0, this._id1, "x", actual));
 
             actual = this._repo.GetNextCount(
                 new RelationDTO<Id, int, Id, int>(this._id0, this._id1));
@@ -119,7 +119,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
                 this._repo.DeleteByPartialDTO(null));
 
             var dto = (CntRelationDTO<Id, int, Id, int>) this._c0.GetDTO();
-            var c = new Comment(dto.LeftId, dto.RightId, "x", dto.Count+1);
+            var c = new UnsafeComment(dto.LeftId, dto.RightId, "x", dto.Count+1);
             this._repo.Insert(c);
             Assert.AreEqual(3, this._repo.SavedCount);
             Assert.AreEqual(1, this._repo.StagedCount);
@@ -140,7 +140,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
         public void TestDeleteByDTO()
         {
             var dto = (CntRelationDTO<Id, int, Id, int>) this._c0.GetDTO();
-            var c = new Comment(dto.LeftId, dto.RightId, "x", dto.Count+1);
+            var c = new UnsafeComment(dto.LeftId, dto.RightId, "x", dto.Count+1);
             Assert.AreEqual(3, this._repo.SavedCount);
             this._repo.Insert(c);
             this._repo.DeleteByDTO(
@@ -155,7 +155,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
     public class TestRAMEntityRelationCntRepo
         : IRAMEntityRelationCntRepo
           <
-            Comment,
+            UnsafeComment,
             Id,
             int,
             Id,
@@ -169,7 +169,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
 
         protected override int GetRuleCount()
         {
-            var a = new Comment(new Id(2), new Id(93), "x");
+            var a = new UnsafeComment(new Id(2), new Id(93), "x");
             return a.GetUniqueRules().Count;
         }
 

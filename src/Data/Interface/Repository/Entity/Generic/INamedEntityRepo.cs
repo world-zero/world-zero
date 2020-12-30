@@ -1,7 +1,7 @@
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 
-namespace WorldZero.Data.Interface.Repository.Entity.Primary.Generic
+namespace WorldZero.Data.Interface.Repository.Entity.Generic
 {
     /// <inheritdoc cref="IEntityRepo"/>
     /// <summary>
@@ -9,6 +9,6 @@ namespace WorldZero.Data.Interface.Repository.Entity.Primary.Generic
     /// </summary>
     public interface INamedEntityRepo<TNamedEntity>
         : IEntityRepo<TNamedEntity, Name, string>
-        where TNamedEntity : INamedEntity
+        where TNamedEntity : class, INamedEntity
     { }
 }

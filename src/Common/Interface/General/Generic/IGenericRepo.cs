@@ -15,9 +15,26 @@ namespace WorldZero.Common.Interface.General.Generic
         TClass GetById(TId id);
         Task<TClass> GetByIdAsync(TId id);
 
+        /// <summary>
+        /// Insert a new instance.
+        /// </summary>
+        /// <remarks>
+        /// If the instance can detected internally as
+        /// already registered, then this should use that to throw an
+        /// exception if true.
+        /// </remarks>
         void Insert(TClass obj);
         Task InsertAsync(TClass obj);
 
+        /// <summary>
+        /// Update an entity that is already inserted.
+        /// </summary>
+        /// <remarks>
+        /// If the instance can detected internally as
+        /// already registered, then this should use that to throw an
+        /// exception if false. This extends to if the instance is just staged
+        /// and not saved.
+        /// </remarks>
         void Update(TClass obj);
         Task UpdateAsync(TClass obj);
 

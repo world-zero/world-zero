@@ -1,21 +1,31 @@
 using System;
 using System.Collections.Generic;
-using WorldZero.Common.Entity.Primary;
+using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Service.Interface.Entity.Generic.Deletion;
+using WorldZero.Service.Interface.Entity.Deletion.Primary;
+using WorldZero.Service.Interface.Entity.Update.Primary;
 
 namespace WorldZero.Service.Entity.Deletion.Primary
 {
-    /// <inheritdoc cref="IEntityUnset"/>
+    /// <inheritdoc cref="IAbilityUnset"/>
     public class AbilityUnset
-        : IEntityUnset<Ability, Name, string, Faction, Name, string>
+        : ABCEntityUnset<IAbility, Name, string, IFaction, Name, string>,
+          IAbilityUnset
     {
         protected IFactionRepo _factionRepo
         { get { return (IFactionRepo) this._otherRepo; } }
 
-        public AbilityUnset(IAbilityRepo repo, IFactionRepo factionRepo)
-            : base(repo, factionRepo)
+        protected IFactionUpdate _factionUpdate
+        { get { return (IFactionUpdate) this._otherUpdate; } }
+
+        public AbilityUnset(
+            IAbilityRepo repo,
+            IFactionRepo factionRepo,
+            IFactionUpdate factionUpdate
+        )
+            : base(repo, factionRepo, factionUpdate)
         { }
 
         public override void Unset(Name factionId)
@@ -23,7 +33,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
             this.AssertNotNull(factionId, "factionId");
             this.BeginTransaction();
 
-            IEnumerable<Faction> factions = null;
+            IEnumerable<IFaction> factions = null;
             try
             { factions = this._factionRepo.GetByAbilityId(factionId); }
             catch (ArgumentException e)
@@ -34,17 +44,9 @@ namespace WorldZero.Service.Entity.Deletion.Primary
 
             if (factions != null)
             {
-                foreach (Faction c in factions)
-                {
-                    c.AbilityId = null;
-                    try
-                    { this._factionRepo.Update(c); }
-                    catch (ArgumentException e)
-                    {
-                        this.DiscardTransaction();
-                        throw new ArgumentException("Could not complete the unset.", e);
-                    }
-                }
+                Name abilityId = null;
+                foreach (IFaction f in factions)
+                    this._factionUpdate.AmendAbility(f, abilityId);
             }
 
             try

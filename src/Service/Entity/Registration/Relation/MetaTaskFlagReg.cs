@@ -1,54 +1,63 @@
 using System;
-using WorldZero.Service.Interface.Entity.Registration;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Common.Entity.Primary;
-using WorldZero.Common.Entity.Relation;
+using WorldZero.Common.Interface.Entity.Primary;
+using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
+using WorldZero.Service.Interface.Entity.Generic.Registration;
+using WorldZero.Service.Interface.Entity.Registration.Relation;
+using WorldZero.Service.Interface.Entity.Update.Primary;
 
 namespace WorldZero.Service.Entity.Registration.Relation
 {
-    /// <inheritdoc cref="IEntityRelationReg"/>
+    /// <inheritdoc cref="IMetaTaskFlagReg"/>
     public class MetaTaskFlagReg
-        : IEntityRelationReg
+        : ABCEntityRelationReg
         <
-            MetaTaskFlag,
-            MetaTask,
+            IMetaTaskFlag,
+            IMetaTask,
             Id,
             int,
-            Flag,
+            IFlag,
             Name,
             string,
             RelationDTO<Id, int, Name, string>
-        >
+        >, IMetaTaskFlagReg
     {
         protected IMetaTaskFlagRepo _metaTaskFlagRepo
         { get { return (IMetaTaskFlagRepo) this._repo; } }
 
-        protected IMetaTaskRepo _metaTaskRepo
+        protected IMetaTaskRepo _mtRepo
         { get { return (IMetaTaskRepo) this._leftRepo; } }
+
+        protected readonly IMetaTaskUpdate _mtUpdate;
 
         protected IFlagRepo _flagRepo
         { get { return (IFlagRepo) this._rightRepo; } }
 
         public MetaTaskFlagReg(
-            IMetaTaskFlagRepo metaTaskFlagRepo,
-            IMetaTaskRepo metaTaskRepo,
+            IMetaTaskFlagRepo mtFlagRepo,
+            IMetaTaskRepo mtRepo,
+            IMetaTaskUpdate mtUpdate,
             IFlagRepo flagRepo
         )
-            : base(metaTaskFlagRepo, metaTaskRepo, flagRepo)
-        { }
+            : base(mtFlagRepo, mtRepo, flagRepo)
+        {
+            this.AssertNotNull(mtUpdate, "mtUpdate");
+            this._mtUpdate = mtUpdate;
+        }
 
-        public override MetaTaskFlag Register(MetaTaskFlag e)
+        public override IMetaTaskFlag Register(IMetaTaskFlag e)
         {
             // NOTE: This code exists in TaskFlagReg.Register(),
             // MetaTaskFlagReg.Register(), and PraxisFlagReg.Register()
             // because of the weird non-generic abstract classes that exist
             // right before the entities are implemented.
             this.AssertNotNull(e, "e");
-            MetaTask mt;
-            Flag f;
+            IMetaTask mt;
+            IFlag f;
             this._metaTaskFlagRepo.BeginTransaction(true);
             try
             {
@@ -60,12 +69,14 @@ namespace WorldZero.Service.Entity.Registration.Relation
                 throw new ArgumentException("Could not retrieve an associated entity.", exc);
             }
 
-            mt.Bonus = PointTotal
-                .ApplyPenalty(mt.Bonus, f.Penalty, f.IsFlatPenalty);
+            this._mtUpdate.AmendBonus(
+                mt,
+                PointTotal.ApplyPenalty(mt.Bonus, f.Penalty, f.IsFlatPenalty)
+            );
 
             try
             {
-                this._metaTaskRepo.Update(mt);
+                this._mtRepo.Update(mt);
                 this._metaTaskFlagRepo.Insert(e);
                 this._metaTaskFlagRepo.EndTransaction();
                 return e;

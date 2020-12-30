@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using WorldZero.Common.Entity.Primary;
+using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Data.Interface.Repository.Entity.RAM.Generic;
@@ -11,15 +12,15 @@ namespace WorldZero.Data.Repository.Entity.RAM.Primary
 {
     /// <inheritdoc cref="ICharacterRepo"/>
     public class RAMCharacterRepo
-        : IRAMIdNamedEntityRepo<Character>,
+        : IRAMIdNamedEntityRepo<ICharacter>,
         ICharacterRepo
     {
-        public IEnumerable<Character> GetByPlayerId(Id playerId)
+        public IEnumerable<ICharacter> GetByPlayerId(Id playerId)
         {
             if (playerId == null)
                 throw new ArgumentNullException("playerId");
 
-            IEnumerable<Character> chars =
+            IEnumerable<ICharacter> chars =
                 from c in this._saved.Values
                 let character = this.TEntityCast(c)
                 where character.PlayerId == playerId
@@ -31,12 +32,12 @@ namespace WorldZero.Data.Repository.Entity.RAM.Primary
                 return chars;
         }
 
-        public IEnumerable<Character> GetByLocationId(Id locationId)
+        public IEnumerable<ICharacter> GetByLocationId(Id locationId)
         {
             if (locationId == null)
                 throw new ArgumentNullException("locationId");
 
-            IEnumerable<Character> chars =
+            IEnumerable<ICharacter> chars =
                 from c in this._saved.Values
                 let character = this.TEntityCast(c)
                 where character.LocationId != null
@@ -49,12 +50,12 @@ namespace WorldZero.Data.Repository.Entity.RAM.Primary
                 return chars;
         }
 
-        public IEnumerable<Character> GetByFactionId(Name factionId)
+        public IEnumerable<ICharacter> GetByFactionId(Name factionId)
         {
             if (factionId == null)
                 throw new ArgumentNullException("factionId");
 
-            IEnumerable<Character> chars =
+            IEnumerable<ICharacter> chars =
                 from c in this._saved.Values
                 let character = this.TEntityCast(c)
                 where character.FactionId != null
@@ -67,14 +68,14 @@ namespace WorldZero.Data.Repository.Entity.RAM.Primary
                 return chars;
         }
 
-        public Level FindHighestLevel(Player player)
+        public Level FindHighestLevel(IPlayer player)
         {
             if (player == null)
                 throw new ArgumentNullException("player");
             return this.FindHighestLevel(player.Id);
         }
 
-        public async Task<Level> FindHighestLevelAsync(Player player)
+        public async Task<Level> FindHighestLevelAsync(IPlayer player)
         {
             return this.FindHighestLevel(player);
         }
@@ -84,7 +85,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Primary
             if (playerId == null)
                 throw new ArgumentNullException("playerId");
 
-            IEnumerable<Character> chars;
+            IEnumerable<ICharacter> chars;
             try
             {
                 chars = this.GetByPlayerId(playerId);
@@ -93,7 +94,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Primary
             { throw new ArgumentException(e.Message); }
 
             int highest = -1;
-            foreach (Character c in chars)
+            foreach (ICharacter c in chars)
             {
                 int curr = c.TotalLevel.Get;
                 if (curr > highest)
@@ -118,7 +119,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Primary
 
         protected override int GetRuleCount()
         {
-            var a = new Character(new Name("asdf"), new Id(2));
+            var a = new UnsafeCharacter(new Name("asdf"), new Id(2));
             return a.GetUniqueRules().Count;
         }
     }

@@ -1,12 +1,14 @@
 using System;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
-using WorldZero.Common.Interface.General.Generic;
+using WorldZero.Common.Interface.ValueObject;
 using WorldZero.Common.ValueObject.General;
+using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Data.Repository.Entity.RAM.Primary;
 using WorldZero.Data.Repository.Entity.RAM.Relation;
 using WorldZero.Service.Entity.Deletion.Primary;
 using WorldZero.Service.Entity.Deletion.Relation;
+using WorldZero.Service.Entity.Update.Primary;
 using NUnit.Framework;
 
 // NOTE: This file does not abide by the limit on a line's character count.
@@ -33,20 +35,20 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
 
         private void _allAbsentt()
         {
-            this._absentt<Player, Id, int>(this._player0, this._playerRepo.GetById);
-            this._absentt<Player, Id, int>(this._player1, this._playerRepo.GetById);
-            this._absentt<Character, Id, int>(this._char0_0, this._charRepo.GetById);
-            this._absentt<Character, Id, int>(this._char0_1, this._charRepo.GetById);
-            this._absentt<Character, Id, int>(this._char1_0, this._charRepo.GetById);
+            this._absentt<IPlayer, Id, int>(this._player0, this._playerRepo.GetById);
+            this._absentt<IPlayer, Id, int>(this._player1, this._playerRepo.GetById);
+            this._absentt<ICharacter, Id, int>(this._char0_0, this._charRepo.GetById);
+            this._absentt<ICharacter, Id, int>(this._char0_1, this._charRepo.GetById);
+            this._absentt<ICharacter, Id, int>(this._char1_0, this._charRepo.GetById);
         }
 
         private void _allPresent()
         {
-            this._present<Player, Id, int>(this._player0, this._playerRepo.GetById);
-            this._present<Player, Id, int>(this._player1, this._playerRepo.GetById);
-            this._present<Character, Id, int>(this._char0_0, this._charRepo.GetById);
-            this._present<Character, Id, int>(this._char0_1, this._charRepo.GetById);
-            this._present<Character, Id, int>(this._char1_0, this._charRepo.GetById);
+            this._present<IPlayer, Id, int>(this._player0, this._playerRepo.GetById);
+            this._present<IPlayer, Id, int>(this._player1, this._playerRepo.GetById);
+            this._present<ICharacter, Id, int>(this._char0_0, this._charRepo.GetById);
+            this._present<ICharacter, Id, int>(this._char0_1, this._charRepo.GetById);
+            this._present<ICharacter, Id, int>(this._char1_0, this._charRepo.GetById);
         }
 
         private RAMPlayerRepo _playerRepo;
@@ -69,17 +71,30 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private RAMPraxisFlagRepo _pFlagRepo;
         private PraxisFlagDel _pFlagDel;
         private PraxisDel _pDel;
+        private RAMStatusRepo _statusRepo;
+        private RAMMetaTaskRepo _mtRepo;
+        private RAMFactionRepo _factionRepo;
+        private RAMLocationRepo _locationRepo;
+        private CharacterUpdate _charUpdate;
+        private PraxisUpdate _praxisUpdate;
 
-        private Player _player0;
-        private Player _player1;
-        private Character _char0_0;
-        private Character _char0_1;
-        private Character _char1_0;
+        private UnsafePlayer _player0;
+        private UnsafePlayer _player1;
+        private UnsafeCharacter _char0_0;
+        private UnsafeCharacter _char0_1;
+        private UnsafeCharacter _char1_0;
 
         [SetUp]
         public void Setup()
         {
+            this._factionRepo = new RAMFactionRepo();
+            this._locationRepo = new RAMLocationRepo();
             this._charRepo = new RAMCharacterRepo();
+            this._charUpdate = new CharacterUpdate(
+                this._charRepo,
+                this._factionRepo,
+                this._locationRepo
+            );
             this._friendRepo = new RAMFriendRepo();
             this._friendDel = new FriendDel(this._friendRepo);
             this._foeRepo = new RAMFoeRepo();
@@ -88,7 +103,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._praxisRepo = new RAMPraxisRepo();
             this._ppRepo = new RAMPraxisParticipantRepo();;
             this._commentRepo = new RAMCommentRepo();;
-            this._commentDel = new CommentDel(this._commentRepo);
+            var cfDel = new CommentFlagDel(new RAMCommentFlagRepo());
+            this._commentDel = new CommentDel(this._commentRepo, cfDel);
             this._pTagRepo = new RAMPraxisTagRepo();
             this._pTagDel = new PraxisTagDel(this._pTagRepo);
             this._pFlagRepo = new RAMPraxisFlagRepo();
@@ -96,9 +112,20 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._voteRepo = new RAMVoteRepo();
             this._voteDel = new VoteDel(this._voteRepo);
 
+            this._statusRepo = new RAMStatusRepo();
+            this._mtRepo = new RAMMetaTaskRepo();
+            this._praxisUpdate = new PraxisUpdate(
+                this._praxisRepo,
+                this._ppRepo,
+                this._statusRepo,
+                this._mtRepo,
+                this._charRepo,
+                this._charUpdate
+            );
             this._ppDel = new PraxisParticipantDel(
                 this._ppRepo,
                 this._praxisRepo,
+                this._praxisUpdate,
                 this._voteDel
             );
             this._pDel = new PraxisDel(
@@ -120,15 +147,15 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._playerRepo = new RAMPlayerRepo();
             this._del = new PlayerDel(this._playerRepo, this._charDel);
 
-            this._player0 = new Player(new Name("x"));
-            this._player1 = new Player(new Name("f"));
+            this._player0 = new UnsafePlayer(new Name("x"));
+            this._player1 = new UnsafePlayer(new Name("f"));
             this._playerRepo.Insert(this._player0);
             this._playerRepo.Insert(this._player1);
             this._playerRepo.Save();
 
-            this._char0_0 = new Character(new Name("a"), this._player0.Id);
-            this._char0_1 = new Character(new Name("b"), this._player0.Id);
-            this._char1_0 = new Character(new Name("c"), this._player1.Id);
+            this._char0_0 = new UnsafeCharacter(new Name("a"), this._player0.Id);
+            this._char0_1 = new UnsafeCharacter(new Name("b"), this._player0.Id);
+            this._char1_0 = new UnsafeCharacter(new Name("c"), this._player1.Id);
             this._charRepo.Insert(this._char0_0);
             this._charRepo.Insert(this._char0_1);
             this._charRepo.Insert(this._char1_0);
@@ -152,7 +179,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestDeleteSad()
         {
             Id id = null;
-            Player p = null;
+            UnsafePlayer p = null;
             Assert.Throws<ArgumentNullException>(()=>this._del.Delete(id));
             Assert.Throws<ArgumentNullException>(()=>this._del.Delete(p));
         }
@@ -161,11 +188,11 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         public void TestDelete()
         {
             this._del.Delete(this._player0);
-            this._absentt<Player, Id, int>(this._player0, this._playerRepo.GetById);
-            this._present<Player, Id, int>(this._player1, this._playerRepo.GetById);
-            this._absentt<Character, Id, int>(this._char0_0, this._charRepo.GetById);
-            this._absentt<Character, Id, int>(this._char0_1, this._charRepo.GetById);
-            this._present<Character, Id, int>(this._char1_0, this._charRepo.GetById);
+            this._absentt<IPlayer, Id, int>(this._player0, this._playerRepo.GetById);
+            this._present<IPlayer, Id, int>(this._player1, this._playerRepo.GetById);
+            this._absentt<ICharacter, Id, int>(this._char0_0, this._charRepo.GetById);
+            this._absentt<ICharacter, Id, int>(this._char0_1, this._charRepo.GetById);
+            this._present<ICharacter, Id, int>(this._char1_0, this._charRepo.GetById);
             this._del.Delete(this._player1);
             this._allAbsentt();
         }

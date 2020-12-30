@@ -1,4 +1,4 @@
-using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
+using WorldZero.Data.Interface.Repository.Entity.Generic;
 using System;
 using System.Threading.Tasks;
 using System.Linq;
@@ -12,7 +12,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
     public abstract class IRAMIdNamedEntityRepo<TEntity>
         : IRAMIdEntityRepo<TEntity>,
           IIdNamedEntityRepo<TEntity>
-        where TEntity : IIdNamedEntity
+        where TEntity : class, IIdNamedEntity
     {
         public IRAMIdNamedEntityRepo()
             : base()

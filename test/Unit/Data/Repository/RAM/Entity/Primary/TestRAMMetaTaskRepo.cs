@@ -13,9 +13,9 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
         private RAMMetaTaskRepo _mtRepo;
         private Name _f0;
         private Name _f1;
-        private MetaTask _mt0_0;
-        private MetaTask _mt0_1;
-        private MetaTask _mt1_0;
+        private UnsafeMetaTask _mt0_0;
+        private UnsafeMetaTask _mt0_1;
+        private UnsafeMetaTask _mt1_0;
 
         [SetUp]
         public void Setup()
@@ -25,9 +25,9 @@ namespace WorldZero.Test.Unit.Data.Repository.RAM.Entity.Primary
             var pt = new PointTotal(2);
             this._f0 = new Name("first");
             this._f1 = new Name("second");
-            this._mt0_0 = new MetaTask(this._f0, status, "x", pt);
-            this._mt0_1 = new MetaTask(this._f0, status, "a", pt);
-            this._mt1_0 = new MetaTask(this._f1, status, "y", pt);
+            this._mt0_0 = new UnsafeMetaTask(this._f0, status, "x", pt);
+            this._mt0_1 = new UnsafeMetaTask(this._f0, status, "a", pt);
+            this._mt1_0 = new UnsafeMetaTask(this._f1, status, "y", pt);
             this._mtRepo.Insert(this._mt0_0);
             this._mtRepo.Insert(this._mt0_1);
             this._mtRepo.Insert(this._mt1_0);

@@ -1,13 +1,14 @@
-using WorldZero.Common.Entity.Primary;
+using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Service.Interface.Entity.Generic.Deletion;
+using WorldZero.Service.Interface.Entity.Deletion.Primary;
 
 namespace WorldZero.Service.Entity.Deletion.Primary
 {
-    /// <inheritdoc cref="IEntityUnset"/>
+    /// <inheritdoc cref="IStatusDel"/>
     public class StatusDel
-        : IEntityDel<Status, Name, string>
+        : ABCEntityDel<IStatus, Name, string>, IStatusDel
     {
         protected readonly PraxisDel _praxisDel;
         protected readonly TaskDel _taskDel;

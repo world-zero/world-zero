@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 
-namespace WorldZero.Data.Interface.Repository.Entity.Primary.Generic
+namespace WorldZero.Data.Interface.Repository.Entity.Generic
 {
     /// <inheritdoc cref="IIdEntityRepo"/>
     /// <summary>
@@ -10,7 +10,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.Primary.Generic
     /// </summary>
     public interface IIdStatusedEntityRepo<TEntity>
         : IIdEntityRepo<TEntity>
-        where TEntity : IIdStatusedEntity
+        where TEntity : class, IIdStatusedEntity
     {
         /// <summary>
         /// Get a collection of entities with the supplied status ID. If none

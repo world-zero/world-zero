@@ -1,13 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "A6wQD2ZMe4WQ2olOjCnx38uliLQOr8xfYokbSR2MaCFvL58QMy57ESu8Ym2H7A8gAEyv6FB0pnH413eHSplXrQ==",
+  "dgSpecHash": "pmo1Z7exopGVFKBqQGomGpMeNSMT9o9Mg0kJx6bfqv5qkw1cg2KDcaw95xwC1sTL7oCLIFcfy47cupINhNE5jw==",
   "success": true,
   "projectFilePath": "/home/swatts/code/world-zero/src/Service/WorldZero.Service.csproj",
   "expectedPackageFiles": [
     "/home/swatts/.nuget/packages/dapper/2.0.35/dapper.2.0.35.nupkg.sha512",
-    "/home/swatts/.nuget/packages/microsoft.netcore.platforms/1.1.0/microsoft.netcore.platforms.1.1.0.nupkg.sha512",
-    "/home/swatts/.nuget/packages/netstandard.library/2.0.3/netstandard.library.2.0.3.nupkg.sha512",
-    "/home/swatts/.nuget/packages/system.reflection.emit.ilgeneration/4.7.0/system.reflection.emit.ilgeneration.4.7.0.nupkg.sha512",
     "/home/swatts/.nuget/packages/system.reflection.emit.lightweight/4.7.0/system.reflection.emit.lightweight.4.7.0.nupkg.sha512"
   ],
   "logs": []

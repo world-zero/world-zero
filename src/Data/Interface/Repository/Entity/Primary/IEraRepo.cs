@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
-using WorldZero.Common.Entity.Primary;
-using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
+using WorldZero.Common.Interface.Entity.Primary;
+using WorldZero.Data.Interface.Repository.Entity.Generic;
 
 namespace WorldZero.Data.Interface.Repository.Entity.Primary
 {
@@ -19,7 +19,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.Primary
     /// divorced from other repos.
     /// </remarks>
     public interface IEraRepo
-        : INamedEntityRepo<Era>
+        : INamedEntityRepo<IEra>
     {
         /// <summary>
         /// Return the active era. If there is no active era, this returns
@@ -29,7 +29,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.Primary
         /// The current era must be saved to be considered active. This
         /// will not create a serialized transaction.
         /// </remarks>
-        Era GetActiveEra();
-        Task<Era> GetActiveEraAsync();
+        IEra GetActiveEra();
+        Task<IEra> GetActiveEraAsync();
     }
 }

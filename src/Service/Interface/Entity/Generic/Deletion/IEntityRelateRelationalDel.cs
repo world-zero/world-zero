@@ -1,14 +1,11 @@
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
-using WorldZero.Common.Interface.General.Generic;
-using WorldZero.Data.Interface.Repository.Entity.Relation;
-using WorldZero.Data.Interface.Repository.Entity.Primary;
+using WorldZero.Common.Interface.ValueObject;
 using WorldZero.Common.Interface.Entity.Generic.Relation;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
-using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
 
 namespace WorldZero.Service.Interface.Entity.Generic.Deletion
 {
-    /// <inheritdoc cref="IEntityRelationDel"/>
+    /// <inheritdoc cref="IEntityRelationDel{TEntityRelation, TLeftEntity, TLeftId, TLeftBuiltIn, TRightEntity, TRightId, TRightBuiltIn, TRelationDTO}"/>
     /// <summary>
     /// This class will is a relation entity deletion where the left
     /// ID maps to an entity that is also a relational entity.
@@ -20,7 +17,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
     /// Yes I am aware that `TLEntityRelation` is just a duplicate of
     /// `TLeftEntity`.
     /// </remarks>
-    public abstract class IEntityRelateRelationalDel
+    public interface IEntityRelateRelationalDel
     <
         TEntityRelation,
 
@@ -51,7 +48,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
         TRightBuiltIn,
         TRelationDTO
     >
-        where TEntityRelation : IEntityRelation
+        where TEntityRelation : class, IEntityRelation
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
         where TLeftEntity : IEntity<TLeftId, TLeftBuiltIn>
         where TLeftId  : ISingleValueObject<TLeftBuiltIn>
@@ -67,20 +64,5 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
         where TRightId : ISingleValueObject<TRightBuiltIn>
         where TRelationDTO : RelationDTO
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
-    {
-        public IEntityRelateRelationalDel(
-            IEntityRelationRepo
-            <
-                TEntityRelation,
-                TLeftId,
-                TLeftBuiltIn,
-                TRightId,
-                TRightBuiltIn,
-                TRelationDTO
-            >
-            repo
-        )
-            : base(repo)
-        { }
-    }
+    { }
 }

@@ -21,10 +21,10 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
         private PointTotal _points;
         private Level _level;
         private Level _minLevel;
-        private Task _task;
+        private UnsafeTask _task;
         private TestRAMIdEntityRepo _repo;
 
-        private void _assertEntitiesEqual(Task expected, Task actual)
+        private void _assertEntitiesEqual(UnsafeTask expected, UnsafeTask actual)
         {
             Assert.AreEqual(expected.Id, actual.Id);
             Assert.AreEqual(expected.FactionId, actual.FactionId);
@@ -45,7 +45,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
             this._level = new Level(5);
             this._minLevel = new Level(3);
 
-            this._task = new Task(
+            this._task = new UnsafeTask(
                 this._factionId,
                 this._statusId,
                 this._summary,
@@ -75,7 +75,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
 
             // It doesn't matter that these tasks are basically the same, they
             // will have different IDs.
-            var task1 = new Task(
+            var task1 = new UnsafeTask(
                 this._factionId,
                 this._statusId,
                 this._summary,
@@ -83,7 +83,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
                 this._level,
                 this._minLevel
             );
-            var task2 = new Task(
+            var task2 = new UnsafeTask(
                 this._factionId,
                 this._statusId,
                 this._summary,
@@ -103,7 +103,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
         [Test]
         public void TestIdIsntReSetOnSave()
         {
-            var task2 = new Task(
+            var task2 = new UnsafeTask(
                 this._factionId,
                 this._statusId,
                 this._summary,
@@ -151,7 +151,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
         public void TestFinalChecks()
         {
             var repo = new TestRAMIdEntityRepoBROKEN();
-            var e = new Task(
+            var e = new UnsafeTask(
                 new Name("f"),
                 new Name("invalid"),
                 "x",
@@ -173,13 +173,13 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
     }
 
     public class TestRAMIdEntityRepo
-        : IRAMIdEntityRepo<Task>
+        : IRAMIdEntityRepo<UnsafeTask>
     {
         public void ResetNextIdValue() { _nextIdValue = 1; }
 
         protected override int GetRuleCount()
         {
-            var a = new Task(
+            var a = new UnsafeTask(
                 new Name("f"),
                 new Name("x"),
                 "z",
@@ -191,13 +191,13 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
     }
 
     public class TestRAMIdEntityRepoBROKEN
-        : IRAMIdEntityRepo<Task>
+        : IRAMIdEntityRepo<UnsafeTask>
     {
         private bool _isFirstFinalCheck = true;
 
         protected override int GetRuleCount()
         {
-            var a = new Task(
+            var a = new UnsafeTask(
                 new Name("f"),
                 new Name("x"),
                 "z",
@@ -250,7 +250,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
     }
 
     public class TestTask
-        : Task
+        : UnsafeTask
     {
         public TestTask(
             Name factionId,
@@ -311,13 +311,13 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
                 this.Level,
                 this.Unique,
                 this.MinLevel,
-                this.isHistorianable
+                this.IsHistorianable
             );
         }
 
         public int Unique { get; set; }
 
-        internal override W0List<W0Set<object>> GetUniqueRules()
+        public override W0List<W0Set<object>> GetUniqueRules()
         {
             var r = base.GetUniqueRules();
             var n = new W0Set<object>();

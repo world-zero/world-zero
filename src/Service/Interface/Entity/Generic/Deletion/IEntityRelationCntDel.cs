@@ -1,14 +1,13 @@
+using System.Threading.Tasks;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
-using WorldZero.Common.Interface.General.Generic;
-using WorldZero.Data.Interface.Repository.Entity.Primary.Generic;
+using WorldZero.Common.Interface.ValueObject;
 using WorldZero.Common.Interface.Entity.Generic.Relation;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
-using System.Threading.Tasks;
 
 namespace WorldZero.Service.Interface.Entity.Generic.Deletion
 {
-    /// <inheritdoc cref="IEntityRelationDel"/>
-    public abstract class IEntityRelationCntDel
+    /// <inheritdoc cref="IEntityRelationDel{TEntityRelation, TLeftEntity, TLeftId, TLeftBuiltIn, TRightEntity, TRightId, TRightBuiltIn, TRelationDTO}"/>
+    public interface IEntityRelationCntDel
     <
         TEntityRelationCnt,
         TLeftEntity,
@@ -30,7 +29,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
             TRightBuiltIn,
             TRelationDTO
         >
-        where TEntityRelationCnt : IEntityRelationCnt
+        where TEntityRelationCnt : class, IEntityCntRelation
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
         where TLeftEntity : IEntity<TLeftId, TLeftBuiltIn>
         where TLeftId  : ISingleValueObject<TLeftBuiltIn>
@@ -39,63 +38,12 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
         where TRelationDTO : CntRelationDTO
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
     {
-        protected IEntityRelationCntRepo
-        <
-            TEntityRelationCnt,
-            TLeftId,
-            TLeftBuiltIn,
-            TRightId,
-            TRightBuiltIn,
-            TRelationDTO
-        >
-        _cntRepo
-        {
-            get
-            {
-                return (IEntityRelationCntRepo
-                <
-                    TEntityRelationCnt,
-                    TLeftId,
-                    TLeftBuiltIn,
-                    TRightId,
-                    TRightBuiltIn,
-                    TRelationDTO
-                >) this._relRepo;
-            }
-        }
-
-        public IEntityRelationCntDel(
-            IEntityRelationCntRepo
-            <
-                TEntityRelationCnt,
-                TLeftId,
-                TLeftBuiltIn,
-                TRightId,
-                TRightBuiltIn,
-                TRelationDTO
-            >
-            repo
-        )
-            : base(repo)
-        { }
-
-        public virtual void DeleteByPartialDTO(
+        void DeleteByPartialDTO(
             RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
-        )
-        {
-            this.Transaction
-            <RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>>(
-                this._cntRepo.DeleteByPartialDTO,
-                dto
-            );
-        }
+        );
 
-        public virtual async Task DeleteByPartialDTOAsync(
+        Task DeleteByPartialDTOAsync(
             RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
-        )
-        {
-            this.AssertNotNull(dto, "dto");
-            await Task.Run(() => this.DeleteByPartialDTO(dto));
-        }
+        );
     }
 }
