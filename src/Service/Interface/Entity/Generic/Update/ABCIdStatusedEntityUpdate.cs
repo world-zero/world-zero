@@ -48,7 +48,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Update
             this._statusRepo.GetById(statusId);
         }
 
-        public void AmendStatus(TEntity e, IStatus newStatus)
+        public virtual void AmendStatus(TEntity e, IStatus newStatus)
         {
             this.AssertNotNull(e, "e");
             this.AssertNotNull(newStatus, "newStatus");
@@ -60,7 +60,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Update
             this.AmendHelper(f, e);
         }
 
-        public void AmendStatus(Id entityId, IStatus newStatus)
+        public virtual void AmendStatus(Id entityId, IStatus newStatus)
         {
             this.AssertNotNull(entityId, "entityId");
             this.AssertNotNull(newStatus, "newStatus");
@@ -71,7 +71,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Update
             this.Transaction(f, true);
         }
 
-        public void AmendStatus(TEntity e, Name newStatusId)
+        public virtual void AmendStatus(TEntity e, Name newStatusId)
         {
             this.AssertNotNull(e, "e");
             this.AssertNotNull(newStatusId, "newStatusId");
@@ -83,7 +83,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Update
             this.AmendHelper(f, e);
         }
 
-        public void AmendStatus(Id entityId, Name newStatusId)
+        public virtual void AmendStatus(Id entityId, Name newStatusId)
         {
             this.AssertNotNull(entityId, "entityId");
             this.AssertNotNull(newStatusId, "newStatusId");

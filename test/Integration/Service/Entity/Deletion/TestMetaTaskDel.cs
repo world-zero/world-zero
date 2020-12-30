@@ -44,6 +44,10 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private RAMMetaTaskRepo _mtRepo;
         private PraxisUpdate _praxisUpdate;
         private MetaTaskUnset _unset;
+        private RAMFactionRepo _factionRepo;
+        private RAMLocationRepo _locationRepo;
+        private RAMCharacterRepo _charRepo;
+        private CharacterUpdate _charUpdate;
         private UnsafeFaction _faction0;
         private UnsafeFaction _faction1;
         private UnsafeMetaTask _mt0_0;
@@ -58,11 +62,21 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._ppRepo = new RAMPraxisParticipantRepo();
             this._statusRepo = new RAMStatusRepo();
             this._mtRepo = new RAMMetaTaskRepo();
+            this._factionRepo = new RAMFactionRepo();
+            this._locationRepo = new RAMLocationRepo();
+            this._charRepo = new RAMCharacterRepo();
+            this._charUpdate = new CharacterUpdate(
+                this._charRepo,
+                this._factionRepo,
+                this._locationRepo
+            );
             this._praxisUpdate = new PraxisUpdate(
                 this._praxisRepo,
                 this._ppRepo,
                 this._statusRepo,
-                this._mtRepo
+                this._mtRepo,
+                this._charRepo,
+                this._charUpdate
             );
             this._unset = new MetaTaskUnset(
                 this._repo,

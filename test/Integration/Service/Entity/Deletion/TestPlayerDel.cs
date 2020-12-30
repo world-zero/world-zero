@@ -73,6 +73,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         private PraxisDel _pDel;
         private RAMStatusRepo _statusRepo;
         private RAMMetaTaskRepo _mtRepo;
+        private RAMFactionRepo _factionRepo;
+        private RAMLocationRepo _locationRepo;
+        private CharacterUpdate _charUpdate;
         private PraxisUpdate _praxisUpdate;
 
         private UnsafePlayer _player0;
@@ -84,7 +87,14 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         [SetUp]
         public void Setup()
         {
+            this._factionRepo = new RAMFactionRepo();
+            this._locationRepo = new RAMLocationRepo();
             this._charRepo = new RAMCharacterRepo();
+            this._charUpdate = new CharacterUpdate(
+                this._charRepo,
+                this._factionRepo,
+                this._locationRepo
+            );
             this._friendRepo = new RAMFriendRepo();
             this._friendDel = new FriendDel(this._friendRepo);
             this._foeRepo = new RAMFoeRepo();
@@ -108,7 +118,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
                 this._praxisRepo,
                 this._ppRepo,
                 this._statusRepo,
-                this._mtRepo
+                this._mtRepo,
+                this._charRepo,
+                this._charUpdate
             );
             this._ppDel = new PraxisParticipantDel(
                 this._ppRepo,

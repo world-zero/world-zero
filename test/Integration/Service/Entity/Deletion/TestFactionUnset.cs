@@ -84,17 +84,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._taskRepo = new RAMTaskRepo();
             this._ppRepo = new RAMPraxisParticipantRepo();
             this._statusRepo = new RAMStatusRepo();
-            this._praxisUpdate = new PraxisUpdate(
-                this._praxisRepo,
-                this._ppRepo,
-                this._statusRepo,
-                this._mtRepo
-            );
-            this._mtUnset = new MetaTaskUnset(
-                this._mtRepo,
-                this._praxisRepo,
-                this._praxisUpdate
-            );
+            this._mtRepo = new RAMMetaTaskRepo();
             this._praxisTagRepo = new RAMPraxisTagRepo();
             this._praxisTagDel = new PraxisTagDel(this._praxisTagRepo);
             this._praxisFlagRepo = new RAMPraxisFlagRepo();
@@ -105,12 +95,24 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._voteRepo = new RAMVoteRepo();
             this._voteDel = new VoteDel(this._voteRepo);
             this._statusRepo = new RAMStatusRepo();
-            this._mtRepo = new RAMMetaTaskRepo();
+            this._locationRepo = new RAMLocationRepo();
+            this._charUpdate = new CharacterUpdate(
+                this._charRepo,
+                this._factionRepo,
+                this._locationRepo
+            );
             this._praxisUpdate = new PraxisUpdate(
                 this._praxisRepo,
                 this._ppRepo,
                 this._statusRepo,
-                this._mtRepo
+                this._mtRepo,
+                this._charRepo,
+                this._charUpdate
+            );
+            this._mtUnset = new MetaTaskUnset(
+                this._mtRepo,
+                this._praxisRepo,
+                this._praxisUpdate
             );
             this._ppDel = new PraxisParticipantDel(
                 this._ppRepo,
@@ -135,7 +137,6 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
                 this._taskFlagDel,
                 this._praxisDel
             );
-            this._locationRepo = new RAMLocationRepo();
             this._charUpdate = new CharacterUpdate(
                 this._charRepo,
                 this._factionRepo,
