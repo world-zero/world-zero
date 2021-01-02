@@ -8,7 +8,7 @@ using WorldZero.Common.Interface.Entity.Generic.Relation;
 namespace WorldZero.Common.Entity.Relation
 {
     /// <inheritdoc cref="IVote"/>
-    public class UnsafeVote : ABCIdIdRelation, IVote
+    public class UnsafeVote : ABCEntityRelation<Id, int, Id, int>, IVote
     {
         public static PointTotal StaticMinPoints
         {
@@ -152,5 +152,13 @@ namespace WorldZero.Common.Entity.Relation
             }
         }
         protected PointTotal _points;
+
+        public override RelationDTO<Id, int, Id, int> GetDTO()
+        {
+            return new RelationDTO<Id, int, Id, int>(
+                this.LeftId,
+                this.RightId
+            );
+        }
     }
 }

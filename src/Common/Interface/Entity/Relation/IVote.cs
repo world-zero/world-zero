@@ -19,7 +19,7 @@ namespace WorldZero.Common.Interface.Entity.Relation
     /// <br />
     /// Check out the documentation on `StaticMinPoints` and `StaticMaxPoints`.
     /// </remarks>
-    public interface IVote : IIdIdRelation
+    public interface IVote : IEntityRelation<Id, int, Id, int>
     {
         /// <summary>
         /// CharacterId is a wrapper for LeftId.

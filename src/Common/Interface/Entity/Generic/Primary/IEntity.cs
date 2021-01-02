@@ -12,6 +12,8 @@ namespace WorldZero.Common.Interface.Entity.Generic.Primary
     /// that these properties will throw an `ArgumentNullException` when
     /// appropriate.
     /// <br />
+    /// Clones are deep copies.
+    /// <br />
     /// These interfaces tend to be just getters for a reason:
     /// compiler-enforced safety against updating entities without the use of a
     /// service updating class. This is relevant as the system-wide logic is

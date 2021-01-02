@@ -8,7 +8,7 @@ namespace WorldZero.Common.Entity.Relation
 {
     /// <inheritdoc cref="IPraxisParticipant"/>
     public class UnsafePraxisParticipant
-        : ABCIdIdRelation, IPraxisParticipant
+        : ABCEntityRelation<Id, int, Id, int>, IPraxisParticipant
     {
         public Id PraxisId
         {
@@ -69,6 +69,14 @@ namespace WorldZero.Common.Entity.Relation
         {
             return new UnsafePraxisParticipant(
                 this.Id,
+                this.LeftId,
+                this.RightId
+            );
+        }
+
+        public override RelationDTO<Id, int, Id, int> GetDTO()
+        {
+            return new RelationDTO<Id, int, Id, int>(
                 this.LeftId,
                 this.RightId
             );

@@ -13,7 +13,7 @@ namespace WorldZero.Common.Interface.Entity.Relation
     /// <br />
     /// Right relation: `CharacterId`
     /// </summary>
-    public interface IComment : IIdIdCntRelation
+    public interface IComment : IEntityCntRelation<Id, int, Id, int>
     {
         /// <summary>
         /// PraxisId wraps LeftId, which is the ID of the related Praxis.

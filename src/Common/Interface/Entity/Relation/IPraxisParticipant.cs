@@ -18,7 +18,7 @@ namespace WorldZero.Common.Interface.Entity.Relation
     /// Since some characters can repeat tasks, but since the praxis is
     /// different for every attempt, this does not track the attempt number.
     /// </remarks>
-    public interface IPraxisParticipant : IIdIdRelation
+    public interface IPraxisParticipant : IEntityRelation<Id, int, Id, int>
     {
         /// <summary>
         /// PraxisId wraps LeftId, which is the ID of the related Praxis.

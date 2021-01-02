@@ -8,7 +8,8 @@ using WorldZero.Common.Interface.Entity.Relation;
 namespace WorldZero.Common.Entity.Relation
 {
     /// <inheritdoc cref="IComment"/>
-    public class UnsafeComment : ABCIdIdCntRelation, IComment
+    public class UnsafeComment
+        : ABCEntityCntRelation<Id, int, Id, int>, IComment
     {
         public Id PraxisId
         {
@@ -99,5 +100,14 @@ namespace WorldZero.Common.Entity.Relation
             }
         }
         protected string _value;
+
+        public override RelationDTO<Id, int, Id, int> GetDTO()
+        {
+            return new CntRelationDTO<Id, int, Id, int>(
+                this.LeftId,
+                this.RightId,
+                this.Count
+            );
+        }
     }
 }
