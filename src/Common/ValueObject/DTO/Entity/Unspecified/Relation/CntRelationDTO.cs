@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using WorldZero.Common.Interface.ValueObject;
 
-namespace WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation
+namespace WorldZero.Common.ValueObject.DTO.Entity.Unspecified.Relation
 {
     /// <inheritdoc cref="RelationDTO" />
     /// <summary>

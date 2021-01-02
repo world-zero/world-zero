@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using WorldZero.Common.ValueObject.DTO.General.Generic;
-using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
+using WorldZero.Common.ValueObject.DTO.Entity.Unspecified.Relation;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.RAM.Generic;
 using WorldZero.Data.Interface.Repository.Entity.Relation;

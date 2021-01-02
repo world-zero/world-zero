@@ -1,10 +1,10 @@
 using System.Threading.Tasks;
-using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
+using WorldZero.Common.ValueObject.DTO.Entity.Unspecified.Relation;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface.ValueObject;
 using WorldZero.Data.Interface.Repository.Entity.Generic;
-using WorldZero.Common.Interface.Entity.Generic.Relation;
-using WorldZero.Common.Interface.Entity.Generic.Primary;
+using WorldZero.Common.Interface.Entity.Unspecified.Relation;
+using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 
 namespace WorldZero.Service.Interface.Entity.Generic.Deletion
 {

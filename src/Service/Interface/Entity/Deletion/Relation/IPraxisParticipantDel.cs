@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
+using WorldZero.Common.ValueObject.DTO.Entity.Unspecified.Relation;
 using WorldZero.Service.Interface.Entity.Generic.Deletion;
 using WorldZero.Service.Interface.Entity.Deletion.Primary;
 

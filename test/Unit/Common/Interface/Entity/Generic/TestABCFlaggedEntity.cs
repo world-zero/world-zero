@@ -1,7 +1,7 @@
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.Interface.Entity.Generic.Relation;
+using WorldZero.Common.Interface.Entity.Unspecified.Relation;
 using NUnit.Framework;
-using WorldZero.Common.Interface.Entity.Generic.Primary;
+using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 
 namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
 {

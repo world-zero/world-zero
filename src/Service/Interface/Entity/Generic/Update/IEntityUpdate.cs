@@ -1,5 +1,5 @@
 using WorldZero.Common.Interface.ValueObject;
-using WorldZero.Common.Interface.Entity.Generic.Primary;
+using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 
 namespace WorldZero.Service.Interface.Entity.Generic.Update
 {

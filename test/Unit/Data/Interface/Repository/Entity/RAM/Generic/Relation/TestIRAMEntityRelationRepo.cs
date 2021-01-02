@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using WorldZero.Common.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity.RAM.Generic;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
+using WorldZero.Common.ValueObject.DTO.Entity.Unspecified.Relation;
 using NUnit.Framework;
 
 namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relation

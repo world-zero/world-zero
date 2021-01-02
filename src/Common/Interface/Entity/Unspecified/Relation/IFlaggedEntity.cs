@@ -1,20 +1,20 @@
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface.ValueObject;
 
-namespace WorldZero.Common.Interface.Entity.Generic.Relation
+namespace WorldZero.Common.Interface.Entity.Unspecified.Relation
 {
     /// <inheritdoc cref="IEntityRelation"/>
     /// <remarks>
     /// This will configure the right ID to be a Name, intended to be used as a
-    /// relation to a Tag.
+    /// relation to a Flag.
     /// </remarks>
-    public interface ITaggedEntity<TLeftId, TLeftBuiltIn>
+    public interface IFlaggedEntity<TLeftId, TLeftBuiltIn>
         : IEntityRelation<TLeftId, TLeftBuiltIn, Name, string>
         where TLeftId  : ISingleValueObject<TLeftBuiltIn>
     {
         /// <summary>
         /// This is a wrapper for `RightId`.
         /// </summary>
-        Name TagId { get; }
+        Name FlagId { get; }
     }
 }

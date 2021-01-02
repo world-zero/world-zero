@@ -1,11 +1,11 @@
 using System;
-using WorldZero.Common.Interface.Entity.Generic.Primary;
-using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
+using WorldZero.Common.Interface.Entity.Unspecified.Primary;
+using WorldZero.Common.ValueObject.DTO.Entity.Unspecified.Relation;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Collections.Generic;
 using WorldZero.Common.Interface.ValueObject;
 
-namespace WorldZero.Common.Interface.Entity.Generic.Relation
+namespace WorldZero.Common.Interface.Entity.Unspecified.Relation
 {
     /// <inheritdoc cref="IEntityRelation"/>
     public abstract class ABCEntityRelation

@@ -1,6 +1,6 @@
 using System;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
+using WorldZero.Common.ValueObject.DTO.Entity.Unspecified.Relation;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Relation;

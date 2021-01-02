@@ -1,6 +1,6 @@
 using WorldZero.Common.Interface.ValueObject;
 
-namespace WorldZero.Common.Interface.Entity.Generic.Relation
+namespace WorldZero.Common.Interface.Entity.Unspecified.Relation
 {
     /// <inheritdoc cref="IEntityRelation"/>
     public interface IEntitySelfRelation<TId, TBuiltIn>

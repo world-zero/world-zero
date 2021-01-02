@@ -3,7 +3,7 @@ using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Collections.Generic;
 using WorldZero.Common.Interface.ValueObject;
 
-namespace WorldZero.Common.Interface.Entity.Generic.Relation
+namespace WorldZero.Common.Interface.Entity.Unspecified.Relation
 {
     /// <inheritdoc cref="IEntityCntRelation"/>
     public abstract class ABCEntityCntRelation

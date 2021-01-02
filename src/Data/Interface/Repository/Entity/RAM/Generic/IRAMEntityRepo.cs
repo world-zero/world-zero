@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using WorldZero.Common.Interface.ValueObject;
-using WorldZero.Common.Interface.Entity.Generic.Primary;
+using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 using WorldZero.Common.Collections.Generic;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;

@@ -1,9 +1,9 @@
 using System;
-using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
+using WorldZero.Common.ValueObject.DTO.Entity.Unspecified.Relation;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface.ValueObject;
-using WorldZero.Common.Interface.Entity.Generic.Relation;
-using WorldZero.Common.Interface.Entity.Generic.Primary;
+using WorldZero.Common.Interface.Entity.Unspecified.Relation;
+using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 using System.Threading.Tasks;
 using WorldZero.Data.Interface.Repository.Entity.Generic;
 

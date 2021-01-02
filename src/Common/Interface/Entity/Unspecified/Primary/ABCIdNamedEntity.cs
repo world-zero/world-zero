@@ -2,7 +2,7 @@ using System;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Collections.Generic;
 
-namespace WorldZero.Common.Interface.Entity.Generic.Primary
+namespace WorldZero.Common.Interface.Entity.Unspecified.Primary
 {
     public abstract class ABCIdNamedEntity : ABCIdEntity,IIdNamedEntity
     {

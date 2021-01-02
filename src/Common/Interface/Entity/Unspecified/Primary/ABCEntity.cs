@@ -9,7 +9,7 @@ using WorldZero.Common.Interface.ValueObject;
 [assembly: InternalsVisibleTo("WorldZero.Test.Unit")]
 [assembly: InternalsVisibleTo("WorldZero.Test.Integration")]
 
-namespace WorldZero.Common.Interface.Entity.Generic.Primary
+namespace WorldZero.Common.Interface.Entity.Unspecified.Primary
 {
     public abstract class ABCEntity<TId, TBuiltIn>
         : IEntity<TId, TBuiltIn>

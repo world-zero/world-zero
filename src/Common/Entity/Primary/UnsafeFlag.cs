@@ -1,6 +1,6 @@
 using System;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.Interface.Entity.Generic.Primary;
+using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 using WorldZero.Common.Interface.Entity.Primary;
 
 namespace WorldZero.Common.Entity.Primary

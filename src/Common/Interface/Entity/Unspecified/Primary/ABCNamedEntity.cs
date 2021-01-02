@@ -1,6 +1,6 @@
 using WorldZero.Common.ValueObject.General;
 
-namespace WorldZero.Common.Interface.Entity.Generic.Primary
+namespace WorldZero.Common.Interface.Entity.Unspecified.Primary
 {
     public abstract class ABCNamedEntity
         : ABCEntity<Name, string>, INamedEntity

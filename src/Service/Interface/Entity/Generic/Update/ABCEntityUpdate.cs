@@ -1,6 +1,6 @@
 using System;
 using WorldZero.Common.Interface.ValueObject;
-using WorldZero.Common.Interface.Entity.Generic.Primary;
+using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 using WorldZero.Data.Interface.Repository.Entity.Generic;
 
 namespace WorldZero.Service.Interface.Entity.Generic.Update

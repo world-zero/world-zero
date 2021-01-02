@@ -1,4 +1,4 @@
-using WorldZero.Common.Interface.Entity.Generic.Primary;
+using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 
 namespace WorldZero.Common.Interface.Entity.Primary
 {

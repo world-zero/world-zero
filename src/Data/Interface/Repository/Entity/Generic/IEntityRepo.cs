@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using WorldZero.Common.Interface.General.Generic;
 using WorldZero.Common.Interface.ValueObject;
-using WorldZero.Common.Interface.Entity.Generic.Primary;
+using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 
 namespace WorldZero.Data.Interface.Repository.Entity.Generic
 {

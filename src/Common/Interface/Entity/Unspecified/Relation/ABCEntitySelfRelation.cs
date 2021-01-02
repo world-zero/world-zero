@@ -1,7 +1,7 @@
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface.ValueObject;
 
-namespace WorldZero.Common.Interface.Entity.Generic.Relation
+namespace WorldZero.Common.Interface.Entity.Unspecified.Relation
 {
     /// <inheritdoc cref="IEntitySelfRelation"/>
     public abstract class ABCEntitySelfRelation<TId, TBuiltIn>

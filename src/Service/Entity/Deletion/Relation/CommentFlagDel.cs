@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
+using WorldZero.Common.ValueObject.DTO.Entity.Unspecified.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Generic;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Common.Interface.Entity.Primary;

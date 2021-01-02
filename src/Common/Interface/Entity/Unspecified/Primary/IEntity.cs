@@ -2,7 +2,7 @@ using System;
 using WorldZero.Common.Collections.Generic;
 using WorldZero.Common.Interface.ValueObject;
 
-namespace WorldZero.Common.Interface.Entity.Generic.Primary
+namespace WorldZero.Common.Interface.Entity.Unspecified.Primary
 {
     /// <summary>
     /// This is the interface for an Entity, complete with an Id.

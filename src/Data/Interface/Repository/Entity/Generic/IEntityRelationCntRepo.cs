@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using WorldZero.Common.Interface.Entity.Generic.Relation;
+using WorldZero.Common.Interface.Entity.Unspecified.Relation;
 using WorldZero.Common.Interface.ValueObject;
-using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
+using WorldZero.Common.ValueObject.DTO.Entity.Unspecified.Relation;
 
 namespace WorldZero.Data.Interface.Repository.Entity.Generic
 {

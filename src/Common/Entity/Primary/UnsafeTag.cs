@@ -1,5 +1,5 @@
 using WorldZero.Common.Interface.Entity.Primary;
-using WorldZero.Common.Interface.Entity.Generic.Primary;
+using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 using WorldZero.Common.ValueObject.General;
 
 namespace WorldZero.Common.Entity.Primary
