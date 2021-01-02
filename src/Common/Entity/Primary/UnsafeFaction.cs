@@ -56,7 +56,7 @@ namespace WorldZero.Common.Entity.Primary
             this.AbilityId = abilityName;
         }
 
-        public override IEntity<Name, string> Clone()
+        public override IEntity<Name, string> CloneAsEntity()
         {
             return new UnsafeFaction(
                 this.Id,

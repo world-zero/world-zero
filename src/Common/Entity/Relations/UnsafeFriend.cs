@@ -53,7 +53,7 @@ namespace WorldZero.Common.Entity.Relation
             )
         { }
 
-        public override IEntity<Id, int> Clone()
+        public override IEntity<Id, int> CloneAsEntity()
         {
             return new UnsafeFriend(
                 this.Id,

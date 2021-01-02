@@ -49,7 +49,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
             : base(new Id(0))
         { }
 
-        public override IEntity<Id, int> Clone()
+        public override IEntity<Id, int> CloneAsEntity()
         {
             return null;
         }

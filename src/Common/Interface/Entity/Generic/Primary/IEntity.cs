@@ -23,7 +23,7 @@ namespace WorldZero.Common.Interface.Entity.Generic.Primary
     /// created to be almost identical to another entity but with an "update"
     /// applied via any changed properties.
     /// </remarks>
-    public interface IEntity<TId, TBuiltIn>
+    public interface IEntity<TId, TBuiltIn> : ICloneable
         where TId : ISingleValueObject<TBuiltIn>
     {
         /// <summary>
@@ -37,7 +37,11 @@ namespace WorldZero.Common.Interface.Entity.Generic.Primary
 
         bool IsIdSet();
 
-        IEntity<TId, TBuiltIn> Clone();
+        /// <summary>
+        /// Similar to <see cref="System.ICloneable.Clone"/>, except this will
+        /// return the result as an entity.
+        /// </summary>
+        IEntity<TId, TBuiltIn> CloneAsEntity();
 
         /// <summary>
         /// Unless you are implementing a whole new entity or you are working

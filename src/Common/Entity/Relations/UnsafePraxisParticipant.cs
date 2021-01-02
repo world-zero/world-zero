@@ -65,7 +65,7 @@ namespace WorldZero.Common.Entity.Relation
             : base(new Id(id), new Id(praxisId), new Id(characterId))
         { }
 
-        public override IEntity<Id, int> Clone()
+        public override IEntity<Id, int> CloneAsEntity()
         {
             return new UnsafePraxisParticipant(
                 this.Id,

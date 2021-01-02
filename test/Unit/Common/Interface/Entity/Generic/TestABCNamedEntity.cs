@@ -38,7 +38,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
         {
         }
 
-        public override IEntity<Name, string> Clone()
+        public override IEntity<Name, string> CloneAsEntity()
         {
             return null;
         }

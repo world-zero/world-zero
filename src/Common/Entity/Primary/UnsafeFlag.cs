@@ -36,7 +36,7 @@ namespace WorldZero.Common.Entity.Primary
             this.IsFlatPenalty = isFlatPenalty;
         }
 
-        public override IEntity<Name, string> Clone()
+        public override IEntity<Name, string> CloneAsEntity()
         { 
             return new UnsafeFlag(
                 this.Id

@@ -28,7 +28,12 @@ namespace WorldZero.Common.Interface.Entity.Generic.Primary
             return r;
         }
 
-        abstract public IEntity<TId, TBuiltIn> Clone();
+        abstract public IEntity<TId, TBuiltIn> CloneAsEntity();
+
+        public object Clone()
+        {
+            return (object) this.CloneAsEntity();
+        }
 
         public TId Id
         {

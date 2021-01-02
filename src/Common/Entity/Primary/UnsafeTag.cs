@@ -19,7 +19,7 @@ namespace WorldZero.Common.Entity.Primary
             this.Description = description;
         }
 
-        public override IEntity<Name, string> Clone()
+        public override IEntity<Name, string> CloneAsEntity()
         {
             var t = new UnsafeTag(this.Id);
             t.Description = this.Description;

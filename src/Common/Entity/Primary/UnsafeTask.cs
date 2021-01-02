@@ -91,7 +91,7 @@ namespace WorldZero.Common.Entity.Primary
             this.FactionId = factionId;
         }
 
-        public override IEntity<Id, int> Clone()
+        public override IEntity<Id, int> CloneAsEntity()
         {
             return new UnsafeTask(
                 this.Id,

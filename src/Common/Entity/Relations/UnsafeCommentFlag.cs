@@ -36,7 +36,7 @@ namespace WorldZero.Common.Entity.Relation
             : base(new Id(id), new Id(commentId), new Name(flagId))
         { }
 
-        public override IEntity<Id, int> Clone()
+        public override IEntity<Id, int> CloneAsEntity()
         {
             return new UnsafeCommentFlag(
                 this.Id,

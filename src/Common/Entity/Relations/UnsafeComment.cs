@@ -77,7 +77,7 @@ namespace WorldZero.Common.Entity.Relation
             this.Count = count;
         }
 
-        public override IEntity<Id, int> Clone()
+        public override IEntity<Id, int> CloneAsEntity()
         {
             return new UnsafeComment(
                 this.Id,

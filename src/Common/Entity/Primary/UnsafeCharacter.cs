@@ -161,7 +161,7 @@ namespace WorldZero.Common.Entity.Primary
             this.HasProfilePic = hasProfilePic;
         }
 
-        public override IEntity<Id, int> Clone()
+        public override IEntity<Id, int> CloneAsEntity()
         {
             return new UnsafeCharacter(
                 this.Id,

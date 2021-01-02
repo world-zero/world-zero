@@ -25,7 +25,7 @@ namespace WorldZero.Common.Entity.Primary
             this.IsBlocked = isBlocked;
         }
 
-        public override IEntity<Id, int> Clone()
+        public override IEntity<Id, int> CloneAsEntity()
         {
             return new UnsafePlayer(
                 this.Id,

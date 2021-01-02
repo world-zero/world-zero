@@ -63,7 +63,7 @@ namespace WorldZero.Common.Entity.Primary
             );
         }
 
-        public override IEntity<Id, int> Clone()
+        public override IEntity<Id, int> CloneAsEntity()
         {
             return new UnsafePraxis(
                 this.Id,

@@ -49,7 +49,7 @@ namespace WorldZero.Common.Entity.Primary
             this.MaxTasksReiterator = maxTasksReiterator;
         }
 
-        public override IEntity<Name, string> Clone()
+        public override IEntity<Name, string> CloneAsEntity()
         {
             return new UnsafeEra(
                 this.Id,

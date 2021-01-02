@@ -74,7 +74,7 @@ namespace WorldZero.Common.Entity.Primary
             this.IsFlatBonus = isFlatBonus;
         }
 
-        public override IEntity<Id, int> Clone()
+        public override IEntity<Id, int> CloneAsEntity()
         {
             return new UnsafeMetaTask(
                 this.Id,

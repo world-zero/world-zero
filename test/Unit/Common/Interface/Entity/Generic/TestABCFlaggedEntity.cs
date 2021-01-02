@@ -44,7 +44,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
             : base(id, leftId, tagId)
         { }
 
-        public override IEntity<Id, int> Clone()
+        public override IEntity<Id, int> CloneAsEntity()
         {
             return new TestFlaggedEntity(this.Id, this.LeftId, this.RightId);
         }

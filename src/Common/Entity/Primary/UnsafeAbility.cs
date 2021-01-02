@@ -32,7 +32,7 @@ namespace WorldZero.Common.Entity.Primary
         }
         private string _desc;
 
-        public override IEntity<Name, string> Clone()
+        public override IEntity<Name, string> CloneAsEntity()
         {
             return new UnsafeAbility(
                 this.Id,

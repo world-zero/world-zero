@@ -37,7 +37,7 @@ namespace WorldZero.Common.Entity.Relation
             : base(new Id(id), new Id(metaTaskId), new Name(flagId))
         { }
 
-        public override IEntity<Id, int> Clone()
+        public override IEntity<Id, int> CloneAsEntity()
         {
             return new UnsafeMetaTaskFlag(
                 this.Id,
