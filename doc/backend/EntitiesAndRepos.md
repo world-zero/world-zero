@@ -16,11 +16,16 @@ validation, so they have unknown effects when used not by Dapper.
 ## Repos
 
 As you would expect, the various repo interfaces mirror the entity interface
-chains and branches, adding and adjusting as they go.
+chains and branches, adding and adjusting as they go. In the interest of time,
+the entity repos don't have many entity-specific function members. These are
+being built on an as-needed basis.  
 
-In the interest of time, the entity repos don't have many entity-specific
-function members. As these are just going to be variations of a `SELECT` query,
-this decision seems reasonable at the time of writing.
+While the repos should not have access to each other, this has the obvious flaw
+of ruling out the viability of advanced SQL interactions. Conveniently, all of
+the repos actually do know about each other's *data*, so you still have access
+to writing advanced methods. For the DB entity repos, this would just be simple
+SQL - for the RAM entity repos, this can be achieved via LINQ-control of
+`IStaticRAMEntityRepo._data`.
 
 ## Spots where I am lazy
 

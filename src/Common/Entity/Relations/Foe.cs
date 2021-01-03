@@ -1,18 +1,30 @@
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.ValueObject.DTO.Entity.Relation;
-using WorldZero.Common.Interface.Entity;
-using WorldZero.Common.Interface.Entity.Relation;
+using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
+using WorldZero.Common.Interface.Entity.Generic.Primary;
+using WorldZero.Common.Interface.Entity.Generic.Relation;
 
 namespace WorldZero.Common.Entity.Relation
 {
     /// <summary>
     /// This relation maps a character's ID to another character's ID,
     /// signifying that they are foes.
+    /// <br />
+    /// Left relation: `FirstCharacterId`
+    /// <br />
+    /// Right relation: `SecondCharacterId`
     /// </summary>
-    public class Foe : IIdIdRelation
+    public class Foe : IEntitySelfRelation<Id, int>
     {
+        public override RelationDTO<Id, int, Id, int> GetDTO()
+        {
+            return new RelationDTO<Id, int, Id, int>(
+                this.LeftId,
+                this.RightId
+            );
+        }
+
         /// <summary>
-        /// FirstCharacterId is a wrapper for RightId.
+        /// FirstCharacterId is a wrapper for LeftId.
         /// </summary>
         public Id FirstCharacterId
         {

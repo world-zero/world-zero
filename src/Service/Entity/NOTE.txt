@@ -1,0 +1,10 @@
+
+When furthering CUD development on Vote, Praxis, and PraxisParticipant (PP)
+service classes, you really want to read all of the CUD Praxis / PP docs. This
+is because these are extremely intertwined.
+
+Be aware that these two rules in particular are relied upon heavily:
+    - A Praxis must have at least one PP.
+    - A Player can only have a single Character per Praxis.
+
+Additionally, be mindful of Dueling (`Praxis.AreDueling`).

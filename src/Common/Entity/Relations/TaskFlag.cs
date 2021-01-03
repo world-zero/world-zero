@@ -1,32 +1,27 @@
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.ValueObject.DTO.Entity.Relation;
-using WorldZero.Common.Interface.Entity;
-using WorldZero.Common.Interface.Entity.Relation;
+using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
+using WorldZero.Common.Interface.Entity.Generic.Primary;
+using WorldZero.Common.Interface.Entity.Generic.Relation;
 
 namespace WorldZero.Common.Entity.Relation
 {
     /// <summary>
     /// This relation maps a Task's ID to a Flag's ID,
     /// signifying that the task has flag X.
+    /// <br />
+    /// Left relation: `TaskId`
+    /// <br />
+    /// Right relation: `FlagId`
     /// </summary>
-    public class TaskFlag : IIdNameRelation
+    public class TaskFlag : IFlaggedEntity<Id, int>
     {
         /// <summary>
-        /// TaskId is a wrapper for RightId.
+        /// TaskId is a wrapper for LeftId.
         /// </summary>
         public Id TaskId
         {
             get { return this.LeftId; }
             set { this.LeftId = value; }
-        }
-
-        /// <summary>
-        /// FlagId is a wrapper for RightId.
-        /// </summary>
-        public Name FlagId
-        {
-            get { return this.RightId; }
-            set { this.RightId = value; }
         }
 
         public TaskFlag(Id taskId, Name flagId)
