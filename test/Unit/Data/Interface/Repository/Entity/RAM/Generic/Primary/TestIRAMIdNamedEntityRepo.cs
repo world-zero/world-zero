@@ -10,10 +10,10 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
     public class TestIRAMIdNamedEntityRepo
     {
         private Name _name;
-        private Player _player;
+        private UnsafePlayer _player;
         private TestRAMIdNamedEntityRepo _repo;
 
-        private void _assertPlayersEqual(Player expected, Player actual)
+        private void _assertPlayersEqual(UnsafePlayer expected, UnsafePlayer actual)
         {
             Assert.AreEqual(expected.Id, actual.Id);
             Assert.AreEqual(expected.Name, actual.Name);
@@ -24,7 +24,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
         public void Setup()
         {
             this._name = new Name("Hal");
-            this._player = new Player(this._name);
+            this._player = new UnsafePlayer(this._name);
             this._repo = new TestRAMIdNamedEntityRepo();
             this._repo.Insert(this._player);
             this._repo.Save();
@@ -43,14 +43,14 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
             Assert.Throws<ArgumentNullException>(()=>this._repo.GetByName(null));
             Assert.Throws<ArgumentException>(()=>this._repo.GetByName(new Name("fake")));
 
-            Player actual = this._repo.GetByName(this._player.Name);
+            UnsafePlayer actual = this._repo.GetByName(this._player.Name);
             Assert.AreEqual(this._player.Name, actual.Name);
             Assert.AreEqual(this._player.Id, actual.Id);
         }
     }
 
     public class TestRAMIdNamedEntityRepo
-        : IRAMIdNamedEntityRepo<Player>
+        : IRAMIdNamedEntityRepo<UnsafePlayer>
     {
         public TestRAMIdNamedEntityRepo()
             : base()
@@ -60,7 +60,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
 
         protected override int GetRuleCount()
         {
-            var a = new Player(new Name("Jack"));
+            var a = new UnsafePlayer(new Name("Jack"));
             return a.GetUniqueRules().Count;
         }
     }

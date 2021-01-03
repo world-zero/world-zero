@@ -3,15 +3,16 @@ using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Data.Interface.Repository.Entity.RAM.Generic;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
+using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.Entity.Relation;
 
 namespace WorldZero.Data.Repository.Entity.RAM.Relation
 {
     /// <inheritdoc cref="ICommentRepo"/>
     public class RAMCommentRepo
-        : IRAMEntityRelationRepo
+        : IRAMEntityRelationCntRepo
           <
-            Comment,
+            IComment,
             Id,
             int,
             Id,
@@ -22,7 +23,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
     {
         protected override int GetRuleCount()
         {
-            var a = new Comment(new Id(1), new Id(2), "sdf");
+            var a = new UnsafeComment(new Id(1), new Id(2), "sdf");
             return a.GetUniqueRules().Count;
         }
 

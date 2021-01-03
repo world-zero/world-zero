@@ -100,13 +100,13 @@ namespace WorldZero.Port.Admin
 
         private void _setupFlags()
         {
-            new Flag(new Name("Misogynistic"));
-            new Flag(new Name("Racist"));
-            new Flag(new Name("Homophobic"));
-            new Flag(new Name("Transphobic"));
-            new Flag(new Name("LGBT+ -phobic"));
-            new Flag(new Name("Classist"));
-            new Flag(new Name("Fatphobic"));
+            new UnsafeFlag(new Name("Misogynistic"));
+            new UnsafeFlag(new Name("Racist"));
+            new UnsafeFlag(new Name("Homophobic"));
+            new UnsafeFlag(new Name("Transphobic"));
+            new UnsafeFlag(new Name("LGBT+ -phobic"));
+            new UnsafeFlag(new Name("Classist"));
+            new UnsafeFlag(new Name("Fatphobic"));
         }
 
         /// <remarks>
@@ -118,9 +118,9 @@ namespace WorldZero.Port.Admin
         private void _setupAbilitiesFactions()
         {
             PastDate now = new PastDate(DateTime.UtcNow);
-            Ability ability;
+            UnsafeAbility ability;
 
-            ability = new Ability(
+            ability = new UnsafeAbility(
                 new Name("Beginner's Bonus"), 
                 String.Join(" ",
                     "You get 100% points on all tasks you do. You can sign up",
@@ -131,29 +131,29 @@ namespace WorldZero.Port.Admin
                 )
             );
             this._abilityReg.Register(ability);
-            this._factionReg.Register(new Faction(
+            this._factionReg.Register(new UnsafeFaction(
                 new Name("UA"), now, null, ability.Id
             ));
 
-            ability = new Ability(
+            ability = new UnsafeAbility(
                 new Name("Jack of all Trades"),
                 "You complete tasks for all factions at 80% of the points."
             );
             this._abilityReg.Register(ability);
-            this._factionReg.Register(new Faction(
+            this._factionReg.Register(new UnsafeFaction(
                 new Name("UA Masters"), now, null, ability.Id
             ));
 
-            ability = new Ability(
+            ability = new UnsafeAbility(
                 new Name("Competitor"), 
                 "You will receive an extra 10% of points from duels."
             );
             this._abilityReg.Register(ability);
-            this._factionReg.Register(new Faction(
+            this._factionReg.Register(new UnsafeFaction(
                 new Name("Snide"), now, null, ability.Id
             ));
 
-            ability = new Ability(
+            ability = new UnsafeAbility(
                 new Name("Collaborator"), 
                 String.Join(" ",
                     "If you complete a task for your group, you receive 110%",
@@ -162,20 +162,20 @@ namespace WorldZero.Port.Admin
                 )
             );
             this._abilityReg.Register(ability);
-            this._factionReg.Register(new Faction(
+            this._factionReg.Register(new UnsafeFaction(
                 new Name("Gestalt"), now, null, ability.Id
             ));
 
-            ability = new Ability(
+            ability = new UnsafeAbility(
                 new Name("Historian"),
                 "You may sign up for approved pretired / retired tasks."
             );
             this._abilityReg.Register(ability);
-            this._factionReg.Register(new Faction(
+            this._factionReg.Register(new UnsafeFaction(
                 new Name("Journeymen"), now, null, ability.Id
             ));
 
-            ability = new Ability(
+            ability = new UnsafeAbility(
                 new Name("Reiterator"), 
                 String.Join(" ",
                     "You may complete one task of each level a certain",
@@ -183,15 +183,15 @@ namespace WorldZero.Port.Admin
                 )
             );
             this._abilityReg.Register(ability);
-            this._factionReg.Register(new Faction(
+            this._factionReg.Register(new UnsafeFaction(
                 new Name("Analog"), now, null, ability.Id
             ));
 
-            this._factionReg.Register(new Faction(
+            this._factionReg.Register(new UnsafeFaction(
                 new Name("Singularity"), now
             ));
 
-            ability = new Ability(
+            ability = new UnsafeAbility(
                 new Name("Open Season"), 
                 String.Join(" ",
                     "You may complete any task with any meta task(s) from any",
@@ -199,7 +199,7 @@ namespace WorldZero.Port.Admin
                 )
             );
             this._abilityReg.Register(ability);
-            this._factionReg.Register(new Faction(
+            this._factionReg.Register(new UnsafeFaction(
                 new Name("Albescent"), now, null, ability.Id
             ));
         }

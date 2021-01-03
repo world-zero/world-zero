@@ -4,6 +4,7 @@ using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Data.Repository.Entity.RAM.Primary;
 using WorldZero.Service.Entity.Registration.Primary;
+using WorldZero.Service.Interface.Entity.Registration.Primary;
 using NUnit.Framework;
 
 namespace WorldZero.Test.Integration.Service.Entity.Registration
@@ -16,14 +17,14 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         private IPlayerRepo _playerRepo;
         private ILocationRepo _locationRepo;
         private CharacterReg _registration;
-        private Player _player0;
-        private Faction _faction0;
-        private Location _location0;
+        private UnsafePlayer _player0;
+        private UnsafeFaction _faction0;
+        private UnsafeLocation _location0;
 
         [SetUp]
         public void Setup()
         {
-            CharacterReg.MinLevelToRegister = new Level(3);
+            ICharacterReg.MinLevelToRegister = new Level(3);
             this._characterRepo = new RAMCharacterRepo();
             this._factionRepo = new RAMFactionRepo();
             this._playerRepo = new DummyRAMPlayerRepo();
@@ -34,16 +35,16 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                 this._factionRepo,
                 this._locationRepo
             );
-            this._player0 = new Player(new Name("Johnothan Jostar"));
+            this._player0 = new UnsafePlayer(new Name("Johnothan Jostar"));
             this._playerRepo.Insert(this._player0);
             this._playerRepo.Save();
-            this._faction0 = new Faction(
+            this._faction0 = new UnsafeFaction(
                 new Name("The JoJos"),
                 new PastDate(DateTime.UtcNow)
             );
             this._factionRepo.Insert(this._faction0);
             this._factionRepo.Save();
-            this._location0 = new Location(
+            this._location0 = new UnsafeLocation(
                 new Name("oc"),
                 new Name("or"),
                 new Name("hell"),
@@ -69,7 +70,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         [Test]
         public void TestRegisterHappy()
         {
-            var c = new Character(
+            var c = new UnsafeCharacter(
                 new Name("something"),
                 this._player0.Id,
                 this._faction0.Id,
@@ -81,7 +82,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             Assert.IsTrue(c.IsIdSet());
             Assert.IsNotNull(this._characterRepo.GetById(c.Id));
 
-            c = new Character(
+            c = new UnsafeCharacter(
                 new Name("alt"),
                 this._player0.Id,
                 this._faction0.Id
@@ -91,7 +92,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             Assert.IsTrue(c.IsIdSet());
             Assert.IsNotNull(this._characterRepo.GetById(c.Id));
 
-            c = new Character(
+            c = new UnsafeCharacter(
                 new Name("foo"),
                 this._player0.Id
             );
@@ -105,7 +106,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         public void TestRegisterSad()
         {
             // All good foreign keys, this is a happy run.
-            var c = new Character(
+            var c = new UnsafeCharacter(
                 new Name("something"),
                 this._player0.Id,
                 this._faction0.Id,
@@ -116,11 +117,11 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             // register another character.
             this._registration.Register(c);
             Assert.Throws<ArgumentException>(()=>this._registration.Register(
-                new Character(new Name("f"), new Id(4324))
+                new UnsafeCharacter(new Name("f"), new Id(4324))
             ));
 
             // All bad foreign keys.
-            c = new Character(
+            c = new UnsafeCharacter(
                 new Name("dummy character"),
                 new Id(9001),
                 new Name("fake"),
@@ -131,7 +132,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             );
 
             // Only the first is invalid.
-            c = new Character(
+            c = new UnsafeCharacter(
                 new Name("dummy character"),
                 new Id(9001),
                 this._faction0.Id,
@@ -142,7 +143,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             );
 
             // Only the second is invalid.
-            c = new Character(
+            c = new UnsafeCharacter(
                 new Name("dummy character"),
                 this._player0.Id,
                 new Name("asdf"),
@@ -153,7 +154,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             );
 
             // Only the third is invalid.
-            c = new Character(
+            c = new UnsafeCharacter(
                 this._player0.Id,
                 this._faction0.Id,
                 new Id(9001)
@@ -207,34 +208,17 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         }
 
         [Test]
-        public void TestCanRegCharacterNullChecks()
-        {
-            Assert.Throws<ArgumentNullException>(()=>
-                this._registration.CanRegCharacter((Player) null));
-            Assert.Throws<ArgumentNullException>(()=>
-                this._registration.CanRegCharacter((Id) null));
-
-            Level old = CharacterReg.MinLevelToRegister;
-            CharacterReg.MinLevelToRegister = null;
-            Assert.Throws<ArgumentException>(()=>
-                this._registration.CanRegCharacter(new Player(new Name("f"))));
-            Assert.Throws<ArgumentException>(()=>
-                this._registration.CanRegCharacter(new Id(234)));
-            CharacterReg.MinLevelToRegister = old;
-        }
-
-        [Test]
         public void TestCanRegCharacterNoAssociatedPlayerId()
         {
             Assert.IsTrue(this._registration.CanRegCharacter(
-                new Player(new Id(342), new Name("f"))));
+                new UnsafePlayer(new Id(342), new Name("f"))));
             Assert.IsTrue(this._registration.CanRegCharacter(new Id(342)));
         }
 
         [Test]
         public void TestCanRegCharacterHappy()
         {
-            this._registration.Register(new Character(
+            this._registration.Register(new UnsafeCharacter(
                 new Name("f"),
                 this._player0.Id,
                 null,
@@ -248,7 +232,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         [Test]
         public void TestCanRegCharacterSad()
         {
-            this._registration.Register(new Character(
+            this._registration.Register(new UnsafeCharacter(
                 new Name("f"),
                 this._player0.Id
             ));

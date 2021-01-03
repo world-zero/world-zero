@@ -1,14 +1,15 @@
 using System;
-using WorldZero.Service.Interface.Entity.Registration;
+using WorldZero.Service.Interface.Entity.Generic.Registration;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.Entity.Primary;
+using WorldZero.Service.Interface.Entity.Registration.Primary;
+using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 
 namespace WorldZero.Service.Entity.Registration.Primary
 {
-    /// <inheritdoc cref="IEntityReg"/>
+    /// <inheritdoc cref="IFactionReg"/>
     public class FactionReg
-        : IEntityReg<Faction, Name, string>
+        : ABCEntityReg<IFaction, Name, string>, IFactionReg
     {
         protected readonly IAbilityRepo _abilityRepo;
 
@@ -21,11 +22,12 @@ namespace WorldZero.Service.Entity.Registration.Primary
         )
             : base(factionRepo)
         {
-            if (abilityRepo == null) throw new ArgumentNullException("abilityRepo");
+            if (abilityRepo == null)
+                throw new ArgumentNullException("abilityRepo");
             this._abilityRepo = abilityRepo;
         }
 
-        public override Faction Register(Faction faction)
+        public override IFaction Register(IFaction faction)
         {
             this._factionRepo.BeginTransaction(true);
             if (faction.AbilityId != null)

@@ -1,0 +1,37 @@
+using System;
+using WorldZero.Common.Entity.Relation;
+using WorldZero.Common.ValueObject.General;
+using NUnit.Framework;
+
+namespace WorldZero.Test.Unit.Common.Entity.Relation
+{
+    [TestFixture]
+    public class TestUnsafeComment
+    {
+        private Id _id0;
+        private Id _id1;
+        private UnsafeComment _c;
+
+        [SetUp]
+        public void Setup()
+        {
+            this._id0 = new Id(3);
+            this._id1 = new Id(5);
+            this._c = new UnsafeComment(this._id0, this._id1, "idk something");
+        }
+
+        [Test]
+        public void TestCommentValue()
+        {
+            Assert.Throws<ArgumentException>(()=>
+                new UnsafeComment(this._id0, this._id1, null));
+            Assert.Throws<ArgumentException>(()=>
+                new UnsafeComment(this._id0, this._id1, ""));
+            Assert.Throws<ArgumentException>(()=>
+                new UnsafeComment(this._id0, this._id1, "  "));
+            Assert.Throws<ArgumentException>(()=>this._c.Value = null);
+            Assert.Throws<ArgumentException>(()=>this._c.Value = "");
+            Assert.Throws<ArgumentException>(()=>this._c.Value = "   ");
+        }
+    }
+}

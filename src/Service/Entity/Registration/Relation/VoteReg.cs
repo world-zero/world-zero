@@ -1,43 +1,40 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using WorldZero.Service.Interface.Entity.Registration;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Common.Entity.Primary;
-using WorldZero.Common.Entity.Relation;
+using WorldZero.Common.Interface.Entity.Primary;
+using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
+using WorldZero.Service.Interface.Entity.Registration.Relation;
+using WorldZero.Service.Interface.Entity.Generic.Registration;
+using WorldZero.Service.Interface.Entity.Update.Primary;
 
 namespace WorldZero.Service.Entity.Registration.Relation
 {
-    /// <inheritdoc cref="IEntityRelationReg"/>
-    /// <remarks>
-    /// This will immediately award the participant with the amount of
-    /// `Vote.Points` to their `Character.VotePointsLeft` field. This does not
-    /// use the Character updating service class.
-    /// <br />
-    /// Naturally, Players cannot vote for themselves, and Players cannot vote
-    /// several times on a praxis. Note that this describes a Player.
-    /// </remarks>
+    /// <inheritdoc cref="IVoteReg"/>
     public class VoteReg
-        : IEntityRelationReg
+        : ABCEntityRelationReg
         <
-            Vote,
-            Character,
+            IVote,
+            ICharacter,
             Id,
             int,
-            PraxisParticipant,
+            IPraxisParticipant,
             Id,
             int,
             RelationDTO<Id, int, Id, int>
-        >
+        >, IVoteReg
     {
         protected IVoteRepo _voteRepo
         { get { return (IVoteRepo) this._repo; } }
 
         protected ICharacterRepo _characterRepo
         { get { return (ICharacterRepo) this._leftRepo; } }
+
+        protected readonly ICharacterUpdate _characterUpdate;
 
         protected IPraxisParticipantRepo _ppRepo
         { get { return (IPraxisParticipantRepo) this._rightRepo; } }
@@ -47,16 +44,19 @@ namespace WorldZero.Service.Entity.Registration.Relation
         public VoteReg(
             IVoteRepo voteRepo,
             ICharacterRepo characterRepo,
+            ICharacterUpdate characterUpdate,
             IPraxisParticipantRepo praxisParticipantRepo,
             IPraxisRepo praxisRepo
         )
             : base(voteRepo, characterRepo, praxisParticipantRepo)
         {
+            this.AssertNotNull(characterUpdate, "characterUpdate");
             this.AssertNotNull(praxisRepo, "praxisRepo");
+            this._characterUpdate = characterUpdate;
             this._praxisRepo = praxisRepo;
         }
 
-        public override Vote Register(Vote v)
+        public override IVote Register(IVote v)
         {
             // This does not use base.PreRegisterChecks() as querying the two
             // repositories twice each would be extremely costly for a DB repo.
@@ -85,8 +85,9 @@ namespace WorldZero.Service.Entity.Registration.Relation
                 throw new ArgumentException("A player is attempting to revote on a praxis.");
             }
 
-            recChar.VotePointsLeft = new PointTotal(
-                recChar.VotePointsLeft.Get + v.Points.Get
+            this._characterUpdate.AmendVotePointsLeft(
+                recChar,
+                new PointTotal(recChar.VotePointsLeft.Get + v.Points.Get)
             );
             try
             {
@@ -105,7 +106,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
         /// <summary>
         /// Return the voting character associated with the supplied vote.
         /// </summary>
-        private Character _regGetCharacter(Vote v)
+        private ICharacter _regGetCharacter(IVote v)
         {
             try
             {
@@ -118,7 +119,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             }
         }
 
-        private Praxis _regGetPraxis(PraxisParticipant pp)
+        private IPraxis _regGetPraxis(IPraxisParticipant pp)
         {
             try
             {
@@ -131,7 +132,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             }
         }
 
-        private PraxisParticipant _regGetPP(Vote v)
+        private IPraxisParticipant _regGetPP(IVote v)
         {
             try
             {
@@ -144,7 +145,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             }
         }
 
-        private Character _regGetRecChar(PraxisParticipant pp)
+        private ICharacter _regGetRecChar(IPraxisParticipant pp)
         {
             try
             {
@@ -161,9 +162,9 @@ namespace WorldZero.Service.Entity.Registration.Relation
         /// Return the `Character.Id`s that the voting character's player
         /// contains.
         /// </summary>
-        private IEnumerable<Id> _regGetVotersCharsIds(Character votingChar)
+        private IEnumerable<Id> _regGetVotersCharsIds(ICharacter votingChar)
         {
-            IEnumerable<Character> chars;
+            IEnumerable<ICharacter> chars;
             try
             {
                 chars = this._characterRepo.GetByPlayerId(votingChar.PlayerId);
@@ -174,14 +175,14 @@ namespace WorldZero.Service.Entity.Registration.Relation
                 throw new InvalidOperationException("There exists a vote with a player that has no characters.");
             }
 
-            foreach (Character c in chars)
+            foreach (ICharacter c in chars)
                 yield return c.Id;
         }
 
         /// <summary>
         /// Return the `Character.Id`s participating on the supplied praxis.
         /// </summary>
-        private IEnumerable<Id> _regGetPraxisCharsIds(Praxis praxis)
+        private IEnumerable<Id> _regGetPraxisCharsIds(IPraxis praxis)
         {
             try
             {
@@ -201,7 +202,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
         /// <remarks>
         /// This can stand to be optimized - see the code for more.
         /// </remarks>
-        private List<Id> _regGetPraxisVoters(PraxisParticipant pp)
+        private List<Id> _regGetPraxisVoters(IPraxisParticipant pp)
         {
             List<Id> voterIds = null;
             try

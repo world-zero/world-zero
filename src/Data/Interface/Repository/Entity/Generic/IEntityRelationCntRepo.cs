@@ -1,10 +1,10 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using WorldZero.Common.Interface.Entity.Generic.Relation;
-using WorldZero.Common.Interface.General.Generic;
+using WorldZero.Common.Interface.ValueObject;
 using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 
-namespace WorldZero.Data.Interface.Repository.Entity.Primary.Generic
+namespace WorldZero.Data.Interface.Repository.Entity.Generic
 {
     /// <summary>
     /// This repo specializes in relational entities who can have several
@@ -31,7 +31,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.Primary.Generic
           >
         where TLeftId : ISingleValueObject<TLeftBuiltIn>
         where TRightId : ISingleValueObject<TRightBuiltIn>
-        where TEntityRelation : IEntityRelationCnt
+        where TEntityRelation : class, IEntityCntRelation
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
         where TRelationDTO : CntRelationDTO
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>

@@ -1,16 +1,19 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Collections.Generic;
-using WorldZero.Common.Entity.Primary;
+using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Service.Interface.Entity.Generic.Deletion;
 using WorldZero.Service.Entity.Deletion.Relation;
+using WorldZero.Service.Interface.Entity.Deletion.Primary;
 
 namespace WorldZero.Service.Entity.Deletion.Primary
 {
-    /// <inheritdoc cref="IEntityDel"/>
-    public class CharacterDel : IEntityDel<Character, Id, int>
+    /// <inheritdoc cref="ICharacterDel"/>
+    public class CharacterDel
+        : ABCEntityDel<ICharacter, Id, int>, ICharacterDel
     {
         protected ICharacterRepo _charRepo
         { get { return (ICharacterRepo) this._repo; } }
@@ -63,7 +66,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
             this.Transaction<Id>(op, charId, true);
         }
 
-        public void DeleteByPlayer(Player p)
+        public void DeleteByPlayer(IPlayer p)
         {
             this.AssertNotNull(p, "p");
             this.DeleteByPlayer(p.Id);
@@ -71,20 +74,19 @@ namespace WorldZero.Service.Entity.Deletion.Primary
 
         public void DeleteByPlayer(Id playerId)
         {
-            this.AssertNotNull(playerId, "playerId");
             void f(Id id)
             {
-                IEnumerable<Character> chars;
+                IEnumerable<ICharacter> chars;
                 try
                 {
-                    chars = this._charRepo.GetByPlayerId(playerId);
+                    chars = this._charRepo.GetByPlayerId(id);
                     chars.Count();
                 }
                 catch (ArgumentException)
                 { return; }
                 try
                 {
-                    foreach (Character c in chars)
+                    foreach (ICharacter c in chars)
                         this.Delete(c.Id);
                 }
                 catch (ArgumentException e)
@@ -93,20 +95,16 @@ namespace WorldZero.Service.Entity.Deletion.Primary
             this.Transaction<Id>(f, playerId, true);
         }
  
-        public async
-        System.Threading.Tasks.Task DeleteByPlayerAsync(Player p)
+        public async Task DeleteByPlayerAsync(IPlayer p)
         {
             this.AssertNotNull(p, "p");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByPlayer(p));
+            await Task.Run(() => this.DeleteByPlayer(p));
         }
 
-        public async
-        System.Threading.Tasks.Task DeleteByPlayerAsync(Id playerId)
+        public async Task DeleteByPlayerAsync(Id playerId)
         {
             this.AssertNotNull(playerId, "playerId");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByPlayer(playerId));
+            await Task.Run(() => this.DeleteByPlayer(playerId));
         }
    }
 }

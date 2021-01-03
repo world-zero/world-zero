@@ -1,20 +1,17 @@
 using System;
 using System.Collections.Generic;
-using WorldZero.Common.Entity.Primary;
+using System.Threading.Tasks;
+using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Service.Interface.Entity.Generic.Deletion;
+using WorldZero.Service.Interface.Entity.Deletion.Primary;
 using WorldZero.Service.Entity.Deletion.Relation;
 
 namespace WorldZero.Service.Entity.Deletion.Primary
 {
-    /// <inheritdoc cref="IEntityDel"/>
-    /// <summary>
-    /// As you migh expect, deleting a task will delete the Tags, Flags, and
-    /// Praxises on that task - this involves using those corresponding
-    /// deletion service classes.
-    /// </summary>
-    public class TaskDel : IIdStatusedEntityDel<Task>
+    /// <inheritdoc cref="ITaskDel"/>
+    public class TaskDel : ABCIdStatusedEntityDel<ITask>, ITaskDel
     {
         protected ITaskRepo _taskRepo
         { get { return (ITaskRepo) this._repo; } }
@@ -53,7 +50,7 @@ namespace WorldZero.Service.Entity.Deletion.Primary
             this.Transaction<Id>(op, taskId);
         }
 
-        public void DeleteByFaction(Faction f)
+        public void DeleteByFaction(IFaction f)
         {
             this.AssertNotNull(f, "f");
             this.DeleteByFaction(f.Id);
@@ -63,33 +60,29 @@ namespace WorldZero.Service.Entity.Deletion.Primary
         {
             void f(Name factionName)
             {
-                IEnumerable<Task> tasks;
+                IEnumerable<ITask> tasks;
                 try
                 { tasks = this._taskRepo.GetByFactionId(factionName); }
                 catch (ArgumentException)
                 { return; }
 
-                foreach (Task t in tasks)
+                foreach (ITask t in tasks)
                     this.Delete(t);
             }
 
             this.Transaction<Name>(f, factionId, true);
         }
 
-        public async
-        System.Threading.Tasks.Task DeleteByFactionAsync(Faction f)
+        public async Task DeleteByFactionAsync(IFaction f)
         {
             this.AssertNotNull(f, "f");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByFaction(f));
+            await Task.Run(() => this.DeleteByFaction(f));
         }
 
-        public async
-        System.Threading.Tasks.Task DeleteByFactionAsync(Name factionId)
+        public async Task DeleteByFactionAsync(Name factionId)
         {
             this.AssertNotNull(factionId, "factionId");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByFaction(factionId));
+            await Task.Run(() => this.DeleteByFaction(factionId));
         }
     }
 }

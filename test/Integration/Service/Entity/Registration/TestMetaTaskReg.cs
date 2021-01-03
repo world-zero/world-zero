@@ -3,6 +3,7 @@ using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
 using WorldZero.Data.Repository.Entity.RAM.Primary;
+using WorldZero.Service.Constant.Entity.Primary;
 using WorldZero.Service.Entity.Registration.Primary;
 using NUnit.Framework;
 
@@ -15,9 +16,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         private IFactionRepo _factionRepo;
         private IStatusRepo _statusRepo;
         private MetaTaskReg _registration;
-        private Status _status0;
-        private Status _status1;
-        private Faction _faction0;
+        private UnsafeStatus _status0;
+        private UnsafeStatus _status1;
+        private UnsafeFaction _faction0;
 
         [SetUp]
         public void Setup()
@@ -30,12 +31,12 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                 this._factionRepo,
                 this._statusRepo
             );
-            this._status0 = new Status(new Name("INVALID"));
-            this._status1 = new Status(new Name("VALID"));
+            this._status0 = new UnsafeStatus(new Name("INVALID"));
+            this._status1 = new UnsafeStatus(new Name("VALID"));
             this._statusRepo.Insert(this._status0);
             this._statusRepo.Insert(this._status1);
             this._statusRepo.Save();
-            this._faction0 = new Faction(
+            this._faction0 = new UnsafeFaction(
                 new Name("DIO's Minions"),
                 new PastDate(DateTime.UtcNow)
             );
@@ -57,9 +58,9 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         [Test]
         public void TestRegisterHappy()
         {
-            var mt = new MetaTask(
+            var mt = new UnsafeMetaTask(
                 this._faction0.Id,
-                StatusReg.Active.Id,
+                ConstantStatuses.Active.Id,
                 "something",
                 new PointTotal(33.4));
             Assert.IsFalse(mt.IsIdSet());
@@ -71,7 +72,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
         [Test]
         public void TestRegisterSad()
         {
-            var mt = new MetaTask(
+            var mt = new UnsafeMetaTask(
                 new Name("fake"),
                 new Name("extra fake"),
                 "something",
@@ -80,7 +81,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                 ()=>this._registration.Register(mt)
             );
 
-            mt = new MetaTask(
+            mt = new UnsafeMetaTask(
                 new Name("fake"),
                 this._status0.Id,
                 "something",
@@ -89,7 +90,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
                 ()=>this._registration.Register(mt)
             );
 
-            mt = new MetaTask(
+            mt = new UnsafeMetaTask(
                 this._faction0.Id,
                 new Name("ya basic"),
                 "something",

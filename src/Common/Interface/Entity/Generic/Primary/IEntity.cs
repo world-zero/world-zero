@@ -1,30 +1,48 @@
-using System.Runtime.CompilerServices;
 using System;
 using WorldZero.Common.Collections.Generic;
-using WorldZero.Common.Interface.General.Generic;
-
-// This is necessary for the Dapper-compatible constructors, which will need to
-// be utilized in Data.
-[assembly: InternalsVisibleTo("WorldZero.Data")]
-[assembly: InternalsVisibleTo("WorldZero.Test.Unit")]
-[assembly: InternalsVisibleTo("WorldZero.Test.Integration")]
+using WorldZero.Common.Interface.ValueObject;
 
 namespace WorldZero.Common.Interface.Entity.Generic.Primary
 {
     /// <summary>
     /// This is the interface for an Entity, complete with an Id.
     /// </summary>
-    public abstract class IEntity<TSingleValObj, TValObj>
-        where TSingleValObj : ISingleValueObject<TValObj>
+    /// <remarks>
+    /// Unless a reference-type property states that it can store null, assume
+    /// that these properties will throw an `ArgumentNullException` when
+    /// appropriate.
+    /// <br />
+    /// These interfaces tend to be just getters for a reason:
+    /// compiler-enforced safety against updating entities without the use of a
+    /// service updating class. This is relevant as the system-wide logic is
+    /// enforced there. Additionally, in order to ensure that entities are not
+    /// being created erroneously, the non-generic concrete entities will exist
+    /// within the corresponding non-generic IEntityService class. This will
+    /// allow for the searching and creation entity service classes to act as
+    /// factories, circumventing the vulnerability of having an entity be
+    /// created to be almost identical to another entity but with an "update"
+    /// applied via any changed properties.
+    /// </remarks>
+    public interface IEntity<TId, TBuiltIn>
+        where TId : ISingleValueObject<TBuiltIn>
     {
-        public bool IsIdSet()
-        {
-            if (this._id == null)
-                return false;
-            return !this._id.Equals(this.UnsetIdValue);
-        }
+        /// <summary>
+        /// This is the Id for an entity - it is a value object with a single
+        /// (or primary) value. This cannot be changed after being set.
+        /// </summary>
+        /// <exception cref="ArgumentException">
+        /// This is thrown if a set Id is attempted to be changed.
+        /// </exception>
+        TId Id { get; set; }
+
+        bool IsIdSet();
+
+        IEntity<TId, TBuiltIn> Clone();
 
         /// <summary>
+        /// Unless you are implementing a whole new entity or you are working
+        /// on the RAMEntityRepos, you can safely ignore this method.
+        /// <br />
         /// This method will return a list of sets, each of which contains
         /// at least one member that a repository should ensure are unique as a
         /// combiniation, per set. This does not include the Id of an entity.
@@ -36,49 +54,6 @@ namespace WorldZero.Common.Interface.Entity.Generic.Primary
         /// appropriately. This will never return null, but it can return an
         /// empty list.
         /// </returns>
-        internal virtual W0List<W0Set<object>> GetUniqueRules()
-        {
-            var r = new W0List<W0Set<object>>();
-            return r;
-        }
-
-        abstract public IEntity<TSingleValObj, TValObj> Clone();
-
-        /// <summary>
-        /// This is the Id for an entity - it is a value object with a single
-        /// (or primary) value. This cannot be changed after being set.
-        /// </summary>
-        /// <exception cref="ArgumentException">
-        /// This is thrown if a set Id is attempted to be changed.
-        /// </exception>
-        public TSingleValObj Id
-        {
-            get { return this._id; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("Id");
-
-                if (this.IsIdSet())
-                    throw new ArgumentException("Attempted to re-set the `Id` of an entity.");
-
-                this._id = value;
-            }
-        }
-        private TSingleValObj _id;
-
-        // This is functionally a readonly member, but my IDE was having none
-        // of that, so here we are.
-        /// <summary>
-        /// An ID with this value is considered unset, and can still be
-        /// changed.
-        /// </summary>
-        public TSingleValObj UnsetIdValue { get; private set; }
-
-        public IEntity(TSingleValObj unsetValue)
-        {
-            this.UnsetIdValue = unsetValue;
-            this._id = this.UnsetIdValue;
-        }
+        W0List<W0Set<object>> GetUniqueRules();
     }
 }

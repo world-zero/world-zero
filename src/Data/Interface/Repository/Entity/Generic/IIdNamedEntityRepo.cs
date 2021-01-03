@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using WorldZero.Common.Interface.Entity.Generic.Primary;
 using WorldZero.Common.ValueObject.General;
 
-namespace WorldZero.Data.Interface.Repository.Entity.Primary.Generic
+namespace WorldZero.Data.Interface.Repository.Entity.Generic
 {
     /// <inheritdoc cref="IIdEntityRepo"/>
     /// <summary>
@@ -10,7 +10,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.Primary.Generic
     /// </summary>
     public interface IIdNamedEntityRepo<TIdNamedEntity>
         : IIdEntityRepo<TIdNamedEntity>
-        where TIdNamedEntity : IIdEntity
+        where TIdNamedEntity : class, IIdEntity
     {
         /// <summary>
         /// Get the entity with the supplied name. If none exists, an exception

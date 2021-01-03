@@ -1,15 +1,24 @@
-using WorldZero.Common.Entity.Primary;
-using WorldZero.Common.Entity.Relation;
+using System.Threading.Tasks;
+using WorldZero.Common.Interface.Entity.Primary;
+using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.ValueObject.General;
+using WorldZero.Common.ValueObject.DTO.Entity.Generic.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Relation;
 using WorldZero.Service.Interface.Entity.Generic.Deletion;
+using WorldZero.Service.Interface.Entity.Deletion.Relation;
 
 namespace WorldZero.Service.Entity.Deletion.Relation
 {
-    /// <remarks>
-    /// This will not refund the vote points used.
-    /// </remarks>
-    public class VoteDel : IEntityDel<Vote, Id, int>
+    /// <inheritdoc cref="IVoteDel"/>
+    public class VoteDel
+        : ABCEntityRelationDel
+        <
+            IVote,
+            ICharacter, Id, int,
+            IPraxisParticipant, Id, int,
+            RelationDTO<Id, int, Id, int>
+        >,
+        IVoteDel
     {
         protected IVoteRepo _voteRepo
         { get { return (IVoteRepo) this._repo; } }
@@ -18,63 +27,52 @@ namespace WorldZero.Service.Entity.Deletion.Relation
             : base(repo)
         { }
 
-        public void DeleteByCharacter(Character c)
+        public void DeleteByCharacter(ICharacter c)
         {
             this.AssertNotNull(c, "c");
             this.DeleteByCharacter(c.Id);
         }
 
-        public async
-        System.Threading.Tasks.Task DeleteByCharacterAsync(Character c)
+        public async Task DeleteByCharacterAsync(ICharacter c)
         {
             this.AssertNotNull(c, "c");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByCharacter(c));
+            await Task.Run(() => this.DeleteByCharacter(c));
         }
 
         public void DeleteByCharacter(Id id)
         {
-            this.Transaction<Id>(this._voteRepo.DeleteByCharacterId, id);
+            this.DeleteByLeft(id);
         }
 
-        public async
-        System.Threading.Tasks.Task DeleteByCharacterAsync(Id id)
+        public async Task DeleteByCharacterAsync(Id id)
         {
             this.AssertNotNull(id, "id");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByCharacter(id));
+            await Task.Run(() => this.DeleteByCharacter(id));
         }
 
-        public void DeleteByPraxisParticipant(PraxisParticipant pp)
+        public void DeleteByPraxisParticipant(IPraxisParticipant pp)
         {
             this.AssertNotNull(pp, "pp");
             this.DeleteByPraxisParticipant(pp.Id);
         }
 
-        public async
-        System.Threading.Tasks.Task DeleteByPraxisParticipantAsync(
-            PraxisParticipant pp
+        public async Task DeleteByPraxisParticipantAsync(
+            IPraxisParticipant pp
         )
         {
             this.AssertNotNull(pp, "pp");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByPraxisParticipant(pp));
+            await Task.Run(() => this.DeleteByPraxisParticipant(pp));
         }
 
         public void DeleteByPraxisParticipant(Id id)
         {
-            this.Transaction<Id>(
-                this._voteRepo.DeleteByPraxisParticipantId,
-                id
-            );
+            this.DeleteByRight(id);
         }
 
-        public async
-        System.Threading.Tasks.Task DeleteByPraxisParticipantAsync(Id id)
+        public async Task DeleteByPraxisParticipantAsync(Id id)
         {
             this.AssertNotNull(id, "id");
-            await System.Threading.Tasks.Task.Run(() =>
-                this.DeleteByPraxisParticipant(id));
+            await Task.Run(() => this.DeleteByPraxisParticipant(id));
         }
     }
 }

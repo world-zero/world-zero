@@ -14,8 +14,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
     [TestFixture]
     public class TestTagDel
     {
-        private Tag _t0;
-        private Tag _t1;
+        private UnsafeTag _t0;
+        private UnsafeTag _t1;
         private RAMTagRepo _tagRepo;
         private RAMTaskTagRepo _taskTagRepo;
         private RAMMetaTaskTagRepo _mtTagRepo;
@@ -28,8 +28,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         [SetUp]
         public void Setup()
         {
-            this._t0 = new Tag(new Name("#valid"));
-            this._t1 = new Tag(new Name("#invalid"));
+            this._t0 = new UnsafeTag(new Name("#valid"));
+            this._t1 = new UnsafeTag(new Name("#invalid"));
 
             this._tagRepo = new RAMTagRepo();
             this._tagRepo.Insert(this._t0);
@@ -37,21 +37,21 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._tagRepo.Save();
 
             this._taskTagRepo = new RAMTaskTagRepo();
-            this._taskTagRepo.Insert(new TaskTag(new Id(100), this._t0.Id));
-            this._taskTagRepo.Insert(new TaskTag(new Id(200), this._t0.Id));
-            this._taskTagRepo.Insert(new TaskTag(new Id(300), this._t1.Id));
+            this._taskTagRepo.Insert(new UnsafeTaskTag(new Id(100), this._t0.Id));
+            this._taskTagRepo.Insert(new UnsafeTaskTag(new Id(200), this._t0.Id));
+            this._taskTagRepo.Insert(new UnsafeTaskTag(new Id(300), this._t1.Id));
             this._taskTagRepo.Save();
 
             this._mtTagRepo = new RAMMetaTaskTagRepo();
-            this._mtTagRepo.Insert(new MetaTaskTag(new Id(400), this._t0.Id));
-            this._mtTagRepo.Insert(new MetaTaskTag(new Id(500), this._t1.Id));
-            this._mtTagRepo.Insert(new MetaTaskTag(new Id(600), this._t1.Id));
+            this._mtTagRepo.Insert(new UnsafeMetaTaskTag(new Id(400), this._t0.Id));
+            this._mtTagRepo.Insert(new UnsafeMetaTaskTag(new Id(500), this._t1.Id));
+            this._mtTagRepo.Insert(new UnsafeMetaTaskTag(new Id(600), this._t1.Id));
             this._mtTagRepo.Save();
 
             this._praxisTagRepo = new RAMPraxisTagRepo();
-            this._praxisTagRepo.Insert(new PraxisTag(new Id(70), this._t0.Id));
-            this._praxisTagRepo.Insert(new PraxisTag(new Id(80), this._t1.Id));
-            this._praxisTagRepo.Insert(new PraxisTag(new Id(90), this._t1.Id));
+            this._praxisTagRepo.Insert(new UnsafePraxisTag(new Id(70), this._t0.Id));
+            this._praxisTagRepo.Insert(new UnsafePraxisTag(new Id(80), this._t1.Id));
+            this._praxisTagRepo.Insert(new UnsafePraxisTag(new Id(90), this._t1.Id));
             this._praxisTagRepo.Save();
 
             this._taskTagDel = new TaskTagDel(this._taskTagRepo);
@@ -80,7 +80,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
         [Test]
         public void TestDeleteSad()
         {
-            Tag t = null;
+            UnsafeTag t = null;
             Name n = null;
             Assert.Throws<ArgumentNullException>(()=>this._del.Delete(t));
             Assert.Throws<ArgumentNullException>(()=>this._del.Delete(n));
