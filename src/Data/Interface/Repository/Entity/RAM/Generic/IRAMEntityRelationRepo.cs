@@ -4,7 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using WorldZero.Common.Interface.ValueObject;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.ValueObject.DTO.Entity.Unspecified.Relation;
+using WorldZero.Common.DTO.Entity.Unspecified.Relation;
 using WorldZero.Common.Interface.Entity.Unspecified.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Generic;
 
@@ -29,8 +29,8 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
             TRightBuiltIn,
             TRelationDTO
           >
-        where TLeftId : ISingleValueObject<TLeftBuiltIn>
-        where TRightId : ISingleValueObject<TRightBuiltIn>
+        where TLeftId : ABCSingleValueObject<TLeftBuiltIn>
+        where TRightId : ABCSingleValueObject<TRightBuiltIn>
         where TEntityRelation : class, IEntityRelation
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
         where TRelationDTO : RelationDTO
@@ -104,7 +104,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
             IEnumerable<TEntityRelation> match = 
                 from eTemp in this._saved.Values
                 let e = this.TEntityCast(eTemp)
-                where e.GetDTO().Equals(dto)
+                where e.GetRelationDTO().Equals(dto)
                 select e;
 
             var c = match.Count();
@@ -224,7 +224,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
             IEnumerable<TEntityRelation> match = 
                 from eTemp in this._saved.Values
                 let e = this.TEntityCast(eTemp)
-                where e.GetDTO().Equals(dto)
+                where e.GetRelationDTO().Equals(dto)
                 select e;
 
             var c = match.Count();
@@ -252,7 +252,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
 
                 if (er != null)
                 {
-                    if (er.GetDTO().Equals(dto))
+                    if (er.GetRelationDTO().Equals(dto))
                         this.Delete(tempId);
                         return;
                 }

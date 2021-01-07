@@ -12,7 +12,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Registration
     public interface IEntityReg<TEntity, TId, TBuiltIn>
         : IEntityService<TEntity, TId, TBuiltIn>
         where TEntity : class, IEntity<TId, TBuiltIn>
-        where TId : ISingleValueObject<TBuiltIn>
+        where TId : ABCSingleValueObject<TBuiltIn>
     {
         /// <summary>
         /// This will store the supplied entity and save the repo. On failure,

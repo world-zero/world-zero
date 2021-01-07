@@ -1,4 +1,4 @@
-using WorldZero.Common.ValueObject.DTO.Entity.Unspecified.Relation;
+using WorldZero.Common.DTO.Entity.Unspecified.Relation;
 using WorldZero.Common.Interface.ValueObject;
 using WorldZero.Data.Interface.Repository.Entity.Generic;
 using WorldZero.Common.Interface.Entity.Unspecified.Relation;
@@ -44,9 +44,9 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
         where TEntityRelationCnt : class, IEntityCntRelation
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
         where TLeftEntity : IEntity<TLeftId, TLeftBuiltIn>
-        where TLeftId  : ISingleValueObject<TLeftBuiltIn>
+        where TLeftId  : ABCSingleValueObject<TLeftBuiltIn>
         where TRightEntity : IEntity<TRightId, TRightBuiltIn>
-        where TRightId : ISingleValueObject<TRightBuiltIn>
+        where TRightId : ABCSingleValueObject<TRightBuiltIn>
         where TRelationDTO : CntRelationDTO
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
     {

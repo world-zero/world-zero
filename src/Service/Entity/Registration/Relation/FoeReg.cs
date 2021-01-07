@@ -2,7 +2,7 @@ using System;
 using WorldZero.Service.Interface.Entity.Generic.Registration;
 using WorldZero.Service.Interface.Entity.Registration.Relation;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.ValueObject.DTO.Entity.Unspecified.Relation;
+using WorldZero.Common.DTO.Entity.Unspecified.Relation;
 using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.Entity.Relation;
@@ -62,13 +62,13 @@ namespace WorldZero.Service.Entity.Registration.Relation
             }
             try
             {
-                fMatch = this._friendRepo.GetByDTO(f.GetDTO());
+                fMatch = this._friendRepo.GetByDTO(f.GetRelationDTO());
             }
             catch (ArgumentException)
             { }
             try
             {
-                inverseFMatch = this._friendRepo.GetByDTO(inverseF.GetDTO());
+                inverseFMatch = this._friendRepo.GetByDTO(inverseF.GetRelationDTO());
             }
             catch (ArgumentException)
             { }

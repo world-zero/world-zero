@@ -1,9 +1,10 @@
 using System;
+using System.Collections.Generic;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.ValueObject.DTO.Entity.Unspecified.Relation;
+using WorldZero.Common.DTO.Entity.Unspecified.Relation;
 using NUnit.Framework;
 
-namespace WorldZero.Test.Unit.Common.ValueObject.DTO.Entity.Unspecified.Relation
+namespace WorldZero.Test.Unit.Common.DTO.Entity.Unspecified.Relation
 {
     [TestFixture]
     public class TestRelationDTO
@@ -40,6 +41,25 @@ namespace WorldZero.Test.Unit.Common.ValueObject.DTO.Entity.Unspecified.Relation
                 this._id0, this._id1);
             Assert.AreEqual(this._dto, dtoAlt);
             Assert.AreEqual(dtoAlt, this._dto);
+        }
+
+        [Test]
+        public void TestEqualsAlt()
+        {
+            var set = new HashSet<RelationDTO<Id, int, Id, int>>();
+            set.Add(this._dto);
+            var clone = (RelationDTO<Id, int, Id, int>) this._dto.Clone();
+            Assert.AreEqual(this._dto.GetHashCode(), clone.GetHashCode());
+            Assert.IsTrue(set.Contains(this._dto));
+            Assert.IsTrue(set.Contains(clone));
+        }
+
+        [Test]
+        public void TestClone()
+        {
+            var other = (RelationDTO<Id, int, Id, int>) this._dto.Clone();
+            Assert.AreEqual(this._dto.LeftId, other.LeftId);
+            Assert.AreEqual(this._dto.RightId, other.RightId);
         }
     }
 }

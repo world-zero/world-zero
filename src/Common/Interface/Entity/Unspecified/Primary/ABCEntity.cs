@@ -13,7 +13,7 @@ namespace WorldZero.Common.Interface.Entity.Unspecified.Primary
 {
     public abstract class ABCEntity<TId, TBuiltIn>
         : IEntity<TId, TBuiltIn>
-        where TId : ISingleValueObject<TBuiltIn>
+        where TId : ABCSingleValueObject<TBuiltIn>
     {
         public bool IsIdSet()
         {

@@ -16,7 +16,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
     public interface IEntityDel<TEntity, TId, TBuiltIn>
         : IEntityService<TEntity, TId, TBuiltIn>
         where TEntity : class, IEntity<TId, TBuiltIn>
-        where TId : ISingleValueObject<TBuiltIn>
+        where TId : ABCSingleValueObject<TBuiltIn>
     {
         void Delete(TId id);
         void Delete(TEntity e);

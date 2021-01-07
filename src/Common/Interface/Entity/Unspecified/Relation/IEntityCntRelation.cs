@@ -16,8 +16,8 @@ namespace WorldZero.Common.Interface.Entity.Unspecified.Relation
     public interface IEntityCntRelation
         <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
         : IEntityRelation<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
-        where TLeftId  : ISingleValueObject<TLeftBuiltIn>
-        where TRightId : ISingleValueObject<TRightBuiltIn>
+        where TLeftId  : ABCSingleValueObject<TLeftBuiltIn>
+        where TRightId : ABCSingleValueObject<TRightBuiltIn>
     {
         /// <remarks>
         /// This should always be positive.

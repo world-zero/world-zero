@@ -43,9 +43,9 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
     <TEntity, TId, TBuiltIn, TTEntity, TTId, TTBuiltIn>
         : IEntityDel<TEntity, TId, TBuiltIn>
         where TEntity : class, IEntity<TId, TBuiltIn>, IOptionalEntity
-        where TId : ISingleValueObject<TBuiltIn>
+        where TId : ABCSingleValueObject<TBuiltIn>
         where TTEntity : class, IEntity<TTId, TTBuiltIn>, IEntityHasOptional
-        where TTId : ISingleValueObject<TTBuiltIn>
+        where TTId : ABCSingleValueObject<TTBuiltIn>
     {
         void Unset(TId id);
         void Unset(TEntity e);

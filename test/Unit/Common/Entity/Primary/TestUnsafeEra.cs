@@ -44,8 +44,8 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
             );
             Assert.AreEqual(new Level(2), e.TaskLevelBuffer);
             Assert.AreEqual(20, e.MaxPraxises);
-            Assert.AreEqual(1, e.MaxTasks);
-            Assert.AreEqual(2, e.MaxTasksReiterator);
+            Assert.AreEqual(1, e.MaxTaskCompletion);
+            Assert.AreEqual(2, e.MaxTaskCompletionReiterator);
             Assert.IsNull(e.EndDate);
         }
 
@@ -67,8 +67,8 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
             Assert.IsNotNull(e.EndDate);
             Assert.AreEqual(new Level(5), e.TaskLevelBuffer);
             Assert.AreEqual(100, e.MaxPraxises);
-            Assert.AreEqual(2, e.MaxTasks);
-            Assert.AreEqual(9, e.MaxTasksReiterator);
+            Assert.AreEqual(2, e.MaxTaskCompletion);
+            Assert.AreEqual(9, e.MaxTaskCompletionReiterator);
             Assert.AreEqual(
                 DateTime.UtcNow.ToString("MM:dd:yyyy HH"),
                 e.EndDate.Get.ToString("MM:dd:yyyy HH")
@@ -115,25 +115,25 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
         [Test]
         public void TestMaxTasks()
         {
-            this._e.MaxTasks = 2;
-            this._e.MaxTasksReiterator = 2;
-            this._e.MaxTasks = 1;
-            Assert.Throws<ArgumentException>(()=>this._e.MaxTasks = 0);
-            Assert.Throws<ArgumentException>(()=>this._e.MaxTasks = 1000);
+            this._e.MaxTaskCompletion = 2;
+            this._e.MaxTaskCompletionReiterator = 2;
+            this._e.MaxTaskCompletion = 1;
+            Assert.Throws<ArgumentException>(()=>this._e.MaxTaskCompletion = 0);
+            Assert.Throws<ArgumentException>(()=>this._e.MaxTaskCompletion = 1000);
         }
 
         [Test]
         public void TestMaxTasksReiterator()
         {
-            this._e.MaxTasks = 1;
-            this._e.MaxTasksReiterator = 2;
-            this._e.MaxTasksReiterator = 1;
+            this._e.MaxTaskCompletion = 1;
+            this._e.MaxTaskCompletionReiterator = 2;
+            this._e.MaxTaskCompletionReiterator = 1;
             Assert.Throws<ArgumentException>(()=>
-                this._e.MaxTasksReiterator = 0);
-            this._e.MaxTasksReiterator = 100;
-            this._e.MaxTasks = 100;
+                this._e.MaxTaskCompletionReiterator = 0);
+            this._e.MaxTaskCompletionReiterator = 100;
+            this._e.MaxTaskCompletion = 100;
             Assert.Throws<ArgumentException>(()=>
-                this._e.MaxTasksReiterator = 10);
+                this._e.MaxTaskCompletionReiterator = 10);
         }
     }
 }

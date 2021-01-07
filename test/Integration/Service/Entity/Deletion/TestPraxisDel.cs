@@ -28,14 +28,14 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
 
         private void _absentt<TEntity, TId, TBuiltIn>(TEntity e, Func<TId, TEntity> getById)
             where TEntity : IEntity<TId, TBuiltIn>
-            where TId : ISingleValueObject<TBuiltIn>
+            where TId : ABCSingleValueObject<TBuiltIn>
         {
             Assert.Throws<ArgumentException>(()=>getById(e.Id));
         }
 
         private void _present<TEntity, TId, TBuiltIn>(TEntity e, Func<TId, TEntity> GetById)
             where TEntity : IEntity<TId, TBuiltIn>
-            where TId : ISingleValueObject<TBuiltIn>
+            where TId : ABCSingleValueObject<TBuiltIn>
         {
             var actualEntity = GetById(e.Id);
             Assert.AreEqual(actualEntity.Id, e.Id);

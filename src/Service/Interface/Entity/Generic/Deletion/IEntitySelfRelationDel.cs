@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using WorldZero.Common.ValueObject.DTO.Entity.Unspecified.Relation;
+using WorldZero.Common.DTO.Entity.Unspecified.Relation;
 using WorldZero.Common.Interface.ValueObject;
 using WorldZero.Common.Interface.Entity.Unspecified.Relation;
 using WorldZero.Common.Interface.Entity.Unspecified.Primary;
@@ -34,7 +34,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
         where TEntityRelation : class, IEntitySelfRelation
             <TId, TBuiltIn>
         where TEntity : IEntity<TId, TBuiltIn>
-        where TId  : ISingleValueObject<TBuiltIn>
+        where TId  : ABCSingleValueObject<TBuiltIn>
         where TRelationDTO : RelationDTO
             <TId, TBuiltIn, TId, TBuiltIn>
     {

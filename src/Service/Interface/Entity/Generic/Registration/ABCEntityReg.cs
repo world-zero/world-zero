@@ -11,7 +11,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Registration
         : ABCEntityService<TEntity, TId, TBuiltIn>,
           IEntityReg<TEntity, TId, TBuiltIn>
         where TEntity : class, IEntity<TId, TBuiltIn>
-        where TId : ISingleValueObject<TBuiltIn>
+        where TId : ABCSingleValueObject<TBuiltIn>
     {
         public ABCEntityReg(IEntityRepo<TEntity, TId, TBuiltIn> repo)
             : base(repo)

@@ -1,8 +1,7 @@
 using System;
-using System.Collections.Generic;
-using WorldZero.Common.Interface.ValueObject;
+using WorldZero.Common.Interface.DTO;
 
-namespace WorldZero.Common.ValueObject.DTO.General.Generic
+namespace WorldZero.Common.DTO.General.Generic
 {
     /// <summary>
     /// This is a DTO that correlates a countee to an int count.
@@ -14,7 +13,7 @@ namespace WorldZero.Common.ValueObject.DTO.General.Generic
     /// This was created to allow for easy-to-use return values from certain
     /// repository methods, specifically to make it easy to play with Dapper.
     /// </remarks>
-    public class CountingDTO<TCountee> : IValueObject
+    public class CountingDTO<TCountee> : IDTO
     {
         public readonly TCountee Countee;
         public readonly int Count;
@@ -38,10 +37,34 @@ namespace WorldZero.Common.ValueObject.DTO.General.Generic
             this.Count = count;
         }
 
-        protected override IEnumerable<object> GetAtomicValues()
+        public object Clone()
         {
-            yield return this.Countee;
-            yield return this.Count;
+            return new CountingDTO<TCountee>(this.Countee, this.Count);
+        }
+
+        public override bool Equals(object o)
+        {
+            return this.Equals(o as IDTO);
+        }
+
+        public bool Equals(IDTO dto)
+        {
+            CountingDTO<TCountee> other = dto as CountingDTO<TCountee>;
+            if (other == null)                       return false;
+            if (this.Count != other.Count)           return false;
+            if (!this.Countee.Equals(other.Countee)) return false;
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int counteeHash = this.Countee.GetHashCode();
+                return counteeHash
+                       * 7
+                       + (counteeHash * this.Count+1);
+            }
         }
     }
 }

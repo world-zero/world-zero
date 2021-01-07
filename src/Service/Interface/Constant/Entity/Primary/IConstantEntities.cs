@@ -39,7 +39,7 @@ namespace WorldZero.Service.Interface.Constant.Entity.Primary
     public abstract class IConstantEntities<TEntityRepo, TEntity, TId,TBuiltIn>
         where TEntityRepo : class, IEntityRepo<TEntity, TId, TBuiltIn>
         where TEntity : class, IEntity<TId, TBuiltIn>
-        where TId : ISingleValueObject<TBuiltIn>
+        where TId : ABCSingleValueObject<TBuiltIn>
     {
         protected readonly TEntityRepo _repo;
 

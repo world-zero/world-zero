@@ -305,7 +305,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
         : IStaticRAMEntityRepo,
           IEntityRepo<TEntity, TId, TIdBuiltIn>
         where TEntity : class, IEntity<TId, TIdBuiltIn>
-        where TId : ISingleValueObject<TIdBuiltIn>
+        where TId : ABCSingleValueObject<TIdBuiltIn>
     {
         /// <summary>
         /// This method will return `TEntity.GetUniqueRules().Count`. This is

@@ -10,7 +10,7 @@ namespace WorldZero.Common.ValueObject.General
     /// </summary>
     /// <exception cref="ArgumentException">
     /// This is thrown on name set iff the name is invalid.</exception>
-    public class Name : ISingleValueObject<string>
+    public class Name : ABCSingleValueObject<string>
     {
         public const int MaxLength = 50;
 

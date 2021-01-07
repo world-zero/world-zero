@@ -1,8 +1,8 @@
 using System;
-using System.Collections.Generic;
 using WorldZero.Common.Interface.ValueObject;
+using WorldZero.Common.Interface.DTO;
 
-namespace WorldZero.Common.ValueObject.DTO.Entity.Unspecified.Relation
+namespace WorldZero.Common.DTO.Entity.Unspecified.Relation
 {
     /// <inheritdoc cref="RelationDTO" />
     /// <summary>
@@ -11,8 +11,8 @@ namespace WorldZero.Common.ValueObject.DTO.Entity.Unspecified.Relation
     public class CntRelationDTO
         <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
         : RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
-        where TLeftId  : ISingleValueObject<TLeftBuiltIn>
-        where TRightId : ISingleValueObject<TRightBuiltIn>
+        where TLeftId  : ABCSingleValueObject<TLeftBuiltIn>
+        where TRightId : ABCSingleValueObject<TRightBuiltIn>
     {
         public CntRelationDTO(TLeftId leftId, TRightId rightId, int count)
             : base(leftId, rightId)
@@ -23,7 +23,7 @@ namespace WorldZero.Common.ValueObject.DTO.Entity.Unspecified.Relation
         public int Count
         {
             get { return this._count; }
-            set
+            private set
             {
                 if (value <= 0)
                     throw new ArgumentException("Count must be positive.");
@@ -32,9 +32,7 @@ namespace WorldZero.Common.ValueObject.DTO.Entity.Unspecified.Relation
         }
         private int _count;
 
-        public override RelationDTO
-        <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
-        Clone()
+        public override object Clone()
         {
             return new CntRelationDTO
                 <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>(
@@ -44,11 +42,23 @@ namespace WorldZero.Common.ValueObject.DTO.Entity.Unspecified.Relation
             );
         }
 
-        protected override IEnumerable<object> GetAtomicValues()
+        public override bool Equals(IDTO dto)
         {
-            yield return this.LeftId;
-            yield return this.RightId;
-            yield return this.Count;
+            CntRelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> other =
+                dto as CntRelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>;
+            if (other == null)                 return false;
+            if (this.LeftId != other.LeftId)   return false;
+            if (this.RightId != other.RightId) return false;
+            if (this.Count != other.Count)     return false;
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return base.GetHashCode() * (this.Count+1);
+            }
         }
     }
 }

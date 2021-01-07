@@ -10,7 +10,7 @@ namespace WorldZero.Service.Interface.Entity.Generic
     public abstract class ABCEntityService<TEntity, TId, TBuiltIn>
         : IEntityService<TEntity, TId, TBuiltIn>
         where TEntity : class, IEntity<TId, TBuiltIn>
-        where TId : ISingleValueObject<TBuiltIn>
+        where TId : ABCSingleValueObject<TBuiltIn>
     {
         protected readonly IEntityRepo<TEntity, TId, TBuiltIn> _repo;
 

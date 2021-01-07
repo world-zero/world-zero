@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using WorldZero.Common.Interface.ValueObject;
-using WorldZero.Common.ValueObject.DTO.Entity.Unspecified.Relation;
+using WorldZero.Common.DTO.Entity.Unspecified.Relation;
 using WorldZero.Common.Interface.Entity.Unspecified.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Generic;
 
@@ -12,7 +12,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
         : IRAMEntityRelationRepo
           <TEntityRelation, TId, TBuiltIn, TId, TBuiltIn, TRelationDTO>,
           IEntitySelfRelationRepo<TEntityRelation, TId, TBuiltIn, TRelationDTO>
-        where TId : ISingleValueObject<TBuiltIn>
+        where TId : ABCSingleValueObject<TBuiltIn>
         where TEntityRelation : class, IEntitySelfRelation
             <TId, TBuiltIn>
         where TRelationDTO : RelationDTO

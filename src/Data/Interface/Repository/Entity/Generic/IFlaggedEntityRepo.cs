@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using WorldZero.Common.Interface.Entity.Unspecified.Relation;
 using WorldZero.Common.Interface.ValueObject;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.ValueObject.DTO.Entity.Unspecified.Relation;
+using WorldZero.Common.DTO.Entity.Unspecified.Relation;
 
 namespace WorldZero.Data.Interface.Repository.Entity.Generic
 {
@@ -27,7 +27,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.Generic
             string,
             TRelationDTO
         >
-        where TLeftId : ISingleValueObject<TLeftBuiltIn>
+        where TLeftId : ABCSingleValueObject<TLeftBuiltIn>
         where TEntityRelation : class, IEntityRelation
             <TLeftId, TLeftBuiltIn, Name, string>
         where TRelationDTO : RelationDTO

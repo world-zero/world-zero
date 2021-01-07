@@ -19,7 +19,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.Generic
     public interface IEntityRepo<TEntity, TId, TIdBuiltIn>
         : IGenericRepo<TEntity, TId>
         where TEntity : class, IEntity<TId, TIdBuiltIn>
-        where TId : ISingleValueObject<TIdBuiltIn>
+        where TId : ABCSingleValueObject<TIdBuiltIn>
     {
         /// <summary>
         /// This will remove all stored classes.

@@ -110,6 +110,8 @@ When in doubt, default to the suggested conventions by Microsoft. That said,
 this codebase does deviate from a few of these guidelines, and I want to lay
 out some explicit rules here.
 
+- Per the docs, interfaces should begin with `I`; for this project, abstract
+classes should begin with `ABC`.
 - Non-public fields and properties are _camelCase, and only private function
 members are _camelCase.
 - Do not exceed 79 characters on a single line, unless the exceeding line

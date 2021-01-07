@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.ValueObject.DTO.Entity.Unspecified.Relation;
+using WorldZero.Common.DTO.Entity.Unspecified.Relation;
 using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Primary;
@@ -167,7 +167,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
                     pp.PraxisId,
                     pp.CharacterId
                 );
-            if (++nextCount <= activeEra.MaxTasks)
+            if (++nextCount <= activeEra.MaxTaskCompletion)
                 return nextCount;
 
             // The reiterator ability allows for more task recompletions, see
@@ -176,7 +176,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             if (c.FactionId == null)
             {
                 this._ppRepo.DiscardTransaction();
-                throw new ArgumentException($"The character can only submit praxises for a task {activeEra.MaxTasks} time(s).");
+                throw new ArgumentException($"The character can only submit praxises for a task {activeEra.MaxTaskCompletion} time(s).");
             }
 
             IFaction f;
@@ -191,13 +191,13 @@ namespace WorldZero.Service.Entity.Registration.Relation
                 || (f.AbilityId != ConstantAbilities.Reiterator.Id))
             {
                 this._ppRepo.DiscardTransaction();
-                throw new ArgumentException($"The character can only submit praxises for a task {activeEra.MaxTasks} time(s).");
+                throw new ArgumentException($"The character can only submit praxises for a task {activeEra.MaxTaskCompletion} time(s).");
             }
 
-            if (nextCount > activeEra.MaxTasksReiterator)
+            if (nextCount > activeEra.MaxTaskCompletionReiterator)
             {
                 this._ppRepo.DiscardTransaction();
-                throw new ArgumentException($"The character can only submit praxises for a task {activeEra.MaxTasks} time(s).");
+                throw new ArgumentException($"The character can only submit praxises for a task {activeEra.MaxTaskCompletion} time(s).");
             }
 
             return nextCount;

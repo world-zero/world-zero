@@ -2,7 +2,7 @@ using System;
 using WorldZero.Common.Entity.Relation;
 using WorldZero.Data.Interface.Repository.Entity.RAM.Generic;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.ValueObject.DTO.Entity.Unspecified.Relation;
+using WorldZero.Common.DTO.Entity.Unspecified.Relation;
 using NUnit.Framework;
 
 namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relation
@@ -25,7 +25,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
         )
         {
             Assert.AreEqual(expected.Id, actual.Id);
-            Assert.AreEqual(expected.GetDTO(), actual.GetDTO());
+            Assert.AreEqual(expected.GetRelationDTO(), actual.GetRelationDTO());
         }
 
         [SetUp]
@@ -118,7 +118,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
             Assert.Throws<ArgumentNullException>(()=>
                 this._repo.DeleteByPartialDTO(null));
 
-            var dto = (CntRelationDTO<Id, int, Id, int>) this._c0.GetDTO();
+            var dto = (CntRelationDTO<Id, int, Id, int>) this._c0.GetRelationDTO();
             var c = new UnsafeComment(dto.LeftId, dto.RightId, "x", dto.Count+1);
             this._repo.Insert(c);
             Assert.AreEqual(3, this._repo.SavedCount);
@@ -139,12 +139,12 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
         [Test]
         public void TestDeleteByDTO()
         {
-            var dto = (CntRelationDTO<Id, int, Id, int>) this._c0.GetDTO();
+            var dto = (CntRelationDTO<Id, int, Id, int>) this._c0.GetRelationDTO();
             var c = new UnsafeComment(dto.LeftId, dto.RightId, "x", dto.Count+1);
             Assert.AreEqual(3, this._repo.SavedCount);
             this._repo.Insert(c);
             this._repo.DeleteByDTO(
-                (CntRelationDTO<Id, int, Id, int>) c.GetDTO());
+                (CntRelationDTO<Id, int, Id, int>) c.GetRelationDTO());
             this._repo.Save();
             Assert.AreEqual(3, this._repo.SavedCount);
             Assert.Throws<ArgumentException>(()=>

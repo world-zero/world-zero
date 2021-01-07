@@ -45,7 +45,7 @@ namespace WorldZero.Common.Interface.Entity.Primary
         /// <value>
         /// This must be at least 1 and no larger than `MaxTasksReiterator`.
         /// </value>
-        int MaxTasks { get; }
+        int MaxTaskCompletion { get; }
 
         /// <summary>
         /// This is the max number of times a character can complete any given
@@ -54,6 +54,6 @@ namespace WorldZero.Common.Interface.Entity.Primary
         /// <value>
         /// This must be at least 1 and at least as large as `MaxTasks`.
         /// </value>
-        int MaxTasksReiterator { get; }
+        int MaxTaskCompletionReiterator { get; }
     }
 }

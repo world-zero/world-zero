@@ -10,7 +10,7 @@ namespace WorldZero.Common.Interface.Entity.Unspecified.Relation
     /// </remarks>
     public interface IFlaggedEntity<TLeftId, TLeftBuiltIn>
         : IEntityRelation<TLeftId, TLeftBuiltIn, Name, string>
-        where TLeftId  : ISingleValueObject<TLeftBuiltIn>
+        where TLeftId  : ABCSingleValueObject<TLeftBuiltIn>
     {
         /// <summary>
         /// This is a wrapper for `RightId`.

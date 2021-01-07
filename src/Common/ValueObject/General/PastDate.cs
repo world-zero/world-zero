@@ -9,7 +9,7 @@ namespace WorldZero.Common.ValueObject.General
     /// </summary>
     /// <exception cref="ArgumentException">
     /// This is thrown on date set iff the date is invalid.</exception>
-    public class PastDate : ISingleValueObject<DateTime>
+    public class PastDate : ABCSingleValueObject<DateTime>
     {
         public override DateTime Get
         {

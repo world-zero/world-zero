@@ -7,7 +7,7 @@ namespace WorldZero.Common.Interface.Entity.Unspecified.Relation
     public abstract class ABCEntitySelfRelation<TId, TBuiltIn>
         : ABCEntityRelation<TId, TBuiltIn, TId, TBuiltIn>,
           IEntitySelfRelation<TId, TBuiltIn>
-        where TId : ISingleValueObject<TBuiltIn>
+        where TId : ABCSingleValueObject<TBuiltIn>
     {
         public ABCEntitySelfRelation(TId leftId, TId rightId)
             : base(leftId, rightId)

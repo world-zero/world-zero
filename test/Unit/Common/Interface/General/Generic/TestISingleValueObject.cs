@@ -30,7 +30,7 @@ namespace WorldZero.Test.Unit.Common.Interface.General.Generic
         }
     }
 
-    public class AnId : ISingleValueObject<int>
+    public class AnId : ABCSingleValueObject<int>
     {
         public override int Get
         {

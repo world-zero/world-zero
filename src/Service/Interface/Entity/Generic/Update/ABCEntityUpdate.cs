@@ -10,7 +10,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Update
         : ABCEntityService<TEntity, TId, TBuiltIn>,
         IEntityUpdate<TEntity, TId, TBuiltIn>
         where TEntity : class, IEntity<TId, TBuiltIn>
-        where TId : ISingleValueObject<TBuiltIn>
+        where TId : ABCSingleValueObject<TBuiltIn>
     {
         public ABCEntityUpdate(IEntityRepo<TEntity, TId, TBuiltIn> repo)
             : base(repo)

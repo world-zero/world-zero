@@ -13,9 +13,9 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
         : ABCEntityDel<TEntity, TId, TBuiltIn>,
         IEntityUnset<TEntity, TId, TBuiltIn, TTEntity, TTId, TTBuiltIn>
         where TEntity : class, IEntity<TId, TBuiltIn>, IOptionalEntity
-        where TId : ISingleValueObject<TBuiltIn>
+        where TId : ABCSingleValueObject<TBuiltIn>
         where TTEntity : class, IEntity<TTId, TTBuiltIn>, IEntityHasOptional
-        where TTId : ISingleValueObject<TTBuiltIn>
+        where TTId : ABCSingleValueObject<TTBuiltIn>
     {
         protected readonly IEntityRepo<TTEntity, TTId, TTBuiltIn> _otherRepo;
         protected readonly IEntityUpdate<TTEntity, TTId, TTBuiltIn> _otherUpdate;

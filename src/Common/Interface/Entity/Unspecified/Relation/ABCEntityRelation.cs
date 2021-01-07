@@ -1,6 +1,6 @@
 using System;
 using WorldZero.Common.Interface.Entity.Unspecified.Primary;
-using WorldZero.Common.ValueObject.DTO.Entity.Unspecified.Relation;
+using WorldZero.Common.DTO.Entity.Unspecified.Relation;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Collections.Generic;
 using WorldZero.Common.Interface.ValueObject;
@@ -12,8 +12,8 @@ namespace WorldZero.Common.Interface.Entity.Unspecified.Relation
         <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
         : ABCIdEntity,
           IEntityRelation<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
-        where TLeftId  : ISingleValueObject<TLeftBuiltIn>
-        where TRightId : ISingleValueObject<TRightBuiltIn>
+        where TLeftId  : ABCSingleValueObject<TLeftBuiltIn>
+        where TRightId : ABCSingleValueObject<TRightBuiltIn>
     {
         // NOTE: IEntity.Clone() is still not implemmented.
 
@@ -57,7 +57,7 @@ namespace WorldZero.Common.Interface.Entity.Unspecified.Relation
 
         public abstract RelationDTO
         <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
-        GetDTO();
+        GetRelationDTO();
 
         public override bool Equals(object obj)
         {

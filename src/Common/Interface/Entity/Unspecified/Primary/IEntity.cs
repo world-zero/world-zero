@@ -26,7 +26,7 @@ namespace WorldZero.Common.Interface.Entity.Unspecified.Primary
     /// applied via any changed properties.
     /// </remarks>
     public interface IEntity<TId, TBuiltIn> : ICloneable
-        where TId : ISingleValueObject<TBuiltIn>
+        where TId : ABCSingleValueObject<TBuiltIn>
     {
         /// <summary>
         /// This is the Id for an entity - it is a value object with a single

@@ -44,8 +44,8 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             this._eraRepo = new RAMEraRepo();
             this._e = new UnsafeEra(
                 new Name("Testing"),
-                maxTasks: 1,
-                maxTasksReiterator: 2
+                maxTaskCompletion: 1,
+                maxTaskCompletionReiterator: 2
             );
             this._eraRepo.Insert(this._e);
             this._eraRepo.Save();

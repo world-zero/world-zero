@@ -9,7 +9,7 @@ namespace WorldZero.Common.ValueObject.General
     /// </summary>
     /// <exception cref="ArgumentException">
     /// This is thrown on set iff the level is invalid.</exception>
-    public class Level : ISingleValueObject<int>
+    public class Level : ABCSingleValueObject<int>
     {
         public override int Get 
         {

@@ -10,8 +10,8 @@ namespace WorldZero.Common.Interface.Entity.Unspecified.Relation
         <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
         : ABCEntityRelation<TLeftId,TLeftBuiltIn,TRightId,TRightBuiltIn>,
           IEntityCntRelation<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
-        where TLeftId  : ISingleValueObject<TLeftBuiltIn>
-        where TRightId : ISingleValueObject<TRightBuiltIn>
+        where TLeftId  : ABCSingleValueObject<TLeftBuiltIn>
+        where TRightId : ABCSingleValueObject<TRightBuiltIn>
     {
         // NOTE: IEntity.Clone() is still not implemmented.
 

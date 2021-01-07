@@ -49,6 +49,6 @@ namespace WorldZero.Service.Interface.Entity.Generic.Update
     public interface IEntityUpdate<TEntity, TId, TBuiltIn>
         : IEntityService<TEntity, TId, TBuiltIn>
         where TEntity : class, IEntity<TId, TBuiltIn>
-        where TId : ISingleValueObject<TBuiltIn>
+        where TId : ABCSingleValueObject<TBuiltIn>
     { }
 }

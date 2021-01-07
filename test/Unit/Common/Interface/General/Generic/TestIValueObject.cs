@@ -30,7 +30,7 @@ namespace WorldZero.Test.Unit.Common.Interface.General.Generic
         }
     }
 
-    public class ValObj : IValueObject
+    public class ValObj : ABCValueObject
     {
         public int Get { get; private set; }
         public ValObj(int x)

@@ -15,7 +15,7 @@ namespace WorldZero.Common.ValueObject.General
     /// ID that is 0 is unregistered with a repo, an ID greater than 0 is
     /// registered, and an ID less than 0 is invalid.
     /// </remarks>
-    public class Id : ISingleValueObject<int>
+    public class Id : ABCSingleValueObject<int>
     {
         public override int Get
         {

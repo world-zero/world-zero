@@ -4,7 +4,7 @@ using WorldZero.Common.Interface.Entity.Unspecified.Relation;
 using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.ValueObject.DTO.Entity.Unspecified.Relation;
+using WorldZero.Common.DTO.Entity.Unspecified.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Generic;
 
 namespace WorldZero.Service.Interface.Entity.Generic.Deletion
@@ -40,7 +40,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
         where TEntityRelation : class, ITaggedEntity
             <TLeftId, TLeftBuiltIn>
         where TLeftEntity : IEntity<TLeftId, TLeftBuiltIn>
-        where TLeftId  : ISingleValueObject<TLeftBuiltIn>
+        where TLeftId  : ABCSingleValueObject<TLeftBuiltIn>
         where TRelationDTO : RelationDTO
             <TLeftId, TLeftBuiltIn, Name, string>
     {

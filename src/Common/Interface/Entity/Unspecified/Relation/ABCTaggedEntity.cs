@@ -1,6 +1,6 @@
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface.ValueObject;
-using WorldZero.Common.ValueObject.DTO.Entity.Unspecified.Relation;
+using WorldZero.Common.DTO.Entity.Unspecified.Relation;
 
 namespace WorldZero.Common.Interface.Entity.Unspecified.Relation
 {
@@ -8,7 +8,7 @@ namespace WorldZero.Common.Interface.Entity.Unspecified.Relation
     public abstract class ABCTaggedEntity<TLeftId, TLeftBuiltIn>
         : ABCEntityRelation<TLeftId, TLeftBuiltIn, Name, string>,
           ITaggedEntity<TLeftId, TLeftBuiltIn>
-        where TLeftId  : ISingleValueObject<TLeftBuiltIn>
+        where TLeftId  : ABCSingleValueObject<TLeftBuiltIn>
     {
         public ABCTaggedEntity(TLeftId leftId, Name tagId)
             : base(leftId, tagId)
@@ -28,7 +28,7 @@ namespace WorldZero.Common.Interface.Entity.Unspecified.Relation
         }
 
         public override
-        RelationDTO<TLeftId, TLeftBuiltIn, Name, string> GetDTO()
+        RelationDTO<TLeftId, TLeftBuiltIn, Name, string> GetRelationDTO()
         {
             return new RelationDTO<TLeftId, TLeftBuiltIn, Name, string>(
                 this.LeftId,

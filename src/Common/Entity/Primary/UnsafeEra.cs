@@ -12,8 +12,8 @@ namespace WorldZero.Common.Entity.Primary
             Name name,
             Level taskLevelDelta=null,
             int maxPraxises=20,
-            int maxTasks=1,
-            int maxTasksReiterator=2,
+            int maxTaskCompletion=1,
+            int maxTaskCompletionReiterator=2,
             PastDate startDate=null,
             PastDate endDate=null
         )
@@ -26,16 +26,16 @@ namespace WorldZero.Common.Entity.Primary
 
             this.TaskLevelBuffer = taskLevelDelta;
             this.MaxPraxises = maxPraxises;
-            this.MaxTasksReiterator = maxTasksReiterator;
-            this.MaxTasks = maxTasks;
+            this.MaxTaskCompletionReiterator = maxTaskCompletionReiterator;
+            this.MaxTaskCompletion = maxTaskCompletion;
         }
 
         internal UnsafeEra(
             string name,
             int taskLevelDelta,
             int maxPraxises,
-            int maxTasks,
-            int maxTasksReiterator,
+            int maxTaskCompletion,
+            int maxTaskCompletionReiterator,
             DateTime startDate,
             DateTime endDate
         )
@@ -45,8 +45,8 @@ namespace WorldZero.Common.Entity.Primary
             this.EndDate = new PastDate(endDate);
             this.TaskLevelBuffer = new Level(taskLevelDelta);
             this.MaxPraxises = maxPraxises;
-            this.MaxTasks = maxTasks;
-            this.MaxTasksReiterator = maxTasksReiterator;
+            this.MaxTaskCompletion = maxTaskCompletion;
+            this.MaxTaskCompletionReiterator = maxTaskCompletionReiterator;
         }
 
         public override IEntity<Name, string> CloneAsEntity()
@@ -55,8 +55,8 @@ namespace WorldZero.Common.Entity.Primary
                 this.Id,
                 this.TaskLevelBuffer,
                 this.MaxPraxises,
-                this.MaxTasks,
-                this.MaxTasksReiterator,
+                this.MaxTaskCompletion,
+                this.MaxTaskCompletionReiterator,
                 this.StartDate,
                 this.EndDate
             );
@@ -115,33 +115,33 @@ namespace WorldZero.Common.Entity.Primary
         }
         private int _maxPraxises;
 
-        public int MaxTasks
+        public int MaxTaskCompletion
         {
-            get { return this._maxTasks; }
+            get { return this._maxTaskCompletion; }
             set
             {
                 if (value < 1)
                     throw new ArgumentException("People must be able to submit tasks.");
-                if (value > this.MaxTasksReiterator)
-                    throw new ArgumentException("MaxTasks cannot be larger than MaxTasksReiterator.");
-                this._maxTasks = value;
+                if (value > this.MaxTaskCompletionReiterator)
+                    throw new ArgumentException("MaxTaskCompletion cannot be larger than MaxTaskCompletionReiterator.");
+                this._maxTaskCompletion = value;
             }
         }
-        private int _maxTasks = 1;
+        private int _maxTaskCompletion = 1;
 
-        public int MaxTasksReiterator
+        public int MaxTaskCompletionReiterator
         {
-            get { return this._maxTasksReiterator; }
+            get { return this._maxTaskCompletionReiterator; }
             set
             {
                 if (value < 1)
                     throw new ArgumentException("People must be able to submit tasks.");
-                if (value < this.MaxTasks)
-                    throw new ArgumentException("MaxTasksReiterator cannot be smaller than MaxTasks.");
-                this._maxTasksReiterator = value;
+                if (value < this.MaxTaskCompletion)
+                    throw new ArgumentException("MaxTaskCompletionReiterator cannot be smaller than MaxTaskCompletion.");
+                this._maxTaskCompletionReiterator = value;
             }
         }
-        private int _maxTasksReiterator = 1;
+        private int _maxTaskCompletionReiterator = 1;
 
         private void _checkDates(PastDate start, PastDate end)
         {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using WorldZero.Common.Interface.ValueObject;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.ValueObject.DTO.Entity.Unspecified.Relation;
+using WorldZero.Common.DTO.Entity.Unspecified.Relation;
 using WorldZero.Common.Interface.Entity.Unspecified.Relation;
 using WorldZero.Data.Interface.Repository.Entity.Generic;
 
@@ -38,8 +38,8 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
             TRightBuiltIn,
             TRelationDTO
           >
-        where TLeftId : ISingleValueObject<TLeftBuiltIn>
-        where TRightId : ISingleValueObject<TRightBuiltIn>
+        where TLeftId : ABCSingleValueObject<TLeftBuiltIn>
+        where TRightId : ABCSingleValueObject<TRightBuiltIn>
         where TEntityRelation : class, IEntityCntRelation
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
         where TRelationDTO : CntRelationDTO

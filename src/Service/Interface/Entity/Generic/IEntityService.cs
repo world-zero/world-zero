@@ -40,7 +40,7 @@ namespace WorldZero.Service.Interface.Entity.Generic
     /// </remarks>
     public interface IEntityService<TEntity, TId, TBuiltIn>
         where TEntity : class, IEntity<TId, TBuiltIn>
-        where TId : ISingleValueObject<TBuiltIn>
+        where TId : ABCSingleValueObject<TBuiltIn>
     {
         /// <summary>
         /// Perform the supplied Action as a transaction.

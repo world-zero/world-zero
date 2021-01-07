@@ -5,32 +5,34 @@ namespace WorldZero.Common.Interface.ValueObject
 {
     /// <summary>
     /// This is a class template for ValueObjects.
-    /// 
+    /// </summary>
+    /// <remarks>
     /// Once subclasses have implemented GetAtomicValues, this class will
     /// handle: converting instances to a hash code; comparing an IValueObject
     /// to another object via Equals; comparing two IValueObjects via == and
     /// != .
-    /// </summary>
-    public abstract class IValueObject
+    /// </remarks>
+    public abstract class ABCValueObject
     {
         /// <summary>
         /// The result of this method should only reference the immutable
-        /// fields of the class - this is used by at least GetHashCode.
+        /// fields of the class - this is used by at least GetHashCode and
+        /// Equals.
         /// </summary>
         protected abstract IEnumerable<object> GetAtomicValues();
 
-        public static bool operator ==(IValueObject left, IValueObject right)
+        public static bool operator ==(ABCValueObject left, ABCValueObject right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(IValueObject left, IValueObject right)
+        public static bool operator !=(ABCValueObject left, ABCValueObject right)
         {
             return NotEqualOperator(left, right);
         }
 
         protected static
-        bool EqualOperator(IValueObject left, IValueObject right)
+        bool EqualOperator(ABCValueObject left, ABCValueObject right)
         {
             if (ReferenceEquals(left, null) ^ ReferenceEquals(right, null))
             {
@@ -40,7 +42,7 @@ namespace WorldZero.Common.Interface.ValueObject
         }
 
         protected static
-        bool NotEqualOperator(IValueObject left, IValueObject right)
+        bool NotEqualOperator(ABCValueObject left, ABCValueObject right)
         {
             return !(EqualOperator(left, right));
         }
@@ -50,7 +52,7 @@ namespace WorldZero.Common.Interface.ValueObject
             if ( (obj == null) || (obj.GetType() != this.GetType()) )
                 return false;
 
-            IValueObject other = (IValueObject) obj;
+            ABCValueObject other = (ABCValueObject) obj;
             IEnumerator<object> thisValues =
                                     this.GetAtomicValues().GetEnumerator();
             IEnumerator<object> otherValues =

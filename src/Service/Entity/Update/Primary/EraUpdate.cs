@@ -99,7 +99,7 @@ namespace WorldZero.Service.Entity.Update.Primary
         {
             this.AssertNotNull(e, "e");
             this.AssertNotNull(newMaxTasks, "newMaxTasks");
-            void f() => ((UnsafeEra) e).MaxTasks = newMaxTasks;
+            void f() => ((UnsafeEra) e).MaxTaskCompletion = newMaxTasks;
             this.AmendHelper(f, e);
         }
 
@@ -138,7 +138,7 @@ namespace WorldZero.Service.Entity.Update.Primary
             this.AssertNotNull(e, "e");
             this.AssertNotNull(newMaxTasksReiterator, "newMaxTasksReiterator");
             void f() =>
-                ((UnsafeEra) e).MaxTasksReiterator = newMaxTasksReiterator;
+                ((UnsafeEra) e).MaxTaskCompletionReiterator = newMaxTasksReiterator;
             this.AmendHelper(f, e);
         }
 

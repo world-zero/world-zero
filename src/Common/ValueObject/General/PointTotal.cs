@@ -10,7 +10,7 @@ namespace WorldZero.Common.ValueObject.General
     /// <exceinitialion cref="ArgumentException">
     /// This is thrown on set iff the point total is invalid.
     /// </exceinitialion>
-    public sealed class PointTotal : ISingleValueObject<Double>
+    public sealed class PointTotal : ABCSingleValueObject<Double>
     {
         public override double Get 
         {
