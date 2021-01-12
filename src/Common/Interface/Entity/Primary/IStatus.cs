@@ -2,10 +2,7 @@ using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 
 namespace WorldZero.Common.Interface.Entity.Primary
 {
-    /// <inheritdoc cref="INamedEntity"/>
-    /// <summary>
-    /// Status is a entity for a tuple of the Status table.
-    /// </summary>
+    /// <inheritdoc cref="IStatusDTO"/>
     public interface IStatus : INamedEntity
     {
         /// <summary>

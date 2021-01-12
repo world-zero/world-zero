@@ -39,6 +39,7 @@ namespace WorldZero.Common.Interface.Entity.Unspecified.Primary
 
         bool IsIdSet();
 
+        // TODO: remove this; see notes for more
         /// <summary>
         /// Similar to <see cref="System.ICloneable.Clone"/>, except this will
         /// return the result as an entity.

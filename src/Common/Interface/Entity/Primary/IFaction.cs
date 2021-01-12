@@ -4,15 +4,11 @@ using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 
 namespace WorldZero.Common.Interface.Entity.Primary
 {
-    /// <inheritdoc cref="INamedEntity"/>
-    /// <summary>
-    /// Faction is a entity for a tuple of the Faction table.
-    /// </summary>
+    /// <inheritdoc cref="IFactionDTO"/>
     public interface IFaction
         : INamedEntity, IOptionalEntity, IEntityHasOptional
     {
         string Description { get; }
-
         PastDate DateFounded { get; }
 
         /// <remarks>

@@ -2,10 +2,7 @@ using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 
 namespace WorldZero.Common.Interface.Entity.Primary
 {
-    /// <inheritdoc cref="INamedEntity"/>
-    /// <summary>
-    /// Tag is a entity for a tuple of the Tag table.
-    /// </summary>
+    /// <inheritdoc cref="ITagDTO"/>
     public interface ITag : INamedEntity
     {
         /// <summary>

@@ -3,6 +3,8 @@ using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 using WorldZero.Common.ValueObject.General;
 
+// TODO: be sure this doesn't shit itself when an unmatching level is supplied
+
 namespace WorldZero.Common.Entity.Primary
 {
     /// <inheritdoc cref="ICharacter"/>

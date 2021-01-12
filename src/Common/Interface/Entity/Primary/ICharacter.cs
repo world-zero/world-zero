@@ -4,10 +4,7 @@ using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 
 namespace WorldZero.Common.Interface.Entity.Primary
 {
-    /// <inheritdoc cref="IIdNamedEntity"/>
-    /// <summary>
-    /// Character is a entity for a tuple of the Character table.
-    /// </summary>
+    /// <inheritdoc cref="ICharacterDTO"/>
     public interface ICharacter : IIdNamedEntity, IEntityHasOptional
     {
         /// <summary>
@@ -17,15 +14,8 @@ namespace WorldZero.Common.Interface.Entity.Primary
         /// <returns><c>Level</c> corresponding to the <c>points</c>.</returns>
         Level CalculateLevel(PointTotal points);
 
-        /// <summary>
-        /// HasBio is used to record if a character has a bio or not.
-        /// </summary>
         bool HasBio { get; }
 
-        /// <summary>
-        /// HasProfilePic is used to record if a character has a profile
-        /// picture or not.
-        /// </summary>
         bool HasProfilePic { get; }
 
         Id PlayerId { get; }
@@ -34,16 +24,8 @@ namespace WorldZero.Common.Interface.Entity.Primary
         PointTotal EraPoints { get; }
         PointTotal TotalPoints { get; }
 
-        /// <summary>
-        /// This property has no associated field, it returns the result of
-        ///  `CalculateLevel(EraPoints)`.
-        /// </summary>
         Level EraLevel { get; }
 
-        /// <summary>
-        /// This property has no associated field, it returns the result of
-        ///  `CalculateLevel(TotalPoints)`.
-        /// </summary>
         Level TotalLevel { get; }
 
         /// <summary>

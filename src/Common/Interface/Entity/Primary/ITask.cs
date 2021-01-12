@@ -3,10 +3,7 @@ using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 
 namespace WorldZero.Common.Interface.Entity.Primary
 {
-    /// <inheritdoc cref="IIdStatusedEntity"/>
-    /// <summary>
-    /// Task is a entity for a tuple of the Task table.
-    /// </summary>
+    /// <inheritdoc cref="ITaskDTO"/>
     public interface ITask : IIdStatusedEntity
     {
         string Summary { get; }
@@ -18,11 +15,6 @@ namespace WorldZero.Common.Interface.Entity.Primary
         /// </remarks>
         Level Level { get; }
         Level MinLevel { get; }
-
-        /// <summary>
-        /// This property controls whether or not the Historian ability can be
-        /// used on this task.
-        /// </summary>
         bool IsHistorianable { get; }
     }
 }

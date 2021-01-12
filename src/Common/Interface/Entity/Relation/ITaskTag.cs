@@ -3,20 +3,9 @@ using WorldZero.Common.Interface.Entity.Unspecified.Relation;
 
 namespace WorldZero.Common.Interface.Entity.Relation
 {
-    /// <inheritdoc cref="ITaggedEntity"/>
-    /// <summary>
-    /// This relation maps a Task's ID to a Tag's ID,
-    /// signifying that the task has tag X.
-    /// <br />
-    /// Left relation: `TaskId`
-    /// <br />
-    /// Right relation: `TagId`
-    /// </summary>
+    /// <inheritdoc cref="ITaskTagDTO"/>
     public interface ITaskTag : ITaggedEntity<Id, int>
     {
-        /// <summary>
-        /// TaskId is a wrapper for LeftId.
-        /// </summary>
         Id TaskId { get; }
     }
 }
