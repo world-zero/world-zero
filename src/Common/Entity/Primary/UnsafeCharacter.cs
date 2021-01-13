@@ -10,30 +10,6 @@ namespace WorldZero.Common.Entity.Primary
     /// <inheritdoc cref="ICharacter"/>
     public class UnsafeCharacter : ABCIdNamedEntity, ICharacter
     {
-        public Level CalculateLevel(PointTotal points)
-        {
-            if (points == null)
-                throw new ArgumentNullException("points");
-
-            int r = -1; // Just to make sure it's getting set.
-            int p = points.AsInt;
-            if      (p < 10)   r = 0;
-            else if (p < 70)   r = 1;
-            else if (p < 170)  r = 2;
-            else if (p < 330)  r = 3;
-            else if (p < 610)  r = 4;
-            else if (p < 1090) r = 5;
-            else if (p < 1840) r = 6;
-            else if (p < 3040) r = 7;
-            else               r = 8;
-            try
-            {
-                return new Level(r);
-            }
-            catch (ArgumentException e)
-            { throw new InvalidOperationException("This should not occur.", e); }
-        }
-
         /// <param name="locationId"></param>
         /// <param name="eraPoints">If unspecified, this will be set to 0.</param>
         /// <param name="totalPoints">If unspecified, this will be set to 0.</param>
@@ -122,11 +98,11 @@ namespace WorldZero.Common.Entity.Primary
             : base(new Id(id), new Name(name))
         {
             var expectedEraLevel =
-                CalculateLevel(new PointTotal(eraPoints)).Get;
+                Level.CalculateLevel(new PointTotal(eraPoints)).Get;
             if (eraLevel != expectedEraLevel)
                 throw new InvalidOperationException($"EraLevel ({eraLevel}) and EraPoints ({expectedEraLevel}) do not match.");
             var expectedTotalLevel =
-                CalculateLevel(new PointTotal(totalPoints)).Get;
+                Level.CalculateLevel(new PointTotal(totalPoints)).Get;
             if (totalLevel != expectedTotalLevel)
                 throw new InvalidOperationException($"TotalLevel ({totalLevel}) and TotalPoints ({expectedTotalLevel}) do not match.");
 
@@ -229,12 +205,12 @@ namespace WorldZero.Common.Entity.Primary
 
         public Level EraLevel
         {
-            get { return CalculateLevel(this.EraPoints); }
+            get { return Level.CalculateLevel(this.EraPoints); }
         }
 
         public Level TotalLevel
         {
-            get { return CalculateLevel(this.TotalPoints); }
+            get { return Level.CalculateLevel(this.TotalPoints); }
         }
 
         /// <value>

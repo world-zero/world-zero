@@ -7,13 +7,6 @@ namespace WorldZero.Common.Interface.Entity.Primary
     /// <inheritdoc cref="ICharacterDTO"/>
     public interface ICharacter : IIdNamedEntity, IEntityHasOptional
     {
-        /// <summary>
-        /// Determine the level based off the number of points supplied.
-        /// </summary>
-        /// <param name="points">The points to calculate the level of.</param>
-        /// <returns><c>Level</c> corresponding to the <c>points</c>.</returns>
-        Level CalculateLevel(PointTotal points);
-
         bool HasBio { get; }
 
         bool HasProfilePic { get; }
