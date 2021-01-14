@@ -415,14 +415,14 @@ namespace WorldZero.Test.Integration.Service.Entity.Deletion
             this._repo.Insert(ppX);
             this._repo.Save();
             Assert.Throws<ArgumentException>(()=>this._del.DeleteByDTO(
-                (RelationDTO<Id, int, Id, int>) ppX.GetRelationDTO()));
+                (NoIdRelationDTO<Id, int, Id, int>) ppX.GetRelationDTO()));
 
             // Happy: someone has joined ppX, so now ppX can leave it.
             var ppY = new UnsafePraxisParticipant(this._p0.Id, new Id(11));
             this._repo.Insert(ppY);
             this._repo.Save();
             this._del.DeleteByDTO(
-                (RelationDTO<Id, int, Id, int>) ppX.GetRelationDTO());
+                (NoIdRelationDTO<Id, int, Id, int>) ppX.GetRelationDTO());
             Assert.Throws<ArgumentException>(()=>this._repo.GetById(ppX.Id));
             Assert.AreEqual(ppY.Id, this._repo.GetById(ppY.Id).Id);
         }

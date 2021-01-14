@@ -36,7 +36,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
         where TLeftId : ABCSingleValueObject<TLeftBuiltIn>
         where TEntityRelation : class, IEntityRelation
             <TLeftId, TLeftBuiltIn, Name, string>
-        where TRelationDTO : RelationDTO
+        where TRelationDTO : NoIdRelationDTO
             <TLeftId, TLeftBuiltIn, Name, string>
 
     {

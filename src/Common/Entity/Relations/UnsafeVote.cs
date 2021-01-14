@@ -80,7 +80,7 @@ namespace WorldZero.Common.Entity.Relation
         }
 
         public UnsafeVote(
-            RelationDTO<Id, int, Id, int> dto,
+            NoIdRelationDTO<Id, int, Id, int> dto,
             PointTotal points
         )
             : base(dto.LeftId, dto.RightId)
@@ -90,7 +90,7 @@ namespace WorldZero.Common.Entity.Relation
 
         public UnsafeVote(
             Id id,
-            RelationDTO<Id, int, Id, int> dto,
+            NoIdRelationDTO<Id, int, Id, int> dto,
             PointTotal points
         )
             : base(id, dto.LeftId, dto.RightId)
@@ -153,9 +153,9 @@ namespace WorldZero.Common.Entity.Relation
         }
         protected PointTotal _points;
 
-        public override RelationDTO<Id, int, Id, int> GetRelationDTO()
+        public override NoIdRelationDTO<Id, int, Id, int> GetRelationDTO()
         {
-            return new RelationDTO<Id, int, Id, int>(
+            return new NoIdRelationDTO<Id, int, Id, int>(
                 this.LeftId,
                 this.RightId
             );

@@ -106,7 +106,7 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity.Registration
             IPraxisParticipant,
             Id,
             int,
-            RelationDTO<Id, int, Id, int>
+            NoIdRelationDTO<Id, int, Id, int>
         >
     {
         public TestEntityRelationReg(
@@ -115,9 +115,9 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity.Registration
             IPraxisParticipantRepo ppRepo
         )
             : base(
-                (IEntityRelationRepo<IVote, Id, int, Id, int, RelationDTO<Id, int, Id, int>>) repo,
+                (IEntityRelationRepo<IVote, Id, int, Id, int, NoIdRelationDTO<Id, int, Id, int>>) repo,
                 (IEntityRepo<ICharacter, Id, int>) characterRepo,
-                (IEntityRelationRepo<IPraxisParticipant, Id, int, Id, int, RelationDTO<Id, int, Id, int>>) ppRepo
+                (IEntityRelationRepo<IPraxisParticipant, Id, int, Id, int, NoIdRelationDTO<Id, int, Id, int>>) ppRepo
             )
         { }
     }

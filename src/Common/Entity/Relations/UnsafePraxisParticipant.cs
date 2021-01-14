@@ -49,11 +49,11 @@ namespace WorldZero.Common.Entity.Relation
             : base(id, praxisId, characterId)
         { }
 
-        public UnsafePraxisParticipant(RelationDTO<Id, int, Id, int> dto)
+        public UnsafePraxisParticipant(NoIdRelationDTO<Id, int, Id, int> dto)
             : base(dto.LeftId, dto.RightId)
         { }
 
-        public UnsafePraxisParticipant(Id id, RelationDTO<Id, int, Id, int> dto)
+        public UnsafePraxisParticipant(Id id, NoIdRelationDTO<Id, int, Id, int> dto)
             : base(id, dto.LeftId, dto.RightId)
         { }
 
@@ -74,9 +74,9 @@ namespace WorldZero.Common.Entity.Relation
             );
         }
 
-        public override RelationDTO<Id, int, Id, int> GetRelationDTO()
+        public override NoIdRelationDTO<Id, int, Id, int> GetRelationDTO()
         {
-            return new RelationDTO<Id, int, Id, int>(
+            return new NoIdRelationDTO<Id, int, Id, int>(
                 this.LeftId,
                 this.RightId
             );

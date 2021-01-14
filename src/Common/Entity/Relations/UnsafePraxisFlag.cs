@@ -24,11 +24,11 @@ namespace WorldZero.Common.Entity.Relation
             : base(id, praxisId, flagId)
         { }
 
-        public UnsafePraxisFlag(RelationDTO<Id, int, Name, string> dto)
+        public UnsafePraxisFlag(NoIdRelationDTO<Id, int, Name, string> dto)
             : base(dto.LeftId, dto.RightId)
         { }
 
-        public UnsafePraxisFlag(Id id, RelationDTO<Id, int, Name, string> dto)
+        public UnsafePraxisFlag(Id id, NoIdRelationDTO<Id, int, Name, string> dto)
             : base(id, dto.LeftId, dto.RightId)
         { }
 

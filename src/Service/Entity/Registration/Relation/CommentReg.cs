@@ -20,7 +20,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             ICharacter,
             Id,
             int,
-            CntRelationDTO<Id, int, Id, int>
+            NoIdCntRelationDTO<Id, int, Id, int>
         >, ICommentReg
     {
         protected ICommentRepo _commentRepo

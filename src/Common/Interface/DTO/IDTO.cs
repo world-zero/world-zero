@@ -1,5 +1,10 @@
 using System;
 
+// DONE: create unspecified primary entity DTOs
+// DONE: create unspecified relation entity DTOs
+// TODO: create specified primary entity DTOs
+// TODO: create specified relation entity DTOs
+
 namespace WorldZero.Common.Interface.DTO
 {
     /// <summary>

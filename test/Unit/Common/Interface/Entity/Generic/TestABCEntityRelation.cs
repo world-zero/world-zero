@@ -109,7 +109,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
             );
         }
 
-        public override RelationDTO<Id, int, Id, int> GetRelationDTO()
+        public override NoIdRelationDTO<Id, int, Id, int> GetRelationDTO()
         {
             return null;
         }
@@ -134,7 +134,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
             );
         }
 
-        public override RelationDTO<Id, int, Name, string> GetRelationDTO()
+        public override NoIdRelationDTO<Id, int, Name, string> GetRelationDTO()
         {
             return null;
         }
@@ -159,7 +159,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
             );
         }
 
-        public override RelationDTO<Name, string, Id, int> GetRelationDTO()
+        public override NoIdRelationDTO<Name, string, Id, int> GetRelationDTO()
         {
             return null;
         }
@@ -184,7 +184,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
             );
         }
 
-        public override RelationDTO<Name, string, Name, string> GetRelationDTO()
+        public override NoIdRelationDTO<Name, string, Name, string> GetRelationDTO()
         {
             return null;
         }

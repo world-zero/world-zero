@@ -29,7 +29,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         ICharacter,
         Id,
         int,
-        RelationDTO<Id, int, Id, int>
+        NoIdRelationDTO<Id, int, Id, int>
     >, IPraxisParticipantDel
     {
         protected IPraxisParticipantRepo _ppRepo
@@ -284,13 +284,13 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         /// transaction is active, but I seriously doubt this method is even
         /// going to get used, so I am okay with it being twice as costly.
         /// </remarks>
-        public override void DeleteByDTO(RelationDTO<Id, int, Id, int> dto)
+        public override void DeleteByDTO(NoIdRelationDTO<Id, int, Id, int> dto)
         {
-            void f(RelationDTO<Id, int, Id, int> dto0)
+            void f(NoIdRelationDTO<Id, int, Id, int> dto0)
             {
                 this.Delete(this._ppRepo.GetByDTO(dto));
             }
-            this.Transaction<RelationDTO<Id, int, Id, int>>(f, dto, true);
+            this.Transaction<NoIdRelationDTO<Id, int, Id, int>>(f, dto, true);
         }
     }
 }

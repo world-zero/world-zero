@@ -12,7 +12,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.Relation
             IFoe,
             Id,
             int,
-            RelationDTO<Id, int, Id, int>
+            NoIdRelationDTO<Id, int, Id, int>
           >
     {
         /// <summary>

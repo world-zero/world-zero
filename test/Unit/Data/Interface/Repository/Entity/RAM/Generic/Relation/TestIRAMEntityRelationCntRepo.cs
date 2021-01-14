@@ -95,20 +95,20 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
         public void TestGetNextCount()
         {
             int actual = this._repo.GetNextCount(
-                new RelationDTO<Id, int, Id, int>(this._id0, this._id1));
+                new NoIdRelationDTO<Id, int, Id, int>(this._id0, this._id1));
             Assert.AreEqual(2, actual);
 
             this._repo.Insert(
                 new UnsafeComment(this._id0, this._id1, "x", actual));
 
             actual = this._repo.GetNextCount(
-                new RelationDTO<Id, int, Id, int>(this._id0, this._id1));
+                new NoIdRelationDTO<Id, int, Id, int>(this._id0, this._id1));
             Assert.AreEqual(3, actual);
 
             this._repo.Delete(this._c0.Id);
             this._repo.Save();
             actual = this._repo.GetNextCount(
-                new RelationDTO<Id, int, Id, int>(this._id0, this._id1));
+                new NoIdRelationDTO<Id, int, Id, int>(this._id0, this._id1));
             Assert.AreEqual(3, actual);
         }
 
@@ -118,12 +118,12 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
             Assert.Throws<ArgumentNullException>(()=>
                 this._repo.DeleteByPartialDTO(null));
 
-            var dto = (CntRelationDTO<Id, int, Id, int>) this._c0.GetRelationDTO();
+            var dto = (NoIdCntRelationDTO<Id, int, Id, int>) this._c0.GetRelationDTO();
             var c = new UnsafeComment(dto.LeftId, dto.RightId, "x", dto.Count+1);
             this._repo.Insert(c);
             Assert.AreEqual(3, this._repo.SavedCount);
             Assert.AreEqual(1, this._repo.StagedCount);
-            this._repo.DeleteByPartialDTO((RelationDTO<Id, int, Id, int>) dto);
+            this._repo.DeleteByPartialDTO((NoIdRelationDTO<Id, int, Id, int>) dto);
             Assert.AreEqual(3, this._repo.SavedCount);
             Assert.AreEqual(2, this._repo.StagedCount);
             this._repo.Save();
@@ -139,12 +139,12 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
         [Test]
         public void TestDeleteByDTO()
         {
-            var dto = (CntRelationDTO<Id, int, Id, int>) this._c0.GetRelationDTO();
+            var dto = (NoIdCntRelationDTO<Id, int, Id, int>) this._c0.GetRelationDTO();
             var c = new UnsafeComment(dto.LeftId, dto.RightId, "x", dto.Count+1);
             Assert.AreEqual(3, this._repo.SavedCount);
             this._repo.Insert(c);
             this._repo.DeleteByDTO(
-                (CntRelationDTO<Id, int, Id, int>) c.GetRelationDTO());
+                (NoIdCntRelationDTO<Id, int, Id, int>) c.GetRelationDTO());
             this._repo.Save();
             Assert.AreEqual(3, this._repo.SavedCount);
             Assert.Throws<ArgumentException>(()=>
@@ -160,7 +160,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
             int,
             Id,
             int,
-            CntRelationDTO<Id, int, Id, int>
+            NoIdCntRelationDTO<Id, int, Id, int>
           >
     {
         public TestRAMEntityRelationCntRepo()

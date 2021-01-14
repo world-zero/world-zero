@@ -80,7 +80,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
     }
 
     public class TestEntitySelfRelationRepo : IRAMEntitySelfRelationRepo
-    <UnsafeFoe, Id, int, RelationDTO<Id, int, Id, int>>
+    <UnsafeFoe, Id, int, NoIdRelationDTO<Id, int, Id, int>>
     {
         protected override int GetRuleCount()
         {

@@ -15,7 +15,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
             IFriend,
             Id,
             int,
-            RelationDTO<Id, int, Id, int>
+            NoIdRelationDTO<Id, int, Id, int>
           >,
           IFriendRepo
     {

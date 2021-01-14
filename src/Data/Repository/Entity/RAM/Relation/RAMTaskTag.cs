@@ -15,7 +15,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
             ITaskTag,
             Id,
             int,
-            RelationDTO<Id, int, Name, string>
+            NoIdRelationDTO<Id, int, Name, string>
           >,
           ITaskTagRepo
     {

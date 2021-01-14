@@ -16,7 +16,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         IMetaTask,
         Id,
         int,
-        RelationDTO<Id, int, Name, string>
+        NoIdRelationDTO<Id, int, Name, string>
     >, IMetaTaskTagDel
     {
         public MetaTaskTagDel(IMetaTaskTagRepo repo)

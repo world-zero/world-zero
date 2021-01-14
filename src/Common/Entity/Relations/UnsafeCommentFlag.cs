@@ -24,11 +24,11 @@ namespace WorldZero.Common.Entity.Relation
             : base(id, commentId, flagId)
         { }
 
-        public UnsafeCommentFlag(RelationDTO<Id, int, Name, string> dto)
+        public UnsafeCommentFlag(NoIdRelationDTO<Id, int, Name, string> dto)
             : base(dto.LeftId, dto.RightId)
         { }
 
-        public UnsafeCommentFlag(Id id, RelationDTO<Id, int, Name, string> dto)
+        public UnsafeCommentFlag(Id id, NoIdRelationDTO<Id, int, Name, string> dto)
             : base(id, dto.LeftId, dto.RightId)
         { }
 

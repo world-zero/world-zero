@@ -67,12 +67,12 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
             <TLLeftId, TLLeftBuiltIn, TLRightId, TLRightBuiltIn>
         where TLLeftId  : ABCSingleValueObject<TLLeftBuiltIn>
         where TLRightId : ABCSingleValueObject<TLRightBuiltIn>
-        where TLRelationDTO : RelationDTO
+        where TLRelationDTO : NoIdRelationDTO
             <TLLeftId, TLLeftBuiltIn, TLRightId, TLRightBuiltIn>
 
         where TRightEntity : IEntity<TRightId, TRightBuiltIn>
         where TRightId : ABCSingleValueObject<TRightBuiltIn>
-        where TRelationDTO : RelationDTO
+        where TRelationDTO : NoIdRelationDTO
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
     {
         public ABCEntityRelateRelationalDel(

@@ -12,7 +12,7 @@ namespace WorldZero.Service.Interface.Entity.Deletion.Relation
         : ITaggedEntityDel
         <
             ITaskTag, ITask, Id, int,
-            RelationDTO<Id, int, Name, string>
+            NoIdRelationDTO<Id, int, Name, string>
         >
     {
         void DeleteByTask(ITask t);

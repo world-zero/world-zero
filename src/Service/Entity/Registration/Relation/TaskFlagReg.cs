@@ -23,7 +23,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             IFlag,
             Name,
             string,
-            RelationDTO<Id, int, Name, string>
+            NoIdRelationDTO<Id, int, Name, string>
         >, ITaskFlagReg
     {
         protected ITaskFlagRepo _taskFlagRepo

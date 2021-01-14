@@ -40,7 +40,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
             <TId, TBuiltIn>
         where TEntity : IEntity<TId, TBuiltIn>
         where TId  : ABCSingleValueObject<TBuiltIn>
-        where TRelationDTO : RelationDTO
+        where TRelationDTO : NoIdRelationDTO
             <TId, TBuiltIn, TId, TBuiltIn>
     {
         protected

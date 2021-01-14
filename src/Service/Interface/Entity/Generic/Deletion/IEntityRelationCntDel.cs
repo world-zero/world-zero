@@ -35,15 +35,15 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
         where TLeftId  : ABCSingleValueObject<TLeftBuiltIn>
         where TRightEntity : IEntity<TRightId, TRightBuiltIn>
         where TRightId : ABCSingleValueObject<TRightBuiltIn>
-        where TRelationDTO : CntRelationDTO
+        where TRelationDTO : NoIdCntRelationDTO
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
     {
         void DeleteByPartialDTO(
-            RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
+            NoIdRelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
         );
 
         Task DeleteByPartialDTOAsync(
-            RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
+            NoIdRelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
         );
     }
 }

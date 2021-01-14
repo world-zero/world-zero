@@ -17,7 +17,7 @@ namespace WorldZero.Service.Interface.Entity.Registration.Relation
             IFlag,
             Name,
             string,
-            RelationDTO<Id, int, Name, string>
+            NoIdRelationDTO<Id, int, Name, string>
         >
     { }
 }

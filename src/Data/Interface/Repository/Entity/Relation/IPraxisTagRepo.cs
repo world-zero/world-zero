@@ -12,7 +12,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.Relation
             IPraxisTag,
             Id,
             int,
-            RelationDTO<Id, int, Name, string>
+            NoIdRelationDTO<Id, int, Name, string>
           >
     {
         /// <summary>

@@ -14,7 +14,7 @@ namespace WorldZero.Service.Interface.Entity.Deletion.Relation
             IComment,
             IPraxis, Id, int,
             ICharacter, Id, int,
-            CntRelationDTO<Id, int, Id, int>
+            NoIdCntRelationDTO<Id, int, Id, int>
         >
     {
         void DeleteByPraxis(IPraxis p);

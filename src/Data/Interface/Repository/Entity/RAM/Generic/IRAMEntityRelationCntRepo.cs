@@ -42,7 +42,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
         where TRightId : ABCSingleValueObject<TRightBuiltIn>
         where TEntityRelation : class, IEntityCntRelation
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
-        where TRelationDTO : CntRelationDTO
+        where TRelationDTO : NoIdCntRelationDTO
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
     {
         public IRAMEntityRelationCntRepo()
@@ -50,7 +50,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
         { }
 
         public IEnumerable<TEntityRelation> GetByPartialDTO(
-            RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
+            NoIdRelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
         )
         {
             if (dto == null)
@@ -70,7 +70,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
         }
 
         public int GetNextCount(
-            RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
+            NoIdRelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
         )
         {
             int c = 0;
@@ -111,7 +111,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
         }
 
         public void DeleteByPartialDTO(
-            RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
+            NoIdRelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
         )
         {
             // Yes, it would be more effecient to check staged first, but this
@@ -159,14 +159,14 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
         }
 
         public async Task DeleteByPartialDTOAsync(
-            RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
+            NoIdRelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
         )
         {
             this.DeleteByPartialDTO(dto);
         }
 
         public async Task<int> GetNextCountAsync(
-            RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
+            NoIdRelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
         )
         {
             return this.GetNextCount(dto);

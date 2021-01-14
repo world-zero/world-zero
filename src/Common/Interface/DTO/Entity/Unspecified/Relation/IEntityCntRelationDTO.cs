@@ -20,7 +20,8 @@ namespace WorldZero.Common.Interface.DTO.Entity.Unspecified.Relation
         where TRightId : ABCSingleValueObject<TRightBuiltIn>
     {
         /// <remarks>
-        /// This should always be positive.
+        /// This should always be positive, but whether or not this is enforced
+        /// is up to the implementation.
         /// </remarks>
         int Count { get; }
     }

@@ -55,7 +55,7 @@ namespace WorldZero.Common.Interface.Entity.Unspecified.Relation
         }
         protected TRightId _rightId;
 
-        public abstract RelationDTO
+        public abstract NoIdRelationDTO
         <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
         GetRelationDTO();
 

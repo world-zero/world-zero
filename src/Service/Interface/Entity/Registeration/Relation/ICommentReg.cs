@@ -17,7 +17,7 @@ namespace WorldZero.Service.Interface.Entity.Registration.Relation
             ICharacter,
             Id,
             int,
-            CntRelationDTO<Id, int, Id, int>
+            NoIdCntRelationDTO<Id, int, Id, int>
         >
     { }
 }

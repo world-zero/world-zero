@@ -23,11 +23,11 @@ namespace WorldZero.Common.Entity.Relation
             : base(id, metaTaskId, TagId)
         { }
 
-        public UnsafeMetaTaskTag(RelationDTO<Id, int, Name, string> dto)
+        public UnsafeMetaTaskTag(NoIdRelationDTO<Id, int, Name, string> dto)
             : base(dto.LeftId, dto.RightId)
         { }
 
-        public UnsafeMetaTaskTag(Id id, RelationDTO<Id, int, Name, string> dto)
+        public UnsafeMetaTaskTag(Id id, NoIdRelationDTO<Id, int, Name, string> dto)
             : base(dto.LeftId, dto.RightId)
         { }
 

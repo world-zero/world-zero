@@ -17,7 +17,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
             int,
             Id,
             int,
-            CntRelationDTO<Id, int, Id, int>
+            NoIdCntRelationDTO<Id, int, Id, int>
           >,
           ICommentRepo
     {

@@ -47,7 +47,7 @@ namespace WorldZero.Common.Entity.Relation
         }
 
         public UnsafeComment(
-            CntRelationDTO<Id, int, Id, int> dto,
+            NoIdCntRelationDTO<Id, int, Id, int> dto,
             string comment
         )
             : base(dto.LeftId, dto.RightId, dto.Count)
@@ -57,7 +57,7 @@ namespace WorldZero.Common.Entity.Relation
 
         public UnsafeComment(
             Id id,
-            CntRelationDTO<Id, int, Id, int> dto,
+            NoIdCntRelationDTO<Id, int, Id, int> dto,
             string comment
         )
             : base(id, dto.LeftId, dto.RightId, dto.Count)
@@ -101,9 +101,9 @@ namespace WorldZero.Common.Entity.Relation
         }
         protected string _value;
 
-        public override RelationDTO<Id, int, Id, int> GetRelationDTO()
+        public override NoIdRelationDTO<Id, int, Id, int> GetRelationDTO()
         {
-            return new CntRelationDTO<Id, int, Id, int>(
+            return new NoIdCntRelationDTO<Id, int, Id, int>(
                 this.LeftId,
                 this.RightId,
                 this.Count

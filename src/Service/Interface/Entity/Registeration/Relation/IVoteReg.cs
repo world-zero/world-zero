@@ -25,7 +25,7 @@ namespace WorldZero.Service.Interface.Entity.Registration.Relation
             IPraxisParticipant,
             Id,
             int,
-            RelationDTO<Id, int, Id, int>
+            NoIdRelationDTO<Id, int, Id, int>
         >
     { }
 }

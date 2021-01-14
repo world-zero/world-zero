@@ -101,7 +101,7 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
             );
         }
 
-        public override RelationDTO<Id, int, Id, int> GetRelationDTO()
+        public override NoIdRelationDTO<Id, int, Id, int> GetRelationDTO()
         {
             return null;
         }

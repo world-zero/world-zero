@@ -15,7 +15,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
             ITaskFlag,
             Id,
             int,
-            RelationDTO<Id, int, Name, string>
+            NoIdRelationDTO<Id, int, Name, string>
           >,
           ITaskFlagRepo
     {

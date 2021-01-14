@@ -9,7 +9,7 @@ namespace WorldZero.Common.Interface.DTO.Entity.Unspecified.Relation
     /// </remarks>
     /// <inheritdoc cref="IEntityRelationDTO{TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn}"/>
     public interface ITaggedDTO<TId, TBuiltIn>
-        : IEntityRelationDTO<TId, TBuiltIn, TId, TBuiltIn>
+        : IEntityRelationDTO<TId, TBuiltIn, Name, string>
         where TId : ABCSingleValueObject<TBuiltIn>
     {
         /// <summary>

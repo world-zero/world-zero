@@ -9,9 +9,9 @@ namespace WorldZero.Common.Entity.Relation
     /// <inheritdoc cref="IFriend"/>
     public class UnsafeFriend : ABCEntitySelfRelation<Id, int>, IFriend
     {
-        public override RelationDTO<Id, int, Id, int> GetRelationDTO()
+        public override NoIdRelationDTO<Id, int, Id, int> GetRelationDTO()
         {
-            return new RelationDTO<Id, int, Id, int>(
+            return new NoIdRelationDTO<Id, int, Id, int>(
                 this.LeftId,
                 this.RightId
             );
@@ -37,11 +37,11 @@ namespace WorldZero.Common.Entity.Relation
             : base(id, firstCharacterId, secondCharacterId)
         { }
 
-        public UnsafeFriend(RelationDTO<Id, int, Id, int> dto)
+        public UnsafeFriend(NoIdRelationDTO<Id, int, Id, int> dto)
             : base(dto.LeftId, dto.RightId)
         { }
 
-        public UnsafeFriend(Id id, RelationDTO<Id, int, Id, int> dto)
+        public UnsafeFriend(Id id, NoIdRelationDTO<Id, int, Id, int> dto)
             : base(id, dto.LeftId, dto.RightId)
         { }
 

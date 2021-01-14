@@ -1,41 +1,42 @@
-using System;
+using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface.ValueObject;
 using WorldZero.Common.Interface.DTO;
+using WorldZero.Common.Interface.DTO.Entity.Unspecified.Relation;
 
 namespace WorldZero.Common.DTO.Entity.Unspecified.Relation
 {
-    /// <inheritdoc cref="RelationDTO" />
-    /// <summary>
-    /// This DTO also contains a positive Count int member.
-    /// </summary>
-    public class CntRelationDTO
-        <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
-        : RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
+    public class CntRelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
+        : RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>,
+        IEntityCntRelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
         where TLeftId  : ABCSingleValueObject<TLeftBuiltIn>
         where TRightId : ABCSingleValueObject<TRightBuiltIn>
     {
-        public CntRelationDTO(TLeftId leftId, TRightId rightId, int count)
-            : base(leftId, rightId)
+        public int Count { get; private set; }
+
+        public CntRelationDTO(
+            Id id=null,
+            TLeftId leftId=null,
+            TRightId rightId=null,
+            int count=0
+        ) : base(id, leftId, rightId)
         {
             this.Count = count;
         }
 
-        public int Count
+        public NoIdCntRelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
+        GetCntRelationDTO()
         {
-            get { return this._count; }
-            private set
-            {
-                if (value <= 0)
-                    throw new ArgumentException("Count must be positive.");
-                this._count = value;
-            }
+            return new NoIdCntRelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>(
+                this.LeftId,
+                this.RightId,
+                this.Count
+            );
         }
-        private int _count;
 
         public override object Clone()
         {
-            return new CntRelationDTO
-                <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>(
+            return new CntRelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>(
+                this.Id,
                 this.LeftId,
                 this.RightId,
                 this.Count
@@ -44,20 +45,19 @@ namespace WorldZero.Common.DTO.Entity.Unspecified.Relation
 
         public override bool Equals(IDTO dto)
         {
-            CntRelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> other =
-                dto as CntRelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>;
-            if (other == null)                 return false;
-            if (this.LeftId != other.LeftId)   return false;
-            if (this.RightId != other.RightId) return false;
-            if (this.Count != other.Count)     return false;
-            return true;
+            var cntRelDto = dto
+                as CntRelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>;
+            if (cntRelDto == null)                 return false;
+            if (cntRelDto.Count != this.Count) return false;
+            return base.Equals(cntRelDto);
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                return base.GetHashCode() * (this.Count+1);
+                int r = base.GetHashCode() * this.Count+1;
+                return r;
             }
         }
     }

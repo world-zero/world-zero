@@ -41,7 +41,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Deletion
             <TLeftId, TLeftBuiltIn>
         where TLeftEntity : IEntity<TLeftId, TLeftBuiltIn>
         where TLeftId  : ABCSingleValueObject<TLeftBuiltIn>
-        where TRelationDTO : RelationDTO
+        where TRelationDTO : NoIdRelationDTO
             <TLeftId, TLeftBuiltIn, Name, string>
     {
         public ABCFlaggedEntityDel(

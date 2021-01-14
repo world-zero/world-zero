@@ -24,11 +24,11 @@ namespace WorldZero.Common.Entity.Relation
             : base(id, taskId, flagId)
         { }
 
-        public UnsafeTaskFlag(RelationDTO<Id, int, Name, string> dto)
+        public UnsafeTaskFlag(NoIdRelationDTO<Id, int, Name, string> dto)
             : base(dto.LeftId, dto.RightId)
         { }
 
-        public UnsafeTaskFlag(Id id, RelationDTO<Id, int, Name, string> dto)
+        public UnsafeTaskFlag(Id id, NoIdRelationDTO<Id, int, Name, string> dto)
             : base(id, dto.LeftId, dto.RightId)
         { }
 

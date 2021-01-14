@@ -7,12 +7,12 @@ using NUnit.Framework;
 namespace WorldZero.Test.Unit.Common.DTO.Entity.Unspecified.Relation
 {
     [TestFixture]
-    public class TestCntRelationDTO
+    public class TestNoIdCntRelationDTO
     {
         private Id _id0;
         private Id _id1;
         private int _cnt;
-        private CntRelationDTO<Id, int, Id, int> _dto;
+        private NoIdCntRelationDTO<Id, int, Id, int> _dto;
 
         [SetUp]
         public void Setup()
@@ -20,30 +20,30 @@ namespace WorldZero.Test.Unit.Common.DTO.Entity.Unspecified.Relation
             this._id0 = new Id(3);
             this._id1 = new Id(5);
             this._cnt = 2;
-            this._dto = new CntRelationDTO<Id, int, Id, int>(
+            this._dto = new NoIdCntRelationDTO<Id, int, Id, int>(
                 this._id0, this._id1, this._cnt);
         }
 
         [Test]
         public void TestConstructor()
         {
-            var dto = new CntRelationDTO<Id, int, Id, int>(
+            var dto = new NoIdCntRelationDTO<Id, int, Id, int>(
                 this._id0, this._id1, this._cnt);
             Assert.AreEqual(this._id0, dto.LeftId);
             Assert.AreEqual(this._id1, dto.RightId);
             Assert.AreEqual(this._cnt, dto.Count);
             Assert.Throws<ArgumentNullException>(
-                ()=>new CntRelationDTO<Id, int, Id, int>(null, this._id1, 9));
+                ()=>new NoIdCntRelationDTO<Id, int, Id, int>(null, this._id1, 9));
             Assert.Throws<ArgumentNullException>(
-                ()=>new CntRelationDTO<Id, int, Id, int>(this._id1, null, 4));
+                ()=>new NoIdCntRelationDTO<Id, int, Id, int>(this._id1, null, 4));
             Assert.Throws<ArgumentNullException>(
-                ()=>new CntRelationDTO<Id, int, Id, int>(null, null, 4324));
+                ()=>new NoIdCntRelationDTO<Id, int, Id, int>(null, null, 4324));
         }
 
         [Test]
         public void TestEquals()
         {
-            var dtoAlt = new CntRelationDTO<Id, int, Id, int>(
+            var dtoAlt = new NoIdCntRelationDTO<Id, int, Id, int>(
                 this._id0, this._id1, this._cnt);
             Assert.AreEqual(this._dto, dtoAlt);
             Assert.AreEqual(dtoAlt, this._dto);
@@ -52,9 +52,9 @@ namespace WorldZero.Test.Unit.Common.DTO.Entity.Unspecified.Relation
         [Test]
         public void TestEqualsAlt()
         {
-            var set = new HashSet<CntRelationDTO<Id, int, Id, int>>();
+            var set = new HashSet<NoIdCntRelationDTO<Id, int, Id, int>>();
             set.Add(this._dto);
-            var clone = (CntRelationDTO<Id, int, Id, int>) this._dto.Clone();
+            var clone = (NoIdCntRelationDTO<Id, int, Id, int>) this._dto.Clone();
             Assert.AreEqual(this._dto.GetHashCode(), clone.GetHashCode());
             Assert.IsTrue(set.Contains(this._dto));
             Assert.IsTrue(set.Contains(clone));
@@ -63,7 +63,7 @@ namespace WorldZero.Test.Unit.Common.DTO.Entity.Unspecified.Relation
         [Test]
         public void TestClone()
         {
-            var other = (CntRelationDTO<Id, int, Id, int>) this._dto.Clone();
+            var other = (NoIdCntRelationDTO<Id, int, Id, int>) this._dto.Clone();
             Assert.AreEqual(this._dto.LeftId, other.LeftId);
             Assert.AreEqual(this._dto.RightId, other.RightId);
             Assert.AreEqual(this._dto.Count, other.Count);

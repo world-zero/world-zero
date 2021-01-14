@@ -25,7 +25,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.Generic
         where TRightId : ABCSingleValueObject<TRightBuiltIn>
         where TEntityRelation : class, IEntityRelation
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
-        where TRelationDTO : RelationDTO
+        where TRelationDTO : NoIdRelationDTO
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
     {
         /// <summary>

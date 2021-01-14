@@ -10,7 +10,7 @@ namespace WorldZero.Service.Interface.Entity.Deletion.Relation
     /// <inheritdoc cref="IEntitySelfRelationDel{TEntityRelation, TEntity, TId, TBuiltIn, TRelationDTO}"/>
     public interface IFriendDel
         : IEntitySelfRelationDel
-        <IFriend, ICharacter, Id, int, RelationDTO<Id, int, Id, int>>
+        <IFriend, ICharacter, Id, int, NoIdRelationDTO<Id, int, Id, int>>
     {
         void DeleteByCharacter(ICharacter c);
         void DeleteByCharacter(Id charId);

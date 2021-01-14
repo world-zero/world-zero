@@ -61,11 +61,11 @@ namespace WorldZero.Test.Integration.Service.Interface.Entity.Deletion
         IMetaTask,
         Id,
         int,
-        RelationDTO<Id, int, Name, string>
+        NoIdRelationDTO<Id, int, Name, string>
     >
     {
         public TestTaggedEntityDel(IMetaTaskTagRepo repo)
-            : base((ITaggedEntityRepo<IMetaTaskTag, Id, int, RelationDTO<Id, int, Name, string>>) repo)
+            : base((ITaggedEntityRepo<IMetaTaskTag, Id, int, NoIdRelationDTO<Id, int, Name, string>>) repo)
         { }
     }
 }

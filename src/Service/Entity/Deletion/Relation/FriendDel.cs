@@ -11,7 +11,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
 {
     /// <inheritdoc cref="IFriendDel"/>
     public class FriendDel : ABCEntitySelfRelationDel
-        <IFriend, ICharacter, Id, int, RelationDTO<Id, int, Id, int>>,
+        <IFriend, ICharacter, Id, int, NoIdRelationDTO<Id, int, Id, int>>,
         IFriendDel
     {
         protected IFriendRepo _friendRepo

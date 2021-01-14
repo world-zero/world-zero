@@ -66,7 +66,7 @@ namespace WorldZero.Test.Integration.Service.Entity.Registration
             var f0 = new UnsafeFriend(this._id1, this._id2);
             this._friendReg.Register(f0);
             var f1 = this._friendRepo.GetByDTO(
-                new RelationDTO<Id, int, Id, int>(this._id1, this._id2));
+                new NoIdRelationDTO<Id, int, Id, int>(this._id1, this._id2));
             Assert.AreEqual(f0.Id, f1.Id);
             Assert.AreEqual(f0, f1);
         }

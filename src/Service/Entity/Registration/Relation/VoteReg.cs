@@ -25,7 +25,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             IPraxisParticipant,
             Id,
             int,
-            RelationDTO<Id, int, Id, int>
+            NoIdRelationDTO<Id, int, Id, int>
         >, IVoteReg
     {
         protected IVoteRepo _voteRepo

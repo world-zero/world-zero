@@ -16,7 +16,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
         IPraxis,
         Id,
         int,
-        RelationDTO<Id, int, Name, string>
+        NoIdRelationDTO<Id, int, Name, string>
     >, IPraxisTagDel
     {
         public PraxisTagDel(IPraxisTagRepo repo)

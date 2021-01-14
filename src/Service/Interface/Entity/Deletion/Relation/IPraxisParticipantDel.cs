@@ -30,7 +30,7 @@ namespace WorldZero.Service.Interface.Entity.Deletion.Relation
             IPraxisParticipant,
             IPraxis, Id, int,
             ICharacter, Id, int,
-            RelationDTO<Id, int, Id, int>
+            NoIdRelationDTO<Id, int, Id, int>
         >
     {
         void DeleteByPraxis(IPraxis p);

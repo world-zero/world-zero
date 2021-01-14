@@ -15,7 +15,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
         where TId : ABCSingleValueObject<TBuiltIn>
         where TEntityRelation : class, IEntitySelfRelation
             <TId, TBuiltIn>
-        where TRelationDTO : RelationDTO
+        where TRelationDTO : NoIdRelationDTO
             <TId, TBuiltIn, TId, TBuiltIn>
     {
         public IRAMEntitySelfRelationRepo()

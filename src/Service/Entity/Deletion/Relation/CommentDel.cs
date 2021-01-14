@@ -16,7 +16,7 @@ namespace WorldZero.Service.Entity.Deletion.Relation
             IComment,
             IPraxis, Id, int,
             ICharacter, Id, int,
-            CntRelationDTO<Id, int, Id, int>
+            NoIdCntRelationDTO<Id, int, Id, int>
         >, ICommentDel
     {
         protected ICommentRepo _commentRepo

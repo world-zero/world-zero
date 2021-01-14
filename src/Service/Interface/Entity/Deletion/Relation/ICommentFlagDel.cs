@@ -13,9 +13,9 @@ namespace WorldZero.Service.Interface.Entity.Deletion.Relation
         <
             ICommentFlag,
             IComment, Id, int,
-                IComment, Id, int, Id, int, CntRelationDTO<Id, int, Id, int>,
+                IComment, Id, int, Id, int, NoIdCntRelationDTO<Id, int, Id, int>,
             IFlag, Name, string,
-            RelationDTO<Id, int, Name, string>
+            NoIdRelationDTO<Id, int, Name, string>
         >
     {
         void DeleteByComment(IComment c);

@@ -20,7 +20,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             ITag,
             Name,
             string,
-            RelationDTO<Id, int, Name, string>
+            NoIdRelationDTO<Id, int, Name, string>
         >, IPraxisTagReg
     {
         protected IPraxisTagRepo _praxisTagRepo

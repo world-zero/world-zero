@@ -12,7 +12,7 @@ namespace WorldZero.Service.Interface.Entity.Deletion.Relation
         : ITaggedEntityDel
         <
             IPraxisTag, IPraxis, Id, int,
-            RelationDTO<Id, int, Name, string>
+            NoIdRelationDTO<Id, int, Name, string>
         >
     {
         void DeleteByPraxis(IPraxis praxis);

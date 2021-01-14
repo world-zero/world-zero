@@ -124,9 +124,9 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
             this._assertPraxisParticipantsEqual(
                 this._pp0,
                 this._repo.GetByDTO(
-                    (RelationDTO<Id, int, Id, int>) this._pp0.GetRelationDTO()));
+                    (NoIdRelationDTO<Id, int, Id, int>) this._pp0.GetRelationDTO()));
             Assert.Throws<ArgumentException>(()=>
-                this._repo.GetByDTO(new RelationDTO<Id, int, Id, int>(
+                this._repo.GetByDTO(new NoIdRelationDTO<Id, int, Id, int>(
                     new Id(43), new Id(31))));
         }
 
@@ -175,7 +175,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
             var dto = this._pp0.GetRelationDTO();
             Assert.AreEqual(3, this._repo.SavedCount);
             this._repo.DeleteByDTO(
-                (RelationDTO<Id, int, Id, int>) this._pp0.GetRelationDTO());
+                (NoIdRelationDTO<Id, int, Id, int>) this._pp0.GetRelationDTO());
             Assert.AreEqual(1, this._repo.StagedCount);
             this._repo.Save();
             Assert.AreEqual(2, this._repo.SavedCount);
@@ -188,7 +188,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
             Assert.AreEqual(2, this._repo.SavedCount);
             Assert.AreEqual(1, this._repo.StagedCount);
             this._repo.DeleteByDTO(
-                (RelationDTO<Id, int, Id, int>) pp.GetRelationDTO());
+                (NoIdRelationDTO<Id, int, Id, int>) pp.GetRelationDTO());
             Assert.AreEqual(1, this._repo.StagedCount);
             this._repo.Save();
             Assert.AreEqual(2, this._repo.SavedCount);
@@ -204,7 +204,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
             int,
             Id,
             int,
-            RelationDTO<Id, int, Id, int>
+            NoIdRelationDTO<Id, int, Id, int>
           >
     {
         public TestRAMEntityRelationRepo()

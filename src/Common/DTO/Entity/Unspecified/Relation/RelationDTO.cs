@@ -1,82 +1,70 @@
-using System;
+using WorldZero.Common.ValueObject.General;
+using WorldZero.Common.DTO.Entity.Unspecified.Primary;
 using WorldZero.Common.Interface.ValueObject;
 using WorldZero.Common.Interface.DTO;
+using WorldZero.Common.Interface.DTO.Entity.Unspecified.Relation;
 
 namespace WorldZero.Common.DTO.Entity.Unspecified.Relation
 {
-    /// <summary>
-    /// A DTO (Data Transfer Object) with two ISingleValueObjects mapped as
-    /// the left and right IDs.
-    /// </summary>
-    public class RelationDTO
-        <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> : IDTO
+    public class RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
+        : EntityDTO<Id, int>,
+        IEntityRelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
         where TLeftId  : ABCSingleValueObject<TLeftBuiltIn>
         where TRightId : ABCSingleValueObject<TRightBuiltIn>
     {
-        public RelationDTO(TLeftId leftId, TRightId rightId)
+        public TLeftId LeftId { get; private set; }
+        public TRightId RightId { get; private set; }
+
+        public RelationDTO(
+            Id id=null,
+            TLeftId leftId=null,
+            TRightId rightId=null
+        ) : base(id)
         {
             this.LeftId = leftId;
             this.RightId = rightId;
         }
 
-        public TLeftId LeftId
+        public NoIdRelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
+        GetRelationDTO()
         {
-            get { return this._leftId; }
-            private set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("LeftId");
-                this._leftId = value;
-            }
-        }
-        protected TLeftId _leftId;
-
-        public TRightId RightId
-        {
-            get { return this._rightId; }
-            private set
-            {
-                if (value == null)
-                    throw new ArgumentNullException("RightId");
-                this._rightId = value;
-            }
-        }
-        protected TRightId _rightId;
-
-        public virtual object Clone()
-        {
-            return new RelationDTO
-                <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>(
+            return new NoIdRelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>(
                 this.LeftId,
                 this.RightId
             );
         }
 
-        public override bool Equals(object o)
+        public override object Clone()
         {
-            return this.Equals(o as IDTO);
+            return new RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>(
+                this.Id,
+                this.LeftId,
+                this.RightId
+            );
         }
 
-        public virtual bool Equals(IDTO dto)
+        public override bool Equals(IDTO dto)
         {
-            RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> other =
-                dto as RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>;
-
-            if (other == null) return false;
-            if (this.LeftId != other.LeftId) return false;
-            if (this.RightId != other.RightId) return false;
-            return true;
+            var relDto = dto
+                as RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>;
+            if (relDto == null)                 return false;
+            if (relDto.LeftId != this.LeftId)   return false;
+            if (relDto.RightId != this.RightId) return false;
+            return base.Equals(relDto);
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                int leftHash = this.LeftId.GetHashCode();
-                int rightHash = this.RightId.GetHashCode();
-                return leftHash
-                       * 7
-                       + (rightHash * 13);
+                int r = base.GetHashCode();
+                if (this.Id != null)
+                    r += this.Id.GetHashCode();
+                if (this.LeftId != null)
+                    r *= this.LeftId.GetHashCode();
+                if (this.RightId != null)
+                    r -= this.RightId.GetHashCode();
+                return r;
             }
         }
     }

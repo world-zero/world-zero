@@ -33,7 +33,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.Generic
         where TRightId : ABCSingleValueObject<TRightBuiltIn>
         where TEntityRelation : class, IEntityCntRelation
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
-        where TRelationDTO : CntRelationDTO
+        where TRelationDTO : NoIdCntRelationDTO
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
     {
         /// <summary>
@@ -43,7 +43,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.Generic
         /// is thrown if there are no matches.
         /// </summary>
         IEnumerable<TEntityRelation> GetByPartialDTO(
-            RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
+            NoIdRelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
         );
 
         /// <summary>
@@ -51,10 +51,10 @@ namespace WorldZero.Data.Interface.Repository.Entity.Generic
         /// deleted.
         /// </summary>
         void DeleteByPartialDTO(
-            RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
+            NoIdRelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
         );
         Task DeleteByPartialDTOAsync(
-            RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
+            NoIdRelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
         );
 
         /// <summary>
@@ -69,10 +69,10 @@ namespace WorldZero.Data.Interface.Repository.Entity.Generic
         /// up.
         /// </remarks>
         int GetNextCount(
-            RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
+            NoIdRelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
         );
         Task<int> GetNextCountAsync(
-            RelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
+            NoIdRelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> dto
         );
     }
 }

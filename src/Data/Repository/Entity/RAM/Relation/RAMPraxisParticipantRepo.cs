@@ -22,7 +22,7 @@ namespace WorldZero.Data.Repository.Entity.RAM.Relation
             int,
             Id,
             int,
-            RelationDTO<Id, int, Id, int>
+            NoIdRelationDTO<Id, int, Id, int>
           >,
           IPraxisParticipantRepo
     {

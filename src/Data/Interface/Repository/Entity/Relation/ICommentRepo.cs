@@ -14,7 +14,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.Relation
             int,
             Id,
             int,
-            CntRelationDTO<Id, int, Id, int>
+            NoIdCntRelationDTO<Id, int, Id, int>
           >
     {
         /// <summary>

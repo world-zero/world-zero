@@ -23,7 +23,7 @@ namespace WorldZero.Service.Entity.Registration.Relation
             IFlag,
             Name,
             string,
-            RelationDTO<Id, int, Name, string>
+            NoIdRelationDTO<Id, int, Name, string>
         >, IPraxisFlagReg
     {
         protected IPraxisFlagRepo _praxisFlagRepo

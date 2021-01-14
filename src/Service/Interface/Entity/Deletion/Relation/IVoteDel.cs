@@ -17,7 +17,7 @@ namespace WorldZero.Service.Interface.Entity.Deletion.Relation
             IVote,
             ICharacter, Id, int,
             IPraxisParticipant, Id, int,
-            RelationDTO<Id, int, Id, int>
+            NoIdRelationDTO<Id, int, Id, int>
         >
     {
         void DeleteByCharacter(ICharacter c);

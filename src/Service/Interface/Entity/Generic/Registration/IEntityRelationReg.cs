@@ -67,7 +67,7 @@ namespace WorldZero.Service.Interface.Entity.Generic.Registration
         where TLeftId  : ABCSingleValueObject<TLeftBuiltIn>
         where TRightEntity : class, IEntity<TRightId, TRightBuiltIn>
         where TRightId : ABCSingleValueObject<TRightBuiltIn>
-        where TRelationDTO : RelationDTO
+        where TRelationDTO : NoIdRelationDTO
             <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
     { }
 }
