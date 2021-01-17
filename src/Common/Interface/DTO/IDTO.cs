@@ -28,7 +28,7 @@ using System;
 // DONE: create unspecified primary entity DTOs
 // DONE: create unspecified relation entity DTOs
 // DONE: create specified primary entity DTOs
-// WIP: create specified relation entity DTOs
+// DONE: create specified relation entity DTOs
 // TODO: add entity constructors w/ ones that take the corresponding DTO
 //
 // TODO: merge DTOs into entities
