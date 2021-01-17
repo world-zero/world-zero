@@ -1,5 +1,10 @@
 using System;
 
+// TODO: figure out where to put Vote.MinPoints and .MaxPoints
+//      they def should be static
+//      put on PointTotal?
+//      rn it only exists on the vote entity
+
 /* Goal
     IDTO <- IEntityDTO <- IEntity <- IChar <- UnsafeChar
                         <- ICharDTO <- CharDTO
@@ -23,23 +28,22 @@ using System;
 // DONE: create unspecified primary entity DTOs
 // DONE: create unspecified relation entity DTOs
 // DONE: create specified primary entity DTOs
-// TODO: create specified relation entity DTOs
+// WIP: create specified relation entity DTOs
 // TODO: add entity constructors w/ ones that take the corresponding DTO
 //
 // TODO: merge DTOs into entities
 //      this is going to be BIG
 //      be sure to draw this out
-//      be sure to copy GetUniqRules to the DTOs (will remove from entities during repo type migration)
 //      have IEntity note that entities shouldn't override clone, so they'll just
 //          inherit a DTO clone from their concrete DTO parent
 //
 // TODO: migrate repos
 //      this will likely cause Service to fail, but that's okay for now
+//      first, be sure to copy GetUniqRules to the DTOs
 //      when mirgrated, remove the GetUniqRules from entities
 //
 // TODO: migrage services to use DTOs where appropriate
 //      I{Enttiy}Reg should def use DTOs
-
 
 /* TODO: migrate entity implementations into their service IF
     Create w0.test.tools which exposes these to the testing projects?

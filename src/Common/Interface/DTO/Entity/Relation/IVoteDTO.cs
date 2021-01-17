@@ -29,7 +29,5 @@ namespace WorldZero.Common.Interface.DTO.Entity.Relation
         Id PraxisParticipantId { get; }
 
         PointTotal Points { get; }
-        PointTotal MinPoints { get; }
-        PointTotal MaxPoints { get; }
     }
 }
