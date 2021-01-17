@@ -27,7 +27,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
         )
         {
             Assert.AreEqual(expected.Id, actual.Id);
-            Assert.AreEqual(expected.GetRelationDTO(), actual.GetRelationDTO());
+            Assert.AreEqual(expected.GetNoIdRelationDTO(), actual.GetNoIdRelationDTO());
         }
 
         [SetUp]
@@ -124,7 +124,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
             this._assertPraxisParticipantsEqual(
                 this._pp0,
                 this._repo.GetByDTO(
-                    (NoIdRelationDTO<Id, int, Id, int>) this._pp0.GetRelationDTO()));
+                    (NoIdRelationDTO<Id, int, Id, int>) this._pp0.GetNoIdRelationDTO()));
             Assert.Throws<ArgumentException>(()=>
                 this._repo.GetByDTO(new NoIdRelationDTO<Id, int, Id, int>(
                     new Id(43), new Id(31))));
@@ -172,10 +172,10 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
             Assert.Throws<ArgumentNullException>(()=>
                 this._repo.DeleteByDTO(null));
 
-            var dto = this._pp0.GetRelationDTO();
+            var dto = this._pp0.GetNoIdRelationDTO();
             Assert.AreEqual(3, this._repo.SavedCount);
             this._repo.DeleteByDTO(
-                (NoIdRelationDTO<Id, int, Id, int>) this._pp0.GetRelationDTO());
+                (NoIdRelationDTO<Id, int, Id, int>) this._pp0.GetNoIdRelationDTO());
             Assert.AreEqual(1, this._repo.StagedCount);
             this._repo.Save();
             Assert.AreEqual(2, this._repo.SavedCount);
@@ -188,7 +188,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.RAM.Entity.Generic.Relat
             Assert.AreEqual(2, this._repo.SavedCount);
             Assert.AreEqual(1, this._repo.StagedCount);
             this._repo.DeleteByDTO(
-                (NoIdRelationDTO<Id, int, Id, int>) pp.GetRelationDTO());
+                (NoIdRelationDTO<Id, int, Id, int>) pp.GetNoIdRelationDTO());
             Assert.AreEqual(1, this._repo.StagedCount);
             this._repo.Save();
             Assert.AreEqual(2, this._repo.SavedCount);

@@ -1,3 +1,4 @@
+using WorldZero.Common.Collections.Generic;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface.ValueObject;
 using WorldZero.Common.Interface.DTO;
@@ -59,6 +60,13 @@ namespace WorldZero.Common.DTO.Entity.Unspecified.Relation
                 int r = base.GetHashCode() * this.Count+1;
                 return r;
             }
+        }
+
+        protected override W0Set<object> GetRelationCombo()
+        {
+            var s = base.GetRelationCombo();
+            s.Add(this.Count);
+            return s;
         }
     }
 }

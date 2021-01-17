@@ -104,7 +104,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
             IEnumerable<TEntityRelation> match = 
                 from eTemp in this._saved.Values
                 let e = this.TEntityCast(eTemp)
-                where e.GetRelationDTO().Equals(dto)
+                where e.GetNoIdRelationDTO().Equals(dto)
                 select e;
 
             var c = match.Count();
@@ -224,7 +224,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
             IEnumerable<TEntityRelation> match = 
                 from eTemp in this._saved.Values
                 let e = this.TEntityCast(eTemp)
-                where e.GetRelationDTO().Equals(dto)
+                where e.GetNoIdRelationDTO().Equals(dto)
                 select e;
 
             var c = match.Count();
@@ -252,7 +252,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
 
                 if (er != null)
                 {
-                    if (er.GetRelationDTO().Equals(dto))
+                    if (er.GetNoIdRelationDTO().Equals(dto))
                         this.Delete(tempId);
                         return;
                 }

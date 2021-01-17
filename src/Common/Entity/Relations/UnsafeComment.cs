@@ -101,7 +101,7 @@ namespace WorldZero.Common.Entity.Relation
         }
         protected string _value;
 
-        public override NoIdRelationDTO<Id, int, Id, int> GetRelationDTO()
+        public override NoIdRelationDTO<Id, int, Id, int> GetNoIdRelationDTO()
         {
             return new NoIdCntRelationDTO<Id, int, Id, int>(
                 this.LeftId,

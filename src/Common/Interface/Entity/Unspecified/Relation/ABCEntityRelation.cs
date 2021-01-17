@@ -15,8 +15,6 @@ namespace WorldZero.Common.Interface.Entity.Unspecified.Relation
         where TLeftId  : ABCSingleValueObject<TLeftBuiltIn>
         where TRightId : ABCSingleValueObject<TRightBuiltIn>
     {
-        // NOTE: IEntity.Clone() is still not implemmented.
-
         public ABCEntityRelation(TLeftId leftId, TRightId rightId)
             : base()
         {
@@ -57,7 +55,7 @@ namespace WorldZero.Common.Interface.Entity.Unspecified.Relation
 
         public abstract NoIdRelationDTO
         <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
-        GetRelationDTO();
+        GetNoIdRelationDTO();
 
         public override bool Equals(object obj)
         {

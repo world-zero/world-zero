@@ -1,3 +1,4 @@
+using WorldZero.Common.Collections.Generic;
 using WorldZero.Common.Interface.DTO;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface.DTO.Entity.Unspecified.Primary;
@@ -37,6 +38,15 @@ namespace WorldZero.Common.DTO.Entity.Unspecified.Primary
                 else
                     return base.GetHashCode() * this.Name.GetHashCode();
             }
+        }
+
+        public override W0List<W0Set<object>> GetUniqueRules()
+        {
+            var r = base.GetUniqueRules();
+            var n = new W0Set<object>();
+            n.Add(this.Name);
+            r.Add(n);
+            return r;
         }
     }
 }

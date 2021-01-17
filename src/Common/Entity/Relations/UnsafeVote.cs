@@ -153,7 +153,7 @@ namespace WorldZero.Common.Entity.Relation
         }
         protected PointTotal _points;
 
-        public override NoIdRelationDTO<Id, int, Id, int> GetRelationDTO()
+        public override NoIdRelationDTO<Id, int, Id, int> GetNoIdRelationDTO()
         {
             return new NoIdRelationDTO<Id, int, Id, int>(
                 this.LeftId,

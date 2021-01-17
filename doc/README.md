@@ -6,7 +6,10 @@
 do not build any executables, those will be left for the ports and adapters.  
 
 Value Objects are tightly coupled. Entities are tightly coupled between one
-another as well.
+another as well.  
+
+If performance becomes an issue, the entity DTOs `GetHashCode` overrides
+perform a lot of multiplication.
 
 ## Architecture, Projects, and Solutions
 

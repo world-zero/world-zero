@@ -9,7 +9,7 @@ namespace WorldZero.Common.Entity.Relation
     /// <inheritdoc cref="IFriend"/>
     public class UnsafeFriend : ABCEntitySelfRelation<Id, int>, IFriend
     {
-        public override NoIdRelationDTO<Id, int, Id, int> GetRelationDTO()
+        public override NoIdRelationDTO<Id, int, Id, int> GetNoIdRelationDTO()
         {
             return new NoIdRelationDTO<Id, int, Id, int>(
                 this.LeftId,

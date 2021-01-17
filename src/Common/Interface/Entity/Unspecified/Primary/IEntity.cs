@@ -46,6 +46,7 @@ namespace WorldZero.Common.Interface.Entity.Unspecified.Primary
         /// </summary>
         IEntity<TId, TBuiltIn> CloneAsEntity();
 
+        // TODO: remov this too, it has been moved to IEntityDTO
         /// <summary>
         /// Unless you are implementing a whole new entity or you are working
         /// on the RAMEntityRepos, you can safely ignore this method.

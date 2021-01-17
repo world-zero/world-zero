@@ -1,3 +1,4 @@
+using WorldZero.Common.Collections.Generic;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.DTO.Entity.Unspecified.Primary;
 using WorldZero.Common.Interface.ValueObject;
@@ -66,6 +67,21 @@ namespace WorldZero.Common.DTO.Entity.Unspecified.Relation
                     r -= this.RightId.GetHashCode();
                 return r;
             }
+        }
+
+        public override W0List<W0Set<object>> GetUniqueRules()
+        {
+            var r = base.GetUniqueRules();
+            r.Add(this.GetRelationCombo());
+            return r;
+       }
+
+        protected virtual W0Set<object> GetRelationCombo()
+        {
+            var s = new W0Set<object>();
+            s.Add(this.LeftId);
+            s.Add(this.RightId);
+            return s;
         }
     }
 }

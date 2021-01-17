@@ -28,7 +28,7 @@ namespace WorldZero.Common.Interface.Entity.Unspecified.Relation
         }
 
         public override
-        NoIdRelationDTO<TLeftId, TLeftBuiltIn, Name, string> GetRelationDTO()
+        NoIdRelationDTO<TLeftId, TLeftBuiltIn, Name, string> GetNoIdRelationDTO()
         {
             return new NoIdRelationDTO<TLeftId, TLeftBuiltIn, Name, string>(
                 this.LeftId,

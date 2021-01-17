@@ -62,13 +62,13 @@ namespace WorldZero.Service.Entity.Registration.Relation
             }
             try
             {
-                fMatch = this._friendRepo.GetByDTO(f.GetRelationDTO());
+                fMatch = this._friendRepo.GetByDTO(f.GetNoIdRelationDTO());
             }
             catch (ArgumentException)
             { }
             try
             {
-                inverseFMatch = this._friendRepo.GetByDTO(inverseF.GetRelationDTO());
+                inverseFMatch = this._friendRepo.GetByDTO(inverseF.GetNoIdRelationDTO());
             }
             catch (ArgumentException)
             { }
