@@ -1,10 +1,5 @@
 using System;
 
-// TODO: figure out where to put Vote.MinPoints and .MaxPoints
-//      they def should be static
-//      put on PointTotal?
-//      rn it only exists on the vote entity
-
 /* Goal
     IDTO <- IEntityDTO <- IEntity <- IChar <- UnsafeChar
                         <- ICharDTO <- CharDTO
@@ -29,7 +24,8 @@ using System;
 // DONE: create unspecified relation entity DTOs
 // DONE: create specified primary entity DTOs
 // DONE: create specified relation entity DTOs
-// TODO: add entity constructors w/ ones that take the corresponding DTO
+// WIP: add entity constructors w/ ones that take the corresponding DTO
+//      first, update code; then update the tests in one swoop
 //
 // TODO: merge DTOs into entities
 //      this is going to be BIG

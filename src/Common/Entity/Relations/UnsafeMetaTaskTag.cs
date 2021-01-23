@@ -1,4 +1,5 @@
 using WorldZero.Common.ValueObject.General;
+using WorldZero.Common.Interface.DTO.Entity.Relation;
 using WorldZero.Common.DTO.Entity.Unspecified.Relation;
 using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.Interface.Entity.Unspecified.Primary;
@@ -31,8 +32,8 @@ namespace WorldZero.Common.Entity.Relation
             : base(dto.LeftId, dto.RightId)
         { }
 
-        internal UnsafeMetaTaskTag(int id, int metaTaskId, string tagId)
-            : base(new Id(id), new Id(metaTaskId), new Name(tagId))
+        public UnsafeMetaTaskTag(IMetaTaskTagDTO dto)
+            : base(dto.Id, dto.LeftId, dto.RightId)
         { }
 
         public override IEntity<Id, int> CloneAsEntity()

@@ -1,5 +1,6 @@
 using System;
 using WorldZero.Common.ValueObject.General;
+using WorldZero.Common.Interface.DTO.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 
@@ -14,10 +15,10 @@ namespace WorldZero.Common.Entity.Primary
             this.Description = description;
         }
 
-        internal UnsafeAbility(string name, string description)
-            : base(new Name(name))
+        public UnsafeAbility(IAbilityDTO dto)
+            : base(dto.Id)
         {
-            this.Description = description;
+            this.Description = dto.Description;
         }
 
         public string Description

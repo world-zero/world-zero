@@ -1,3 +1,4 @@
+using WorldZero.Common.DTO.Entity.Primary;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using NUnit.Framework;
@@ -37,6 +38,27 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
                 this._level,
                 this._minLevel
             );
+        }
+
+        [Test]
+        public void TestDTOConstructor()
+        {
+            this._t = new UnsafeTask(new TaskDTO(
+                this._taskId,
+                this._statusId,
+                this._summary,
+                this._factionId,
+                this._points,
+                this._level,
+                this._minLevel
+            ));
+            Assert.AreEqual(this._taskId, this._t.Id);
+            Assert.AreEqual(this._factionId, this._t.FactionId);
+            Assert.AreEqual(this._statusId, this._t.StatusId);
+            Assert.AreEqual(this._summary, this._t.Summary);
+            Assert.AreEqual(this._points, this._t.Points);
+            Assert.AreEqual(this._level, this._t.Level);
+            Assert.AreEqual(this._minLevel, this._t.MinLevel);
         }
 
         [Test]

@@ -1,4 +1,5 @@
 using System;
+using WorldZero.Common.DTO.Entity.Primary;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using NUnit.Framework;
@@ -36,6 +37,23 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
             );
             Assert.IsNull(f.Description);
             Assert.IsNull(f.AbilityId);
+        }
+
+        [Test]
+        public void TestDTOConstructor()
+        {
+            var f = new UnsafeFaction(new FactionDTO(
+                this._name,
+                this._desc,
+                this._dateFounded,
+                this._abilityName
+            ));
+            Assert.AreEqual(
+                DateTime.UtcNow.ToString("MM:dd:yyyy HH"),
+                f.DateFounded.Get.ToString("MM:dd:yyyy HH")
+            );
+            Assert.AreEqual(this._desc, f.Description);
+            Assert.AreEqual(this._abilityName, f.AbilityId);
         }
 
         [Test]

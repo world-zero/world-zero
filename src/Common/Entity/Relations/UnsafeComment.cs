@@ -1,4 +1,5 @@
 using System;
+using WorldZero.Common.Interface.DTO.Entity.Relation;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.DTO.Entity.Unspecified.Relation;
 using WorldZero.Common.Interface.Entity.Unspecified.Primary;
@@ -65,17 +66,11 @@ namespace WorldZero.Common.Entity.Relation
             this.Value = comment;
         }
 
-        internal UnsafeComment(
-            int id,
-            int praxisId,
-            int characterId,
-            string comment,
-            int count
-        )
-            : base(new Id(id), new Id(praxisId), new Id(characterId))
+        public UnsafeComment(ICommentDTO dto)
+            : base(dto.Id, dto.LeftId, dto.RightId)
         {
-            this.Value = comment;
-            this.Count = count;
+            this.Value = dto.Value;
+            this.Count = dto.Count;
         }
 
         public override IEntity<Id, int> CloneAsEntity()

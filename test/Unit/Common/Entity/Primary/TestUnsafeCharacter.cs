@@ -1,3 +1,4 @@
+using WorldZero.Common.DTO.Entity.Primary;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using NUnit.Framework;
@@ -83,22 +84,22 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
         }
 
         [Test]
-        public void TestDapperConstructor()
+        public void TestDTOConstructor()
         {
-            var c = new UnsafeCharacter(
-                this._characterId.Get,
-                this._name.Get,
-                this._playerId.Get,
-                this._factionId.Get,
-                this._locationId.Get,
-                this._eraPoints.Get,
-                1,
-                this._totalPoints.Get,
-                1,
-                this._votePointsLeft.AsInt,
+            var c = new UnsafeCharacter(new CharacterDTO(
+                this._characterId,
+                this._name,
                 this._hasBio,
-                this._hasProfilePic
-            );
+                this._hasProfilePic,
+                this._playerId,
+                this._votePointsLeft,
+                this._eraPoints,
+                this._totalPoints,
+                new Level(1),
+                new Level(1),
+                this._factionId,
+                this._locationId
+            ));
             Assert.AreEqual(this._characterId, c.Id);
             Assert.AreEqual(this._characterId, c.Id);
             Assert.AreEqual(this._name, c.Name);
@@ -110,36 +111,6 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
             Assert.AreEqual(this._votePointsLeft, c.VotePointsLeft);
             Assert.AreEqual(this._hasBio, c.HasBio);
             Assert.AreEqual(this._hasProfilePic, c.HasProfilePic);
-
-            // Make sure that the point-level validation is executing.
-            Assert.Throws<InvalidOperationException>(()=>new UnsafeCharacter(
-                this._characterId.Get,
-                this._name.Get,
-                this._playerId.Get,
-                this._factionId.Get,
-                this._locationId.Get,
-                this._eraPoints.Get,
-                1,
-                this._totalPoints.Get,
-                6,
-                this._votePointsLeft.AsInt,
-                this._hasBio,
-                this._hasProfilePic
-            ));
-            Assert.Throws<InvalidOperationException>(()=>new UnsafeCharacter(
-                this._characterId.Get,
-                this._name.Get,
-                this._playerId.Get,
-                this._factionId.Get,
-                this._locationId.Get,
-                this._eraPoints.Get,
-                6,
-                this._totalPoints.Get,
-                1,
-                this._votePointsLeft.AsInt,
-                this._hasBio,
-                this._hasProfilePic
-            ));
         }
 
         [Test]

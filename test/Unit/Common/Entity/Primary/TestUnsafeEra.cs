@@ -1,4 +1,5 @@
 using System;
+using WorldZero.Common.DTO.Entity.Primary;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using NUnit.Framework;
@@ -47,6 +48,32 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
             Assert.AreEqual(1, e.MaxTaskCompletion);
             Assert.AreEqual(2, e.MaxTaskCompletionReiterator);
             Assert.IsNull(e.EndDate);
+        }
+
+        [Test]
+        public void TestDTOConstructor()
+        {
+            var name = new Name("Pumpkin Pie");
+            var startDate = new PastDate(DateTime.UtcNow);
+            var endDate = new PastDate(DateTime.UtcNow);
+            var e = new UnsafeEra(new EraDTO(
+                name,
+                startDate,
+                endDate,
+                new Level(5),
+                100,
+                2,
+                9
+            ));
+            Assert.IsNotNull(e.EndDate);
+            Assert.AreEqual(new Level(5), e.TaskLevelBuffer);
+            Assert.AreEqual(100, e.MaxPraxises);
+            Assert.AreEqual(2, e.MaxTaskCompletion);
+            Assert.AreEqual(9, e.MaxTaskCompletionReiterator);
+            Assert.AreEqual(
+                DateTime.UtcNow.ToString("MM:dd:yyyy HH"),
+                e.EndDate.Get.ToString("MM:dd:yyyy HH")
+            );
         }
 
         [Test]

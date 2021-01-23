@@ -1,9 +1,8 @@
 using System;
+using WorldZero.Common.Interface.DTO.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 using WorldZero.Common.ValueObject.General;
-
-// TODO: be sure this doesn't shit itself when an unmatching level is supplied
 
 namespace WorldZero.Common.Entity.Primary
 {
@@ -75,46 +74,18 @@ namespace WorldZero.Common.Entity.Primary
             );
         }
 
-        /// <remarks>
-        /// The level fields are not stored as they are determined on 
-        /// property request. That said, this will throw an exception if there
-        /// is a supplied level that does not match the corresponding point
-        /// totol.
-        /// </remarks>
-        internal UnsafeCharacter(
-            int    id,
-            string name,
-            int    playerId,
-            string factionId,
-            int    locationId,
-            double eraPoints,
-            int    eraLevel,
-            double totalPoints,
-            int    totalLevel,
-            int    votePointsLeft,
-            bool   hasBio,
-            bool   hasProfilePic
-        )
-            : base(new Id(id), new Name(name))
+        public UnsafeCharacter(ICharacterDTO dto)
+            : base(dto.Id, dto.Name)
         {
-            var expectedEraLevel =
-                Level.CalculateLevel(new PointTotal(eraPoints)).Get;
-            if (eraLevel != expectedEraLevel)
-                throw new InvalidOperationException($"EraLevel ({eraLevel}) and EraPoints ({expectedEraLevel}) do not match.");
-            var expectedTotalLevel =
-                Level.CalculateLevel(new PointTotal(totalPoints)).Get;
-            if (totalLevel != expectedTotalLevel)
-                throw new InvalidOperationException($"TotalLevel ({totalLevel}) and TotalPoints ({expectedTotalLevel}) do not match.");
-
             this._setup(
-                new Id(playerId),
-                new Name(factionId),
-                new Id(locationId),
-                new PointTotal(eraPoints),
-                new PointTotal(totalPoints),
-                new PointTotal(votePointsLeft),
-                hasBio,
-                hasProfilePic
+                dto.PlayerId,
+                dto.FactionId,
+                dto.LocationId,
+                dto.EraPoints,
+                dto.TotalPoints,
+                dto.VotePointsLeft,
+                dto.HasBio,
+                dto.HasProfilePic
             );
         }
 

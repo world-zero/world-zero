@@ -1,4 +1,5 @@
 using System;
+using WorldZero.Common.Interface.DTO.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface.Entity.Primary;
@@ -43,21 +44,14 @@ namespace WorldZero.Common.Entity.Primary
             );
         }
 
-        internal UnsafeMetaTask(
-            int id,
-            string factionId,
-            string statusId,
-            string description,
-            double bonus,
-            bool isFlatBonus
-        )
-            : base(new Id(id), new Name(statusId))
+        public UnsafeMetaTask(IMetaTaskDTO dto)
+            : base(dto.Id, dto.StatusId)
         {
             this._setup(
-                new Name(factionId),
-                description,
-                new PointTotal(bonus),
-                isFlatBonus
+                dto.FactionId,
+                dto.Description,
+                dto.Bonus,
+                dto.IsFlatBonus
             );
         }
 

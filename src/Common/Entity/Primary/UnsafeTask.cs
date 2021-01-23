@@ -1,4 +1,5 @@
 using System;
+using WorldZero.Common.Interface.DTO.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 using WorldZero.Common.ValueObject.General;
@@ -51,25 +52,16 @@ namespace WorldZero.Common.Entity.Primary
             );
         }
 
-        internal UnsafeTask(
-            int id,
-            string factionId,
-            string statusId,
-            string summary,
-            int points,
-            int level,
-            int minLevel,
-            bool isHistorianable
-        )
-            : base(new Id(id), new Name(statusId))
+        public UnsafeTask(ITaskDTO dto)
+            : base(dto.Id, dto.StatusId)
         {
             this._setup(
-                summary,
-                new Level(level),
-                new Level(minLevel),
-                new PointTotal(points),
-                new Name(factionId),
-                isHistorianable
+                dto.Summary,
+                dto.Level,
+                dto.MinLevel,
+                dto.Points,
+                dto.FactionId,
+                dto.IsHistorianable
             );
         }
 

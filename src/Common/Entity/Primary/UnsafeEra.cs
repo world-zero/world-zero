@@ -1,3 +1,4 @@
+using WorldZero.Common.Interface.DTO.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 using WorldZero.Common.ValueObject.General;
@@ -10,7 +11,7 @@ namespace WorldZero.Common.Entity.Primary
     {
         public UnsafeEra(
             Name name,
-            Level taskLevelDelta=null,
+            Level taskLevelBuffer=null,
             int maxPraxises=20,
             int maxTaskCompletion=1,
             int maxTaskCompletionReiterator=2,
@@ -19,34 +20,47 @@ namespace WorldZero.Common.Entity.Primary
         )
             : base(name)
         {
+            this._setup(
+                taskLevelBuffer,
+                maxPraxises,
+                maxTaskCompletion,
+                maxTaskCompletionReiterator,
+                startDate,
+                endDate
+            );
+        }
+
+        public UnsafeEra(IEraDTO dto)
+            : base(dto.Id)
+        {
+            this._setup(
+                dto.TaskLevelBuffer,
+                dto.MaxPraxises,
+                dto.MaxTaskCompletion,
+                dto.MaxTaskCompletionReiterator,
+                dto.StartDate,
+                dto.EndDate
+            );
+        }
+
+        private void _setup(
+            Level taskLevelBuffer,
+            int maxPraxises,
+            int maxTaskCompletion,
+            int maxTaskCompletionReiterator,
+            PastDate startDate,
+            PastDate endDate
+        )
+        {
             if (startDate == null)
                 startDate = new PastDate(DateTime.UtcNow);
             this.StartDate = startDate;
             this.EndDate = endDate;
 
-            this.TaskLevelBuffer = taskLevelDelta;
+            this.TaskLevelBuffer = taskLevelBuffer;
             this.MaxPraxises = maxPraxises;
             this.MaxTaskCompletionReiterator = maxTaskCompletionReiterator;
             this.MaxTaskCompletion = maxTaskCompletion;
-        }
-
-        internal UnsafeEra(
-            string name,
-            int taskLevelDelta,
-            int maxPraxises,
-            int maxTaskCompletion,
-            int maxTaskCompletionReiterator,
-            DateTime startDate,
-            DateTime endDate
-        )
-            : base(new Name(name))
-        {
-            this.StartDate = new PastDate(startDate);
-            this.EndDate = new PastDate(endDate);
-            this.TaskLevelBuffer = new Level(taskLevelDelta);
-            this.MaxPraxises = maxPraxises;
-            this.MaxTaskCompletion = maxTaskCompletion;
-            this.MaxTaskCompletionReiterator = maxTaskCompletionReiterator;
         }
 
         public override IEntity<Name, string> CloneAsEntity()

@@ -1,4 +1,5 @@
 using System;
+using WorldZero.Common.Interface.DTO.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface.Entity.Primary;
@@ -41,20 +42,14 @@ namespace WorldZero.Common.Entity.Primary
             );
         }
 
-        internal UnsafeLocation(
-            int id,
-            string city,
-            string state,
-            string country,
-            string zip
-        )
-            : base(new Id(id))
+        public UnsafeLocation(ILocationDTO dto)
+            : base(dto.Id)
         {
             this._setup(
-                new Name(city),
-                new Name(state),
-                new Name(country),
-                new Name(zip)
+                dto.City,
+                dto.State,
+                dto.Country,
+                dto.Zip
             );
         }
 

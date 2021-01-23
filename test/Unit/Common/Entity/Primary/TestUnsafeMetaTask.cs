@@ -1,4 +1,5 @@
 using WorldZero.Common.ValueObject.General;
+using WorldZero.Common.DTO.Entity.Primary;
 using WorldZero.Common.Entity.Primary;
 using System;
 using NUnit.Framework;
@@ -27,6 +28,24 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
             this._statusId = new Name("valid");
 
             this._mt = new UnsafeMetaTask(this._metaTaskId, this._factionId, this._statusId, this._desc, this._bonus, this._isFlatBonus);
+        }
+
+        [Test]
+        public void TestDTOConstructor()
+        {
+            this._mt = new UnsafeMetaTask(new MetaTaskDTO(
+                this._metaTaskId,
+                this._statusId,
+                this._desc,
+                this._isFlatBonus,
+                this._bonus,
+                this._factionId
+            ));
+            Assert.AreEqual(this._metaTaskId, this._mt.Id);
+            Assert.AreEqual(this._factionId, this._mt.FactionId);
+            Assert.AreEqual(this._statusId, this._mt.StatusId);
+            Assert.AreEqual(this._bonus, this._mt.Bonus);
+            Assert.AreEqual(this._isFlatBonus, this._mt.IsFlatBonus);
         }
 
         [Test]

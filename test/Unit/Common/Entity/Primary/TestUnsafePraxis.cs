@@ -1,3 +1,4 @@
+using WorldZero.Common.DTO.Entity.Primary;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using System;
@@ -34,6 +35,24 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
                 this._metaTaskId,
                 this._areDueling
             );
+        }
+
+        [Test]
+        public void TestDTOConstructor()
+        {
+            this._p = new UnsafePraxis(new PraxisDTO(
+                this._praxisId,
+                this._statusId,
+                this._taskId,
+                this._points,
+                this._metaTaskId,
+                this._areDueling
+            ));
+            Assert.AreEqual(this._praxisId, this._p.Id);
+            Assert.AreEqual(this._taskId, this._p.TaskId);
+            Assert.AreEqual(this._statusId, this._p.StatusId);
+            Assert.AreEqual(this._metaTaskId, this._p.MetaTaskId);
+            Assert.AreEqual(this._areDueling, this._p.AreDueling);
         }
 
         [Test]

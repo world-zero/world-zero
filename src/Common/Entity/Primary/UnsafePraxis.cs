@@ -1,4 +1,5 @@
 using System;
+using WorldZero.Common.Interface.DTO.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface.Entity.Primary;
@@ -45,21 +46,14 @@ namespace WorldZero.Common.Entity.Primary
             );
         }
 
-        internal UnsafePraxis(
-            int id,
-            int taskId,
-            int points,
-            string statusId,
-            int metaTaskId,
-            bool areDueling
-        )
-            : base(new Id(id), new Name(statusId))
+        public UnsafePraxis(IPraxisDTO dto)
+            : base(dto.Id, dto.StatusId)
         {
             this._setup(
-                new Id(taskId),
-                new PointTotal(points),
-                new Id(metaTaskId),
-                areDueling
+                dto.TaskId,
+                dto.Points,
+                dto.MetaTaskId,
+                dto.AreDueling
             );
         }
 

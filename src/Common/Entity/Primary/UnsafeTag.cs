@@ -1,3 +1,4 @@
+using WorldZero.Common.Interface.DTO.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 using WorldZero.Common.ValueObject.General;
@@ -13,10 +14,10 @@ namespace WorldZero.Common.Entity.Primary
             : base(name)
         { }
 
-        internal UnsafeTag(string name, string description)
-            : base(new Name(name))
+        public UnsafeTag(ITagDTO dto)
+            : base(dto.Id)
         {
-            this.Description = description;
+            this.Description = dto.Description;
         }
 
         public override IEntity<Name, string> CloneAsEntity()

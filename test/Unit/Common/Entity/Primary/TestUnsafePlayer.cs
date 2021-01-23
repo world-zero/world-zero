@@ -1,4 +1,5 @@
 using WorldZero.Common.ValueObject.General;
+using WorldZero.Common.DTO.Entity.Primary;
 using WorldZero.Common.Entity.Primary;
 using NUnit.Framework;
 
@@ -30,6 +31,19 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
             Assert.AreEqual(new Id(0), p.Id);
             Assert.AreEqual(name, p.Name);
             Assert.AreEqual(false, p.IsBlocked);
+        }
+
+        [Test]
+        public void TestDTOConstructor()
+        {
+            this._p = new UnsafePlayer(new PlayerDTO(
+                this._playerId,
+                this._name,
+                this._isBlocked
+            ));
+            Assert.AreEqual(this._playerId, this._p.Id);
+            Assert.AreEqual(this._name, this._p.Name);
+            Assert.AreEqual(this._isBlocked, this._p.IsBlocked);
         }
 
         [Test]

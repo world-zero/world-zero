@@ -1,3 +1,4 @@
+using WorldZero.Common.Interface.DTO.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 using WorldZero.Common.ValueObject.General;
@@ -29,18 +30,13 @@ namespace WorldZero.Common.Entity.Primary
             );
         }
 
-        internal UnsafeFaction(
-            string name,
-            DateTime dateFounded,
-            string desc,
-            string abilityName
-        )
-            : base(new Name(name))
+        public UnsafeFaction(IFactionDTO dto)
+            : base(dto.Id)
         {
             this._setup(
-                new PastDate(dateFounded),
-                desc,
-                new Name(abilityName)
+                dto.DateFounded,
+                dto.Description,
+                dto.AbilityId
             );
         }
 

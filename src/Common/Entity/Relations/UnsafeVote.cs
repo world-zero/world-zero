@@ -1,4 +1,5 @@
 using System;
+using WorldZero.Common.Interface.DTO.Entity.Relation;
 using WorldZero.Common.DTO.Entity.Unspecified.Relation;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface.Entity.Relation;
@@ -98,26 +99,10 @@ namespace WorldZero.Common.Entity.Relation
             this.Points = points;
         }
 
-        internal UnsafeVote(
-            int id,
-            int characterId,
-            int praxisParticipantId,
-            int points
-        )
-            : base(
-                new Id(id),
-                new Id(characterId),
-                new Id(praxisParticipantId)
-            )
+        public UnsafeVote(IVoteDTO dto)
+            : base(dto.Id, dto.LeftId, dto.RightId)
         {
-            try
-            {
-                this.Points = new PointTotal(points);
-            }
-            catch (ArgumentException)
-            {
-                throw new InvalidOperationException("While initializing a Vote from the Dapper-intended constructor, invalid data was discovered.");
-            }
+            this.Points = dto.Points;
         }
 
         public override IEntity<Id, int> CloneAsEntity()

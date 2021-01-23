@@ -1,3 +1,4 @@
+using WorldZero.Common.DTO.Entity.Primary;
 using WorldZero.Common.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using System;
@@ -43,6 +44,23 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
                 this._zip
             );
             Assert.AreEqual(new Id(0), l.Id);
+        }
+
+        [Test]
+        public void TestDTOConstructor()
+        {
+            var l = new UnsafeLocation(new LocationDTO(
+                this._id,
+                this._city,
+                this._state,
+                this._country,
+                this._zip
+            ));
+            Assert.AreEqual(this._id, l.Id);
+            Assert.AreEqual(this._city, l.City);
+            Assert.AreEqual(this._state, l.State);
+            Assert.AreEqual(this._country, l.Country);
+            Assert.AreEqual(this._zip, l.Zip);
         }
 
         [Test]

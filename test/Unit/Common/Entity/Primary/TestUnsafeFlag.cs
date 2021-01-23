@@ -1,5 +1,6 @@
-using WorldZero.Common.ValueObject.General;
+using WorldZero.Common.DTO.Entity.Primary;
 using WorldZero.Common.Entity.Primary;
+using WorldZero.Common.ValueObject.General;
 using System;
 using NUnit.Framework;
 
@@ -33,6 +34,21 @@ namespace WorldZero.Test.Unit.Common.Entity.Primary
             Assert.IsNull(f.Description);
             Assert.AreEqual(new PointTotal(0.1), f.Penalty);
             Assert.AreEqual(false, f.IsFlatPenalty);
+        }
+
+        [Test]
+        public void TestDTOConstructor()
+        {
+            this._f = new UnsafeFlag(new FlagDTO(
+                this._flagId,
+                this._desc,
+                this._isFlatPenalty,
+                this._penalty
+            ));
+            Assert.AreEqual(this._flagId, this._f.Id);
+            Assert.AreEqual(this._desc, this._f.Description);
+            Assert.AreEqual(this._penalty, this._f.Penalty);
+            Assert.AreEqual(this._isFlatPenalty, this._f.IsFlatPenalty);
         }
 
         [Test]

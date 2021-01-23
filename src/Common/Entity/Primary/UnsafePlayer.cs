@@ -1,4 +1,5 @@
 using WorldZero.Common.ValueObject.General;
+using WorldZero.Common.Interface.DTO.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 using WorldZero.Common.Interface.Entity.Primary;
 
@@ -19,10 +20,10 @@ namespace WorldZero.Common.Entity.Primary
             this.IsBlocked = isBlocked;
         }
 
-        internal UnsafePlayer(int id, string name, bool isBlocked)
-            : base (new Id(id), new Name(name))
+        public UnsafePlayer(IPlayerDTO dto)
+            : base (dto.Id, dto.Name)
         {
-            this.IsBlocked = isBlocked;
+            this.IsBlocked = dto.IsBlocked;
         }
 
         public override IEntity<Id, int> CloneAsEntity()

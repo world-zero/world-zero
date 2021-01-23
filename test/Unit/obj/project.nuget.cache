@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "3HwiWe5YSPI6pRaG+MvnUxlXU7S1uo/X535FXoySdfbB7oFDtTfr+zEF3C1Rlrh65mDbpsLCuqQzhNx4SA74pQ==",
+  "dgSpecHash": "IpLyCLauWiXbc9iJd/0/AWePZVT7gf43BpS0vxSI6p+iq/O+iKVrMNO6Yc60IRbW/j4/wfZjPTca3SRumlE0Rg==",
   "success": true,
   "projectFilePath": "/home/swatts/code/world-zero/test/Unit/WorldZero.Test.Unit.csproj",
   "expectedPackageFiles": [

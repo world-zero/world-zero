@@ -1,4 +1,5 @@
 using System;
+using WorldZero.Common.Interface.DTO.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 using WorldZero.Common.Interface.Entity.Primary;
@@ -16,25 +17,32 @@ namespace WorldZero.Common.Entity.Primary
         )
             : base(name)
         {
-            this.Description = description;
+            this._setup(description, penalty, isFlatPenalty);
+        }
+
+        public UnsafeFlag(IFlagDTO dto)
+            : base(dto.Id)
+        {
+            this._setup(
+                dto.Description,
+                dto.Penalty,
+                dto.IsFlatPenalty
+            );
+        }
+
+        private void _setup(
+            string desc,
+            PointTotal penalty,
+            bool isFlatPenalty
+        )
+        {
+            this.Description = desc;
             if (penalty == null)
                 penalty = new PointTotal(0.1);
             this.Penalty = penalty;
             this.IsFlatPenalty = isFlatPenalty;
         }
 
-        internal UnsafeFlag(
-            string name,
-            string description,
-            double penalty,
-            bool isFlatPenalty
-        )
-            : base(new Name(name))
-        {
-            this.Description = description;
-            this.Penalty = new PointTotal(penalty);
-            this.IsFlatPenalty = isFlatPenalty;
-        }
 
         public override IEntity<Name, string> CloneAsEntity()
         { 

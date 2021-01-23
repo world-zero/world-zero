@@ -1,4 +1,5 @@
 using WorldZero.Common.DTO.Entity.Unspecified.Relation;
+using WorldZero.Common.Interface.DTO.Entity.Relation;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface.Entity.Relation;
 using WorldZero.Common.Interface.Entity.Unspecified.Primary;
@@ -57,12 +58,8 @@ namespace WorldZero.Common.Entity.Relation
             : base(id, dto.LeftId, dto.RightId)
         { }
 
-        internal UnsafePraxisParticipant(
-            int id,
-            int praxisId,
-            int characterId
-        )
-            : base(new Id(id), new Id(praxisId), new Id(characterId))
+        public UnsafePraxisParticipant(IPraxisParticipantDTO dto)
+            : base(dto.Id, dto.LeftId, dto.RightId)
         { }
 
         public override IEntity<Id, int> CloneAsEntity()
