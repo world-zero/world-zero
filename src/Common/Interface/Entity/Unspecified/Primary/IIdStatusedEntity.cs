@@ -1,4 +1,4 @@
-using WorldZero.Common.ValueObject.General;
+using WorldZero.Common.Interface.DTO.Entity.Unspecified.Primary;
 
 namespace WorldZero.Common.Interface.Entity.Unspecified.Primary
 {
@@ -7,8 +7,6 @@ namespace WorldZero.Common.Interface.Entity.Unspecified.Primary
     /// This derivation contains a `StatusId`, which is a name denoting the
     /// concrete entity's status.
     /// </summary>
-    public interface IIdStatusedEntity : IIdEntity
-    {
-        Name StatusId { get; }
-    }
+    public interface IIdStatusedEntity : IIdStatusedDTO, IIdEntity
+    { }
 }

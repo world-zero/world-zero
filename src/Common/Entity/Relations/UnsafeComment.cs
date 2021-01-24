@@ -1,8 +1,8 @@
 using System;
+using WorldZero.Common.DTO.Entity.Relation;
 using WorldZero.Common.Interface.DTO.Entity.Relation;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.DTO.Entity.Unspecified.Relation;
-using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 using WorldZero.Common.Interface.Entity.Unspecified.Relation;
 using WorldZero.Common.Interface.Entity.Relation;
 
@@ -73,14 +73,14 @@ namespace WorldZero.Common.Entity.Relation
             this.Count = dto.Count;
         }
 
-        public override IEntity<Id, int> CloneAsEntity()
+        public override object Clone()
         {
-            return new UnsafeComment(
+            return new CommentDTO(
                 this.Id,
                 this.LeftId,
                 this.RightId,
-                this.Value,
-                this.Count
+                this.Count,
+                this.Value
             );
         }
 

@@ -1,4 +1,5 @@
 using System;
+using WorldZero.Common.DTO.Entity.Primary;
 using WorldZero.Common.Interface.DTO.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 using WorldZero.Common.ValueObject.General;
@@ -68,15 +69,15 @@ namespace WorldZero.Common.Entity.Primary
             this.IsFlatBonus = isFlatBonus;
         }
 
-        public override IEntity<Id, int> CloneAsEntity()
+        public override object Clone()
         {
-            return new UnsafeMetaTask(
+            return new MetaTaskDTO(
                 this.Id,
-                this.FactionId,
                 this.StatusId,
                 this.Description,
+                this.IsFlatBonus,
                 this.Bonus,
-                this.IsFlatBonus
+                this.FactionId
             );
         }
 

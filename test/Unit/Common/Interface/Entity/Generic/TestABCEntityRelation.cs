@@ -100,15 +100,6 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
             : base(id, leftId, rightId)
         { }
 
-        public override IEntity<Id, int> CloneAsEntity()
-        {
-            return new TestIdIdRelation(
-                this.Id,
-                this.LeftId,
-                this.RightId
-            );
-        }
-
         public override NoIdRelationDTO<Id, int, Id, int> GetNoIdRelationDTO()
         {
             return null;
@@ -124,15 +115,6 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
         public TestIdNameRelation(Id id, Id leftId, Name rightId)
             : base(id, leftId, rightId)
         { }
-
-        public override IEntity<Id, int> CloneAsEntity()
-        {
-            return new TestIdNameRelation(
-                this.Id,
-                this.LeftId,
-                this.RightId
-            );
-        }
 
         public override NoIdRelationDTO<Id, int, Name, string> GetNoIdRelationDTO()
         {
@@ -150,15 +132,6 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
             : base(id, leftId, rightId)
         { }
 
-        public override IEntity<Id, int> CloneAsEntity()
-        {
-            return new TestNameIdRelation(
-                this.Id,
-                this.LeftId,
-                this.RightId
-            );
-        }
-
         public override NoIdRelationDTO<Name, string, Id, int> GetNoIdRelationDTO()
         {
             return null;
@@ -174,15 +147,6 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
         public TestNameNameRelation(Id id, Name leftId, Name rightId)
             : base(id, leftId, rightId)
         { }
-
-        public override IEntity<Id, int> CloneAsEntity()
-        {
-            return new TestNameNameRelation(
-                this.Id,
-                this.LeftId,
-                this.RightId
-            );
-        }
 
         public override NoIdRelationDTO<Name, string, Name, string> GetNoIdRelationDTO()
         {

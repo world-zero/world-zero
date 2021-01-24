@@ -1,19 +1,17 @@
-using WorldZero.Common.ValueObject.General;
+using WorldZero.Common.Interface.DTO.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Marker;
 using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 
 namespace WorldZero.Common.Interface.Entity.Primary
 {
+    /// <remarks>
+    /// AbilityId can be null.
+    /// </remarks>
     /// <inheritdoc cref="IFactionDTO"/>
-    public interface IFaction
-        : INamedEntity, IOptionalEntity, IEntityHasOptional
-    {
-        string Description { get; }
-        PastDate DateFounded { get; }
-
-        /// <remarks>
-        /// This can be `null`.
-        /// </remarks>
-        Name AbilityId { get; }
-    }
+    public interface IFaction :
+        IFactionDTO,
+        INamedEntity,
+        IOptionalEntity,
+        IEntityHasOptional
+    { }
 }

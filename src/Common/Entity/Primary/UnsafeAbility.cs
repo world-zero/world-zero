@@ -1,4 +1,5 @@
 using System;
+using WorldZero.Common.DTO.Entity.Primary;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface.DTO.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Primary;
@@ -33,9 +34,9 @@ namespace WorldZero.Common.Entity.Primary
         }
         private string _desc;
 
-        public override IEntity<Name, string> CloneAsEntity()
+        public override object Clone()
         {
-            return new UnsafeAbility(
+            return new AbilityDTO(
                 this.Id,
                 this.Description
             );

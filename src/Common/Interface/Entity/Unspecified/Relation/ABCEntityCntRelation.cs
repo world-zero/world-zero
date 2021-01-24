@@ -1,6 +1,5 @@
 using System;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.Collections.Generic;
 using WorldZero.Common.Interface.ValueObject;
 
 namespace WorldZero.Common.Interface.Entity.Unspecified.Relation
@@ -13,8 +12,6 @@ namespace WorldZero.Common.Interface.Entity.Unspecified.Relation
         where TLeftId  : ABCSingleValueObject<TLeftBuiltIn>
         where TRightId : ABCSingleValueObject<TRightBuiltIn>
     {
-        // NOTE: IEntity.Clone() is still not implemmented.
-
         public ABCEntityCntRelation(
             TLeftId leftId, TRightId rightId, int count=1
         )
@@ -45,30 +42,10 @@ namespace WorldZero.Common.Interface.Entity.Unspecified.Relation
 
         public override bool Equals(object obj)
         {
-            if ( (obj == null) || (obj.GetType() != this.GetType()) )
+            var other = obj as ABCEntityCntRelation
+                <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>;
+            if (other == null)
                 return false;
-
-            ABCEntityCntRelation
-            <
-                TLeftId,
-                TLeftBuiltIn,
-                TRightId,
-                TRightBuiltIn
-            > other;
-            try
-            {
-                other = (ABCEntityCntRelation
-                <
-                    TLeftId,
-                    TLeftBuiltIn,
-                    TRightId,
-                    TRightBuiltIn
-                >) obj;
-            }
-            catch (InvalidCastException)
-            {
-                return false;
-            }
 
             if ( (this.LeftId == other.LeftId)
               && (this.RightId == other.RightId)
@@ -89,13 +66,6 @@ namespace WorldZero.Common.Interface.Entity.Unspecified.Relation
         public override int GetHashCode()
         {
             return base.GetHashCode() * this.Count;
-        }
-
-        protected override W0Set<object> GetRelationCombo()
-        {
-            var s = base.GetRelationCombo();
-            s.Add(this.Count);
-            return s;
         }
     }
 }

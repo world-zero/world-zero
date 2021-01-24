@@ -18,25 +18,12 @@ namespace WorldZero.Common.Interface.DTO.Entity.Primary
         /// picture or not.
         /// </summary>
         bool HasProfilePic { get; }
-
         Id PlayerId { get; }
-
         PointTotal VotePointsLeft { get; }
         PointTotal EraPoints { get; }
         PointTotal TotalPoints { get; }
-
-        /// <summary>
-        /// This property has no associated field, it returns the result of
-        ///  `CalculateLevel(EraPoints)`.
-        /// </summary>
         Level EraLevel { get; }
-
-        /// <summary>
-        /// This property has no associated field, it returns the result of
-        ///  `CalculateLevel(TotalPoints)`.
-        /// </summary>
         Level TotalLevel { get; }
-
         Name FactionId { get; }
         Id LocationId { get; }
     }

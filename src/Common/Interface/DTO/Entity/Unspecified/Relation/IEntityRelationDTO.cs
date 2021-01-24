@@ -18,6 +18,6 @@ namespace WorldZero.Common.Interface.DTO.Entity.Unspecified.Relation
     {
         TLeftId LeftId { get; }
         TRightId RightId { get; }
-        NoIdRelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> GetRelationDTO();
+        NoIdRelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> GetNoIdRelationDTO();
     }
 }

@@ -14,5 +14,22 @@ namespace WorldZero.Common.Interface.DTO.Entity.Unspecified.Primary
         /// This is a getter/setter in order to play nice with repos.
         /// </remarks>
         TId Id { get; set; }
+
+        /// <summary>
+        /// Unless you are implementing a whole new entity or you are working
+        /// on the RAMEntityRepos, you can safely ignore this method.
+        /// <br />
+        /// This method will return a list of sets, each of which contains
+        /// at least one member that a repository should ensure are unique as a
+        /// combiniation, per set. This does not include the Id of an entity.
+        /// </summary>
+        /// <returns>
+        /// A list of HashSets of ISingleValueObjects and/or built in types
+        /// that repos must consider treat as unique for a specific instance.
+        /// These types will be able to cast to object and have .Equals work
+        /// appropriately. This will never return null, but it can return an
+        /// empty list.
+        /// </returns>
+        W0List<W0Set<object>> GetUniqueRules();
     }
 }

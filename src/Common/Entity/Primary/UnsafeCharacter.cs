@@ -1,4 +1,5 @@
 using System;
+using WorldZero.Common.DTO.Entity.Primary;
 using WorldZero.Common.Interface.DTO.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Unspecified.Primary;
@@ -9,7 +10,6 @@ namespace WorldZero.Common.Entity.Primary
     /// <inheritdoc cref="ICharacter"/>
     public class UnsafeCharacter : ABCIdNamedEntity, ICharacter
     {
-        /// <param name="locationId"></param>
         /// <param name="eraPoints">If unspecified, this will be set to 0.</param>
         /// <param name="totalPoints">If unspecified, this will be set to 0.</param>
         /// <param name="votePointsLeft">If unspecified, this will be set to 100.</param>
@@ -110,19 +110,21 @@ namespace WorldZero.Common.Entity.Primary
             this.HasProfilePic = hasProfilePic;
         }
 
-        public override IEntity<Id, int> CloneAsEntity()
+        public override object Clone()
         {
-            return new UnsafeCharacter(
+            return new CharacterDTO(
                 this.Id,
                 this.Name,
+                this.HasBio,
+                this.HasProfilePic,
                 this.PlayerId,
-                this.FactionId,
-                this.LocationId,
+                this.VotePointsLeft,
                 this.EraPoints,
                 this.TotalPoints,
-                this.VotePointsLeft,
-                this.HasBio,
-                this.HasProfilePic
+                this.EraLevel,
+                this.TotalLevel,
+                this.FactionId,
+                this.LocationId
             );
         }
 

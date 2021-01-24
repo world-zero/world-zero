@@ -1,18 +1,31 @@
-using System.Runtime.CompilerServices;
 using System;
 using WorldZero.Common.Collections.Generic;
 using WorldZero.Common.Interface.ValueObject;
-
-// This is necessary for the Dapper-compatible constructors, which will need to
-// be utilized in Data.
-[assembly: InternalsVisibleTo("WorldZero.Data")]
-[assembly: InternalsVisibleTo("WorldZero.Test.Unit")]
-[assembly: InternalsVisibleTo("WorldZero.Test.Integration")]
+using WorldZero.Common.Interface.DTO;
+using WorldZero.Common.Interface.DTO.Entity.Unspecified.Primary;
+using WorldZero.Common.DTO.Entity.Unspecified.Primary;
 
 namespace WorldZero.Common.Interface.Entity.Unspecified.Primary
 {
-    public abstract class ABCEntity<TId, TBuiltIn>
-        : IEntity<TId, TBuiltIn>
+    /// <remarks>
+    /// Naturally, the equality of two entities is determined by comparing
+    /// their IDs.
+    /// <br />
+    /// This ABC will take care of Equals(IDTO) (to compare the IDs) and the
+    /// GetUniqueRules() (by cloning the entity and casting that DTO to
+    /// IEntityDTO and returning those rules). This inherits Equals(object) and
+    /// GetHashCode() from EntityDTO. The only things children must implement
+    /// are:
+    /// <br />
+    /// a) Clone (be sure to return a clone of the DTO, not the entity).
+    /// Naturally, only concrete children will be implementing this method.
+    /// <br />
+    /// b) Equals(object), Equals(IDTO), and GetHashCode() if any of these need
+    /// adjustments.
+    /// </remarks>
+    public abstract class ABCEntity<TId, TBuiltIn> :
+        EntityDTO<TId, TBuiltIn>,
+        IEntity<TId, TBuiltIn>
         where TId : ABCSingleValueObject<TBuiltIn>
     {
         public bool IsIdSet()
@@ -22,20 +35,21 @@ namespace WorldZero.Common.Interface.Entity.Unspecified.Primary
             return !this._id.Equals(this.UnsetIdValue);
         }
 
-        public virtual W0List<W0Set<object>> GetUniqueRules()
+        public override bool Equals(IDTO dto)
         {
-            var r = new W0List<W0Set<object>>();
-            return r;
+            var e = dto as IEntity<TId, TBuiltIn>;
+            if (e == null) return false;
+            if (e.Id != this.Id) return false;
+            return true;
         }
 
-        abstract public IEntity<TId, TBuiltIn> CloneAsEntity();
-
-        public object Clone()
+        public override W0List<W0Set<object>> GetUniqueRules()
         {
-            return (object) this.CloneAsEntity();
+            // I feel very smart about this.
+            return ((IEntityDTO<TId, TBuiltIn>) this.Clone()).GetUniqueRules();
         }
 
-        public TId Id
+        public override TId Id
         {
             get { return this._id; }
             set
@@ -58,6 +72,7 @@ namespace WorldZero.Common.Interface.Entity.Unspecified.Primary
         protected readonly TId UnsetIdValue;
 
         public ABCEntity(TId unsetValue)
+            : base(null)
         {
             this.UnsetIdValue = unsetValue;
             this._id = this.UnsetIdValue;

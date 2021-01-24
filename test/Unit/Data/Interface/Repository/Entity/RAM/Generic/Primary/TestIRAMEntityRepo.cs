@@ -1061,7 +1061,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
         [Test]
         public void TestClone()
         {
-            var e = (DummyEntity) this._e.CloneAsEntity();
+            var e = (DummyEntity) this._e.Clone();
             Assert.AreEqual(e.Unique, this._e.Unique);
             Assert.AreEqual(e.Combo0, this._e.Combo0);
             Assert.AreEqual(e.Combo1, this._e.Combo1);
@@ -1127,7 +1127,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
             return r;
         }
 
-        public override IEntity<Name, string> CloneAsEntity()
+        public override object Clone()
         {
             return new DummyEntity(
                 this.Id,
@@ -1221,7 +1221,7 @@ namespace WorldZero.Test.Unit.Data.Interface.Repository.Entity.RAM.Generic.Prima
             return r;
         }
 
-        public override IEntity<Name, string> CloneAsEntity()
+        public override object Clone()
         {
             return new DummyEntityAlt(
                 this.Id,

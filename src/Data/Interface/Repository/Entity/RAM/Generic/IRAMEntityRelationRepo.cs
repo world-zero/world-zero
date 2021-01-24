@@ -58,7 +58,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
             {
                 if (!er.IsIdSet())
                     throw new InvalidOperationException("A saved entity without an ID has been discovered.");
-                yield return (TEntityRelation) er.CloneAsEntity();
+                yield return (TEntityRelation) er.Clone();
             }
         }
 
@@ -80,7 +80,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
             {
                 if (!er.IsIdSet())
                     throw new InvalidOperationException("A saved entity without an ID has been discovered.");
-                yield return (TEntityRelation) er.CloneAsEntity();
+                yield return (TEntityRelation) er.Clone();
             }
         }
 
@@ -109,7 +109,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
 
             var c = match.Count();
             if (c == 1)
-                return (TEntityRelation) match.First().CloneAsEntity();
+                return (TEntityRelation) match.First().Clone();
             else if (c == 0)
                 throw new ArgumentException($"Could not find an entity with the supplied DTO.");
             else

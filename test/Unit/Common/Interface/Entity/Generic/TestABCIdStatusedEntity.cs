@@ -32,9 +32,5 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
             : base(statusId)
         { }
 
-        public override IEntity<Id, int> CloneAsEntity()
-        {
-            return null;
-        }
     }
 }

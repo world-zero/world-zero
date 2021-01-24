@@ -7,6 +7,10 @@ namespace WorldZero.Common.Interface.DTO.Entity.Unspecified.Primary
     /// </summary>
     public interface IIdNamedDTO : IEntityDTO<Id, int>
     {
+        /// <summary>
+        /// This is a `Name` that is not an ID of an entity, but rather is a
+        /// `Name` that a repo must enforce to be unique.
+        /// </summary>
         Name Name { get; }
     }
 }

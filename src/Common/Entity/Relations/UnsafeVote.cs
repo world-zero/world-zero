@@ -1,9 +1,9 @@
 using System;
+using WorldZero.Common.DTO.Entity.Relation;
 using WorldZero.Common.Interface.DTO.Entity.Relation;
 using WorldZero.Common.DTO.Entity.Unspecified.Relation;
 using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface.Entity.Relation;
-using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 using WorldZero.Common.Interface.Entity.Unspecified.Relation;
 
 namespace WorldZero.Common.Entity.Relation
@@ -105,9 +105,9 @@ namespace WorldZero.Common.Entity.Relation
             this.Points = dto.Points;
         }
 
-        public override IEntity<Id, int> CloneAsEntity()
+        public override object Clone()
         {
-            return new UnsafeVote(
+            return new VoteDTO(
                 this.Id,
                 this.LeftId,
                 this.RightId,

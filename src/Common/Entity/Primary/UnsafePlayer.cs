@@ -1,4 +1,5 @@
 using WorldZero.Common.ValueObject.General;
+using WorldZero.Common.DTO.Entity.Primary;
 using WorldZero.Common.Interface.DTO.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 using WorldZero.Common.Interface.Entity.Primary;
@@ -26,9 +27,9 @@ namespace WorldZero.Common.Entity.Primary
             this.IsBlocked = dto.IsBlocked;
         }
 
-        public override IEntity<Id, int> CloneAsEntity()
+        public override object Clone()
         {
-            return new UnsafePlayer(
+            return new PlayerDTO(
                 this.Id,
                 this.Name,
                 this.IsBlocked

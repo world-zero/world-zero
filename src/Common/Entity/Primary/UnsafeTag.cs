@@ -1,3 +1,4 @@
+using WorldZero.Common.DTO.Entity.Primary;
 using WorldZero.Common.Interface.DTO.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Unspecified.Primary;
@@ -20,11 +21,9 @@ namespace WorldZero.Common.Entity.Primary
             this.Description = dto.Description;
         }
 
-        public override IEntity<Name, string> CloneAsEntity()
+        public override object Clone()
         {
-            var t = new UnsafeTag(this.Id);
-            t.Description = this.Description;
-            return t;
+            return new TagDTO(this.Id, this.Description);
         }
 
         /// <summary>

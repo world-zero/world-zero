@@ -1,4 +1,5 @@
 using System;
+using WorldZero.Common.DTO.Entity.Primary;
 using WorldZero.Common.Interface.DTO.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 using WorldZero.Common.ValueObject.General;
@@ -57,13 +58,13 @@ namespace WorldZero.Common.Entity.Primary
             );
         }
 
-        public override IEntity<Id, int> CloneAsEntity()
+        public override object Clone()
         {
-            return new UnsafePraxis(
+            return new PraxisDTO(
                 this.Id,
+                this.StatusId,
                 this.TaskId,
                 this.Points,
-                this.StatusId,
                 this.MetaTaskId,
                 this.AreDueling
             );

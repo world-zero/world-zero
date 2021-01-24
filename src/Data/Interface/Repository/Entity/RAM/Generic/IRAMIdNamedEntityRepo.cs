@@ -31,7 +31,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
 
             var c = match.Count();
             if (c == 1)
-                return (TEntity) match.First().CloneAsEntity();
+                return (TEntity) match.First().Clone();
             else if (c == 0)
                 throw new ArgumentException($"Could not find an entity with name {name.Get}.");
             else

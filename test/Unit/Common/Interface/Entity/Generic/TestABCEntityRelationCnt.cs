@@ -92,15 +92,6 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
             : base(id, leftId, rightId, cnt)
         { }
 
-        public override IEntity<Id, int> CloneAsEntity()
-        {
-            return new TestIdIdRelationCnt(
-                this.Id,
-                this.LeftId,
-                this.RightId
-            );
-        }
-
         public override NoIdRelationDTO<Id, int, Id, int> GetNoIdRelationDTO()
         {
             return null;

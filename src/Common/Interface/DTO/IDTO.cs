@@ -24,19 +24,37 @@ using System;
 // DONE: create unspecified relation entity DTOs
 // DONE: create specified primary entity DTOs
 // DONE: create specified relation entity DTOs
-// WIP: add entity constructors w/ ones that take the corresponding DTO
-//      first, update code; then update the tests in one swoop
+// DONE: add entity constructors w/ ones that take the corresponding DTO
 //
-// TODO: merge DTOs into entities
+// WIP: merge DTOs into entities
 //      this is going to be BIG
 //      be sure to draw this out
 //      have IEntity note that entities shouldn't override clone, so they'll just
 //          inherit a DTO clone from their concrete DTO parent
+//      finish linking IFs to IFs then create the concrete entities' Clone (as DTO)
+//      remove CloneAsEntity
 //
-// TODO: migrate repos
+// NOTE: I have adjusted Clone to return a dto so repos are going to complain aabout not getting an entity
+//
+// TODO: migrate repos - rename these to be entityDTO repos
 //      this will likely cause Service to fail, but that's okay for now
 //      first, be sure to copy GetUniqRules to the DTOs
-//      when mirgrated, remove the GetUniqRules from entities
+//      wait: dtos will need to have configurable ids
+//          ientity.id is get/set, but entity.id is get and throws exc on set
+//          consider how to change entity.id.Set to allow me to change the value
+//          if I give it just an auto set, then I would run into issues w/ changing ids
+//              consider the flow of each repo operation and how this would effect it
+//              when does insert and update clone again? what about search?
+//                  insert doesnt set the id until it is saved, so no issues there
+//                  GetById clones; make sure ALL other read ops clone too
+//                  update could get weird
+//                  save could be weird too
+//          to not have to add IsIdSet to DTOs, could just set the ID after every save?
+//              no IsIdSet is a terrible idea, add it to ientitydto somewhere probably
+//                  remember to consider the various cases
+//                  probably just migrate the isidset (along w/ getuniqrules) to dto
+//          instead of isidset, clone then just check if id is null - how would this work w/ Name ids?
+//          clone inputs every time; for insert, have another dict that holds the ref and sets the ID after saving
 //
 // TODO: migrage services to use DTOs where appropriate
 //      I{Enttiy}Reg should def use DTOs

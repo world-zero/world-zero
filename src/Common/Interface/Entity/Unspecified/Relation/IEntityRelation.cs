@@ -1,5 +1,5 @@
 using WorldZero.Common.Interface.Entity.Unspecified.Primary;
-using WorldZero.Common.DTO.Entity.Unspecified.Relation;
+using WorldZero.Common.Interface.DTO.Entity.Unspecified.Relation;
 using WorldZero.Common.Interface.ValueObject;
 
 namespace WorldZero.Common.Interface.Entity.Unspecified.Relation
@@ -33,12 +33,9 @@ namespace WorldZero.Common.Interface.Entity.Unspecified.Relation
     /// <inheritdoc cref="IEntityRelationDTO{TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn}"/>
     public interface IEntityRelation
         <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
-        : IIdEntity
+        : IEntityRelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>,
+        IIdEntity
         where TLeftId  : ABCSingleValueObject<TLeftBuiltIn>
         where TRightId : ABCSingleValueObject<TRightBuiltIn>
-    {
-        TLeftId LeftId { get; }
-        TRightId RightId { get; }
-        NoIdRelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn> GetNoIdRelationDTO();
-    }
+    { }
 }

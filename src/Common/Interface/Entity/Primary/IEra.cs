@@ -1,33 +1,20 @@
-using WorldZero.Common.ValueObject.General;
 using WorldZero.Common.Interface.Entity.Unspecified.Primary;
+using WorldZero.Common.Interface.DTO.Entity.Primary;
 
 namespace WorldZero.Common.Interface.Entity.Primary
 {
+    /// <remarks>
+    /// EndDate must be after StartDate.
+    /// <br/>
+    /// MaxPraxises must be at least 1.
+    /// <br/>
+    /// MaxTaskCompletion must be larger than 1 and no larger than
+    /// MaxTasksReiterator.
+    /// <br/>
+    /// MaxTaskCompletionReiterator must be larger than 1 and at least as large
+    /// as MaxTasksReiterator.
+    /// </remarks>
     /// <inheritdoc cref="IEraDTO"/>
-    public interface IEra : INamedEntity
-    {
-        PastDate StartDate { get; }
-
-        /// <remarks>
-        /// Naturally, `EndDate` will be after `StartDate`.
-        /// </remarks>
-        PastDate EndDate { get; }
-
-        Level TaskLevelBuffer { get; }
-
-        /// <value>
-        /// This must be at least 1.
-        /// </value>
-        int MaxPraxises { get; }
-
-        /// <value>
-        /// This must be at least 1 and no larger than `MaxTasksReiterator`.
-        /// </value>
-        int MaxTaskCompletion { get; }
-
-        /// <value>
-        /// This must be at least 1 and at least as large as `MaxTasks`.
-        /// </value>
-        int MaxTaskCompletionReiterator { get; }
-    }
+    public interface IEra : IEraDTO, INamedEntity
+    { }
 }

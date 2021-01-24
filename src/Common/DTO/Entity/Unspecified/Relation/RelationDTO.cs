@@ -27,7 +27,7 @@ namespace WorldZero.Common.DTO.Entity.Unspecified.Relation
         }
 
         public NoIdRelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
-        GetRelationDTO()
+        GetNoIdRelationDTO()
         {
             return new NoIdRelationDTO<TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>(
                 this.LeftId,

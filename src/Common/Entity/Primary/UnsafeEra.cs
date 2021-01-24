@@ -1,3 +1,4 @@
+using WorldZero.Common.DTO.Entity.Primary;
 using WorldZero.Common.Interface.DTO.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Unspecified.Primary;
@@ -63,16 +64,16 @@ namespace WorldZero.Common.Entity.Primary
             this.MaxTaskCompletion = maxTaskCompletion;
         }
 
-        public override IEntity<Name, string> CloneAsEntity()
+        public override object Clone()
         {
-            return new UnsafeEra(
+            return new EraDTO(
                 this.Id,
+                this.StartDate,
+                this.EndDate,
                 this.TaskLevelBuffer,
                 this.MaxPraxises,
                 this.MaxTaskCompletion,
-                this.MaxTaskCompletionReiterator,
-                this.StartDate,
-                this.EndDate
+                this.MaxTaskCompletionReiterator
             );
         }
 

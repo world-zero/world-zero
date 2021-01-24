@@ -542,7 +542,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
                 if ( (entity.Id != id) || (!entity.IsIdSet()) )
                     throw new InvalidOperationException("A saved entity without an ID has been discovered.");
 
-                yield return (TEntity) entity.CloneAsEntity();
+                yield return (TEntity) entity.Clone();
             }
         }
 
@@ -553,7 +553,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
         {
             if (!this._saved.ContainsKey(id))
                 throw new ArgumentException("You cannot get an entity with an ID does not exist.");
-            return (TEntity) this.TEntityCast(this._saved[id]).CloneAsEntity();
+            return (TEntity) this.TEntityCast(this._saved[id]).Clone();
         }
 
         public async Task<TEntity> GetByIdAsync(TId id)
@@ -1050,7 +1050,7 @@ namespace WorldZero.Data.Interface.Repository.Entity.RAM.Generic
             // exception being thrown. Otherwise, entities that were saved
             // before the exception and Discard() will still have their IDs
             // set without being actually saved.
-            var entityClone = (TEntity) entity.CloneAsEntity();
+            var entityClone = (TEntity) entity.Clone();
             if (!entityClone.IsIdSet())
                 entityClone.Id = id;
 

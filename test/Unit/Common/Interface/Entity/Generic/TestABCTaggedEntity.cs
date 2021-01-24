@@ -43,10 +43,5 @@ namespace WorldZero.Test.Unit.Common.Interface.Entity.Generic
         public TestTaggedEntity(Id id, Id leftId, Name tagId)
             : base(id, leftId, tagId)
         { }
-
-        public override IEntity<Id, int> CloneAsEntity()
-        {
-            return new TestTaggedEntity(this.Id, this.LeftId, this.RightId);
-        }
     }
 }

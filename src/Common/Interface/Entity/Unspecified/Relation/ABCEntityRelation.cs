@@ -1,8 +1,8 @@
 using System;
+using WorldZero.Common.Interface.DTO;
 using WorldZero.Common.Interface.Entity.Unspecified.Primary;
 using WorldZero.Common.DTO.Entity.Unspecified.Relation;
 using WorldZero.Common.ValueObject.General;
-using WorldZero.Common.Collections.Generic;
 using WorldZero.Common.Interface.ValueObject;
 
 namespace WorldZero.Common.Interface.Entity.Unspecified.Relation
@@ -57,32 +57,15 @@ namespace WorldZero.Common.Interface.Entity.Unspecified.Relation
         <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>
         GetNoIdRelationDTO();
 
+        public override bool Equals(IDTO dto)
+            => this.Equals((object) dto);
+
         public override bool Equals(object obj)
         {
-            if ( (obj == null) || (obj.GetType() != this.GetType()) )
+            var other = obj as ABCEntityRelation
+                <TLeftId, TLeftBuiltIn, TRightId, TRightBuiltIn>;
+            if (other == null)
                 return false;
-
-            ABCEntityRelation
-            <
-                TLeftId,
-                TLeftBuiltIn,
-                TRightId,
-                TRightBuiltIn
-            > other;
-            try
-            {
-                other = (ABCEntityRelation
-                <
-                    TLeftId,
-                    TLeftBuiltIn,
-                    TRightId,
-                    TRightBuiltIn
-                >) obj;
-            }
-            catch (InvalidCastException)
-            {
-                return false;
-            }
 
             if ( (this.LeftId == other.LeftId)
               && (this.RightId == other.RightId) )
@@ -102,21 +85,6 @@ namespace WorldZero.Common.Interface.Entity.Unspecified.Relation
         {
             return this.LeftId.Get.GetHashCode()
                  * this.RightId.Get.GetHashCode();
-        }
-
-        public override W0List<W0Set<object>> GetUniqueRules()
-        {
-            var r = base.GetUniqueRules();
-            r.Add(this.GetRelationCombo());
-            return r;
-       }
-
-        protected virtual W0Set<object> GetRelationCombo()
-        {
-            var s = new W0Set<object>();
-            s.Add(this.LeftId);
-            s.Add(this.RightId);
-            return s;
         }
     }
 }

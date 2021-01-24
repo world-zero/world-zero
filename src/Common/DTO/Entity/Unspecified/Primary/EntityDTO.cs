@@ -15,7 +15,7 @@ namespace WorldZero.Common.DTO.Entity.Unspecified.Primary
     public class EntityDTO<TId, TBuiltIn> : IEntityDTO<TId, TBuiltIn>
         where TId : ABCSingleValueObject<TBuiltIn>
     {
-        public TId Id
+        public virtual TId Id
         {
             get { return this._id; } 
             // This was set is basically private, as desired.

@@ -1,4 +1,5 @@
 using System;
+using WorldZero.Common.DTO.Entity.Primary;
 using WorldZero.Common.Interface.DTO.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Primary;
 using WorldZero.Common.Interface.Entity.Unspecified.Primary;
@@ -83,13 +84,13 @@ namespace WorldZero.Common.Entity.Primary
             this.FactionId = factionId;
         }
 
-        public override IEntity<Id, int> CloneAsEntity()
+        public override object Clone()
         {
-            return new UnsafeTask(
+            return new TaskDTO(
                 this.Id,
-                this.FactionId,
                 this.StatusId,
                 this.Summary,
+                this.FactionId,
                 this.Points,
                 this.Level,
                 this.MinLevel,
